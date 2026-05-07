@@ -1,0 +1,40 @@
+---
+title: "Week XX - Slide Deck Title"
+subtitle: "Quantitative Biology I"
+author: "Stephan Peischl"
+format:
+  revealjs:
+    theme: default
+    slide-number: true
+    incremental: true
+    chalkboard: false
+execute:
+  echo: true
+---
+
+## Biological Question
+
+- What is the central biological process this week?
+- Why does it matter?
+
+## Conceptual Model
+
+- State variables
+- Key parameters
+- Biological interpretation
+
+## Computational Walkthrough
+
+```{r}
+# Example placeholder
+plot(1:10, type = "l")
+```
+
+## Guided Interpretation
+
+- What pattern do you observe?
+- Which parameter is most influential?
+
+## Exit Question
+
+What biological conclusion can you support with this model output?

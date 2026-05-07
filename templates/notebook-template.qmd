@@ -1,0 +1,47 @@
+---
+title: "Week XX - Notebook Title"
+author: "Quantitative Biology I"
+format:
+  html:
+    toc: true
+    code-fold: show
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Learning Goals
+
+- Goal 1
+- Goal 2
+- Goal 3
+
+## Biological Background
+
+Short context linking this week to the module.
+
+## Setup
+
+```{r}
+# libraries
+```
+
+## Guided Analysis
+
+```{r}
+# starter code
+```
+
+## Exercise 1
+
+Change one parameter and describe the effect.
+
+## Exercise 2
+
+Compare two scenarios and interpret biologically.
+
+## Wrap-Up
+
+- Main quantitative result:
+- Main biological interpretation:

@@ -1,0 +1,31 @@
+project:
+  type: website
+  output-dir: _site
+  render:
+    - index.qmd
+    - docs/*.qmd
+
+website:
+  title: "Quantitative Biology I"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: docs/student-overview.qmd
+        text: Student Overview
+      - href: docs/week-by-week-schedule.qmd
+        text: Weekly Schedule
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    number-sections: false
+    css: styles.scss
+    code-fold: show
+    code-tools: true
+
+execute:
+  freeze: auto
+  warning: false
+  message: false

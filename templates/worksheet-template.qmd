@@ -1,0 +1,24 @@
+---
+title: "Week XX - Worksheet"
+format:
+  html:
+    toc: false
+---
+
+## Name / Group
+
+## Section A - Biological Understanding
+
+1. What is the core biological question?
+2. Which variables are being modeled?
+
+## Section B - Quantitative Exploration
+
+1. Run the baseline scenario.
+2. Modify one parameter.
+3. Compare outputs with one figure.
+
+## Section C - Interpretation
+
+1. What changed and why?
+2. What is one limitation of this model or dataset?

@@ -1,0 +1,31 @@
+---
+title: "Quantitative Biology I"
+---
+
+## Course Build Workspace
+
+This Quarto project is the authoring workspace for:
+
+- slides (`revealjs`)
+- executable notebooks (`html`)
+- worksheets and handouts (`html` or `pdf`)
+- assignment sheets (`html` or `pdf`)
+
+## Core Documents
+
+- [Student overview](docs/student-overview.qmd)
+- [Week-by-week schedule](docs/week-by-week-schedule.qmd)
+
+## Module Folders
+
+- `modules/module-1-ecology-population-dynamics`
+- `modules/module-2-evolution-determinism-to-randomness`
+- `modules/module-3-cell-biology-noise-and-regulation`
+- `modules/module-4-microbiomes-complex-systems`
+
+## Template Files
+
+- `templates/slides-template.qmd`
+- `templates/notebook-template.qmd`
+- `templates/worksheet-template.qmd`
+- `templates/assignment-template.qmd`

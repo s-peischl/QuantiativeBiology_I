@@ -1,0 +1,57 @@
+---
+title: "Quantitative Biology I - Week-by-Week Schedule"
+format:
+  html:
+    toc: true
+---
+
+## Teaching Rhythm (2 hours per week)
+
+- 0-20 min: Biological framing and key question
+- 20-50 min: Guided model or data walkthrough
+- 50-95 min: Notebook-based exploration and exercises
+- 95-120 min: Interpretation, synthesis, and wrap-up
+
+## Weekly Plan
+
+### Week 1 - Introduction and Predator-Prey Dynamics
+Module 1 (Ecology): run guided predator-prey simulation and interpret parameter effects.
+
+### Week 2 - Competition Between Species
+Module 1 (Ecology): compare coexistence and competitive exclusion scenarios.
+
+### Week 3 - Stability, Cycles, and Equilibria
+Module 1 (Ecology): parameter sweeps and stability interpretation.
+
+### Week 4 - Wright-Fisher and Genetic Drift
+Module 2 (Evolution): replicate stochastic trajectories across runs.
+
+### Week 5 - Selection and Selective Sweeps
+Module 2 (Evolution): compare deterministic expectation and stochastic outcomes.
+
+### Week 6 - Establishment of Beneficial Mutations
+Module 2 (Evolution): estimate establishment probabilities with repeated trials.
+
+### Week 7 - Evolution Synthesis Session
+Module 2 (Evolution): integrate drift, selection, and uncertainty.
+
+### Week 8 - Gene Expression Dynamics
+Module 3 (Cell Biology): simulated expression trajectories and sensitivity.
+
+### Week 9 - Regulatory Networks
+Module 3 (Cell Biology): analyze behavior under feedback changes.
+
+### Week 10 - Stochastic Expression and RNA-seq Variability
+Module 3 (Cell Biology): interpret variability metrics and count-like data.
+
+### Week 11 - Microbiome Data Fundamentals
+Module 4 (Microbiomes): inspect abundance tables and identify broad patterns.
+
+### Week 12 - Diversity and Community Structure
+Module 4 (Microbiomes): compare groups with diversity and distance-based views.
+
+### Week 13 - Environmental Gradients and Variation
+Module 4 (Microbiomes): connect metadata to community variation.
+
+### Week 14 - Final Project and Integration
+Module 4 (Microbiomes): submit and present final exploratory analysis.
