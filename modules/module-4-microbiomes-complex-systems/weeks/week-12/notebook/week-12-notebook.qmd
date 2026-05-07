@@ -1,0 +1,10 @@
+---
+title: "Week 12 - Notebook (Placeholder)"
+format:
+  html:
+    toc: false
+---
+
+This is a placeholder for Week 12 notebook material.
+
+Update this file with the actual content for this week.

@@ -1,0 +1,73 @@
+---
+title: "Week 1 Assignment - Predator-Prey Dynamics"
+format:
+  html:
+    toc: false
+---
+
+## Context
+
+In this session, you explored a predator-prey model and how ecological assumptions are represented computationally.
+
+## Learning outcomes
+
+After completing this assignment, you should be able to:
+
+1. Run and interpret a baseline predator-prey simulation.
+2. Evaluate how parameter changes alter ecological dynamics.
+3. Communicate model-based conclusions clearly and concisely.
+
+## In-class exercises (during session)
+
+### Exercise 1 - Baseline interpretation (15 min)
+
+Run the baseline model from the Week 1 notebook.
+
+Write 3 short observations:
+
+- one about prey dynamics,
+- one about predator dynamics,
+- one about timing (which population peaks first and why this might happen).
+
+### Exercise 2 - Single-parameter perturbation (20 min)
+
+Change **one** parameter by approximately 20-30% (`r`, `a`, `b`, or `m`).
+
+Deliver:
+
+- one plot comparing baseline vs modified scenario,
+- two interpretation sentences:
+  - effect on prey
+  - effect on predators
+
+### Exercise 3 - Biological interpretation and limitation (15 min)
+
+Answer:
+
+1. What biological process does your chosen parameter represent?
+2. What is one limitation of the Lotka-Volterra framework for real ecosystems?
+
+### Exercise 4 - Pair discussion (10 min)
+
+Compare your modified scenario with a partner who changed a different parameter.
+
+Document one similarity and one difference in outcomes.
+
+## Optional extension (home practice)
+
+Test two parameter changes at once (for example: higher prey growth and higher predator mortality).  
+Describe whether the combined effect is additive, amplifying, or compensatory.
+
+## Submission checklist
+
+Submit by end of week:
+
+1. Rendered notebook (`.html`) with your code and answers.
+2. One clearly labeled comparison figure.
+3. A short interpretation paragraph (120-180 words).
+
+## Assessment rubric (low-stakes)
+
+- Correct execution and reproducibility: 40%
+- Biological interpretation quality: 40%
+- Clarity and structure: 20%

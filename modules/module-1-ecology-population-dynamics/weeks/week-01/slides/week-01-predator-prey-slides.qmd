@@ -1,0 +1,84 @@
+---
+title: "Week 1 - Predator-Prey Dynamics"
+subtitle: "Quantitative Biology I"
+author: "Stephan Peischl"
+format:
+  revealjs:
+    theme: default
+    slide-number: true
+    incremental: true
+execute:
+  echo: false
+---
+
+## Why do we model predator-prey systems?
+
+- Ecological systems change over time.
+- Species interactions can generate non-intuitive dynamics.
+- Models help us test biological ideas before field experiments.
+
+## Core biological question
+
+How can interactions between prey and predators create recurring population cycles?
+
+## Lotka-Volterra idea (conceptual)
+
+- Prey increase when predators are absent.
+- Predators decrease when prey are rare.
+- Predator growth depends on prey availability.
+
+## Variables and parameters
+
+- \(N(t)\): prey abundance
+- \(P(t)\): predator abundance
+- \(r\): prey growth rate
+- \(a\): predation rate
+- \(b\): predator conversion efficiency
+- \(m\): predator mortality
+
+## Model equations
+
+\[
+\frac{dN}{dt} = rN - aNP
+\]
+\[
+\frac{dP}{dt} = baNP - mP
+\]
+
+Interpretation: prey gains from reproduction, loses from predation; predators gain from feeding, lose from mortality.
+
+## From biology to simulation
+
+Today we:
+
+1. Run a baseline simulation.
+2. Change one parameter at a time.
+3. Interpret ecological consequences.
+
+## Expected behavior
+
+- Oscillations in both populations
+- Predator peak often follows prey peak
+- Parameter changes alter cycle amplitude and timing
+
+## Think-pair-share
+
+If predation rate \(a\) increases:
+
+- What happens to prey?
+- What happens to predators in the short term?
+- What might happen in the long term?
+
+## In-class exercise
+
+Change one parameter (\(r, a, b,\) or \(m\)) by +25% and compare against baseline.
+
+Report:
+
+- one plot
+- one sentence on prey effect
+- one sentence on predator effect
+
+## Exit question
+
+What is one biological insight from the model, and one limitation of this model for real ecosystems?

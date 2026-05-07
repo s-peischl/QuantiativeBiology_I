@@ -1,0 +1,10 @@
+---
+title: "Week 4 - Notebook (Placeholder)"
+format:
+  html:
+    toc: false
+---
+
+This is a placeholder for Week 4 notebook material.
+
+Update this file with the actual content for this week.

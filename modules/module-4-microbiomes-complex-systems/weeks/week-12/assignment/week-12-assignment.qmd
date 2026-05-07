@@ -1,0 +1,10 @@
+---
+title: "Week 12 - Assignment (Placeholder)"
+format:
+  html:
+    toc: false
+---
+
+This is a placeholder for Week 12 assignment material.
+
+Update this file with the actual content for this week.

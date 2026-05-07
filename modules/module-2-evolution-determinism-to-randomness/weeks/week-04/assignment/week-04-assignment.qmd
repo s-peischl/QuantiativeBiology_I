@@ -1,0 +1,10 @@
+---
+title: "Week 4 - Assignment (Placeholder)"
+format:
+  html:
+    toc: false
+---
+
+This is a placeholder for Week 4 assignment material.
+
+Update this file with the actual content for this week.

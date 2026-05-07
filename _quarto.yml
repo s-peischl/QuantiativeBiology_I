@@ -4,6 +4,9 @@ project:
   render:
     - index.qmd
     - docs/*.qmd
+    - modules/**/weeks/**/slides/*.qmd
+    - modules/**/weeks/**/notebook/*.qmd
+    - modules/**/weeks/**/assignment/*.qmd
 
 website:
   title: "Quantitative Biology I"
