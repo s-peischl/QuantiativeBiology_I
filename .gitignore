@@ -1,6 +1,7 @@
 _site/
 .quarto/
 _freeze/
+*_files/
 *.Rproj.user
 *.Rhistory
 *.RData
