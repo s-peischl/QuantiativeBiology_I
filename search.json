@@ -1,0 +1,86 @@
+[
+  {
+    "objectID": "docs/week-by-week-schedule.html",
+    "href": "docs/week-by-week-schedule.html",
+    "title": "Quantitative Biology I - Week-by-Week Schedule",
+    "section": "",
+    "text": "0-20 min: Biological framing and key question\n20-50 min: Guided model or data walkthrough\n50-95 min: Notebook-based exploration and exercises\n95-120 min: Interpretation, synthesis, and wrap-up"
+  },
+  {
+    "objectID": "docs/week-by-week-schedule.html#teaching-rhythm-2-hours-per-week",
+    "href": "docs/week-by-week-schedule.html#teaching-rhythm-2-hours-per-week",
+    "title": "Quantitative Biology I - Week-by-Week Schedule",
+    "section": "",
+    "text": "0-20 min: Biological framing and key question\n20-50 min: Guided model or data walkthrough\n50-95 min: Notebook-based exploration and exercises\n95-120 min: Interpretation, synthesis, and wrap-up"
+  },
+  {
+    "objectID": "docs/week-by-week-schedule.html#weekly-plan",
+    "href": "docs/week-by-week-schedule.html#weekly-plan",
+    "title": "Quantitative Biology I - Week-by-Week Schedule",
+    "section": "Weekly Plan",
+    "text": "Weekly Plan\n\nWeek 1 - Introduction and Predator-Prey Dynamics\nModule 1 (Ecology): run guided predator-prey simulation and interpret parameter effects.\n\n\nWeek 2 - Competition Between Species\nModule 1 (Ecology): compare coexistence and competitive exclusion scenarios.\n\n\nWeek 3 - Stability, Cycles, and Equilibria\nModule 1 (Ecology): parameter sweeps and stability interpretation.\n\n\nWeek 4 - Wright-Fisher and Genetic Drift\nModule 2 (Evolution): replicate stochastic trajectories across runs.\n\n\nWeek 5 - Selection and Selective Sweeps\nModule 2 (Evolution): compare deterministic expectation and stochastic outcomes.\n\n\nWeek 6 - Establishment of Beneficial Mutations\nModule 2 (Evolution): estimate establishment probabilities with repeated trials.\n\n\nWeek 7 - Evolution Synthesis Session\nModule 2 (Evolution): integrate drift, selection, and uncertainty.\n\n\nWeek 8 - Gene Expression Dynamics\nModule 3 (Cell Biology): simulated expression trajectories and sensitivity.\n\n\nWeek 9 - Regulatory Networks\nModule 3 (Cell Biology): analyze behavior under feedback changes.\n\n\nWeek 10 - Stochastic Expression and RNA-seq Variability\nModule 3 (Cell Biology): interpret variability metrics and count-like data.\n\n\nWeek 11 - Microbiome Data Fundamentals\nModule 4 (Microbiomes): inspect abundance tables and identify broad patterns.\n\n\nWeek 12 - Diversity and Community Structure\nModule 4 (Microbiomes): compare groups with diversity and distance-based views.\n\n\nWeek 13 - Environmental Gradients and Variation\nModule 4 (Microbiomes): connect metadata to community variation.\n\n\nWeek 14 - Final Project and Integration\nModule 4 (Microbiomes): submit and present final exploratory analysis."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Quantitative Biology I",
+    "section": "",
+    "text": "This Quarto project is the authoring workspace for:\n\nslides (revealjs)\nexecutable notebooks (html)\nworksheets and handouts (html or pdf)\nassignment sheets (html or pdf)"
+  },
+  {
+    "objectID": "index.html#course-build-workspace",
+    "href": "index.html#course-build-workspace",
+    "title": "Quantitative Biology I",
+    "section": "",
+    "text": "This Quarto project is the authoring workspace for:\n\nslides (revealjs)\nexecutable notebooks (html)\nworksheets and handouts (html or pdf)\nassignment sheets (html or pdf)"
+  },
+  {
+    "objectID": "index.html#core-documents",
+    "href": "index.html#core-documents",
+    "title": "Quantitative Biology I",
+    "section": "Core Documents",
+    "text": "Core Documents\n\nStudent overview\nWeek-by-week schedule"
+  },
+  {
+    "objectID": "index.html#module-folders",
+    "href": "index.html#module-folders",
+    "title": "Quantitative Biology I",
+    "section": "Module Folders",
+    "text": "Module Folders\n\nmodules/module-1-ecology-population-dynamics\nmodules/module-2-evolution-determinism-to-randomness\nmodules/module-3-cell-biology-noise-and-regulation\nmodules/module-4-microbiomes-complex-systems"
+  },
+  {
+    "objectID": "index.html#template-files",
+    "href": "index.html#template-files",
+    "title": "Quantitative Biology I",
+    "section": "Template Files",
+    "text": "Template Files\n\ntemplates/slides-template.qmd\ntemplates/notebook-template.qmd\ntemplates/worksheet-template.qmd\ntemplates/assignment-template.qmd"
+  },
+  {
+    "objectID": "docs/student-overview.html",
+    "href": "docs/student-overview.html",
+    "title": "Quantitative Biology I - Student Overview",
+    "section": "",
+    "text": "Quantitative Biology I introduces computational thinking through real biological questions. This course runs in parallel with your first-year R programming course. In programming class, you learn technical coding foundations; here, you learn how those tools are used to understand living systems.\nAcross the semester, you will work with models and datasets from:\n\nEcology and Evolution\nCell Biology\nPlant and Environmental Biology\nBioinformatics and Microbiome Science"
+  },
+  {
+    "objectID": "docs/student-overview.html#course-at-a-glance",
+    "href": "docs/student-overview.html#course-at-a-glance",
+    "title": "Quantitative Biology I - Student Overview",
+    "section": "",
+    "text": "Quantitative Biology I introduces computational thinking through real biological questions. This course runs in parallel with your first-year R programming course. In programming class, you learn technical coding foundations; here, you learn how those tools are used to understand living systems.\nAcross the semester, you will work with models and datasets from:\n\nEcology and Evolution\nCell Biology\nPlant and Environmental Biology\nBioinformatics and Microbiome Science"
+  },
+  {
+    "objectID": "docs/student-overview.html#learning-outcomes",
+    "href": "docs/student-overview.html#learning-outcomes",
+    "title": "Quantitative Biology I - Student Overview",
+    "section": "Learning Outcomes",
+    "text": "Learning Outcomes\nBy the end of this course, you should be able to:\n\nExplain how computational models represent biological processes.\nRun and interpret simulations in ecology, evolution, and cell biology.\nDistinguish deterministic predictions from stochastic outcomes.\nAnalyze and visualize biological datasets using guided R workflows.\nModify existing R code and Quarto notebooks to test biological hypotheses.\nCommunicate biological conclusions using plots and quantitative evidence."
+  },
+  {
+    "objectID": "docs/student-overview.html#content-overview",
+    "href": "docs/student-overview.html#content-overview",
+    "title": "Quantitative Biology I - Student Overview",
+    "section": "Content Overview",
+    "text": "Content Overview\n\nModule 1 (Weeks 1-3): Ecology - Population Dynamics\n\nLotka-Volterra predator-prey dynamics\nCompetition between species\nStability, equilibria, and oscillations\n\n\n\nModule 2 (Weeks 4-7): Evolution - From Determinism to Randomness\n\nWright-Fisher model and genetic drift\nSelection and selective sweeps\nEstablishment of beneficial mutations\nExpected versus realized trajectories\n\n\n\nModule 3 (Weeks 8-10): Cell Biology - Molecular Noise and Regulation\n\nGene expression dynamics\nRegulatory network behavior\nStochastic expression and molecular noise\nVariability in RNA-seq-like datasets\n\n\n\nModule 4 (Weeks 11-14): Microbiomes - Complex Biological Systems\n\nMicrobiome fundamentals and abundance tables\nDiversity and community structure\nEnvironmental gradients and variation\nGuided exploratory data analysis project"
+  }
+]
