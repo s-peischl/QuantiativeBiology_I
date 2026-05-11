@@ -37,6 +37,7 @@ jobs:
         uses: quarto-dev/quarto-actions/render@v2
         with:
           to: html
+          execute: false
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
