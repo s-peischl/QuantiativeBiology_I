@@ -34,10 +34,7 @@ jobs:
         uses: actions/configure-pages@v5
 
       - name: Render Quarto Project
-        uses: quarto-dev/quarto-actions/render@v2
-        with:
-          to: html
-          execute: false
+        run: quarto render --no-execute
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
