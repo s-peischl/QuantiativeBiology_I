@@ -1,13 +1,16 @@
 ---
-title: "Week 3 Assignment"
+title: "Week 3 — Assignment · Competition & carrying capacity"
 format:
   html:
-    theme: cosmo
     toc: true
     css: ../../styles.scss
 ---
+
+Use Gause Fig. 22 data in `data/` and the Week 3 notebook.
+
 ## Submit
 
-1. Baseline vs extended model (e.g. with \(K\)) — one comparison figure.
-2. Two parameter experiments with predictions written *before* running.
-3. Short interpretation of what was robust vs sensitive.
+1. One figure: alone vs mixture (data) **or** simulated competition overlay.
+2. Logistic or two-competitor model: baseline vs one extended/parameter-changed run.
+3. Two parameter experiments with predictions written *before* running.
+4. Short interpretation: what was robust vs sensitive; how this differs from Week 2 predator–prey.

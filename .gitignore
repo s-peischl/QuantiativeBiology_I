@@ -1,10 +1,12 @@
 _site/
 .quarto/
-# Keep Week 2 frozen plots so CI `--no-execute` still shows figures
+# Keep frozen plots so CI `--no-execute` still shows figures
 _freeze/*
 !_freeze/weeks/
 _freeze/weeks/*
 !_freeze/weeks/week-02/
+!_freeze/weeks/week-03/
+!_freeze/weeks/week-04/
 *_files/
 *.Rproj.user
 *.Rhistory

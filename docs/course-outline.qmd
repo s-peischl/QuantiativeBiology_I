@@ -71,12 +71,14 @@ Engine: biological rule → discrete update → `next_state()` → vectors → l
 ### Week 3 — Richer ecological models
 **Materials:** [slides](../weeks/week-03/slides.qmd) · [notebook](../weeks/week-03/notebook.qmd) · [assignment](../weeks/week-03/assignment.qmd)
 
-- Carrying capacity; optional extra species; parameter play
+- **Bio opener:** Gause (1934) Fig. 22 — *P. caudatum* vs *P. aurelia* alone vs mixture (`weeks/week-03/data/`)
+- Carrying capacity \(K\); two-species competition; parameter play
 
 ### Week 4 — Ecological data & your own model
 **Materials:** [slides](../weeks/week-04/slides.qmd) · [notebook](../weeks/week-04/notebook.qmd) · [assignment](../weeks/week-04/assignment.qmd)
 
-- Real time series; build a small ecological model
+- **Bio opener:** Isle Royale moose–wolf (McLaren & Peterson 1994); optional Huffaker mites / Hudson Bay lynx (`weeks/week-04/data/`)
+- Qualitative model–data comparison; model zoo; build your own simulation
 
 ---
 

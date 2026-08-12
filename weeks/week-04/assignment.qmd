@@ -1,14 +1,16 @@
 ---
-title: "Week 4 Assignment"
+title: "Week 4 — Assignment · Your own ecological model"
 format:
   html:
-    theme: cosmo
     toc: true
     css: ../../styles.scss
 ---
+
+Use Isle Royale (or another series in `data/`) as a qualitative anchor.
+
 ## Submit
 
 1. Your model in words (variables, gains, losses, interactions, question).
 2. Implemented simulator + one key plot.
 3. Two parameter experiments.
-4. Short reflection: strongest assumption + what you would add next.
+4. Short reflection: which Isle Royale (or chosen) features you capture vs miss; strongest assumption; what you would add next.

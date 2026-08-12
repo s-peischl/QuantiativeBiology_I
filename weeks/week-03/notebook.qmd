@@ -1,16 +1,97 @@
 ---
-title: "Week 3 Notebook — Parameter Playground"
+title: "Week 3 — Notebook · Richer models"
+subtitle: "Gause competition, carrying capacity, parameter play"
 format:
   html:
-    theme: cosmo
     toc: true
     css: ../../styles.scss
+execute:
+  echo: true
+  warning: false
+  message: false
 ---
-## Spec for collaborators
 
-1. Working baseline LV simulator
-2. Extended model with carrying capacity \(K\)
-3. Clearly marked parameter chunks
-4. Overlay or panel plots
-5. Interpretation prompts (predict before running)
-6. Optional: add one new term
+## Learning goals
+
+1. Compare *Paramecium caudatum* and *P. aurelia* alone vs together
+2. Implement logistic growth and two-species competition updates
+3. Change one parameter at a time and interpret biologically
+
+## 1. Data first (Gause 1934, Fig. 22)
+
+```{r}
+pc <- read.csv("data/paramecium_caudatum_alone.csv")
+pa <- read.csv("data/paramecium_aurelia_alone.csv")
+mix <- read.csv("data/paramecium_competition.csv")
+
+par(mfrow = c(1, 3), mar = c(4, 4, 2, 1))
+plot(pc$day, pc$volume, type = "b", pch = 16,
+     xlab = "Day", ylab = "Volume", main = "Caudatum alone")
+plot(pa$day, pa$volume, type = "b", pch = 17,
+     xlab = "Day", ylab = "Volume", main = "Aurelia alone")
+plot(mix$day, mix$caudatum, type = "b", pch = 16,
+     xlab = "Day", ylab = "Volume", main = "Mixture",
+     ylim = range(c(mix$caudatum, mix$aurelia), na.rm = TRUE))
+lines(mix$day, mix$aurelia, type = "b", pch = 17, lty = 2)
+legend("topright", c("caudatum", "aurelia"), pch = c(16, 17), lty = 1:2, bty = "n", cex = 0.8)
+```
+
+**Q1.** In 2–3 sentences: what biological ingredients are missing from Week 2 predator–prey LV?
+
+## 2. Logistic one-step update
+
+```{r}
+next_logistic <- function(N, r, K, dt) {
+  dN <- r * N * (1 - N / K) * dt
+  max(N + dN, 0)
+}
+
+next_logistic(N = 10, r = 0.8, K = 100, dt = 0.1)
+```
+
+**Q2.** If \(N\) is near \(K\), does the next step grow or shrink? Why?
+
+## 3. Two-competitor update + loop
+
+```{r}
+next_comp <- function(N1, N2, r1, r2, K1, K2, a12, a21, dt) {
+  d1 <- r1 * N1 * (1 - (N1 + a12 * N2) / K1) * dt
+  d2 <- r2 * N2 * (1 - (N2 + a21 * N1) / K2) * dt
+  c(N1 = max(N1 + d1, 0), N2 = max(N2 + d2, 0))
+}
+
+T <- 400
+dt <- 0.05
+N1 <- numeric(T + 1)
+N2 <- numeric(T + 1)
+N1[1] <- 20
+N2[1] <- 20
+
+r1 <- 1.0; r2 <- 1.0
+K1 <- 150; K2 <- 150
+a12 <- 1.2   # effect of species 2 on 1
+a21 <- 0.5   # effect of species 1 on 2
+
+for (t in 1:T) {
+  out <- next_comp(N1[t], N2[t], r1, r2, K1, K2, a12, a21, dt)
+  N1[t + 1] <- out["N1"]
+  N2[t + 1] <- out["N2"]
+}
+
+time <- 0:T * dt
+plot(time, N1, type = "l", lwd = 2, ylim = c(0, max(c(N1, N2))),
+     xlab = "Time", ylab = "Abundance", main = "Competition simulation")
+lines(time, N2, lwd = 2, lty = 2)
+legend("topright", c("N1", "N2"), lty = 1:2, lwd = 2, bty = "n")
+```
+
+## 4. Experiment
+
+Change **only** `a12` (or only `K1`). Re-run.
+
+**Q3.** Did you get exclusion? Which species “won”? Link back to the mixture panel.
+
+## Wrap-up
+
+- Main quantitative result:
+- Main biological interpretation:

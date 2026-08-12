@@ -22,88 +22,136 @@ execute:
   echo: false
   warning: false
   message: false
+  freeze: true
 ---
 
 ## On this deck
 
-**Week 3** of 14
+**Week 3** of 14 · Ecology block
 
-- [Course outline](../../docs/course-outline.html) — full semester plan
+- [Course outline](../../docs/course-outline.html)
 - [Home](../../index.html)
-- Use **arrow keys** / on-screen controls · **M** opens slide menu · **Esc** overview grid
+- Arrow keys / controls · **M** menu · **Esc** grid
 
 ## Part 1  
 ## Recap and goal
 
 ## Where we are
 
-Last week we built the simulation engine:
+Last week: *Paramecium* + *Didinium* → discrete LV → function / vector / loop.
 
-1. Biological rule → discrete update
-2. Function for next state
-3. Vectors to store trajectories
-4. Loop to iterate
-
-Today: use that engine on **richer biology**.
+Today: **richer biology** with the same engine — motivated by another real Gause experiment.
 
 ## Learning goals today
 
-1. Extend a model by adding biological terms
-2. See how code changes when biology changes
-3. Explore parameter effects systematically
-4. Interpret “what happens if…?” with plots
-
-## Start again from the cool figure
-
-Same Lotka–Volterra oscillations — but now ask:
-
-- What assumptions are hidden?
-- What is missing for real ecosystems?
-- How do we add those pieces in code?
+1. Read a real **competition** contrast in data
+2. Add carrying capacity \(K\) in code
+3. Extend to **two competing species**
+4. Change one parameter at a time and interpret
 
 ---
 
 ## Part 2  
-## Critique the simple model
+## Bio opener: two Paramecia
+
+## Not predator–prey this time
+
+Same genus, shared resource:
+
+- ***Paramecium caudatum***
+- ***Paramecium aurelia***
+
+Question: what happens **alone** vs **together**?
+
+**Source:** Gause (1934) Fig. 22 — digitized in `gauseR` (`data/`).
+
+## Alone: each grows then levels off
+
+```{r}
+#| fig-height: 3.8
+#| fig-width: 8
+pc <- read.csv("data/paramecium_caudatum_alone.csv")
+pa <- read.csv("data/paramecium_aurelia_alone.csv")
+par(mfrow = c(1, 2), mar = c(4, 4, 2, 1))
+plot(pc$day, pc$volume, type = "b", pch = 16, lwd = 2,
+     xlab = "Day", ylab = "Volume", main = "P. caudatum alone")
+plot(pa$day, pa$volume, type = "b", pch = 17, lwd = 2,
+     xlab = "Day", ylab = "Volume", main = "P. aurelia alone")
+```
+
+Both look **logistic** — a carrying capacity, not endless exponential growth.
+
+## Together: competitive exclusion
+
+```{r}
+#| fig-height: 4
+#| fig-width: 7
+mix <- read.csv("data/paramecium_competition.csv")
+ymax <- max(c(mix$caudatum, mix$aurelia), na.rm = TRUE)
+plot(mix$day, mix$caudatum, type = "b", pch = 16, lwd = 2,
+     xlab = "Day", ylab = "Volume",
+     main = "Mixture (Gause 1934, Fig. 22)",
+     ylim = c(0, ymax * 1.05))
+lines(mix$day, mix$aurelia, type = "b", pch = 17, lwd = 2, lty = 2)
+legend("topright", c("P. caudatum", "P. aurelia"),
+       pch = c(16, 17), lty = 1:2, bty = "n")
+```
+
+## What jumps out?
+
+- Alone: both persist near a plateau \(\approx K\)
+- Together: **one declines** while the other holds on
+- Classic message: competition can exclude a species that would do fine alone
+
+## Think–pair–share (2 min)
+
+1. Why isn’t Week 2’s predator–prey LV enough here?
+2. What new ingredients do we need (\(K\)? two competitors?)
+3. What would you change first in `next_state()`?
+
+---
+
+## Part 3  
+## Critique last week’s simple LV
 
 ## Classic LV assumptions (too strong)
 
 - Unlimited prey growth without predators
 - No carrying capacity
-- Predators only die from starvation/mortality term
-- Only two species
-- Deterministic (no noise) — later module!
+- Only predator–prey (no competition)
+- Deterministic (no noise) — later in the course
 
 ## Biological upgrades (menu)
 
-Possible extensions:
-
-1. Prey self-limitation (carrying capacity \(K\))
-2. Predator saturation (functional response)
-3. Refuge / protected prey
-4. Third species (two prey, or omnivore, etc.)
-5. Harvesting / fishing term
+1. Prey self-limitation (carrying capacity \(K\)) ← **today**
+2. Two-species **competition** ← **today**
+3. Predator saturation / refuges
+4. Harvesting term
 
 Each upgrade = a **small change in the update rule**.
 
 ---
 
-## Part 3  
+## Part 4  
 ## Extension 1: carrying capacity
 
 ## Biology
 
-Prey cannot grow forever even without predators.
+Populations cannot grow forever even without enemies.
 
-Add density dependence:
+\[
+\frac{dN}{dt} = rN\left(1 - \frac{N}{K}\right)
+\]
+
+Matches the **alone** curves in Fig. 22.
+
+## With a predator (optional link to Week 2)
 
 \[
 \frac{dN}{dt} = rN\left(1 - \frac{N}{K}\right) - aNP
 \]
 
 ## In discrete code
-
-Only the prey growth term changes:
 
 ```r
 dN <- (r * N * (1 - N / K) - a * N * P) * dt
@@ -115,61 +163,47 @@ Programming lesson:
 
 ## Live comparison
 
-Run:
+Run logistic alone vs LV with \(K\):
 
-- baseline LV (no \(K\))
-- LV with carrying capacity
-
-Ask students:
-
-- Do cycles persist?
-- Do amplitudes change?
-- Can extinctions become less likely?
+- Does \(N\) plateau near \(K\) when \(P = 0\)?
+- How do cycles change when \(K\) is finite?
 
 ---
 
-## Part 4  
-## Extension 2: add a species
+## Part 5  
+## Extension 2: two competitors
 
-## Biology
+## Biology (Lotka–Volterra competition)
 
-Real communities are not two boxes.
-
-Example options:
-
-- two prey, one predator
-- one prey, two predators
-- predator + competitor
-
-## State vector grows
-
-Instead of updating \((N, P)\), update a longer state:
+Two species, shared limiting resource:
 
 \[
-\mathbf{x}_{t+1} = f(\mathbf{x}_t)
+\frac{dN_1}{dt} = r_1 N_1 \left(1 - \frac{N_1 + \alpha_{12} N_2}{K_1}\right)
+\]
+\[
+\frac{dN_2}{dt} = r_2 N_2 \left(1 - \frac{N_2 + \alpha_{21} N_1}{K_2}\right)
 \]
 
-In code: return a longer numeric vector / named vector.
+Goal: qualitatively recover **exclusion** like Gause Fig. 22.
 
-## Sketch: two prey, one predator
+## Sketch in code
 
 ```r
-next_state3 <- function(N1, N2, P, params, dt) {
-  # growth, competition, predation terms here
-  c(N1 = N1 + dN1, N2 = N2 + dN2, P = P + dP)
+next_comp <- function(N1, N2, r1, r2, K1, K2, a12, a21, dt) {
+  d1 <- r1 * N1 * (1 - (N1 + a12 * N2) / K1) * dt
+  d2 <- r2 * N2 * (1 - (N2 + a21 * N1) / K2) * dt
+  c(N1 = max(N1 + d1, 0), N2 = max(N2 + d2, 0))
 }
 ```
 
-Same pattern as Week 2 — only **more components**.
+Same Week 2 pattern — only **more components**.
 
 ## Store trajectories
 
-Options:
+- separate vectors, or
+- a matrix (time × species)
 
-- separate vectors for each species, or
-- a matrix with time × species
-
-Preview of later matrix thinking (Module 2).
+Preview of later matrix thinking.
 
 ---
 
@@ -186,28 +220,25 @@ Preview of later matrix thinking (Module 2).
 
 ## What to explore today
 
-In the notebook, pick one model version and vary:
+In the notebook, start from Gause competition data, then:
 
-- \(r\) (prey growth)
-- \(a\) (predation)
-- \(K\) (if included)
-- initial abundances
+- fit the *idea* of logistic growth with \(K\) (qualitative)
+- simulate two-competitor LV; try to get exclusion
+- vary \(r\), \(K\), or competition coefficients **one at a time**
 
 ## Plotting for insight
 
-Useful views:
-
-- abundances vs time
-- overlay baseline vs modified scenario
-- (optional) phase portrait \(N\) vs \(P\)
+- alone vs mixture panels (data)
+- simulated \(N_1(t), N_2(t)\) overlay
+- (optional) \(N_1\) vs \(N_2\) phase plane
 
 ## Think-pair-share
 
-If you add a competitor that also eats the prey:
+If *P. aurelia* is the stronger competitor in mixture:
 
-- What happens to the original predator?
-- Which parameter would you tune first?
-- How would you code that term?
+- Which coefficient would you increase first?
+- How would monoculture plateaus constrain \(K_1, K_2\)?
+- How is this different from Week 2’s *Didinium* story?
 
 ---
 
@@ -216,36 +247,35 @@ If you add a competitor that also eats the prey:
 
 ## Notebook today
 
-**Play with one model; adjust parameters; see what happens**
+**Competition data → logistic / two-species model → parameter play**
 
-Suggested structure for collaborators:
-
-1. Provide a working baseline LV function
-2. Provide one extended version (e.g. with \(K\))
-3. Students change parameters and initial conditions
-4. Students write short biological interpretations of plots
-5. Optional challenge: add one new term themselves
+1. Plot Gause Fig. 22 alone vs mixture (`data/`)
+2. Working logistic + competition `next_state`
+3. Students change one parameter; interpret biologically
+4. Optional: add a predation term back (link Week 2)
 
 ## Bridge to programming course
 
 | Programming | Biology today |
 |---|---|
-| Edit expressions in a function | change biological assumptions |
-| Re-run scripts | scenario comparison |
-| Multiple related plots | communicate model behavior |
-| Optional: extra arguments | new species / new terms |
+| Edit expressions in a function | add \(K\) / competition |
+| Re-run scripts | alone vs mixture scenarios |
+| Multiple related plots | communicate exclusion |
+| Longer return vectors | two-species state |
 
 ## Exit ticket
 
-1. Name one unrealistic assumption of classic LV.
-2. Show (in words) how you would change the code to fix it.
-3. What surprised you most when you changed a parameter?
+1. What pattern in Fig. 22 requires a model richer than Week 2 LV?
+2. In words: how does \(K\) change the update for one species alone?
+3. What surprised you when you changed a competition parameter?
 
 ## Next week
 
-- Look at **real datasets**
-- Meet more model families
-- Notebook: **build your own model** and explore it
+- **Isle Royale** moose–wolf (and optional classic series)
+- Model zoo: competition, epidemics, harvest…
+- Notebook: **build your own model**
+
+**Data sources:** Gause (1934) Fig. 22 via `gauseR` — see `data/README.md`.
 
 ---
 

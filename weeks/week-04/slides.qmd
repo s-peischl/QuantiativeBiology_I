@@ -22,87 +22,97 @@ execute:
   echo: false
   warning: false
   message: false
+  freeze: true
 ---
 
 ## On this deck
 
-**Week 4** of 14
+**Week 4** of 14 · Ecology block
 
-- [Course outline](../../docs/course-outline.html) — full semester plan
+- [Course outline](../../docs/course-outline.html)
 - [Home](../../index.html)
-- Use **arrow keys** / on-screen controls · **M** opens slide menu · **Esc** overview grid
+- Arrow keys / controls · **M** menu · **Esc** grid
 
 ## Part 1  
 ## Recap and goal
 
 ## What you can already do
 
-You can:
+- Week 2: predator–prey (Gause *Didinium*)
+- Week 3: carrying capacity + competition (Gause two *Paramecia*)
+- Engine: function → vector → loop
 
-- turn biology into an update rule
-- encode it as a function
-- store trajectories in vectors
-- iterate with loops
-- extend models by adding terms/species
-
-Today: connect this to **data**, then invent your own model.
+Today: **field data**, a small model zoo, then invent your own.
 
 ## Learning goals today
 
-1. Compare model output to qualitative patterns in real data
-2. Recognize multiple model “families” beyond classic LV
-3. Design a small model of your own
-4. Implement and explore it computationally
+1. Read qualitative patterns in a real ecological time series
+2. Compare simulation output to data *without* formal fitting
+3. Meet other model families (same coding engine)
+4. Design and implement a small model of your own
 
 ---
 
 ## Part 2  
-## Looking at real data
+## Bio opener: Isle Royale
 
-## Why data matters
+## Moose and wolves in the wild
 
-Models are stories with equations.
+Isle Royale (Lake Superior): long-term study of
 
-Data tell us which stories are plausible.
+- Prey: **moose** (*Alces alces*)
+- Predator: **wolves** (*Canis lupus*)
 
-## Example datasets (choose 1–2 in class)
+Not a bottle experiment — weather, disease, and chance all matter.
 
-Possible anchors:
+**Source:** McLaren & Peterson (1994) *Science*; series in `gauseR` → `data/isle_royale_moose_wolf.csv`
 
-- classic hare–lynx (or similar) cycles
-- fishery catch / stock time series
-- disease case counts over weeks
-- microbial growth curves
+## The time series
 
-::: {.notes}
-Pick datasets that are already cleaned for first-year use. Emphasize pattern recognition over formal fitting.
-:::
+```{r}
+#| fig-height: 4.2
+#| fig-width: 8
+mw <- read.csv("data/isle_royale_moose_wolf.csv")
+par(mfrow = c(2, 1), mar = c(4, 4, 2, 1))
+plot(mw$year, mw$moose, type = "b", pch = 16, lwd = 2,
+     xlab = "Year", ylab = "Moose", main = "Isle Royale moose")
+plot(mw$year, mw$wolf, type = "b", pch = 17, lwd = 2, col = "grey20",
+     xlab = "Year", ylab = "Wolves", main = "Isle Royale wolves")
+```
 
 ## How to look at a time series
 
 Ask:
 
 1. Trend or cycles?
-2. Delayed responses between variables?
+2. Delayed responses between moose and wolves?
 3. Crashes / recoveries?
-4. Noise around a smooth pattern?
+4. Noise around any smooth story?
 
 ## Model vs data (honestly)
 
-At this stage we usually do **qualitative comparison**:
+We do **qualitative comparison**:
 
-- Does the model produce the same *kind* of pattern?
-- Which parameter regime is closest visually?
-- What is clearly missing?
+- Does LV / LV+\(K\) produce the same *kind* of pattern?
+- What is clearly missing (weather, disease, inbreeding…)?
 
-Formal fitting comes later in the curriculum.
+Formal fitting is later. Today: train your eye + build intuition.
+
+## Optional second look
+
+Also in `data/`:
+
+- `huffaker_mites.csv` — lab mites; longer persistence / refuge story
+- `hudson_bay_lynx.csv` — famous ~10-year lynx pelt cycles
+
+Use one if you want a second classroom vote: “which simulation looks closest?”
 
 ## Live demo
 
-1. Show a real time series
-2. Show 2–3 simulated scenarios
-3. Vote: which simulation is “most like” the data?
-4. Discuss why
+1. Show Isle Royale
+2. Show 2–3 simulated predator–prey scenarios
+3. Vote: which is “most like” the data?
+4. Discuss what the winner still gets wrong
 
 ---
 
@@ -111,32 +121,22 @@ Formal fitting comes later in the curriculum.
 
 ## Same workflow, different biology
 
-All of these use the Week 2 engine:
-
 > next state ← function(current state, parameters)
 
-Examples:
+| Biological theme | Model sketch | Data anchor |
+|---|---|---|
+| Predator–prey | LV / LV + \(K\) | Isle Royale; Huffaker |
+| Competition | two-species LV | Week 3 Gause Fig. 22 |
+| Epidemic | SI / SIR | (design your own) |
+| Growth + harvest | logistic + removal | fishing / hunting quota |
 
-| Biological theme | Model sketch |
-|---|---|
-| Predator–prey | LV / LV + \(K\) |
-| Competition | two species sharing resources |
-| Epidemic | SI / SIR compartments |
-| Growth + harvest | logistic + removal term |
-
-## Competition sketch
-
-Two species, limited resource:
+## Competition sketch (recap)
 
 \[
 \frac{dN_1}{dt} = r_1 N_1 \left(1 - \frac{N_1 + \alpha_{12}N_2}{K_1}\right)
 \]
 
-Same coding pattern: compute derivatives/changes, update, loop, plot.
-
 ## Epidemic sketch (SIR)
-
-Compartments \(S, I, R\):
 
 \[
 S_{t+1} = S_t - \beta S_t I_t \Delta t
@@ -184,6 +184,7 @@ In the notebook, invent a tiny world with:
 
 ## Example student prompts
 
+- Isle Royale–inspired: moose + wolves + harsh winter mortality
 - algae + zooplankton + fish
 - two competing bacteria + antibiotic pulse
 - rabbits + foxes + hunting quota
@@ -206,12 +207,10 @@ Each pair presents in 60–90 seconds:
 
 **Build your own model**
 
-Suggested scaffold for collaborators:
-
-1. Template: `next_state()`, empty vectors, loop, plotting chunk
-2. Gallery of 2–3 starter biologically themed stubs
-3. Students fill terms / parameters
-4. Reflection prompts: assumptions, limitations, next experiment
+1. Inspect Isle Royale (and optional Huffaker / lynx) in `data/`
+2. Template: `next_state()`, vectors, loop, plots
+3. Gallery stubs: predator–prey, competition, SIR, harvest
+4. Students fill terms; reflect on assumptions vs real series
 
 ## Bridge to programming course
 
@@ -229,19 +228,19 @@ After Weeks 2–4 you should feel fluent in:
 - iterative simulation
 - linking code structures to biological change
 - exploring “what if?” questions computationally
+- reading real ecological time series qualitatively
 
 ## Looking ahead
 
-Next module move: **randomness**.
-
-Deterministic models capture average behavior.  
-Real data are noisy — so we add stochasticity (e.g. Wright–Fisher), store many runs in matrices, and summarize uncertainty.
+Next: **evolution** — allele frequencies as time series (same engine, new object).
 
 ## Exit ticket
 
 1. What biological question does your model ask?
-2. What is its strongest assumption?
-3. What would you add next week if you had more time?
+2. What is its strongest assumption relative to Isle Royale (or your chosen series)?
+3. What would you add next if you had more time?
+
+**Data:** McLaren & Peterson (1994); optional Huffaker / Hudson Bay lynx — see `data/README.md`.
 
 ---
 

@@ -1,15 +1,88 @@
 ---
-title: "Week 4 Notebook — Build Your Own Model"
+title: "Week 4 — Notebook · Your own model"
+subtitle: "Isle Royale data → design → simulate"
 format:
   html:
-    theme: cosmo
     toc: true
     css: ../../styles.scss
+execute:
+  echo: true
+  warning: false
+  message: false
 ---
-## Spec for collaborators
 
-1. Design checklist (variables, gains, losses, interactions, question)
-2. Template: `next_state()`, storage, loop, plot
-3. 2–3 starter stubs (competition / SIR / harvest)
-4. Student implementation + ≥2 parameter experiments
-5. Short reflection cells
+## Learning goals
+
+1. Inspect a real ecological time series qualitatively
+2. Write verbal rules before code
+3. Implement a small model with the Week 2–3 engine
+4. Compare simulation patterns to data (no formal fitting)
+
+## 1. Look at Isle Royale
+
+```{r}
+mw <- read.csv("data/isle_royale_moose_wolf.csv")
+par(mfrow = c(2, 1), mar = c(4, 4, 2, 1))
+plot(mw$year, mw$moose, type = "b", pch = 16,
+     xlab = "Year", ylab = "Moose", main = "Isle Royale moose")
+plot(mw$year, mw$wolf, type = "b", pch = 17,
+     xlab = "Year", ylab = "Wolves", main = "Isle Royale wolves")
+```
+
+**Q1.** List three features of these series (trend, lag, crash, noise…).
+
+Optional extras in `data/`: `huffaker_mites.csv`, `hudson_bay_lynx.csv`.
+
+## 2. Design (words first)
+
+Fill in:
+
+1. State variables (2–3):
+2. What increases each?
+3. What decreases each?
+4. One question you will ask the model:
+
+## 3. Code scaffold
+
+Adapt this predator–prey skeleton — or replace with competition / SIR / harvest.
+
+```{r}
+next_state <- function(N, P, r, a, b, m, K, dt) {
+  dN <- (r * N * (1 - N / K) - a * N * P) * dt
+  dP <- (b * a * N * P - m * P) * dt
+  c(N = max(N + dN, 0), P = max(P + dP, 0))
+}
+
+T <- 800
+dt <- 0.05
+N <- numeric(T + 1)
+P <- numeric(T + 1)
+N[1] <- 40
+P[1] <- 5
+
+r <- 0.8; a <- 0.05; b <- 0.4; m <- 0.3; K <- 120
+
+for (t in 1:T) {
+  out <- next_state(N[t], P[t], r, a, b, m, K, dt)
+  N[t + 1] <- out["N"]
+  P[t + 1] <- out["P"]
+}
+
+time <- 0:T * dt
+plot(time, N, type = "l", lwd = 2, xlab = "Time", ylab = "Abundance",
+     main = "Your simulation", ylim = c(0, max(c(N, P))))
+lines(time, P, lwd = 2, lty = 2)
+legend("topright", c("Prey-like", "Predator-like"), lty = 1:2, lwd = 2, bty = "n")
+```
+
+## 4. Compare & reflect
+
+**Q2.** Which qualitative features of Isle Royale does your model capture? Which does it miss?
+
+**Q3.** What is the strongest assumption you made?
+
+## Wrap-up
+
+- Model question:
+- One plot takeaway:
+- Next experiment if you had more time:
