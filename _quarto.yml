@@ -4,6 +4,7 @@ project:
   render:
     - index.qmd
     - docs/course-outline.qmd
+    - docs/for-collaborators.qmd
     - weeks/*/notebook.qmd
     - weeks/*/assignment.qmd
     - weeks/*/slides.qmd
@@ -16,6 +17,8 @@ website:
         text: Home
       - href: docs/course-outline.qmd
         text: Course Outline
+      - href: docs/for-collaborators.qmd
+        text: For collaborators
       - text: Slides
         menu:
           - href: weeks/week-01/slides.qmd

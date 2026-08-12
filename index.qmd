@@ -9,6 +9,7 @@ format:
 ## Start here
 
 - **[Full course outline](docs/course-outline.qmd)**
+- **[For collaborators](docs/for-collaborators.qmd)** — Quarto + GitHub how-to
 
 ## Arc
 

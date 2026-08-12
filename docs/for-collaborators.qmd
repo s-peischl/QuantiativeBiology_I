@@ -1,0 +1,220 @@
+---
+title: "For collaborators"
+subtitle: "How to edit slides, notebooks, and publish via GitHub"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    css: ../styles.scss
+---
+
+This page is the teaching-hub version of the repository [README](https://github.com/s-peischl/QuantiativeBiology_I#readme). Keep both in sync when workflows change.
+
+**Live site:** <https://s-peischl.github.io/QuantiativeBiology_I/>  
+**Repo:** <https://github.com/s-peischl/QuantiativeBiology_I>
+
+---
+
+## Course arc
+
+**Eco → Evo (deterministic → random) → Microbiome (ecology with randomness)**
+
+Canonical materials live under `weeks/week-XX/` (slides, notebook, assignment). Do not recreate week sources under `modules/`.
+
+---
+
+## Setup
+
+Install:
+
+1. Git
+2. [Quarto](https://quarto.org/docs/get-started/)
+3. [R](https://cran.r-project.org/) (for executable chunks)
+4. RStudio, or VS Code / Cursor with the Quarto extension
+
+```bash
+git clone https://github.com/s-peischl/QuantiativeBiology_I.git
+cd QuantiativeBiology_I
+quarto --version
+```
+
+Open the **project folder** (not a single file) so `_quarto.yml` and relative paths work.
+
+---
+
+## Repository map
+
+| Path | Role |
+|------|------|
+| `weeks/week-XX/slides.qmd` | Reveal.js lecture deck |
+| `weeks/week-XX/notebook.qmd` | Student notebook (HTML) |
+| `weeks/week-XX/assignment.qmd` | Assignment (HTML) |
+| `weeks/week-XX/data/` | Week CSVs + data README |
+| `pics/` | Images (+ `pics/README.md` credits) |
+| `templates/` | Starters for new weeks |
+| `docs/course-outline.qmd` | Student-facing semester plan |
+| `_quarto.yml` | Website navbar + render list |
+
+---
+
+## Editing slides
+
+Edit `weeks/week-XX/slides.qmd`.
+
+### YAML must stay Reveal.js
+
+```yaml
+format:
+  revealjs:
+    theme: simple
+    slide-number: true
+    embed-resources: true
+```
+
+**Do not** set `format:` in `_quarto.yml` or `weeks/_metadata.yml` — that breaks decks.
+
+### Quarto Markdown patterns
+
+```markdown
+## One idea per slide
+
+- Bullet A
+- Bullet B
+
+## Columns
+
+:::: {.columns}
+::: {.column width="50%"}
+Left
+:::
+::: {.column width="50%"}
+Right
+:::
+::::
+
+## Image
+
+![](../../pics/organisms/paramecium_caudatum_lm.jpg){width="70%" fig-alt="Paramecium"}
+
+## Speaker notes
+
+::: {.notes}
+What you say aloud.
+:::
+```
+
+### Preview the right way
+
+```bash
+quarto preview weeks/week-02/slides.qmd
+# rendered file:
+# _site/weeks/week-02/slides.html
+```
+
+Use **Quarto Preview / Render**, not the editor’s plain Markdown preview.
+
+Keyboard: `←` `→` · `M` menu · `Esc` overview · `F` fullscreen.
+
+### New week
+
+```bash
+cp templates/slides-template.qmd weeks/week-03/slides.qmd
+cp templates/notebook-template.qmd weeks/week-03/notebook.qmd
+cp templates/assignment-template.qmd weeks/week-03/assignment.qmd
+```
+
+Update titles, navigation links, and content.
+
+---
+
+## Notebooks and assignments
+
+```bash
+quarto preview weeks/week-02/notebook.qmd
+quarto preview weeks/week-02/assignment.qmd
+```
+
+Do not commit answer keys to `main` unless that is intentional.
+
+---
+
+## Images and data
+
+- Images → `pics/` (document licenses in `pics/README.md`)
+- From a week file, paths look like `../../pics/...`
+- Data → `weeks/week-XX/data/` with a short README citing sources
+
+---
+
+## GitHub: get changes online
+
+### Recommended collaborator flow
+
+```bash
+git checkout main
+git pull origin main
+git checkout -b week-03-slides
+# edit…
+git add weeks/week-03/slides.qmd
+git commit -m "Week 3: draft richer ecology slides"
+git push -u origin week-03-slides
+```
+
+Open a **Pull Request** into `main`:  
+<https://github.com/s-peischl/QuantiativeBiology_I/pulls>
+
+### What happens after merge / push to `main`
+
+GitHub Actions runs **Deploy Quarto Site** (`.github/workflows/deploy-pages.yml`) and refreshes Pages.
+
+Watch: repo → **Actions**.  
+Site: <https://s-peischl.github.io/QuantiativeBiology_I/>
+
+---
+
+## R plots and Pages (read this)
+
+CI uses `quarto render --no-execute`, so **R is not re-run on the server**.
+
+- Static images always show.
+- Plots from `{r}` chunks need committed freeze under `_freeze/weeks/week-XX/`, or a maintainer must enable execution in CI.
+
+After adding plots locally:
+
+```bash
+quarto render weeks/week-XX/slides.qmd
+git add -f _freeze/weeks/week-XX
+git commit -m "Week XX: freeze figures for Pages"
+```
+
+---
+
+## Common pitfalls
+
+| Symptom | Likely fix |
+|---------|------------|
+| Preview is a long page, not slides | Quarto Preview / `--to revealjs` |
+| All decks become HTML | Remove stray project/`_metadata` `format:` |
+| Broken image links | Paths relative to the `.qmd` folder |
+| Site looks old | Wait for Actions; hard-refresh |
+| Workflow file push rejected | Needs GitHub `workflow` scope — avoid editing `.github/workflows` unless you have it |
+
+---
+
+## PR checklist
+
+- [ ] Edited `weeks/week-XX/` (not old module trees)
+- [ ] Previewed as Reveal.js
+- [ ] Images credited if new
+- [ ] No secrets / private answer keys
+- [ ] New R plots frozen (or flagged for maintainer)
+- [ ] Clear commit message
+
+---
+
+## References
+
+- [Quarto Reveal.js](https://quarto.org/docs/presentations/revealjs/)
+- [Quarto websites](https://quarto.org/docs/websites/)
+- [Student course outline](course-outline.qmd)
+- Full GitHub README: <https://github.com/s-peischl/QuantiativeBiology_I#readme>
