@@ -1,0 +1,13 @@
+---
+title: "Week 1 Assignment"
+format:
+  html:
+    theme: cosmo
+    toc: true
+    css: ../../styles.scss
+---
+## Submit
+
+1. Short story map: observation → genetic claim → deep-history claim (one risk under each).
+2. Match the three follow-up questions to later course tools (in one sentence each).
+3. Reflection (120–180 words): why multiple lines of evidence matter, using the Bajau example once.

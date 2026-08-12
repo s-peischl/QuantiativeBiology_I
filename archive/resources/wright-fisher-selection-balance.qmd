@@ -1,0 +1,582 @@
+---
+title: "Wright–Fisher Model — Mutation–Selection Balance"
+subtitle: "Deleterious allele at a single locus"
+author: "Quantitative Biology I"
+format:
+  html:
+    toc: true
+    code-fold: show
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Biological question
+
+When a **deleterious mutation** keeps appearing in a population, why doesn't it disappear entirely — and why doesn't it take over?
+
+At equilibrium, **new mutations** (rate $\mu$) are balanced by **selection removing them** (strength $s$, dominance $h$).
+
+This notebook compares:
+
+1. **Deterministic mutation–selection balance approximations**
+2. **Stochastic Wright–Fisher simulations** (finite population size $N$)
+
+## Model setup
+
+Diploid locus with two alleles:
+
+| Genotype | Fitness |
+|----------|---------|
+| $AA$ (wild type) | $1$ |
+| $Aa$ | $1 - hs$ |
+| $aa$ | $1 - s$ |
+
+- $s$: selection coefficient against homozygous mutant ($s > 0$)
+- $h$: dominance ($h = 0$ recessive, $h = 0.5$ additive, $h = 1$ dominant)
+- $\mu$: forward mutation rate $A \to a$ per allele per generation
+
+Each generation:
+
+1. Selection on genotype frequencies (Hardy–Weinberg before selection)
+2. Mutation
+3. Binomial sampling of $2N$ alleles (Wright–Fisher drift)
+
+## 1. Helper functions
+
+```{r}
+# Shared simulation settings (increase for even higher precision)
+SIM_GENERATIONS <- 10000
+SIM_BURNIN <- 3000
+SIM_REPS_STANDARD <- 80
+SIM_REPS_GRID <- 50
+
+# Mutation-selection balance approximations (deleterious allele frequency q)
+equilibrium_q <- function(mu, s, h, tol = 1e-10) {
+  if (s <= 0) stop("s must be positive for a deleterious allele.")
+  if (h > tol) {
+    return(mu / (h * s))
+  }
+  sqrt(mu / s)
+}
+
+# Deterministic one-generation update (selection + mutation, no drift)
+wf_generation_deterministic <- function(p, mu, s, h) {
+  p <- max(0, min(1, p))
+  w_AA <- 1
+  w_Aa <- 1 - h * s
+  w_aa <- 1 - s
+
+  freq_AA <- (1 - p)^2
+  freq_Aa <- 2 * p * (1 - p)
+  freq_aa <- p^2
+
+  w_bar <- freq_AA * w_AA + freq_Aa * w_Aa + freq_aa * w_aa
+  if (w_bar <= 0) return(0)
+
+  p_sel <- (freq_Aa * w_Aa + 2 * freq_aa * w_aa) / (2 * w_bar)
+  p_sel <- max(0, min(1, p_sel))
+
+  p_sel * (1 - mu) + (1 - p_sel) * mu
+}
+
+# Iterative deterministic equilibrium (infinite N, exact for this model)
+equilibrium_q_deterministic <- function(mu, s, h, tol = 1e-12, max_iter = 5000) {
+  p <- max(mu, equilibrium_q(mu, s, h))
+  for (i in seq_len(max_iter)) {
+    p_new <- wf_generation_deterministic(p, mu, s, h)
+    if (abs(p_new - p) < tol) return(p_new)
+    p <- p_new
+  }
+  p
+}
+
+# One Wright-Fisher generation (with drift)
+wf_generation <- function(p, N, mu, s, h) {
+  p <- max(0, min(1, p))
+  w_AA <- 1
+  w_Aa <- 1 - h * s
+  w_aa <- 1 - s
+
+  freq_AA <- (1 - p)^2
+  freq_Aa <- 2 * p * (1 - p)
+  freq_aa <- p^2
+
+  w_bar <- freq_AA * w_AA + freq_Aa * w_Aa + freq_aa * w_aa
+  if (w_bar <= 0) return(0)
+
+  p_sel <- (freq_Aa * w_Aa + 2 * freq_aa * w_aa) / (2 * w_bar)
+  p_sel <- max(0, min(1, p_sel))
+
+  p_mut <- p_sel * (1 - mu) + (1 - p_sel) * mu
+  p_mut <- max(0, min(1, p_mut))
+
+  n_mut_alleles <- rbinom(1, size = 2 * N, prob = p_mut)
+  n_mut_alleles / (2 * N)
+}
+
+# Simulate replicate trajectories; equilibrium = mean of per-replicate post-burnin means
+simulate_wf <- function(
+  N = 1000,
+  mu = 1e-5,
+  s = 0.05,
+  h = 0.5,
+  generations = SIM_GENERATIONS,
+  p0 = NULL,
+  n_reps = SIM_REPS_STANDARD,
+  burnin = SIM_BURNIN
+) {
+  if (is.null(p0)) p0 <- equilibrium_q(mu, s, h)
+
+  rep_means <- replicate(n_reps, {
+    p <- p0
+    post <- numeric(generations - burnin)
+    for (g in seq_len(generations)) {
+      p <- wf_generation(p, N, mu, s, h)
+      if (g > burnin) post[g - burnin] <- p
+    }
+    mean(post)
+  })
+
+  list(
+    rep_means = rep_means,
+    mean_q = mean(rep_means),
+    se_q = sd(rep_means) / sqrt(n_reps),
+    sd_q = sd(rep_means),
+    median_q = median(rep_means)
+  )
+}
+
+# Simulate one (s, h) cell for heatmaps
+simulate_grid_cell <- function(s, h, mu, N, n_reps, generations, burnin) {
+  q_th <- equilibrium_q(mu, s, h)
+  q_det <- equilibrium_q_deterministic(mu, s, h)
+  sim <- simulate_wf(
+    N = N, mu = mu, s = s, h = h,
+    n_reps = n_reps, generations = generations, burnin = burnin
+  )
+  c(
+    q_sim = sim$mean_q,
+    q_se = sim$se_q,
+    q_theory = q_th,
+    q_det = q_det,
+    ratio_approx = sim$mean_q / q_th,
+    ratio_det = sim$mean_q / q_det
+  )
+}
+
+# Optional: store full trajectories for visualization
+simulate_wf_trajectories <- function(
+  N = 1000, mu = 1e-5, s = 0.05, h = 0.5,
+  generations = 6000, n_reps = 25, burnin = 1500, p0 = NULL
+) {
+  if (is.null(p0)) p0 <- equilibrium_q(mu, s, h)
+  reps <- replicate(n_reps, {
+    p <- p0
+    traj <- numeric(generations)
+    for (g in seq_len(generations)) {
+      p <- wf_generation(p, N, mu, s, h)
+      traj[g] <- p
+    }
+    traj
+  })
+  dim(reps) <- c(generations, n_reps)
+  reps
+}
+```
+
+## 2. Baseline simulation
+
+```{r}
+set.seed(42)
+
+mu <- 1e-5
+s <- 0.05
+h <- 0.5
+N <- 1000
+
+q_approx <- equilibrium_q(mu, s, h)
+q_det <- equilibrium_q_deterministic(mu, s, h)
+sim <- simulate_wf(N = N, mu = mu, s = s, h = h, n_reps = SIM_REPS_STANDARD)
+traj <- simulate_wf_trajectories(N = N, mu = mu, s = s, h = h, n_reps = 25)
+
+cat("Approximate q:              ", signif(q_approx, 5), "\n")
+cat("Deterministic equilibrium:", signif(q_det, 5), "\n")
+cat("Simulated mean q (+/- SE):  ", signif(sim$mean_q, 5), "+/-", signif(sim$se_q, 5), "\n")
+cat("Simulated median q:         ", signif(sim$median_q, 5), "\n")
+```
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4
+gens <- seq_len(nrow(traj))
+matplot(
+  gens, traj,
+  type = "l", lty = 1, col = adjustcolor("steelblue", 0.35),
+  xlab = "Generation", ylab = "Deleterious allele frequency (q)",
+  main = sprintf("Wright-Fisher trajectories (N=%d, s=%.3f, h=%.2f)", N, s, h)
+)
+abline(h = q_approx, col = "firebrick", lwd = 2, lty = 2)
+abline(h = q_det, col = "darkgreen", lwd = 2, lty = 3)
+legend(
+  "topright",
+  legend = c("Replicate simulations", "Analytic approx.", "Deterministic eq."),
+  col = c(adjustcolor("steelblue", 0.8), "firebrick", "darkgreen"),
+  lty = c(1, 2, 3), lwd = c(1, 2, 2), bty = "n", cex = 0.85
+)
+```
+
+## 3. Compare theory vs simulation across $s$ values
+
+Fix $\mu$, $h$, and $N$; vary selection strength $s$ on a log-spaced grid.
+
+```{r}
+#| fig-width: 8
+#| fig-height: 5
+set.seed(1)
+
+mu <- 1e-5
+h <- 0.5
+N <- 1000
+s_values <- exp(seq(log(0.003), log(0.25), length.out = 16))
+
+results_s <- data.frame(
+  s = s_values,
+  q_approx = NA_real_,
+  q_det = NA_real_,
+  q_sim_mean = NA_real_,
+  q_sim_se = NA_real_
+)
+
+for (i in seq_along(s_values)) {
+  sim_i <- simulate_wf(N = N, mu = mu, s = s_values[i], h = h, n_reps = SIM_REPS_STANDARD)
+  results_s[i, ] <- list(
+    s = s_values[i],
+    q_approx = equilibrium_q(mu, s_values[i], h),
+    q_det = equilibrium_q_deterministic(mu, s_values[i], h),
+    q_sim_mean = sim_i$mean_q,
+    q_sim_se = sim_i$se_q
+  )
+}
+
+results_s
+```
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4.5
+ylim_s <- range(c(
+  results_s$q_approx, results_s$q_det,
+  results_s$q_sim_mean + 1.96 * results_s$q_sim_se,
+  results_s$q_sim_mean - 1.96 * results_s$q_sim_se
+))
+
+plot(
+  results_s$s, results_s$q_approx,
+  log = "x", type = "l", lwd = 2, col = "firebrick",
+  xlab = "Selection coefficient (s)",
+  ylab = "Equilibrium deleterious allele frequency (q)",
+  main = sprintf("Effect of s (mu=%g, h=%.1f, N=%d)", mu, h, N),
+  ylim = ylim_s
+)
+lines(results_s$s, results_s$q_det, lwd = 2, col = "darkgreen", lty = 3)
+points(results_s$s, results_s$q_sim_mean, pch = 16, col = "steelblue", cex = 0.9)
+arrows(
+  results_s$s, results_s$q_sim_mean - 1.96 * results_s$q_sim_se,
+  results_s$s, results_s$q_sim_mean + 1.96 * results_s$q_sim_se,
+  length = 0.03, angle = 90, col = "steelblue"
+)
+legend(
+  "topright",
+  legend = c("Analytic approx.", "Deterministic eq.", "Simulation mean +/- 95% CI"),
+  col = c("firebrick", "darkgreen", "steelblue"),
+  lty = c(1, 3, NA), pch = c(NA, NA, 16), lwd = c(2, 2, NA), bty = "n", cex = 0.85
+)
+```
+
+**Interpretation:** stronger selection ($s \uparrow$) lowers equilibrium $q$, because deleterious alleles are removed faster. The approximation $q \approx \mu / (hs)$ tracks the simulation when $hs \gg \mu$.
+
+## 4. Compare theory vs simulation across $h$ values
+
+Fix $\mu$, $s$, and $N$; vary dominance $h$ on a fine grid (including near-recessive values).
+
+```{r}
+#| fig-width: 8
+#| fig-height: 5
+set.seed(2)
+
+mu <- 1e-5
+s <- 0.05
+N <- 1000
+h_values <- c(0, seq(0.02, 1, length.out = 15))
+
+results_h <- data.frame(
+  h = h_values,
+  q_approx = NA_real_,
+  q_det = NA_real_,
+  q_sim_mean = NA_real_,
+  q_sim_se = NA_real_
+)
+
+for (i in seq_along(h_values)) {
+  sim_i <- simulate_wf(N = N, mu = mu, s = s, h = h_values[i], n_reps = SIM_REPS_STANDARD)
+  results_h[i, ] <- list(
+    h = h_values[i],
+    q_approx = equilibrium_q(mu, s, h_values[i]),
+    q_det = equilibrium_q_deterministic(mu, s, h_values[i]),
+    q_sim_mean = sim_i$mean_q,
+    q_sim_se = sim_i$se_q
+  )
+}
+
+results_h
+```
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4.5
+ylim_h <- range(c(
+  results_h$q_approx, results_h$q_det,
+  results_h$q_sim_mean + 1.96 * results_h$q_sim_se,
+  results_h$q_sim_mean - 1.96 * results_h$q_sim_se
+))
+
+plot(
+  results_h$h, results_h$q_approx,
+  type = "l", lwd = 2, col = "firebrick",
+  xlab = "Dominance coefficient (h)",
+  ylab = "Equilibrium deleterious allele frequency (q)",
+  main = sprintf("Effect of h (mu=%g, s=%.2f, N=%d)", mu, s, N),
+  ylim = ylim_h
+)
+lines(results_h$h, results_h$q_det, lwd = 2, col = "darkgreen", lty = 3)
+points(results_h$h, results_h$q_sim_mean, pch = 16, col = "steelblue", cex = 0.9)
+arrows(
+  results_h$h, results_h$q_sim_mean - 1.96 * results_h$q_sim_se,
+  results_h$h, results_h$q_sim_mean + 1.96 * results_h$q_sim_se,
+  length = 0.03, angle = 90, col = "steelblue"
+)
+legend(
+  "topright",
+  legend = c("Analytic approx.", "Deterministic eq.", "Simulation mean +/- 95% CI"),
+  col = c("firebrick", "darkgreen", "steelblue"),
+  lty = c(1, 3, NA), pch = c(NA, NA, 16), lwd = c(2, 2, NA), bty = "n", cex = 0.85
+)
+```
+
+**Interpretation:** when $h = 0$ (recessive deleterious allele), the square-root approximation $q \approx \sqrt{\mu / s}$ applies. When $h > 0$, the linear approximation $q \approx \mu / (hs)$ is more appropriate.
+
+## 5. Heatmap: theory vs simulation over $(s, h)$ grid
+
+High-resolution grid ($28 \times 28$) with parallel simulation across parameter combinations. Ratios are computed against both the **analytic approximation** and the **deterministic equilibrium** (infinite $N$).
+
+```{r}
+#| fig-width: 8
+#| fig-height: 6
+#| cache: true
+set.seed(3)
+
+mu <- 1e-5
+N <- 1000
+
+n_s <- 28
+n_h <- 28
+s_grid <- exp(seq(log(0.003), log(0.35), length.out = n_s))
+h_grid <- seq(0, 1, length.out = n_h)
+
+grid_idx <- expand.grid(i = seq_len(n_s), j = seq_len(n_h))
+
+run_parallel <- function(x, FUN) {
+  if (.Platform$OS.type == "unix") {
+    parallel::mclapply(x, FUN, mc.cores = max(1, parallel::detectCores() - 1))
+  } else {
+    lapply(x, FUN)
+  }
+}
+
+grid_results <- run_parallel(seq_len(nrow(grid_idx)), function(k) {
+  i <- grid_idx$i[k]
+  j <- grid_idx$j[k]
+  simulate_grid_cell(
+    s = s_grid[i], h = h_grid[j], mu = mu, N = N,
+    n_reps = SIM_REPS_GRID,
+    generations = SIM_GENERATIONS,
+    burnin = SIM_BURNIN
+  )
+})
+
+grid_mat <- do.call(rbind, grid_results)
+
+ratio_approx <- matrix(grid_mat[, "ratio_approx"], nrow = n_s, ncol = n_h)
+ratio_det <- matrix(grid_mat[, "ratio_det"], nrow = n_s, ncol = n_h)
+q_sim_mat <- matrix(grid_mat[, "q_sim"], nrow = n_s, ncol = n_h)
+q_se_mat <- matrix(grid_mat[, "q_se"], nrow = n_s, ncol = n_h)
+
+data.frame(
+  n_cells = nrow(grid_mat),
+  ratio_approx_median = median(ratio_approx),
+  ratio_det_median = median(ratio_det),
+  frac_within_5pct_det = mean(abs(ratio_det - 1) <= 0.05),
+  frac_within_10pct_det = mean(abs(ratio_det - 1) <= 0.10),
+  max_abs_error_q = max(abs(q_sim_mat - matrix(grid_mat[, "q_det"], nrow = n_s, ncol = n_h)))
+)
+```
+
+```{r}
+#| fig-width: 9
+#| fig-height: 6.5
+filled.contour(
+  x = h_grid,
+  y = s_grid,
+  z = ratio_det,
+  xlab = "Dominance coefficient (h)",
+  ylab = "Selection coefficient (s)",
+  main = "Simulation / deterministic equilibrium",
+  color.palette = function(n) hcl.colors(n, "RdYlBu", rev = TRUE),
+  plot.axes = {
+    axis(1)
+    axis(2)
+    contour(h_grid, s_grid, ratio_det, levels = 1, add = TRUE, lwd = 2, col = "black")
+  },
+  key.axes = axis(4, col = "black", cex.axis = 0.85),
+  plot.title = title(main = "Simulation / deterministic equilibrium (1 = perfect match)", cex.main = 1.05)
+)
+mtext("Color: simulated q / deterministic q", side = 4, line = 2.5, cex = 0.85)
+```
+
+```{r}
+#| fig-width: 9
+#| fig-height: 6.5
+filled.contour(
+  x = h_grid,
+  y = s_grid,
+  z = ratio_approx,
+  xlab = "Dominance coefficient (h)",
+  ylab = "Selection coefficient (s)",
+  main = "Simulation / analytic approximation",
+  color.palette = function(n) hcl.colors(n, "RdYlBu", rev = TRUE),
+  plot.axes = {
+    axis(1)
+    axis(2)
+    contour(h_grid, s_grid, ratio_approx, levels = 1, add = TRUE, lwd = 2, col = "black")
+  },
+  key.axes = axis(4, col = "black", cex.axis = 0.85),
+  plot.title = title(main = "Simulation / analytic approximation (1 = perfect match)", cex.main = 1.05)
+)
+mtext("Color: simulated q / approx. q", side = 4, line = 2.5, cex = 0.85)
+```
+
+```{r}
+#| fig-width: 9
+#| fig-height: 6.5
+filled.contour(
+  x = h_grid,
+  y = s_grid,
+  z = q_sim_mat,
+  xlab = "Dominance coefficient (h)",
+  ylab = "Selection coefficient (s)",
+  main = "Mean simulated equilibrium allele frequency",
+  color.palette = function(n) hcl.colors(n, "Blues"),
+  plot.axes = {
+    axis(1)
+    axis(2)
+  },
+  key.axes = axis(4, col = "black", cex.axis = 0.85),
+  plot.title = title(main = "Mean simulated equilibrium q", cex.main = 1.05)
+)
+mtext("Color: mean simulated q", side = 4, line = 2.5, cex = 0.85)
+```
+
+```{r}
+#| fig-width: 9
+#| fig-height: 6.5
+# Simulation uncertainty across the grid (SE of replicate means)
+filled.contour(
+  x = h_grid,
+  y = s_grid,
+  z = q_se_mat,
+  xlab = "Dominance coefficient (h)",
+  ylab = "Selection coefficient (s)",
+  main = "Standard error of simulated equilibrium",
+  color.palette = function(n) hcl.colors(n, "Oranges"),
+  plot.axes = {
+    axis(1)
+    axis(2)
+  },
+  key.axes = axis(4, col = "black", cex.axis = 0.85),
+  plot.title = title(main = "SE of simulated q (precision of estimate)", cex.main = 1.05)
+)
+mtext("Color: SE across replicate means", side = 4, line = 2.5, cex = 0.85)
+```
+
+Ratios near **1** mean the approximation works well. Deviations often occur when:
+
+- $q$ is not small (weak selection / high $\mu$)
+- $N$ is small (drift dominates)
+- $h \approx 0$ (boundary between approximations)
+
+## 6. Effect of population size
+
+```{r}
+#| fig-width: 8
+#| fig-height: 4.5
+set.seed(4)
+
+mu <- 1e-5
+s <- 0.05
+h <- 0.5
+N_values <- unique(round(exp(seq(log(100), log(20000), length.out = 12))))
+
+q_approx <- equilibrium_q(mu, s, h)
+q_det <- equilibrium_q_deterministic(mu, s, h)
+
+results_N <- data.frame(
+  N = N_values,
+  q_sim_mean = NA_real_,
+  q_sim_se = NA_real_
+)
+
+for (i in seq_along(N_values)) {
+  sim_i <- simulate_wf(N = N_values[i], mu = mu, s = s, h = h, n_reps = SIM_REPS_STANDARD)
+  results_N[i, ] <- list(N = N_values[i], q_sim_mean = sim_i$mean_q, q_sim_se = sim_i$se_q)
+}
+
+plot(
+  results_N$N, results_N$q_sim_mean, log = "x", pch = 16, col = "steelblue",
+  xlab = "Population size (N)", ylab = "Mean simulated q",
+  main = "Finite-N effects on mutation-selection balance",
+  ylim = range(c(q_approx, q_det, results_N$q_sim_mean + 1.96 * results_N$q_sim_se))
+)
+arrows(
+  results_N$N, results_N$q_sim_mean - 1.96 * results_N$q_sim_se,
+  results_N$N, results_N$q_sim_mean + 1.96 * results_N$q_sim_se,
+  length = 0.03, angle = 90, col = "steelblue"
+)
+abline(h = q_approx, col = "firebrick", lty = 2, lwd = 2)
+abline(h = q_det, col = "darkgreen", lty = 3, lwd = 2)
+legend(
+  "topright",
+  legend = c("Simulation +/- 95% CI", "Analytic approx.", "Deterministic eq."),
+  col = c("steelblue", "firebrick", "darkgreen"),
+  pch = c(16, NA, NA), lty = c(NA, 2, 3), lwd = c(NA, 2, 2), bty = "n", cex = 0.85
+)
+```
+
+## 7. Guided questions
+
+1. For fixed $\mu$, explain why equilibrium $q$ decreases as $s$ increases.
+2. Why does recessive deleterious variation ($h = 0$) reach higher equilibrium frequency than dominant deleterious variation ($h = 1$) at the same $s$?
+3. Where do simulations deviate most from the deterministic approximation? Is drift or breakdown of the approximation the main reason?
+4. How would you expect the results to change if you added backward mutation ($a \to A$)?
+
+## Reference approximations used
+
+| Case | Equilibrium frequency of deleterious allele |
+|------|---------------------------------------------|
+| $h > 0$ | $\hat{q} \approx \dfrac{\mu}{h s}$ |
+| $h = 0$ (recessive) | $\hat{q} \approx \sqrt{\dfrac{\mu}{s}}$ |
+
+These are **approximations**. The notebook also computes a **deterministic equilibrium** by iterating selection + mutation without drift (infinite $N$), which is the sharper theoretical reference for comparing simulations at finite $N$.
+
+**Simulation settings in this notebook:** `10,000` generations, `3,000` burn-in, `80` replicates (standard analyses), `50` replicates per heatmap cell, `28 x 28` parameter grid.

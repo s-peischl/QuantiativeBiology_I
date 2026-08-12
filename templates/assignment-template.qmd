@@ -1,26 +1,26 @@
 ---
-title: "Week XX - Assignment"
+title: "Week XX — Assignment"
 format:
   html:
     toc: false
 ---
 
-## Assignment Prompt
+## Prompt
 
-Investigate the weekly biological question using the provided notebook and data.
+Use this week's notebook to address the biological question.
 
 ## Deliverables
 
-1. One rendered notebook (`.html`).
-2. One figure with caption.
-3. A short interpretation paragraph (150-250 words).
+1. Rendered notebook (`.html`) or equivalent
+2. One key figure with caption
+3. Short interpretation (120–180 words)
 
-## Grading Criteria
+## Criteria
 
-- Correct execution and reproducibility (40%)
-- Quality of biological interpretation (40%)
-- Clarity and structure of reporting (20%)
+- Reproducibility (40%)
+- Biological interpretation (40%)
+- Clarity (20%)
 
 ## Submission
 
-Submit via the course LMS by the stated deadline.
+Submit via ILIAS by the stated deadline.

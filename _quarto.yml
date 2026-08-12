@@ -3,10 +3,10 @@ project:
   output-dir: _site
   render:
     - index.qmd
-    - docs/*.qmd
-    - modules/**/weeks/**/slides/*.qmd
-    - modules/**/weeks/**/notebook/*.qmd
-    - modules/**/weeks/**/assignment/*.qmd
+    - docs/course-outline.qmd
+    - weeks/*/notebook.qmd
+    - weeks/*/assignment.qmd
+    - weeks/*/slides.qmd
 
 website:
   title: "Quantitative Biology I"
@@ -14,21 +14,44 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - href: docs/student-overview.qmd
-        text: Student Overview
-      - href: docs/week-by-week-schedule.qmd
-        text: Weekly Schedule
+      - href: docs/course-outline.qmd
+        text: Course Outline
+      - text: Slides
+        menu:
+          - href: weeks/week-01/slides.qmd
+            text: "01"
+          - href: weeks/week-02/slides.qmd
+            text: "02"
+          - href: weeks/week-03/slides.qmd
+            text: "03"
+          - href: weeks/week-04/slides.qmd
+            text: "04"
+          - href: weeks/week-05/slides.qmd
+            text: "05"
+          - href: weeks/week-06/slides.qmd
+            text: "06"
+          - href: weeks/week-07/slides.qmd
+            text: "07"
+          - href: weeks/week-08/slides.qmd
+            text: "08"
+          - href: weeks/week-09/slides.qmd
+            text: "09"
+          - href: weeks/week-10/slides.qmd
+            text: "10"
+          - href: weeks/week-11/slides.qmd
+            text: "11"
+          - href: weeks/week-12/slides.qmd
+            text: "12"
+          - href: weeks/week-13/slides.qmd
+            text: "13"
+          - href: weeks/week-14/slides.qmd
+            text: "14"
 
-format:
-  html:
-    theme: cosmo
-    toc: true
-    number-sections: false
-    css: styles.scss
-    code-fold: show
-    code-tools: true
+# Do NOT set project-level format: html here.
+# That overrides slide decks. HTML pages declare format in their own YAML;
+# slides declare format: revealjs in theirs.
 
 execute:
-  freeze: auto
+  freeze: false
   warning: false
   message: false

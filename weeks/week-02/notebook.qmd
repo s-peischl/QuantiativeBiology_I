@@ -1,0 +1,103 @@
+---
+title: "Week 2 — Notebook · Iterative Simulator"
+subtitle: "Paramecium, Didinium, and Lotka–Volterra"
+format:
+  html:
+    theme: cosmo
+    toc: true
+    css: ../../styles.scss
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Learning goals
+
+1. Compare *Paramecium* alone vs with *Didinium*
+2. Implement a discrete Lotka–Volterra step as a function
+3. Store trajectories in vectors and iterate with a loop
+4. Change one parameter and interpret biologically
+
+## 1. Look at the data first
+
+Real digitized series from **Gause (1934)** via `gauseR` (Fig. 21 monoculture; Fig. 32 with *Didinium*). See `data/README.md`.
+
+```{r}
+alone <- read.csv("data/paramecium_alone.csv")
+both <- read.csv("data/paramecium_with_didinium.csv")
+
+par(mfrow = c(1, 2))
+plot(alone$day, alone$paramecium, type = "b", pch = 16,
+     xlab = "Day", ylab = "Paramecium", main = "Alone (Fig. 21)")
+plot(both$day, both$paramecium, type = "b", pch = 16,
+     xlab = "Day", ylab = "Abundance", main = "With Didinium (Fig. 32)")
+lines(both$day, both$didinium, type = "b", pch = 17, lty = 2)
+imm <- both$day[both$immigration == "y"]
+abline(v = imm, col = "grey70", lty = 3)
+legend("topright", c("Prey", "Predator", "Immigration"),
+       pch = c(16, 17, NA), lty = c(1, 2, 3), col = c("black", "black", "grey70"),
+       bty = "n", cex = 0.8)
+```
+
+**Q1.** In 2–3 sentences: what is the biological contrast? Why might immigration days matter?
+
+## 2. One-step update function
+
+Fill in the missing pieces (or check the provided version):
+
+```{r}
+next_state <- function(N, P, r, a, b, m, dt) {
+  dN <- (r * N - a * N * P) * dt
+  dP <- (b * a * N * P - m * P) * dt
+  c(N = max(N + dN, 0), P = max(P + dP, 0))
+}
+
+## try one step
+next_state(N = 40, P = 2, r = 1.0, a = 0.1, b = 0.5, m = 0.6, dt = 0.05)
+```
+
+**Q2.** Did prey and predator increase or decrease? Does that match your verbal rules?
+
+## 3. Vectors + loop
+
+```{r}
+T <- 200
+dt <- 0.05
+N <- numeric(T + 1)
+P <- numeric(T + 1)
+N[1] <- 40
+P[1] <- 2
+
+r <- 1.0
+a <- 0.1
+b <- 0.5
+m <- 0.6
+
+for (t in 1:T) {
+  out <- next_state(N[t], P[t], r, a, b, m, dt)
+  N[t + 1] <- out["N"]
+  P[t + 1] <- out["P"]
+}
+
+time <- 0:T * dt
+plot(time, N, type = "l", lwd = 2, xlab = "Time", ylab = "Abundance",
+     main = "LV simulation")
+lines(time, P, lwd = 2, lty = 2)
+legend("topright", c("Prey", "Predator"), lty = 1:2, lwd = 2, bty = "n")
+```
+
+## 4. Experiment: change one parameter
+
+Change **only** `a` (predation rate) by about ±25%. Re-run and compare.
+
+**Q3.** What happened to prey? To predators? Link back to the Didinium treatment.
+
+## 5. Optional: “no predator” run
+
+Set `P[1] <- 0` (and keep it zero). What qualitative pattern do you recover from the alone-culture data?
+
+## Wrap-up
+
+- Main quantitative result:
+- Main biological interpretation:

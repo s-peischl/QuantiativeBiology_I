@@ -1,0 +1,24 @@
+---
+title: "Week 2 — Assignment · Paramecium / Didinium"
+format:
+  html:
+    toc: false
+    css: ../../styles.scss
+---
+
+## Prompt
+
+Use the Week 2 notebook and the microcosm contrast (*Paramecium* alone vs with *Didinium*).
+
+## Deliverables
+
+1. Rendered notebook
+2. One figure: LV simulation (prey + predator)
+3. Short interpretation (120–180 words) connecting the model to the two datasets
+4. Note which parameter you changed and what happened
+
+## Criteria
+
+- Reproducibility (40%)
+- Biological interpretation (40%)
+- Clarity (20%)

@@ -1,31 +1,28 @@
 ---
 title: "Quantitative Biology I"
+format:
+  html:
+    toc: false
+    css: styles.scss
 ---
 
-## Course Build Workspace
+## Start here
 
-This Quarto project is the authoring workspace for:
+- **[Full course outline](docs/course-outline.qmd)**
 
-- slides (`revealjs`)
-- executable notebooks (`html`)
-- worksheets and handouts (`html` or `pdf`)
-- assignment sheets (`html` or `pdf`)
+## Arc
 
-## Core Documents
+**Eco → Evo (deterministic → random) → Microbiome (ecology with randomness)**
 
-- [Student overview](docs/student-overview.qmd)
-- [Week-by-week schedule](docs/week-by-week-schedule.qmd)
+| Weeks | Biology |
+|---|---|
+| [1](weeks/week-01/slides.qmd) | Hook — Bajau / Andika |
+| [2](weeks/week-02/slides.qmd)–[4](weeks/week-04/slides.qmd) | Ecology |
+| [5](weeks/week-05/slides.qmd)–[7](weeks/week-07/slides.qmd) | Evolution (deterministic) |
+| [8](weeks/week-08/slides.qmd)–[10](weeks/week-10/slides.qmd) | Evolution (random) |
+| [11](weeks/week-11/slides.qmd)–[13](weeks/week-13/slides.qmd) | Microbiome |
+| [14](weeks/week-14/slides.qmd) | Project |
 
-## Module Folders
+## Templates
 
-- `modules/module-1-ecology-population-dynamics`
-- `modules/module-2-evolution-determinism-to-randomness`
-- `modules/module-3-cell-biology-noise-and-regulation`
-- `modules/module-4-microbiomes-complex-systems`
-
-## Template Files
-
-- `templates/slides-template.qmd`
-- `templates/notebook-template.qmd`
-- `templates/worksheet-template.qmd`
-- `templates/assignment-template.qmd`
+- [slides](templates/slides-template.qmd) · [notebook](templates/notebook-template.qmd) · [assignment](templates/assignment-template.qmd)

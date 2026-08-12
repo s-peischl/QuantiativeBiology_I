@@ -1,0 +1,258 @@
+---
+title: "Week 4 — Data, Models, and Your Own Design"
+subtitle: "From examples to creative modelling"
+author: "Stephan Peischl"
+format:
+  revealjs:
+    theme: simple
+    slide-number: true
+    incremental: false
+    embed-resources: true
+    transition: none
+    controls: true
+    controls-layout: edges
+    controls-tutorial: true
+    navigation-mode: linear
+    hash: true
+    menu:
+      side: left
+      use-text-content: true
+    footer: "[Course outline](../../docs/course-outline.html) · [Home](../../index.html)"
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+## On this deck
+
+**Week 4** of 14
+
+- [Course outline](../../docs/course-outline.html) — full semester plan
+- [Home](../../index.html)
+- Use **arrow keys** / on-screen controls · **M** opens slide menu · **Esc** overview grid
+
+## Part 1  
+## Recap and goal
+
+## What you can already do
+
+You can:
+
+- turn biology into an update rule
+- encode it as a function
+- store trajectories in vectors
+- iterate with loops
+- extend models by adding terms/species
+
+Today: connect this to **data**, then invent your own model.
+
+## Learning goals today
+
+1. Compare model output to qualitative patterns in real data
+2. Recognize multiple model “families” beyond classic LV
+3. Design a small model of your own
+4. Implement and explore it computationally
+
+---
+
+## Part 2  
+## Looking at real data
+
+## Why data matters
+
+Models are stories with equations.
+
+Data tell us which stories are plausible.
+
+## Example datasets (choose 1–2 in class)
+
+Possible anchors:
+
+- classic hare–lynx (or similar) cycles
+- fishery catch / stock time series
+- disease case counts over weeks
+- microbial growth curves
+
+::: {.notes}
+Pick datasets that are already cleaned for first-year use. Emphasize pattern recognition over formal fitting.
+:::
+
+## How to look at a time series
+
+Ask:
+
+1. Trend or cycles?
+2. Delayed responses between variables?
+3. Crashes / recoveries?
+4. Noise around a smooth pattern?
+
+## Model vs data (honestly)
+
+At this stage we usually do **qualitative comparison**:
+
+- Does the model produce the same *kind* of pattern?
+- Which parameter regime is closest visually?
+- What is clearly missing?
+
+Formal fitting comes later in the curriculum.
+
+## Live demo
+
+1. Show a real time series
+2. Show 2–3 simulated scenarios
+3. Vote: which simulation is “most like” the data?
+4. Discuss why
+
+---
+
+## Part 3  
+## A small zoo of models
+
+## Same workflow, different biology
+
+All of these use the Week 2 engine:
+
+> next state ← function(current state, parameters)
+
+Examples:
+
+| Biological theme | Model sketch |
+|---|---|
+| Predator–prey | LV / LV + \(K\) |
+| Competition | two species sharing resources |
+| Epidemic | SI / SIR compartments |
+| Growth + harvest | logistic + removal term |
+
+## Competition sketch
+
+Two species, limited resource:
+
+\[
+\frac{dN_1}{dt} = r_1 N_1 \left(1 - \frac{N_1 + \alpha_{12}N_2}{K_1}\right)
+\]
+
+Same coding pattern: compute derivatives/changes, update, loop, plot.
+
+## Epidemic sketch (SIR)
+
+Compartments \(S, I, R\):
+
+\[
+S_{t+1} = S_t - \beta S_t I_t \Delta t
+\]
+\[
+I_{t+1} = I_t + (\beta S_t I_t - \gamma I_t)\Delta t
+\]
+
+Different biology — identical computational idea.
+
+## Message for students
+
+You are not learning “the Lotka–Volterra course”.
+
+You are learning a **portable simulation workflow** for many biological systems.
+
+---
+
+## Part 4  
+## Design your own model
+
+## Creative brief
+
+In the notebook, invent a tiny world with:
+
+1. **2–3 state variables** (species, compartments, stocks)
+2. **Clear biological rules** in words first
+3. **Parameters** with meaning
+4. An update function + loop + plots
+
+## Design recipe (use this checklist)
+
+1. Who/what are the variables?
+2. What makes each increase?
+3. What makes each decrease?
+4. What interactions couple them?
+5. What is one question you want to ask the model?
+
+## Guardrails (keep it doable)
+
+- Prefer discrete-time updates you can code
+- Start with \(\Delta t\) small and stable
+- Change one parameter at a time
+- If it explodes numerically: smaller \(\Delta t\) or check signs
+
+## Example student prompts
+
+- algae + zooplankton + fish
+- two competing bacteria + antibiotic pulse
+- rabbits + foxes + hunting quota
+- susceptible + infected students on campus
+
+## Share-out structure
+
+Each pair presents in 60–90 seconds:
+
+1. Biological story
+2. One plot
+3. One surprise from parameter exploration
+
+---
+
+## Part 5  
+## Notebook & wrap-up
+
+## Notebook today
+
+**Build your own model**
+
+Suggested scaffold for collaborators:
+
+1. Template: `next_state()`, empty vectors, loop, plotting chunk
+2. Gallery of 2–3 starter biologically themed stubs
+3. Students fill terms / parameters
+4. Reflection prompts: assumptions, limitations, next experiment
+
+## Bridge to programming course
+
+| Programming | Biology today |
+|---|---|
+| Design a function interface | define a biological update |
+| Compose small scripts | full mini-simulation |
+| Debugging | check biological + numerical sense |
+| Communication | explain a model with a plot |
+
+## Module 1 checkpoint
+
+After Weeks 2–4 you should feel fluent in:
+
+- iterative simulation
+- linking code structures to biological change
+- exploring “what if?” questions computationally
+
+## Looking ahead
+
+Next module move: **randomness**.
+
+Deterministic models capture average behavior.  
+Real data are noisy — so we add stochasticity (e.g. Wright–Fisher), store many runs in matrices, and summarize uncertainty.
+
+## Exit ticket
+
+1. What biological question does your model ask?
+2. What is its strongest assumption?
+3. What would you add next week if you had more time?
+
+---
+
+## Navigation
+
+| | |
+|---|---|
+| Overview | [Course outline](../../docs/course-outline.html) |
+| Home | [Course home](../../index.html) |
+| Previous | [← Week 3](../week-03/slides.html) |
+| Next | [Week 5 →](../week-05/slides.html) |
+
+Keyboard: ← → move slides · **M** menu · **Esc** slide grid · **F** fullscreen
+

@@ -1,0 +1,47 @@
+---
+title: "Week 9 — Notebook · Wright–Fisher: one trajectory"
+subtitle: "Wright–Fisher: one trajectory"
+format:
+  html:
+    toc: true
+    code-fold: false
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Learning goals
+
+- Goal 1
+- Goal 2
+- Goal 3
+
+## Biological background
+
+Short context for this week.
+
+## Setup
+
+```{r}
+# libraries / parameters
+```
+
+## Guided work
+
+```{r}
+# starter code
+```
+
+## Exercise 1
+
+…
+
+## Exercise 2
+
+…
+
+## Wrap-up
+
+- Main quantitative result:
+- Main biological interpretation:

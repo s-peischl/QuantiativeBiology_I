@@ -1,0 +1,47 @@
+---
+title: "Week 13 — Notebook · Microbiome: environment & variation"
+subtitle: "Microbiome: environment & variation"
+format:
+  html:
+    toc: true
+    code-fold: false
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Learning goals
+
+- Goal 1
+- Goal 2
+- Goal 3
+
+## Biological background
+
+Short context for this week.
+
+## Setup
+
+```{r}
+# libraries / parameters
+```
+
+## Guided work
+
+```{r}
+# starter code
+```
+
+## Exercise 1
+
+…
+
+## Exercise 2
+
+…
+
+## Wrap-up
+
+- Main quantitative result:
+- Main biological interpretation:

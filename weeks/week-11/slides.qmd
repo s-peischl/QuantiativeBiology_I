@@ -1,0 +1,83 @@
+---
+title: "Week 11 — Microbiome: communities as data"
+subtitle: "High-dimensional ecological counts"
+author: "Stephan Peischl"
+format:
+  revealjs:
+    theme: simple
+    slide-number: true
+    incremental: false
+    embed-resources: true
+    transition: none
+    controls: true
+    controls-layout: edges
+    controls-tutorial: true
+    navigation-mode: linear
+    hash: true
+    menu:
+      side: left
+      use-text-content: true
+    footer: "[Course outline](../../docs/course-outline.html) · [Home](../../index.html)"
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+## On this deck
+
+**Week 11** of 14
+
+- [Course outline](../../docs/course-outline.html) — full semester plan
+- [Home](../../index.html)
+- Use **arrow keys** / on-screen controls · **M** opens slide menu · **Esc** overview grid
+
+## Learning goals
+
+- Biological focus: New biological system — data & questions
+- Connect to programming tools for this week
+- Produce plots you can interpret
+
+## Biological framing
+
+- What is the biological question this week?
+- What contrast or dataset motivates it?
+
+## Quantitative idea
+
+- Key concept:
+- Link to programming course:
+
+## Live / guided demo
+
+- Step 1
+- Step 2
+- Step 3
+
+## Notebook preview
+
+What students will do in the notebook this week.
+
+## Exit ticket
+
+1.
+2.
+3.
+
+## Next week
+
+…
+
+---
+
+## Navigation
+
+| | |
+|---|---|
+| Overview | [Course outline](../../docs/course-outline.html) |
+| Home | [Course home](../../index.html) |
+| Previous | [← Week 10](../week-10/slides.html) |
+| Next | [Week 12 →](../week-12/slides.html) |
+
+Keyboard: ← → move slides · **M** menu · **Esc** slide grid · **F** fullscreen
+

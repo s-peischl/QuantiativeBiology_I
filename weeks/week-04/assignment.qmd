@@ -1,0 +1,14 @@
+---
+title: "Week 4 Assignment"
+format:
+  html:
+    theme: cosmo
+    toc: true
+    css: ../../styles.scss
+---
+## Submit
+
+1. Your model in words (variables, gains, losses, interactions, question).
+2. Implemented simulator + one key plot.
+3. Two parameter experiments.
+4. Short reflection: strongest assumption + what you would add next.

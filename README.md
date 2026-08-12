@@ -1,30 +1,18 @@
-# Quantitative Biology I - Course Authoring Workspace
+# Quantitative Biology I
 
-This folder is configured as a Quarto project for building course materials.
+## Arc
 
-## Build
+**Eco → Evo (deterministic → random) → Microbiome (ecology with randomness)**
 
-From this directory:
+## Preview slides (important)
 
-`quarto render`
+Slide decks use **Reveal.js**. Open the `.qmd` and run **Quarto: Preview**, or open the rendered HTML:
 
-## Key Files
+```bash
+cd course-outline
+/Applications/RStudio.app/Contents/Resources/app/quarto/bin/quarto preview weeks/week-02/slides.qmd --to revealjs
+```
 
-- `_quarto.yml`: project and website configuration
-- `index.qmd`: landing page
-- `docs/student-overview.qmd`: student-facing overview
-- `docs/week-by-week-schedule.qmd`: detailed semester plan
-- `templates/`: reusable templates for weekly material creation
+Rendered decks: `_site/weeks/week-XX/slides.html`
 
-## Weekly Authoring Structure
-
-Each week has:
-
-- `slides/`
-- `notebook/`
-- `worksheet/`
-- `assignment/`
-- `app/`
-- `data/`
-
-Copy templates from `templates/` into the relevant week folder to start authoring.
+Do not rely on plain Markdown preview — that shows a document, not slides.

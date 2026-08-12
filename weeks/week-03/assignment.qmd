@@ -1,0 +1,13 @@
+---
+title: "Week 3 Assignment"
+format:
+  html:
+    theme: cosmo
+    toc: true
+    css: ../../styles.scss
+---
+## Submit
+
+1. Baseline vs extended model (e.g. with \(K\)) — one comparison figure.
+2. Two parameter experiments with predictions written *before* running.
+3. Short interpretation of what was robust vs sensitive.

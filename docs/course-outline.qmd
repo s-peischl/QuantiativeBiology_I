@@ -1,0 +1,182 @@
+---
+title: "Course Outline — Full Semester"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    css: styles.scss
+---
+
+## Course setup
+
+- Parallel to the first-year **programming** course
+- This course: biological questions → quantitative tools
+- 14 weeks; each week has `slides.qmd`, `notebook.qmd`, `assignment.qmd` under `weeks/week-XX/`
+
+### Biological arc
+
+```text
+Eco  →  Evo (deterministic → random)  →  Microbiome (ecology with randomness)
+```
+
+| Block | Weeks | Biology | Quantitative focus |
+|---|---|---|---|
+| **Hook** | 1 | Human adaptation (Bajau / Andika) | Why cool biology needs quantitative tools |
+| **Ecology** | 2–4 | Populations & interactions | Deterministic simulation (function → vector → loop) |
+| **Evolution (deterministic)** | 5–7 | Allele-frequency change, selection | Recurrence equations; same coding engine |
+| **Evolution (random)** | 8–10 | Drift; noisy allele-frequency paths | Stochastic simulation; matrices; uncertainty |
+| **Microbiome** | 11–13 | Communities, diversity, environment | Ecology again — but high-dimensional & noisy |
+| **Synthesis** | 14 | Microbiome project | Pull the arc together |
+
+**Punchline of the semester:** you first learn deterministic ecological dynamics, then evolutionary change (smooth, then noisy), then return to ecology in a modern, data-rich, noisy form — **microbiomes**.
+
+### Programming bridge
+
+| Concept | Where |
+|---|---|
+| Function | next-state updates |
+| Vector | ecological / genetic time series |
+| Loop | many steps / generations |
+| Plot | interpretation |
+| Matrix | many stochastic runs; microbiome tables later |
+
+### Slide navigation
+
+Footer → Course outline / Home · opening & closing week links · **M** menu · **Esc** grid · **F** fullscreen
+
+---
+
+## Week 1 — Hook: cool biology needs many tools
+
+**Biology:** Bajau diving adaptation (Andika)  
+**Materials:** [slides](../weeks/week-01/slides.qmd) · [notebook](../weeks/week-01/notebook.qmd) · [assignment](../weeks/week-01/assignment.qmd)
+
+- Personal story + photo hook
+- Physiology → genetics → deep-history methods
+- Papers: Ilardo et al. 2018 *Cell*; Ilardo et al. 2021 *Front. Physiol.*; Huerta-Sánchez et al. 2014 *Nature*
+
+---
+
+## Ecology (Weeks 2–4)
+
+Engine: biological rule → discrete update → `next_state()` → vectors → loop → plot
+
+### Week 2 — From cool dynamics to code
+**Materials:** [slides](../weeks/week-02/slides.qmd) · [notebook](../weeks/week-02/notebook.qmd) · [assignment](../weeks/week-02/assignment.qmd)
+
+- **Bio opener integrated:** *Paramecium* alone vs with *Didinium* (Gause / Veilleux tradition)
+- Data in `weeks/week-02/data/`
+- Discrete LV → function / vector / loop; qualitative link back to the contrast
+
+### Week 3 — Richer ecological models
+**Materials:** [slides](../weeks/week-03/slides.qmd) · [notebook](../weeks/week-03/notebook.qmd) · [assignment](../weeks/week-03/assignment.qmd)
+
+- Carrying capacity; optional extra species; parameter play
+
+### Week 4 — Ecological data & your own model
+**Materials:** [slides](../weeks/week-04/slides.qmd) · [notebook](../weeks/week-04/notebook.qmd) · [assignment](../weeks/week-04/assignment.qmd)
+
+- Real time series; build a small ecological model
+
+---
+
+## Evolution — deterministic (Weeks 5–7)
+
+Same engine; object = **allele frequency** \(p_t\).
+
+### Week 5 — Allele frequencies as time series
+**Materials:** [slides](../weeks/week-05/slides.qmd) · [notebook](../weeks/week-05/notebook.qmd) · [assignment](../weeks/week-05/assignment.qmd)
+
+- Vectors for \(p_t\); selection recurrence \(p_{t+1}=f(p_t)\); one-generation function
+
+### Week 6 — Selection regimes
+**Materials:** [slides](../weeks/week-06/slides.qmd) · [notebook](../weeks/week-06/notebook.qmd) · [assignment](../weeks/week-06/assignment.qmd)
+
+- Many generations; compare regimes; equilibria / trajectories
+
+### Week 7 — Limits of deterministic evolution
+**Materials:** [slides](../weeks/week-07/slides.qmd) · [notebook](../weeks/week-07/notebook.qmd) · [assignment](../weeks/week-07/assignment.qmd)
+
+- Smooth \(p_t\) as average behavior; motivate randomness
+
+---
+
+## Evolution — random (Weeks 8–10)
+
+### Week 8 — Why randomness in evolution?
+**Materials:** [slides](../weeks/week-08/slides.qmd) · [notebook](../weeks/week-08/notebook.qmd) · [assignment](../weeks/week-08/assignment.qmd)
+
+- Noisy paths; finite populations
+
+### Week 9 — Wright–Fisher: one trajectory
+**Materials:** [slides](../weeks/week-09/slides.qmd) · [notebook](../weeks/week-09/notebook.qmd) · [assignment](../weeks/week-09/assignment.qmd)
+
+- One stochastic run vs deterministic expectation
+
+### Week 10 — Many runs, matrices, uncertainty
+**Materials:** [slides](../weeks/week-10/slides.qmd) · [notebook](../weeks/week-10/notebook.qmd) · [assignment](../weeks/week-10/assignment.qmd)
+
+- Replicates in matrices; means / ribbons; drift vs selection (stretch)
+
+---
+
+## Microbiome — ecology with randomness (Weeks 11–13)
+
+Return to ecological thinking, but now communities are **high-dimensional** and **noisy** (many taxa, compositional data, biological + technical variation).
+
+### Week 11 — Communities as data
+**Materials:** [slides](../weeks/week-11/slides.qmd) · [notebook](../weeks/week-11/notebook.qmd) · [assignment](../weeks/week-11/assignment.qmd)
+
+- Abundance tables; what is a sample / taxon / count
+- First plots; broad biological patterns
+
+### Week 12 — Diversity & structure
+**Materials:** [slides](../weeks/week-12/slides.qmd) · [notebook](../weeks/week-12/notebook.qmd) · [assignment](../weeks/week-12/assignment.qmd)
+
+- Diversity summaries; compare groups
+- Ecology concepts meet noisy multivariate data
+
+### Week 13 — Environment & variation
+**Materials:** [slides](../weeks/week-13/slides.qmd) · [notebook](../weeks/week-13/notebook.qmd) · [assignment](../weeks/week-13/assignment.qmd)
+
+- Link metadata / gradients to community variation
+- Uncertainty and interpretation (not overclaiming)
+
+---
+
+## Week 14 — Project: pull the arc together
+
+**Materials:** [slides](../weeks/week-14/slides.qmd) · [notebook](../weeks/week-14/notebook.qmd) · [assignment](../weeks/week-14/assignment.qmd)
+
+- Default: microbiome exploratory project
+- Allowed: Eco or Evo question using tools from earlier blocks
+- Story + plots + careful claims
+
+---
+
+## Semester at a glance
+
+```text
+1        Hook (Bajau / Andika)
+2–4      Ecology
+5–7      Evolution (deterministic)
+8–10     Evolution (random)
+11–13    Microbiome = ecology with randomness
+14       Project
+```
+
+## Collaborator priorities
+
+| Priority | Weeks | Focus |
+|---|---|---|
+| Highest | 2–4 | Ecology openers + notebooks |
+| High | 5–10 | Allele-frequency → Wright–Fisher pipeline |
+| Next | 11–14 | Microbiome datasets + ILIAS project flow |
+
+## Material map
+
+```text
+weeks/week-01 … week-14/
+  slides.qmd · notebook.qmd · assignment.qmd
+templates/ · pics/
+```

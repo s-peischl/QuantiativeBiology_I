@@ -1,0 +1,16 @@
+---
+title: "Week 1 — Reflection"
+format:
+  html:
+    theme: cosmo
+    toc: true
+    css: ../../styles.scss
+---
+## Tasks
+
+1. Retell the Bajau story in 4–6 sentences (lifestyle → spleen → genes → deep-history twist).
+2. Match each question to an evidence type (association / genomics / simulation-model comparison):
+   - genes linked to trait?
+   - Denisovan origin of DNA?
+   - rule out independent look-alikes?
+3. One sentence: which Week 2–4 topic are you most curious about?

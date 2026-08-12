@@ -1,40 +1,78 @@
 ---
-title: "Week XX - Slide Deck Title"
+title: "Week XX — Slide Deck Title"
 subtitle: "Quantitative Biology I"
 author: "Stephan Peischl"
 format:
   revealjs:
-    theme: default
+    theme: simple
     slide-number: true
-    incremental: true
-    chalkboard: false
+    incremental: false
+    embed-resources: true
+    transition: none
+    controls: true
+    controls-layout: edges
+    controls-tutorial: true
+    navigation-mode: linear
+    hash: true
+    menu:
+      side: left
+      use-text-content: true
+    footer: "[Course outline](../../docs/course-outline.qmd) · [Home](../../index.qmd)"
 execute:
-  echo: true
+  echo: false
+  warning: false
+  message: false
 ---
 
-## Biological Question
+## On this deck
 
-- What is the central biological process this week?
-- Why does it matter?
+**Week XX** of 14
 
-## Conceptual Model
+- [Course outline](../../docs/course-outline.qmd)
+- [Home](../../index.qmd)
+- Arrow keys / controls · **M** menu · **Esc** overview grid
 
-- State variables
-- Key parameters
-- Biological interpretation
+## Learning goals
 
-## Computational Walkthrough
+- Goal 1
+- Goal 2
+- Goal 3
 
-```{r}
-# Example placeholder
-plot(1:10, type = "l")
-```
+## Biological framing
 
-## Guided Interpretation
+- What is the biological question?
+- What contrast or dataset motivates it?
 
-- What pattern do you observe?
-- Which parameter is most influential?
+## Quantitative idea
 
-## Exit Question
+- Key concept:
+- Link to programming course:
 
-What biological conclusion can you support with this model output?
+## Guided demo
+
+- Step 1
+- Step 2
+- Step 3
+
+## Notebook preview
+
+What students will do this week.
+
+## Exit ticket
+
+1.
+2.
+3.
+
+---
+
+## Navigation
+
+| | |
+|---|---|
+| Overview | [Course outline](../../docs/course-outline.qmd) |
+| Home | [Course home](../../index.qmd) |
+| Previous | [← previous week](../week-XX/slides.qmd) |
+| Next | [next week →](../week-XX/slides.qmd) |
+
+Keyboard: ← → · **M** menu · **Esc** slide grid · **F** fullscreen

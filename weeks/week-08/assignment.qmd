@@ -1,0 +1,22 @@
+---
+title: "Week 8 — Assignment · Why randomness in evolution?"
+format:
+  html:
+    toc: false
+---
+
+## Prompt
+
+Use this week's notebook to address the biological question.
+
+## Deliverables
+
+1. Rendered notebook (`.html`) or equivalent
+2. One key figure with caption
+3. Short interpretation (120–180 words)
+
+## Criteria
+
+- Reproducibility (40%)
+- Biological interpretation (40%)
+- Clarity (20%)

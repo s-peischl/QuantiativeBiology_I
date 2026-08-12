@@ -1,0 +1,16 @@
+---
+title: "Week 3 Notebook — Parameter Playground"
+format:
+  html:
+    theme: cosmo
+    toc: true
+    css: ../../styles.scss
+---
+## Spec for collaborators
+
+1. Working baseline LV simulator
+2. Extended model with carrying capacity \(K\)
+3. Clearly marked parameter chunks
+4. Overlay or panel plots
+5. Interpretation prompts (predict before running)
+6. Optional: add one new term

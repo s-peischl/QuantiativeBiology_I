@@ -1,0 +1,15 @@
+---
+title: "Week 4 Notebook — Build Your Own Model"
+format:
+  html:
+    theme: cosmo
+    toc: true
+    css: ../../styles.scss
+---
+## Spec for collaborators
+
+1. Design checklist (variables, gains, losses, interactions, question)
+2. Template: `next_state()`, storage, loop, plot
+3. 2–3 starter stubs (competition / SIR / harvest)
+4. Student implementation + ≥2 parameter experiments
+5. Short reflection cells
