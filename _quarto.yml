@@ -5,6 +5,9 @@ project:
     - index.qmd
     - docs/course-outline.qmd
     - docs/for-collaborators.qmd
+    - docs/ai-policy.qmd
+    - docs/mfb-alignment.qmd
+    - docs/impuls-proposal-brief.qmd
     - weeks/*/notebook.qmd
     - weeks/*/assignment.qmd
     - weeks/*/slides.qmd
@@ -17,6 +20,8 @@ website:
         text: Home
       - href: docs/course-outline.qmd
         text: Course Outline
+      - href: docs/ai-policy.qmd
+        text: AI policy
       - href: docs/for-collaborators.qmd
         text: For collaborators
       - text: Slides

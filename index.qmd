@@ -9,20 +9,38 @@ format:
 ## Start here
 
 - **[Full course outline](docs/course-outline.qmd)**
-- **[For collaborators](docs/for-collaborators.qmd)** — Quarto + GitHub how-to
+- **[AI policy](docs/ai-policy.qmd)** — allowed uses, bans, and disclosure
+- **[For collaborators](docs/for-collaborators.qmd)** — Quarto + GitHub how-to  
+  (includes link to internal [MfB alignment](docs/mfb-alignment.qmd))
+
+## Lecture slot
+
+**Thursdays 08:15–10:00** · first meeting **17 Sep 2026** · through **17 Dec 2026**
+
+Full calendar: [course outline](docs/course-outline.qmd#session-calendar).
 
 ## Arc
 
 **Eco → Evo (deterministic → random) → Microbiome (ecology with randomness)**
 
-| Weeks | Biology |
-|---|---|
-| [1](weeks/week-01/slides.qmd) | Hook — Bajau / Andika |
-| [2](weeks/week-02/slides.qmd)–[4](weeks/week-04/slides.qmd) | Ecology |
-| [5](weeks/week-05/slides.qmd)–[7](weeks/week-07/slides.qmd) | Evolution (deterministic) |
-| [8](weeks/week-08/slides.qmd)–[10](weeks/week-10/slides.qmd) | Evolution (random) |
-| [11](weeks/week-11/slides.qmd)–[13](weeks/week-13/slides.qmd) | Microbiome |
-| [14](weeks/week-14/slides.qmd) | Project |
+| Week | Date | Biology | Checkpoint |
+|-----:|------|---|---|
+| [1](weeks/week-01/slides.qmd) | 17 Sep | Hook — Bajau / Andika | — |
+| [2](weeks/week-02/slides.qmd) | 24 Sep | Ecology | |
+| [3](weeks/week-03/slides.qmd) | 1 Oct | Ecology | |
+| [4](weeks/week-04/slides.qmd) | 8 Oct | Ecology | **A** |
+| [5](weeks/week-05/slides.qmd) | 15 Oct | Evolution (deterministic) | |
+| [6](weeks/week-06/slides.qmd) | 22 Oct | Evolution (deterministic) | |
+| [7](weeks/week-07/slides.qmd) | 29 Oct | Evolution (deterministic) | **B** |
+| [8](weeks/week-08/slides.qmd) | 5 Nov | From selection to establishment | |
+| [9](weeks/week-09/slides.qmd) | 12 Nov | Establishment probabilities | |
+| [10](weeks/week-10/slides.qmd) | 19 Nov | Evolutionary rescue | **C** |
+| [11](weeks/week-11/slides.qmd) | 26 Nov | Microbiome · load complex data | |
+| [12](weeks/week-12/slides.qmd) | 3 Dec | Microbiome · visualize | |
+| [13](weeks/week-13/slides.qmd) | 10 Dec | Microbiome · visual story | **D** |
+| [14](weeks/week-14/slides.qmd) | 17 Dec | Synthesis wrap | Portfolio / connect A–D |
+
+Details: [assessment rhythm](docs/course-outline.qmd#assessment-rhythm-presentations-throughout).
 
 ## Templates
 

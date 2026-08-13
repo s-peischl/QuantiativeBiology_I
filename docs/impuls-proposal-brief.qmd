@@ -1,0 +1,102 @@
+---
+title: "IMPULS LEHRE proposal ↔ QuBi build"
+subtitle: "Internal brief for collaborators"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    css: ../styles.scss
+---
+
+::: {.callout-note}
+**Audience:** instructors / content authors.  
+Source: `BridgeCourse/IMPULS LEHRE 2026 Antragsformular zur Einreichung.pdf`  
+(also `…_v2.docx`, submitted ~26 Mar 2026).  
+This page is a working summary so course materials stay aligned with the funded proposal language.
+:::
+
+## Project identity
+
+| | |
+|---|---|
+| **Title** | QUBI: Kompetenzorientiertes, modulares Lernen in Quantitativer Biologie |
+| **Leads** | Claudia Bank; Stephan Peischl |
+| **Programme** | BSc Major Biologie (Phil.-nat.), new Anhang 1 from **HS26** |
+| **Courses** | **Quantitative Biologie I & II** (2+2 ECTS) = Pflichtmodul **1D Themen der Biologie** (4 ECTS) |
+| **Slot** | Year 1, parallel to central methods courses |
+| **Impulses** | Curriculum; digital materials; competence orientation; practice link; interdisciplinarity; study entry |
+
+This repo is the authoring hub for **QuBi I** (HS; ecology → evo → establishment/rescue → microbiome data skills).
+
+---
+
+## Problem the proposal solves
+
+- Parallel stats/programming courses → redundancy, uneven standards, cost
+- Central methods courses feel abstract / demotivating for biologists
+- Biology’s own stats course worked pedagogically but does not scale as an island
+- Need: keep **central** methods teaching, add a **bridge** course that reconnects methods to biology
+
+## Stated goals (compressed)
+
+1. Replace bio-only stats/programming islands with shared central offerings  
+2. Build accompanying **Quantitative Biology** across the first two semesters  
+3. Raise **competence orientation** (modelling, simulation, data analysis)  
+4. Support **study entry** and early research realism  
+5. Pilot **interdisciplinary** coupling (bio ↔ maths/stats/CS), transferable + linked to **Schatztruhe**
+
+---
+
+## What we promised to build
+
+- Modular QuBi course **in parallel** with programming (then stats) service courses
+- **Same biological models/stories reused** across methods contexts (e.g. simulate in programming phase; revisit statistically later)
+- Curated **real research-adjacent datasets** + reusable digital modules (R / Python / notebooks)
+- Two work streams: (1) teaching datasets, (2) digital practice modules on ILIAS + repos
+- Sustainability via curriculum embedding + Schatztruhe deposit; maintenance by QuBi instructors
+
+## Curriculum neighbourhood (HS26)
+
+Year 1 replaces older programming/maths arrangement with e.g.:
+
+- Basics of Programming and Data Science  
+- Statistik für Naturwissenschaften  
+- **+ QuBi I & II** as the biology bridge  
+
+Year 2 shifts modelling/stats offerings (incl. Mathematische Modellierung in der Biologie). QuBi must **complement**, not duplicate, those courses.
+
+---
+
+## Implications for QuBi I materials (this repo)
+
+| Proposal emphasis | How QuBi I responds |
+|---|---|
+| Biology first, methods as tools | Bajau hook; Gause / Isle Royale / rescue / microbiome tables |
+| Parallel to programming course | Explicit function → vector → loop → plot engine |
+| Competence / practice | Checkpoints A–D (practical + short talk), not one final mega-project only |
+| Real / research-like data | Digitized classic + field series; open microbiome tables (W11–13) |
+| Modular digital materials | Quarto site, week folders, notebooks, GitHub Pages deploy |
+| AI / modern scientific practice | Course [AI policy](ai-policy.qmd) |
+| MfB competence landscape | Touch many codes; don’t claim full coverage — [MfB map](mfb-alignment.qmd) |
+| Schatztruhe / transfer | Keep modules reusable; clear READMEs; cite data |
+
+**Do not:** rebuild a full stats course or a full programming course inside QuBi.
+
+---
+
+## Resources (proposal)
+
+- **48 PP** total (36 PP developer/coordinator ~Jun 2026–Jul 2027; 12 PP teaching capacity for QuBi while old stats still runs)
+- Kick-off with VRL Lehre after funding confirmation
+
+---
+
+## Collaborator checklist
+
+When adding a week, ask:
+
+1. Does this **bridge** a methods idea to a biological question/dataset?  
+2. Does it reuse the simulation / data engine students already know?  
+3. Is it something the parallel programming/stats course is **not** already owning?  
+4. Can a checkpoint product show a **competence** (model, sim, figure, honest limit)?  
+5. Is the material modular enough to become a Schatztruhe-style unit later?

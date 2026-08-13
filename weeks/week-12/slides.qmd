@@ -1,6 +1,6 @@
 ---
-title: "Week 12 — Microbiome: diversity & structure"
-subtitle: "Summaries for many taxa"
+title: "Week 12 — Visualizing Microbiome Data"
+subtitle: "From tables to readable figures"
 author: "Stephan Peischl"
 format:
   revealjs:
@@ -26,47 +26,78 @@ execute:
 
 ## On this deck
 
-**Week 12** of 14
+**Week 12** of 14 · Microbiome block  
+**Thu 3 Dec 2026, 08:15–10:00**
 
-- [Course outline](../../docs/course-outline.html) — full semester plan
+- [Course outline](../../docs/course-outline.html)
 - [Home](../../index.html)
-- Use **arrow keys** / on-screen controls · **M** opens slide menu · **Esc** overview grid
+- Arrow keys / controls · **M** menu · **Esc** grid
 
-## Learning goals
+## Recap
 
-- Biological focus: Reuse Eco/Evo tools on new biology
-- Connect to programming tools for this week
-- Produce plots you can interpret
+Week 11: load → join → sanity-check.
 
-## Biological framing
+Today: **see** the community without drowning in 500 colours.
 
-- What is the biological question this week?
-- What contrast or dataset motivates it?
+## The visualization problem
 
-## Quantitative idea
+Hundreds/thousands of taxa ≠ hundreds of legend entries.
 
-- Key concept:
-- Link to programming course:
+You must **aggregate or select**:
 
-## Live / guided demo
+- top \(k\) taxa + “Other”
+- roll up to phylum / family
+- focus on a taxon set motivated by biology
 
-- Step 1
-- Step 2
-- Step 3
+## Core plot menu (master these)
+
+1. **Library size** bar/histogram (QC)
+2. **Stacked composition** by sample (or mean by group)
+3. **Heatmap** (samples × selected taxa)
+4. **Facets** by metadata (site, treatment, time)
+5. Optional: simple richness / Shannon bars — only if they help the story
+
+## Design rules (classroom)
+
+- Order samples/taxa with intention (not random IDs)
+- Limit categorical colours (~8–12 max on one panel)
+- Prefer small multiples over one overloaded panel
+- Label axes in biological language (relative abundance, counts, …)
+- Caption: what was filtered / aggregated?
+
+## Pitfalls
+
+- Treating compositional data like independent counts
+- Comparing raw counts across uneven library sizes without care
+- Rainbow heatmaps that hide structure
+- Plotting all taxa “because we can”
+
+## Programming bridge
+
+- Reusable `plot_composition(df, group)` functions
+- Long-format data play nicely with plotting grammars
+- Same loop/vector habits: compute summaries, then plot
+
+## Live demo goals
+
+1. QC library sizes
+2. Top taxa composition by group
+3. One heatmap of a curated taxon set
+4. Discuss: what claim is visually supported?
 
 ## Notebook preview
 
-What students will do in the notebook this week.
+Build a small “viz cookbook” on the Week 11 dataset: at least composition + one heatmap/facet.
 
 ## Exit ticket
 
-1.
-2.
-3.
+1. Which aggregation did you choose — and why?
+2. Name one visual lie to avoid with microbiome plots.
+3. What figure do you want to perfect for Checkpoint D?
 
 ## Next week
 
-…
+**Visual story + Checkpoint D** — present one clear claim with limits.
 
 ---
 
@@ -79,5 +110,4 @@ What students will do in the notebook this week.
 | Previous | [← Week 11](../week-11/slides.html) |
 | Next | [Week 13 →](../week-13/slides.html) |
 
-Keyboard: ← → move slides · **M** menu · **Esc** slide grid · **F** fullscreen
-
+Keyboard: ← → · **M** menu · **Esc** grid · **F** fullscreen

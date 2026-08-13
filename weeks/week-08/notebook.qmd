@@ -1,10 +1,10 @@
 ---
-title: "Week 8 — Notebook · Why randomness in evolution?"
-subtitle: "Why randomness in evolution?"
+title: "Week 8 — Notebook · Toward establishment"
+subtitle: "Many attempts; rare beneficial lineages"
 format:
   html:
     toc: true
-    code-fold: false
+    css: ../../styles.scss
 execute:
   echo: true
   warning: false
@@ -13,35 +13,33 @@ execute:
 
 ## Learning goals
 
-- Goal 1
-- Goal 2
-- Goal 3
+1. Contrast deterministic \(p_t\) thinking with single-lineage fate
+2. Run many replicate introductions
+3. Estimate an establishment frequency
 
-## Biological background
+## Design note for collaborators
 
-Short context for this week.
+Provide one simple stochastic lineage update (branching-process or WF with one mutant). Keep the API stable for Weeks 9–10.
 
-## Setup
-
-```{r}
-# libraries / parameters
-```
-
-## Guided work
+## Starter scaffold
 
 ```{r}
-# starter code
+# Pseudocode / fill-in: replace with the course's chosen update
+run_one_lineage <- function(s, max_gen = 200, establish_threshold = 50) {
+  n <- 1
+  for (g in 1:max_gen) {
+    # TODO: stochastic update using s
+    # if n hits 0 -> lost; if n >= threshold -> established
+  }
+  FALSE
+}
+
+n_reps <- 500
+s <- 0.05
+established <- replicate(n_reps, run_one_lineage(s))
+mean(established)
 ```
 
-## Exercise 1
+**Q1.** Write your operational definition of “established”.
 
-…
-
-## Exercise 2
-
-…
-
-## Wrap-up
-
-- Main quantitative result:
-- Main biological interpretation:
+**Q2.** Predict how `mean(established)` changes if you increase `s`.

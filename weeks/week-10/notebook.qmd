@@ -1,10 +1,10 @@
 ---
-title: "Week 10 — Notebook · Many runs, matrices, uncertainty"
-subtitle: "Many runs, matrices, uncertainty"
+title: "Week 10 — Notebook · Evolutionary rescue · Checkpoint C"
+subtitle: "Decline + establishment → persistence probability"
 format:
   html:
     toc: true
-    code-fold: false
+    css: ../../styles.scss
 execute:
   echo: true
   warning: false
@@ -13,35 +13,22 @@ execute:
 
 ## Learning goals
 
-- Goal 1
-- Goal 2
-- Goal 3
+1. Couple declining demography to rare adapted types
+2. Estimate rescue probability across replicates
+3. Prepare Checkpoint C figure + talking points
 
-## Biological background
+## Practical
 
-Short context for this week.
+1. Define wild-type decline (one parameter for stress severity).
+2. Allow rare beneficial/resistant types (mutation or standing variation).
+3. Reuse establishment logic from Weeks 8–9.
+4. Classify each replicate: **extinct** vs **rescued**.
+5. Sweep stress or \(s\); plot rescue probability.
 
-## Setup
+## Checkpoint C prompts
 
-```{r}
-# libraries / parameters
-```
-
-## Guided work
-
-```{r}
-# starter code
-```
-
-## Exercise 1
-
-…
-
-## Exercise 2
-
-…
-
-## Wrap-up
-
-- Main quantitative result:
-- Main biological interpretation:
+- Biological question:
+- What you computed:
+- One figure:
+- Lab connection (what would be measured in yeast/bacteria cultures?):
+- Strongest assumption:

@@ -1,22 +1,24 @@
 ---
-title: "Week 13 — Assignment · Microbiome: environment & variation"
+title: "Week 13 — Assignment · Checkpoint D (visual story)"
 format:
   html:
-    toc: false
+    toc: true
+    css: ../../styles.scss
 ---
 
-## Prompt
+**Checkpoint D** closes the microbiome block (Weeks 11–13): **load → visualize → claim**.
 
-Use this week's notebook to address the biological question.
+## Submit (practical)
 
-## Deliverables
+1. Question in one sentence.
+2. Primary figure (+ optional QC inset) with caption stating filters/aggregation.
+3. “What we are **not** claiming” (3–5 bullets).
+4. Brief note on load/join checks performed.
 
-1. Rendered notebook (`.html`) or equivalent
-2. One key figure with caption
-3. Short interpretation (120–180 words)
+## Presentation (~3–5 min)
 
-## Criteria
+Question → how loaded/cleaned → one figure → limits.
 
-- Reproducibility (40%)
-- Biological interpretation (40%)
-- Clarity (20%)
+## AI disclosure (required)
+
+See [AI policy](../../docs/ai-policy.qmd). Disclose tool + use, or `AI disclosure: none`.

@@ -24,3 +24,7 @@ Use this week's notebook to address the biological question.
 ## Submission
 
 Submit via ILIAS by the stated deadline.
+
+## AI disclosure (required)
+
+See the course [AI policy](../../docs/ai-policy.qmd). If you used generative AI while preparing this submission, state tool + how used; otherwise write `AI disclosure: none`.

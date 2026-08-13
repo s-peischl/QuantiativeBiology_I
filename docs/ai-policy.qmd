@@ -1,0 +1,90 @@
+---
+title: "AI policy"
+subtitle: "Guidelines for the use of generative AI"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    css: ../styles.scss
+---
+
+## Principles
+
+Generative AI tools (ChatGPT, Claude, Copilot, Cursor, etc.) can help you **learn**.  
+They must not replace your own understanding on **graded work**.
+
+**Bottom line:** submitted notebooks, assignments, checkpoint practicals, and presentations must be work you can explain and defend.
+
+Unauthorized use is treated as **academic misconduct** under University of Bern rules.
+
+---
+
+## How you **can** use AI (learning)
+
+Allowed for study and exploration, for example:
+
+- Clarifying concepts from lectures (Lotka–Volterra, establishment, rescue, …)
+- Asking for an alternative explanation of a step you already tried
+- Generating **practice** questions (not solutions to graded tasks)
+- Brainstorming project / model ideas — if **you** implement and justify the final version
+- Help interpreting an error message **after** you have attempted a fix
+
+If AI helped you learn, you should still be able to redo the key steps without it.
+
+---
+
+## How you **cannot** use AI (graded work)
+
+Not allowed:
+
+- Submitting AI-generated answers, text, or code as your own for homework, notebooks, checkpoint products, or slides
+- Having AI write your model, analysis, or presentation and turning it in with only light edits
+- Copy-pasting AI prose into reflections, captions, or talk scripts
+- Using AI during any closed / proctored assessment (if we hold one)
+- Using AI to fabricate citations, data, or lab claims
+
+**Presentations (Checkpoints A–D):** you must be able to explain every figure and modelling choice live. If you cannot, that is evidence the work is not yours.
+
+---
+
+## Mandatory disclosure
+
+If you used AI at all while preparing a **graded** submission (including debugging help or brainstorming), add an **AI disclosure** at the end:
+
+```text
+AI disclosure
+- Tool: …
+- How used: … (be specific: which function / which paragraph)
+- I confirm the final submission reflects my own understanding and I can explain it.
+```
+
+No AI used → write: `AI disclosure: none`.
+
+Missing or false disclosure can itself be treated as misconduct.
+
+---
+
+## Course-specific expectations
+
+| Activity | AI stance |
+|---|---|
+| Weekly notebooks (formative) | Learning help OK; disclosure if used on anything you submit |
+| Checkpoint practicals (A–D) | Your code + figures; disclosure required if AI was involved |
+| Checkpoint presentations | Your words; AI is not a co-presenter |
+| Week 14 portfolio wrap | Same as checkpoints |
+
+We may ask follow-up questions about your code, figures, or biological interpretation.
+
+---
+
+## Why this policy exists
+
+This course trains **quantitative biological judgement**: turning biology into updates, reading real data, and communicating limits.
+
+Those skills only stick if **you** struggle productively with the material. AI can be a tutor; it cannot be your substitute teammate on graded work.
+
+---
+
+## Questions
+
+If unsure whether a use is allowed, ask **before** submitting — in class or by email.

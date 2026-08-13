@@ -1,6 +1,6 @@
 ---
-title: "Week 9 — Wright–Fisher: one trajectory"
-subtitle: "One stochastic run vs expectation"
+title: "Week 9 — Establishment Probabilities"
+subtitle: "Estimate establishment probability u(s)"
 author: "Stephan Peischl"
 format:
   revealjs:
@@ -26,47 +26,102 @@ execute:
 
 ## On this deck
 
-**Week 9** of 14
+**Week 9** of 14 · Randomness block  
+**Thu 12 Nov 2026, 08:15–10:00**
 
-- [Course outline](../../docs/course-outline.html) — full semester plan
+- [Course outline](../../docs/course-outline.html)
 - [Home](../../index.html)
-- Use **arrow keys** / on-screen controls · **M** opens slide menu · **Esc** overview grid
+- Arrow keys / controls · **M** menu · **Esc** grid
 
 ## Learning goals
 
-- Biological focus: One stochastic run vs expectation
-- Connect to programming tools for this week
-- Produce plots you can interpret
+1. Implement an establishment assay *in silico*
+2. Estimate establishment probability from many replicates
+3. See how \(u\) depends on \(s\) (and starting copy number)
+4. Compare simulation to a simple analytic benchmark
 
-## Biological framing
+## Recap from Week 8
 
-- What is the biological question this week?
-- What contrast or dataset motivates it?
+- Deterministic selection ≈ average behaviour when common
+- Rare beneficial types need to **establish**
+- Today: turn that into a clear computational experiment
 
-## Quantitative idea
+## Minimal stochastic recipe (conceptual)
 
-- Key concept:
-- Link to programming course:
+Each generation, a small lineage:
 
-## Live / guided demo
+- can grow (selection helps)
+- can shrink / go extinct by chance
 
-- Step 1
-- Step 2
-- Step 3
+Repeat this **thousands of times** from a single copy → fraction that take off \(\approx u\).
+
+(Exact update can be branching-process style or Wright–Fisher with one mutant — collaborators choose one clean implementation.)
+
+## Code pattern you already know
+
+```r
+established <- logical(n_reps)
+for (i in 1:n_reps) {
+  established[i] <- run_one_lineage(s = s, ...)
+}
+u_hat <- mean(established)
+```
+
+- **Function:** one lineage’s fate
+- **Vector:** outcomes across replicates
+- **Loop:** many attempts
+- **Plot:** \(\hat{u}\) vs \(s\)
+
+## What to vary (one knob at a time)
+
+| Knob | Prediction to write first |
+|---|---|
+| Selective advantage \(s\) | larger \(s\) → higher \(u\)? |
+| Starting copies \(k\) | harder to lose when \(k>1\)? |
+| Population / carrying context | when does demography matter? |
+
+## Analytic benchmark (optional target)
+
+For a simple beneficial allele, a classic approximation is \(u \approx 2s\) (under stated assumptions).
+
+Classroom use:
+
+1. Simulate \(\hat{u}(s)\)
+2. Overlay \(2s\)
+3. Discuss where it matches / fails (assumptions!)
+
+## Biological punchline
+
+Rate of adaptation from **new mutation** depends on:
+
+\[
+\text{mutational supply} \times \text{establishment probability}
+\]
+
+Not only on “how strong selection is” in the deterministic sense.
+
+## Bridge to Week 10
+
+If the whole **population is declining**, establishment must happen **before extinction**.
+
+That problem has a name: **evolutionary rescue**.
 
 ## Notebook preview
 
-What students will do in the notebook this week.
+1. `run_one_lineage()` + replicate loop
+2. Estimate \(u\) for several \(s\)
+3. Optional: start with \(k=1,2,5\) copies
+4. Short write-up: assumptions of your simulator
 
 ## Exit ticket
 
-1.
-2.
-3.
+1. How did you define “established” in code?
+2. Did \(\hat{u}\) increase with \(s\) as predicted?
+3. What ingredient is still missing for populations under lethal stress?
 
 ## Next week
 
-…
+**Evolutionary rescue** — demography + establishment; lab-tested theory; **Checkpoint C**.
 
 ---
 
@@ -79,5 +134,4 @@ What students will do in the notebook this week.
 | Previous | [← Week 8](../week-08/slides.html) |
 | Next | [Week 10 →](../week-10/slides.html) |
 
-Keyboard: ← → move slides · **M** menu · **Esc** slide grid · **F** fullscreen
-
+Keyboard: ← → · **M** menu · **Esc** grid · **F** fullscreen

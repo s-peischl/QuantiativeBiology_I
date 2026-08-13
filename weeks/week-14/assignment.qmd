@@ -1,22 +1,15 @@
 ---
-title: "Week 14 — Assignment · Microbiome project + synthesis"
+title: "Week 14 — Assignment · Synthesis wrap"
 format:
   html:
-    toc: false
+    toc: true
+    css: ../../styles.scss
 ---
 
-## Prompt
+No fifth high-stakes talk. Optional portfolio polish.
 
-Use this week's notebook to address the biological question.
+## Submit
 
-## Deliverables
-
-1. Rendered notebook (`.html`) or equivalent
-2. One key figure with caption
-3. Short interpretation (120–180 words)
-
-## Criteria
-
-- Reproducibility (40%)
-- Biological interpretation (40%)
-- Clarity (20%)
+1. Half-page arc reflection connecting Checkpoints **A–D**.
+2. Links (or files) to your four checkpoint products.
+3. Optional: one improved figure from any checkpoint for a course gallery.

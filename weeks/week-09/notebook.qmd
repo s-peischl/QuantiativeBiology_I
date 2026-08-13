@@ -1,10 +1,10 @@
 ---
-title: "Week 9 — Notebook · Wright–Fisher: one trajectory"
-subtitle: "Wright–Fisher: one trajectory"
+title: "Week 9 — Notebook · Establishment probabilities"
+subtitle: "Estimate u(s); compare to a benchmark"
 format:
   html:
     toc: true
-    code-fold: false
+    css: ../../styles.scss
 execute:
   echo: true
   warning: false
@@ -13,35 +13,14 @@ execute:
 
 ## Learning goals
 
-- Goal 1
-- Goal 2
-- Goal 3
+1. Estimate \(u\) across a grid of \(s\)
+2. Plot \(\hat{u}(s)\)
+3. Optional overlay of a simple analytic benchmark (e.g. \(2s\))
 
-## Biological background
+## Tasks
 
-Short context for this week.
-
-## Setup
-
-```{r}
-# libraries / parameters
-```
-
-## Guided work
-
-```{r}
-# starter code
-```
-
-## Exercise 1
-
-…
-
-## Exercise 2
-
-…
-
-## Wrap-up
-
-- Main quantitative result:
-- Main biological interpretation:
+1. Reuse / improve `run_one_lineage()` from Week 8.
+2. For several `s` values, compute `u_hat` with enough replicates.
+3. Plot `u_hat` vs `s`.
+4. **Q:** Where does a simple formula help, and where do assumptions fail?
+5. Optional: start with `k = 1, 2, 5` copies.

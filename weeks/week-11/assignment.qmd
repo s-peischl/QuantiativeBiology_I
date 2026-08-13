@@ -1,22 +1,11 @@
 ---
-title: "Week 11 — Assignment · Microbiome: communities as data"
+title: "Week 11 — Assignment · Load complex data"
 format:
   html:
-    toc: false
+    toc: true
+    css: ../../styles.scss
 ---
 
-## Prompt
-
-Use this week's notebook to address the biological question.
-
-## Deliverables
-
-1. Rendered notebook (`.html`) or equivalent
-2. One key figure with caption
-3. Short interpretation (120–180 words)
-
-## Criteria
-
-- Reproducibility (40%)
-- Biological interpretation (40%)
-- Clarity (20%)
+1. Data passport: dimensions, library-size summary, sparsity note.
+2. Evidence that sample IDs match (or a fixed mismatch list).
+3. Short paragraph: wide vs long and which you will use for plotting next week.

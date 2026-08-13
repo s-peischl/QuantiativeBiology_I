@@ -1,6 +1,6 @@
 ---
-title: "Week 13 — Microbiome: environment & variation"
-subtitle: "Link metadata to community patterns"
+title: "Week 13 — A Microbiome Visual Story"
+subtitle: "Checkpoint D · load → viz → claim"
 author: "Stephan Peischl"
 format:
   revealjs:
@@ -26,47 +26,72 @@ execute:
 
 ## On this deck
 
-**Week 13** of 14
+**Week 13** of 14 · **Checkpoint D**  
+**Thu 10 Dec 2026, 08:15–10:00**
 
-- [Course outline](../../docs/course-outline.html) — full semester plan
+- [Course outline](../../docs/course-outline.html)
 - [Home](../../index.html)
-- Use **arrow keys** / on-screen controls · **M** opens slide menu · **Esc** overview grid
+- Arrow keys / controls · **M** menu · **Esc** grid
 
-## Learning goals
+## Block recap
 
-- Biological focus: Scenarios, groups, project prep
-- Connect to programming tools for this week
-- Produce plots you can interpret
+| Week | Skill |
+|---|---|
+| 11 | Load complex tables + metadata |
+| 12 | Visualize without chaos |
+| **13** | Tell one honest data story |
 
-## Biological framing
+## Checkpoint D (today)
 
-- What is the biological question this week?
-- What contrast or dataset motivates it?
+**Bigger practical + short presentation (~3–5 min)**
 
-## Quantitative idea
+Not a methods olympiad — a **communication** checkpoint.
 
-- Key concept:
-- Link to programming course:
+## Required beats
 
-## Live / guided demo
+1. Biological / ecological question
+2. What you loaded & how you cleaned/joined it
+3. **One primary figure** (+ optional QC inset)
+4. What the figure does **not** show
 
-- Step 1
-- Step 2
-- Step 3
+## Practical workflow (use this checklist)
 
-## Notebook preview
+1. Reload data with your Week 11 checks
+2. Choose aggregation (top taxa / taxonomic level)
+3. Make 1–2 candidate figures; pick the clearest
+4. Write a 2–3 sentence caption
+5. List assumptions (relative vs absolute, filters, batch, …)
 
-What students will do in the notebook this week.
+## Good Checkpoint D topics (examples)
+
+- Composition shift across sites / hosts / time
+- A treatment contrast visible at phylum level
+- Dominants vs rare “Other” fraction
+- Library-size QC that changes interpretation
+
+## Grading emphasis
+
+| Higher weight | Lower weight |
+|---|---|
+| Clear question + readable figure | Exotic ordinations |
+| Correct joins / labeled axes | Dozens of panels |
+| Honest limits | Decorative colour |
+
+## Bridge across the semester
+
+You started with **models from tiny time series**.
+
+You end the content blocks by **reading complex ecological tables** — the skill working biologists actually need on day one of a microbiome project.
+
+## Looking ahead
+
+**Week 14 (17 Dec):** synthesis wrap — connect Checkpoints A–D; optional portfolio polish.
 
 ## Exit ticket
 
-1.
-2.
-3.
-
-## Next week
-
-…
+1. What is your one-sentence claim?
+2. What would make you distrust your own figure?
+3. Which earlier checkpoint skill did you reuse (loop? replicate thinking? model vs data honesty?)?
 
 ---
 
@@ -79,5 +104,4 @@ What students will do in the notebook this week.
 | Previous | [← Week 12](../week-12/slides.html) |
 | Next | [Week 14 →](../week-14/slides.html) |
 
-Keyboard: ← → move slides · **M** menu · **Esc** slide grid · **F** fullscreen
-
+Keyboard: ← → · **M** menu · **Esc** grid · **F** fullscreen

@@ -18,7 +18,7 @@ This README explains how collaborators edit slides, notebooks, and assignments w
 | 2–4 | Ecology |
 | 5–7 | Evolution (deterministic) |
 | 8–10 | Evolution (random) |
-| 11–13 | Microbiome |
+| 11–13 | Microbiome (load → visualize) |
 | 14 | Project |
 
 Canonical materials live under `weeks/week-XX/`, not under the older `modules/.../weeks/...` trees.

@@ -1,6 +1,6 @@
 ---
-title: "Week 10 — Many runs, matrices, uncertainty"
-subtitle: "Replicates, means, ribbons"
+title: "Week 10 — Evolutionary Rescue"
+subtitle: "Establishment before extinction · Checkpoint C"
 author: "Stephan Peischl"
 format:
   revealjs:
@@ -26,47 +26,106 @@ execute:
 
 ## On this deck
 
-**Week 10** of 14
+**Week 10** of 14 · **Checkpoint C**  
+**Thu 19 Nov 2026, 08:15–10:00**
 
-- [Course outline](../../docs/course-outline.html) — full semester plan
+- [Course outline](../../docs/course-outline.html)
 - [Home](../../index.html)
-- Use **arrow keys** / on-screen controls · **M** opens slide menu · **Esc** overview grid
+- Arrow keys / controls · **M** menu · **Esc** grid
 
-## Learning goals
+## Where we are in the arc
 
-- Biological focus: Replicates, means, ribbons
-- Connect to programming tools for this week
-- Produce plots you can interpret
+| Week | Idea |
+|---|---|
+| 5–7 | Deterministic selection on \(p_t\) |
+| 8–9 | Establishment of rare beneficial types |
+| **10** | Establishment **while the population crashes** → rescue |
 
-## Biological framing
+## Evolutionary rescue (verbal)
 
-- What is the biological question this week?
-- What contrast or dataset motivates it?
+A population is declining because the environment became harsh.
 
-## Quantitative idea
+It is **rescued** if adapted types arise and **establish** soon enough that growth resumes before extinction.
 
-- Key concept:
-- Link to programming course:
+## Why this is a great teaching system
 
-## Live / guided demo
+- Forces demography + genetics in one story
+- Natural use of **establishment probabilities**
+- Unusually well connected to **laboratory evolution** (microbes under controlled stress)
 
-- Step 1
-- Step 2
-- Step 3
+## Theory → experiment (pointers for slides)
 
-## Notebook preview
+**Theory (examples to cite properly in materials):**
 
-What students will do in the notebook this week.
+- Gomulkiewicz & Holt (demographic + genetic rescue framing)
+- Orr & Unckless and related models of rescue from new mutation / standing variation
+
+**Lab tradition (examples):**
+
+- Microbial populations shifted to stressful conditions (e.g. salt, drugs, temperature)
+- Track extinction vs recovery across many replicate cultures
+- Classic empirical line: **Bell & Gonzalez** (yeast) and follow-ups in bacteria/yeast
+
+::: {.notes}
+Insert exact paper list + 1–2 figures from open sources / redrawn schematics. Emphasize replicate cultures ≈ our computational replicates.
+:::
+
+## Minimal model ingredients
+
+1. Declining wild-type demography (negative growth / rising death)
+2. Rare resistant / beneficial types (mutation or standing variation)
+3. Stochastic **establishment** of those types
+4. Outcome: extinction vs recovery
+
+Same programming pattern: function + loop + many replicates.
+
+## What a figure can look like
+
+```text
+N(t)
+ |\,
+ |  \______/¯  rescued
+ |    \
+ |     \___    extinct
+ +--------------- t
+```
+
+Many replicate runs → estimate **rescue probability** (like establishment, but for the population).
+
+## Checkpoint C (today)
+
+**Practical + short presentation (~3–5 min)**
+
+1. Biological question (rescue under stress)
+2. What you computed (replicates; definition of rescue)
+3. One figure (e.g. rescue probability vs stress / vs \(s\))
+4. Strongest assumption + what a **lab assay** would measure
+
+## Notebook / practical goals
+
+- Couple a simple decline to an establishment module from Week 9
+- Sweep one parameter (stress severity or \(s\))
+- Report \(\widehat{\Pr}(\text{rescue})\)
+- Optional: compare “standing variation” vs “new mutation only”
+
+## Bridge to programming course
+
+| Programming | Biology today |
+|---|---|
+| Nested loops / replicates | many cultures / many introductions |
+| Vectors & summaries | rescue probability |
+| Plot overlays | extinct vs rescued trajectories |
+| Clear definitions in code | operational “extinct” / “rescued” |
+
+## Looking ahead
+
+Next block: **microbiomes as complex data** — load tables, visualize communities, tell an honest visual story (Weeks 11–13 · Checkpoint D).
 
 ## Exit ticket
 
-1.
-2.
-3.
-
-## Next week
-
-…
+1. How is rescue different from “allele establishes in a stable population”?
+2. Why are microbes good for testing rescue theory?
+3. What would falsify your simulator in a lab?
 
 ---
 
@@ -79,5 +138,4 @@ What students will do in the notebook this week.
 | Previous | [← Week 9](../week-09/slides.html) |
 | Next | [Week 11 →](../week-11/slides.html) |
 
-Keyboard: ← → move slides · **M** menu · **Esc** slide grid · **F** fullscreen
-
+Keyboard: ← → · **M** menu · **Esc** grid · **F** fullscreen

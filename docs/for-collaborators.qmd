@@ -42,6 +42,18 @@ Open the **project folder** (not a single file) so `_quarto.yml` and relative pa
 
 ---
 
+## MfB qualification criteria
+
+The Biology BSc “MfB” criteria (logic, maths, probability, data, programming, stats, modelling) define what a degree should touch in years 1–2.
+
+QuBi I **does not cover all of them**. Aim to **touch many** codes deliberately — see the internal map:
+
+- [MfB ↔ QuBi alignment](mfb-alignment.qmd)
+- [IMPULS LEHRE proposal brief](impuls-proposal-brief.qmd) (why QuBi exists; what we promised)
+
+Source file (outside this repo): `BridgeCourse/Qualifikationskriterien_MfB_english 1.odt`.  
+Proposal PDF: `BridgeCourse/IMPULS LEHRE 2026 Antragsformular zur Einreichung.pdf`.
+
 ## Repository map
 
 | Path | Role |

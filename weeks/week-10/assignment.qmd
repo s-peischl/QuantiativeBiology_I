@@ -1,22 +1,24 @@
 ---
-title: "Week 10 — Assignment · Many runs, matrices, uncertainty"
+title: "Week 10 — Assignment · Checkpoint C (evolutionary rescue)"
 format:
   html:
-    toc: false
+    toc: true
+    css: ../../styles.scss
 ---
 
-## Prompt
+**Checkpoint C** closes the randomness block (Weeks 8–10): establishment → **evolutionary rescue**.
 
-Use this week's notebook to address the biological question.
+## Submit (practical)
 
-## Deliverables
+1. Brief model in words (decline + rare adapted types + establishment).
+2. Simulator + one key figure (e.g. rescue probability vs stress or \(s\)).
+3. Short note linking to **lab** evolutionary-rescue experiments (what a replicate culture measures).
+4. Strongest assumption / what would falsify the model.
 
-1. Rendered notebook (`.html`) or equivalent
-2. One key figure with caption
-3. Short interpretation (120–180 words)
+## Presentation (~3–5 min)
 
-## Criteria
+Question → computation → one figure → lab link / limitation.
 
-- Reproducibility (40%)
-- Biological interpretation (40%)
-- Clarity (20%)
+## AI disclosure (required)
+
+See [AI policy](../../docs/ai-policy.qmd). Disclose tool + use, or `AI disclosure: none`.

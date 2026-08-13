@@ -1,22 +1,23 @@
 ---
-title: "Week 7 — Assignment · Evolution: deterministic limits"
+title: "Week 7 — Assignment · Checkpoint B"
 format:
   html:
-    toc: false
+    toc: true
+    css: ../../styles.scss
 ---
 
-## Prompt
+**Checkpoint B** closes the deterministic-evolution block (Weeks 5–7).
 
-Use this week's notebook to address the biological question.
+## Submit (practical)
 
-## Deliverables
+1. Compare ≥2 selection regimes with \(p_t\) trajectories (one figure).
+2. Short interpretation: equilibria / speed of change.
+3. Where does a smooth deterministic story feel insufficient?
 
-1. Rendered notebook (`.html`) or equivalent
-2. One key figure with caption
-3. Short interpretation (120–180 words)
+## Presentation (~3–5 min)
 
-## Criteria
+Question → computation → one figure → limitation / bridge to randomness.
 
-- Reproducibility (40%)
-- Biological interpretation (40%)
-- Clarity (20%)
+## AI disclosure (required)
+
+See [AI policy](../../docs/ai-policy.qmd). Disclose tool + use, or `AI disclosure: none`.

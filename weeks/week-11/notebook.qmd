@@ -1,10 +1,10 @@
 ---
-title: "Week 11 — Notebook · Microbiome: communities as data"
-subtitle: "Microbiome: communities as data"
+title: "Week 11 — Notebook · Load complex microbiome data"
+subtitle: "Abundance tables + metadata joins"
 format:
   html:
     toc: true
-    code-fold: false
+    css: ../../styles.scss
 execute:
   echo: true
   warning: false
@@ -13,35 +13,21 @@ execute:
 
 ## Learning goals
 
-- Goal 1
-- Goal 2
-- Goal 3
+1. Load abundance + metadata files
+2. Diagnose ID mismatches
+3. Compute library sizes and a short data passport
 
-## Biological background
-
-Short context for this week.
-
-## Setup
+## Tasks
 
 ```{r}
-# libraries / parameters
+# abund <- read.csv("data/abundance.csv", row.names = 1)
+# meta  <- read.csv("data/metadata.csv")
+# TODO: check setdiff(rownames(abund), meta$sample_id)
+# TODO: library sizes <- rowSums(abund)
 ```
 
-## Guided work
+**Q1.** Wide or long? How can you tell?
 
-```{r}
-# starter code
-```
+**Q2.** List mismatches between abundance rows and metadata.
 
-## Exercise 1
-
-…
-
-## Exercise 2
-
-…
-
-## Wrap-up
-
-- Main quantitative result:
-- Main biological interpretation:
+**Q3.** Summarize library sizes (min, median, max). Any alarming samples?

@@ -27,7 +27,8 @@ execute:
 
 ## On this deck
 
-**Week 4** of 14 · Ecology block
+**Week 4** of 14 · Ecology block  
+**Thu 8 Oct 2026, 08:15–10:00**
 
 - [Course outline](../../docs/course-outline.html)
 - [Home](../../index.html)
@@ -221,6 +222,22 @@ Each pair presents in 60–90 seconds:
 | Debugging | check biological + numerical sense |
 | Communication | explain a model with a plot |
 
+## Checkpoint A (today)
+
+After Weeks 2–4:
+
+- **Bigger practical:** finish your own mini-model + one comparison to data
+- **Presentation session:** ~3–5 min per pair
+
+Required beats:
+
+1. Biological question
+2. What you computed
+3. One figure
+4. Strongest assumption / next step
+
+This is a **graded checkpoint** — not practice for a single final talk at the end of term.
+
 ## Module 1 checkpoint
 
 After Weeks 2–4 you should feel fluent in:
@@ -229,10 +246,12 @@ After Weeks 2–4 you should feel fluent in:
 - linking code structures to biological change
 - exploring “what if?” questions computationally
 - reading real ecological time series qualitatively
+- presenting a small modelling result clearly
 
 ## Looking ahead
 
-Next: **evolution** — allele frequencies as time series (same engine, new object).
+Next block (Weeks 5–7): **evolution** — allele frequencies as time series.  
+Another practical + short presentation lands at **Week 7 (Checkpoint B)**.
 
 ## Exit ticket
 

@@ -1,10 +1,10 @@
 ---
-title: "Week 12 — Notebook · Microbiome: diversity & structure"
-subtitle: "Microbiome: diversity & structure"
+title: "Week 12 — Notebook · Visualize microbiome data"
+subtitle: "Composition, heatmap, facets"
 format:
   html:
     toc: true
-    code-fold: false
+    css: ../../styles.scss
 execute:
   echo: true
   warning: false
@@ -13,35 +13,14 @@ execute:
 
 ## Learning goals
 
-- Goal 1
-- Goal 2
-- Goal 3
+1. Aggregate taxa for readable plots
+2. Make a composition plot and one heatmap or facet panel
+3. Write captions that state filters/aggregations
 
-## Biological background
+## Tasks
 
-Short context for this week.
-
-## Setup
-
-```{r}
-# libraries / parameters
-```
-
-## Guided work
-
-```{r}
-# starter code
-```
-
-## Exercise 1
-
-…
-
-## Exercise 2
-
-…
-
-## Wrap-up
-
-- Main quantitative result:
-- Main biological interpretation:
+1. Start from the cleaned Week 11 objects.
+2. Create a top-\(k\) + Other table (or phylum roll-up).
+3. Plot composition by sample or by group.
+4. One heatmap **or** faceted comparison.
+5. **Q:** Which visual claim is supported? Which is not?

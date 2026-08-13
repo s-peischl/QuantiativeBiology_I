@@ -26,7 +26,8 @@ execute:
 
 ## On this deck
 
-**Week 7** of 14
+**Week 7** of 14 · **Checkpoint B**  
+**Thu 29 Oct 2026, 08:15–10:00**
 
 - [Course outline](../../docs/course-outline.html) — full semester plan
 - [Home](../../index.html)
@@ -34,9 +35,10 @@ execute:
 
 ## Learning goals
 
-- Biological focus: Bridge from smooth p_t to noisy reality
+- Biological focus: Bridge from smooth \(p_t\) to noisy reality
 - Connect to programming tools for this week
 - Produce plots you can interpret
+- **Checkpoint B:** bigger practical + short graded presentation (same norms as Week 4)
 
 ## Biological framing
 
@@ -54,6 +56,11 @@ execute:
 - Step 2
 - Step 3
 
+## Checkpoint B (today)
+
+- Practical: compare ≥2 selection regimes (trajectories / equilibria)
+- Talk (~3–5 min): question → computation → one figure → when deterministic models fail
+
 ## Notebook preview
 
 What students will do in the notebook this week.
@@ -66,7 +73,8 @@ What students will do in the notebook this week.
 
 ## Next week
 
-…
+Start **establishment** (Weeks 8–10): rare beneficial alleles → evolutionary rescue.  
+Next graded talk: **Checkpoint C at Week 10 (19 Nov)**.
 
 ---
 

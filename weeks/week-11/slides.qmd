@@ -1,6 +1,6 @@
 ---
-title: "Week 11 — Microbiome: communities as data"
-subtitle: "High-dimensional ecological counts"
+title: "Week 11 — Loading Complex Microbiome Data"
+subtitle: "Tables, metadata, and sanity checks"
 author: "Stephan Peischl"
 format:
   revealjs:
@@ -26,47 +26,85 @@ execute:
 
 ## On this deck
 
-**Week 11** of 14
+**Week 11** of 14 · Microbiome block  
+**Thu 26 Nov 2026, 08:15–10:00**
 
-- [Course outline](../../docs/course-outline.html) — full semester plan
+- [Course outline](../../docs/course-outline.html)
 - [Home](../../index.html)
-- Use **arrow keys** / on-screen controls · **M** opens slide menu · **Esc** overview grid
+- Arrow keys / controls · **M** menu · **Esc** grid
 
-## Learning goals
+## Block arc (Weeks 11–13)
 
-- Biological focus: New biological system — data & questions
-- Connect to programming tools for this week
-- Produce plots you can interpret
+1. **Today:** load & wrangle complex community tables
+2. **Week 12:** visualize high-dimensional data
+3. **Week 13:** build a visual story · **Checkpoint D**
 
-## Biological framing
+## Why this block exists
 
-- What is the biological question this week?
-- What contrast or dataset motivates it?
+Earlier weeks: models from **small** time series.
 
-## Quantitative idea
+Microbiomes: ecology again, but the first skill is surviving **real data objects**.
 
-- Key concept:
-- Link to programming course:
+## What “a microbiome dataset” usually is
 
-## Live / guided demo
+Three linked pieces:
 
-- Step 1
-- Step 2
-- Step 3
+1. **Abundance table** — samples × taxa (counts or relative abundances)
+2. **Taxonomy** — what each taxon ID means
+3. **Metadata** — host, site, time, treatment, …
+
+Miss the join → silent nonsense plots next week.
+
+## Shapes you will see
+
+| Shape | Typical use |
+|---|---|
+| Wide matrix | rows = samples, columns = taxa |
+| Long (tidy) table | columns: sample, taxon, abundance |
+| Metadata table | one row per sample |
+
+Classroom rule: know which shape you have before you plot.
+
+## Loading workflow (practical)
+
+1. Read abundance file (`read.csv` / `read.table`)
+2. Read metadata
+3. Check sample IDs match (setdiff / merge diagnostics)
+4. Inspect dimensions, sparsity, library sizes
+5. Decide: counts vs relative abundances for later viz
+
+## Sanity checks (do these every time)
+
+- Do `#samples` and `#taxa` look plausible?
+- Are there duplicate sample names?
+- How many zeros? (sparse is normal)
+- Library size = row sums — any tiny / huge outliers?
+- Missing metadata for some samples?
+
+## Programming bridge
+
+| Concept | Here |
+|---|---|
+| Vectors | library sizes; one taxon across samples |
+| Matrices / data frames | abundance tables |
+| Loops / apply | optional summaries across taxa |
+| Functions | `load_abundances()`, `check_ids()` |
 
 ## Notebook preview
 
-What students will do in the notebook this week.
+- Load a teaching microbiome CSV pack from `data/` (collabs: pick one open dataset)
+- Join metadata
+- Produce a short “data passport” (dims, library-size summary, ID mismatches)
 
 ## Exit ticket
 
-1.
-2.
-3.
+1. Wide vs long abundance table — one sentence each.
+2. Name two sanity checks you will always run.
+3. What breaks if sample IDs don’t match metadata?
 
 ## Next week
 
-…
+**Visualizing** community data — composition, heatmaps, facets; avoid colour chaos.
 
 ---
 
@@ -79,5 +117,4 @@ What students will do in the notebook this week.
 | Previous | [← Week 10](../week-10/slides.html) |
 | Next | [Week 12 →](../week-12/slides.html) |
 
-Keyboard: ← → move slides · **M** menu · **Esc** slide grid · **F** fullscreen
-
+Keyboard: ← → · **M** menu · **Esc** grid · **F** fullscreen

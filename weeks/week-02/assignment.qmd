@@ -22,3 +22,7 @@ Use the Week 2 notebook and the microcosm contrast (*Paramecium* alone vs with *
 - Reproducibility (40%)
 - Biological interpretation (40%)
 - Clarity (20%)
+
+## AI disclosure (required)
+
+Follow the course [AI policy](../../docs/ai-policy.qmd). End your submission with tool + use, or `AI disclosure: none`.

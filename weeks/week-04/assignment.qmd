@@ -1,16 +1,31 @@
 ---
-title: "Week 4 — Assignment · Your own ecological model"
+title: "Week 4 — Assignment · Checkpoint A"
 format:
   html:
     toc: true
     css: ../../styles.scss
 ---
 
+**Checkpoint A** closes the ecology block (Weeks 2–4). Graded practical + short presentation.
+
 Use Isle Royale (or another series in `data/`) as a qualitative anchor.
 
-## Submit
+## Submit (practical)
 
 1. Your model in words (variables, gains, losses, interactions, question).
 2. Implemented simulator + one key plot.
 3. Two parameter experiments.
-4. Short reflection: which Isle Royale (or chosen) features you capture vs miss; strongest assumption; what you would add next.
+4. Short reflection: which data features you capture vs miss; strongest assumption.
+
+## Presentation (in class, ~3–5 min)
+
+1. Biological question  
+2. What you computed  
+3. One figure  
+4. Strongest assumption / next step  
+
+Pairs/groups OK. Clarity + biological sense + honest limits matter more than polish.
+
+## AI disclosure (required)
+
+Follow the course [AI policy](../../docs/ai-policy.qmd). End the practical write-up with tool + use, or `AI disclosure: none`. You must still be able to explain every figure live.

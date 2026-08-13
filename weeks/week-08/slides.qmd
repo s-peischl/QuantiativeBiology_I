@@ -1,6 +1,6 @@
 ---
-title: "Week 8 — Why randomness in evolution?"
-subtitle: "Noisy allele-frequency paths"
+title: "Week 8 — From Selection to Establishment"
+subtitle: "When deterministic allele-frequency change is not enough"
 author: "Stephan Peischl"
 format:
   revealjs:
@@ -26,47 +26,101 @@ execute:
 
 ## On this deck
 
-**Week 8** of 14
+**Week 8** of 14 · Randomness block  
+**Thu 5 Nov 2026, 08:15–10:00**
 
-- [Course outline](../../docs/course-outline.html) — full semester plan
+- [Course outline](../../docs/course-outline.html)
 - [Home](../../index.html)
-- Use **arrow keys** / on-screen controls · **M** opens slide menu · **Esc** overview grid
+- Arrow keys / controls · **M** menu · **Esc** grid
 
-## Learning goals
+## Block arc (Weeks 8–10)
 
-- Biological focus: Noisy allele-frequency paths
-- Connect to programming tools for this week
-- Produce plots you can interpret
+1. **Today:** deterministic selection → **establishment**
+2. **Week 9:** establishment probabilities in code
+3. **Week 10:** **evolutionary rescue** (lab-tested theory) · Checkpoint C
 
-## Biological framing
+## Recap: what Weeks 5–7 gave us
 
-- What is the biological question this week?
-- What contrast or dataset motivates it?
+- Allele frequency \(p_t\) as a smooth time series
+- Selection recurrence \(p_{t+1} = f(p_t)\)
+- Deterministic trajectories and equilibria
 
-## Quantitative idea
+**Hidden assumption:** many gene copies already segregating — averages behave nicely.
 
-- Key concept:
-- Link to programming course:
+## The biological crack in the story
 
-## Live / guided demo
+A **new** beneficial mutation usually starts as:
 
-- Step 1
-- Step 2
-- Step 3
+- **one** individual / one chromosome copy
+
+Early on, chance events dominate:
+
+- the lineage can die out even if it is “favoured on average”
+
+## Two questions (keep them distinct)
+
+| Question | Typical tool |
+|---|---|
+| How does \(p\) change once common? | Deterministic selection (Weeks 5–7) |
+| Will a rare beneficial type **take off at all**? | **Establishment probability** (this block) |
+
+## Establishment (verbal definition)
+
+Probability that a rare beneficial lineage escapes early stochastic loss and becomes common enough that deterministic selection takes over.
+
+Not the same as long-run fixation in every model — but closely related in simple pop-gen settings.
+
+## Picture to hold in mind
+
+```text
+many failed starts
+      · · · · · ·
+           \
+            ········  established trajectory
+```
+
+Adaptation from new mutation ≈ **supply of mutants × establishment probability**.
+
+## Think–pair–share
+
+1. Why can a strongly beneficial allele still be lost when rare?
+2. When is the Week 6 deterministic story “good enough”?
+3. What would you count in a simulation to estimate establishment?
+
+## Quantitative sketch (orientation)
+
+In simple models, establishment probability often increases with the selective advantage \(s\).
+
+Famous benchmark (haploid / weak selection intuition):
+
+\[
+u \approx 2s
+\]
+
+(We will treat formulas as **targets to compare with simulations**, not as magic.)
+
+## Programming bridge today
+
+- Same engine: update rule → function → loop
+- New twist: **many independent attempts** (replicates)
+- Store outcomes: established / lost → estimate a probability
 
 ## Notebook preview
 
-What students will do in the notebook this week.
+1. Simulate one rare beneficial lineage many times
+2. Classify establishment vs loss
+3. Estimate \(\hat{u}\) as a frequency across replicates
+4. Change \(s\); predict before you run
 
 ## Exit ticket
 
-1.
-2.
-3.
+1. Deterministic \(p_t\) vs establishment — one sentence each.
+2. Why does “starts at one copy” change the math?
+3. What will we need next week to estimate \(u\) cleanly in code?
 
 ## Next week
 
-…
+**Establishment probabilities** — systematic simulation, compare to a simple formula, vary \(s\) and starting copies.
 
 ---
 
@@ -79,5 +133,4 @@ What students will do in the notebook this week.
 | Previous | [← Week 7](../week-07/slides.html) |
 | Next | [Week 9 →](../week-09/slides.html) |
 
-Keyboard: ← → move slides · **M** menu · **Esc** slide grid · **F** fullscreen
-
+Keyboard: ← → · **M** menu · **Esc** grid · **F** fullscreen

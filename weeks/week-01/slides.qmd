@@ -26,7 +26,8 @@ execute:
 
 ## On this deck
 
-**Week 1** of 14
+**Week 1** of 14  
+**Thu 17 Sep 2026, 08:15–10:00**
 
 - [Course outline](../../docs/course-outline.html) — full semester plan
 - [Home](../../index.html)
@@ -38,6 +39,13 @@ execute:
 - Parallel to your **R programming** course
 - Programming: *how* to code
 - Here: *why* biologists use code
+- **AI policy:** AI OK for learning; graded work must be yours — see course site
+
+## Course logistics (pointers)
+
+- Thursdays **08:15–10:00**
+- Checkpoints with short talks at Weeks **4, 7, 10, 13**
+- Full calendar + [AI policy](../../docs/ai-policy.html) on the teaching hub
 
 ## Today's goal
 
@@ -289,7 +297,7 @@ Not a separate subject — tools for biology:
 | 2–4 | **Ecology** |
 | 5–7 | **Evolution** (deterministic) |
 | 8–10 | **Evolution** (random) |
-| 11–13 | **Microbiome** — ecology with randomness |
+| 11–13 | **Microbiome** — load complex data → visualize → story |
 | 14 | Project |
 
 ## Next up (Weeks 2–4)

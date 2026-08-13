@@ -1,47 +1,26 @@
 ---
-title: "Week 13 — Notebook · Microbiome: environment & variation"
-subtitle: "Microbiome: environment & variation"
+title: "Week 13 — Notebook · Visual story · Checkpoint D"
+subtitle: "One figure, honest limits"
 format:
   html:
     toc: true
-    code-fold: false
+    css: ../../styles.scss
 execute:
   echo: true
   warning: false
   message: false
 ---
 
-## Learning goals
+## Checkpoint D practical
 
-- Goal 1
-- Goal 2
-- Goal 3
+1. Reload + sanity-check data.
+2. Choose one question.
+3. Produce one primary figure (optional QC inset).
+4. Caption (2–3 sentences) + “not claiming” bullet list.
 
-## Biological background
+## Presentation notes (fill before class)
 
-Short context for this week.
-
-## Setup
-
-```{r}
-# libraries / parameters
-```
-
-## Guided work
-
-```{r}
-# starter code
-```
-
-## Exercise 1
-
-…
-
-## Exercise 2
-
-…
-
-## Wrap-up
-
-- Main quantitative result:
-- Main biological interpretation:
+- Question:
+- Load/clean steps (30 sec):
+- Figure claim:
+- Limits:

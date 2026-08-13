@@ -1,6 +1,6 @@
 ---
-title: "Week 14 — Microbiome project + synthesis"
-subtitle: "Ecology with randomness — final story"
+title: "Week 14 — Synthesis wrap"
+subtitle: "Connect Checkpoints A–D; optional portfolio polish"
 author: "Stephan Peischl"
 format:
   revealjs:
@@ -26,7 +26,8 @@ execute:
 
 ## On this deck
 
-**Week 14** of 14
+**Week 14** of 14 · synthesis wrap  
+**Thu 17 Dec 2026, 08:15–10:00**
 
 - [Course outline](../../docs/course-outline.html) — full semester plan
 - [Home](../../index.html)
@@ -34,39 +35,38 @@ execute:
 
 ## Learning goals
 
-- Biological focus: Full quantitative biological story
-- Connect to programming tools for this week
-- Produce plots you can interpret
+- Retell the semester arc using your four checkpoints
+- Optional: polish one product for an ILIAS portfolio / gallery
+- **Not** a fifth high-stakes presentation — graded talks were Weeks 4, 7, 10, 13
 
 ## Biological framing
 
-- What is the biological question this week?
-- What contrast or dataset motivates it?
+- Eco → Evo (smooth) → establishment / rescue → Microbiome **data skills**
+- What changed in the *kind* of data and model each time?
 
 ## Quantitative idea
 
-- Key concept:
-- Link to programming course:
+- Same engine reused: function / vector / loop → matrices → high-dimensional tables
+- Presentations practiced scientific communication all semester
 
 ## Live / guided demo
 
-- Step 1
-- Step 2
-- Step 3
+- Gallery of Checkpoint highlights (volunteer pairs)
+- Peer feedback focused on clarity and limitations
 
 ## Notebook preview
 
-What students will do in the notebook this week.
+Portfolio checklist: link A–D products; ½-page arc reflection.
 
 ## Exit ticket
 
-1.
-2.
-3.
+1. Which checkpoint taught you the most?
+2. Where did a model fail honestly — and why is that useful?
+3. What would you take into Quantitative Biology II / programming?
 
 ## Next week
 
-…
+*End of course*
 
 ---
 

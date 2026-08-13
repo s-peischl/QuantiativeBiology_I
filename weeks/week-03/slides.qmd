@@ -27,7 +27,8 @@ execute:
 
 ## On this deck
 
-**Week 3** of 14 · Ecology block
+**Week 3** of 14 · Ecology block  
+**Thu 1 Oct 2026, 08:15–10:00**
 
 - [Course outline](../../docs/course-outline.html)
 - [Home](../../index.html)
