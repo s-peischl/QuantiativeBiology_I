@@ -14,7 +14,7 @@ This README explains how collaborators edit slides, notebooks, and assignments w
 
 | Weeks | Focus |
 |------:|-------|
-| 1 | Hook — Bajau / Andika |
+| 1 | Hook — Bajau → Tibetans |
 | 2–4 | Ecology |
 | 5–7 | Evolution (deterministic) |
 | 8–10 | Evolution (random) |

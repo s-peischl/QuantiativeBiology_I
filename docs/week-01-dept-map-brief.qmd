@@ -1,0 +1,139 @@
+---
+title: "Week 1 visual brief — concept message board"
+subtitle: "Glossary-style notes + optional lab links (for collaborators)"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    css: ../styles.scss
+---
+
+::: {.callout-note}
+**Audience:** collaborators designing one end-of-Week-1 figure.  
+**Metaphor:** a **message board** of small **notes** — a visual glossary.  
+**Optional layer:** sticky “lab links” on notes where a Bern group clearly lives on that idea.
+:::
+
+## One idea
+
+Students leave Week 1 with four words that felt natural in the Bajau / Tibetan stories.
+
+The figure is **not** a research org chart and **not** a cascade diagram.
+
+It is a **glossary on a board**:
+
+> Here is what we meant — and how slippery it is.  
+> If you want to see people who work on this nearby, peek at the lab stickers.
+
+---
+
+## Layout (for the artist)
+
+### Board
+
+- Soft cork / pinboard / wall background (simple; not cluttered).
+- Title strip, e.g. **“Words we used casually”** or **“A pocket glossary for today”**.
+
+### Notes (required)
+
+Four larger note cards — one per concept. Each card has the same structure:
+
+| Zone on the note | Content |
+|---|---|
+| **Header** | Concept name (*population* / *gene* / *generation* / *selection*) |
+| **In class today** | 1 short line: how the word showed up (Bajau / Tibetans / models) |
+| **But wait…** | 1–2 lines: the ambiguity / hard question |
+| **For a model we’d need…** | 1 line: what must be specified |
+
+Keep typography calm. Same card template repeated four times = readable glossary.
+
+### Lab stickers (optional, secondary)
+
+Smaller tags pinned to a note (or hanging from it), e.g. `Bank Lab`, `Peichel`, …  
+
+Rules:
+
+- Stickers are **examples**, not a full faculty list.
+- A name can appear on more than one note if honest.
+- Empty sticker slots OK (“add later”).
+- Visual weight: **notes first**, stickers second (smaller type, muted colour).
+
+---
+
+## Copy for the four notes
+
+Edit freely; this is starter text for the board.
+
+### Note 1 — Population
+
+- **In class today:** “the Bajau,” “Tibetans,” later: lakes, cages, demes in models.
+- **But wait…** A lake population is easy to draw a boundary around. Humans (and many species) are more continuous in space — who is in / out?
+- **For a model we’d need…** A definition of the set of individuals (and how they connect by migration).
+- **Lab stickers (optional):** Seehausen · Allan · Peischl
+
+### Note 2 — Gene
+
+- **In class today:** PDE10A, BDKRB2, FAM178B, EPAS1 — “genes” linked to adaptation.
+- **But wait…** Coding sequence? Regulatory region? Whole haplotype? A name as proxy for a causal change?
+- **For a model we’d need…** A clear physical object (what mutates, what is tracked).
+- **Lab stickers (optional):** Peichel · Pertz · Bank
+
+### Note 3 — Generation
+
+- **In class today:** adaptations unfold “over generations”; discrete update steps in models.
+- **But wait…** Discrete vs continuous time? Overlapping generations? How long is a human generation?
+- **For a model we’d need…** A clock (and whether generations overlap).
+- **Lab stickers (optional):** Ringler · *(course Weeks 2–7)*
+
+### Note 4 — Selection
+
+- **In class today:** alleles “favoured,” haplotypes “swept,” diving / highland adaptation.
+- **But wait…** Can we give a gene *an* effect \(s\)? It depends on **environment** — and on **which genome / individual**.
+- **For a model we’d need…** Fitness measured relative to a specified background and setting.
+- **Lab stickers (optional):** **Bank** (epistasis / genome-dependent effects) · Ringler · Peichel · Seehausen
+
+**Optional fifth mini-note (only if space):**  
+*Epistasis* — when the effect of a mutation depends on the rest of the genome. Natural bridge from the *selection* note → Bank Lab sticker.
+
+---
+
+## Lab sticker key (for collaborators; not all text must appear on the art)
+
+| Sticker | Tiny gloss (≤6 words if on figure) |
+|---|---|
+| Bank | epistasis · fitness interactions |
+| Peichel | genetic basis of adaptation |
+| Seehausen | populations → species / radiations |
+| Ringler | individuals · behaviour · fitness |
+| Allan | communities · coexistence |
+| Pertz | cell signalling dynamics |
+| Peischl | spatial populations · rescue |
+
+---
+
+## Do / don’t
+
+**Do**
+
+- Glossary first: four notes readable in 30 seconds
+- Same card structure for every concept
+- Lab links as optional stickers
+
+**Don’t**
+
+- Hub-and-spoke org maps or long cascades as the main design
+- Equal-weight wall of logos
+- Implying Week 1 teaches each lab’s research
+
+---
+
+## File hand-off
+
+1. Asset → `pics/dept/week01_concept_board.svg` (+ PNG).
+2. Credit in `pics/README.md` / `pics/dept/README.md`.
+3. Swap into `weeks/week-01/slides.qmd` section **“Words we used casually — board”**.
+4. Update this brief if note copy or stickers change.
+
+## Speaker line
+
+> “We used these words like everyone knows them. Here they are as a little glossary — and a few sticky notes for labs next door that live on the same ideas.”

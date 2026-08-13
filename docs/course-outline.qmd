@@ -24,7 +24,7 @@ format:
 
 | Week | Date | Block / notes |
 |-----:|------|---|
-| 1 | Thu **17 Sep 2026**, 08:15–10:00 | Hook |
+| 1 | Thu **17 Sep 2026**, 08:15–10:00 | Hook — Bajau → Tibetans |
 | 2 | Thu **24 Sep 2026**, 08:15–10:00 | Ecology |
 | 3 | Thu **1 Oct 2026**, 08:15–10:00 | Ecology |
 | 4 | Thu **8 Oct 2026**, 08:15–10:00 | Ecology · **Checkpoint A** |
@@ -47,7 +47,7 @@ Eco  →  Evo (deterministic → random)  →  Microbiome (ecology with randomne
 
 | Block | Weeks | Biology | Quantitative focus | Checkpoint |
 |---|---|---|---|---|
-| **Hook** | 1 | Human adaptation (Bajau / Andika) | Why cool biology needs quantitative tools | — |
+| **Hook** | 1 | Human adaptation: Bajau diving → Tibetan altitude | Why cool biology needs many tools | — |
 | **Ecology** | 2–4 | Populations & interactions | Deterministic simulation (function → vector → loop) | **A · Week 4** |
 | **Evolution (deterministic)** | 5–7 | Allele-frequency change, selection | Recurrence equations; same coding engine | **B · Week 7** |
 | **Evolution (random)** | 8–10 | Establishment → evolutionary rescue | Stochastic fates; lab-tested rescue theory | **C · Week 10** |
@@ -93,14 +93,16 @@ Footer → Course outline / Home · opening & closing week links · **M** menu �
 
 ---
 
-## Week 1 — Hook: cool biology needs many tools
+## Week 1 — Hook: two extremes of human adaptation
 
 **When:** Thu 17 Sep 2026, 08:15–10:00  
-**Biology:** Bajau diving adaptation (Andika)  
+**Biology:** Bajau diving (Andika) → Tibetan high altitude (EPAS1)  
 **Materials:** [slides](../weeks/week-01/slides.qmd) · [notebook](../weeks/week-01/notebook.qmd) · [assignment](../weeks/week-01/assignment.qmd)
 
-- Personal story + photo hook
-- Physiology → genetics → deep-history methods
+- Personal story + photo hook (Andika / Bajau)
+- Physiology → genetics: PDE10A, BDKRB2 from **modern-human** variation; possible Denisovan-related **FAM178B**
+- Second extreme: Tibetan highland adaptation; **EPAS1** as cleaner Denisovan teaching case (Huerta-Sánchez et al. 2014)
+- **Close:** message-board glossary — *population*, *gene*, *generation*, *selection* (+ optional lab stickers)
 - Papers: Ilardo et al. 2018 *Cell*; Ilardo et al. 2021 *Front. Physiol.*; Huerta-Sánchez et al. 2014 *Nature*
 - Foreshadow: later blocks end with a **short graded presentation**, not only a final exam talk
 
@@ -252,7 +254,7 @@ Easy to fill 2–3 weeks: file formats, abundance matrices, metadata joins, rela
 ## Semester at a glance
 
 ```text
-1           Hook (Bajau / Andika)
+1           Hook (Bajau diving → Tibetan altitude)
 2–4         Ecology                         → Checkpoint A (8 Oct)
 5–7         Evolution (deterministic)       → Checkpoint B (29 Oct)
 8–10        Establishment → rescue          → Checkpoint C (19 Nov)

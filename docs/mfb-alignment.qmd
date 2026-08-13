@@ -46,7 +46,7 @@ QuBi I **cannot** address every MfB outcome for years 1–2. Goal: **touch many*
 
 | Week | Theme | Primary MfB codes |
 |-----:|------|---|
-| 1 | Bajau / evidence stack | LOG |
+| 1 | Bajau → Tibetans / evidence stack | LOG |
 | 2 | Gause PP → discrete LV → code | MOD, PROG, LOG |
 | 3 | Competition, \(K\), parameters | MOD, PROG, MATH (light), LOG |
 | 4 | Isle Royale; own model; **Checkpoint A** | MOD, PROG, LOG, DAT (light) |

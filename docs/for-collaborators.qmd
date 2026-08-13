@@ -50,6 +50,7 @@ QuBi I **does not cover all of them**. Aim to **touch many** codes deliberately 
 
 - [MfB ↔ QuBi alignment](mfb-alignment.qmd)
 - [IMPULS LEHRE proposal brief](impuls-proposal-brief.qmd) (why QuBi exists; what we promised)
+- [Week 1 concept message-board brief](week-01-dept-map-brief.qmd) (glossary notes + optional lab stickers)
 
 Source file (outside this repo): `BridgeCourse/Qualifikationskriterien_MfB_english 1.odt`.  
 Proposal PDF: `BridgeCourse/IMPULS LEHRE 2026 Antragsformular zur Einreichung.pdf`.
@@ -65,6 +66,7 @@ Proposal PDF: `BridgeCourse/IMPULS LEHRE 2026 Antragsformular zur Einreichung.pd
 | `pics/` | Images (+ `pics/README.md` credits) |
 | `templates/` | Starters for new weeks |
 | `docs/course-outline.qmd` | Student-facing semester plan |
+| `docs/week-01-dept-map-brief.qmd` | Design brief: Week 1 message-board glossary + optional lab stickers |
 | `_quarto.yml` | Website navbar + render list |
 
 ---

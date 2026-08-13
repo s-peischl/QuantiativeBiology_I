@@ -25,7 +25,7 @@ Full calendar: [course outline](docs/course-outline.qmd#session-calendar).
 
 | Week | Date | Biology | Checkpoint |
 |-----:|------|---|---|
-| [1](weeks/week-01/slides.qmd) | 17 Sep | Hook — Bajau / Andika | — |
+| [1](weeks/week-01/slides.qmd) | 17 Sep | Hook — Bajau → Tibetans | — |
 | [2](weeks/week-02/slides.qmd) | 24 Sep | Ecology | |
 | [3](weeks/week-03/slides.qmd) | 1 Oct | Ecology | |
 | [4](weeks/week-04/slides.qmd) | 8 Oct | Ecology | **A** |

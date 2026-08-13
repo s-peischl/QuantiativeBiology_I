@@ -1,13 +1,19 @@
 ---
-title: "Week 1 Assignment"
+title: "Week 1 — Assignment · Two extremes"
 format:
   html:
-    theme: cosmo
     toc: true
     css: ../../styles.scss
 ---
+
 ## Submit
 
-1. Short story map: observation → genetic claim → deep-history claim (one risk under each).
-2. Match the three follow-up questions to later course tools (in one sentence each).
-3. Reflection (120–180 words): why multiple lines of evidence matter, using the Bajau example once.
+1. **Story map (Bajau):** observation → genetic claims → archaic note. Mark one risk under each step. Include that PDE10A/BDKRB2 look like modern-human variation, while FAM178B is a possible Denisovan-related contribution.
+2. **Contrast (Tibetans):** 5–8 sentences on why EPAS1 is a stronger classroom example for archaic introgression than the Bajau archaic claim.
+3. Match the three follow-up questions (association / archaic origin / rule-out alternatives) to later course tools (one sentence each).
+4. **Four casual words:** for *population*, *gene*, *generation*, and *selection* — one short paragraph each on how we used the word today and where definition gets slippery (human continuity; what counts as a gene; overlapping generations; context-dependent \(s\)).
+5. Reflection (120–180 words): why multiple lines of evidence matter across **two extremes** (sea vs highland) — and why abstract terms still need unpacking.
+
+## AI disclosure (required)
+
+See [AI policy](../../docs/ai-policy.qmd). Disclose tool + use, or `AI disclosure: none`.

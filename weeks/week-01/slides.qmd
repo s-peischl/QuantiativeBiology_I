@@ -1,6 +1,6 @@
 ---
 title: "Week 1 — Cool Biology Needs Many Tools"
-subtitle: "The Bajau diving adaptation"
+subtitle: "Two extremes: Bajau diving → Tibetan high altitude"
 author: "Stephan Peischl"
 format:
   revealjs:
@@ -49,9 +49,10 @@ execute:
 
 ## Today's goal
 
-1. One striking biological story — told through people, not only papers
-2. What kinds of evidence it needs
-3. How this course builds the matching tools
+1. Start with Andika / Bajau — a personal diving story
+2. See how local adaptation can mix **modern-human** and **archaic** DNA
+3. Move to Tibetans — a second extreme (high altitude) with a cleaner Denisovan case
+4. Ask what *kinds* of evidence cool biology needs
 
 ---
 
@@ -177,7 +178,7 @@ Question:
 - Selection scan: candidates enriched in Bajau vs comparison groups
 - **PDE10A** — associated with spleen size (thyroid-hormone pathway)
 - **BDKRB2** — linked to the human diving reflex (vasoconstriction)
-- Standing variation + selection, not a brand-new private mutation only
+- These key diving/spleen candidates look like selection on **modern-human standing variation**
 
 ## Follow-up mechanism paper
 
@@ -199,34 +200,99 @@ Still hard questions remain:
 
 ---
 
-## Clue 3 — deep history?
+## Bajau and archaic DNA — careful claim
 
-Ilardo et al. also report a possible **Denisovan-related** signal at **FAM178B**.
+Ilardo et al. also report a possible **Denisovan-derived** signal at **FAM178B**.
 
-Important nuance:
+Honest teaching line:
 
-- **PDE10A / BDKRB2** (the diving/spleen candidates): *no* clear archaic introgression
-- Archaic DNA can matter in human adaptation — but not every adaptive gene is archaic
+> Bajau local adaptation appears **partly** linked to archaic DNA: a Denisovan-related **FAM178B** haplotype *may* have contributed, while other important diving-related adaptations (**PDE10A**, **BDKRB2**) seem to have evolved from **modern-human** genetic variation.
 
-## A clearer Denisovan teaching example
+## Why that nuance is useful
 
-Tibetan high-altitude adaptation:
+- Not every adaptive story is “Denisovan did it”
+- Not every adaptive story is “only modern variation”
+- Real biology is often a **mix** — and proving each piece needs different tools
 
-- **EPAS1** haplotype from Denisovan-like ancestry
-- Huerta-Sánchez et al. (2014), *Nature*
+## Bridge to a second extreme
 
-Use Bajau for physiology + selection.  
-Use Tibetans when asking: *how do we know DNA came from Denisovans?*
+If Bajau = adaptation to the **sea** (depth, breath-hold, oxygen stores)…
 
-## Why archaic claims are hard
+What about adaptation to the **roof of the world**?
 
-To accept “this DNA is Denisovan” we need:
+→ **Tibetan high-altitude adaptation** — another iconic human extreme, and a cleaner classroom case for Denisovan DNA.
+
+---
+
+## Extreme 2 — Tibetan high altitude
+
+## The Tibetan puzzle
+
+Living and working above ~4000 m:
+
+- chronic hypoxia (low oxygen)
+- risk of mountain sickness / high hematocrit costs
+- yet Tibetan populations show distinctive physiology and genetics
+
+Different extreme from Bajau — same big question:
+
+> How did humans adapt locally, and what DNA is involved?
+
+## A landmark genetic finding
+
+**EPAS1** (hypoxia pathway transcription factor)
+
+- Strong selection signal in Tibetans
+- The adaptive haplotype matches **Denisovan-like** archaic ancestry unusually well
+
+**Paper:** Huerta-Sánchez et al. (2014), *Nature*
+
+## Why EPAS1 is a great teaching case
+
+Compared with Bajau’s mixed picture:
+
+| | Bajau diving | Tibetan altitude |
+|---|---|---|
+| Extreme | breath-hold / marine | hypoxia / highland |
+| Clear physiology story | spleen / dive response | oxygen sensing / EPAS1 pathway |
+| Archaic DNA | possible FAM178B contribution; spleen genes look modern | **EPAS1** haplotype ≈ classic Denisovan introgression example |
+| Teaching use | mixed origins + association | *how do we know DNA is archaic?* |
+
+## How do we know it’s Denisovan?
+
+To accept “this haplotype is archaic / Denisovan-like” we need:
 
 - archaic reference genomes
 - haplotype sharing / introgression statistics
-- rejection of look-alike alternatives (ILS, convergent mutation)
+- rejection of look-alike alternatives (incomplete lineage sorting, convergent mutation)
 
 → bioinformatics + population-genetic modelling
+
+## Two extremes, one course message
+
+:::: {.columns}
+
+::: {.column width="50%"}
+**Bajau**
+
+- Sea nomads / diving
+- Andika as human entry
+- Physiology + selection
+- Archaic DNA = *part* of the story
+:::
+
+::: {.column width="50%"}
+**Tibetans**
+
+- High plateau / hypoxia
+- EPAS1 as textbook case
+- Cleaner archaic haplotype
+- Methods for deep history
+:::
+
+::::
+
+Cool biology at opposite ends of the oxygen problem — both need **many tools**.
 
 ---
 
@@ -236,7 +302,7 @@ To accept “this DNA is Denisovan” we need:
 
 **How show genes are tied to the adaptation?**
 
-Ilardo route: ultrasound phenotypes + selection scans + association  
+Bajau route: ultrasound phenotypes + selection scans + association (PDE10A, BDKRB2)
 
 → study design, confounders, replication
 
@@ -245,6 +311,7 @@ Ilardo route: ultrasound phenotypes + selection scans + association
 **How infer archaic origin of a sequence?**
 
 Best classroom example: Tibetan **EPAS1** (Huerta-Sánchez et al. 2014)  
+Bajau **FAM178B**: possible / partial — good for discussing uncertainty
 
 → genomes, comparative genomics, introgression tests
 
@@ -258,27 +325,27 @@ Best classroom example: Tibetan **EPAS1** (Huerta-Sánchez et al. 2014)
 
 ## Take-home message
 
-Cool biology stacks evidence:
+Cool biology stacks evidence — and extremes help us see the toolkit:
 
-| Line of evidence | In this story |
-|---|---|
-| People & culture | Andika / Bajau diving life |
-| Physiology | larger spleens; dive response |
-| Genetics | PDE10A, BDKRB2 (+ follow-ups) |
-| Deep history methods | archaic introgression toolkit (e.g. EPAS1) |
-| Modelling | alternative scenarios |
+| Line of evidence | Bajau | Tibetans |
+|---|---|---|
+| People & culture | Andika / sea nomads | highland life |
+| Physiology | larger spleen; dive response | hypoxia physiology |
+| Genetics (modern variation) | PDE10A, BDKRB2 | other highland loci (context) |
+| Archaic DNA | possible FAM178B | EPAS1 Denisovan-like haplotype |
+| Modelling | alternative histories | alternative histories |
 
 ## Key papers (starter set)
 
-1. **Ilardo et al. (2018)** *Cell* — Bajau spleen size; PDE10A; BDKRB2  
+1. **Ilardo et al. (2018)** *Cell* — Bajau spleen; PDE10A; BDKRB2; FAM178B note  
    https://doi.org/10.1016/j.cell.2018.03.054
-2. **Ilardo et al. (2021)** *Front. Physiol.* — PDE10A / TH / EPO-independent mechanism  
+2. **Ilardo et al. (2021)** *Front. Physiol.* — PDE10A mechanism  
    https://doi.org/10.3389/fphys.2021.760851
 3. **Huerta-Sánchez et al. (2014)** *Nature* — Tibetan EPAS1 Denisovan introgression  
    https://doi.org/10.1038/nature13408
 
 ::: {.notes}
-Optional extras if you want a reading list: Scholander diving response classics; Sankararaman et al. on archaic landscapes; Racimo et al. on detecting adaptive introgression.
+Optional extras: Scholander diving response; Sankararaman archaic landscapes; Racimo adaptive introgression reviews; later Tibetan physiology papers if you want more altitude depth in discussion.
 :::
 
 ## What “quantitative” means here
@@ -290,15 +357,152 @@ Not a separate subject — tools for biology:
 - simulation & model comparison
 - clear plots and careful claims
 
+---
+
+## Strong ending: words we used casually
+
+Today we talked like these were obvious. They are not.
+
+The rest of the course makes them precise — because cool stories quietly depend on them.
+
+## Population
+
+In a model: often a well-defined set of individuals (one lake, one cage, one deme).
+
+In humans: more continuous space, migration, fuzzy boundaries.
+
+::: {.fragment}
+**Ask:** When we say “the Bajau” or “Tibetans,” what *population* did we mean — and does the math still match?
+:::
+
+## Gene
+
+::: {.fragment}
+**Ask the room:** What *is* a gene? How is it defined — for a textbook, for a genome scan, for PDE10A / EPAS1 / FAM178B?
+:::
+
+Coding sequence? Regulatory region? Haplotype? Named locus as proxy for a causal change?
+
+::: {.fragment}
+Same word; different objects. Models need you to pick one.
+:::
+
+## Generation
+
+Discrete vs continuous time · non-overlapping vs overlapping · “one generation ≈ ? years” in humans
+
+::: {.fragment}
+Dive culture and highland life unfold over many generations — but our equations often pretend time is tidy.
+:::
+
+## Selection coefficient
+
+We used this **implicitly**: alleles “favoured,” haplotypes “swept,” adaptations “selected.”
+
+Can we assign *an* effect \(s\) to *a* gene?
+
+::: {.fragment}
+**Context-dependent** — which environment (sea vs plateau)?  
+…and **which human** (age, sex, lifestyle, plastic physiology)?
+:::
+
+::: {.fragment}
+A coefficient is a modelling choice, not a barcode on DNA.
+:::
+
+## Why this matters
+
+| Casual word | Hard question |
+|---|---|
+| population | Who belongs? Where are the edges? |
+| gene | What physical object enters the model? |
+| generation | What clock does evolution use? |
+| selection | Effect of what, on whom, where? |
+
+::: {.fragment}
+Bajau and Tibetans are hooks. These four words are the course.
+:::
+
+## Words we used casually — board
+
+A pocket glossary. Same four words; each needs a definition before it enters a model.
+
+:::: {.columns}
+
+::: {.column width="50%"}
+**Population**
+
+*Today:* “the Bajau,” “Tibetans”  
+*But wait:* tidy demes vs continuous space — who is in?  
+*Model needs:* a defined set (+ migration)
+
+:::
+
+::: {.column width="50%"}
+**Gene**
+
+*Today:* PDE10A, BDKRB2, FAM178B, EPAS1  
+*But wait:* coding / regulatory / haplotype / name?  
+*Model needs:* a clear physical object
+
+:::
+
+::::
+
+:::: {.columns}
+
+::: {.column width="50%"}
+**Generation**
+
+*Today:* change “over generations”  
+*But wait:* discrete / continuous? overlapping? how long?  
+*Model needs:* a clock
+
+:::
+
+::: {.column width="50%"}
+**Selection**
+
+*Today:* alleles favoured, adaptations  
+*But wait:* one \(s\) for a gene? which environment / which genome?  
+*Model needs:* fitness in a specified context
+
+:::
+
+::::
+
+::: {.notes}
+Artist brief (message-board glossary + optional lab stickers): docs/week-01-dept-map-brief.qmd
+:::
+
+## Optional stickers — labs next door
+
+Small links, not a syllabus. Pin where they fit:
+
+| Concept note | Example lab stickers |
+|---|---|
+| population | Seehausen · Allan · Peischl |
+| gene | Peichel · Pertz · Bank |
+| generation | Ringler · course models |
+| selection | **Bank** (epistasis) · Ringler · Peichel · Seehausen |
+
+::: {.fragment}
+Bridge from *selection*: genome-dependent mutation effects → **epistasis** → Bank Lab.
+:::
+
+## One line to remember
+
+Cool stories use abstract words. Quantitative biology makes those words **precise** — and nearby labs show how many lives those words can have.
+
 ## Semester roadmap (biology)
 
 | Weeks | Biology |
 |---|---|
 | 2–4 | **Ecology** |
 | 5–7 | **Evolution** (deterministic) |
-| 8–10 | **Evolution** (random) |
-| 11–13 | **Microbiome** — load complex data → visualize → story |
-| 14 | Project |
+| 8–10 | **Evolution** (establishment → rescue) |
+| 11–13 | **Microbiome** — load → visualize → story |
+| 14 | Synthesis wrap |
 
 ## Next up (Weeks 2–4)
 
@@ -310,14 +514,16 @@ Not a separate subject — tools for biology:
 
 ## Exit ticket
 
-1. What stayed with you from Andika’s story?
-2. Which evidence type feels strongest — and which feels hardest to prove?
-3. Which programming idea do you already know that you will reuse?
+Pick **one** of today’s casual words — *population*, *gene*, *generation*, or *selection* — and write 2–3 sentences:
+
+1. How we used it in the Bajau or Tibetan story  
+2. One way the meaning gets slippery  
+3. What would need to be specified for a model
 
 ## Next week
 
-A cool ecological contrast (with/without predators) → take apart → rebuild with **function, vector, loop**.
-
+A cool ecological contrast (with/without predators) → take apart → rebuild with **function, vector, loop**.  
+Watch how “population” becomes something you can write as \(N(t)\).
 ---
 
 ## More culture visuals (optional)
