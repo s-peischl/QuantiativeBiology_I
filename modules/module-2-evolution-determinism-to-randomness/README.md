@@ -1,3 +1,3 @@
-# Stub
+# Platzhalter
 
-Later: randomness / Wright–Fisher. Draft resource: `../../archive/resources/wright-fisher-selection-balance.qmd`
+Später: Zufälligkeit / Wright–Fisher. Entwurfsressource: `../../archive/resources/wright-fisher-selection-balance.qmd`

@@ -1,30 +1,30 @@
 ---
-title: "Week XX — Assignment"
+title: "Woche XX — Aufgabe"
 format:
   html:
     toc: false
 ---
 
-## Prompt
+## Aufgabenstellung
 
-Use this week's notebook to address the biological question.
+Verwenden Sie das Notebook dieser Woche, um die biologische Fragestellung zu bearbeiten.
 
-## Deliverables
+## Einzureichende Bestandteile
 
-1. Rendered notebook (`.html`) or equivalent
-2. One key figure with caption
-3. Short interpretation (120–180 words)
+1. Gerendertes Notebook (`.html`) oder gleichwertiges Format
+2. Eine zentrale Abbildung mit Bildlegende
+3. Kurze Interpretation (120–180 Wörter)
 
-## Criteria
+## Kriterien
 
-- Reproducibility (40%)
-- Biological interpretation (40%)
-- Clarity (20%)
+- Reproduzierbarkeit (40 %)
+- Biologische Interpretation (40 %)
+- Klarheit (20 %)
 
-## Submission
+## Abgabe
 
-Submit via ILIAS by the stated deadline.
+Reichen Sie die Arbeit bis zur angegebenen Frist über ILIAS ein.
 
-## AI disclosure (required)
+## Offenlegung der KI-Nutzung (obligatorisch)
 
-See the course [AI policy](../../docs/ai-policy.qmd). If you used generative AI while preparing this submission, state tool + how used; otherwise write `AI disclosure: none`.
+Beachten Sie die [KI-Richtlinie](../../docs/ai-policy.qmd) des Kurses. Falls Sie bei der Vorbereitung dieser Abgabe generative KI verwendet haben, geben Sie das Werkzeug und die Art der Verwendung an; andernfalls schreiben Sie `KI-Offenlegung: keine`.

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="220" viewBox="0 0 800 220">
+  <rect width="800" height="220" fill="white"/>
+
+  <rect x="30" y="40" width="740" height="140" rx="20" fill="#f5eef8" stroke="#8e44ad" stroke-width="4"/>
+  <circle cx="120" cy="110" r="45" fill="white" stroke="#8e44ad" stroke-width="4"/>
+  <text x="120" y="125" text-anchor="middle" font-family="Helvetica" font-size="42" font-weight="bold" fill="#8e44ad">D</text>
+  <text x="200" y="120" font-family="Helvetica" font-size="36" font-weight="bold" fill="#8e44ad">Abschluss</text>
+
+</svg>

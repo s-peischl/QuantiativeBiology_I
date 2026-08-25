@@ -1,3 +1,3 @@
-# Stub
+# Platzhalter
 
-See `../../weeks/` for active content.
+Aktuelle Inhalte befinden sich unter `../../weeks/`.

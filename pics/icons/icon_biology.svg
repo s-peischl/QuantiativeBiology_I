@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <rect width="200" height="200" fill="white"/>
+  <circle cx="100" cy="100" r="88" fill="#eafaf1" stroke="#1e8449" stroke-width="4"/>
+  <!-- base -->
+  <rect x="55" y="145" width="90" height="14" rx="4" fill="#1e8449"/>
+  <!-- arm -->
+  <path d="M95 145 L95 70 Q95 50 115 50 L130 50" fill="none" stroke="#145a32" stroke-width="10" stroke-linecap="round"/>
+  <!-- eyepiece -->
+  <rect x="122" y="38" width="28" height="18" rx="4" fill="#27ae60" stroke="#145a32" stroke-width="2"/>
+  <!-- stage -->
+  <rect x="70" y="100" width="50" height="8" rx="2" fill="#196f3d"/>
+  <!-- objective -->
+  <rect x="88" y="78" width="14" height="24" rx="3" fill="#27ae60" stroke="#145a32" stroke-width="2"/>
+</svg>

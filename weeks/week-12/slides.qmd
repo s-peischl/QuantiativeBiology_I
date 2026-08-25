@@ -1,6 +1,6 @@
 ---
-title: "Week 12 — Visualizing Microbiome Data"
-subtitle: "From tables to readable figures"
+title: "Woche 12 — Mikrobiomdaten visualisieren"
+subtitle: "Von Tabellen zu verständlichen Abbildungen"
 author: "Stephan Peischl"
 format:
   revealjs:
@@ -17,97 +17,102 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Course outline](../../docs/course-outline.html) · [Home](../../index.html)"
+    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html)"
 execute:
   echo: false
   warning: false
   message: false
 ---
 
-## On this deck
+## In diesem Foliensatz
 
-**Week 12** of 14 · Microbiome block  
-**Thu 3 Dec 2026, 08:15–10:00**
+**Woche 12** von 14 · Mikrobiom-Block  
+**Do., 3. Dez. 2026, 08:15–10:00**
 
-- [Course outline](../../docs/course-outline.html)
-- [Home](../../index.html)
-- Arrow keys / controls · **M** menu · **Esc** grid
+- [Kursplan](../../docs/course-outline.html)
+- [Start](../../index.html)
+- Pfeiltasten / Steuerelemente · **M** Menü · **Esc** Übersicht
 
-## Recap
+## Rückblick
 
-Week 11: load → join → sanity-check.
+Woche 11: einlesen → verknüpfen → Plausibilität prüfen.
 
-Today: **see** the community without drowning in 500 colours.
+Heute: die Gemeinschaft **erkennen**, ohne in 500 Farben zu versinken.
 
-## The visualization problem
+## Das Visualisierungsproblem
 
-Hundreds/thousands of taxa ≠ hundreds of legend entries.
+Hunderte/Tausende Taxa ≠ Hunderte Legendeneinträge.
 
-You must **aggregate or select**:
+Sie müssen **aggregieren oder auswählen**:
 
-- top \(k\) taxa + “Other”
-- roll up to phylum / family
-- focus on a taxon set motivated by biology
+- häufigste \(k\) Taxa + «Andere»
+- auf Stamm- / Familienebene zusammenfassen
+- auf eine biologisch begründete Auswahl von Taxa fokussieren
 
-## Core plot menu (master these)
+## Zentrale Grafiktypen (diese sollten Sie beherrschen)
 
-1. **Library size** bar/histogram (QC)
-2. **Stacked composition** by sample (or mean by group)
-3. **Heatmap** (samples × selected taxa)
-4. **Facets** by metadata (site, treatment, time)
-5. Optional: simple richness / Shannon bars — only if they help the story
+1. Balkendiagramm/Histogramm der **Bibliotheksgrösse** (Qualitätskontrolle)
+2. **Gestapelte Zusammensetzung** nach Probe (oder Gruppenmittelwert)
+3. **Heatmap** (Proben × ausgewählte Taxa)
+4. **Facetten** nach Metadaten (Standort, Behandlung, Zeitpunkt)
+5. Optional: einfache Balkendiagramme für Artenreichtum / Shannon-Index — nur wenn sie zur Aussage beitragen
 
-## Design rules (classroom)
+## Gestaltungsregeln
 
-- Order samples/taxa with intention (not random IDs)
-- Limit categorical colours (~8–12 max on one panel)
-- Prefer small multiples over one overloaded panel
-- Label axes in biological language (relative abundance, counts, …)
-- Caption: what was filtered / aggregated?
+- Proben/Taxa bewusst anordnen (nicht nach zufälligen IDs)
+- Kategorische Farben begrenzen (maximal ca. 8–12 in einem Panel)
+- Kleine Teilgrafiken gegenüber einem überladenen Panel bevorzugen
+- Achsen biologisch verständlich beschriften (relative Abundanz, Zählwerte, …)
+- In der Bildlegende angeben: Was wurde gefiltert / aggregiert?
 
-## Pitfalls
+## Fallstricke
 
-- Treating compositional data like independent counts
-- Comparing raw counts across uneven library sizes without care
-- Rainbow heatmaps that hide structure
-- Plotting all taxa “because we can”
+- Kompositionsdaten wie unabhängige Zählwerte behandeln
+- Rohzählwerte bei ungleichen Bibliotheksgrössen unkritisch vergleichen
+- Regenbogen-Heatmaps, die Strukturen verdecken
+- Alle Taxa plotten, «weil wir es können»
 
-## Programming bridge
+## Brücke zur Programmierung
 
-- Reusable `plot_composition(df, group)` functions
-- Long-format data play nicely with plotting grammars
-- Same loop/vector habits: compute summaries, then plot
+- Wiederverwendbare Funktionen wie `plot_composition(df, group)`
+- Daten im langen Format eignen sich gut für Grafikgrammatiken
+- Dieselben Schleifen-/Vektorgewohnheiten: Zusammenfassungen berechnen, dann plotten
 
-## Live demo goals
+## Ziele der Live-Demonstration
 
-1. QC library sizes
-2. Top taxa composition by group
-3. One heatmap of a curated taxon set
-4. Discuss: what claim is visually supported?
+1. Qualitätskontrolle der Bibliotheksgrössen
+2. Zusammensetzung der häufigsten Taxa nach Gruppe
+3. Eine Heatmap einer gezielt ausgewählten Taxa-Gruppe
+4. Diskussion: Welche Aussage wird visuell gestützt?
 
-## Notebook preview
+## Vorschau auf das Notebook
 
-Build a small “viz cookbook” on the Week 11 dataset: at least composition + one heatmap/facet.
+Erstellen Sie mit dem Datensatz aus Woche 11 ein kleines «Visualisierungs-Kochbuch»: mindestens eine Darstellung der Zusammensetzung + eine Heatmap/Facette.
 
-## Exit ticket
+## Abschlussfragen
 
-1. Which aggregation did you choose — and why?
-2. Name one visual lie to avoid with microbiome plots.
-3. What figure do you want to perfect for Checkpoint D?
+1. Welche Aggregation haben Sie gewählt — und warum?
+2. Nennen Sie eine visuelle Täuschung, die bei Mikrobiomgrafiken zu vermeiden ist.
+3. Welche Abbildung möchten Sie für Checkpoint D perfektionieren?
 
-## Next week
+## Nächste Woche
 
-**Visual story + Checkpoint D** — present one clear claim with limits.
+**Visuelle Geschichte + Checkpoint D** — eine klare Aussage mit Einschränkungen präsentieren.
 
 ---
+
+## Literatur
+
+In diesem Foliensatz-Entwurf noch keine Fallstudien zitiert.  
+Sobald Inhalte ausgearbeitet sind, erscheint hier die vollständige Liste aller genannten Quellen.
 
 ## Navigation
 
 | | |
 |---|---|
-| Overview | [Course outline](../../docs/course-outline.html) |
-| Home | [Course home](../../index.html) |
-| Previous | [← Week 11](../week-11/slides.html) |
-| Next | [Week 13 →](../week-13/slides.html) |
+| Übersicht | [Kursplan](../../docs/course-outline.html) |
+| Startseite | [Kursstartseite](../../index.html) |
+| Zurück | [← Woche 11](../week-11/slides.html) |
+| Weiter | [Woche 13 →](../week-13/slides.html) |
 
-Keyboard: ← → · **M** menu · **Esc** grid · **F** fullscreen
+Tastatur: ← → · **M** Menü · **Esc** Übersicht · **F** Vollbild

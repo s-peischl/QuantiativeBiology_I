@@ -1,19 +1,23 @@
 ---
-title: "Week 1 — Assignment · Two extremes"
+title: "Woche 1 — Aufgabe · Zwei Extreme"
 format:
   html:
     toc: true
     css: ../../styles.scss
 ---
 
-## Submit
+## Abgabe
 
-1. **Story map (Bajau):** observation → genetic claims → archaic note. Mark one risk under each step. Include that PDE10A/BDKRB2 look like modern-human variation, while FAM178B is a possible Denisovan-related contribution.
-2. **Contrast (Tibetans):** 5–8 sentences on why EPAS1 is a stronger classroom example for archaic introgression than the Bajau archaic claim.
-3. Match the three follow-up questions (association / archaic origin / rule-out alternatives) to later course tools (one sentence each).
-4. **Four casual words:** for *population*, *gene*, *generation*, and *selection* — one short paragraph each on how we used the word today and where definition gets slippery (human continuity; what counts as a gene; overlapping generations; context-dependent \(s\)).
-5. Reflection (120–180 words): why multiple lines of evidence matter across **two extremes** (sea vs highland) — and why abstract terms still need unpacking.
+1. **Bajau:** Beobachtung → Frage → Daten (Milz) → Analyse (Statistik; Assembly; Sweep-Scan). Je ein Satz Risiko/Limitation. Gene: PDE10A/BDKRB2; **keine** Denisova-Aussage.
+2. **Tibet:** 5–8 Sätze zu EPAS1 / Denisova-ähnlich. Nennen Sie mindestens zwei **alternative Erklärungen** und erklären Sie, warum man **simuliert** und **Likelihoods / Modelle vergleicht**.
+3. Zu den drei Kursfragen (Assoziation · archaischer Ursprung · Ausschluss von Alternativen): je ein Satz, welche **Daten / Analyse** die Frage beantworten kann.
+4. **Vier Begriffe:** *Population*, *Gen*, *Generation*, *Selektion* — je ein kurzer Absatz (Verwendung heute + Unschärfe).
+5. Reflexion (120–180 Wörter): Warum reicht die Bajau-Argumentkette für Tibet nicht — und was leistet Model selection?
 
-## AI disclosure (required)
+## Literatur
 
-See [AI policy](../../docs/ai-policy.qmd). Disclose tool + use, or `AI disclosure: none`.
+Quellen zu den Fallstudien: Literaturliste in den [Folien Woche 1](slides.qmd#publikationen-einstieg) (Ilardo et al. 2018/2021; Huerta-Sánchez et al. 2014; Methoden-Klassiker).
+
+## Offenlegung der KI-Nutzung (obligatorisch)
+
+Siehe [KI-Richtlinie](../../docs/ai-policy.qmd). Geben Sie das verwendete Werkzeug und die Art der Nutzung an oder schreiben Sie `KI-Offenlegung: keine`.

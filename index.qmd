@@ -1,47 +1,67 @@
 ---
-title: "Quantitative Biology I"
+title: "Quantitative Biologie I"
+lang: de
 format:
   html:
     toc: false
     css: styles.scss
 ---
 
-## Start here
+## Hier starten
 
-- **[Full course outline](docs/course-outline.qmd)**
-- **[AI policy](docs/ai-policy.qmd)** — allowed uses, bans, and disclosure
-- **[For collaborators](docs/for-collaborators.qmd)** — Quarto + GitHub how-to  
-  (includes link to internal [MfB alignment](docs/mfb-alignment.qmd))
+- **[Allgemeine Informationen](docs/general-info.qmd)** — Termine, bestanden/nicht bestanden, Checkpoints (**Entwurf**)
+- **[Modul 1 · Wochen 1–4](docs/module-01-overview.qmd)** — Ein-Seiten-Überblick · **Checkpoint A / Präsenz**
+- **[Kursplan](docs/course-outline.qmd)** — vollständiger Wochenplan
+- **[KI-Richtlinie](docs/ai-policy.qmd)** — erlaubte Nutzung, Verbote und Offenlegung
+- **[Collaborators](docs/for-collaborators.qmd)** — Quarto + GitHub (English)
 
-## Lecture slot
+## Vorlesungstermin
 
-**Thursdays 08:15–10:00** · first meeting **17 Sep 2026** · through **17 Dec 2026**
+**Donnerstags 08:15–10:00** · erste Sitzung **17. Sep 2026** · bis **17. Dez 2026**
 
-Full calendar: [course outline](docs/course-outline.qmd#session-calendar).
+Vollständiger Kalender: [Kursplan](docs/course-outline.qmd#session-calendar).
 
-## Arc
+## Modul 1 (jetzt)
 
-**Eco → Evo (deterministic → random) → Microbiome (ecology with randomness)**
+Einstieg → Ökologie → Spieltheorie · endet mit **Checkpoint A in Woche 4**.
 
-| Week | Date | Biology | Checkpoint |
+::: {.callout-important}
+## Woche 4: Präsentationen — Anwesenheit Pflicht
+
+Für die Bewertung müssen Sie **anwesend sein und präsentieren**.  
+Details: [Modul 1](docs/module-01-overview.qmd) · [Allgemeine Informationen](docs/general-info.qmd).
+:::
+
+| Woche | Datum | Thema |
+|------:|------|--------|
+| [1](weeks/week-01/slides.qmd) | 17. Sep | Einstieg — Bajau → Tibet |
+| [2](weeks/week-02/slides.qmd) | 24. Sep | Erstes Modell |
+| [3](weeks/week-03/slides.qmd) | 1. Okt | Ausschluss / Food Web |
+| [4](weeks/week-04/slides.qmd) | 8. Okt | RPS · **Checkpoint A** |
+
+## Bogen (ganzes Semester)
+
+**Ökologie → Evolution (deterministisch → zufällig) → Mikrobiom**
+
+| Woche | Datum | Biologie | Checkpoint |
 |-----:|------|---|---|
-| [1](weeks/week-01/slides.qmd) | 17 Sep | Hook — Bajau → Tibetans | — |
-| [2](weeks/week-02/slides.qmd) | 24 Sep | Ecology | |
-| [3](weeks/week-03/slides.qmd) | 1 Oct | Ecology | |
-| [4](weeks/week-04/slides.qmd) | 8 Oct | Ecology | **A** |
-| [5](weeks/week-05/slides.qmd) | 15 Oct | Evolution (deterministic) | |
-| [6](weeks/week-06/slides.qmd) | 22 Oct | Evolution (deterministic) | |
-| [7](weeks/week-07/slides.qmd) | 29 Oct | Evolution (deterministic) | **B** |
-| [8](weeks/week-08/slides.qmd) | 5 Nov | From selection to establishment | |
-| [9](weeks/week-09/slides.qmd) | 12 Nov | Establishment probabilities | |
-| [10](weeks/week-10/slides.qmd) | 19 Nov | Evolutionary rescue | **C** |
-| [11](weeks/week-11/slides.qmd) | 26 Nov | Microbiome · load complex data | |
-| [12](weeks/week-12/slides.qmd) | 3 Dec | Microbiome · visualize | |
-| [13](weeks/week-13/slides.qmd) | 10 Dec | Microbiome · visual story | **D** |
-| [14](weeks/week-14/slides.qmd) | 17 Dec | Synthesis wrap | Portfolio / connect A–D |
+| [1](weeks/week-01/slides.qmd) | 17. Sep | Einstieg — Bajau → Tibeter:innen | — |
+| [2](weeks/week-02/slides.qmd) | 24. Sep | Ökologie | |
+| [3](weeks/week-03/slides.qmd) | 1. Okt | Ausschluss / Food Web | |
+| [4](weeks/week-04/slides.qmd) | 8. Okt | Spieltheorie / RPS | **A** |
+| [5](weeks/week-05/slides.qmd) | 15. Okt | Evolution (deterministisch) | |
+| [6](weeks/week-06/slides.qmd) | 22. Okt | Evolution (deterministisch) | |
+| [7](weeks/week-07/slides.qmd) | 29. Okt | Evolution (deterministisch) | **B** |
+| [8](weeks/week-08/slides.qmd) | 5. Nov | Von Selektion zu Etablierung | |
+| [9](weeks/week-09/slides.qmd) | 12. Nov | Etablierungswahrscheinlichkeiten | |
+| [10](weeks/week-10/slides.qmd) | 19. Nov | Evolutionäre Rettung | **C** |
+| [11](weeks/week-11/slides.qmd) | 26. Nov | Mikrobiom · komplexe Daten laden | |
+| [12](weeks/week-12/slides.qmd) | 3. Dez | Mikrobiom · visualisieren | |
+| [13](weeks/week-13/slides.qmd) | 10. Dez | Mikrobiom · visuelle Geschichte | **D** |
+| [14](weeks/week-14/slides.qmd) | 17. Dez | Synthese | Portfolio / A–D verbinden |
 
-Details: [assessment rhythm](docs/course-outline.qmd#assessment-rhythm-presentations-throughout).
+Bewertung (Entwurf): [Allgemeine Informationen](docs/general-info.qmd).
 
-## Templates
+## Vorlagen
 
-- [slides](templates/slides-template.qmd) · [notebook](templates/notebook-template.qmd) · [assignment](templates/assignment-template.qmd)
+- [Folien](templates/slides-template.qmd) · [Notebook](templates/notebook-template.qmd) · [Aufgabe](templates/assignment-template.qmd)

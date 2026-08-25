@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="480" viewBox="0 0 980 480">
+  <rect width="980" height="480" fill="white"/>
+  <text x="490" y="36" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="bold" fill="#222">Selective Sweep → Valley of Diversity</text>
+  <text x="490" y="60" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#555">Genetische Vielfalt entlang des Chromosoms (Lehrschema)</text>
+
+  <!-- axes -->
+  <line x1="80" y1="380" x2="900" y2="380" stroke="#222" stroke-width="2"/>
+  <line x1="80" y1="380" x2="80" y2="100" stroke="#222" stroke-width="2"/>
+  <text x="490" y="420" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#222">Position entlang des Chromosoms</text>
+  <text x="28" y="250" text-anchor="middle" transform="rotate(-90 28 250)" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#222">Genetische Vielfalt</text>
+
+  <!-- baseline diversity -->
+  <path d="M 90 160
+           C 200 155, 280 165, 350 200
+           C 400 230, 430 300, 490 320
+           C 550 300, 580 230, 630 200
+           C 700 165, 780 155, 890 160"
+        fill="none" stroke="#2980b9" stroke-width="4"/>
+
+  <!-- fill valley lightly -->
+  <path d="M 350 200
+           C 400 230, 430 300, 490 320
+           C 550 300, 580 230, 630 200
+           L 630 380 L 350 380 Z"
+        fill="#2980b9" opacity="0.12"/>
+
+  <!-- selected site -->
+  <line x1="490" y1="100" x2="490" y2="380" stroke="#c0392b" stroke-width="2" stroke-dasharray="6 4"/>
+  <circle cx="490" cy="320" r="8" fill="#c0392b"/>
+  <text x="490" y="95" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" fill="#c0392b">selektiertes Allel</text>
+
+  <!-- annotations -->
+  <text x="200" y="140" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1a5276">hohe Vielfalt</text>
+  <text x="780" y="140" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1a5276">hohe Vielfalt</text>
+  <text x="490" y="355" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" fill="#1a5276">Valley of Diversity</text>
+  <text x="490" y="455" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#444">Nahe dem Sweep: Variation «weggeräumt» (Hitchhiking). Weiter weg: Vielfalt kehrt zurück (Rekombination).</text>
+</svg>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="320" viewBox="0 0 920 320">
+  <rect width="920" height="320" fill="#fbfcfd"/>
+  <text x="460" y="34" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="#1a5276">Kurz: evolutionaere Spieltheorie (Hofbauer / Sigmund)</text>
+
+  <rect x="40" y="60" width="260" height="200" rx="12" fill="#eaf2fb" stroke="#2980b9" stroke-width="2"/>
+  <text x="170" y="100" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#1a5276">Strategien</text>
+  <text x="170" y="140" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">statt Arten:</text>
+  <text x="170" y="165" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Typen / Verhaltensweisen</text>
+  <text x="170" y="200" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">z.B. Hawk / Dove</text>
+  <text x="170" y="225" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">oder Schere-Stein-Papier</text>
+
+  <rect x="330" y="60" width="260" height="200" rx="12" fill="#eafaf1" stroke="#27ae60" stroke-width="2"/>
+  <text x="460" y="100" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#196f3d">Replikator-Dynamik</text>
+  <text x="460" y="145" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Frequenz x waechst,</text>
+  <text x="460" y="170" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">wenn Payoff &gt; Mittel</text>
+  <text x="460" y="210" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#196f3d">gleiche Pipeline:</text>
+  <text x="460" y="235" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Update -&gt; Schleife -&gt; plot</text>
+
+  <rect x="620" y="60" width="260" height="200" rx="12" fill="#fef9e7" stroke="#d68910" stroke-width="2"/>
+  <text x="750" y="100" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#9a7b0a">Bruecke zur Oekologie</text>
+  <text x="750" y="145" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Punkt / Zyklus /</text>
+  <text x="750" y="170" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Permanenz erscheinen</text>
+  <text x="750" y="195" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">auch bei Strategien</text>
+  <text x="750" y="235" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#9a7b0a">Hofbauer &amp; Sigmund 1998</text>
+
+  <text x="460" y="295" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5d6d7e">Idee: Fitness = Payoff - Dynamik wie bei Populationen</text>
+</svg>

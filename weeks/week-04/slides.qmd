@@ -1,10 +1,11 @@
 ---
-title: "Week 4 — Data, Models, and Your Own Design"
-subtitle: "From examples to creative modelling"
+title: "Woche 4 — Spieltheorie & Checkpoint A"
+subtitle: "20′ Intro · 40′ Notebook · 30′ Kurzpräsentationen"
 author: "Stephan Peischl"
 format:
   revealjs:
     theme: simple
+    css: slides.css
     slide-number: true
     incremental: false
     embed-resources: true
@@ -17,260 +18,494 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Course outline](../../docs/course-outline.html) · [Home](../../index.html)"
+    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html)"
 execute:
   echo: false
   warning: false
   message: false
-  freeze: true
+  freeze: false
 ---
 
-## On this deck
+## Übersicht
 
-**Week 4** of 14 · Ecology block  
-**Thu 8 Oct 2026, 08:15–10:00**
+**Woche 4** von 14 · **Do., 8. Okt. 2026, 08:15–10:00**
 
-- [Course outline](../../docs/course-outline.html)
-- [Home](../../index.html)
-- Arrow keys / controls · **M** menu · **Esc** grid
+[Kursplan](../../docs/course-outline.html) · [Start](../../index.html)
 
-## Part 1  
-## Recap and goal
+::: aside
+Pfeiltasten · **M** Menü · **Esc** Übersicht
+:::
 
-## What you can already do
+## Sitzungsablauf (~90 min)
 
-- Week 2: predator–prey (Gause *Didinium*)
-- Week 3: carrying capacity + competition (Gause two *Paramecia*)
-- Engine: function → vector → loop
+| Teil | Dauer | Was |
+|------|-------|-----|
+| **Intro** | **~20 min** | Spieltheorie · Echsen · 2 vs. 3 · Stabilitätsformen |
+| **Notebook** | **~40 min** | \(A\) drehen → RPS; Form diagnostizieren |
+| **Präsentationen** | **~30 min** | Matrix · Plot · welche Stabilitätsform? |
 
-Today: **field data**, a small model zoo, then invent your own.
+## Heute in einem Blick
 
-## Learning goals today
+::::: columns
+::: {.column width="22%"}
+![](../../pics/icons/icon_biology.svg){fig-alt="Biologie" width="70%"}
+:::
+::: {.column width="22%"}
+![](../../pics/icons/icon_math.svg){fig-alt="Matrix" width="70%"}
+:::
+::: {.column width="22%"}
+![](../../pics/icons/icon_code.svg){fig-alt="Code" width="70%"}
+:::
+::: {.column width="22%"}
+![](../../pics/icons/icon_speak.svg){fig-alt="Praesentation" width="70%"}
+:::
+:::::
 
-1. Read qualitative patterns in a real ecological time series
-2. Compare simulation output to data *without* formal fitting
-3. Meet other model families (same coding engine)
-4. Design and implement a small model of your own
+**Frage** (frequenzabhängige Fitness / RPS) → **Modell** \(A\) → **Simulation** → **Kurzpräsentation**.
 
----
+## Checkpoint A — Anwesenheit Pflicht
 
-## Part 2  
-## Bio opener: Isle Royale
+::::: columns
+::: {.column width="18%"}
+![](../../pics/icons/icon_warning.svg){fig-alt="Wichtig" width="80%"}
+:::
+::: {.column width="82%"}
+Heute wird **präsentiert und benotet**.  
+Sie müssen **anwesend sein und vortragen**.
 
-## Moose and wolves in the wild
+[Modul 1](../../docs/module-01-overview.html) · [Infos](../../docs/general-info.html)
+:::
+:::::
 
-Isle Royale (Lake Superior): long-term study of
+## Brücke von Woche 3
 
-- Prey: **moose** (*Alces alces*)
-- Predator: **wolves** (*Canis lupus*)
+Woche 3: Exclusion · Bistabilität · Punkt / Zyklus.  
+Heute: **Strategien** statt trophischer Ebenen — und warum **drei** Strategien anders sind als zwei.
 
-Not a bottle experiment — weather, disease, and chance all matter.
+![](../../pics/comics/comic_matrix_bridge.svg){fig-alt="Bruecke Food Web zu Spiel" width="88%"}
 
-**Source:** McLaren & Peterson (1994) *Science*; series in `gauseR` → `data/isle_royale_moose_wolf.csv`
+------------------------------------------------------------------------
 
-## The time series
+# Spieltheorie & Echsen
+
+## Idee in einem Satz
+
+Der Erfolg einer Strategie hängt davon ab, **was die anderen tun**  
+(frequenzabhängige Fitness).
+
+## *Uta* — Rock–Paper–Scissors
+
+![](../../pics/comics/comic_uta_rps.svg){fig-alt="Drei Echsen-Strategien" width="90%"}
+
+Orange → Blau → Gelb → Orange. Sinervo & Lively (1996); Corl et al. (2026).
+
+## Modell (vorgegeben)
+
+Kursstandard — Euler / Differenzen (wie im R-Code):
+
+\[
+N_{i,t+1}
+  = N_{i,t}
+    + r\, N_{i,t}\left(1 - \frac{(AN)_i}{K}\right)\Delta t,
+\qquad
+(AN)_i = \sum_j A_{ij}\, N_j
+\]
+
+Zuwachs von Typ \(i\): \(f_i\Delta t\) mit \(f_i = r N_i\bigl(1-(AN)_i/K\bigr)\).
+
+\((AN)_i\): **Gesamtlast** auf Typ \(i\).  
+\(A_{ij}\): **Interaktionsstärke** — wie stark Typ \(j\) Typ \(i\) unterdrückt.
+
+Literatur oft \(\mathrm{d}N_i/\mathrm{d}t=\ldots\); Parameter gelten für **unser** \(\Delta t\).
+
+## Warum Diagonale = 1 (nicht 0)?
+
+Das ist ein **Konkurrenz**-LV: alle Einträge von \(A\) sind Unterdrückung (Last).  
+Keine «positiven Fitness-Payoffs» mit Vorzeichen ± — die Diagonale misst **Selbstkonkurrenz**.
+
+| Situation | Last \((AN)_i\) | Zuwachs \(f_i\Delta t\) |
+|-----------|-----------------|-------------------------|
+| allein, \(N_i \lt K\) | \(A_{ii} N_i = N_i \lt K\) | \(\gt 0\) → **wächst** |
+| allein, \(N_i = K\) | \(= K\) | \(= 0\) → **Gleichgewicht** |
+| allein, \(N_i \gt K\) | \(\gt K\) | \(\lt 0\) → **schrumpft** |
+
+Diagonale \(1\) = Normierung: «eine Einheit eigener Dichte zählt als eine Einheit Last».  
+(Andere Modelle — Payoff-Matrix / Replikator — setzen oft \(0\) auf der Diagonale und arbeiten mit Vorzeichen. **Hier nicht.**)
+
+## Wann schrumpft / wächst Typ \(i\) mit Konkurrenten?
+
+Massstab ist immer die Diagonale \(1\):
+
+- \(A_{ij} \gt 1\): Typ \(j\) belastet \(i\) **stärker** als \(i\) sich selbst → \(i\) hat es schwerer  
+- \(A_{ij} \lt 1\): Typ \(j\) belastet \(i\) **schwächer** als Selbstkonkurrenz → \(i\) hat es leichter  
+- \(A_{ij} = 1\): \(j\) wirkt wie ein weiteres Individuum von \(i\)
+
+Also: **\(\gt 1\) / \(\lt 1\)** heisst «stärker / schwächer als Selbstkonkurrenz» — nicht «positiv / negativ».
+
+## RPS mit zwei Interaktionsparametern
+
+Vollständige \(3\times 3\)-Matrix: **9** Einträge. Diagonale fix \(=1\) → noch **6** Interaktionen.  
+Wir reduzieren auf **zwei** Parameter \(s\) und \(w\):
+
+\[
+A =
+\begin{pmatrix}
+1 & w & s \\
+s & 1 & w \\
+w & s & 1
+\end{pmatrix}
+\qquad
+(s \gt 1 \gt w)
+\]
+
+- \(s\): **starke** Interaktion (\(s \gt 1\))  
+- \(w\): **schwache** Interaktion (\(w \lt 1\))
+
+**Warum reduzieren?** Annahme der **zyklischen Symmetrie**: jedes Paar sieht denselben Kontrast «stark vs. schwach», nur rotiert.  
+Dann reichen \(s,w\) — und die Faustregel \(s+w\) vs. \(2\) wird lesbar.
+
+## \(s\) und \(w\) sind Interaktionen
+
+Merksatz: **\(s\) = starke Interaktion**, **\(w\) = schwache Interaktion** (Unterdrückung \(j \to i\)).
+
+In jedem Paar eine Richtung stark, die Gegenrichtung schwach:
+
+| Paar | starke Interaktion \(s\) | schwache Interaktion \(w\) | Gewinner |
+|------|--------------------------|----------------------------|----------|
+| 1 vs 2 | \(A_{21}=s\): 1 drückt 2 stark | \(A_{12}=w\): 2 drückt 1 schwach | **1 schlägt 2** |
+| 2 vs 3 | \(A_{32}=s\) | \(A_{23}=w\) | **2 schlägt 3** |
+| 3 vs 1 | \(A_{13}=s\) | \(A_{31}=w\) | **3 schlägt 1** |
+
+→ Zyklus **1 → 2 → 3 → 1** (Schere–Stein–Papier / *Uta*).
+
+## Was braucht RPS wirklich? (Muster, nicht volle Symmetrie)
+
+Das **qualitative** Muster ist ein Zyklus von «stärker / schwächer»:
+
+\[
+A_{\mathrm{Muster}} =
+\begin{pmatrix}
+1 & \lt 1 & \gt 1 \\
+\gt 1 & 1 & \lt 1 \\
+\lt 1 & \gt 1 & 1
+\end{pmatrix}
+\]
+
+- Volle \(s,w\)-Symmetrie ist nur eine **bequeme** Spezialisierung.  
+- RPS braucht **nicht**, dass alle starken Einträge gleich \(s\) und alle schwachen gleich \(w\) sind — nur dass in jedem Paar die richtige Richtung \(\gt 1\) bzw. \(\lt 1\) ist.
+
+## Asymmetrisch, aber immer noch RPS \[SIM\]
 
 ```{r}
-#| fig-height: 4.2
+#| fig-height: 3.4
 #| fig-width: 8
-mw <- read.csv("data/isle_royale_moose_wolf.csv")
-par(mfrow = c(2, 1), mar = c(4, 4, 2, 1))
-plot(mw$year, mw$moose, type = "b", pch = 16, lwd = 2,
-     xlab = "Year", ylab = "Moose", main = "Isle Royale moose")
-plot(mw$year, mw$wolf, type = "b", pch = 17, lwd = 2, col = "grey20",
-     xlab = "Year", ylab = "Wolves", main = "Isle Royale wolves")
+# Unterschiedliche starke/schwache Werte — gleiches +/- Muster
+A_asym <- matrix(c(1, 0.4, 1.5,
+                   1.15, 1, 0.55,
+                   0.7, 1.35, 1), 3, 3, byrow = TRUE)
+next_3lv <- function(N, r, A, K, dt) {
+  load <- as.numeric(A %*% N)
+  pmax(N + r * N * (1 - load / K) * dt, 0)
+}
+sim_n <- function(A, N0, T = 2000, dt = 0.05, r = 1, K = 100) {
+  n <- length(N0)
+  N <- matrix(0, T + 1, n)
+  N[1, ] <- N0
+  for (t in 1:T) N[t + 1, ] <- next_3lv(N[t, ], r, A, K, dt)
+  data.frame(time = 0:T * dt, N)
+}
+cols <- c("#e67e22", "#2980b9", "#f1c40f")
+d_asym <- sim_n(A_asym, c(40, 35, 30), T = 3000)
+matplot(d_asym$time, d_asym[, -1], type = "l", lty = 1, lwd = 2.5, col = cols,
+        xlab = "Zeit", ylab = "N",
+        main = "Asymmetrische Interaktionen, gleiches RPS-Muster [SIM]")
+legend("right", c("1", "2", "3"), col = cols, lty = 1, lwd = 2.5, bty = "n", cex = 0.8)
 ```
 
-## How to look at a time series
+Drei Typen bleiben — ohne dass \(A\) nur aus zwei Zahlen \(s,w\) gebaut ist.  
+Im Notebook nutzen wir trotzdem \(s,w\): **weniger Drehknöpfe**, gleiche Idee.
 
-Ask:
+## Faustregel \(s+w\) (bei Symmetrie)
 
-1. Trend or cycles?
-2. Delayed responses between moose and wolves?
-3. Crashes / recoveries?
-4. Noise around any smooth story?
+Nur wenn wir auf \(s,w\) reduzieren, gilt die einfache Orientierung:
 
-## Model vs data (honestly)
+- mild (\(s,w\) näher an 1, \(s+w \lt 2\)) → eher **Punkt**  
+- Grenze \(s+w \approx 2\) → **stabile Oszillation**  
+- scharf (\(s+w \gt 2\)) → **Heteroklin**
 
-We do **qualitative comparison**:
+Streng aus dem **kontinuierlichen** May–Leonard-Modell; bei uns mit kleinem `dt` eine **qualitative** Faustregel (Parameter nicht 1:1 aus Papers kopieren).
 
-- Does LV / LV+\(K\) produce the same *kind* of pattern?
-- What is clearly missing (weather, disease, inbreeding…)?
+------------------------------------------------------------------------
 
-Formal fitting is later. Today: train your eye + build intuition.
+# Warum drei? — das macht RPS aus
 
-## Optional second look
+## Zwei Strategien: immer Exclusion \[SIM\]
 
-Also in `data/`:
+```{r}
+#| fig-height: 3.5
+#| fig-width: 8.5
+next_3lv <- function(N, r, A, K, dt) {
+  load <- as.numeric(A %*% N)
+  pmax(N + r * N * (1 - load / K) * dt, 0)
+}
+sim_n <- function(A, N0, T = 2000, dt = 0.05, r = 1, K = 100) {
+  n <- length(N0)
+  N <- matrix(0, T + 1, n)
+  N[1, ] <- N0
+  for (t in 1:T) N[t + 1, ] <- next_3lv(N[t, ], r, A, K, dt)
+  data.frame(time = 0:T * dt, N)
+}
+# RPS-Matrix, aber nur zwei Typen vorhanden
+A_rps <- matrix(c(1, 0.5, 1.2,
+                  1.2, 1, 0.5,
+                  0.5, 1.2, 1), 3, 3, byrow = TRUE)
+cols <- c("#e67e22", "#2980b9", "#f1c40f")
+par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
+d1 <- sim_n(A_rps[1:2, 1:2], c(50, 40))
+matplot(d1$time, d1[, -1], type = "l", lty = 1, lwd = 2.5,
+        col = cols[1:2], ylim = c(0, 110), xlab = "Zeit", ylab = "N",
+        main = "Nur Typ 1 & 2")
+legend("right", c("1", "2"), col = cols[1:2], lty = 1, lwd = 2.5, bty = "n", cex = 0.8)
+d2 <- sim_n(A_rps[c(1, 3), c(1, 3)], c(50, 40))
+matplot(d2$time, d2[, -1], type = "l", lty = 1, lwd = 2.5,
+        col = cols[c(1, 3)], ylim = c(0, 110), xlab = "Zeit", ylab = "N",
+        main = "Nur Typ 1 & 3")
+legend("right", c("1", "3"), col = cols[c(1, 3)], lty = 1, lwd = 2.5, bty = "n", cex = 0.8)
+```
 
-- `huffaker_mites.csv` — lab mites; longer persistence / refuge story
-- `hudson_bay_lynx.csv` — famous ~10-year lynx pelt cycles
+Bei **zwei** Strategien gewinnt immer eine — die andere → 0.
 
-Use one if you want a second classroom vote: “which simulation looks closest?”
+## Dritte Strategie stabilisiert \[SIM\]
 
-## Live demo
+```{r}
+#| fig-height: 3.5
+#| fig-width: 8
+# Punkt-RPS: s+w < 2
+A_point <- matrix(c(1, 0.5, 1.2,
+                    1.2, 1, 0.5,
+                    0.5, 1.2, 1), 3, 3, byrow = TRUE)
+d3 <- sim_n(A_point, c(40, 35, 30), T = 2500)
+matplot(d3$time, d3[, -1], type = "l", lty = 1, lwd = 2.5, col = cols,
+        xlab = "Zeit", ylab = "N",
+        main = "Alle drei: Koexistenz (Punkt) [SIM]")
+legend("right", c("1", "2", "3"), col = cols, lty = 1, lwd = 2.5, bty = "n", cex = 0.8)
+```
 
-1. Show Isle Royale
-2. Show 2–3 simulated predator–prey scenarios
-3. Vote: which is “most like” the data?
-4. Discuss what the winner still gets wrong
+Dieselbe zyklische Logik — aber **drei** Typen bleiben. Das ist der RPS-Kern.
 
----
+## Merksatz
 
-## Part 3  
-## A small zoo of models
+> RPS heisst nicht zwingend «Schwingung».  
+> RPS heisst: zyklische Dominanz + die **dritte Strategie verhindert Exclusion**.  
+> Ein **Punktgleichgewicht** kann also durchaus RPS sein.
 
-## Same workflow, different biology
+------------------------------------------------------------------------
 
-> next state ← function(current state, parameters)
+# Drei Stabilitätsformen (Beispiele)
 
-| Biological theme | Model sketch | Data anchor |
-|---|---|---|
-| Predator–prey | LV / LV + \(K\) | Isle Royale; Huffaker |
-| Competition | two-species LV | Week 3 Gause Fig. 22 |
-| Epidemic | SI / SIR | (design your own) |
-| Growth + harvest | logistic + removal | fishing / hunting quota |
+## Übersicht
 
-## Competition sketch (recap)
+| Form | \(s,w\)-Intuition | Zeitreihe | Simplex |
+|------|-------------------|-----------|---------|
+| **Punkt** | mild (\(s+w < 2\)) | → konstante Dichten | Spirale **ins Innere** |
+| **Stabile Oszillation** | \(s+w \approx 2\) | dauerhafte Schwingung | **geschlossener Zyklus** |
+| **Heteroklinzyklus** | scharf (\(s+w > 2\)) | Minima → 0 | Drift zu den **Rändern** |
 
-\[
-\frac{dN_1}{dt} = r_1 N_1 \left(1 - \frac{N_1 + \alpha_{12}N_2}{K_1}\right)
-\]
+## Phasenraum: das Simplex
 
-## Epidemic sketch (SIR)
+Drei Typen → Zustände als **Häufigkeiten**
+\(f_i = N_i / \sum_j N_j\) mit \(f_1 + f_2 + f_3 = 1\).  
+Das ist ein **Dreieck** (2-Simplex): Ecken = eine Strategie allein.
 
-\[
-S_{t+1} = S_t - \beta S_t I_t \Delta t
-\]
-\[
-I_{t+1} = I_t + (\beta S_t I_t - \gamma I_t)\Delta t
-\]
+```{r}
+#| fig-height: 3.6
+#| fig-width: 7
+to_simplex_xy <- function(N) {
+  N <- as.matrix(N)
+  s <- pmax(rowSums(N), 1e-12)
+  f <- N / s
+  v1 <- c(0.5, sqrt(3) / 2); v2 <- c(0, 0); v3 <- c(1, 0)
+  cbind(x = f[, 1] * v1[1] + f[, 2] * v2[1] + f[, 3] * v3[1],
+        y = f[, 1] * v1[2] + f[, 2] * v2[2] + f[, 3] * v3[2])
+}
+plot_simplex_traj <- function(df, main = "", fade = TRUE) {
+  xy <- to_simplex_xy(df[, -1, drop = FALSE])
+  v1 <- c(0.5, sqrt(3) / 2); v2 <- c(0, 0); v3 <- c(1, 0)
+  plot(NA, xlim = c(-0.08, 1.08), ylim = c(-0.12, sqrt(3) / 2 + 0.1),
+       asp = 1, axes = FALSE, xlab = "", ylab = "", main = main)
+  polygon(c(v1[1], v2[1], v3[1]), c(v1[2], v2[2], v3[2]),
+          border = "#2c3e50", lwd = 2, col = "#f4f6f7")
+  text(v1[1], v1[2] + 0.07, "1", col = cols[1], font = 2, cex = 1.15)
+  text(v2[1] - 0.06, v2[2] - 0.05, "2", col = cols[2], font = 2, cex = 1.15)
+  text(v3[1] + 0.06, v3[2] - 0.05, "3", col = cols[3], font = 2, cex = 1.15)
+  n <- nrow(xy)
+  if (fade && n > 40) {
+    for (i in seq_len(n - 1)) {
+      a <- 0.12 + 0.78 * (i / n)
+      segments(xy[i, 1], xy[i, 2], xy[i + 1, 1], xy[i + 1, 2],
+               col = rgb(0.12, 0.15, 0.22, a), lwd = 1.6)
+    }
+  } else {
+    lines(xy[, 1], xy[, 2], lwd = 2, col = "#2c3e50")
+  }
+  points(xy[1, 1], xy[1, 2], pch = 16, col = "#27ae60", cex = 1.25)
+  points(xy[n, 1], xy[n, 2], pch = 16, col = "#c0392b", cex = 1.05)
+  legend("topleft", c("Start", "Ende"), pch = 16, col = c("#27ae60", "#c0392b"),
+         bty = "n", cex = 0.75)
+}
+# Schema: Ecken + Mitte
+plot(NA, xlim = c(-0.08, 1.08), ylim = c(-0.12, sqrt(3) / 2 + 0.1),
+     asp = 1, axes = FALSE, xlab = "", ylab = "",
+     main = "Simplex: wo der Zyklus lebt")
+v1 <- c(0.5, sqrt(3) / 2); v2 <- c(0, 0); v3 <- c(1, 0)
+polygon(c(v1[1], v2[1], v3[1]), c(v1[2], v2[2], v3[2]),
+        border = "#2c3e50", lwd = 2, col = "#f4f6f7")
+text(v1[1], v1[2] + 0.07, "nur 1", col = cols[1], font = 2)
+text(v2[1] - 0.02, v2[2] - 0.05, "nur 2", col = cols[2], font = 2, adj = 1)
+text(v3[1] + 0.02, v3[2] - 0.05, "nur 3", col = cols[3], font = 2, adj = 0)
+mid <- to_simplex_xy(matrix(c(1, 1, 1), 1))
+points(mid[1], mid[2], pch = 16, cex = 1.2, col = "#8e44ad")
+text(mid[1], mid[2] - 0.08, "Mischung", col = "#8e44ad", cex = 0.85)
+```
 
-Different biology — identical computational idea.
+Kanten = eine Strategie fehlt (Exclusion-Rand).  
+Innen = alle drei \(\gt 0\).
 
-## Message for students
+## 1 · Punktgleichgewicht (auch RPS!) \[SIM\]
 
-You are not learning “the Lotka–Volterra course”.
+\(s=1.2\), \(w=0.5\) → \(s+w=1.7 < 2\)
 
-You are learning a **portable simulation workflow** for many biological systems.
+```{r}
+#| fig-height: 3.5
+#| fig-width: 9
+par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
+matplot(d3$time, d3[, -1], type = "l", lty = 1, lwd = 2.5, col = cols,
+        xlab = "Zeit", ylab = "N",
+        main = "Zeitreihe")
+legend("right", c("1", "2", "3"), col = cols, lty = 1, lwd = 2.5, bty = "n", cex = 0.75)
+plot_simplex_traj(d3, main = "Simplex → Punkt")
+```
 
----
+Dominanz-Logik zyklisch — Langzeit = **fester Punkt** im Inneren (alle ≈ gleich).
 
-## Part 4  
-## Design your own model
+## 2 · Stabile Oszillation \[SIM\]
 
-## Creative brief
+\(s=1.35\), \(w=0.65\) → \(s+w=2\)
 
-In the notebook, invent a tiny world with:
+```{r}
+#| fig-height: 3.5
+#| fig-width: 9
+A_osc <- matrix(c(1, 0.65, 1.35,
+                  1.35, 1, 0.65,
+                  0.65, 1.35, 1), 3, 3, byrow = TRUE)
+d_osc <- sim_n(A_osc, c(45, 30, 25), T = 4000, dt = 0.02)
+par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
+matplot(d_osc$time, d_osc[, -1], type = "l", lty = 1, lwd = 2.2, col = cols,
+        xlab = "Zeit", ylab = "N",
+        main = "Zeitreihe")
+legend("topright", c("1", "2", "3"), col = cols, lty = 1, lwd = 2.2, bty = "n", cex = 0.7)
+plot_simplex_traj(d_osc, main = "Simplex: geschlossener Zyklus")
+```
 
-1. **2–3 state variables** (species, compartments, stocks)
-2. **Clear biological rules** in words first
-3. **Parameters** with meaning
-4. An update function + loop + plots
+Dominanz rotiert dauerhaft — auf dem Simplex ein **Orbit**, der nicht an den Rand driftet.
 
-## Design recipe (use this checklist)
+## 3 · Heteroklinzyklus \[SIM\]
 
-1. Who/what are the variables?
-2. What makes each increase?
-3. What makes each decrease?
-4. What interactions couple them?
-5. What is one question you want to ask the model?
+\(s=1.40\), \(w=0.65\) → \(s+w=2.05 > 2\)
 
-## Guardrails (keep it doable)
+```{r}
+#| fig-height: 3.5
+#| fig-width: 9
+A_het <- matrix(c(1, 0.65, 1.40,
+                  1.40, 1, 0.65,
+                  0.65, 1.40, 1), 3, 3, byrow = TRUE)
+d_het <- sim_n(A_het, c(45, 30, 25), T = 12000, dt = 0.015)
+par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
+matplot(d_het$time, d_het[, -1], type = "l", lty = 1, lwd = 1.8, col = cols,
+        xlab = "Zeit", ylab = "N",
+        main = "Zeitreihe")
+legend("topright", c("1", "2", "3"), col = cols, lty = 1, lwd = 1.8, bty = "n", cex = 0.7)
+plot_simplex_traj(d_het, main = "Simplex → Kanten")
+```
 
-- Prefer discrete-time updates you can code
-- Start with \(\Delta t\) small and stable
-- Change one parameter at a time
-- If it explodes numerically: smaller \(\Delta t\) or check signs
+Alle drei bleiben lange sichtbar — aber die Bahn wandert zu den **Kanten** (fast-Exclusion, dann Wechsel).  
+Attraktor «lebt» am Rand des Simplex.
 
-## Example student prompts
+## Minima über die Zeit (Heteroklin)
 
-- Isle Royale–inspired: moose + wolves + harsh winter mortality
-- algae + zooplankton + fish
-- two competing bacteria + antibiotic pulse
-- rabbits + foxes + hunting quota
-- susceptible + infected students on campus
+```{r}
+#| fig-height: 3.3
+#| fig-width: 7.5
+z <- d_het[, -1]
+nblock <- 5
+blen <- floor(nrow(z) / nblock)
+mins <- sapply(1:3, function(j) {
+  sapply(0:(nblock - 1), function(b) {
+    i1 <- b * blen + 1; i2 <- min((b + 1) * blen, nrow(z))
+    min(z[i1:i2, j])
+  })
+})
+matplot(1:nblock, mins, type = "b", pch = 16, lwd = 2.5, col = cols,
+        xlab = "Zeitblock", ylab = "Minimum in Block",
+        main = "Heteroklin: Minima sinken", ylim = c(0, max(mins) * 1.1))
+legend("topright", c("1", "2", "3"), col = cols, lty = 1, lwd = 2.5, bty = "n", cex = 0.8)
+```
 
-## Share-out structure
+## Vergleich: drei Formen auf dem Simplex
 
-Each pair presents in 60–90 seconds:
+```{r}
+#| fig-height: 3.7
+#| fig-width: 9.5
+par(mfrow = c(1, 3), mar = c(1, 1, 2.5, 1))
+plot_simplex_traj(d3, main = "Punkt")
+plot_simplex_traj(d_osc, main = "Oszillation")
+plot_simplex_traj(d_het, main = "Heteroklin")
+```
 
-1. Biological story
-2. One plot
-3. One surprise from parameter exploration
+Gleiche zyklische Interaktionslogik — **verschiedene Orbits** im Simplex.
 
----
+------------------------------------------------------------------------
 
-## Part 5  
-## Notebook & wrap-up
+# Auftrag
 
-## Notebook today
+## Notebook (~40 min)
 
-**Build your own model**
+1. Zwei Strategien → Exclusion bestätigen  
+2. Mit drei Strategien RPS erzeugen  
+3. Mindestens **eine** Form klar hinbekommen (Punkt / Oszillation / Heteroklin)  
+4. Optional: alle drei Formen ansteuern (\(s+w\) drehen)  
 
-1. Inspect Isle Royale (and optional Huffaker / lynx) in `data/`
-2. Template: `next_state()`, vectors, loop, plots
-3. Gallery stubs: predator–prey, competition, SIR, harvest
-4. Students fill terms; reflect on assumptions vs real series
+## Präsentation (~2–3 Min.)
 
-## Bridge to programming course
+1. Matrix \(A\)  
+2. Ein Plot (Zeitreihe **oder** Simplex)  
+3. **Welche Form?** Punkt · Oszillation · Heteroklin — Beleg in einem Satz  
+4. Warum wäre dasselbe mit nur zwei Strategien unmöglich?
 
-| Programming | Biology today |
-|---|---|
-| Design a function interface | define a biological update |
-| Compose small scripts | full mini-simulation |
-| Debugging | check biological + numerical sense |
-| Communication | explain a model with a plot |
+**Anwesenheit Pflicht** — ohne Vortrag kein Checkpoint A.
 
-## Checkpoint A (today)
+## Abschlussfragen
 
-After Weeks 2–4:
+1. Warum Diagonale \(=1\) — und was heisst \(A_{ij}\gt 1\) vs. \(A_{ij}\lt 1\)?  
+2. Warum reduzieren wir auf \(s,w\) — und was braucht RPS *ohne* volle Symmetrie?  
+3. Was sehen Sie auf dem **Simplex** bei Punkt vs. Oszillation vs. Heteroklin?  
+4. Woran erkennen Sie einen Heteroklinzyklus (Zeitreihe *und* Simplex)?
 
-- **Bigger practical:** finish your own mini-model + one comparison to data
-- **Presentation session:** ~3–5 min per pair
+## Literatur
 
-Required beats:
+Alles, was in dieser Einheit namentlich vorkommt:
 
-1. Biological question
-2. What you computed
-3. One figure
-4. Strongest assumption / next step
-
-This is a **graded checkpoint** — not practice for a single final talk at the end of term.
-
-## Module 1 checkpoint
-
-After Weeks 2–4 you should feel fluent in:
-
-- iterative simulation
-- linking code structures to biological change
-- exploring “what if?” questions computationally
-- reading real ecological time series qualitatively
-- presenting a small modelling result clearly
-
-## Looking ahead
-
-Next block (Weeks 5–7): **evolution** — allele frequencies as time series.  
-Another practical + short presentation lands at **Week 7 (Checkpoint B)**.
-
-## Exit ticket
-
-1. What biological question does your model ask?
-2. What is its strongest assumption relative to Isle Royale (or your chosen series)?
-3. What would you add next if you had more time?
-
-**Data:** McLaren & Peterson (1994); optional Huffaker / Hudson Bay lynx — see `data/README.md`.
-
----
+1. **Sinervo, B., & Lively, C. M. (1996).** The rock–paper–scissors game and the evolution of alternative male strategies. *Nature* 380: 240–243. [doi:10.1038/380240a0](https://doi.org/10.1038/380240a0) — *Uta*-RPS.
+2. **Corl, A., et al. (2026).** The genetics, evolution, and maintenance of a biological rock-paper-scissors game. *Science* 391: 69–74. [doi:10.1126/science.adw8265](https://doi.org/10.1126/science.adw8265).
+3. **May, R. M., & Leonard, W. J. (1975).** Nonlinear aspects of competition between three species. *SIAM Journal on Applied Mathematics* 29: 243–253. — \(s,w\)-Idee / Stabilitätsformen (Faustregel qualitativ).
+4. **Lotka, A. J. (1925)**; **Volterra, V. (1926)**; **Gause, G. F. (1934).** — Konkurrenz / Exclusion-Hintergrund (Wochen 2–3).
+5. Berkeley Understanding Evolution: [High-stakes rock-paper-scissors…](https://evolution.berkeley.edu/evo-news/high-stakes-rock-paper-scissors-these-lizards-are-all-in-on-an-evolutionary-game/) — populäre Zusammenfassung zu Corl et al.
 
 ## Navigation
 
 | | |
 |---|---|
-| Overview | [Course outline](../../docs/course-outline.html) |
-| Home | [Course home](../../index.html) |
-| Previous | [← Week 3](../week-03/slides.html) |
-| Next | [Week 5 →](../week-05/slides.html) |
-
-Keyboard: ← → move slides · **M** menu · **Esc** slide grid · **F** fullscreen
-
+| Kursplan | [Kursplan](../../docs/course-outline.html) |
+| Zurück | [← Woche 3](../week-03/slides.html) |
+| Weiter | [Woche 5 →](../week-05/slides.html) |
+| Notebook | [Notebook](notebook.html) |

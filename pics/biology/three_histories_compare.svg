@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="340" viewBox="0 0 1000 340">
+  <rect width="1000" height="340" fill="white"/>
+  <text x="500" y="32" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="#222">Drei Erklärungen für «Denisova-ähnlich»</text>
+
+  <!-- Introgression -->
+  <rect x="30" y="55" width="300" height="250" rx="14" fill="#eaf2fb" stroke="#2980b9" stroke-width="3"/>
+  <text x="180" y="90" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#1a5276">1 Introgression</text>
+  <circle cx="110" cy="150" r="22" fill="#5dade2"/>
+  <circle cx="180" cy="150" r="22" fill="#8e44ad"/>
+  <path d="M130 160 Q155 190 180 165" fill="none" stroke="#c0392b" stroke-width="3"/>
+  <text x="180" y="210" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">DNA wandert durch</text>
+  <text x="180" y="232" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Mischung</text>
+  <text x="180" y="270" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">echte Übernahme</text>
+
+  <!-- ILS -->
+  <rect x="350" y="55" width="300" height="250" rx="14" fill="#fef5e7" stroke="#d68910" stroke-width="3"/>
+  <text x="500" y="90" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#7e5109">2 ILS</text>
+  <text x="500" y="145" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="28" fill="#d68910">≠</text>
+  <text x="430" y="180" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">Pop.-Baum</text>
+  <text x="570" y="180" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">Genbaum</text>
+  <text x="500" y="220" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">alte Variation</text>
+  <text x="500" y="242" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">sortiert unvollständig</text>
+  <text x="500" y="270" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">sieht aus wie Mischung</text>
+
+  <!-- Convergence -->
+  <rect x="670" y="55" width="300" height="250" rx="14" fill="#eafaf1" stroke="#27ae60" stroke-width="3"/>
+  <text x="820" y="90" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#196f3d">3 Konvergenz</text>
+  <circle cx="760" cy="150" r="20" fill="#5dade2"/>
+  <circle cx="880" cy="150" r="20" fill="#82e0aa"/>
+  <text x="760" y="190" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" fill="#c0392b">★</text>
+  <text x="880" y="190" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" fill="#c0392b">★</text>
+  <text x="820" y="220" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">unabhängig ähnlich</text>
+  <text x="820" y="242" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">geworden</text>
+  <text x="820" y="270" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">kein gemeinsamer Haplotyp</text>
+</svg>

@@ -1,16 +1,19 @@
 ---
-title: "Week 3 — Assignment · Competition & carrying capacity"
+title: "Woche 3 — Aufgabe"
 format:
   html:
     toc: true
     css: ../../styles.scss
 ---
 
-Use Gause Fig. 22 data in `data/` and the Week 3 notebook.
+## Abgabe
 
-## Submit
+1. **Exclusion:** Abbildung aus *Paramecium*-Daten **oder** Simulation (zwei Starts, gleicher Gewinner).
+2. **Bistabilität:** zwei Starts bei starken \(\alpha\) — Gras/Wald-Lesart kurz erklären (keine Kursdaten nötig).
+3. **Stabilität (kurz):** Nennen Sie zu **Punkt**, **Bistabil** und **Zyklus** je ein konkretes Kursbeispiel (ein Satz pro Form).
+4. **Food Web:** Plot ohne vs. mit Wolf — zeigen, dass **Aspen** ohne Wolf gegen 0 geht und mit Wolf stabil bleibt, und dass **Elk** mit Wolf **nicht** gegen 0 geht.
+5. 3–5 Sätze: Was bedeutet «Stabilisierung durch Wolf» in Ihrem Plot (Aspen + Elk)?
 
-1. One figure: alone vs mixture (data) **or** simulated competition overlay.
-2. Logistic or two-competitor model: baseline vs one extended/parameter-changed run.
-3. Two parameter experiments with predictions written *before* running.
-4. Short interpretation: what was robust vs sensitive; how this differs from Week 2 predator–prey.
+## Literatur
+
+Gause (1934); Scheffer et al. (2001); Staver et al. (2011); Ripple & Beschta (2012); Smith et al. (2021); Paine (1966) — vollständige Angaben in den [Folien Woche 3](slides.qmd#literatur).

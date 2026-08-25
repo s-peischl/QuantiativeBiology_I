@@ -1,18 +1,19 @@
 ---
-title: "Week 1 — Reflection"
+title: "Woche 1 — Reflexion"
 format:
   html:
     toc: true
     css: ../../styles.scss
 ---
 
-## Tasks
+## Aufgaben
 
-1. Retell the **Bajau** story in 4–6 sentences (lifestyle → spleen → genes). Include the nuance: diving adaptations partly from **modern-human** variation (e.g. PDE10A / BDKRB2), with a possible archaic contribution at **FAM178B**.
-2. In 3–5 sentences, contrast with **Tibetan** high-altitude adaptation (**EPAS1** / Denisovan-like haplotype). Why is EPAS1 a cleaner classroom case for archaic DNA?
-3. Match each question to an evidence type (association / genomics–introgression / simulation–model comparison):
-   - genes linked to a diving trait?
-   - Denisovan origin of a haplotype?
-   - rule out independent look-alikes?
-4. **Abstract words we used casually** — pick two of {*population*, *gene*, *generation*, *selection*} and for each: (a) how it appeared in today’s stories, (b) one ambiguity, (c) what a model would need to specify.
-5. One sentence: which Week 2–4 ecology topic are you most curious about?
+1. Geben Sie die Geschichte der **Bajau** in 4–6 Sätzen wieder. Strukturieren Sie nach: **Frage** → **Daten / Experiment** → **Analyse** (Milzvergleich / Statistik; Genome / Assembly; Sweep-Scan). Gene: PDE10A / BDKRB2 (moderne Variation) — **ohne** Denisova.
+2. Stellen Sie dem in 3–5 Sätzen die Anpassung der **Tibeterinnen und Tibeter** gegenüber (**EPAS1**, Denisova-ähnlich). Welche **schärfere Frage** entsteht — und welche Analysen braucht man zusätzlich (alternative Erklärungen, Simulation, Modellvergleich)?
+3. Ordnen Sie zu und erklären Sie die Fachbegriffe in einem Halbsatz (Glossar hilft):
+   - Milzunterschied zwischen Gruppen? → …
+   - Genome aus Reads rekonstruieren? → …
+   - Sweep-Signatur vs. Neutralität? → …
+   - Denisova-Introgression vs. Konvergenz/ILS? → …
+4. **Abstrakte Begriffe** — wählen Sie zwei aus {*Population*, *Gen*, *Generation*, *Selektion*} und erläutern Sie: (a) Vorkommen heute, (b) Mehrdeutigkeit, (c) was ein Modell festlegen müsste.
+5. Ein Satz: Auf welches Ökologiethema der Wochen 2–4 sind Sie am neugierigsten?

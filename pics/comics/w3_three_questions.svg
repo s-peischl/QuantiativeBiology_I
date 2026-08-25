@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="240" viewBox="0 0 980 240">
+  <rect width="980" height="240" fill="white"/>
+  <rect x="20" y="30" width="300" height="180" rx="14" fill="#eaf2fb" stroke="#2980b9" stroke-width="3"/>
+  <text x="170" y="80" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#1a5276">1 Ausschluss</text>
+  <text x="170" y="120" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Wer verdrängt wen?</text>
+  <text x="170" y="155" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">Gause-Mischung</text>
+
+  <rect x="340" y="30" width="300" height="180" rx="14" fill="#eafaf1" stroke="#27ae60" stroke-width="3"/>
+  <text x="490" y="80" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#196f3d">2 Stabilität</text>
+  <text x="490" y="120" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Kehrt es zurück?</text>
+  <text x="490" y="155" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">nach Störung</text>
+
+  <rect x="660" y="30" width="300" height="180" rx="14" fill="#fef5e7" stroke="#d68910" stroke-width="3"/>
+  <text x="810" y="80" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#7e5109">3 Bistabilität</text>
+  <text x="810" y="120" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Entscheiden Starts?</text>
+  <text x="810" y="155" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">Prioritätseffekt</text>
+</svg>

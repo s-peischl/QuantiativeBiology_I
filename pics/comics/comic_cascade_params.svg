@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="300" viewBox="0 0 960 300">
+  <rect width="960" height="300" fill="white"/>
+  <text x="480" y="32" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="17" font-weight="bold" fill="#1a5276">Food-Web-Modell: Parameter = Mechanismen</text>
+
+  <rect x="20" y="55" width="220" height="220" rx="12" fill="#eafaf1" stroke="#27ae60" stroke-width="3"/>
+  <text x="130" y="90" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="bold" fill="#196f3d">V</text>
+  <text x="130" y="115" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Pflanzen (Weide)</text>
+  <text x="130" y="150" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">r: Wachstum</text>
+  <text x="130" y="175" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">K: Deckel allein</text>
+  <text x="130" y="200" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">a: Verbiss durch H</text>
+  <text x="130" y="240" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#196f3d">Ereignis: wachsen / gefressen</text>
+
+  <rect x="260" y="55" width="220" height="220" rx="12" fill="#fef5e7" stroke="#d68910" stroke-width="3"/>
+  <text x="370" y="90" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="bold" fill="#7e5109">H</text>
+  <text x="370" y="115" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Herbivor (Elch)</text>
+  <text x="370" y="150" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">e: Umwandlung Futter</text>
+  <text x="370" y="175" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">m: natuerliche Sterblichkeit</text>
+  <text x="370" y="200" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">b: Praedation durch P</text>
+  <text x="370" y="240" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#7e5109">Ereignis: fressen / sterben</text>
+
+  <rect x="500" y="55" width="220" height="220" rx="12" fill="#eaecee" stroke="#2c3e50" stroke-width="3"/>
+  <text x="610" y="90" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="bold" fill="#2c3e50">P</text>
+  <text x="610" y="115" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Top-Praedator (Wolf)</text>
+  <text x="610" y="150" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">c: Umwandlung Beute</text>
+  <text x="610" y="175" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">d: Sterblichkeit</text>
+  <text x="610" y="200" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">P=0: kein Top-Praedator</text>
+  <text x="610" y="240" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#2c3e50">Ereignis: jagen / sterben</text>
+
+  <rect x="740" y="90" width="200" height="150" rx="12" fill="#f5eef8" stroke="#7d3c98" stroke-width="2"/>
+  <text x="840" y="130" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" fill="#6c3483">Experiment</text>
+  <text x="840" y="160" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">Lauf A: P = 0</text>
+  <text x="840" y="185" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">Lauf B: P &gt; 0</text>
+  <text x="840" y="210" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#6c3483">Was passiert mit V?</text>
+</svg>

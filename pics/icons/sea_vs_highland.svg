@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="340" viewBox="0 0 960 340">
+  <rect width="960" height="340" fill="white"/>
+
+  <rect x="40" y="40" width="400" height="260" rx="18" fill="#d4e6f1" stroke="#2874a6" stroke-width="3"/>
+  <path d="M60 180 Q140 140 220 175 T420 170" fill="none" stroke="#1a5276" stroke-width="6"/>
+  <path d="M60 210 Q160 185 260 205 T420 200" fill="none" stroke="#5dade2" stroke-width="5"/>
+  <circle cx="240" cy="120" r="22" fill="#f5cba7"/>
+  <text x="240" y="270" text-anchor="middle" font-family="Helvetica" font-size="22" font-weight="bold" fill="#1a5276">Meer / Apnoe</text>
+  <text x="240" y="110" text-anchor="middle" font-family="Helvetica" font-size="14" fill="#1a5276">Bajau</text>
+
+  <text x="480" y="175" text-anchor="middle" font-family="Helvetica" font-size="36" fill="#7f8c8d">→</text>
+
+  <rect x="520" y="40" width="400" height="260" rx="18" fill="#fef9e7" stroke="#b7950b" stroke-width="3"/>
+  <polygon points="580,240 680,90 780,240" fill="#aeb6bf" stroke="#5d6d7e" stroke-width="3"/>
+  <polygon points="700,240 800,110 900,240" fill="#85929e" stroke="#5d6d7e" stroke-width="3"/>
+  <text x="720" y="270" text-anchor="middle" font-family="Helvetica" font-size="22" font-weight="bold" fill="#7d6608">Hochland / Hypoxie</text>
+  <text x="720" y="80" text-anchor="middle" font-family="Helvetica" font-size="14" fill="#7d6608">Tibet</text>
+
+</svg>

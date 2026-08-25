@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="340" viewBox="0 0 960 340">
+  <rect width="960" height="340" fill="#fbfcfd"/>
+  <text x="480" y="32" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="#1a5276">Stabilitaet - nur schematisch</text>
+
+  <rect x="30" y="60" width="280" height="240" rx="12" fill="#eafaf1" stroke="#27ae60" stroke-width="2"/>
+  <text x="170" y="95" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#196f3d">Punkt</text>
+  <circle cx="170" cy="170" r="10" fill="#27ae60"/>
+  <path d="M90,120 Q140,200 160,175" fill="none" stroke="#2980b9" stroke-width="2"/>
+  <path d="M250,110 Q200,190 180,175" fill="none" stroke="#c0392b" stroke-width="2"/>
+  <text x="170" y="250" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">eine Ruhelage</text>
+  <text x="170" y="275" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">Stoerung kehrt zurueck</text>
+
+  <rect x="340" y="60" width="280" height="240" rx="12" fill="#eaf2fb" stroke="#2980b9" stroke-width="2"/>
+  <text x="480" y="95" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#1a5276">Bistabil</text>
+  <circle cx="420" cy="170" r="10" fill="#d68910"/>
+  <circle cx="540" cy="170" r="10" fill="#1e8449"/>
+  <line x1="480" y1="100" x2="480" y2="240" stroke="#bdc3c7" stroke-width="2" stroke-dasharray="4 3"/>
+  <text x="480" y="250" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">zwei Attraktoren</text>
+  <text x="480" y="275" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">Start entscheidet</text>
+
+  <rect x="650" y="60" width="280" height="240" rx="12" fill="#fef9e7" stroke="#d68910" stroke-width="2"/>
+  <text x="790" y="95" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#9a7b0a">Zyklus (Skizze)</text>
+  <ellipse cx="790" cy="175" rx="55" ry="35" fill="none" stroke="#8e44ad" stroke-width="3"/>
+  <text x="790" y="250" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">schwingt, stirbt nicht aus</text>
+  <text x="790" y="275" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">Attraktor = Orbit</text>
+</svg>

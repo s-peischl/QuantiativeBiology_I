@@ -1,6 +1,6 @@
 ---
-title: "AI policy"
-subtitle: "Guidelines for the use of generative AI"
+title: "KI-Richtlinie"
+subtitle: "Leitlinien zum Umgang mit generativer KI"
 format:
   html:
     toc: true
@@ -8,83 +8,83 @@ format:
     css: ../styles.scss
 ---
 
-## Principles
+## Grundsätze
 
-Generative AI tools (ChatGPT, Claude, Copilot, Cursor, etc.) can help you **learn**.  
-They must not replace your own understanding on **graded work**.
+Generative KI-Werkzeuge (ChatGPT, Claude, Copilot, Cursor usw.) können beim **Lernen** helfen.  
+Sie dürfen Ihr eigenes Verständnis bei **benoteten Leistungen** nicht ersetzen.
 
-**Bottom line:** submitted notebooks, assignments, checkpoint practicals, and presentations must be work you can explain and defend.
+**Kurz gesagt:** Abgegebene Notebooks, Aufgaben, Checkpoint-Praktika und Präsentationen müssen Arbeit sein, die Sie erklären und verteidigen können.
 
-Unauthorized use is treated as **academic misconduct** under University of Bern rules.
-
----
-
-## How you **can** use AI (learning)
-
-Allowed for study and exploration, for example:
-
-- Clarifying concepts from lectures (Lotka–Volterra, establishment, rescue, …)
-- Asking for an alternative explanation of a step you already tried
-- Generating **practice** questions (not solutions to graded tasks)
-- Brainstorming project / model ideas — if **you** implement and justify the final version
-- Help interpreting an error message **after** you have attempted a fix
-
-If AI helped you learn, you should still be able to redo the key steps without it.
+Unerlaubte Nutzung wird als **akademisches Fehlverhalten** nach den Regeln der Universität Bern behandelt.
 
 ---
 
-## How you **cannot** use AI (graded work)
+## So **dürfen** Sie KI nutzen (Lernen)
 
-Not allowed:
+Erlaubt zum Lernen und Explorieren, zum Beispiel:
 
-- Submitting AI-generated answers, text, or code as your own for homework, notebooks, checkpoint products, or slides
-- Having AI write your model, analysis, or presentation and turning it in with only light edits
-- Copy-pasting AI prose into reflections, captions, or talk scripts
-- Using AI during any closed / proctored assessment (if we hold one)
-- Using AI to fabricate citations, data, or lab claims
+- Konzepte aus der Vorlesung klären (Lotka–Volterra, Etablierung, Rescue, …)
+- Eine alternative Erklärung zu einem Schritt erfragen, den Sie schon selbst versucht haben
+- **Übungsfragen** generieren lassen (nicht Lösungen zu benoteten Aufgaben)
+- Ideen für Projekte / Modelle brainstormen — wenn **Sie** die finale Version umsetzen und begründen
+- Hilfe bei Fehlermeldungen **nachdem** Sie selbst einen Fix versucht haben
 
-**Presentations (Checkpoints A–D):** you must be able to explain every figure and modelling choice live. If you cannot, that is evidence the work is not yours.
+Wenn KI beim Lernen geholfen hat, sollten Sie die zentralen Schritte trotzdem ohne sie erneut können.
 
 ---
 
-## Mandatory disclosure
+## So **dürfen** Sie KI **nicht** nutzen (benotete Arbeit)
 
-If you used AI at all while preparing a **graded** submission (including debugging help or brainstorming), add an **AI disclosure** at the end:
+Nicht erlaubt:
+
+- KI-generierte Antworten, Texte oder Code als eigene Leistung bei Hausaufgaben, Notebooks, Checkpoint-Produkten oder Folien abgeben
+- KI Modell, Analyse oder Präsentation schreiben lassen und mit nur leichten Änderungen abgeben
+- KI-Prosa in Reflexionen, Bildunterschriften oder Vortragsskripte kopieren
+- KI bei geschlossenen / beaufsichtigten Prüfungen nutzen (falls wir solche halten)
+- KI zum Erfinden von Zitationen, Daten oder Lab-Claims verwenden
+
+**Präsentationen (Checkpoints A–D):** Sie müssen jede Abbildung und jede Modellierungswahl live erklären können. Wenn das nicht gelingt, spricht das dafür, dass die Arbeit nicht Ihre ist.
+
+---
+
+## Pflicht zur Offenlegung
+
+Wenn Sie bei der Vorbereitung einer **benoteten** Abgabe KI genutzt haben (auch Debugging-Hilfe oder Brainstorming), fügen Sie am Ende eine **KI-Offenlegung** hinzu:
 
 ```text
-AI disclosure
+KI-Offenlegung
 - Tool: …
-- How used: … (be specific: which function / which paragraph)
-- I confirm the final submission reflects my own understanding and I can explain it.
+- Nutzung: … (konkret: welche Funktion / welcher Absatz)
+- Ich bestätige, dass die finale Abgabe mein eigenes Verständnis widerspiegelt und ich sie erklären kann.
 ```
 
-No AI used → write: `AI disclosure: none`.
+Keine KI genutzt → schreiben: `KI-Offenlegung: keine`.
 
-Missing or false disclosure can itself be treated as misconduct.
+Fehlende oder falsche Offenlegung kann selbst als Fehlverhalten gelten.
 
 ---
 
-## Course-specific expectations
+## Kursspezifische Erwartungen
 
-| Activity | AI stance |
+| Aktivität | Haltung zu KI |
 |---|---|
-| Weekly notebooks (formative) | Learning help OK; disclosure if used on anything you submit |
-| Checkpoint practicals (A–D) | Your code + figures; disclosure required if AI was involved |
-| Checkpoint presentations | Your words; AI is not a co-presenter |
-| Week 14 portfolio wrap | Same as checkpoints |
+| Wöchentliche Notebooks (formativ) | Lernhilfe OK; Offenlegung, wenn etwas Abgegebenes betroffen ist |
+| Checkpoint-Praktika (A–D) | Ihr Code + Ihre Abbildungen; Offenlegung Pflicht bei KI-Beteiligung |
+| Checkpoint-Präsentationen | Ihre Worte; KI ist kein Co-Vortragender |
+| Woche-14-Portfolio | wie bei Checkpoints |
 
-We may ask follow-up questions about your code, figures, or biological interpretation.
-
----
-
-## Why this policy exists
-
-This course trains **quantitative biological judgement**: turning biology into updates, reading real data, and communicating limits.
-
-Those skills only stick if **you** struggle productively with the material. AI can be a tutor; it cannot be your substitute teammate on graded work.
+Wir können Nachfragen zu Code, Abbildungen oder biologischer Interpretation stellen.
 
 ---
 
-## Questions
+## Warum es diese Richtlinie gibt
 
-If unsure whether a use is allowed, ask **before** submitting — in class or by email.
+Dieser Kurs trainiert **quantitatives biologisches Urteil**: Biologie in Updates übersetzen, echte Daten lesen und Grenzen kommunizieren.
+
+Diese Fähigkeiten setzen sich nur, wenn **Sie** produktiv mit dem Stoff ringen. KI kann Tutorin sein; sie darf kein Ersatz-Teammitglied bei benoteter Arbeit sein.
+
+---
+
+## Fragen
+
+Wenn Sie unsicher sind, ob eine Nutzung erlaubt ist, fragen Sie **vor** der Abgabe — in der Sitzung oder per E-Mail.

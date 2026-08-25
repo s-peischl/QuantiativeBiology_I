@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="200" viewBox="0 0 980 200">
+  <rect width="980" height="200" fill="white"/>
+  <defs>
+    <marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2c3e50"/>
+    </marker>
+  </defs>
+  <rect x="30" y="50" width="180" height="100" rx="12" fill="#eaf2fb" stroke="#2980b9" stroke-width="3"/>
+  <text x="120" y="95" text-anchor="middle" font-family="Helvetica" font-size="16" font-weight="bold" fill="#1a5276">Funktion</text>
+  <text x="120" y="120" text-anchor="middle" font-family="Helvetica" font-size="13" fill="#333">ein Schritt</text>
+
+  <line x1="220" y1="100" x2="270" y2="100" stroke="#2c3e50" stroke-width="3" marker-end="url(#a)"/>
+
+  <rect x="280" y="50" width="180" height="100" rx="12" fill="#fef5e7" stroke="#d68910" stroke-width="3"/>
+  <text x="370" y="95" text-anchor="middle" font-family="Helvetica" font-size="16" font-weight="bold" fill="#7e5109">Vektor</text>
+  <text x="370" y="120" text-anchor="middle" font-family="Helvetica" font-size="13" fill="#333">Zeitreihe</text>
+
+  <line x1="470" y1="100" x2="520" y2="100" stroke="#2c3e50" stroke-width="3" marker-end="url(#a)"/>
+
+  <rect x="530" y="50" width="180" height="100" rx="12" fill="#eafaf1" stroke="#27ae60" stroke-width="3"/>
+  <text x="620" y="95" text-anchor="middle" font-family="Helvetica" font-size="16" font-weight="bold" fill="#196f3d">for-Schleife</text>
+  <text x="620" y="120" text-anchor="middle" font-family="Helvetica" font-size="13" fill="#333">viele Schritte</text>
+
+  <line x1="720" y1="100" x2="770" y2="100" stroke="#2c3e50" stroke-width="3" marker-end="url(#a)"/>
+
+  <rect x="780" y="50" width="170" height="100" rx="12" fill="#f5eef8" stroke="#8e44ad" stroke-width="3"/>
+  <text x="865" y="95" text-anchor="middle" font-family="Helvetica" font-size="16" font-weight="bold" fill="#6c3483">plot()</text>
+  <text x="865" y="120" text-anchor="middle" font-family="Helvetica" font-size="13" fill="#333">ansehen</text>
+</svg>

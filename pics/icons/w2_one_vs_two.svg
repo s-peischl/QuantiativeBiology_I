@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="260" viewBox="0 0 920 260">
+  <rect width="920" height="260" fill="white"/>
+  <rect x="40" y="40" width="380" height="180" rx="14" fill="#eaf2fb" stroke="#2980b9" stroke-width="3"/>
+  <text x="230" y="95" text-anchor="middle" font-family="Helvetica" font-size="20" font-weight="bold" fill="#1a5276">Teil 1</text>
+  <text x="230" y="135" text-anchor="middle" font-family="Helvetica" font-size="16" fill="#333">eine Population N</text>
+  <text x="230" y="170" text-anchor="middle" font-family="Helvetica" font-size="14" fill="#555">Paramecium allein</text>
+
+  <text x="460" y="140" text-anchor="middle" font-family="Helvetica" font-size="36" fill="#7f8c8d">→</text>
+
+  <rect x="500" y="40" width="380" height="180" rx="14" fill="#fef5e7" stroke="#d68910" stroke-width="3"/>
+  <text x="690" y="95" text-anchor="middle" font-family="Helvetica" font-size="20" font-weight="bold" fill="#7e5109">Teil 2</text>
+  <text x="690" y="135" text-anchor="middle" font-family="Helvetica" font-size="16" fill="#333">zwei Variablen N, P</text>
+  <text x="690" y="170" text-anchor="middle" font-family="Helvetica" font-size="14" fill="#555">Beute + Räuber</text>
+</svg>

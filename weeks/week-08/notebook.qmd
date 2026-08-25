@@ -1,6 +1,6 @@
 ---
-title: "Week 8 — Notebook · Toward establishment"
-subtitle: "Many attempts; rare beneficial lineages"
+title: "Woche 8 — Notebook · Auf dem Weg zur Etablierung"
+subtitle: "Viele Versuche; seltene vorteilhafte Abstammungslinien"
 format:
   html:
     toc: true
@@ -11,17 +11,17 @@ execute:
   message: false
 ---
 
-## Learning goals
+## Lernziele
 
-1. Contrast deterministic \(p_t\) thinking with single-lineage fate
-2. Run many replicate introductions
-3. Estimate an establishment frequency
+1. Deterministisches Denken über \(p_t\) dem Schicksal einer einzelnen Abstammungslinie gegenüberstellen
+2. Viele replizierte Einführungen durchführen
+3. Eine Etablierungshäufigkeit schätzen
 
-## Design note for collaborators
+## Gestaltungshinweis für Mitwirkende
 
-Provide one simple stochastic lineage update (branching-process or WF with one mutant). Keep the API stable for Weeks 9–10.
+Stellen Sie eine einfache stochastische Aktualisierung der Abstammungslinie bereit (Verzweigungsprozess oder WF mit einer Mutante). Halten Sie die API für die Wochen 9–10 stabil.
 
-## Starter scaffold
+## Ausgangsgerüst
 
 ```{r}
 # Pseudocode / fill-in: replace with the course's chosen update
@@ -40,6 +40,6 @@ established <- replicate(n_reps, run_one_lineage(s))
 mean(established)
 ```
 
-**Q1.** Write your operational definition of “established”.
+**F1.** Formulieren Sie Ihre operationale Definition von „etabliert“.
 
-**Q2.** Predict how `mean(established)` changes if you increase `s`.
+**F2.** Sagen Sie voraus, wie sich `mean(established)` verändert, wenn Sie `s` erhöhen.

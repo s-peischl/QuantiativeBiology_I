@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="320" viewBox="0 0 960 320">
+  <rect width="960" height="320" fill="white"/>
+
+  <rect x="30" y="40" width="280" height="240" rx="16" fill="#eafaf1" stroke="#27ae60" stroke-width="3"/>
+  <rect x="90" y="80" width="40" height="70" rx="4" fill="#27ae60"/>
+  <rect x="140" y="60" width="40" height="90" rx="4" fill="#1e8449"/>
+  <rect x="190" y="95" width="40" height="55" rx="4" fill="#145a32"/>
+  <text x="170" y="200" text-anchor="middle" font-family="Helvetica" font-size="20" font-weight="bold" fill="#196f3d">1 Statistik</text>
+  <text x="170" y="230" text-anchor="middle" font-family="Helvetica" font-size="14" fill="#333">Milz: Gruppen vergleichen</text>
+
+  <rect x="340" y="40" width="280" height="240" rx="16" fill="#ebf5fb" stroke="#2e86c1" stroke-width="3"/>
+  <path d="M420 70 C460 95 440 130 480 160 C440 150 460 115 420 190" fill="none" stroke="#1a5276" stroke-width="5"/>
+  <path d="M480 70 C440 95 460 130 420 160 C460 150 440 115 480 190" fill="none" stroke="#5dade2" stroke-width="5"/>
+  <text x="480" y="220" text-anchor="middle" font-family="Helvetica" font-size="20" font-weight="bold" fill="#1a5276">2 Bioinformatik</text>
+  <text x="480" y="250" text-anchor="middle" font-family="Helvetica" font-size="14" fill="#333">Reads → genomische Landkarte</text>
+
+  <rect x="650" y="40" width="280" height="240" rx="16" fill="#fef5e7" stroke="#d68910" stroke-width="3"/>
+  <path d="M720 180 Q790 60 860 180" fill="none" stroke="#d68910" stroke-width="8"/>
+  <circle cx="790" cy="70" r="10" fill="#c0392b"/>
+  <text x="790" y="220" text-anchor="middle" font-family="Helvetica" font-size="20" font-weight="bold" fill="#7e5109">3 Sweep-Scan</text>
+  <text x="790" y="250" text-anchor="middle" font-family="Helvetica" font-size="14" fill="#333">Wo Selektionsspuren?</text>
+
+</svg>

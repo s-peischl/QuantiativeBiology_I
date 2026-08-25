@@ -1,85 +1,86 @@
 ---
 title: "MfB qualification criteria ↔ QuBi I"
-subtitle: "Internal alignment for collaborators (not a full coverage claim)"
+subtitle: "Internal alignment for collaborators (no claim of full coverage)"
 format:
   html:
     toc: true
     toc-depth: 2
     css: ../styles.scss
+    lang: en
 ---
 
 ::: {.callout-note}
 **Audience:** instructors / content authors.  
-Source document: `Qualifikationskriterien_MfB_english 1.odt` (BridgeCourse folder).  
-QuBi I **cannot** address every MfB outcome for years 1–2. Goal: **touch many** codes deliberately, deepen a few, leave the rest to parallel courses (esp. programming + stats).
+Source: `Qualifikationskriterien_MfB_english 1.odt` (BridgeCourse folder).  
+QuBi I **cannot** cover every MfB learning goal of years 1–2. The aim is to **touch** many codes deliberately, deepen some, and leave the rest to parallel courses (especially programming and statistics).
 :::
 
 ## MfB codes (reminder)
 
 | Code | Area |
 |---|---|
-| **LOG** | Logic & critical thinking (assumptions, misleading viz, hypotheses, AI ethics) |
-| **MATH** | Analysis & linear algebra (derivatives, ODEs, stability, matrices) |
+| **LOG** | Logic and critical thinking (assumptions, misleading visuals, hypotheses, AI ethics) |
+| **MATH** | Calculus and linear algebra (derivatives, DEs, stability, matrices) |
 | **PROB** | Probability (distributions, LLN/CLT intuition, simple stochastic processes) |
-| **DAT** | Data science (process/visualize in R, structures, FAIR; ML/PCA lightly) |
+| **DAT** | Data science (R processing/viz, structures, FAIR; ML/PCA in glimpses) |
 | **PROG** | Programming (functions, loops, simulation, reproducible notebooks) |
-| **STAT** | Statistics (descriptive; inferential mostly elsewhere) |
-| **MOD** | Mathematical modelling (discrete/continuous; det/stoch; assumptions) |
+| **STAT** | Statistics (descriptive; inference mostly elsewhere) |
+| **MOD** | Mathematical modelling (discrete/continuous; deterministic/stochastic; assumptions) |
 
 ---
 
-## Where QuBi I touches each code
+## Where QuBi I picks up each code
 
-| Code | Strong touch in QuBi I | Lighter / foreshadow | Mostly elsewhere |
+| Code | Strong focus in QuBi I | Lighter / outlook | Mostly elsewhere |
 |---|---|---|---|
-| **MOD** | W2–4 eco models; W5–7 selection; W8–10 establishment & rescue | Stability language around logistic / LV | Full phase-plane theory course |
+| **MOD** | W2–4 ecological models; W5–7 selection; W8–10 establishment & rescue | Stability ideas for logistic / LV | Full phase-plane theory |
 | **PROG** | Every week: function → vector → loop; Quarto notebooks | Matrices for replicates (W9–10) | Python track; software engineering |
-| **LOG** | Model assumptions; model vs data honesty; checkpoint talks; **AI policy** | Spotting bad viz in microbiome block | Formal fallacy curricula |
-| **DAT** | W11–13 load/join/visualize complex tables | FAIR-ish habits (cite data, disclose) | Excel track; full ML/PCA course |
-| **MATH** | Interpret \(dn/dt\), \(dp/dt\); discrete updates as Euler-ish steps | Equilibria intuition (logistic, selection) | Formal derivatives, eigenvalues, Leslie |
-| **PROB** | Establishment as stochastic fate; rescue probabilities; replicate cultures | LLN vibe via many sims | Distribution theory, Markov homework |
-| **STAT** | Qualitative pattern reading; means of replicates | p-values / CI only if needed for a dataset story | Dedicated stats course |
+| **LOG** | Model assumptions; honest model–data comparison; checkpoint talks; **AI policy** | Spotting bad visuals in microbiome block | Formal fallacies |
+| **DAT** | W11–13 load/join/visualise complex tables | FAIR habits (cite data, be transparent) | Excel track; full ML/PCA course |
+| **MATH** | Interpret \(dn/dt\), \(dp/dt\); discrete updates as Euler-like steps | Equilibrium intuition (logistic, selection) | Formal derivatives, eigenvalues, Leslie |
+| **PROB** | Establishment as stochastic fate; rescue probabilities; replicate cultures | LLN intuition via many sims | Distribution theory, Markov homework |
+| **STAT** | Qualitative pattern reading; means of replicates | p-values / CI only if a data story needs them | Dedicated statistics course |
 
 ---
 
-## Week-by-week touch map
+## Week overview
 
-| Week | Theme | Primary MfB codes |
+| Week | Topic | Primary MfB codes |
 |-----:|------|---|
-| 1 | Bajau → Tibetans / evidence stack | LOG |
+| 1 | Bajau → Tibetans / evidence chain | LOG |
 | 2 | Gause PP → discrete LV → code | MOD, PROG, LOG |
-| 3 | Competition, \(K\), parameters | MOD, PROG, MATH (light), LOG |
-| 4 | Isle Royale; own model; **Checkpoint A** | MOD, PROG, LOG, DAT (light) |
-| 5 | Allele-frequency recurrence | MOD, PROG, MATH (light) |
+| 3 | Exclusion, bistability, predator-mediated coexistence | MOD, PROG, DAT |
+| 4 | Game theory / RPS lizards; **Checkpoint A** | MOD, PROG, LOG |
+| 5 | Allele-frequency recursion | MOD, PROG, MATH (light) |
 | 6 | Selection regimes | MOD, PROG, LOG |
-| 7 | Limits of deterministic; **Checkpoint B** | MOD, LOG, PROB (motivate) |
+| 7 | Limits of deterministic models; **Checkpoint B** | MOD, LOG, PROB (motivation) |
 | 8 | Selection → establishment | MOD, PROB, LOG |
-| 9 | Estimate \(u(s)\); replicates | PROB, PROG, MOD |
+| 9 | Estimating \(u(s)\); replicates | PROB, PROG, MOD |
 | 10 | Evolutionary rescue; **Checkpoint C** | MOD, PROB, LOG |
 | 11 | Load complex microbiome data | DAT, PROG, LOG |
-| 12 | Visualize communities | DAT, LOG, PROG |
+| 12 | Visualise communities | DAT, LOG, PROG |
 | 13 | Visual story; **Checkpoint D** | DAT, LOG |
-| 14 | Synthesis wrap | LOG (arc reflection) |
+| 14 | Closing synthesis | LOG (arc reflection) |
 
-**Checkpoints** deliberately exercise **LOG** (assumptions, limits) + communication, on top of the block’s technical codes.
-
----
-
-## Design rules for authors
-
-1. Prefer **one clear MfB-aligned learning goal** per week over covering a whole code domain.
-2. When you add math, keep it **interpretive** unless the parallel maths course already did the formalism.
-3. Every checkpoint should force: assumption + figure + “what we are not claiming” (**LOG**).
-4. AI policy covers MfB’s ethical AI outcome (**LOG** / **DAT** / **PROG**).
-5. Do **not** promise PCA/ML, full ODE stability proofs, or inferential stats mastery in QuBi I.
+**Checkpoints** deliberately train **LOG** (assumptions, limits) and communication on top of the block’s content codes.
 
 ---
 
-## Gaps we accept (on purpose)
+## Authoring rules
 
-- Heavy **STAT** inferential pipeline  
-- Full **MATH** eigenvalue / Leslie treatment  
-- **DAT** machine learning beyond optional foreshadow  
-- Gillespie SSA (named in MfB MOD examples) — optional stretch, not core  
+1. Prefer **one clear MfB-aligned learning goal** per week over claiming a whole code domain.  
+2. Keep new maths **interpretive** unless parallel maths already covers the formal base.  
+3. Every checkpoint should require: assumption + figure + “what we do not claim” (**LOG**).  
+4. The AI policy covers MfB’s ethical-AI goal (**LOG** / **DAT** / **PROG**).  
+5. Do not promise mastery of PCA/ML, full DE stability proofs, or inferential statistics inside QuBi I.
 
-If a collaborator wants to deepen one gap, prefer an **optional notebook appendix**, not a new required week.
+---
+
+## Deliberately accepted gaps
+
+- Full inferential **STAT** pipeline  
+- Full eigenvalues / Leslie under **MATH**  
+- Machine learning under **DAT** beyond an optional outlook  
+- Gillespie SSA (named in MfB MOD examples) — optional depth, not core  
+
+If a gap is deepened, prefer an **optional notebook appendix** over a new required week.

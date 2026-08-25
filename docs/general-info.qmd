@@ -1,0 +1,82 @@
+---
+title: "Allgemeine Informationen"
+subtitle: "Kursorganisation · Bewertung (Entwurf)"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    css: ../styles.scss
+---
+
+**Quantitative Biologie I** · HS 2026 · Stephan Peischl
+
+::: {.callout-note}
+## Entwurf
+
+Prüfungsmodalitäten hier sind ein **Arbeitsstand**. Verbindliche Fassung folgt (Fakultät / ILIAS).  
+Inhaltliche Kursstruktur: [Kursplan](course-outline.qmd).
+:::
+
+## Termine
+
+- **Vorlesung:** Donnerstags **08:15–10:00**
+- **Erste Sitzung:** 17. September 2026  
+- **Letzte Sitzung:** 17. Dezember 2026  
+- Parallel: Kurs **R-Programmierung** (dort systematisch R; hier: Modelle & Biologie)
+
+Kalender: [Kursplan — Sitzungskalender](course-outline.qmd#session-calendar).
+
+## Module (Überblick)
+
+| Modul | Wochen | Checkpoint |
+|-------|--------|------------|
+| **1** Einstieg + Ökologie | 1–4 | **A** in Woche **4** ([Modul 1](module-01-overview.qmd)) |
+| **2** Evolution (deterministisch) | 5–7 | **B** in Woche **7** |
+| **3** Evolution (zufällig) / Rettung | 8–10 | **C** in Woche **10** |
+| **4** Mikrobiom | 11–13 | **D** in Woche **13** |
+| Abschluss | 14 | Synthese (keine 5. Präsentation) |
+
+## Bewertung — bestanden / nicht bestanden (Entwurf)
+
+**Bewertung:** bestanden / nicht bestanden (Pass/Fail).
+
+### Checkpoints
+
+Statt Hausaufgaben und statt einer grossen Abschlussprüfung: **vier Checkpoints** (A–D), jeweils am Ende eines Themenblocks.
+
+| | Entwurf |
+|--|---------|
+| **Was** | Kurze Präsentation der Arbeit aus der Checkpoint-Einheit |
+| **Dauer** | ca. **3–5 Minuten** |
+| **Form** | Gruppenarbeit möglich |
+| **Hausaufgaben** | **keine** (Arbeit geschieht in der Sitzung / im Notebook) |
+| **Bestanden** | Anwesenheit **und** Präsentation an **mindestens 3 von 4** Checkpoints |
+
+::: {.callout-important}
+## Präsenz an Checkpoint-Terminen
+
+An den Checkpoint-Wochen (**4, 7, 10, 13**) müssen Sie **anwesend sein und präsentieren**, damit der Checkpoint zählt.  
+Wer fehlt, kann diesen Termin nicht nachholen (Ausnahmen nur nach Absprache / gemäss Fakultätsregeln — folgt).
+:::
+
+### Was noch folgt
+
+- Gewichtung / Rubriken der Kurzpräsentationen  
+- Umgang mit Krankheit / Ausgleich  
+- KI-Offenlegung bei Abgaben: siehe [KI-Richtlinie](ai-policy.qmd)  
+- Technische Abgabeorte (ILIAS o. Ä.)
+
+## Materialien & Kommunikation
+
+- **Teaching Hub (diese Website):** Folien, Notebooks, Aufgaben, Kursplan  
+- **Repository / Pages:** siehe [Collaborators](for-collaborators.qmd) (English)  
+- Fragen zur Bewertung: Dozent (Kanal folgt)
+
+## Links
+
+| | |
+|--|--|
+| [Start](../index.qmd) | Hub-Startseite |
+| [Modul 1 (Wochen 1–4)](module-01-overview.qmd) | Ein-Seiten-Überblick inkl. Checkpoint A |
+| [Kursplan](course-outline.qmd) | Vollständiger Wochenplan |
+| [KI-Richtlinie](ai-policy.qmd) | Erlaubte Nutzung & Offenlegung |

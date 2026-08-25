@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="520" viewBox="0 0 1000 520">
+  <rect width="1000" height="520" fill="white"/>
+  <text x="500" y="36" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="22" font-weight="bold" fill="#222">Milzkontraktion beim Apnoetauchen — O₂-Schub</text>
+
+  <ellipse cx="160" cy="240" rx="95" ry="115" fill="#e74c3c" stroke="#922b21" stroke-width="3"/>
+  <text x="160" y="235" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="white">Milz</text>
+  <text x="160" y="258" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="white">(Ruhe)</text>
+  <text x="160" y="390" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Speicher:</text>
+  <text x="160" y="410" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">O₂-reiche Erythrozyten</text>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2c3e50"/>
+    </marker>
+  </defs>
+  <line x1="270" y1="240" x2="360" y2="240" stroke="#2c3e50" stroke-width="4" marker-end="url(#arrow)"/>
+  <text x="315" y="200" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#222">Tauchen</text>
+  <text x="315" y="216" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#222">(Apnoe + Kältereiz)</text>
+
+  <ellipse cx="450" cy="240" rx="70" ry="85" fill="#c0392b" stroke="#641e16" stroke-width="3"/>
+  <text x="450" y="232" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="white">Milz</text>
+  <text x="450" y="252" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="white">kontrahiert</text>
+
+  <line x1="535" y1="240" x2="620" y2="240" stroke="#2c3e50" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <rect x="640" y="150" width="300" height="180" rx="14" fill="#fdebd0" stroke="#b9770e" stroke-width="3"/>
+  <text x="790" y="195" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#222">Freisetzung in</text>
+  <text x="790" y="218" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#222">den Kreislauf</text>
+  <text x="790" y="255" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">mehr O₂-Transport</text>
+  <text x="790" y="278" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">→ längeres Apnoe-</text>
+  <text x="790" y="301" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">Tauchen möglich</text>
+
+  <rect x="70" y="450" width="860" height="50" rx="8" fill="#f7f7f7" stroke="#bbbbbb"/>
+  <text x="500" y="480" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Idee: grössere Milz ≈ grösserer «biologischer Sauerstofftank». Nach Ilardo et al. 2018 / Säuger-Tauchreflex.</text>
+</svg>

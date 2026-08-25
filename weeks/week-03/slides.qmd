@@ -1,10 +1,11 @@
 ---
-title: "Week 3 — Making Models Richer"
-subtitle: "Extending Lotka–Volterra in code"
+title: "Woche 3 — Ausschluss, Bistabilität, Food Webs"
+subtitle: "Wer gewinnt? · Zwei Zustände · Wolf rettet Aspen"
 author: "Stephan Peischl"
 format:
   revealjs:
     theme: simple
+    css: slides.css
     slide-number: true
     incremental: false
     embed-resources: true
@@ -17,177 +18,137 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Course outline](../../docs/course-outline.html) · [Home](../../index.html)"
+    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html)"
 execute:
   echo: false
   warning: false
   message: false
-  freeze: true
+  freeze: false
 ---
 
-## On this deck
+## Übersicht
 
-**Week 3** of 14 · Ecology block  
-**Thu 1 Oct 2026, 08:15–10:00**
+**Woche 3** von 14 · **Do., 1. Okt. 2026, 08:15–10:00**
 
-- [Course outline](../../docs/course-outline.html)
-- [Home](../../index.html)
-- Arrow keys / controls · **M** menu · **Esc** grid
+[Kursplan](../../docs/course-outline.html) · [Start](../../index.html)
 
-## Part 1  
-## Recap and goal
+::: aside
+Pfeiltasten · **M** Menü · **Esc** Übersicht
+:::
 
-## Where we are
+## Sitzungsablauf (~2 h)
 
-Last week: *Paramecium* + *Didinium* → discrete LV → function / vector / loop.
+| Teil | Dauer | Was |
+|------|-------|-----|
+| Vorlesung | ~55 min | Ausschluss → Bistabilität → Yellowstone-Food-Web |
+| Notebook | ~45 min | dieselben Experimente (Aspen / Sage / Elk / Wolf) |
 
-Today: **richer biology** with the same engine — motivated by another real Gause experiment.
+## Heute in einem Blick
 
-## Learning goals today
+::::: columns
+::: {.column width="22%"}
+![](../../pics/icons/icon_question.svg){fig-alt="Frage" width="70%"}
+:::
+::: {.column width="22%"}
+![](../../pics/icons/icon_biology.svg){fig-alt="Biologie" width="70%"}
+:::
+::: {.column width="22%"}
+![](../../pics/icons/icon_math.svg){fig-alt="Modell" width="70%"}
+:::
+::: {.column width="22%"}
+![](../../pics/icons/w2_pipeline.svg){fig-alt="Pipeline" width="70%"}
+:::
+:::::
 
-1. Read a real **competition** contrast in data
-2. Add carrying capacity \(K\) in code
-3. Extend to **two competing species**
-4. Change one parameter at a time and interpret
+**Frage** (wer gewinnt / was stabilisiert?) → **Daten / Motivation** → **LV-Modell** → dieselbe Pipeline wie Woche 2.
 
----
+## Heute in zwei Stories
 
-## Part 2  
-## Bio opener: two Paramecia
+| Story | Punchline |
+|-------|-----------|
+| **1. Konkurrenz** | Stärkere Art gewinnt *immer* — bis wir \(\alpha\) drehen → Bistabilität |
+| **2. Food Web** | Elk → Aspen gegen 0 · Wolf → Aspen **stabil positiv**, Elk bleibt mittel |
 
-## Not predator–prey this time
+Modell = Herz. Daten / Fotos = Motivation.
 
-Same genus, shared resource:
+::: aside
+[Modul 1](../../docs/module-01-overview.html) · Wochen 1–4
+:::
 
-- ***Paramecium caudatum***
-- ***Paramecium aurelia***
+## Pipeline
 
-Question: what happens **alone** vs **together**?
+Woche 2: Funktion → Vektor → `for` → `plot`.
 
-**Source:** Gause (1934) Fig. 22 — digitized in `gauseR` (`data/`).
+Heute: dieselbe Pipeline — 2 Konkurrenten, dann **Aspen + Sage + Elk + Wolf**.
 
-## Alone: each grows then levels off
+------------------------------------------------------------------------
+
+# Story 1 · Competitive Exclusion
+
+## Biologische Frage
+
+Beide Arten überleben **allein**. Warum stirbt eine **zusammen**?
+
+## Daten: *Paramecium* (Gause)
+
+***P. caudatum*** vs ***P. aurelia*** · gleiche Ressource.
+
+**Quelle:** Gause (1934) · `data/paramecium_*.csv` · `real_digitized`
+
+## Allein: beide schaffen ein Plateau
 
 ```{r}
-#| fig-height: 3.8
+#| fig-height: 3.4
 #| fig-width: 8
 pc <- read.csv("data/paramecium_caudatum_alone.csv")
 pa <- read.csv("data/paramecium_aurelia_alone.csv")
-par(mfrow = c(1, 2), mar = c(4, 4, 2, 1))
+par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
 plot(pc$day, pc$volume, type = "b", pch = 16, lwd = 2,
-     xlab = "Day", ylab = "Volume", main = "P. caudatum alone")
+     xlab = "Tag", ylab = "Volumen", main = "caudatum allein")
 plot(pa$day, pa$volume, type = "b", pch = 17, lwd = 2,
-     xlab = "Day", ylab = "Volume", main = "P. aurelia alone")
+     xlab = "Tag", ylab = "Volumen", main = "aurelia allein")
 ```
 
-Both look **logistic** — a carrying capacity, not endless exponential growth.
+Beide Arten schaffen allein ein Plateau → Ressource reicht für jede allein.
 
-## Together: competitive exclusion
+## Zusammen: eine verschwindet
 
 ```{r}
-#| fig-height: 4
+#| fig-height: 3.6
 #| fig-width: 7
 mix <- read.csv("data/paramecium_competition.csv")
 ymax <- max(c(mix$caudatum, mix$aurelia), na.rm = TRUE)
 plot(mix$day, mix$caudatum, type = "b", pch = 16, lwd = 2,
-     xlab = "Day", ylab = "Volume",
-     main = "Mixture (Gause 1934, Fig. 22)",
-     ylim = c(0, ymax * 1.05))
+     xlab = "Tag", ylab = "Volumen",
+     main = "Mischung (Gause)", ylim = c(0, ymax * 1.05))
 lines(mix$day, mix$aurelia, type = "b", pch = 17, lwd = 2, lty = 2)
-legend("topright", c("P. caudatum", "P. aurelia"),
-       pch = c(16, 17), lty = 1:2, bty = "n")
+legend("topright", c("caudatum", "aurelia"), pch = c(16, 17), lty = 1:2, bty = "n")
 ```
 
-## What jumps out?
+→ **Competitive exclusion:** eine Art gewinnt, die andere → 0.
 
-- Alone: both persist near a plateau \(\approx K\)
-- Together: **one declines** while the other holds on
-- Classic message: competition can exclude a species that would do fine alone
+## Modell: LV-Konkurrenz
 
-## Think–pair–share (2 min)
-
-1. Why isn’t Week 2’s predator–prey LV enough here?
-2. What new ingredients do we need (\(K\)? two competitors?)
-3. What would you change first in `next_state()`?
-
----
-
-## Part 3  
-## Critique last week’s simple LV
-
-## Classic LV assumptions (too strong)
-
-- Unlimited prey growth without predators
-- No carrying capacity
-- Only predator–prey (no competition)
-- Deterministic (no noise) — later in the course
-
-## Biological upgrades (menu)
-
-1. Prey self-limitation (carrying capacity \(K\)) ← **today**
-2. Two-species **competition** ← **today**
-3. Predator saturation / refuges
-4. Harvesting term
-
-Each upgrade = a **small change in the update rule**.
-
----
-
-## Part 4  
-## Extension 1: carrying capacity
-
-## Biology
-
-Populations cannot grow forever even without enemies.
+Kursstandard (Euler / Differenzen) — wie im Code:
 
 \[
-\frac{dN}{dt} = rN\left(1 - \frac{N}{K}\right)
+\begin{aligned}
+N_{1,t+1}
+  &= N_{1,t}
+     + r_1 N_{1,t}\left(1 - \frac{N_{1,t} + \alpha_{12} N_{2,t}}{K_1}\right)\Delta t \\[0.35em]
+N_{2,t+1}
+  &= N_{2,t}
+     + r_2 N_{2,t}\left(1 - \frac{N_{2,t} + \alpha_{21} N_{1,t}}{K_2}\right)\Delta t
+\end{aligned}
 \]
 
-Matches the **alone** curves in Fig. 22.
+\(\alpha_{ij}\): wie stark Art \(j\) Art \(i\) die Ressource wegnimmt.  
+\(\alpha_{12} \gt 1\): Art 2 hemmt Art 1 *stärker* als Art 1 sich selbst.
 
-## With a predator (optional link to Week 2)
+Literatur schreibt oft \(\mathrm{d}N_i/\mathrm{d}t=\ldots\); wir simulieren den **Euler-Schritt**.  
+Parameter hängen von \(\Delta t\) ab (siehe Woche 2).
 
-\[
-\frac{dN}{dt} = rN\left(1 - \frac{N}{K}\right) - aNP
-\]
-
-## In discrete code
-
-```r
-dN <- (r * N * (1 - N / K) - a * N * P) * dt
-```
-
-Programming lesson:
-
-> Change biology → change one expression inside the function.
-
-## Live comparison
-
-Run logistic alone vs LV with \(K\):
-
-- Does \(N\) plateau near \(K\) when \(P = 0\)?
-- How do cycles change when \(K\) is finite?
-
----
-
-## Part 5  
-## Extension 2: two competitors
-
-## Biology (Lotka–Volterra competition)
-
-Two species, shared limiting resource:
-
-\[
-\frac{dN_1}{dt} = r_1 N_1 \left(1 - \frac{N_1 + \alpha_{12} N_2}{K_1}\right)
-\]
-\[
-\frac{dN_2}{dt} = r_2 N_2 \left(1 - \frac{N_2 + \alpha_{21} N_1}{K_2}\right)
-\]
-
-Goal: qualitatively recover **exclusion** like Gause Fig. 22.
-
-## Sketch in code
+## Im Code
 
 ```r
 next_comp <- function(N1, N2, r1, r2, K1, K2, a12, a21, dt) {
@@ -197,97 +158,560 @@ next_comp <- function(N1, N2, r1, r2, K1, K2, a12, a21, dt) {
 }
 ```
 
-Same Week 2 pattern — only **more components**.
+## Punchline: Start egal — Gewinner fest \[SIM\]
 
-## Store trajectories
+\(\alpha_{12} = 1.4\), \(\alpha_{21} = 0.5\): Art 2 ist «stärker».
 
-- separate vectors, or
-- a matrix (time × species)
+```{r}
+#| fig-height: 3.8
+#| fig-width: 9
+next_comp <- function(N1, N2, r1, r2, K1, K2, a12, a21, dt) {
+  d1 <- r1 * N1 * (1 - (N1 + a12 * N2) / K1) * dt
+  d2 <- r2 * N2 * (1 - (N2 + a21 * N1) / K2) * dt
+  c(N1 = max(N1 + d1, 0), N2 = max(N2 + d2, 0))
+}
+sim_comp <- function(N10, N20, a12, a21, T = 800, dt = 0.05) {
+  N1 <- numeric(T + 1); N2 <- numeric(T + 1)
+  N1[1] <- N10; N2[1] <- N20
+  for (t in 1:T) {
+    out <- next_comp(N1[t], N2[t], 1, 1, 100, 100, a12, a21, dt)
+    N1[t + 1] <- out["N1"]; N2[t + 1] <- out["N2"]
+  }
+  data.frame(time = 0:T * dt, N1 = N1, N2 = N2)
+}
+A <- sim_comp(80, 10, 1.4, 0.5)
+B <- sim_comp(10, 80, 1.4, 0.5)
+par(mfrow = c(1, 2), mar = c(4, 4.2, 2.5, 1))
+matplot(A$time, cbind(A$N1, A$N2), type = "l", lty = 1, lwd = 2.5,
+        col = c("#2980b9", "#27ae60"), ylim = c(0, 110),
+        xlab = "Zeit", ylab = "N", main = "Start: viel N1")
+legend("right", c("N1", "N2"), col = c("#2980b9", "#27ae60"),
+       lty = 1, lwd = 2.5, bty = "n", cex = 0.8)
+matplot(B$time, cbind(B$N1, B$N2), type = "l", lty = 1, lwd = 2.5,
+        col = c("#2980b9", "#27ae60"), ylim = c(0, 110),
+        xlab = "Zeit", ylab = "N", main = "Start: viel N2")
+legend("right", c("N1", "N2"), col = c("#2980b9", "#27ae60"),
+       lty = 1, lwd = 2.5, bty = "n", cex = 0.8)
+```
 
-Preview of later matrix thinking.
+**Immer** gewinnt N2 — unabhängig vom Start. Ein Attraktor (Punkt: N1≈0, N2≈K).
 
----
+------------------------------------------------------------------------
 
-## Part 5  
-## Parameter play as scientific method
+# Story 1b · Drehen → Bistabilität
 
-## The habit we want
+## Kleine Änderung, grosse Wirkung
 
-1. Change **one** thing
-2. Predict what should happen
-3. Simulate
-4. Compare prediction vs result
-5. Explain biologically
+Bisher: eine Art klar überlegen → **ein** Gewinner.
 
-## What to explore today
+Jetzt: **beide** \(\alpha \gt 1\) (starke gegenseitige Hemmung) → wer voraus ist, gewinnt.
 
-In the notebook, start from Gause competition data, then:
+## Grasland oder Wald?
 
-- fit the *idea* of logistic growth with \(K\) (qualitative)
-- simulate two-competitor LV; try to get exclusion
-- vary \(r\), \(K\), or competition coefficients **one at a time**
+::::: columns
+::: {.column width="50%"}
+![](../../pics/ecosystems/tallgrass.jpg){fig-alt="Grasland" width="95%"}
 
-## Plotting for insight
+**Grasland**
+:::
+::: {.column width="50%"}
+![](../../pics/ecosystems/beech_forest.jpg){fig-alt="Wald" width="95%"}
 
-- alone vs mixture panels (data)
-- simulated \(N_1(t), N_2(t)\) overlay
-- (optional) \(N_1\) vs \(N_2\) phase plane
+**Wald**
+:::
+:::::
 
-## Think-pair-share
+::: aside
+Fotos: Wikimedia Commons. Kein Kurs-Datensatz — Idee + Literatur.
+:::
 
-If *P. aurelia* is the stronger competitor in mixture:
+## Idee (Literatur)
 
-- Which coefficient would you increase first?
-- How would monoculture plateaus constrain \(K_1, K_2\)?
-- How is this different from Week 2’s *Didinium* story?
+Alternative stabile Zustände: Feuer, Schatten, Beweidung.  
+Gleiche Regeln, anderer Start → Grasland **oder** Wald.
 
----
+Referenzen: Scheffer et al. (2001); Staver, Archibald & Levin (2011) — siehe Literaturliste.
 
-## Part 6  
-## Notebook & wrap-up
+![](../../pics/comics/comic_grass_forest.svg){fig-alt="Grasland Wald" width="88%"}
 
-## Notebook today
+## Simulation: Start entscheidet \[SIM\]
 
-**Competition data → logistic / two-species model → parameter play**
+\(\alpha_{12} = \alpha_{21} = 1.5\)
 
-1. Plot Gause Fig. 22 alone vs mixture (`data/`)
-2. Working logistic + competition `next_state`
-3. Students change one parameter; interpret biologically
-4. Optional: add a predation term back (link Week 2)
+```{r}
+#| fig-height: 3.8
+#| fig-width: 9
+G <- sim_comp(80, 15, 1.5, 1.5)  # Gras voraus
+W <- sim_comp(15, 80, 1.5, 1.5)  # Wald voraus
+par(mfrow = c(1, 2), mar = c(4, 4.2, 2.5, 1))
+matplot(G$time, cbind(G$N1, G$N2), type = "l", lty = 1, lwd = 2.5,
+        col = c("#d68910", "#1e8449"), ylim = c(0, 110),
+        xlab = "Zeit", ylab = "N", main = "Start: viel Gras (N1)")
+legend("right", c("Gras", "Wald"), col = c("#d68910", "#1e8449"),
+       lty = 1, lwd = 2.5, bty = "n", cex = 0.8)
+matplot(W$time, cbind(W$N1, W$N2), type = "l", lty = 1, lwd = 2.5,
+        col = c("#d68910", "#1e8449"), ylim = c(0, 110),
+        xlab = "Zeit", ylab = "N", main = "Start: viel Wald (N2)")
+legend("right", c("Gras", "Wald"), col = c("#d68910", "#1e8449"),
+       lty = 1, lwd = 2.5, bty = "n", cex = 0.8)
+```
 
-## Bridge to programming course
+Gleiche Parameter — anderer Attraktor. **Bistabilität.**
 
-| Programming | Biology today |
-|---|---|
-| Edit expressions in a function | add \(K\) / competition |
-| Re-run scripts | alone vs mixture scenarios |
-| Multiple related plots | communicate exclusion |
-| Longer return vectors | two-species state |
+## Was heisst «stabil»? — Übersicht
 
-## Exit ticket
+![](../../pics/comics/comic_stability_examples.svg){fig-alt="Stabilitaet mit Beispielen" width="96%"}
 
-1. What pattern in Fig. 22 requires a model richer than Week 2 LV?
-2. In words: how does \(K\) change the update for one species alone?
-3. What surprised you when you changed a competition parameter?
+## Beispiel Punkt: Exclusion-Endpunkt \[SIM\]
 
-## Next week
+```{r}
+#| fig-height: 3.4
+#| fig-width: 7.5
+ex <- sim_comp(50, 50, 1.4, 0.5)
+matplot(ex$time, cbind(ex$N1, ex$N2), type = "l", lty = 1, lwd = 2.5,
+        col = c("#2980b9", "#27ae60"), ylim = c(0, 110),
+        xlab = "Zeit", ylab = "N",
+        main = "Punktattraktor: Exclusion (N1 -> 0, N2 -> K)")
+legend("right", c("N1 (verliert)", "N2 (gewinnt)"),
+       col = c("#2980b9", "#27ae60"), lty = 1, lwd = 2.5, bty = "n")
+abline(h = 0, lty = 3, col = "grey60")
+```
 
-- **Isle Royale** moose–wolf (and optional classic series)
-- Model zoo: competition, epidemics, harvest…
-- Notebook: **build your own model**
+Nach Störung (anderer Start) kehren Trajektorien zum **selben** Punkt zurück.
 
-**Data sources:** Gause (1934) Fig. 22 via `gauseR` — see `data/README.md`.
+## Beispiel Bistabil: Gras vs. Wald \[SIM\]
 
----
+Schon gesehen: zwei Starts → zwei Endzustände.  
+Schematisch:
+
+![](../../pics/comics/comic_bistability.svg){fig-alt="Bistabilitaet" width="80%"}
+
+## Beispiel Zyklus: Räuber–Beute \[SIM\]
+
+Klassisches Lotka–Volterra (wie Woche 2 / *Didinium*): Dichten schwingen, sterben nicht aus.
+
+```{r}
+#| fig-height: 3.5
+#| fig-width: 8.5
+sim_pp <- function(N0 = 40, P0 = 8, T = 2500, dt = 0.02) {
+  N <- numeric(T + 1); P <- numeric(T + 1)
+  N[1] <- N0; P[1] <- P0
+  r <- 1.0; a <- 0.1; e <- 0.3; m <- 0.4
+  for (t in 1:T) {
+    dN <- (r * N[t] - a * N[t] * P[t]) * dt
+    dP <- (e * a * N[t] * P[t] - m * P[t]) * dt
+    N[t + 1] <- max(N[t] + dN, 0)
+    P[t + 1] <- max(P[t] + dP, 0)
+  }
+  data.frame(time = 0:T * dt, N = N, P = P)
+}
+pp <- sim_pp()
+par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
+matplot(pp$time, cbind(pp$N, pp$P), type = "l", lty = 1, lwd = 2.2,
+        col = c("#27ae60", "#c0392b"), xlab = "Zeit", ylab = "Dichte",
+        main = "Zeitreihe: Schwingung")
+legend("topright", c("Beute N", "Raeuber P"), col = c("#27ae60", "#c0392b"),
+       lty = 1, lwd = 2.2, bty = "n", cex = 0.75)
+plot(pp$N, pp$P, type = "l", lwd = 2, col = "#8e44ad",
+     xlab = "Beute N", ylab = "Raeuber P", main = "Phasenraum: Orbit")
+```
+
+Attraktor = **Orbit**, nicht ein einzelner Punkt.
+
+------------------------------------------------------------------------
+
+# Story 2 · Food Web: Wolf stabilisiert Aspen
+
+## Neue Leitfrage
+
+Kann ein Top-Prädator (**Wolf**) eine Pflanze (**Aspen**) retten, die sonst gegen 0 geht — ohne dass der Herbivor (**Elk**) ausstirbt?
+
+## Motivation: Yellowstone (kurz)
+
+::::: columns
+::: {.column width="48%"}
+![](../../pics/yellowstone/wolf_yellowstone.jpg){fig-alt="Wolf" width="95%"}
+:::
+::: {.column width="52%"}
+![](../../pics/yellowstone/elk_rmnp.jpg){fig-alt="Elk" width="95%"}
+:::
+:::::
+
+Wolf zurück → Elk kontrolliert → bevorzugte Weiden / Aspen können sich erholen.
+
+::: aside
+Fotos: Commons. CSVs `yellowstone_*.csv`: Motivation · Vegetation nicht in unseren Daten.
+:::
+
+## Kaskade (Skizze)
+
+![](../../pics/comics/comic_yellowstone_cascade.svg){fig-alt="Yellowstone Kaskade" width="92%"}
+
+## Das Gedankenexperiment (mit Namen)
+
+1. **Aspen** und **Sage** konkurrieren — beide können koexistieren  
+2. **+ Elk**, der Aspen stark bevorzugt → **Aspen → 0**  
+3. **+ Wolf** auf Elk → Aspen bleibt **weg von 0**, Elk bleibt **mittel** (nicht «fast ausgestorben»)
+
+## Modell-Netz
+
+![](../../pics/foodweb/foodweb_aspen_elk_wolf.svg){fig-alt="Aspen Sage Elk Wolf" width="90%"}
+
+## Modell (Herz) — dieselben Namen
+
+Euler-Form (Kursstandard), \(X^+ = X_{t+1}\):
+
+\[
+\begin{aligned}
+A^{+}
+  &= A
+     + \Bigl[r_A A\bigl(1 - \tfrac{A + \alpha_{AS} S}{K}\bigr)
+            - a_{\mathrm{EA}} A E\Bigr]\Delta t \\[0.35em]
+S^{+}
+  &= S
+     + \Bigl[r_S S\bigl(1 - \tfrac{S + \alpha_{SA} A}{K}\bigr)
+            - a_{\mathrm{ES}} S E\Bigr]\Delta t \\[0.35em]
+E^{+}
+  &= E
+     + \Bigl[e_E(a_{\mathrm{EA}} A + a_{\mathrm{ES}} S)E
+            - m_E E - a_{\mathrm{WE}} E W\Bigr]\Delta t \\[0.35em]
+W^{+}
+  &= W
+     + \bigl(e_W a_{\mathrm{WE}} E W - m_W W\bigr)\Delta t
+\end{aligned}
+\]
+
+Kurz: \(a_{\mathrm{EA}}=a_{\mathrm{elk,aspen}}\), \(a_{\mathrm{ES}}=a_{\mathrm{elk,sage}}\), \(a_{\mathrm{WE}}=a_{\mathrm{wolf,elk}}\).  
+\(a_{\mathrm{EA}} \gg a_{\mathrm{ES}}\): Elk frisst vor allem Aspen.  
+Literatur oft mit \(\dot A,\dot S,\ldots\); Parameter gelten für **unser** \(\Delta t\).
+
+## Parameter (Unterrichts-Set)
+
+| Symbol | Wert | Bedeutung |
+|--------|------|-----------|
+| \(r_A, r_S\) | 1.2, 1.0 | Wachstum Aspen / Sage |
+| \(\alpha_{AS}, \alpha_{SA}\) | 0.55, 0.70 | Konkurrenz |
+| \(a_{\mathrm{EA}}\) | 0.035 | starke Beweidung Aspen (\(a_{\mathrm{elk,aspen}}\)) |
+| \(a_{\mathrm{ES}}\) | 0.020 | schwache Beweidung Sage (\(a_{\mathrm{elk,sage}}\)) |
+| \(a_{\mathrm{WE}}\) | 0.040 | Wolf frisst Elk (\(a_{\mathrm{wolf,elk}}\)) |
+| \(m_E, m_W\) | 0.10, 0.30 | Mortalität Elk / Wolf |
+
+## Schritt A: nur Pflanzen \[SIM\]
+
+```{r}
+#| fig-height: 3.3
+#| fig-width: 7.5
+plants <- sim_comp(40, 50, 0.55, 0.7)
+matplot(plants$time, cbind(plants$N1, plants$N2), type = "l", lty = 1, lwd = 2.5,
+        col = c("#27ae60", "#1abc9c"), ylim = c(0, 100),
+        xlab = "Zeit", ylab = "Dichte", main = "Nur Aspen + Sage: Koexistenz [SIM]")
+legend("bottomright", c("Aspen", "Sage"),
+       col = c("#27ae60", "#1abc9c"), lty = 1, lwd = 2.5, bty = "n", cex = 0.85)
+```
+
+Ohne Herbivor: beide Pflanzen bleiben positiv.
+
+## Schritt B: + Elk, kein Wolf → Aspen Exclusion \[SIM\]
+
+```{r}
+#| fig-height: 3.9
+#| fig-width: 8.8
+next_web <- function(x, p, dt) {
+  A <- x["Aspen"]; S <- x["Sage"]; E <- x["Elk"]; W <- x["Wolf"]
+  dA <- (p$rA * A * (1 - (A + p$aAS * S) / p$K) - p$a_elk_aspen * A * E) * dt
+  dS <- (p$rS * S * (1 - (S + p$aSA * A) / p$K) - p$a_elk_sage * S * E) * dt
+  dE <- (p$eE * (p$a_elk_aspen * A + p$a_elk_sage * S) * E -
+           p$mE * E - p$a_wolf_elk * E * W) * dt
+  dW <- (p$eW * p$a_wolf_elk * E * W - p$mW * W) * dt
+  c(Aspen = max(A + dA, 0), Sage = max(S + dS, 0),
+    Elk = max(E + dE, 0), Wolf = max(W + dW, 0))
+}
+web_p <- list(
+  rA = 1.2, rS = 1.0, K = 100,
+  aAS = 0.55, aSA = 0.70,
+  a_elk_aspen = 0.035, a_elk_sage = 0.020,
+  eE = 0.45, mE = 0.10,
+  a_wolf_elk = 0.040, eW = 0.40, mW = 0.30
+)
+sim_web <- function(Wolf0 = 0, T = 6000, dt = 0.02, p = web_p) {
+  X <- matrix(0, T + 1, 4,
+              dimnames = list(NULL, c("Aspen", "Sage", "Elk", "Wolf")))
+  X[1, ] <- c(Aspen = 40, Sage = 50, Elk = 25, Wolf = Wolf0)
+  for (t in 1:T) X[t + 1, ] <- next_web(X[t, ], p, dt)
+  data.frame(time = 0:T * dt, X)
+}
+noW <- sim_web(Wolf0 = 0)
+cols <- c(Aspen = "#27ae60", Sage = "#1abc9c", Elk = "#d68910", Wolf = "#2c3e50")
+matplot(noW$time, noW[, names(cols)], type = "l", lty = 1, lwd = 2.4,
+        col = cols, xlab = "Zeit", ylab = "Haeufigkeit",
+        main = "+ Elk, kein Wolf: Aspen -> 0 [SIM]")
+legend("topright", names(cols), col = cols, lty = 1, lwd = 2.4, bty = "n", cex = 0.75)
+```
+
+Aspen geht gegen **null**. Elk ist hoch (~45). Sage bleibt (wenig beweidet).
+
+## Schritt C: + Wolf → Aspen gerettet, Elk mittel \[SIM\]
+
+```{r}
+#| fig-height: 3.9
+#| fig-width: 8.8
+withW <- sim_web(Wolf0 = 2)
+matplot(withW$time, withW[, names(cols)], type = "l", lty = 1, lwd = 2.4,
+        col = cols, xlab = "Zeit", ylab = "Haeufigkeit",
+        main = "+ Wolf: Aspen stabil, Elk bleibt mittel [SIM]")
+legend("topright", names(cols), col = cols, lty = 1, lwd = 2.4, bty = "n", cex = 0.75)
+```
+
+Aspen bleibt klar positiv. Elk fällt, bleibt aber **deutlich über null** (~19) — kein «fast Aussterben».
+
+## Der Effekt auf einen Blick
+
+```{r}
+#| fig-height: 3.8
+#| fig-width: 8.5
+late <- function(df) colMeans(tail(df[, names(cols)], 1500))
+M <- rbind(ohne_Wolf = late(noW), mit_Wolf = late(withW))
+par(mfrow = c(1, 2), mar = c(4.5, 4, 2.5, 1))
+barplot(t(M[, c("Aspen", "Sage")]), beside = TRUE,
+        col = c("#27ae60", "#1abc9c"), ylab = "Mittel (spaete Zeit)",
+        main = "Pflanzen", legend.text = c("Aspen", "Sage"),
+        args.legend = list(x = "topleft", bty = "n", cex = 0.8))
+barplot(t(M[, c("Elk", "Wolf")]), beside = TRUE,
+        col = c("#d68910", "#2c3e50"), ylab = "Mittel (spaete Zeit)",
+        main = "Tiere", legend.text = c("Elk", "Wolf"),
+        args.legend = list(x = "topleft", bty = "n", cex = 0.8))
+```
+
+| | Aspen | Sage | Elk | Wolf |
+|--|------:|-----:|----:|-----:|
+| ohne Wolf | ≈ 0 | ~11 | ~44 | 0 |
+| mit Wolf | ~18 | ~50 | ~19 | ~16 |
+
+## Mechanismus in einem Satz
+
+Wolf senkt Elk → Beweidungsdruck auf Aspen fällt unter die Wachstumsschwelle → Aspen kann wieder einfallen / bleiben.  
+Elk bleibt durch Pflanzen + moderate Wolf-Kontrolle im Gleichgewicht.
+
+## Reiches Netz (Kontext)
+
+![](../../pics/foodweb/foodweb_yellowstone_rich.svg){fig-alt="Food Web Yellowstone" width="88%"}
+
+Dieselbe Pipeline — mehr Knoten. Kern-Punchline bleibt: Wolf → Aspen.
+
+## Was kommt dazu?
+
+![](../../pics/foodweb/mechanisms_5node.svg){fig-alt="Mechanismen 5 Knoten" width="92%"}
+
+| Knoten | Rolle im erweiterten Modell |
+|--------|------------------------------|
+| **Kojote** | Mesoprädator — ohne Wolf hoch (Release) |
+| **Biber** | braucht Aspen; fördert Aspen (Ingenieur) |
+
+## Erweitertes Modell \[SIM\] — ohne Wolf
+
+```{r}
+#| fig-height: 3.9
+#| fig-width: 9
+next_rich <- function(x, p, dt) {
+  A <- x["Aspen"]; S <- x["Sage"]; E <- x["Elk"]
+  W <- x["Wolf"]; C <- x["Coyote"]; B <- x["Beaver"]
+  dA <- (p$rA * A * (1 - (A + p$aAS * S) / p$K) *
+           (1 + p$fBA * B / (p$hB + B)) - p$aEA * A * E) * dt
+  dS <- (p$rS * S * (1 - (S + p$aSA * A) / p$K) - p$aES * S * E) * dt
+  dE <- (p$eE * (p$aEA * A + p$aES * S) * E - p$mE * E - p$aWE * E * W) * dt
+  dW <- (p$eW * p$aWE * E * W - p$mW * W) * dt
+  dC <- (p$rC * C * (1 - C / p$KC) - p$aWC * C * W) * dt
+  dB <- (p$rB * B * (A / (p$hA + A)) - p$mB * B * (1 + B / p$KB)) * dt
+  c(Aspen = max(A + dA, 0), Sage = max(S + dS, 0),
+    Elk = max(E + dE, 0), Wolf = max(W + dW, 0),
+    Coyote = max(C + dC, 0), Beaver = max(B + dB, 0))
+}
+rich_p <- list(
+  rA = 1.2, rS = 1.0, K = 100, aAS = 0.55, aSA = 0.70,
+  aEA = 0.035, aES = 0.020, eE = 0.45, mE = 0.10,
+  aWE = 0.040, eW = 0.40, mW = 0.30,
+  rC = 0.70, KC = 28, aWC = 0.022,
+  rB = 0.50, hA = 10, mB = 0.16, KB = 12, fBA = 0.30, hB = 5
+)
+sim_rich <- function(Wolf0 = 0, T = 5500, dt = 0.02, p = rich_p) {
+  nm <- c("Aspen", "Sage", "Elk", "Wolf", "Coyote", "Beaver")
+  X <- matrix(0, T + 1, 6, dimnames = list(NULL, nm))
+  X[1, ] <- c(Aspen = 40, Sage = 50, Elk = 25, Wolf = Wolf0,
+              Coyote = 12, Beaver = 3)
+  for (t in 1:T) X[t + 1, ] <- next_rich(X[t, ], p, dt)
+  data.frame(time = 0:T * dt, X)
+}
+rich_cols <- c(Aspen = "#27ae60", Sage = "#1abc9c", Elk = "#d68910",
+               Wolf = "#2c3e50", Coyote = "#7f8c8d", Beaver = "#8e44ad")
+noW_rich <- sim_rich(Wolf0 = 0)
+matplot(noW_rich$time, noW_rich[, names(rich_cols)], type = "l", lty = 1,
+        lwd = 2.2, col = rich_cols, xlab = "Zeit", ylab = "Haeufigkeit",
+        main = "6 Knoten, kein Wolf: Aspen & Biber -> 0, Kojote hoch [SIM]")
+legend("topright", names(rich_cols), col = rich_cols, lty = 1, lwd = 2.2,
+       bty = "n", cex = 0.7, ncol = 2)
+```
+
+## Erweitertes Modell \[SIM\] — mit Wolf
+
+```{r}
+#| fig-height: 3.9
+#| fig-width: 9
+withW_rich <- sim_rich(Wolf0 = 2)
+matplot(withW_rich$time, withW_rich[, names(rich_cols)], type = "l", lty = 1,
+        lwd = 2.2, col = rich_cols, xlab = "Zeit", ylab = "Haeufigkeit",
+        main = "Mit Wolf: Aspen + Biber hoch, Kojote runter [SIM]")
+legend("topright", names(rich_cols), col = rich_cols, lty = 1, lwd = 2.2,
+       bty = "n", cex = 0.7, ncol = 2)
+```
+
+## Reichhaltigkeit auf einen Blick
+
+```{r}
+#| fig-height: 3.7
+#| fig-width: 8.5
+late6 <- function(df) colMeans(tail(df[, names(rich_cols)], 1200))
+M6 <- rbind(ohne = late6(noW_rich), mit = late6(withW_rich))
+par(mfrow = c(1, 2), mar = c(4.5, 4, 2.5, 1))
+barplot(t(M6[, c("Aspen", "Beaver")]), beside = TRUE,
+        col = c("#27ae60", "#8e44ad"), ylab = "Mittel (spaete Zeit)",
+        main = "Aspen & Biber", legend.text = c("Aspen", "Biber"),
+        args.legend = list(x = "topleft", bty = "n", cex = 0.75))
+barplot(t(M6[, c("Coyote", "Wolf")]), beside = TRUE,
+        col = c("#7f8c8d", "#2c3e50"), ylab = "Mittel (spaete Zeit)",
+        main = "Kojote & Wolf", legend.text = c("Kojote", "Wolf"),
+        args.legend = list(x = "topleft", bty = "n", cex = 0.75))
+```
+
+**Ohne Wolf:** Aspen ≈ 0, Biber ≈ 0, Kojote hoch.  
+**Mit Wolf:** Aspen + Biber erholen sich, Kojote sinkt (Mesoprädator-Release rückgängig).
+
+## Lehre daraus
+
+4-Knoten-Modell = Unterrichts-Herz (klar, prüfbar).  
+6-Knoten-Modell = dieselbe Idee, **reichhaltiger** — und immer noch simulierbar mit `next → for → plot`.
+
+Mehr Realität ≠ neue Mathematik-Sprache; eher mehr Einträge in der Interaktionsliste.
+
+------------------------------------------------------------------------
+
+# Ausblick · zwei qualitative Beispiele
+
+## Warum hier?
+
+Dieselbe Idee wie heute — **Prädator verhindert Exclusion / hält Zustände** —  
+in zwei berühmten Systemen. **Kein Modell**, nur Geschichte + Bild.
+
+## 1 · Seeotter, Seeigel, Kelp (Smith et al. 2021)
+
+[PNAS doi:10.1073/pnas.2012493118](https://doi.org/10.1073/pnas.2012493118)  
+Graphical Abstract im Paper ansehen — hier nur unsere Unterrichtsskizze.
+
+::::: columns
+::: {.column width="33%"}
+![](../../pics/keystone/sea_otter.jpg){fig-alt="Seeotter" width="95%"}
+:::
+::: {.column width="33%"}
+![](../../pics/keystone/purple_urchin.jpg){fig-alt="Seeigel" width="95%"}
+:::
+::: {.column width="33%"}
+![](../../pics/keystone/kelp_forest.jpg){fig-alt="Kelpwald" width="95%"}
+:::
+:::::
+
+::: aside
+Fotos: Wikimedia Commons · Skizze: Kurs (kein PNAS-Copy)
+:::
+
+## Otter–Igel–Kelp: die Punchline
+
+![](../../pics/keystone/schematic_otter_urchin_kelp.svg){fig-alt="Otter Igel Kelp Mosaik" width="94%"}
+
+Nach 2014: **Mosaik** aus Kelp-Resten und Seeigel-Barren (alternative Zustände).  
+Seeotter fressen vor allem **profitable** Igel → halten Rest-Kelp (**Resistance**),  
+stellen Barren aber nicht wieder her (**keine Resilience**).
+
+Brücke zu heute: Top-down + Verhalten + zwei Zustände nebeneinander.
+
+## 2 · Paine 1966 — Seestern als Keystone
+
+Klassiker: *Pisaster* entfernen → Miesmuscheln gewinnen den Raum →  
+andere Platzhalter verschwinden (**Exclusion**).
+
+[USGS: Revisiting Paine 1966](https://www.usgs.gov/publications/revisiting-paines-1966-sea-star-removal-experiment-most-cited-empirical-article) · Paine (1966) *Am. Nat.*
+
+::::: columns
+::: {.column width="48%"}
+![](../../pics/keystone/pisaster_ochraceus.jpg){fig-alt="Pisaster" width="92%"}
+:::
+::: {.column width="52%"}
+![](../../pics/keystone/california_mussels.jpg){fig-alt="Miesmuscheln" width="92%"}
+:::
+:::::
+
+## Paine: mit / ohne Seestern
+
+![](../../pics/keystone/schematic_paine_pisaster.svg){fig-alt="Paine Keystone Skizze" width="94%"}
+
+**Keystone-Prädator:** relativ selten, aber entscheidet über Vielfalt —  
+indem er den starken Konkurrenten (Muschel) in Schach hält.
+
+## Was Sie mitnehmen
+
+| Heute (Yellowstone-Modell) | Qualitativ |
+|----------------------------|------------|
+| Wolf rettet Aspen | *Pisaster* rettet Platzhalter-Vielfalt |
+| Elk würde Aspen excludieren | *Mytilus* excludiert andere um Raum |
+| Bistabilität Gras/Wald | Kelp vs. Barren (Mosaik) |
+| Verhalten/Netz reichhaltig | Otter frisst selektiv |
+
+Nächste Woche: dieselben Interaktionsideen als **Strategien** (RPS).
+
+------------------------------------------------------------------------
+
+# Notebook & Abschluss
+
+## Notebook
+
+1. *Paramecium*-Daten + Exclusion (Start egal)  
+2. \(\alpha\) drehen → Bistabilität (Gras/Wald) + Stabilitäts-Beispiele  
+3. Food Web: Aspen/Sage → +Elk → +Wolf; Aspen retten, Elk mittel halten  
+4. (Demo) reicheres Netz: +Kojote +Biber — dieselbe Pipeline 
+
+## Brücke zu Woche 4
+
+Interaktionskoeffizienten: wer unterdrückt wen (\(a_{\mathrm{elk,aspen}}\), …).  
+Woche 4: dieselbe Sprache für **Strategien** (RPS / Spieltheorie).
+
+## Abschlussfragen
+
+1. Wann ist der Gewinner unabhängig vom Start — wann nicht?  
+2. Was ändert sich biologisch, wenn beide \(\alpha \gt 1\)?  
+3. Warum rettet der Wolf Aspen, ohne dass Elk gegen 0 geht?  
+4. (Qualitativ) Was verbindet Paine / Seeotter–Kelp mit dem heutigen Food-Web-Punch?
+
+## Nächste Woche
+
+Spieltheorie · Echsen-RPS · **Checkpoint A**
+
+## Literatur
+
+Alles, was in dieser Einheit namentlich vorkommt:
+
+1. **Gause, G. F. (1934).** *The Struggle for Existence*. Williams & Wilkins. — Konkurrenz *P. caudatum* / *P. aurelia*; Kursdaten `data/paramecium_*.csv`.
+2. **Mühlbauer, L. K., Schulze, M., Harpole, W. S., & Clark, A. T. (2020).** gauseR… *Ecology and Evolution* 10: 13296–13306. [doi:10.1002/ece3.6926](https://doi.org/10.1002/ece3.6926) — Digitalisierung der Gause-Daten.
+3. **Lotka, A. J. (1925)**; **Volterra, V. (1926).** — klassisches Räuber–Beute / Zyklus-Beispiel (Stabilitätsform «Zyklus»).
+4. **Scheffer, M., et al. (2001).** Catastrophic shifts in ecosystems. *Nature* 413: 591–596. [doi:10.1038/35098000](https://doi.org/10.1038/35098000) — alternative stabile Zustände.
+5. **Staver, A. C., Archibald, S., & Levin, S. A. (2011).** The global extent and determinants of savanna and forest as alternative biome states. *Science* 334: 230–232. [doi:10.1126/science.1210465](https://doi.org/10.1126/science.1210465) — Grasland/Wald-Lesart.
+6. **Ripple, W. J., & Beschta, R. L. (2012).** Trophic cascades in Yellowstone: The first 15 years after wolf reintroduction. *Biological Conservation* 145: 205–213. — Motivation Wolf / Elk / Vegetation (Kursmodell ist vereinfacht).
+7. **Smith, J. G., et al. (2021).** Behavioral responses across a mosaic of ecosystem states restructure a sea otter–urchin trophic cascade. *PNAS* 118: e2012493118. [doi:10.1073/pnas.2012493118](https://doi.org/10.1073/pnas.2012493118) — Seeotter–Seeigel–Kelp (qualitativ).
+8. **Paine, R. T. (1966).** Food web complexity and species diversity. *The American Naturalist* 100: 65–75. — Keystone-*Pisaster*.
+
+Bildnachweise: `pics/ecosystems/`, `pics/yellowstone/`, `pics/keystone/` (CREDITS).
 
 ## Navigation
 
 | | |
 |---|---|
-| Overview | [Course outline](../../docs/course-outline.html) |
-| Home | [Course home](../../index.html) |
-| Previous | [← Week 2](../week-02/slides.html) |
-| Next | [Week 4 →](../week-04/slides.html) |
-
-Keyboard: ← → move slides · **M** menu · **Esc** slide grid · **F** fullscreen
-
+| Kursplan | [Kursplan](../../docs/course-outline.html) |
+| Zurück | [← Woche 2](../week-02/slides.html) |
+| Weiter | [Woche 4 →](../week-04/slides.html) |

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="480" viewBox="0 0 1000 480">
+  <rect width="1000" height="480" fill="white"/>
+  <text x="500" y="36" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="bold" fill="#222">Assembly-Idee: von Reads zum Genom (de Bruijn)</text>
+
+  <!-- reads -->
+  <text x="120" y="80" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#1a5276">1. Reads</text>
+  <rect x="40" y="95" width="160" height="28" rx="4" fill="#d6eaf8" stroke="#2980b9"/>
+  <text x="120" y="114" text-anchor="middle" font-family="Menlo, monospace" font-size="12" fill="#1a5276">ATGCCGTAA</text>
+  <rect x="40" y="135" width="160" height="28" rx="4" fill="#d6eaf8" stroke="#2980b9"/>
+  <text x="120" y="154" text-anchor="middle" font-family="Menlo, monospace" font-size="12" fill="#1a5276">TGCCGTACG</text>
+  <rect x="40" y="175" width="160" height="28" rx="4" fill="#d6eaf8" stroke="#2980b9"/>
+  <text x="120" y="194" text-anchor="middle" font-family="Menlo, monospace" font-size="12" fill="#1a5276">GCCGTACGA</text>
+  <text x="120" y="230" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">kurze Stücke</text>
+
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2c3e50"/>
+    </marker>
+  </defs>
+  <line x1="220" y1="155" x2="280" y2="155" stroke="#2c3e50" stroke-width="3" marker-end="url(#arr)"/>
+
+  <!-- k-mers / graph -->
+  <text x="500" y="80" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#7e5109">2. de Bruijn-Graph</text>
+  <text x="500" y="100" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">Knoten = (k-1)-mere · Kanten = k-mere</text>
+
+  <!-- nodes -->
+  <circle cx="360" cy="170" r="28" fill="#fef5e7" stroke="#d68910" stroke-width="2"/>
+  <text x="360" y="175" text-anchor="middle" font-family="Menlo, monospace" font-size="11" fill="#7e5109">ATGC</text>
+  <circle cx="470" cy="120" r="28" fill="#fef5e7" stroke="#d68910" stroke-width="2"/>
+  <text x="470" y="125" text-anchor="middle" font-family="Menlo, monospace" font-size="11" fill="#7e5109">TGCC</text>
+  <circle cx="580" cy="170" r="28" fill="#fef5e7" stroke="#d68910" stroke-width="2"/>
+  <text x="580" y="175" text-anchor="middle" font-family="Menlo, monospace" font-size="11" fill="#7e5109">GCCG</text>
+  <circle cx="470" cy="230" r="28" fill="#fef5e7" stroke="#d68910" stroke-width="2"/>
+  <text x="470" y="235" text-anchor="middle" font-family="Menlo, monospace" font-size="11" fill="#7e5109">CCGT</text>
+  <circle cx="640" cy="240" r="28" fill="#fef5e7" stroke="#d68910" stroke-width="2"/>
+  <text x="640" y="245" text-anchor="middle" font-family="Menlo, monospace" font-size="11" fill="#7e5109">CGTA</text>
+
+  <line x1="385" y1="155" x2="445" y2="130" stroke="#d68910" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="495" y1="130" x2="555" y2="155" stroke="#d68910" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="555" y1="185" x2="495" y2="215" stroke="#d68910" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="495" y1="240" x2="615" y2="245" stroke="#d68910" stroke-width="2" marker-end="url(#arr)"/>
+
+  <line x1="690" y1="200" x2="750" y2="200" stroke="#2c3e50" stroke-width="3" marker-end="url(#arr)"/>
+
+  <!-- contig -->
+  <text x="860" y="80" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#196f3d">3. Contig</text>
+  <rect x="760" y="140" width="200" height="90" rx="12" fill="#eafaf1" stroke="#27ae60" stroke-width="3"/>
+  <text x="860" y="175" text-anchor="middle" font-family="Menlo, monospace" font-size="13" fill="#196f3d">ATGCCGTACG...</text>
+  <text x="860" y="205" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">längere Sequenz</text>
+
+  <rect x="60" y="280" width="880" height="160" rx="12" fill="#f7f9fb" stroke="#bdc3c7"/>
+  <text x="500" y="320" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#222">Warum das hier vorkommt</text>
+  <text x="500" y="350" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">Ohne Assembly keine saubere genomische Landkarte — und ohne Landkarte keine Sweep-Scans.</text>
+  <text x="500" y="380" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#555">Klassiker: Idury &amp; Waterman (1995); Pevzner et al. (2001); Compeau, Pevzner &amp; Tesler (2011)</text>
+  <text x="500" y="410" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#777">Lehrschema (vereinfacht) — nicht maßstabsgetreu</text>
+</svg>

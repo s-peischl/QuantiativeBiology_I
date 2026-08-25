@@ -1,6 +1,6 @@
 ---
-title: "Week XX — Slide Deck Title"
-subtitle: "Quantitative Biology I"
+title: "Woche XX — Titel des Foliensatzes"
+subtitle: "Quantitative Biologie I"
 author: "Stephan Peischl"
 format:
   revealjs:
@@ -17,48 +17,48 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Course outline](../../docs/course-outline.qmd) · [Home](../../index.qmd)"
+    footer: "[Kursplan](../../docs/course-outline.qmd) · [Start](../../index.qmd)"
 execute:
   echo: false
   warning: false
   message: false
 ---
 
-## On this deck
+## In diesem Foliensatz
 
-**Week XX** of 14
+**Woche XX** von 14
 
-- [Course outline](../../docs/course-outline.qmd)
-- [Home](../../index.qmd)
-- Arrow keys / controls · **M** menu · **Esc** overview grid
+- [Kursplan](../../docs/course-outline.qmd)
+- [Start](../../index.qmd)
+- Pfeiltasten / Steuerelemente · **M** Menü · **Esc** Übersicht
 
-## Learning goals
+## Lernziele
 
-- Goal 1
-- Goal 2
-- Goal 3
+- Ziel 1
+- Ziel 2
+- Ziel 3
 
-## Biological framing
+## Biologischer Rahmen
 
-- What is the biological question?
-- What contrast or dataset motivates it?
+- Wie lautet die biologische Fragestellung?
+- Welcher Vergleich oder Datensatz motiviert sie?
 
-## Quantitative idea
+## Quantitative Idee
 
-- Key concept:
-- Link to programming course:
+- Schlüsselkonzept:
+- Verbindung zum Programmierkurs:
 
-## Guided demo
+## Angeleitete Demonstration
 
-- Step 1
-- Step 2
-- Step 3
+- Schritt 1
+- Schritt 2
+- Schritt 3
 
-## Notebook preview
+## Vorschau auf das Notebook
 
-What students will do this week.
+Was die Studierenden diese Woche tun werden.
 
-## Exit ticket
+## Abschlussfragen
 
 1.
 2.
@@ -70,9 +70,9 @@ What students will do this week.
 
 | | |
 |---|---|
-| Overview | [Course outline](../../docs/course-outline.qmd) |
-| Home | [Course home](../../index.qmd) |
-| Previous | [← previous week](../week-XX/slides.qmd) |
-| Next | [next week →](../week-XX/slides.qmd) |
+| Übersicht | [Kursplan](../../docs/course-outline.qmd) |
+| Startseite | [Kursstartseite](../../index.qmd) |
+| Zurück | [← vorherige Woche](../week-XX/slides.qmd) |
+| Weiter | [nächste Woche →](../week-XX/slides.qmd) |
 
-Keyboard: ← → · **M** menu · **Esc** slide grid · **F** fullscreen
+Tastatur: ← → · **M** Menü · **Esc** Folienübersicht · **F** Vollbild

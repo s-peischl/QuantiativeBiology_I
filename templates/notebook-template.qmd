@@ -1,6 +1,6 @@
 ---
-title: "Week XX — Notebook"
-subtitle: "Quantitative Biology I"
+title: "Woche XX — Notebook"
+subtitle: "Quantitative Biologie I"
 format:
   html:
     toc: true
@@ -11,37 +11,37 @@ execute:
   message: false
 ---
 
-## Learning goals
+## Lernziele
 
-- Goal 1
-- Goal 2
-- Goal 3
+- Ziel 1
+- Ziel 2
+- Ziel 3
 
-## Biological background
+## Biologischer Hintergrund
 
-Short context for this week.
+Kurzer Kontext für diese Woche.
 
-## Setup
+## Vorbereitung
 
 ```{r}
 # libraries / parameters
 ```
 
-## Guided work
+## Angeleitete Arbeit
 
 ```{r}
 # starter code
 ```
 
-## Exercise 1
+## Übung 1
 
 …
 
-## Exercise 2
+## Übung 2
 
 …
 
-## Wrap-up
+## Zusammenfassung
 
-- Main quantitative result:
-- Main biological interpretation:
+- Wichtigstes quantitatives Ergebnis:
+- Wichtigste biologische Interpretation:

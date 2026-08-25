@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="280" viewBox="0 0 980 280">
+  <rect width="980" height="280" fill="white"/>
+  <rect x="20" y="30" width="220" height="220" rx="14" fill="#eaf2fb" stroke="#2980b9" stroke-width="3"/>
+  <text x="130" y="100" text-anchor="middle" font-size="42" fill="#1a5276" font-family="Helvetica">1</text>
+  <text x="130" y="160" text-anchor="middle" font-family="Helvetica" font-size="15" font-weight="bold" fill="#1a5276">Daten sehen</text>
+  <text x="130" y="190" text-anchor="middle" font-family="Helvetica" font-size="13" fill="#333">wachsende Population</text>
+
+  <rect x="260" y="30" width="220" height="220" rx="14" fill="#fef5e7" stroke="#d68910" stroke-width="3"/>
+  <text x="370" y="100" text-anchor="middle" font-size="42" fill="#7e5109" font-family="Helvetica">2</text>
+  <text x="370" y="160" text-anchor="middle" font-family="Helvetica" font-size="15" font-weight="bold" fill="#7e5109">Funktion</text>
+  <text x="370" y="190" text-anchor="middle" font-family="Helvetica" font-size="13" fill="#333">ein Zeitschritt</text>
+
+  <rect x="500" y="30" width="220" height="220" rx="14" fill="#eafaf1" stroke="#27ae60" stroke-width="3"/>
+  <text x="610" y="100" text-anchor="middle" font-size="42" fill="#196f3d" font-family="Helvetica">3</text>
+  <text x="610" y="160" text-anchor="middle" font-family="Helvetica" font-size="15" font-weight="bold" fill="#196f3d">Vektor + for</text>
+  <text x="610" y="190" text-anchor="middle" font-family="Helvetica" font-size="13" fill="#333">+ plot</text>
+
+  <rect x="740" y="30" width="220" height="220" rx="14" fill="#f5eef8" stroke="#8e44ad" stroke-width="3"/>
+  <text x="850" y="100" text-anchor="middle" font-size="42" fill="#6c3483" font-family="Helvetica">4</text>
+  <text x="850" y="160" text-anchor="middle" font-family="Helvetica" font-size="15" font-weight="bold" fill="#6c3483">Zwei Arten</text>
+  <text x="850" y="190" text-anchor="middle" font-family="Helvetica" font-size="13" fill="#333">N und P</text>
+</svg>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="260" viewBox="0 0 900 260">
+  <rect width="900" height="260" fill="white"/>
+  <rect x="40" y="70" width="200" height="120" rx="12" fill="#eaf2fb" stroke="#2980b9" stroke-width="3"/>
+  <text x="140" y="120" text-anchor="middle" font-family="Helvetica" font-size="18" font-weight="bold" fill="#1a5276">INPUT</text>
+  <text x="140" y="150" text-anchor="middle" font-family="Menlo, monospace" font-size="14" fill="#333">N, r, K</text>
+
+  <defs>
+    <marker id="b" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2c3e50"/>
+    </marker>
+  </defs>
+  <line x1="250" y1="130" x2="320" y2="130" stroke="#2c3e50" stroke-width="3" marker-end="url(#b)"/>
+
+  <rect x="330" y="55" width="240" height="150" rx="14" fill="#f4f6f7" stroke="#5d6d7e" stroke-width="3"/>
+  <text x="450" y="115" text-anchor="middle" font-family="Helvetica" font-size="18" font-weight="bold" fill="#2c3e50">next_N(...)</text>
+  <text x="450" y="150" text-anchor="middle" font-family="Helvetica" font-size="14" fill="#555">Rechnung</text>
+
+  <line x1="580" y1="130" x2="650" y2="130" stroke="#2c3e50" stroke-width="3" marker-end="url(#b)"/>
+
+  <rect x="660" y="70" width="200" height="120" rx="12" fill="#eafaf1" stroke="#27ae60" stroke-width="3"/>
+  <text x="760" y="120" text-anchor="middle" font-family="Helvetica" font-size="18" font-weight="bold" fill="#196f3d">OUTPUT</text>
+  <text x="760" y="150" text-anchor="middle" font-family="Menlo, monospace" font-size="14" fill="#333">N_neu</text>
+</svg>

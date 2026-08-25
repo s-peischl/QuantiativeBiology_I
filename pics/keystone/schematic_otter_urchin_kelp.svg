@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="420" viewBox="0 0 980 420">
+  <rect width="980" height="420" fill="#f7fafc"/>
+  <text x="490" y="32" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="17" font-weight="bold" fill="#1a5276">Seeotter-Seeigel-Kelp (qualitativ, nach Smith et al. 2021 PNAS)</text>
+  <text x="490" y="54" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5d6d7e">eigene Unterrichtsskizze - kein PNAS-Abbildungscopy</text>
+
+  <!-- left: kelp forest remnant -->
+  <rect x="40" y="75" width="420" height="280" rx="14" fill="#e8f8f5" stroke="#1abc9c" stroke-width="2"/>
+  <text x="250" y="105" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#148f77">Kelp-Restbestand</text>
+  <rect x="90" y="130" width="140" height="48" rx="8" fill="#2c3e50"/>
+  <text x="160" y="160" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="white">Seeotter</text>
+  <text x="250" y="175" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#7f8c8d">v</text>
+  <rect x="90" y="190" width="140" height="48" rx="8" fill="#8e44ad"/>
+  <text x="160" y="220" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="white">Seeigel (fit)</text>
+  <text x="250" y="235" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#7f8c8d">v</text>
+  <rect x="90" y="250" width="140" height="48" rx="8" fill="#27ae60"/>
+  <text x="160" y="280" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="white">Kelp</text>
+  <text x="320" y="200" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#148f77">Otter frisst</text>
+  <text x="320" y="218" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#148f77">profitable Igel</text>
+  <text x="320" y="248" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#148f77">-&gt; Rest-Kelp</text>
+  <text x="320" y="266" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#148f77">bleibt erhalten</text>
+  <text x="250" y="330" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#196f3d">Resistance (halten)</text>
+
+  <!-- right: barren -->
+  <rect x="520" y="75" width="420" height="280" rx="14" fill="#fdf2e9" stroke="#d68910" stroke-width="2"/>
+  <text x="730" y="105" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#9a7b0a">Seeigel-Barren</text>
+  <rect x="600" y="145" width="160" height="48" rx="8" fill="#8e44ad"/>
+  <text x="680" y="175" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="white">viele Igel (mager)</text>
+  <rect x="600" y="230" width="160" height="48" rx="8" fill="#95a5a6"/>
+  <text x="680" y="260" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="white">kaum Kelp</text>
+  <text x="680" y="310" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#9a7b0a">Otter meidet unprofitable Beute</text>
+  <text x="730" y="330" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#9a7b0a">kein Recovery (Resilience fehlt)</text>
+
+  <text x="490" y="390" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1a5276">Mosaik zweier Zustaende - Verhalten des Top-Praedators entscheidet, wo die Kaskade greift</text>
+</svg>

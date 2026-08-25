@@ -1,24 +1,24 @@
 ---
-title: "Week XX - Worksheet"
+title: "Woche XX - Arbeitsblatt"
 format:
   html:
     toc: false
 ---
 
-## Name / Group
+## Name / Gruppe
 
-## Section A - Biological Understanding
+## Abschnitt A - Biologisches Verständnis
 
-1. What is the core biological question?
-2. Which variables are being modeled?
+1. Wie lautet die zentrale biologische Fragestellung?
+2. Welche Variablen werden modelliert?
 
-## Section B - Quantitative Exploration
+## Abschnitt B - Quantitative Untersuchung
 
-1. Run the baseline scenario.
-2. Modify one parameter.
-3. Compare outputs with one figure.
+1. Führen Sie das Basisszenario aus.
+2. Verändern Sie einen Parameter.
+3. Vergleichen Sie die Ergebnisse anhand einer Abbildung.
 
-## Section C - Interpretation
+## Abschnitt C - Interpretation
 
-1. What changed and why?
-2. What is one limitation of this model or dataset?
+1. Was hat sich verändert und warum?
+2. Nennen Sie eine Einschränkung dieses Modells oder Datensatzes.

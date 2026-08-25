@@ -1,9 +1,9 @@
-# Department / course visuals
+# Grafiken zu Institut und Kurs
 
-Place final Week 1 overview art here once designed.
+Die fertige Übersichtsgrafik für Woche 1 nach ihrer Gestaltung hier ablegen.
 
-| File (planned) | Role | Credit |
+| Datei (geplant) | Funktion | Urhebernachweis |
 |---|---|---|
-| `week01_concept_board.svg` (+ PNG) | Message-board glossary: 4 concept notes + optional lab stickers | TBD collaborator |
+| `week01_concept_board.svg` (+ PNG) | Pinnwand-Glossar: 4 Begriffskarten und optionale Laboraufkleber | noch festzulegende Mitwirkende |
 
-Design brief: [`docs/week-01-dept-map-brief.qmd`](../docs/week-01-dept-map-brief.qmd).
+Gestaltungsbriefing: [`docs/week-01-dept-map-brief.qmd`](../docs/week-01-dept-map-brief.qmd).

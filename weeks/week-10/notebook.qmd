@@ -1,6 +1,6 @@
 ---
-title: "Week 10 — Notebook · Evolutionary rescue · Checkpoint C"
-subtitle: "Decline + establishment → persistence probability"
+title: "Woche 10 — Notebook · Evolutionäre Rettung · Checkpoint C"
+subtitle: "Rückgang + Etablierung → Persistenzwahrscheinlichkeit"
 format:
   html:
     toc: true
@@ -11,24 +11,24 @@ execute:
   message: false
 ---
 
-## Learning goals
+## Lernziele
 
-1. Couple declining demography to rare adapted types
-2. Estimate rescue probability across replicates
-3. Prepare Checkpoint C figure + talking points
+1. Abnehmende Demografie mit seltenen angepassten Typen koppeln
+2. Die Rettungswahrscheinlichkeit über Replikate schätzen
+3. Abbildung + Stichpunkte für Checkpoint C vorbereiten
 
-## Practical
+## Praktischer Teil
 
-1. Define wild-type decline (one parameter for stress severity).
-2. Allow rare beneficial/resistant types (mutation or standing variation).
-3. Reuse establishment logic from Weeks 8–9.
-4. Classify each replicate: **extinct** vs **rescued**.
-5. Sweep stress or \(s\); plot rescue probability.
+1. Definieren Sie den Rückgang des Wildtyps (ein Parameter für die Stressintensität).
+2. Lassen Sie seltene vorteilhafte/resistente Typen zu (Mutation oder bestehende Variation).
+3. Verwenden Sie die Etablierungslogik aus den Wochen 8–9 wieder.
+4. Klassifizieren Sie jedes Replikat: **ausgestorben** gegenüber **gerettet**.
+5. Durchlaufen Sie Stress oder \(s\); stellen Sie die Rettungswahrscheinlichkeit dar.
 
-## Checkpoint C prompts
+## Leitfragen für Checkpoint C
 
-- Biological question:
-- What you computed:
-- One figure:
-- Lab connection (what would be measured in yeast/bacteria cultures?):
-- Strongest assumption:
+- Biologische Frage:
+- Was Sie berechnet haben:
+- Eine Abbildung:
+- Laborbezug (was würde in Hefe-/Bakterienkulturen gemessen?):
+- Stärkste Annahme:

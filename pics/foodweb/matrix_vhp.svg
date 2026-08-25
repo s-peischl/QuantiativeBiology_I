@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="420" viewBox="0 0 920 420">
+  <rect width="920" height="420" fill="#fbfcfd"/>
+  <text x="460" y="34" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="#1a5276">Interaktionsmatrix (Kern: V, H, P)</text>
+  <text x="460" y="56" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5d6d7e">Zeile = wer betroffen ist · Spalte = wer wirkt</text>
+
+  <!-- matrix header -->
+  <text x="280" y="110" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">V</text>
+  <text x="380" y="110" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">H</text>
+  <text x="480" y="110" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">P</text>
+
+  <text x="180" y="160" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#27ae60">V</text>
+  <text x="180" y="230" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#d68910">H</text>
+  <text x="180" y="300" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#2c3e50">P</text>
+
+  <!-- row V -->
+  <rect x="240" y="130" width="80" height="50" rx="6" fill="#d5f5e3" stroke="#27ae60"/>
+  <text x="280" y="160" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#145a32">+ Wachstum</text>
+  <rect x="340" y="130" width="80" height="50" rx="6" fill="#fadbd8" stroke="#c0392b"/>
+  <text x="380" y="160" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#922b21">- Verbiss</text>
+  <rect x="440" y="130" width="80" height="50" rx="6" fill="#eaecee" stroke="#95a5a6"/>
+  <text x="480" y="160" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#7f8c8d">0</text>
+
+  <!-- row H -->
+  <rect x="240" y="200" width="80" height="50" rx="6" fill="#d5f5e3" stroke="#27ae60"/>
+  <text x="280" y="230" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#145a32">+ Futter</text>
+  <rect x="340" y="200" width="80" height="50" rx="6" fill="#fadbd8" stroke="#c0392b"/>
+  <text x="380" y="230" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#922b21">- Dichte</text>
+  <rect x="440" y="200" width="80" height="50" rx="6" fill="#fadbd8" stroke="#c0392b"/>
+  <text x="480" y="230" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#922b21">- Predation</text>
+
+  <!-- row P -->
+  <rect x="240" y="270" width="80" height="50" rx="6" fill="#eaecee" stroke="#95a5a6"/>
+  <text x="280" y="300" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#7f8c8d">0</text>
+  <rect x="340" y="270" width="80" height="50" rx="6" fill="#d5f5e3" stroke="#27ae60"/>
+  <text x="380" y="300" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#145a32">+ Beute</text>
+  <rect x="440" y="270" width="80" height="50" rx="6" fill="#fadbd8" stroke="#c0392b"/>
+  <text x="480" y="300" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#922b21">- Mortalitaet</text>
+
+  <rect x="560" y="120" width="320" height="220" rx="12" fill="#eaf2fb" stroke="#2980b9" stroke-width="2"/>
+  <text x="720" y="155" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#1a5276">Lesen</text>
+  <text x="720" y="190" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">P wirkt stark auf H</text>
+  <text x="720" y="215" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">H wirkt stark auf V</text>
+  <text x="720" y="240" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">indirekt: P hilft V</text>
+  <text x="720" y="280" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1a5276">= trophische Kaskade</text>
+  <text x="720" y="310" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5d6d7e">Woche 4: aehnliche Matrix,</text>
+  <text x="720" y="328" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5d6d7e">aber Strategien statt Arten</text>
+
+  <text x="460" y="390" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5d6d7e">Netzwerkplot im Notebook: Knoten + gerichtete Kanten aus dieser Logik</text>
+</svg>

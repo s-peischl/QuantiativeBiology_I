@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="520" viewBox="0 0 980 520">
+  <rect width="980" height="520" fill="#e8f6f8"/>
+  <text x="490" y="36" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="bold" fill="#0e6655">Stichling-Mesokosmos Food Web</text>
+  <text x="490" y="58" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5d6d7e">Salo et al. 2025 - Ostsee-Kueste (vereinfacht)</text>
+
+  <defs>
+    <marker id="arr2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#5d6d7e"/>
+    </marker>
+  </defs>
+  <line x1="490" y1="145" x2="490" y2="195" stroke="#5d6d7e" stroke-width="3" marker-end="url(#arr2)"/>
+  <line x1="490" y1="295" x2="490" y2="340" stroke="#5d6d7e" stroke-width="3" marker-end="url(#arr2)"/>
+  <text x="520" y="175" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5d6d7e">frisst</text>
+  <text x="520" y="325" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5d6d7e">grast / shreddet</text>
+
+  <!-- FISH card -->
+  <rect x="330" y="70" width="320" height="75" rx="14" fill="#1a5276" stroke="#154360" stroke-width="2"/>
+  <g transform="translate(355,92)">
+    <ellipse cx="32" cy="22" rx="28" ry="14" fill="#aed6f1"/>
+    <polygon points="58,22 72,10 72,34" fill="#85c1e9"/>
+    <circle cx="18" cy="18" r="2.5" fill="#1a5276"/>
+    <path d="M28,12 L30,6 M34,12 L36,5" stroke="#85c1e9" stroke-width="2"/>
+    <path d="M28,32 L30,38 M34,32 L36,39" stroke="#85c1e9" stroke-width="2"/>
+  </g>
+  <text x="470" y="105" font-family="Helvetica, Arial, sans-serif" font-size="17" font-weight="bold" fill="white">Stichling</text>
+  <text x="470" y="125" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#d4e6f1">Gasterosteus - Top-Praedator P</text>
+
+  <!-- SHREDDER card -->
+  <rect x="330" y="205" width="320" height="90" rx="14" fill="#d68910" stroke="#9a7b0a" stroke-width="2"/>
+  <g transform="translate(350,225)">
+    <ellipse cx="30" cy="30" rx="22" ry="12" fill="#fdebd0"/>
+    <ellipse cx="48" cy="28" rx="10" ry="8" fill="#f5cba7"/>
+    <circle cx="52" cy="26" r="2" fill="#6e2c00"/>
+    <line x1="12" y1="38" x2="8" y2="48" stroke="#f5cba7" stroke-width="2"/>
+    <line x1="22" y1="40" x2="20" y2="50" stroke="#f5cba7" stroke-width="2"/>
+    <line x1="34" y1="40" x2="36" y2="50" stroke="#f5cba7" stroke-width="2"/>
+    <line x1="44" y1="38" x2="50" y2="48" stroke="#f5cba7" stroke-width="2"/>
+  </g>
+  <text x="470" y="245" font-family="Helvetica, Arial, sans-serif" font-size="17" font-weight="bold" fill="white">Shredder</text>
+  <text x="470" y="268" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#fdebd0">Amphipoden / Isopoden - H</text>
+
+  <!-- DIATOM card -->
+  <rect x="330" y="350" width="320" height="90" rx="14" fill="#1e8449" stroke="#145a32" stroke-width="2"/>
+  <g transform="translate(355,372)">
+    <ellipse cx="18" cy="28" rx="10" ry="18" fill="#82e0aa" transform="rotate(-20 18 28)"/>
+    <ellipse cx="36" cy="26" rx="9" ry="16" fill="#abebc6" transform="rotate(15 36 26)"/>
+    <ellipse cx="52" cy="30" rx="8" ry="14" fill="#d5f5e3" transform="rotate(-10 52 30)"/>
+    <circle cx="26" cy="40" r="4" fill="#58d68d"/>
+    <circle cx="44" cy="42" r="3.5" fill="#58d68d"/>
+  </g>
+  <text x="470" y="390" font-family="Helvetica, Arial, sans-serif" font-size="17" font-weight="bold" fill="white">Diatomeen</text>
+  <text x="470" y="412" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#e8f8f5">Primarproduzent V (Messung)</text>
+
+  <!-- experiment panels -->
+  <rect x="40" y="90" width="250" height="340" rx="12" fill="#fef9e7" stroke="#d68910" stroke-width="2"/>
+  <text x="165" y="125" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#9a7b0a">kein Fisch</text>
+  <text x="165" y="150" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#7d6608">Kontroll-Mesokosmos</text>
+  <text x="165" y="210" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="40" fill="#d68910">P = 0</text>
+  <text x="165" y="270" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">Shredder hoch</text>
+  <text x="165" y="298" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">Diatomeen oft niedriger</text>
+  <text x="165" y="350" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" fill="#9a7b0a">H hoch, V gedrueckt</text>
+
+  <rect x="690" y="90" width="250" height="340" rx="12" fill="#e8f8f5" stroke="#1e8449" stroke-width="2"/>
+  <text x="815" y="125" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#145a32">mit Fisch</text>
+  <text x="815" y="150" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#196f3d">Behandlung</text>
+  <text x="815" y="210" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="40" fill="#1e8449">P &gt; 0</text>
+  <text x="815" y="270" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">Shredder stark runter</text>
+  <text x="815" y="298" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">Diatomeen (v.a. warm) hoch</text>
+  <text x="815" y="350" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" fill="#145a32">H sinkt, V steigt</text>
+
+  <text x="490" y="500" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5d6d7e">real_experimental  -  Dryad 10.5061/dryad.kprr4xhhn  -  n = 32 Mesokosmen</text>
+</svg>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="520" viewBox="0 0 980 520">
+  <rect width="980" height="520" fill="white"/>
+  <text x="490" y="34" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="bold" fill="#222">EPAS1: Tibeter-Haplotyp sieht anders aus</text>
+  <text x="490" y="58" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#555">Lehrschema nach der Idee von Huerta-Sanchez et al. 2014 (Nature) - keine Originalfigur</text>
+
+  <text x="70" y="110" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#222">Region um EPAS1</text>
+  <text x="70" y="128" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#666">(benachbarte Varianten = Haplotyp)</text>
+
+  <text x="40" y="180" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#555">Nahe Populationen</text>
+  <text x="40" y="198" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#777">(z. B. Han / andere Eurasier)</text>
+  <rect x="280" y="160" width="620" height="44" rx="6" fill="#ecf0f1" stroke="#7f8c8d" stroke-width="2"/>
+  <rect x="295" y="170" width="70" height="24" fill="#5dade2"/>
+  <rect x="375" y="170" width="70" height="24" fill="#85c1e9"/>
+  <rect x="455" y="170" width="70" height="24" fill="#5dade2"/>
+  <rect x="535" y="170" width="70" height="24" fill="#aed6f1"/>
+  <rect x="615" y="170" width="70" height="24" fill="#5dade2"/>
+  <rect x="695" y="170" width="70" height="24" fill="#85c1e9"/>
+  <rect x="775" y="170" width="70" height="24" fill="#5dade2"/>
+  <text x="900" y="188" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">modern</text>
+
+  <text x="40" y="280" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#1a5276">Tibeter:innen</text>
+  <text x="40" y="298" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#777">selektierter Haplotyp</text>
+  <rect x="280" y="260" width="620" height="44" rx="6" fill="#fdebd0" stroke="#d68910" stroke-width="3"/>
+  <rect x="295" y="270" width="70" height="24" fill="#e67e22"/>
+  <rect x="375" y="270" width="70" height="24" fill="#d35400"/>
+  <rect x="455" y="270" width="70" height="24" fill="#e67e22"/>
+  <rect x="535" y="270" width="70" height="24" fill="#ca6f1e"/>
+  <rect x="615" y="270" width="70" height="24" fill="#e67e22"/>
+  <rect x="695" y="270" width="70" height="24" fill="#d35400"/>
+  <rect x="775" y="270" width="70" height="24" fill="#e67e22"/>
+  <text x="900" y="288" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#a04000">anders!</text>
+
+  <text x="40" y="380" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#6c3483">Denisova</text>
+  <text x="40" y="398" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#777">(archaisches Genom)</text>
+  <rect x="280" y="360" width="620" height="44" rx="6" fill="#f5eef8" stroke="#8e44ad" stroke-width="3"/>
+  <rect x="295" y="370" width="70" height="24" fill="#8e44ad"/>
+  <rect x="375" y="370" width="70" height="24" fill="#7d3c98"/>
+  <rect x="455" y="370" width="70" height="24" fill="#8e44ad"/>
+  <rect x="535" y="370" width="70" height="24" fill="#6c3483"/>
+  <rect x="615" y="370" width="70" height="24" fill="#8e44ad"/>
+  <rect x="695" y="370" width="70" height="24" fill="#7d3c98"/>
+  <rect x="775" y="370" width="70" height="24" fill="#8e44ad"/>
+  <text x="900" y="388" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#6c3483">ähnlich</text>
+
+  <line x1="250" y1="282" x2="250" y2="382" stroke="#c0392b" stroke-width="2"/>
+  <line x1="250" y1="282" x2="265" y2="282" stroke="#c0392b" stroke-width="2"/>
+  <line x1="250" y1="382" x2="265" y2="382" stroke="#c0392b" stroke-width="2"/>
+  <text x="235" y="340" text-anchor="end" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="bold" fill="#c0392b">näher</text>
+  <text x="235" y="356" text-anchor="end" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="bold" fill="#c0392b">zueinander</text>
+
+  <rect x="60" y="440" width="860" height="60" rx="8" fill="#f7f7f7" stroke="#bbb"/>
+  <text x="490" y="465" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#222">Befund: der häufige Tibeter-Haplotyp ist unter nahen Menschen selten/anders,</text>
+  <text x="490" y="486" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#222">stimmt aber stark mit dem Denisova-Muster überein - das ruft nach einer Erklärung.</text>
+</svg>

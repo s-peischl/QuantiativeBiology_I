@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="640" viewBox="0 0 1000 640">
+  <rect width="1000" height="640" fill="white"/>
+  <text x="500" y="28" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="bold" fill="#222">ILS: Genlinien wandern durch den Populationsbaum</text>
+  <text x="500" y="50" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#555">Graue Röhren = Populationen · farbige Linien bleiben IMMER in den Röhren (kein Genfluss)</text>
+
+  <!-- ===== PANEL A ===== -->
+  <text x="230" y="82" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#196f3d">A · Genealogie passt</text>
+
+  <!-- tubes A: ancestor 140-320, stem 140-320, Han 140-220, Tibet 240-320 -->
+  <rect x="140" y="95" width="180" height="75" fill="#eaecee" stroke="#5d6d7e" stroke-width="2.5"/>
+  <text x="230" y="118" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#555">Vorfahr</text>
+
+  <rect x="140" y="170" width="180" height="45" fill="#d5d8dc" stroke="#5d6d7e" stroke-width="2.5"/>
+  <text x="230" y="198" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#555">gemeinsam</text>
+
+  <rect x="140" y="215" width="80" height="275" fill="#d6eaf8" stroke="#5d6d7e" stroke-width="2.5"/>
+  <rect x="240" y="215" width="80" height="275" fill="#d5f5e3" stroke="#5d6d7e" stroke-width="2.5"/>
+
+  <text x="180" y="515" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#1a5276">Han</text>
+  <text x="280" y="515" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#196f3d">Tibet</text>
+
+  <!-- Han line: center of Han tube x=180, then into stem/ancestor to MRCA -->
+  <path d="M180 480 L180 230 L200 200 L230 150 L230 130"
+        fill="none" stroke="#2980b9" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Tibet line: center Tibet x=280 -->
+  <path d="M280 480 L280 230 L260 200 L230 150 L230 130"
+        fill="none" stroke="#27ae60" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="230" cy="130" r="8" fill="#2c3e50"/>
+  <text x="248" y="134" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="bold" fill="#2c3e50">MRCA</text>
+
+  <text x="230" y="545" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#196f3d">Genbaum = (Han — Tibet)</text>
+  <text x="230" y="565" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">wie der Populationsbaum</text>
+
+  <!-- ===== PANEL B ===== -->
+  <text x="720" y="82" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#c0392b">B · ILS (Genbaum weicht ab)</text>
+
+  <!-- Deep ancestor: full width covering all descendant tubes -->
+  <!-- x: 520-900 -->
+  <rect x="520" y="95" width="380" height="70" fill="#eaecee" stroke="#5d6d7e" stroke-width="2.5"/>
+  <text x="710" y="120" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#555">tiefer Vorfahr (polymorph)</text>
+
+  <!-- Modern humans stem: 520-740 ; Denisova: 780-900 ; gap 740-780 is split notch but ancestor bridges above -->
+  <rect x="520" y="165" width="220" height="50" fill="#d5d8dc" stroke="#5d6d7e" stroke-width="2.5"/>
+  <text x="630" y="195" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#555">moderne Menschen</text>
+  <rect x="780" y="165" width="120" height="325" fill="#e8daef" stroke="#5d6d7e" stroke-width="2.5"/>
+
+  <!-- connector pieces from ancestor down to stems so tree is continuous -->
+  <rect x="520" y="165" width="220" height="8" fill="#d5d8dc" stroke="#5d6d7e" stroke-width="0"/>
+  <rect x="780" y="165" width="120" height="8" fill="#e8daef" stroke="#5d6d7e" stroke-width="0"/>
+
+  <!-- Han / Tibet -->
+  <rect x="520" y="215" width="100" height="275" fill="#d6eaf8" stroke="#5d6d7e" stroke-width="2.5"/>
+  <rect x="640" y="215" width="100" height="275" fill="#d5f5e3" stroke="#5d6d7e" stroke-width="2.5"/>
+
+  <text x="570" y="515" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#1a5276">Han</text>
+  <text x="690" y="515" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#196f3d">Tibet</text>
+  <text x="840" y="515" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#6c3483">Denisova</text>
+
+  <!--
+  Bounds reminder:
+  Han tip:     x 520-620, y 215-490
+  Tibet tip:   x 640-740, y 215-490
+  modern:      x 520-740, y 165-215
+  Denisova:    x 780-900, y 165-490
+  ancestor:    x 520-900, y 95-165
+  -->
+
+  <!-- Denisova purple: stay in Denisova tube then ancestor -->
+  <path d="M840 480 L840 180 L840 130"
+        fill="none" stroke="#8e44ad" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Tibet green: Tibet tip -> modern (x<=740) -> ancestor -> meet purple inside ancestor -->
+  <path d="M690 480 L690 230 L690 190 L720 175 L780 150 L820 130"
+        fill="none" stroke="#27ae60" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- coalescence Tibet+Denisova inside ancestor (y~130, x~830) -->
+  <circle cx="830" cy="130" r="8" fill="#c0392b"/>
+  <text x="848" y="122" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold" fill="#c0392b">MRCA</text>
+  <text x="848" y="136" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#c0392b">Tib+Den</text>
+
+  <!-- Han blue: Han tip -> modern -> ancestor, joins later (higher / smaller y) still in ancestor -->
+  <path d="M570 480 L570 230 L570 190 L600 175 L650 150 L720 125 L780 115 L820 120"
+        fill="none" stroke="#2980b9" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="780" cy="115" r="7" fill="#2c3e50"/>
+  <text x="700" y="108" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="bold" fill="#2c3e50">später + Han</text>
+
+  <text x="710" y="545" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#c0392b">Genbaum = (Tibet — Denisova)</text>
+  <text x="710" y="565" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">Linien treffen sich nur im Vorfahr-Rohr</text>
+
+  <rect x="50" y="585" width="900" height="42" rx="8" fill="#fef5e7" stroke="#d68910"/>
+  <text x="500" y="611" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#7e5109">Kein Genfluss: Linien verlassen ihre Population nicht — sie sortieren sich nur unvollständig im Vorfahren.</text>
+</svg>

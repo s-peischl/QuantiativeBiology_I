@@ -1,6 +1,6 @@
 ---
-title: "Week 11 — Loading Complex Microbiome Data"
-subtitle: "Tables, metadata, and sanity checks"
+title: "Woche 11 — Komplexe Mikrobiomdaten einlesen"
+subtitle: "Tabellen, Metadaten und Plausibilitätsprüfungen"
 author: "Stephan Peischl"
 format:
   revealjs:
@@ -17,104 +17,109 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Course outline](../../docs/course-outline.html) · [Home](../../index.html)"
+    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html)"
 execute:
   echo: false
   warning: false
   message: false
 ---
 
-## On this deck
+## In diesem Foliensatz
 
-**Week 11** of 14 · Microbiome block  
-**Thu 26 Nov 2026, 08:15–10:00**
+**Woche 11** von 14 · Mikrobiom-Block  
+**Do., 26. Nov. 2026, 08:15–10:00**
 
-- [Course outline](../../docs/course-outline.html)
-- [Home](../../index.html)
-- Arrow keys / controls · **M** menu · **Esc** grid
+- [Kursplan](../../docs/course-outline.html)
+- [Start](../../index.html)
+- Pfeiltasten / Steuerelemente · **M** Menü · **Esc** Übersicht
 
-## Block arc (Weeks 11–13)
+## Verlauf des Blocks (Wochen 11–13)
 
-1. **Today:** load & wrangle complex community tables
-2. **Week 12:** visualize high-dimensional data
-3. **Week 13:** build a visual story · **Checkpoint D**
+1. **Heute:** komplexe Gemeinschaftstabellen einlesen und aufbereiten
+2. **Woche 12:** hochdimensionale Daten visualisieren
+3. **Woche 13:** eine visuelle Geschichte entwickeln · **Checkpoint D**
 
-## Why this block exists
+## Warum es diesen Block gibt
 
-Earlier weeks: models from **small** time series.
+Frühere Wochen: Modelle aus **kleinen** Zeitreihen.
 
-Microbiomes: ecology again, but the first skill is surviving **real data objects**.
+Mikrobiome: wieder Ökologie, doch die erste wichtige Fähigkeit ist der Umgang mit **realen Datenobjekten**.
 
-## What “a microbiome dataset” usually is
+## Was «ein Mikrobiomdatensatz» normalerweise umfasst
 
-Three linked pieces:
+Drei miteinander verknüpfte Bestandteile:
 
-1. **Abundance table** — samples × taxa (counts or relative abundances)
-2. **Taxonomy** — what each taxon ID means
-3. **Metadata** — host, site, time, treatment, …
+1. **Abundanztabelle** — Proben × Taxa (Zählwerte oder relative Abundanzen)
+2. **Taxonomie** — Bedeutung der einzelnen Taxon-IDs
+3. **Metadaten** — Wirt, Standort, Zeitpunkt, Behandlung, …
 
-Miss the join → silent nonsense plots next week.
+Fehler bei der Verknüpfung → nächste Woche unbemerkt unsinnige Grafiken.
 
-## Shapes you will see
+## Datenformen, die Ihnen begegnen werden
 
-| Shape | Typical use |
+| Form | Typische Verwendung |
 |---|---|
-| Wide matrix | rows = samples, columns = taxa |
-| Long (tidy) table | columns: sample, taxon, abundance |
-| Metadata table | one row per sample |
+| Breite Matrix | Zeilen = Proben, Spalten = Taxa |
+| Lange (tidy) Tabelle | Spalten: Probe, Taxon, Abundanz |
+| Metadatentabelle | eine Zeile pro Probe |
 
-Classroom rule: know which shape you have before you plot.
+Grundregel: Klären Sie vor dem Plotten, welche Datenform vorliegt.
 
-## Loading workflow (practical)
+## Arbeitsablauf beim Einlesen (praktisch)
 
-1. Read abundance file (`read.csv` / `read.table`)
-2. Read metadata
-3. Check sample IDs match (setdiff / merge diagnostics)
-4. Inspect dimensions, sparsity, library sizes
-5. Decide: counts vs relative abundances for later viz
+1. Abundanzdatei einlesen (`read.csv` / `read.table`)
+2. Metadaten einlesen
+3. Übereinstimmung der Proben-IDs prüfen (Diagnose mit setdiff / merge)
+4. Dimensionen, Sparsität und Bibliotheksgrössen untersuchen
+5. Entscheiden: Zählwerte oder relative Abundanzen für spätere Visualisierungen
 
-## Sanity checks (do these every time)
+## Plausibilitätsprüfungen (jedes Mal durchführen)
 
-- Do `#samples` and `#taxa` look plausible?
-- Are there duplicate sample names?
-- How many zeros? (sparse is normal)
-- Library size = row sums — any tiny / huge outliers?
-- Missing metadata for some samples?
+- Sind `#samples` und `#taxa` plausibel?
+- Gibt es doppelte Probennamen?
+- Wie viele Nullen gibt es? (Sparsität ist normal)
+- Bibliotheksgrösse = Zeilensummen — gibt es sehr kleine / grosse Ausreisser?
+- Fehlen für einige Proben Metadaten?
 
-## Programming bridge
+## Brücke zur Programmierung
 
-| Concept | Here |
+| Konzept | Hier |
 |---|---|
-| Vectors | library sizes; one taxon across samples |
-| Matrices / data frames | abundance tables |
-| Loops / apply | optional summaries across taxa |
-| Functions | `load_abundances()`, `check_ids()` |
+| Vektoren | Bibliotheksgrössen; ein Taxon über mehrere Proben |
+| Matrizen / Data Frames | Abundanztabellen |
+| Schleifen / apply | optionale Zusammenfassungen über Taxa |
+| Funktionen | `load_abundances()`, `check_ids()` |
 
-## Notebook preview
+## Vorschau auf das Notebook
 
-- Load a teaching microbiome CSV pack from `data/` (collabs: pick one open dataset)
-- Join metadata
-- Produce a short “data passport” (dims, library-size summary, ID mismatches)
+- Ein für die Lehre aufbereitetes Mikrobiom-CSV-Paket aus `data/` einlesen (Kooperationen: einen offenen Datensatz auswählen)
+- Metadaten verknüpfen
+- Einen kurzen «Datenpass» erstellen (Dimensionen, Zusammenfassung der Bibliotheksgrössen, nicht übereinstimmende IDs)
 
-## Exit ticket
+## Abschlussfragen
 
-1. Wide vs long abundance table — one sentence each.
-2. Name two sanity checks you will always run.
-3. What breaks if sample IDs don’t match metadata?
+1. Breite und lange Abundanztabelle — je ein Satz.
+2. Nennen Sie zwei Plausibilitätsprüfungen, die Sie immer durchführen werden.
+3. Was geht schief, wenn die Proben-IDs nicht mit den Metadaten übereinstimmen?
 
-## Next week
+## Nächste Woche
 
-**Visualizing** community data — composition, heatmaps, facets; avoid colour chaos.
+Gemeinschaftsdaten **visualisieren** — Zusammensetzung, Heatmaps, Facetten; Farbchaos vermeiden.
 
 ---
+
+## Literatur
+
+In diesem Foliensatz-Entwurf noch keine Fallstudien zitiert.  
+Sobald Inhalte ausgearbeitet sind, erscheint hier die vollständige Liste aller genannten Quellen.
 
 ## Navigation
 
 | | |
 |---|---|
-| Overview | [Course outline](../../docs/course-outline.html) |
-| Home | [Course home](../../index.html) |
-| Previous | [← Week 10](../week-10/slides.html) |
-| Next | [Week 12 →](../week-12/slides.html) |
+| Übersicht | [Kursplan](../../docs/course-outline.html) |
+| Startseite | [Kursstartseite](../../index.html) |
+| Zurück | [← Woche 10](../week-10/slides.html) |
+| Weiter | [Woche 12 →](../week-12/slides.html) |
 
-Keyboard: ← → · **M** menu · **Esc** grid · **F** fullscreen
+Tastatur: ← → · **M** Menü · **Esc** Übersicht · **F** Vollbild

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="420" viewBox="0 0 980 420">
+  <rect width="980" height="420" fill="white"/>
+  <text x="490" y="36" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="bold" fill="#222">Denisova-ähnliche DNA — alternative Erklärungen</text>
+
+  <rect x="40" y="70" width="260" height="120" rx="12" fill="#eaf2fb" stroke="#2980b9" stroke-width="2"/>
+  <text x="170" y="110" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#1a5276">H1: Introgression</text>
+  <text x="170" y="138" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Denisova → moderne</text>
+  <text x="170" y="158" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Menschen (EPAS1)</text>
+
+  <rect x="360" y="70" width="260" height="120" rx="12" fill="#fef5e7" stroke="#d68910" stroke-width="2"/>
+  <text x="490" y="110" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#7e5109">H2: Konvergenz / ILS</text>
+  <text x="490" y="138" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">ähnliches Muster ohne</text>
+  <text x="490" y="158" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Denisova-Weitergabe</text>
+
+  <rect x="680" y="70" width="260" height="120" rx="12" fill="#e8f8f5" stroke="#148f77" stroke-width="2"/>
+  <text x="810" y="110" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#0e6655">H3: Selektion allein</text>
+  <text x="810" y="138" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Sweep auf moderner</text>
+  <text x="810" y="158" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Variation (ohne Archaik)</text>
+
+  <line x1="170" y1="190" x2="170" y2="230" stroke="#555" stroke-width="2"/>
+  <line x1="490" y1="190" x2="490" y2="230" stroke="#555" stroke-width="2"/>
+  <line x1="810" y1="190" x2="810" y2="230" stroke="#555" stroke-width="2"/>
+  <polygon points="165,230 175,230 170,240" fill="#555"/>
+  <polygon points="485,230 495,230 490,240" fill="#555"/>
+  <polygon points="805,230 815,230 810,240" fill="#555"/>
+
+  <rect x="120" y="250" width="740" height="70" rx="12" fill="#f4f6f7" stroke="#7f8c8d" stroke-width="2"/>
+  <text x="490" y="280" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#222">Simulation mathematischer Modelle → erwartete Muster</text>
+  <text x="490" y="305" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#444">Likelihood / Passung zu den Genomdaten vergleichen → Modellwahl</text>
+
+  <text x="490" y="380" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#222">Ohne Simulation und Modellvergleich bleibt «Denisova-ähnlich» eine Geschichte — keine Entscheidung.</text>
+</svg>

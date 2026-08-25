@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://w3.org/2000/svg" width="980" height="380" viewBox="0 0 980 380">
+  <rect width="980" height="380" fill="#fbfcfd"/>
+  <text x="490" y="34" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="#1a5276">Stabilitaet - konkrete Kursbeispiele</text>
+
+  <rect x="24" y="55" width="300" height="300" rx="12" fill="#eafaf1" stroke="#27ae60" stroke-width="2"/>
+  <text x="174" y="88" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#196f3d">1. Punkt</text>
+  <circle cx="174" cy="155" r="11" fill="#27ae60"/>
+  <path d="M70,120 Q130,200 162,160" fill="none" stroke="#2980b9" stroke-width="2.5"/>
+  <path d="M270,110 Q210,195 186,160" fill="none" stroke="#c0392b" stroke-width="2.5"/>
+  <text x="174" y="210" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">Beispiel heute:</text>
+  <text x="174" y="232" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">Exclusion: N2 gewinnt,</text>
+  <text x="174" y="252" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">N1 -&gt; 0 (ein Attraktor)</text>
+  <text x="174" y="282" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#196f3d">Spaeter: Aspen+Elk+Wolf</text>
+  <text x="174" y="302" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#196f3d">im Food-Web-Gleichgewicht</text>
+  <text x="174" y="330" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#7f8c8d">Stoerung kehrt zurueck</text>
+
+  <rect x="340" y="55" width="300" height="300" rx="12" fill="#eaf2fb" stroke="#2980b9" stroke-width="2"/>
+  <text x="490" y="88" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#1a5276">2. Bistabil</text>
+  <circle cx="430" cy="155" r="11" fill="#d68910"/>
+  <circle cx="550" cy="155" r="11" fill="#1e8449"/>
+  <line x1="490" y1="105" x2="490" y2="210" stroke="#bdc3c7" stroke-width="2" stroke-dasharray="4 3"/>
+  <text x="430" y="185" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#9a7b0a">Gras</text>
+  <text x="550" y="185" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e8449">Wald</text>
+  <text x="490" y="230" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">Beispiel heute:</text>
+  <text x="490" y="252" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">alpha &gt; 1, Start entscheidet</text>
+  <text x="490" y="282" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1a5276">Literatur: Grasland / Wald</text>
+  <text x="490" y="302" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1a5276">(Scheffer; Staver et al.)</text>
+  <text x="490" y="330" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#7f8c8d">zwei Attraktoren</text>
+
+  <rect x="656" y="55" width="300" height="300" rx="12" fill="#fef9e7" stroke="#d68910" stroke-width="2"/>
+  <text x="806" y="88" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#9a7b0a">3. Zyklus</text>
+  <ellipse cx="806" cy="155" rx="58" ry="36" fill="none" stroke="#8e44ad" stroke-width="3"/>
+  <text x="806" y="160" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#8e44ad">Orbit</text>
+  <text x="806" y="230" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">Beispiel:</text>
+  <text x="806" y="252" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">klass. Raeuber-Beute</text>
+  <text x="806" y="282" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#9a7b0a">Woche 2: Didinium /</text>
+  <text x="806" y="302" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#9a7b0a">Paramecium-Schwingungen</text>
+  <text x="806" y="330" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#7f8c8d">Attraktor = Orbit</text>
+</svg>

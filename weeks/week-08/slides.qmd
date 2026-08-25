@@ -1,6 +1,6 @@
 ---
-title: "Week 8 — From Selection to Establishment"
-subtitle: "When deterministic allele-frequency change is not enough"
+title: "Woche 8 — Von der Selektion zur Etablierung"
+subtitle: "Wenn deterministische Änderungen der Allelfrequenz nicht ausreichen"
 author: "Stephan Peischl"
 format:
   revealjs:
@@ -17,120 +17,125 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Course outline](../../docs/course-outline.html) · [Home](../../index.html)"
+    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html)"
 execute:
   echo: false
   warning: false
   message: false
 ---
 
-## On this deck
+## In diesem Foliensatz
 
-**Week 8** of 14 · Randomness block  
-**Thu 5 Nov 2026, 08:15–10:00**
+**Woche 8** von 14 · Block zum Zufall  
+**Do., 5. Nov. 2026, 08:15–10:00**
 
-- [Course outline](../../docs/course-outline.html)
-- [Home](../../index.html)
-- Arrow keys / controls · **M** menu · **Esc** grid
+- [Kursplan](../../docs/course-outline.html)
+- [Start](../../index.html)
+- Pfeiltasten / Steuerelemente · **M** Menü · **Esc** Übersicht
 
-## Block arc (Weeks 8–10)
+## Verlauf des Blocks (Wochen 8–10)
 
-1. **Today:** deterministic selection → **establishment**
-2. **Week 9:** establishment probabilities in code
-3. **Week 10:** **evolutionary rescue** (lab-tested theory) · Checkpoint C
+1. **Heute:** deterministische Selektion → **Etablierung**
+2. **Woche 9:** Etablierungswahrscheinlichkeiten im Code
+3. **Woche 10:** **evolutionäre Rettung** (im Labor geprüfte Theorie) · Checkpoint C
 
-## Recap: what Weeks 5–7 gave us
+## Rückblick: Erkenntnisse aus den Wochen 5–7
 
-- Allele frequency \(p_t\) as a smooth time series
-- Selection recurrence \(p_{t+1} = f(p_t)\)
-- Deterministic trajectories and equilibria
+- Allelfrequenz \(p_t\) als glatte Zeitreihe
+- Selektionsrekursion \(p_{t+1} = f(p_t)\)
+- Deterministische Trajektorien und Gleichgewichte
 
-**Hidden assumption:** many gene copies already segregating — averages behave nicely.
+**Verborgene Annahme:** Viele Genkopien segregieren bereits — Mittelwerte verhalten sich regelmäßig.
 
-## The biological crack in the story
+## Die biologische Lücke in der Beschreibung
 
-A **new** beneficial mutation usually starts as:
+Eine **neue** vorteilhafte Mutation beginnt meist als:
 
-- **one** individual / one chromosome copy
+- **ein** Individuum / eine Chromosomenkopie
 
-Early on, chance events dominate:
+Zu Beginn dominieren Zufallsereignisse:
 
-- the lineage can die out even if it is “favoured on average”
+- Die Abstammungslinie kann aussterben, selbst wenn sie „im Mittel begünstigt“ ist
 
-## Two questions (keep them distinct)
+## Zwei Fragen (klar auseinanderhalten)
 
-| Question | Typical tool |
+| Frage | Typisches Werkzeug |
 |---|---|
-| How does \(p\) change once common? | Deterministic selection (Weeks 5–7) |
-| Will a rare beneficial type **take off at all**? | **Establishment probability** (this block) |
+| Wie verändert sich \(p\), sobald das Allel häufig ist? | Deterministische Selektion (Wochen 5–7) |
+| Kann sich ein seltener vorteilhafter Typ **überhaupt etablieren**? | **Etablierungswahrscheinlichkeit** (dieser Block) |
 
-## Establishment (verbal definition)
+## Etablierung (verbale Definition)
 
-Probability that a rare beneficial lineage escapes early stochastic loss and becomes common enough that deterministic selection takes over.
+Wahrscheinlichkeit, dass eine seltene vorteilhafte Abstammungslinie dem frühen stochastischen Verlust entgeht und häufig genug wird, damit die deterministische Selektion übernimmt.
 
-Not the same as long-run fixation in every model — but closely related in simple pop-gen settings.
+Nicht in jedem Modell dasselbe wie langfristige Fixierung — in einfachen populationsgenetischen Modellen jedoch eng damit verbunden.
 
-## Picture to hold in mind
+## Anschauliches Bild
 
 ```text
-many failed starts
+viele gescheiterte Anläufe
       · · · · · ·
            \
-            ········  established trajectory
+            ········  etablierte Trajektorie
 ```
 
-Adaptation from new mutation ≈ **supply of mutants × establishment probability**.
+Anpassung durch neue Mutationen ≈ **Angebot an Mutanten × Etablierungswahrscheinlichkeit**.
 
-## Think–pair–share
+## Denken – Austauschen – Besprechen
 
-1. Why can a strongly beneficial allele still be lost when rare?
-2. When is the Week 6 deterministic story “good enough”?
-3. What would you count in a simulation to estimate establishment?
+1. Warum kann ein stark vorteilhaftes Allel dennoch verloren gehen, wenn es selten ist?
+2. Wann ist die deterministische Beschreibung aus Woche 6 „gut genug“?
+3. Was würden Sie in einer Simulation zählen, um die Etablierung zu schätzen?
 
-## Quantitative sketch (orientation)
+## Quantitative Skizze (Orientierung)
 
-In simple models, establishment probability often increases with the selective advantage \(s\).
+In einfachen Modellen steigt die Etablierungswahrscheinlichkeit häufig mit dem Selektionsvorteil \(s\).
 
-Famous benchmark (haploid / weak selection intuition):
+Bekannter Referenzwert (Intuition für haploide Organismen / schwache Selektion):
 
 \[
 u \approx 2s
 \]
 
-(We will treat formulas as **targets to compare with simulations**, not as magic.)
+(Wir behandeln Formeln als **Referenz für den Vergleich mit Simulationen**, nicht als Magie.)
 
-## Programming bridge today
+## Verbindung zum Programmieren heute
 
-- Same engine: update rule → function → loop
-- New twist: **many independent attempts** (replicates)
-- Store outcomes: established / lost → estimate a probability
+- Gleiches Grundprinzip: Aktualisierungsregel → Funktion → Schleife
+- Neue Wendung: **viele unabhängige Versuche** (Replikate)
+- Ergebnisse speichern: etabliert / verloren → eine Wahrscheinlichkeit schätzen
 
-## Notebook preview
+## Vorschau auf das Notebook
 
-1. Simulate one rare beneficial lineage many times
-2. Classify establishment vs loss
-3. Estimate \(\hat{u}\) as a frequency across replicates
-4. Change \(s\); predict before you run
+1. Eine seltene vorteilhafte Abstammungslinie vielfach simulieren
+2. Etablierung gegenüber Verlust klassifizieren
+3. \(\hat{u}\) als Häufigkeit über Replikate schätzen
+4. \(s\) verändern; vor der Ausführung eine Vorhersage treffen
 
-## Exit ticket
+## Abschlussfragen
 
-1. Deterministic \(p_t\) vs establishment — one sentence each.
-2. Why does “starts at one copy” change the math?
-3. What will we need next week to estimate \(u\) cleanly in code?
+1. Deterministisches \(p_t\) gegenüber Etablierung — jeweils ein Satz.
+2. Warum verändert „beginnt mit einer Kopie“ die Mathematik?
+3. Was benötigen wir nächste Woche, um \(u\) sauber im Code zu schätzen?
 
-## Next week
+## Nächste Woche
 
-**Establishment probabilities** — systematic simulation, compare to a simple formula, vary \(s\) and starting copies.
+**Etablierungswahrscheinlichkeiten** — systematische Simulation, Vergleich mit einer einfachen Formel, Variation von \(s\) und der Anzahl der Ausgangskopien.
 
 ---
+
+## Literatur
+
+In diesem Foliensatz-Entwurf noch keine Fallstudien zitiert.  
+Sobald Inhalte ausgearbeitet sind, erscheint hier die vollständige Liste aller genannten Quellen.
 
 ## Navigation
 
 | | |
 |---|---|
-| Overview | [Course outline](../../docs/course-outline.html) |
-| Home | [Course home](../../index.html) |
-| Previous | [← Week 7](../week-07/slides.html) |
-| Next | [Week 9 →](../week-09/slides.html) |
+| Übersicht | [Kursplan](../../docs/course-outline.html) |
+| Startseite | [Kurs-Startseite](../../index.html) |
+| Zurück | [← Woche 7](../week-07/slides.html) |
+| Weiter | [Woche 9 →](../week-09/slides.html) |
 
-Keyboard: ← → · **M** menu · **Esc** grid · **F** fullscreen
+Tastatur: ← → · **M** Menü · **Esc** Übersicht · **F** Vollbild

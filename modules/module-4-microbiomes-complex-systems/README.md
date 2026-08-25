@@ -1,3 +1,3 @@
-# Stub
+# Platzhalter
 
-Later weeks — not outlined yet.
+Spätere Wochen — noch nicht ausgearbeitet.

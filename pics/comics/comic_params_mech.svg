@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="260" viewBox="0 0 900 260">
+  <rect width="900" height="260" fill="white"/>
+  <text x="450" y="34" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="17" font-weight="bold" fill="#1a5276">Parameter als Mechanismen (nicht nur Symbole)</text>
+
+  <rect x="20" y="55" width="270" height="180" rx="12" fill="#eafaf1" stroke="#27ae60" stroke-width="3"/>
+  <text x="155" y="90" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="22" font-weight="bold" fill="#196f3d">r</text>
+  <text x="155" y="120" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">Teilungsrate</text>
+  <text x="155" y="150" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#555">wie schnell Nachwuchs</text>
+  <text x="155" y="175" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#555">entsteht (pro Individuum)</text>
+  <text x="155" y="210" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#196f3d">Ereignis: Zellteilung / Geburt</text>
+
+  <rect x="315" y="55" width="270" height="180" rx="12" fill="#eaf2fb" stroke="#2980b9" stroke-width="3"/>
+  <text x="450" y="90" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="22" font-weight="bold" fill="#1a5276">K</text>
+  <text x="450" y="120" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">Tragfaehigkeit allein</text>
+  <text x="450" y="150" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#555">Futter / Platz / Abfall</text>
+  <text x="450" y="175" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#555">begrenzt die eigene Art</text>
+  <text x="450" y="210" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1a5276">Ereignis: Gedraenge / Hunger</text>
+
+  <rect x="610" y="55" width="270" height="180" rx="12" fill="#fef5e7" stroke="#d68910" stroke-width="3"/>
+  <text x="745" y="90" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="22" font-weight="bold" fill="#7e5109">alpha</text>
+  <text x="745" y="120" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">Konkurrenzstaerke</text>
+  <text x="745" y="150" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#555">wie stark Art j die</text>
+  <text x="745" y="175" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#555">Ressource von Art i nutzt</text>
+  <text x="745" y="210" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#7e5109">Ereignis: Interferenz am Trog</text>
+</svg>

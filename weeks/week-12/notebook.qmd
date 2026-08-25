@@ -1,6 +1,6 @@
 ---
-title: "Week 12 — Notebook · Visualize microbiome data"
-subtitle: "Composition, heatmap, facets"
+title: "Woche 12 — Notebook · Mikrobiomdaten visualisieren"
+subtitle: "Zusammensetzung, Heatmap, Facetten"
 format:
   html:
     toc: true
@@ -11,16 +11,16 @@ execute:
   message: false
 ---
 
-## Learning goals
+## Lernziele
 
-1. Aggregate taxa for readable plots
-2. Make a composition plot and one heatmap or facet panel
-3. Write captions that state filters/aggregations
+1. Taxa für verständliche Grafiken aggregieren
+2. Eine Grafik zur Zusammensetzung und eine Heatmap oder ein Facetten-Panel erstellen
+3. Bildlegenden verfassen, die Filter/Aggregationen angeben
 
-## Tasks
+## Aufgaben
 
-1. Start from the cleaned Week 11 objects.
-2. Create a top-\(k\) + Other table (or phylum roll-up).
-3. Plot composition by sample or by group.
-4. One heatmap **or** faceted comparison.
-5. **Q:** Which visual claim is supported? Which is not?
+1. Beginnen Sie mit den bereinigten Objekten aus Woche 11.
+2. Erstellen Sie eine Tabelle der häufigsten \(k\) Taxa + Andere (oder eine Zusammenfassung auf Stammebene).
+3. Plotten Sie die Zusammensetzung nach Probe oder Gruppe.
+4. Erstellen Sie eine Heatmap **oder** einen Vergleich mit Facetten.
+5. **F:** Welche visuelle Aussage wird gestützt? Welche nicht?

@@ -1,28 +1,32 @@
 ---
-title: "Week 2 — Assignment · Paramecium / Didinium"
+title: "Woche 2 — Aufgabe · Erstes Modell"
 format:
   html:
     toc: false
     css: ../../styles.scss
 ---
 
-## Prompt
+## Auftrag
 
-Use the Week 2 notebook and the microcosm contrast (*Paramecium* alone vs with *Didinium*).
+Nutzen Sie das Notebook der Woche 2 (nach der Vorlesung).
 
-## Deliverables
+## Abgabe
 
-1. Rendered notebook
-2. One figure: LV simulation (prey + predator)
-3. Short interpretation (120–180 words) connecting the model to the two datasets
-4. Note which parameter you changed and what happened
+1.  Gerendertes Notebook (oder gleichwertiger R-Code)  
+2.  Eine Abbildung: **eine Population** (Simulation)  
+3.  Eine Abbildung: **Räuber–Beute** (Simulation)  
+4.  Kurztext (120–180 Wörter): Workflow (Daten → ein Schritt → Vektor/Schleife → Erweiterung) und ein Parameter-Experiment  
 
-## Criteria
+## Kriterien
 
-- Reproducibility (40%)
-- Biological interpretation (40%)
-- Clarity (20%)
+- Reproduzierbarkeit (40 %)  
+- Biologische Interpretation (40 %)  
+- Klarheit (20 %)  
 
-## AI disclosure (required)
+## Literatur
 
-Follow the course [AI policy](../../docs/ai-policy.qmd). End your submission with tool + use, or `AI disclosure: none`.
+Gause (1934); Lotka (1925); Volterra (1926); Mühlbauer et al. (2020, gauseR) — vollständige Angaben in den [Folien Woche 2](slides.qmd#literatur).
+
+## KI-Offenlegung (obligatorisch)
+
+Siehe [KI-Richtlinie](../../docs/ai-policy.qmd). Werkzeug nennen oder `KI-Offenlegung: keine`.

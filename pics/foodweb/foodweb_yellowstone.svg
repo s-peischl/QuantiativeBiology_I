@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="520" viewBox="0 0 980 520">
+  <rect width="980" height="520" fill="#f7f9fb"/>
+  <text x="490" y="36" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="bold" fill="#1a5276">Yellowstone Food Web (vereinfacht)</text>
+  <text x="490" y="58" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5d6d7e">Wolf -&gt; Elch -&gt; Weide / Aspen</text>
+
+  <!-- arrows -->
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#7f8c8d"/>
+    </marker>
+  </defs>
+  <line x1="490" y1="145" x2="490" y2="195" stroke="#7f8c8d" stroke-width="3" marker-end="url(#arr)"/>
+  <line x1="490" y1="290" x2="490" y2="340" stroke="#7f8c8d" stroke-width="3" marker-end="url(#arr)"/>
+  <text x="520" y="175" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#7f8c8d">frisst / scheucht</text>
+  <text x="520" y="320" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#7f8c8d">beweidet</text>
+
+  <!-- WOLF card -->
+  <rect x="340" y="70" width="300" height="75" rx="14" fill="#2c3e50" stroke="#1a252f" stroke-width="2"/>
+  <!-- wolf silhouette -->
+  <g transform="translate(365,95)" fill="#ecf0f1">
+    <ellipse cx="28" cy="22" rx="22" ry="12"/>
+    <circle cx="48" cy="16" r="9"/>
+    <polygon points="42,8 46,0 50,8"/>
+    <polygon points="50,8 54,0 58,8"/>
+    <ellipse cx="56" cy="18" rx="6" ry="3"/>
+    <rect x="8" y="28" width="5" height="12" rx="1"/>
+    <rect x="18" y="28" width="5" height="12" rx="1"/>
+    <rect x="32" y="28" width="5" height="12" rx="1"/>
+    <rect x="42" y="28" width="5" height="12" rx="1"/>
+    <path d="M6,18 Q0,10 8,22" stroke="#ecf0f1" stroke-width="3" fill="none"/>
+  </g>
+  <text x="470" y="108" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="white">Wolf</text>
+  <text x="470" y="128" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#d5d8dc">Top-Praedator P</text>
+
+  <!-- ELK card -->
+  <rect x="340" y="205" width="300" height="85" rx="14" fill="#d68910" stroke="#9a7b0a" stroke-width="2"/>
+  <!-- elk silhouette -->
+  <g transform="translate(360,225)" fill="#fef9e7">
+    <ellipse cx="30" cy="28" rx="24" ry="14"/>
+    <circle cx="52" cy="20" r="10"/>
+    <path d="M48,8 L42,0 M52,6 L55,-4 M58,8 L64,0" stroke="#fef9e7" stroke-width="2.5" fill="none"/>
+    <rect x="12" y="36" width="5" height="16" rx="1"/>
+    <rect x="22" y="36" width="5" height="16" rx="1"/>
+    <rect x="34" y="36" width="5" height="16" rx="1"/>
+    <rect x="44" y="36" width="5" height="16" rx="1"/>
+  </g>
+  <text x="470" y="245" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="white">Elch / Wapiti</text>
+  <text x="470" y="268" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#fdebd0">Herbivor H</text>
+
+  <!-- WILLOW card -->
+  <rect x="340" y="350" width="300" height="90" rx="14" fill="#27ae60" stroke="#1e8449" stroke-width="2"/>
+  <!-- willow icon -->
+  <g transform="translate(372,370)">
+    <rect x="22" y="35" width="8" height="28" fill="#145a32"/>
+    <ellipse cx="26" cy="28" rx="22" ry="26" fill="#d5f5e3"/>
+    <ellipse cx="18" cy="22" rx="8" ry="14" fill="#82e0aa"/>
+    <ellipse cx="34" cy="24" rx="8" ry="14" fill="#82e0aa"/>
+    <ellipse cx="26" cy="18" rx="10" ry="12" fill="#abebc6"/>
+  </g>
+  <text x="470" y="390" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="white">Weide / Aspen</text>
+  <text x="470" y="412" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#e8f8f5">Produzent V (Literatur)</text>
+
+  <!-- side panels -->
+  <rect x="40" y="90" width="250" height="340" rx="12" fill="#fdedec" stroke="#c0392b" stroke-width="2"/>
+  <text x="165" y="125" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#922b21">ohne Wolf</text>
+  <text x="165" y="150" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#7b241c">~1926-1995</text>
+  <text x="165" y="200" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="36" fill="#922b21">P = 0</text>
+  <text x="165" y="250" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">viele Elche</text>
+  <text x="165" y="278" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">starke Beweidung</text>
+  <text x="165" y="306" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">Weiden unterdrueckt</text>
+  <text x="165" y="350" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" fill="#922b21">H hoch, V niedrig</text>
+
+  <rect x="690" y="90" width="250" height="340" rx="12" fill="#eaf2fb" stroke="#2980b9" stroke-width="2"/>
+  <text x="815" y="125" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#1a5276">mit Wolf</text>
+  <text x="815" y="150" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1a5276">ab 1995</text>
+  <text x="815" y="200" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="36" fill="#1a5276">P &gt; 0</text>
+  <text x="815" y="250" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">Elche sinken / weichen</text>
+  <text x="815" y="278" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">weniger Verbiss</text>
+  <text x="815" y="306" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">Weiden wachsen</text>
+  <text x="815" y="350" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" fill="#1a5276">H sinkt, V steigt</text>
+
+  <text x="490" y="500" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#7f8c8d">trophische Kaskade = Top-down-Effekt ueber zwei Ebenen</text>
+</svg>

@@ -1,6 +1,6 @@
 ---
-title: "Week 9 — Notebook · Establishment probabilities"
-subtitle: "Estimate u(s); compare to a benchmark"
+title: "Woche 9 — Notebook · Etablierungswahrscheinlichkeiten"
+subtitle: "u(s) schätzen; mit einem Referenzwert vergleichen"
 format:
   html:
     toc: true
@@ -11,16 +11,16 @@ execute:
   message: false
 ---
 
-## Learning goals
+## Lernziele
 
-1. Estimate \(u\) across a grid of \(s\)
-2. Plot \(\hat{u}(s)\)
-3. Optional overlay of a simple analytic benchmark (e.g. \(2s\))
+1. \(u\) über ein Raster von \(s\)-Werten schätzen
+2. \(\hat{u}(s)\) darstellen
+3. Optional einen einfachen analytischen Referenzwert überlagern (z. B. \(2s\))
 
-## Tasks
+## Aufgaben
 
-1. Reuse / improve `run_one_lineage()` from Week 8.
-2. For several `s` values, compute `u_hat` with enough replicates.
-3. Plot `u_hat` vs `s`.
-4. **Q:** Where does a simple formula help, and where do assumptions fail?
-5. Optional: start with `k = 1, 2, 5` copies.
+1. `run_one_lineage()` aus Woche 8 wiederverwenden / verbessern.
+2. Für mehrere `s`-Werte `u_hat` mit genügend Replikaten berechnen.
+3. `u_hat` gegen `s` darstellen.
+4. **F:** Wo hilft eine einfache Formel, und wo treffen die Annahmen nicht zu?
+5. Optional: mit `k = 1, 2, 5` Kopien beginnen.

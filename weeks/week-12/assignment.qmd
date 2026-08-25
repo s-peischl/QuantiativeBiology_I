@@ -1,11 +1,11 @@
 ---
-title: "Week 12 — Assignment · Visualize communities"
+title: "Woche 12 — Aufgabe · Gemeinschaften visualisieren"
 format:
   html:
     toc: true
     css: ../../styles.scss
 ---
 
-1. One composition figure with stated aggregation rule.
-2. One heatmap or faceted comparison.
-3. Caption + one paragraph on a visual pitfall you avoided.
+1. Eine Darstellung der Zusammensetzung mit angegebener Aggregationsregel.
+2. Eine Heatmap oder ein Vergleich mit Facetten.
+3. Bildlegende + ein Absatz über einen vermiedenen visuellen Fallstrick.

@@ -1,57 +1,29 @@
 ---
-title: "Week 3 — Notebook · Richer models"
-subtitle: "Gause competition, carrying capacity, parameter play"
+title: "Woche 3 — Notebook"
+subtitle: "Ausschluss · Bistabilität · Wolf rettet Aspen"
+author: "Stephan Peischl"
 format:
   html:
     toc: true
-    css: ../../styles.scss
+    toc-depth: 2
+    code-fold: false
+    embed-resources: true
 execute:
   echo: true
   warning: false
   message: false
 ---
 
-## Learning goals
+# Ziel
 
-1. Compare *Paramecium caudatum* and *P. aurelia* alone vs together
-2. Implement logistic growth and two-species competition updates
-3. Change one parameter at a time and interpret biologically
+Zwei Stories:
 
-## 1. Data first (Gause 1934, Fig. 22)
+1. **Exclusion** → Modell drehen → **Bistabilität** (+ Stabilitätsformen mit Beispielen)  
+2. **Food Web:** Elk → Aspen gegen 0; Wolf → Aspen stabil, Elk bleibt mittel
 
-```{r}
-pc <- read.csv("data/paramecium_caudatum_alone.csv")
-pa <- read.csv("data/paramecium_aurelia_alone.csv")
-mix <- read.csv("data/paramecium_competition.csv")
+---
 
-par(mfrow = c(1, 3), mar = c(4, 4, 2, 1))
-plot(pc$day, pc$volume, type = "b", pch = 16,
-     xlab = "Day", ylab = "Volume", main = "Caudatum alone")
-plot(pa$day, pa$volume, type = "b", pch = 17,
-     xlab = "Day", ylab = "Volume", main = "Aurelia alone")
-plot(mix$day, mix$caudatum, type = "b", pch = 16,
-     xlab = "Day", ylab = "Volume", main = "Mixture",
-     ylim = range(c(mix$caudatum, mix$aurelia), na.rm = TRUE))
-lines(mix$day, mix$aurelia, type = "b", pch = 17, lty = 2)
-legend("topright", c("caudatum", "aurelia"), pch = c(16, 17), lty = 1:2, bty = "n", cex = 0.8)
-```
-
-**Q1.** In 2–3 sentences: what biological ingredients are missing from Week 2 predator–prey LV?
-
-## 2. Logistic one-step update
-
-```{r}
-next_logistic <- function(N, r, K, dt) {
-  dN <- r * N * (1 - N / K) * dt
-  max(N + dN, 0)
-}
-
-next_logistic(N = 10, r = 0.8, K = 100, dt = 0.1)
-```
-
-**Q2.** If \(N\) is near \(K\), does the next step grow or shrink? Why?
-
-## 3. Two-competitor update + loop
+# 0. Setup
 
 ```{r}
 next_comp <- function(N1, N2, r1, r2, K1, K2, a12, a21, dt) {
@@ -60,38 +32,250 @@ next_comp <- function(N1, N2, r1, r2, K1, K2, a12, a21, dt) {
   c(N1 = max(N1 + d1, 0), N2 = max(N2 + d2, 0))
 }
 
-T <- 400
-dt <- 0.05
-N1 <- numeric(T + 1)
-N2 <- numeric(T + 1)
-N1[1] <- 20
-N2[1] <- 20
-
-r1 <- 1.0; r2 <- 1.0
-K1 <- 150; K2 <- 150
-a12 <- 1.2   # effect of species 2 on 1
-a21 <- 0.5   # effect of species 1 on 2
-
-for (t in 1:T) {
-  out <- next_comp(N1[t], N2[t], r1, r2, K1, K2, a12, a21, dt)
-  N1[t + 1] <- out["N1"]
-  N2[t + 1] <- out["N2"]
+sim_comp <- function(N10, N20, a12, a21, T = 800, dt = 0.05) {
+  N1 <- numeric(T + 1); N2 <- numeric(T + 1)
+  N1[1] <- N10; N2[1] <- N20
+  for (t in 1:T) {
+    out <- next_comp(N1[t], N2[t], 1, 1, 100, 100, a12, a21, dt)
+    N1[t + 1] <- out["N1"]; N2[t + 1] <- out["N2"]
+  }
+  data.frame(time = 0:T * dt, N1 = N1, N2 = N2)
 }
 
-time <- 0:T * dt
-plot(time, N1, type = "l", lwd = 2, ylim = c(0, max(c(N1, N2))),
-     xlab = "Time", ylab = "Abundance", main = "Competition simulation")
-lines(time, N2, lwd = 2, lty = 2)
-legend("topright", c("N1", "N2"), lty = 1:2, lwd = 2, bty = "n")
+plot_comp <- function(df, main = "", labs = c("N1", "N2"),
+                      cols = c("#2980b9", "#27ae60")) {
+  matplot(df$time, cbind(df$N1, df$N2), type = "l", lty = 1, lwd = 2.5,
+          col = cols, ylim = c(0, max(df$N1, df$N2, 1) * 1.05),
+          xlab = "Zeit", ylab = "Haeufigkeit", main = main)
+  legend("topright", labs, col = cols, lty = 1, lwd = 2.5, bty = "n", cex = 0.85)
+}
 ```
 
-## 4. Experiment
+---
 
-Change **only** `a12` (or only `K1`). Re-run.
+# 1. Exclusion — Daten + Modell
 
-**Q3.** Did you get exclusion? Which species “won”? Link back to the mixture panel.
+```{r}
+pc <- read.csv("data/paramecium_caudatum_alone.csv")
+pa <- read.csv("data/paramecium_aurelia_alone.csv")
+mix <- read.csv("data/paramecium_competition.csv")
+par(mfrow = c(1, 3), mar = c(4, 4, 2.5, 1))
+plot(pc$day, pc$volume, type = "b", pch = 16, main = "caudatum allein",
+     xlab = "Tag", ylab = "Volumen")
+plot(pa$day, pa$volume, type = "b", pch = 17, main = "aurelia allein",
+     xlab = "Tag", ylab = "Volumen")
+ymax <- max(mix$caudatum, mix$aurelia, na.rm = TRUE)
+plot(mix$day, mix$caudatum, type = "b", pch = 16, ylim = c(0, ymax * 1.05),
+     main = "Mischung", xlab = "Tag", ylab = "Volumen")
+lines(mix$day, mix$aurelia, type = "b", pch = 17, lty = 2)
+```
 
-## Wrap-up
+**Aufgabe 1.** Ein Satz: Was ist Exclusion in den Daten?
 
-- Main quantitative result:
-- Main biological interpretation:
+## Start egal — Gewinner fest
+
+```{r}
+par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
+plot_comp(sim_comp(80, 10, 1.4, 0.5), main = "Start viel N1")
+plot_comp(sim_comp(10, 80, 1.4, 0.5), main = "Start viel N2")
+```
+
+**Aufgabe 2.** Wer gewinnt jeweils? Hängt es vom Start ab?
+
+---
+
+# 2. Bistabilität — Modell drehen
+
+\(\alpha_{12} = \alpha_{21} = 1.5\) · Lesart Gras / Wald (keine Kursdaten).
+
+```{r}
+par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
+plot_comp(sim_comp(80, 15, 1.5, 1.5), main = "Start: viel Gras",
+          labs = c("Gras", "Wald"), cols = c("#d68910", "#1e8449"))
+plot_comp(sim_comp(15, 80, 1.5, 1.5), main = "Start: viel Wald",
+          labs = c("Gras", "Wald"), cols = c("#d68910", "#1e8449"))
+```
+
+**Aufgabe 3.** Was entscheidet den Endzustand?
+
+```{r}
+# YOUR CODE — z.B. a12 = a21 = 0.5: wieder Exclusion/Koexistenz?
+```
+
+## Stabilitätsformen — je ein konkretes Beispiel
+
+| Form | Kursbeispiel |
+|------|----------------|
+| **Punkt** | Exclusion: N1→0, N2→K |
+| **Bistabil** | Gras vs. Wald (oben) |
+| **Zyklus** | klass. Räuber–Beute (unten / Woche 2) |
+
+```{r}
+#| fig-height: 3.5
+#| fig-width: 8
+sim_pp <- function(N0 = 40, P0 = 8, T = 2500, dt = 0.02) {
+  N <- numeric(T + 1); P <- numeric(T + 1)
+  N[1] <- N0; P[1] <- P0
+  r <- 1.0; a <- 0.1; e <- 0.3; m <- 0.4
+  for (t in 1:T) {
+    dN <- (r * N[t] - a * N[t] * P[t]) * dt
+    dP <- (e * a * N[t] * P[t] - m * P[t]) * dt
+    N[t + 1] <- max(N[t] + dN, 0)
+    P[t + 1] <- max(P[t] + dP, 0)
+  }
+  data.frame(time = 0:T * dt, N = N, P = P)
+}
+pp <- sim_pp()
+matplot(pp$time, cbind(pp$N, pp$P), type = "l", lty = 1, lwd = 2.2,
+        col = c("#27ae60", "#c0392b"), xlab = "Zeit", ylab = "Dichte",
+        main = "Zyklus-Beispiel: Raeuber-Beute")
+legend("topright", c("Beute", "Raeuber"), col = c("#27ae60", "#c0392b"),
+       lty = 1, lwd = 2.2, bty = "n")
+```
+
+**Aufgabe 3b.** Ein Satz: Worin unterscheidet sich der Zyklus vom Exclusion-Punkt?
+
+---
+
+# 3. Food Web — Aspen, Sage, Elk, Wolf
+
+```{r}
+next_web <- function(x, p, dt) {
+  A <- x["Aspen"]; S <- x["Sage"]; E <- x["Elk"]; W <- x["Wolf"]
+  dA <- (p$rA * A * (1 - (A + p$aAS * S) / p$K) - p$a_elk_aspen * A * E) * dt
+  dS <- (p$rS * S * (1 - (S + p$aSA * A) / p$K) - p$a_elk_sage * S * E) * dt
+  dE <- (p$eE * (p$a_elk_aspen * A + p$a_elk_sage * S) * E -
+           p$mE * E - p$a_wolf_elk * E * W) * dt
+  dW <- (p$eW * p$a_wolf_elk * E * W - p$mW * W) * dt
+  c(Aspen = max(A + dA, 0), Sage = max(S + dS, 0),
+    Elk = max(E + dE, 0), Wolf = max(W + dW, 0))
+}
+web_p <- list(
+  rA = 1.2, rS = 1.0, K = 100,
+  aAS = 0.55, aSA = 0.70,
+  a_elk_aspen = 0.035, a_elk_sage = 0.020,
+  eE = 0.45, mE = 0.10,
+  a_wolf_elk = 0.040, eW = 0.40, mW = 0.30
+)
+sim_web <- function(Wolf0 = 0, T = 6000, dt = 0.02, p = web_p) {
+  X <- matrix(0, T + 1, 4,
+              dimnames = list(NULL, c("Aspen", "Sage", "Elk", "Wolf")))
+  X[1, ] <- c(Aspen = 40, Sage = 50, Elk = 25, Wolf = Wolf0)
+  for (t in 1:T) X[t + 1, ] <- next_web(X[t, ], p, dt)
+  data.frame(time = 0:T * dt, X)
+}
+plot_web <- function(df, main = "") {
+  cols <- c(Aspen = "#27ae60", Sage = "#1abc9c", Elk = "#d68910", Wolf = "#2c3e50")
+  matplot(df$time, df[, names(cols)], type = "l", lty = 1, lwd = 2.3,
+          col = cols, xlab = "Zeit", ylab = "Haeufigkeit", main = main)
+  legend("topright", names(cols), col = cols, lty = 1, lwd = 2.3, bty = "n", cex = 0.8)
+}
+late_mean <- function(df) colMeans(tail(df[, c("Aspen", "Sage", "Elk", "Wolf")], 1500))
+```
+
+## A: + Elk, kein Wolf
+
+```{r}
+#| fig-height: 4
+#| fig-width: 8
+noW <- sim_web(Wolf0 = 0)
+plot_web(noW, main = "Kein Wolf: Aspen -> 0?")
+round(late_mean(noW), 2)
+```
+
+**Aufgabe 4.** Geht Aspen gegen null? Wie hoch ist Elk am Ende?
+
+## B: + Wolf
+
+```{r}
+#| fig-height: 4
+#| fig-width: 8
+withW <- sim_web(Wolf0 = 2)
+plot_web(withW, main = "Mit Wolf: Aspen stabil, Elk mittel?")
+round(late_mean(withW), 2)
+```
+
+**Aufgabe 5.** Vergleichen Sie Aspen und Elk ohne/mit Wolf. Bleibt Elk klar über null?
+
+```{r}
+# YOUR CODE — z.B. a_elk_aspen groesser: Exclusion haerter;
+# a_wolf_elk groesser: staerkere Rettung, aber Elk kleiner?
+```
+
+---
+
+# Optional: Yellowstone-Daten (Motivation)
+
+```{r}
+wolves <- read.csv("data/yellowstone_wolves.csv")
+elk <- read.csv("data/yellowstone_elk.csv")
+par(mfrow = c(1, 2), mar = c(4, 4, 2, 1))
+plot(wolves$year, wolves$wolves_ynp, type = "b", pch = 16, col = "#2c3e50",
+     xlab = "Jahr", ylab = "Woelfe", main = "Motivation")
+abline(v = 1995, lty = 2)
+plot(elk$year, elk$elk_northern_min, type = "b", pch = 17, col = "#d68910",
+     xlab = "Jahr", ylab = "Elche", main = "Motivation")
+abline(v = 1995, lty = 2)
+```
+
+---
+
+# Merksatz
+
+> Exclusion: bessere Art gewinnt — Start egal (Punktattraktor).  
+> Bistabilität: Start entscheidet (Gras/Wald).  
+> Zyklus: Räuber–Beute schwingt (Orbit).  
+> Food Web: Elk kann Aspen excludieren; Wolf stabilisiert Aspen, Elk bleibt mittel.
+
+---
+
+# Optional: reicheres Netz (+ Kojote, + Biber)
+
+Dieselbe Pipeline, mehr Knoten — nur zur Illustration (nicht Abgabe-Pflicht).
+
+```{r}
+#| fig-height: 4.2
+#| fig-width: 9
+next_rich <- function(x, p, dt) {
+  A <- x["Aspen"]; S <- x["Sage"]; E <- x["Elk"]
+  W <- x["Wolf"]; C <- x["Coyote"]; B <- x["Beaver"]
+  dA <- (p$rA * A * (1 - (A + p$aAS * S) / p$K) *
+           (1 + p$fBA * B / (p$hB + B)) - p$aEA * A * E) * dt
+  dS <- (p$rS * S * (1 - (S + p$aSA * A) / p$K) - p$aES * S * E) * dt
+  dE <- (p$eE * (p$aEA * A + p$aES * S) * E - p$mE * E - p$aWE * E * W) * dt
+  dW <- (p$eW * p$aWE * E * W - p$mW * W) * dt
+  dC <- (p$rC * C * (1 - C / p$KC) - p$aWC * C * W) * dt
+  dB <- (p$rB * B * (A / (p$hA + A)) - p$mB * B * (1 + B / p$KB)) * dt
+  c(Aspen = max(A + dA, 0), Sage = max(S + dS, 0),
+    Elk = max(E + dE, 0), Wolf = max(W + dW, 0),
+    Coyote = max(C + dC, 0), Beaver = max(B + dB, 0))
+}
+rich_p <- list(
+  rA = 1.2, rS = 1.0, K = 100, aAS = 0.55, aSA = 0.70,
+  aEA = 0.035, aES = 0.020, eE = 0.45, mE = 0.10,
+  aWE = 0.040, eW = 0.40, mW = 0.30,
+  rC = 0.70, KC = 28, aWC = 0.022,
+  rB = 0.50, hA = 10, mB = 0.16, KB = 12, fBA = 0.30, hB = 5
+)
+sim_rich <- function(Wolf0 = 0, T = 5500, dt = 0.02, p = rich_p) {
+  nm <- c("Aspen", "Sage", "Elk", "Wolf", "Coyote", "Beaver")
+  X <- matrix(0, T + 1, 6, dimnames = list(NULL, nm))
+  X[1, ] <- c(Aspen = 40, Sage = 50, Elk = 25, Wolf = Wolf0,
+              Coyote = 12, Beaver = 3)
+  for (t in 1:T) X[t + 1, ] <- next_rich(X[t, ], p, dt)
+  data.frame(time = 0:T * dt, X)
+}
+cols6 <- c(Aspen = "#27ae60", Sage = "#1abc9c", Elk = "#d68910",
+           Wolf = "#2c3e50", Coyote = "#7f8c8d", Beaver = "#8e44ad")
+par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
+df0 <- sim_rich(Wolf0 = 0)
+df1 <- sim_rich(Wolf0 = 2)
+matplot(df0$time, df0[, names(cols6)], type = "l", lty = 1, lwd = 2,
+        col = cols6, xlab = "Zeit", ylab = "N", main = "ohne Wolf")
+matplot(df1$time, df1[, names(cols6)], type = "l", lty = 1, lwd = 2,
+        col = cols6, xlab = "Zeit", ylab = "N", main = "mit Wolf")
+legend("topright", names(cols6), col = cols6, lty = 1, lwd = 2,
+       bty = "n", cex = 0.65, ncol = 2)
+```
+
+**Beobachtung:** ohne Wolf → Aspen & Biber ≈ 0, Kojote hoch; mit Wolf → Aspen & Biber erholen sich, Kojote sinkt.

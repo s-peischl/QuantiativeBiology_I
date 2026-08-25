@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="560" viewBox="0 0 1000 560">
+  <rect width="1000" height="560" fill="#f4f7f5"/>
+  <text x="500" y="36" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="bold" fill="#1a5276">Yellowstone Food Web (schematisch)</text>
+  <text x="500" y="58" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5d6d7e">Knoten = Populationen · Pfeile = fressen / foerdern</text>
+
+  <defs>
+    <marker id="arrY" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#5d6d7e"/>
+    </marker>
+    <marker id="arrG" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#1e8449"/>
+    </marker>
+  </defs>
+
+  <!-- Coyote (side) -->
+  <rect x="40" y="120" width="160" height="70" rx="12" fill="#7f8c8d" stroke="#566573" stroke-width="2"/>
+  <text x="120" y="150" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="white">Kojote</text>
+  <text x="120" y="172" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#ecf0f1">Mesopraedator</text>
+
+  <!-- Wolf -->
+  <rect x="420" y="70" width="160" height="70" rx="12" fill="#2c3e50" stroke="#1a252f" stroke-width="2"/>
+  <text x="500" y="100" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="white">Wolf P</text>
+  <text x="500" y="122" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#d5d8dc">Top-Praedator</text>
+
+  <!-- Elk -->
+  <rect x="420" y="220" width="160" height="70" rx="12" fill="#d68910" stroke="#9a7b0a" stroke-width="2"/>
+  <text x="500" y="250" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="white">Elch H</text>
+  <text x="500" y="272" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#fdebd0">Herbivor</text>
+
+  <!-- Willow -->
+  <rect x="280" y="400" width="160" height="70" rx="12" fill="#27ae60" stroke="#1e8449" stroke-width="2"/>
+  <text x="360" y="430" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="white">Weide V</text>
+  <text x="360" y="452" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#e8f8f5">Produzent</text>
+
+  <!-- Beaver -->
+  <rect x="560" y="400" width="160" height="70" rx="12" fill="#1abc9c" stroke="#148f77" stroke-width="2"/>
+  <text x="640" y="430" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="white">Biber B</text>
+  <text x="640" y="452" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#e8f8f5">Oekosystem-Ingenieur</text>
+
+  <!-- arrows predation / grazing -->
+  <line x1="500" y1="140" x2="500" y2="215" stroke="#5d6d7e" stroke-width="3" marker-end="url(#arrY)"/>
+  <text x="520" y="180" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5d6d7e">frisst / scheucht</text>
+
+  <line x1="480" y1="290" x2="400" y2="395" stroke="#5d6d7e" stroke-width="3" marker-end="url(#arrY)"/>
+  <text x="400" y="340" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5d6d7e">beweidet</text>
+
+  <!-- willow fosters beaver; beaver fosters willow (dashed green) -->
+  <line x1="440" y1="435" x2="560" y2="435" stroke="#1e8449" stroke-width="2.5" stroke-dasharray="6 4" marker-end="url(#arrG)"/>
+  <text x="500" y="420" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e8449">Foerderung</text>
+
+  <!-- coyote competition / wolf suppresses coyote -->
+  <line x1="200" y1="145" x2="415" y2="105" stroke="#7f8c8d" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#arrY)"/>
+  <text x="280" y="100" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#7f8c8d">Wolf hemmt</text>
+
+  <line x1="200" y1="170" x2="415" y2="250" stroke="#7f8c8d" stroke-width="2" marker-end="url(#arrY)"/>
+  <text x="250" y="220" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#7f8c8d">Beute-Ueberlapp</text>
+
+  <rect x="40" y="480" width="920" height="55" rx="10" fill="#eaf2fb" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="500" y="505" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1a5276">Unterricht: 4 Knoten (Aspen-Sage-Elk-Wolf) · Erweiterung: +Kojote +Biber (Simulation)</text>
+  <text x="500" y="525" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5d6d7e">Ripple &amp; Beschta u.a.; Daten hier: Wolf + Elch (compiled published)</text>
+</svg>

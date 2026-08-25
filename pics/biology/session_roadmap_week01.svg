@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="560" viewBox="0 0 1000 560">
+  <rect width="1000" height="560" fill="white"/>
+  <text x="500" y="36" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="22" font-weight="bold" fill="#222">Quantitative Biologie ist ein Kreislauf</text>
+
+  <!-- center -->
+  <circle cx="500" cy="290" r="52" fill="#f4f6f7" stroke="#7f8c8d" stroke-width="2"/>
+  <text x="500" y="285" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" fill="#2c3e50">wieder</text>
+  <text x="500" y="305" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" fill="#2c3e50">und wieder</text>
+
+  <!-- top: observation -->
+  <rect x="340" y="70" width="320" height="100" rx="14" fill="#eaf2fb" stroke="#2980b9" stroke-width="3"/>
+  <text x="500" y="108" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#1a5276">1  Beobachtung</text>
+  <text x="500" y="135" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Biologie · Experiment · Daten</text>
+  <text x="500" y="155" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">Was sehen / messen wir?</text>
+
+  <!-- right: question -->
+  <rect x="700" y="230" width="260" height="120" rx="14" fill="#fef5e7" stroke="#d68910" stroke-width="3"/>
+  <text x="830" y="275" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#7e5109">2  Frage</text>
+  <text x="830" y="302" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Hypothese · Erklärung</text>
+  <text x="830" y="325" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">Warum? Was erwarten wir?</text>
+
+  <!-- bottom: analysis -->
+  <rect x="340" y="410" width="320" height="100" rx="14" fill="#eafaf1" stroke="#27ae60" stroke-width="3"/>
+  <text x="500" y="448" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#196f3d">3  Analyse</text>
+  <text x="500" y="475" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Test · Statistik · Modellierung</text>
+  <text x="500" y="495" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">Passt die Idee zu den Daten?</text>
+
+  <!-- left: back to biology -->
+  <rect x="40" y="230" width="260" height="120" rx="14" fill="#f5eef8" stroke="#8e44ad" stroke-width="3"/>
+  <text x="170" y="275" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#6c3483">4  Zurück</text>
+  <text x="170" y="302" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Interpretation · Biologie</text>
+  <text x="170" y="325" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">Neue Beobachtung / nächste Frage</text>
+
+  <!-- arrows clockwise: 1->2, 2->3, 3->4, 4->1 -->
+  <defs>
+    <marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2c3e50"/>
+    </marker>
+  </defs>
+  <!-- top-right curve -->
+  <path d="M660 140 Q 780 140 830 230" fill="none" stroke="#2c3e50" stroke-width="3" marker-end="url(#a)"/>
+  <!-- right-bottom -->
+  <path d="M830 350 Q 780 410 660 450" fill="none" stroke="#2c3e50" stroke-width="3" marker-end="url(#a)"/>
+  <!-- bottom-left -->
+  <path d="M340 450 Q 220 410 170 350" fill="none" stroke="#2c3e50" stroke-width="3" marker-end="url(#a)"/>
+  <!-- left-top -->
+  <path d="M170 230 Q 220 140 340 140" fill="none" stroke="#2c3e50" stroke-width="3" marker-end="url(#a)"/>
+
+  <text x="500" y="545" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#555">Heute: Bajau und Tibet als Beispiele für diesen Kreislauf — nicht als Endpunkt.</text>
+</svg>

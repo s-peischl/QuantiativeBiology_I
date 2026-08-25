@@ -1,40 +1,40 @@
-# Quantitative Biology I — Collaborator Guide
+# Quantitative Biologie I — Leitfaden für Mitwirkende
 
-Teaching materials for **Quantitative Biology I** (bridge course).  
-Live site: **https://s-peischl.github.io/QuantiativeBiology_I/**  
+Lehrmaterialien für **Quantitative Biologie I** (Brückenkurs).  
+Live-Website: **https://s-peischl.github.io/QuantiativeBiology_I/**  
 Repository: **https://github.com/s-peischl/QuantiativeBiology_I**
 
-This README explains how collaborators edit slides, notebooks, and assignments with **Quarto**, then publish changes via **GitHub**.
+Diese README erklärt, wie Mitwirkende Folien, Notebooks und Aufgaben mit **Quarto** bearbeiten und Änderungen anschliessend über **GitHub** veröffentlichen.
 
 ---
 
-## Course arc (context)
+## Kursbogen (Kontext)
 
-**Eco → Evo (deterministic → random) → Microbiome (ecology with randomness)**
+**Ökologie → Evolution (deterministisch → zufällig) → Mikrobiom (Ökologie mit Zufälligkeit)**
 
-| Weeks | Focus |
+| Wochen | Schwerpunkt |
 |------:|-------|
-| 1 | Hook — Bajau → Tibetans |
-| 2–4 | Ecology |
-| 5–7 | Evolution (deterministic) |
-| 8–10 | Evolution (random) |
-| 11–13 | Microbiome (load → visualize) |
-| 14 | Project |
+| 1 | Einstieg — Bajau → Tibeter:innen |
+| 2–4 | Ökologie |
+| 5–7 | Evolution (deterministisch) |
+| 8–10 | Evolution (zufällig) |
+| 11–13 | Mikrobiom (laden → visualisieren) |
+| 14 | Projekt |
 
-Canonical materials live under `weeks/week-XX/`, not under the older `modules/.../weeks/...` trees.
+Die massgeblichen Materialien befinden sich unter `weeks/week-XX/`, nicht in den älteren Verzeichnisbäumen `modules/.../weeks/...`.
 
 ---
 
-## What you need installed
+## Erforderliche Installationen
 
 1. **Git**
 2. **Quarto** — https://quarto.org/docs/get-started/
-3. **R** (for notebooks / executable slide chunks) — https://cran.r-project.org/
-4. An editor:
-   - **RStudio** (Quarto Preview built in), or
-   - **VS Code / Cursor** with the Quarto extension
+3. **R** (für Notebooks / ausführbare Folien-Chunks) — https://cran.r-project.org/
+4. Ein Editor:
+   - **RStudio** (Quarto-Vorschau integriert) oder
+   - **VS Code / Cursor** mit der Quarto-Erweiterung
 
-Check versions:
+Versionen prüfen:
 
 ```bash
 quarto --version
@@ -42,64 +42,64 @@ R --version
 git --version
 ```
 
-Optional: if you use RStudio’s bundled Quarto on macOS, the binary is often:
+Optional: Bei Verwendung der in RStudio enthaltenen Quarto-Version unter macOS befindet sich die Binärdatei häufig hier:
 
 ```text
 /Applications/RStudio.app/Contents/Resources/app/quarto/bin/quarto
 ```
 
-You can alias that, or install a standalone Quarto and put it on your `PATH`.
+Dafür kann ein Alias eingerichtet werden; alternativ Quarto eigenständig installieren und zum `PATH` hinzufügen.
 
 ---
 
-## Clone and open the project
+## Projekt klonen und öffnen
 
 ```bash
 git clone https://github.com/s-peischl/QuantiativeBiology_I.git
 cd QuantiativeBiology_I
 ```
 
-Open the **folder** in RStudio / VS Code / Cursor (not a single file). Quarto needs the project root so `_quarto.yml`, paths like `../../pics/...`, and website rendering work.
+Den **Ordner** in RStudio / VS Code / Cursor öffnen (nicht nur eine einzelne Datei). Quarto benötigt das Projektstammverzeichnis, damit `_quarto.yml`, Pfade wie `../../pics/...` und das Rendern der Website funktionieren.
 
 ---
 
-## Repository map
+## Repository-Übersicht
 
 ```text
 .
-├── README.md                 ← this guide
-├── index.qmd                 ← site home
-├── _quarto.yml               ← website config (navbar, what gets rendered)
-├── styles.scss               ← shared HTML styling
+├── README.md                 ← dieser Leitfaden
+├── index.qmd                 ← Startseite
+├── _quarto.yml               ← Website-Konfiguration (Navigation, Renderumfang)
+├── styles.scss               ← gemeinsame HTML-Gestaltung
 ├── docs/
-│   ├── course-outline.qmd    ← semester plan (students)
-│   └── for-collaborators.qmd ← same guide on the live site
+│   ├── course-outline.qmd    ← Semesterplan (Studierende)
+│   └── for-collaborators.qmd ← entsprechender Leitfaden auf der Live-Website
 ├── weeks/
-│   ├── _metadata.yml         ← shared defaults (do NOT set format here)
+│   ├── _metadata.yml         ← gemeinsame Standardwerte (hier KEIN Format setzen)
 │   └── week-01 … week-14/
-│       ├── slides.qmd        ← Reveal.js lecture deck
-│       ├── notebook.qmd      ← student notebook
-│       ├── assignment.qmd    ← homework / exit work
-│       └── data/             ← week-specific CSVs (when needed)
-├── pics/                     ← images (see pics/README.md for credits)
-├── templates/                ← starter files for new weeks
-├── modules/                  ← high-level module notes only (not week sources)
-└── .github/workflows/        ← GitHub Pages deploy
+│       ├── slides.qmd        ← Reveal.js-Foliensatz
+│       ├── notebook.qmd      ← Notebook für Studierende
+│       ├── assignment.qmd    ← Hausaufgabe / Abschlussarbeit
+│       └── data/             ← wochenbezogene CSVs (bei Bedarf)
+├── pics/                     ← Bilder (Nachweise in pics/README.md)
+├── templates/                ← Vorlagen für neue Wochen
+├── modules/                  ← nur übergeordnete Modulnotizen (keine Wochenquellen)
+└── .github/workflows/        ← Bereitstellung über GitHub Pages
 ```
 
-**Rule of thumb:** edit `weeks/week-XX/*.qmd`. Do not recreate week content under `modules/`.
+**Faustregel:** `weeks/week-XX/*.qmd` bearbeiten. Wocheninhalte nicht unter `modules/` neu anlegen.
 
 ---
 
-## Editing slides (Quarto + Reveal.js)
+## Folien bearbeiten (Quarto + Reveal.js)
 
-### File to edit
+### Zu bearbeitende Datei
 
 ```text
 weeks/week-XX/slides.qmd
 ```
 
-Each deck starts with YAML that **must** declare Reveal.js:
+Jeder Foliensatz beginnt mit YAML, das Reveal.js **deklarieren muss**:
 
 ```yaml
 ---
@@ -115,15 +115,15 @@ format:
 ---
 ```
 
-**Critical:** do **not** add a project-level `format: html` to `_quarto.yml`, and do **not** put `format:` in `weeks/_metadata.yml`. That forces every week document into one format and breaks slide decks.
+**Wichtig:** In `_quarto.yml` auf Projektebene **kein** `format: html` und in `weeks/_metadata.yml` **kein** `format:` ergänzen. Dies zwingt alle Wochendokumente in ein Format und macht die Foliensätze unbrauchbar.
 
-### Slide structure
+### Folienstruktur
 
-- A slide is a level-2 heading: `## Slide title`
-- Horizontal rule `---` can separate major sections
-- Bullets, tables, math, and code chunks work as in Quarto Markdown
+- Eine Folie ist eine Überschrift der Ebene 2: `## Folientitel`
+- Die horizontale Linie `---` kann Hauptabschnitte trennen
+- Aufzählungen, Tabellen, Mathematik und Code-Chunks funktionieren wie in Quarto Markdown
 
-Examples:
+Beispiele:
 
 ```markdown
 ## Learning goals
@@ -159,7 +159,7 @@ Say this out loud; students don't see it on the slide face.
 :::
 ```
 
-### R code on slides
+### R-Code auf Folien
 
 ```markdown
 ```{r}
@@ -170,13 +170,13 @@ plot(alone$day, alone$paramecium, type = "b")
 ```
 ```
 
-Paths in chunks are relative to the `.qmd` file’s folder (`weeks/week-02/`), so `data/...` means `weeks/week-02/data/...`.
+Pfade in Chunks sind relativ zum Ordner der `.qmd`-Datei (`weeks/week-02/`); `data/...` bedeutet daher `weeks/week-02/data/...`.
 
-### Preview slides correctly
+### Folien korrekt in der Vorschau anzeigen
 
-Slides are **Reveal.js**, not a normal Markdown preview.
+Die Folien verwenden **Reveal.js**, nicht eine normale Markdown-Vorschau.
 
-**RStudio:** open `slides.qmd` → **Render** / **Quarto Preview**.
+**RStudio:** `slides.qmd` öffnen → **Render** / **Quarto Preview**.
 
 **Terminal:**
 
@@ -186,76 +186,76 @@ quarto preview weeks/week-02/slides.qmd
 quarto render weeks/week-02/slides.qmd --to revealjs
 ```
 
-Then open:
+Anschliessend öffnen:
 
 ```text
 _site/weeks/week-02/slides.html
 ```
 
-Keyboard once open: `←` `→` move · `M` menu · `Esc` overview · `F` fullscreen · `S` speaker notes (if enabled).
+Tastatur nach dem Öffnen: `←` `→` navigieren · `M` Menü · `Esc` Übersicht · `F` Vollbild · `S` Vortragsnotizen (falls aktiviert).
 
-**Do not** rely on the editor’s plain Markdown preview — that shows a document, not a deck.
+**Nicht** auf die einfache Markdown-Vorschau des Editors verlassen — sie zeigt ein Dokument, keinen Foliensatz.
 
-### New week from template
+### Neue Woche aus einer Vorlage
 
 ```bash
 cp templates/slides-template.qmd weeks/week-03/slides.qmd
 # also notebook + assignment templates as needed
 ```
 
-Then update title, week number, navigation links at the bottom, and content.
+Danach Titel, Wochennummer, Navigationslinks am Ende und Inhalte aktualisieren.
 
 ---
 
-## Editing notebooks and assignments
+## Notebooks und Aufgaben bearbeiten
 
-| File | Audience | Format |
+| Datei | Zielgruppe | Format |
 |------|----------|--------|
-| `weeks/week-XX/notebook.qmd` | in-class / lab | HTML |
-| `weeks/week-XX/assignment.qmd` | homework | HTML |
+| `weeks/week-XX/notebook.qmd` | Unterricht / Praktikum | HTML |
+| `weeks/week-XX/assignment.qmd` | Hausaufgabe | HTML |
 
-Preview:
+Vorschau:
 
 ```bash
 quarto preview weeks/week-02/notebook.qmd
 quarto preview weeks/week-02/assignment.qmd
 ```
 
-Keep student-facing instructions clear; put solutions in a separate file or private branch if needed (do not commit answer keys to `main` unless intended).
+Anweisungen für Studierende klar formulieren; Lösungen bei Bedarf in einer separaten Datei oder einem privaten Branch ablegen (Lösungsschlüssel nur absichtlich nach `main` committen).
 
 ---
 
-## Images and data
+## Bilder und Daten
 
-### Images
+### Bilder
 
-- Put course images in `pics/` (subfolders like `pics/bajau/`, `pics/organisms/` are fine).
-- From a week file, the relative path is usually `../../pics/...`.
-- Record licenses in `pics/README.md` (required for Wikimedia / CC material).
-- Prefer openly licensed images; personal photos need permission.
+- Kursbilder in `pics/` ablegen (Unterordner wie `pics/bajau/`, `pics/organisms/` sind geeignet).
+- Von einer Wochendatei aus lautet der relative Pfad üblicherweise `../../pics/...`.
+- Lizenzen in `pics/README.md` dokumentieren (für Wikimedia-/CC-Material erforderlich).
+- Offen lizenzierte Bilder bevorzugen; private Fotos erfordern eine Genehmigung.
 
-### Data
+### Daten
 
-- Week-specific CSVs go in `weeks/week-XX/data/`.
-- Document sources in that folder’s `README.md` (see Week 2 Gause data).
+- Wochenspezifische CSVs gehören nach `weeks/week-XX/data/`.
+- Quellen in der `README.md` dieses Ordners dokumentieren (siehe Gause-Daten aus Woche 2).
 
 ---
 
-## Local full-site render
+## Gesamte Website lokal rendern
 
-From the project root:
+Aus dem Projektstammverzeichnis:
 
 ```bash
 quarto render
 ```
 
-Output goes to `_site/` (gitignored). The public site is built the same way on GitHub Actions.
+Die Ausgabe wird nach `_site/` geschrieben (von Git ignoriert). Die öffentliche Website wird über GitHub Actions auf dieselbe Weise erstellt.
 
 ---
 
-## GitHub workflow (how changes go online)
+## GitHub-Arbeitsablauf (Änderungen online veröffentlichen)
 
-### Branching (recommended for collaborators)
+### Branches (für Mitwirkende empfohlen)
 
 ```bash
 git checkout main
@@ -268,33 +268,33 @@ git commit -m "Week 3: draft Lotka–Volterra extension slides"
 git push -u origin week-03-slides
 ```
 
-Then open a **Pull Request** into `main` on GitHub:
+Danach auf GitHub einen **Pull Request** nach `main` öffnen:
 
 https://github.com/s-peischl/QuantiativeBiology_I/pulls
 
-Stephan (or a maintainer) reviews and merges.
+Stephan (oder eine betreuende Person) prüft und mergt die Änderungen.
 
-### Direct push to `main` (maintainers)
+### Direkter Push nach `main` (Betreuende)
 
-Pushing to `main` triggers **Deploy Quarto Site**:
+Ein Push nach `main` löst **Deploy Quarto Site** aus:
 
 `.github/workflows/deploy-pages.yml`
 
-After a successful run, the site updates at:
+Nach erfolgreicher Ausführung wird die Website hier aktualisiert:
 
 https://s-peischl.github.io/QuantiativeBiology_I/
 
-Check progress: repo → **Actions** → **Deploy Quarto Site**.
+Fortschritt prüfen: Repository → **Actions** → **Deploy Quarto Site**.
 
-### Commit message tips
+### Tipps für Commit-Nachrichten
 
-- Prefer *why* over laundry lists: `Week 2: use real Gause Fig. 32 data`
-- One logical change per commit when practical
-- Never commit secrets (`.env`, tokens, credentials)
+- Das *Warum* ist Aufzählungen vorzuziehen: `Week 2: use real Gause Fig. 32 data`
+- Wenn praktikabel, eine logische Änderung pro Commit
+- Niemals Geheimnisse committen (`.env`, Tokens, Zugangsdaten)
 
-### What not to commit
+### Was nicht committet werden soll
 
-Already ignored / should stay local:
+Bereits ignoriert / sollte lokal bleiben:
 
 - `_site/`
 - `.quarto/` (except we may commit selected `_freeze/` plot caches — see below)
@@ -302,24 +302,24 @@ Already ignored / should stay local:
 
 ---
 
-## Important: R plots and GitHub Pages
+## Wichtig: R-Grafiken und GitHub Pages
 
-CI currently runs:
+CI führt derzeit Folgendes aus:
 
 ```bash
 quarto render --no-execute
 ```
 
-So **R chunks are not re-run** on the server.
+Somit werden **R-Chunks auf dem Server nicht erneut ausgeführt**.
 
-That means:
+Das bedeutet:
 
-1. **Static images** (`![](...jpg)`) always appear.
-2. **Plots from `{r}` chunks** only appear online if frozen results are committed, or if a maintainer changes CI to execute code.
+1. **Statische Bilder** (`![](...jpg)`) werden immer angezeigt.
+2. **Grafiken aus `{r}`-Chunks** erscheinen online nur, wenn eingefrorene Ergebnisse committet sind oder CI durch eine betreuende Person zur Codeausführung geändert wird.
 
-For Week 2, frozen figures live under `_freeze/weeks/week-02/` and are tracked on purpose.
+Für Woche 2 befinden sich eingefrorene Abbildungen unter `_freeze/weeks/week-02/` und werden bewusst versioniert.
 
-If you add new R figures to a deck:
+Beim Hinzufügen neuer R-Abbildungen zu einem Foliensatz:
 
 ```bash
 # locally, with freeze enabled on that document
@@ -328,33 +328,33 @@ git add -f _freeze/weeks/week-XX
 git commit -m "Week XX: freeze slide figures for Pages"
 ```
 
-Or ask a maintainer to enable execution in CI (requires listing R packages the site needs).
+Alternativ eine betreuende Person bitten, die Ausführung in CI zu aktivieren (dafür müssen die von der Website benötigten R-Pakete aufgeführt werden).
 
 ---
 
-## Common pitfalls
+## Häufige Fallstricke
 
-| Problem | Fix |
+| Problem | Lösung |
 |---------|-----|
-| Preview looks like a long webpage, not slides | Use Quarto Preview / `--to revealjs`, not Markdown preview |
-| Slides suddenly render as HTML | Someone set `format:` in `_quarto.yml` or `weeks/_metadata.yml` — remove it |
-| Broken image / data paths | Paths are relative to the `.qmd` file location |
-| Site still shows old content | Wait for Actions to finish; hard-refresh (`Cmd+Shift+R`) |
-| Push rejected for `.github/workflows/...` | Token needs `workflow` scope; avoid editing workflows unless you have that permission |
-| R plot missing online | Freeze locally and commit `_freeze/...`, or use a static PNG |
+| Vorschau zeigt eine lange Webseite statt Folien | Quarto Preview / `--to revealjs` statt Markdown-Vorschau verwenden |
+| Folien werden plötzlich als HTML gerendert | `format:` wurde in `_quarto.yml` oder `weeks/_metadata.yml` gesetzt — entfernen |
+| Defekte Bild-/Datenpfade | Pfade sind relativ zum Speicherort der `.qmd`-Datei |
+| Website zeigt weiterhin alte Inhalte | Abschluss von Actions abwarten; vollständig neu laden (`Cmd+Shift+R`) |
+| Push für `.github/workflows/...` abgelehnt | Token benötigt den Bereich `workflow`; Workflows nur mit entsprechender Berechtigung bearbeiten |
+| R-Grafik fehlt online | Lokal einfrieren und `_freeze/...` committen oder statisches PNG verwenden |
 
 ---
 
-## Style conventions (keep decks consistent)
+## Stilkonventionen (einheitliche Foliensätze)
 
-- Match existing Week 1–2 YAML / footer / navigation block
-- Prefer short slides (one idea per `##`)
-- Biology first, then model / code
-- Link **Course outline** and **Home** in the footer
-- Credit image sources (slide aside or `pics/README.md`)
-- Use real data / citations when claiming empirical content
+- YAML / Fusszeile / Navigationsblock der bestehenden Wochen 1–2 übernehmen
+- Kurze Folien bevorzugen (eine Idee pro `##`)
+- Zuerst Biologie, danach Modell / Code
+- **Kursübersicht** und **Startseite** in der Fusszeile verlinken
+- Bildquellen nachweisen (Folienrand oder `pics/README.md`)
+- Für empirische Aussagen reale Daten / Zitate verwenden
 
-Templates:
+Vorlagen:
 
 - `templates/slides-template.qmd`
 - `templates/notebook-template.qmd`
@@ -362,23 +362,23 @@ Templates:
 
 ---
 
-## Quick checklist before opening a PR
+## Kurzcheckliste vor dem Öffnen eines PR
 
-- [ ] Edited the right week under `weeks/week-XX/`
-- [ ] Previewed slides with Quarto (Reveal.js), not Markdown preview
-- [ ] Relative links / images work
-- [ ] Image credits updated if you added files under `pics/`
-- [ ] No answer keys or private data committed
-- [ ] If you added R plots: freeze committed or noted for maintainer
-- [ ] Cleared commit message; `git status` clean except intended files
+- [ ] Richtige Woche unter `weeks/week-XX/` bearbeitet
+- [ ] Folien mit Quarto (Reveal.js), nicht mit der Markdown-Vorschau geprüft
+- [ ] Relative Links / Bilder funktionieren
+- [ ] Bildnachweise aktualisiert, falls Dateien unter `pics/` ergänzt wurden
+- [ ] Keine Lösungsschlüssel oder privaten Daten committet
+- [ ] Bei neuen R-Grafiken: Freeze committet oder für die Betreuung vermerkt
+- [ ] Klare Commit-Nachricht; `git status` zeigt nur beabsichtigte Dateien
 
 ---
 
-## Where to get help
+## Hilfe
 
-- Quarto slides: https://quarto.org/docs/presentations/revealjs/
-- Quarto projects / websites: https://quarto.org/docs/websites/
-- This course outline (student-facing): [`docs/course-outline.qmd`](docs/course-outline.qmd)
-- Collaborator guide on the live hub: https://s-peischl.github.io/QuantiativeBiology_I/docs/for-collaborators.html
+- Quarto-Folien: https://quarto.org/docs/presentations/revealjs/
+- Quarto-Projekte / Websites: https://quarto.org/docs/websites/
+- Kursübersicht für Studierende: [`docs/course-outline.qmd`](docs/course-outline.qmd)
+- Leitfaden für Mitwirkende auf der Live-Plattform: https://s-peischl.github.io/QuantiativeBiology_I/docs/for-collaborators.html
 
-Questions about pedagogy or week ownership → contact **Stephan Peischl**.
+Bei Fragen zu Didaktik oder Zuständigkeiten für einzelne Wochen → **Stephan Peischl** kontaktieren.

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="340" viewBox="0 0 960 340">
+  <rect width="960" height="340" fill="white"/>
+  <text x="480" y="32" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="#222">Bistabilität: wer zuerst da ist, entscheidet</text>
+
+  <rect x="40" y="55" width="400" height="250" rx="14" fill="#eaf2fb" stroke="#2980b9" stroke-width="3"/>
+  <text x="240" y="90" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#1a5276">Start A: viel Art 1</text>
+  <circle cx="160" cy="160" r="40" fill="#5dade2"/>
+  <text x="160" y="165" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="white" font-weight="bold">1</text>
+  <circle cx="280" cy="175" r="16" fill="#27ae60"/>
+  <text x="280" y="180" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="white">2</text>
+  <text x="240" y="230" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="28" fill="#2980b9">→</text>
+  <text x="240" y="270" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#1a5276">Sieger: Art 1</text>
+
+  <rect x="520" y="55" width="400" height="250" rx="14" fill="#eafaf1" stroke="#27ae60" stroke-width="3"/>
+  <text x="720" y="90" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#196f3d">Start B: viel Art 2</text>
+  <circle cx="640" cy="175" r="16" fill="#5dade2"/>
+  <text x="640" y="180" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="white">1</text>
+  <circle cx="760" cy="160" r="40" fill="#27ae60"/>
+  <text x="760" y="165" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="white" font-weight="bold">2</text>
+  <text x="720" y="230" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="28" fill="#27ae60">→</text>
+  <text x="720" y="270" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#196f3d">Sieger: Art 2</text>
+</svg>

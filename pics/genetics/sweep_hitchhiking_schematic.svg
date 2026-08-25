@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="420" viewBox="0 0 980 420">
+  <rect width="980" height="420" fill="white"/>
+  <text x="490" y="34" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="bold" fill="#222">Hard Sweep: Hitchhiking (Lehrschema)</text>
+
+  <text x="40" y="70" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#555">Vorher: viele unterschiedliche Haplotypen</text>
+  <!-- before: diverse lines -->
+  <line x1="40" y1="90" x2="440" y2="90" stroke="#7f8c8d" stroke-width="3"/>
+  <circle cx="80" cy="90" r="5" fill="#e67e22"/>
+  <circle cx="100" cy="90" r="5" fill="#e67e22"/>
+  <circle cx="140" cy="90" r="5" fill="#e67e22"/>
+  <circle cx="200" cy="90" r="5" fill="#8e44ad"/>
+  <circle cx="220" cy="90" r="5" fill="#3498db"/>
+  <line x1="40" y1="112" x2="440" y2="112" stroke="#7f8c8d" stroke-width="3"/>
+  <circle cx="60" cy="112" r="5" fill="#3498db"/>
+  <circle cx="180" cy="112" r="5" fill="#e67e22"/>
+  <circle cx="240" cy="112" r="5" fill="#16a085"/>
+  <circle cx="300" cy="112" r="5" fill="#8e44ad"/>
+  <circle cx="360" cy="112" r="5" fill="#3498db"/>
+  <line x1="40" y1="134" x2="440" y2="134" stroke="#7f8c8d" stroke-width="3"/>
+  <circle cx="60" cy="134" r="5" fill="#3498db"/>
+  <circle cx="260" cy="134" r="5" fill="#e67e22"/>
+  <circle cx="360" cy="134" r="5" fill="#8e44ad"/>
+  <circle cx="380" cy="134" r="5" fill="#e67e22"/>
+  <circle cx="400" cy="134" r="5" fill="#3498db"/>
+  <line x1="40" y1="156" x2="440" y2="156" stroke="#7f8c8d" stroke-width="3"/>
+  <circle cx="200" cy="156" r="5" fill="#8e44ad"/>
+  <circle cx="220" cy="156" r="5" fill="#16a085"/>
+  <circle cx="340" cy="156" r="5" fill="#8e44ad"/>
+  <circle cx="380" cy="156" r="5" fill="#8e44ad"/>
+  <circle cx="400" cy="156" r="5" fill="#e67e22"/>
+  <line x1="40" y1="178" x2="440" y2="178" stroke="#7f8c8d" stroke-width="3"/>
+  <circle cx="60" cy="178" r="5" fill="#3498db"/>
+  <circle cx="220" cy="178" r="5" fill="#8e44ad"/>
+  <circle cx="240" cy="178" r="5" fill="#16a085"/>
+  <circle cx="320" cy="178" r="5" fill="#3498db"/>
+  <circle cx="360" cy="178" r="5" fill="#16a085"/>
+  <line x1="40" y1="200" x2="440" y2="200" stroke="#7f8c8d" stroke-width="3"/>
+  <circle cx="140" cy="200" r="5" fill="#e67e22"/>
+  <circle cx="180" cy="200" r="5" fill="#e67e22"/>
+  <circle cx="320" cy="200" r="5" fill="#3498db"/>
+  <circle cx="340" cy="200" r="5" fill="#e67e22"/>
+  <circle cx="380" cy="200" r="5" fill="#8e44ad"/>
+
+  <text x="540" y="70" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#555">Nachher: lokal wenig Vielfalt um das Vorteilallel</text>
+  <line x1="540" y1="90" x2="940" y2="90" stroke="#7f8c8d" stroke-width="3"/>
+  <circle cx="620" cy="90" r="5" fill="#e67e22"/>
+  <circle cx="700" cy="90" r="5" fill="#c0392b"/>
+  <circle cx="780" cy="90" r="5" fill="#e67e22"/>
+  <circle cx="560" cy="90" r="5" fill="#3498db"/>
+  <circle cx="900" cy="90" r="5" fill="#8e44ad"/>
+  <line x1="540" y1="112" x2="940" y2="112" stroke="#7f8c8d" stroke-width="3"/>
+  <circle cx="620" cy="112" r="5" fill="#e67e22"/>
+  <circle cx="700" cy="112" r="5" fill="#c0392b"/>
+  <circle cx="780" cy="112" r="5" fill="#e67e22"/>
+  <line x1="540" y1="134" x2="940" y2="134" stroke="#7f8c8d" stroke-width="3"/>
+  <circle cx="620" cy="134" r="5" fill="#e67e22"/>
+  <circle cx="700" cy="134" r="5" fill="#c0392b"/>
+  <circle cx="780" cy="134" r="5" fill="#e67e22"/>
+  <circle cx="560" cy="134" r="5" fill="#3498db"/>
+  <line x1="540" y1="156" x2="940" y2="156" stroke="#7f8c8d" stroke-width="3"/>
+  <circle cx="620" cy="156" r="5" fill="#e67e22"/>
+  <circle cx="700" cy="156" r="5" fill="#c0392b"/>
+  <circle cx="780" cy="156" r="5" fill="#e67e22"/>
+  <circle cx="900" cy="156" r="5" fill="#8e44ad"/>
+  <line x1="540" y1="178" x2="940" y2="178" stroke="#7f8c8d" stroke-width="3"/>
+  <circle cx="620" cy="178" r="5" fill="#e67e22"/>
+  <circle cx="700" cy="178" r="5" fill="#c0392b"/>
+  <circle cx="780" cy="178" r="5" fill="#e67e22"/>
+  <circle cx="560" cy="178" r="5" fill="#3498db"/>
+  <line x1="540" y1="200" x2="940" y2="200" stroke="#7f8c8d" stroke-width="3"/>
+  <circle cx="620" cy="200" r="5" fill="#e67e22"/>
+  <circle cx="700" cy="200" r="5" fill="#c0392b"/>
+  <circle cx="780" cy="200" r="5" fill="#e67e22"/>
+
+  <line x1="700" y1="85" x2="700" y2="230" stroke="#c0392b" stroke-width="2" stroke-dasharray="4 3"/>
+  <text x="700" y="250" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="bold" fill="#c0392b">vorteilhaftes Allel fixiert</text>
+
+  <rect x="40" y="290" width="900" height="100" rx="10" fill="#f7f9fb" stroke="#bdc3c7"/>
+  <text x="490" y="325" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#222">Punkte = neutrale Varianten · Rot am Locus = selektiertes Allel</text>
+  <text x="490" y="355" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#222">Nachbarvarianten «fahren mit» → lokale Vielfalt sinkt → Valley of Diversity</text>
+  <text x="490" y="380" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#666">Soft sweeps / stehende Variation: Valley oft schmaler / weniger «sauber» (Bajau-Hinweis).</text>
+</svg>

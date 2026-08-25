@@ -1,6 +1,6 @@
 ---
-title: "Week 14 — Synthesis wrap"
-subtitle: "Connect Checkpoints A–D; optional portfolio polish"
+title: "Woche 14 — Synthese und Abschluss"
+subtitle: "Checkpoints A–D verknüpfen; Portfolio optional überarbeiten"
 author: "Stephan Peischl"
 format:
   revealjs:
@@ -17,67 +17,72 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Course outline](../../docs/course-outline.html) · [Home](../../index.html)"
+    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html)"
 execute:
   echo: false
   warning: false
   message: false
 ---
 
-## On this deck
+## In diesem Foliensatz
 
-**Week 14** of 14 · synthesis wrap  
-**Thu 17 Dec 2026, 08:15–10:00**
+**Woche 14** von 14 · Synthese und Abschluss  
+**Do., 17. Dez. 2026, 08:15–10:00**
 
-- [Course outline](../../docs/course-outline.html) — full semester plan
-- [Home](../../index.html)
-- Use **arrow keys** / on-screen controls · **M** opens slide menu · **Esc** overview grid
+- [Kursplan](../../docs/course-outline.html) — vollständiger Semesterplan
+- [Start](../../index.html)
+- Verwenden Sie die **Pfeiltasten** / Steuerelemente auf dem Bildschirm · **M** öffnet das Folienmenü · **Esc** die Übersicht
 
-## Learning goals
+## Lernziele
 
-- Retell the semester arc using your four checkpoints
-- Optional: polish one product for an ILIAS portfolio / gallery
-- **Not** a fifth high-stakes presentation — graded talks were Weeks 4, 7, 10, 13
+- Den Verlauf des Semesters anhand Ihrer vier Checkpoints wiedergeben
+- Optional: ein Produkt für ein ILIAS-Portfolio / eine Galerie überarbeiten
+- **Keine** fünfte stark gewichtete Präsentation — bewertete Vorträge fanden in den Wochen 4, 7, 10 und 13 statt
 
-## Biological framing
+## Biologischer Rahmen
 
-- Eco → Evo (smooth) → establishment / rescue → Microbiome **data skills**
-- What changed in the *kind* of data and model each time?
+- Ökologie → Evolution (kontinuierlich) → Etablierung / Rescue → Mikrobiom-**Datenkompetenzen**
+- Was änderte sich jeweils an der *Art* der Daten und des Modells?
 
-## Quantitative idea
+## Quantitative Idee
 
-- Same engine reused: function / vector / loop → matrices → high-dimensional tables
-- Presentations practiced scientific communication all semester
+- Dieselben Grundlagen wiederverwendet: Funktion / Vektor / Schleife → Matrizen → hochdimensionale Tabellen
+- Die Präsentationen trainierten während des gesamten Semesters die wissenschaftliche Kommunikation
 
-## Live / guided demo
+## Live-Demonstration / angeleitete Demonstration
 
-- Gallery of Checkpoint highlights (volunteer pairs)
-- Peer feedback focused on clarity and limitations
+- Galerie mit Höhepunkten der Checkpoints (freiwillige Zweiergruppen)
+- Peer-Feedback mit Fokus auf Klarheit und Einschränkungen
 
-## Notebook preview
+## Vorschau auf das Notebook
 
-Portfolio checklist: link A–D products; ½-page arc reflection.
+Portfolio-Checkliste: Produkte A–D verlinken; halbseitige Reflexion über den Verlauf.
 
-## Exit ticket
+## Abschlussfragen
 
-1. Which checkpoint taught you the most?
-2. Where did a model fail honestly — and why is that useful?
-3. What would you take into Quantitative Biology II / programming?
+1. Aus welchem Checkpoint haben Sie am meisten gelernt?
+2. Wo scheiterte ein Modell auf ehrliche Weise — und warum ist das nützlich?
+3. Was würden Sie in Quantitative Biologie II / die Programmierung mitnehmen?
 
-## Next week
+## Nächste Woche
 
-*End of course*
+*Kursende*
 
 ---
+
+## Literatur
+
+In diesem Foliensatz-Entwurf noch keine Fallstudien zitiert.  
+Sobald Inhalte ausgearbeitet sind, erscheint hier die vollständige Liste aller genannten Quellen.
 
 ## Navigation
 
 | | |
 |---|---|
-| Overview | [Course outline](../../docs/course-outline.html) |
-| Home | [Course home](../../index.html) |
-| Previous | [← Week 13](../week-13/slides.html) |
-| Next | *End of course* |
+| Übersicht | [Kursplan](../../docs/course-outline.html) |
+| Startseite | [Kursstartseite](../../index.html) |
+| Zurück | [← Woche 13](../week-13/slides.html) |
+| Weiter | *Kursende* |
 
-Keyboard: ← → move slides · **M** menu · **Esc** slide grid · **F** fullscreen
+Tastatur: ← → Folien wechseln · **M** Menü · **Esc** Folienübersicht · **F** Vollbild
 

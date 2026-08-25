@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <rect width="200" height="200" fill="white"/>
+
+  <circle cx="100" cy="100" r="88" fill="#e8f6f3" stroke="#148f77" stroke-width="4"/>
+  <text x="100" y="115" text-anchor="middle" font-family="Menlo, Consolas, monospace" font-size="48" font-weight="bold" fill="#0e6655">&lt;/&gt;</text>
+
+</svg>

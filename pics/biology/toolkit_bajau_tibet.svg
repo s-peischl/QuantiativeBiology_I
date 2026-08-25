@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="360" viewBox="0 0 960 360">
+  <rect width="960" height="360" fill="white"/>
+  <text x="480" y="34" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="#222">Zwei Geschichten - Frage, Daten, Analyse</text>
+
+  <rect x="40" y="60" width="420" height="260" rx="14" fill="#eaf2fb" stroke="#2980b9" stroke-width="2"/>
+  <text x="250" y="95" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="#1a5276">Bajau (Meer / Apnoe)</text>
+  <text x="70" y="135" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#222">Frage: Training oder Physiologie?</text>
+  <text x="70" y="165" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#222">Daten: Milz (Ultraschall), Genome</text>
+  <text x="70" y="195" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#222">Analyse: Statistik, Assembly, Sweep-Scan</text>
+  <text x="70" y="240" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#555">PDE10A, BDKRB2 · moderne Variation</text>
+  <text x="70" y="268" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#555">(keine Denisova-Geschichte hier)</text>
+
+  <rect x="500" y="60" width="420" height="260" rx="14" fill="#fef5e7" stroke="#d68910" stroke-width="2"/>
+  <text x="710" y="95" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="#7e5109">Tibet (Hochland / Hypoxie)</text>
+  <text x="530" y="135" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#222">Frage: Woher kommt EPAS1-Muster?</text>
+  <text x="530" y="165" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#222">Daten: Scan + Haplotyp vs Denisova</text>
+  <text x="530" y="195" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#222">Analyse: rivalisierende Geschichten</text>
+  <text x="530" y="225" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#222">+ Simulation &amp; Modellvergleich</text>
+  <text x="530" y="268" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#555">«aehnlich» reicht nicht - vergleichen</text>
+</svg>

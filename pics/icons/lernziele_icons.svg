@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="320" viewBox="0 0 940 320">
+  <rect width="940" height="320" fill="white"/>
+
+  <rect x="20" y="30" width="280" height="260" rx="16" fill="#eaf2fb" stroke="#2980b9" stroke-width="3"/>
+  <circle cx="160" cy="100" r="40" fill="white" stroke="#2980b9" stroke-width="3"/>
+  <text x="160" y="115" text-anchor="middle" font-size="40" font-weight="bold" fill="#1a5276" font-family="Helvetica">Σ</text>
+  <text x="160" y="175" text-anchor="middle" font-family="Helvetica" font-size="18" font-weight="bold" fill="#1a5276">1 · Sehen</text>
+  <text x="160" y="205" text-anchor="middle" font-family="Helvetica" font-size="14" fill="#333">Mathe / Stats / Code</text>
+  <text x="160" y="228" text-anchor="middle" font-family="Helvetica" font-size="14" fill="#333">in der Biologie</text>
+
+  <rect x="330" y="30" width="280" height="260" rx="16" fill="#fef5e7" stroke="#d68910" stroke-width="3"/>
+  <circle cx="470" cy="100" r="40" fill="white" stroke="#d68910" stroke-width="3"/>
+  <path d="M470 72 A28 28 0 1 1 448 118" fill="none" stroke="#7e5109" stroke-width="5"/>
+  <polygon points="470,64 480,78 460,78" fill="#7e5109"/>
+  <text x="470" y="175" text-anchor="middle" font-family="Helvetica" font-size="18" font-weight="bold" fill="#7e5109">2 · Kreislauf</text>
+  <text x="470" y="205" text-anchor="middle" font-family="Helvetica" font-size="14" fill="#333">Beobachtung → Frage</text>
+  <text x="470" y="228" text-anchor="middle" font-family="Helvetica" font-size="14" fill="#333">→ Analyse → Biologie</text>
+
+  <rect x="640" y="30" width="280" height="260" rx="16" fill="#eafaf1" stroke="#27ae60" stroke-width="3"/>
+  <circle cx="780" cy="100" r="40" fill="white" stroke="#27ae60" stroke-width="3"/>
+  <polygon points="760,115 780,75 800,115" fill="#85929e"/>
+  <path d="M745 115 Q780 100 815 115" fill="none" stroke="#2874a6" stroke-width="4"/>
+  <text x="780" y="175" text-anchor="middle" font-family="Helvetica" font-size="18" font-weight="bold" fill="#196f3d">3 · Beispiele</text>
+  <text x="780" y="205" text-anchor="middle" font-family="Helvetica" font-size="14" fill="#333">Bajau · Tibet</text>
+  <text x="780" y="228" text-anchor="middle" font-family="Helvetica" font-size="14" fill="#333">Details kommen später</text>
+
+</svg>

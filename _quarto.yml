@@ -4,6 +4,8 @@ project:
   render:
     - index.qmd
     - docs/course-outline.qmd
+    - docs/general-info.qmd
+    - docs/module-01-overview.qmd
     - docs/for-collaborators.qmd
     - docs/ai-policy.qmd
     - docs/mfb-alignment.qmd
@@ -12,20 +14,27 @@ project:
     - weeks/*/notebook.qmd
     - weeks/*/assignment.qmd
     - weeks/*/slides.qmd
+    - weeks/*/glossary.qmd
+
+lang: de
 
 website:
-  title: "Quantitative Biology I"
+  title: "Quantitative Biologie I"
   navbar:
     left:
       - href: index.qmd
-        text: Home
+        text: Start
+      - href: docs/general-info.qmd
+        text: Infos
+      - href: docs/module-01-overview.qmd
+        text: Modul 1
       - href: docs/course-outline.qmd
-        text: Course Outline
+        text: Kursplan
       - href: docs/ai-policy.qmd
-        text: AI policy
+        text: KI-Richtlinie
       - href: docs/for-collaborators.qmd
-        text: For collaborators
-      - text: Slides
+        text: Collaborators
+      - text: Folien
         menu:
           - href: weeks/week-01/slides.qmd
             text: "01"

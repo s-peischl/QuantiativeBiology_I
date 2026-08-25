@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="420" viewBox="0 0 900 420">
+  <rect width="900" height="420" fill="white"/>
+  <text x="450" y="34" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="bold" fill="#222">Wer waren die Denisova-Menschen?</text>
+
+  <ellipse cx="420" cy="220" rx="280" ry="130" fill="#eaf2f8" stroke="#5d6d7e" stroke-width="2"/>
+  <text x="300" y="180" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5d6d7e">Europa</text>
+  <text x="480" y="170" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5d6d7e">Asien</text>
+  <text x="420" y="320" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#7f8c8d">(schematisch, nicht massstabsgetreu)</text>
+
+  <circle cx="520" cy="200" r="14" fill="#8e44ad" stroke="#4a235a" stroke-width="2"/>
+  <circle cx="520" cy="200" r="5" fill="white"/>
+  <line x1="520" y1="214" x2="520" y2="245" stroke="#8e44ad" stroke-width="2"/>
+  <text x="520" y="265" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#6c3483">Denisova-Höhle</text>
+  <text x="520" y="283" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">Altai-Gebirge (Sibirien)</text>
+
+  <circle cx="560" cy="250" r="8" fill="#e67e22" stroke="#a04000" stroke-width="2"/>
+  <text x="620" y="255" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#a04000">Hochland Tibet</text>
+  <text x="620" y="272" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#777">(EPAS1-Geschichte)</text>
+
+  <rect x="40" y="70" width="200" height="280" rx="12" fill="#f8f9f9" stroke="#bbb"/>
+  <text x="140" y="105" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#222">Kurzprofil</text>
+  <text x="55" y="140" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">* ausgestorben</text>
+  <text x="55" y="165" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">* archaische</text>
+  <text x="55" y="185" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">  Menschengruppe</text>
+  <text x="55" y="215" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">* bekannt vor allem</text>
+  <text x="55" y="235" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">  durch DNA aus</text>
+  <text x="55" y="255" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">  Knochen/Zähnen</text>
+  <text x="55" y="285" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">* Verwandte der</text>
+  <text x="55" y="305" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">  Neandertaler</text>
+  <text x="55" y="330" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">* Spuren in manchen</text>
+  <text x="55" y="350" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">  heutigen Genomen</text>
+
+  <rect x="700" y="70" width="170" height="150" rx="12" fill="#f5eef8" stroke="#8e44ad" stroke-width="2"/>
+  <text x="785" y="105" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" fill="#6c3483">Wichtig</text>
+  <text x="785" y="135" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">Kein Alien -</text>
+  <text x="785" y="155" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">eine Menschen-</text>
+  <text x="785" y="175" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">linie, die mit</text>
+  <text x="785" y="195" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">uns gemischt hat.</text>
+
+  <text x="450" y="400" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#666">Lehrkarte. Foto der Höhle folgt auf der nächsten Folie (Commons).</text>
+</svg>

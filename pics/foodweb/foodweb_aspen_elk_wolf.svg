@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://w3.org/2000/svg" width="920" height="420" viewBox="0 0 920 420">
+  <rect width="920" height="420" fill="#fbfcfd"/>
+  <text x="460" y="36" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="#1a5276">Modell-Netz (Yellowstone-Namen)</text>
+
+  <rect x="360" y="55" width="200" height="58" rx="10" fill="#2c3e50"/>
+  <text x="460" y="90" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="white">Wolf</text>
+
+  <path d="M460,113 L460,155" stroke="#7f8c8d" stroke-width="3" marker-end="url(#arr)"/>
+  <text x="480" y="140" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#7f8c8d">a_wolf_elk</text>
+
+  <rect x="360" y="155" width="200" height="58" rx="10" fill="#d68910"/>
+  <text x="460" y="190" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="white">Elk</text>
+
+  <path d="M400,213 L280,255" stroke="#7f8c8d" stroke-width="3"/>
+  <path d="M520,213 L640,255" stroke="#7f8c8d" stroke-width="3"/>
+  <text x="300" y="240" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#c0392b">a_elk_aspen (stark)</text>
+  <text x="580" y="240" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1abc9c">a_elk_sage (schwach)</text>
+
+  <rect x="140" y="265" width="200" height="58" rx="10" fill="#27ae60"/>
+  <text x="240" y="300" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="white">Aspen</text>
+
+  <rect x="580" y="265" width="200" height="58" rx="10" fill="#1abc9c"/>
+  <text x="680" y="300" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="white">Sage</text>
+
+  <path d="M340,294 L580,294" stroke="#95a5a6" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="460" y="285" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#7f8c8d">Konkurrenz alpha</text>
+
+  <rect x="80" y="350" width="760" height="50" rx="8" fill="#eaf2fb" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="460" y="380" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#1a5276">ohne Wolf: Aspen -&gt; 0 | mit Wolf: Aspen bleibt positiv, Elk bleibt mittel</text>
+</svg>

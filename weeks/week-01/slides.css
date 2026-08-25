@@ -1,0 +1,138 @@
+/* Week 1 reveal polish — clean, consistent, not flashy */
+
+.reveal {
+  font-size: 32px;
+}
+
+.reveal h1 {
+  font-size: 1.55em;
+  font-weight: 700;
+  color: #1a5276;
+  border-bottom: 3px solid #d5d8dc;
+  padding-bottom: 0.25em;
+  margin-bottom: 0.6em;
+}
+
+.reveal h2 {
+  font-size: 1.25em;
+  font-weight: 700;
+  color: #1a5276;
+  margin-bottom: 0.55em;
+}
+
+.reveal h3 {
+  color: #2c3e50;
+}
+
+.reveal .slides section {
+  text-align: left;
+}
+
+.reveal p,
+.reveal li {
+  line-height: 1.35;
+}
+
+.reveal ul {
+  margin-left: 0.3em;
+}
+
+.reveal blockquote {
+  width: 92%;
+  margin: 0.6em auto;
+  padding: 0.55em 0.9em;
+  background: #f4f6f7;
+  border-left: 5px solid #2980b9;
+  box-shadow: none;
+  font-size: 0.92em;
+  color: #1c2833;
+}
+
+.reveal table {
+  font-size: 0.78em;
+  margin: 0.4em auto;
+  border-collapse: collapse;
+  width: 96%;
+}
+
+.reveal table th {
+  background: #eaf2fb;
+  color: #1a5276;
+  font-weight: 700;
+  border-bottom: 2px solid #2980b9;
+  padding: 0.35em 0.55em;
+}
+
+.reveal table td {
+  border-bottom: 1px solid #e5e8e8;
+  padding: 0.35em 0.55em;
+  vertical-align: top;
+}
+
+.reveal .aside,
+.reveal aside {
+  font-size: 0.55em;
+  color: #7f8c8d;
+}
+
+.reveal .r-fit-text {
+  max-height: none;
+}
+
+.reveal .columns {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.reveal section img {
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  max-height: 520px;
+}
+
+.reveal .slide-number {
+  font-size: 14px;
+  color: #5d6d7e;
+}
+
+.reveal .footer {
+  font-size: 12px;
+  color: #7f8c8d;
+}
+
+/* Callout boxes via markdown blockquotes already styled; key-ref chips */
+.reveal .keyref {
+  display: inline-block;
+  background: #eafaf1;
+  border: 1px solid #27ae60;
+  border-radius: 6px;
+  padding: 0.15em 0.45em;
+  font-size: 0.72em;
+  color: #196f3d;
+  margin: 0.1em 0.15em;
+}
+
+/* Code blocks — readable on simple theme */
+.reveal pre {
+  font-size: 0.55em;
+  box-shadow: none;
+  border: 1px solid #d5d8dc;
+  border-radius: 6px;
+  background: #f8f9f9;
+  padding: 0.6em 0.8em;
+  width: 100%;
+}
+
+.reveal code {
+  font-family: Menlo, Consolas, monospace;
+  background: #eef2f5;
+  border-radius: 3px;
+  padding: 0.05em 0.25em;
+}
+
+.reveal pre code {
+  background: transparent;
+  padding: 0;
+}

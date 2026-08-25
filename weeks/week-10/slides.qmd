@@ -1,6 +1,6 @@
 ---
-title: "Week 10 — Evolutionary Rescue"
-subtitle: "Establishment before extinction · Checkpoint C"
+title: "Woche 10 — Evolutionäre Rettung"
+subtitle: "Etablierung vor dem Aussterben · Checkpoint C"
 author: "Stephan Peischl"
 format:
   revealjs:
@@ -17,125 +17,132 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Course outline](../../docs/course-outline.html) · [Home](../../index.html)"
+    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html)"
 execute:
   echo: false
   warning: false
   message: false
 ---
 
-## On this deck
+## In diesem Foliensatz
 
-**Week 10** of 14 · **Checkpoint C**  
-**Thu 19 Nov 2026, 08:15–10:00**
+**Woche 10** von 14 · **Checkpoint C**  
+**Do., 19. Nov. 2026, 08:15–10:00**
 
-- [Course outline](../../docs/course-outline.html)
-- [Home](../../index.html)
-- Arrow keys / controls · **M** menu · **Esc** grid
+- [Kursplan](../../docs/course-outline.html)
+- [Start](../../index.html)
+- Pfeiltasten / Steuerelemente · **M** Menü · **Esc** Übersicht
 
-## Where we are in the arc
+## Wo wir im Themenbogen stehen
 
-| Week | Idea |
+| Woche | Idee |
 |---|---|
-| 5–7 | Deterministic selection on \(p_t\) |
-| 8–9 | Establishment of rare beneficial types |
-| **10** | Establishment **while the population crashes** → rescue |
+| 5–7 | Deterministische Selektion auf \(p_t\) |
+| 8–9 | Etablierung seltener vorteilhafter Typen |
+| **10** | Etablierung, **während die Population zusammenbricht** → Rettung |
 
-## Evolutionary rescue (verbal)
+## Evolutionäre Rettung (verbal)
 
-A population is declining because the environment became harsh.
+Eine Population nimmt ab, weil die Umweltbedingungen ungünstig geworden sind.
 
-It is **rescued** if adapted types arise and **establish** soon enough that growth resumes before extinction.
+Sie wird **gerettet**, wenn angepasste Typen entstehen und sich früh genug **etablieren**, sodass das Wachstum vor dem Aussterben wieder einsetzt.
 
-## Why this is a great teaching system
+## Warum sich dieses System gut für den Unterricht eignet
 
-- Forces demography + genetics in one story
-- Natural use of **establishment probabilities**
-- Unusually well connected to **laboratory evolution** (microbes under controlled stress)
+- Verbindet Demografie + Genetik in einer Beschreibung
+- Natürliche Anwendung von **Etablierungswahrscheinlichkeiten**
+- Besonders eng mit **Laborevolution** verknüpft (Mikroben unter kontrolliertem Stress)
 
-## Theory → experiment (pointers for slides)
+## Theorie → Experiment (Hinweise für die Folien)
 
-**Theory (examples to cite properly in materials):**
+**Theorie (Beispiele, die in den Materialien korrekt zu zitieren sind):**
 
-- Gomulkiewicz & Holt (demographic + genetic rescue framing)
-- Orr & Unckless and related models of rescue from new mutation / standing variation
+- Gomulkiewicz & Holt (demografischer + genetischer Rahmen der Rettung)
+- Orr & Unckless und verwandte Modelle der Rettung durch neue Mutationen / bestehende Variation
 
-**Lab tradition (examples):**
+**Labortradition (Beispiele):**
 
-- Microbial populations shifted to stressful conditions (e.g. salt, drugs, temperature)
-- Track extinction vs recovery across many replicate cultures
-- Classic empirical line: **Bell & Gonzalez** (yeast) and follow-ups in bacteria/yeast
+- Mikrobielle Populationen werden stressreichen Bedingungen ausgesetzt (z. B. Salz, Medikamente, Temperatur)
+- Aussterben gegenüber Erholung über viele Replikatkulturen verfolgen
+- Klassische empirische Forschungslinie: **Bell & Gonzalez** (Hefe) und Folgestudien mit Bakterien/Hefe
 
 ::: {.notes}
-Insert exact paper list + 1–2 figures from open sources / redrawn schematics. Emphasize replicate cultures ≈ our computational replicates.
+Genaue Literaturliste + 1–2 Abbildungen aus offenen Quellen / neu gezeichnete Schemata einfügen. Betonen: Replikatkulturen ≈ unsere computergestützten Replikate.
 :::
 
-## Minimal model ingredients
+## Minimale Modellkomponenten
 
-1. Declining wild-type demography (negative growth / rising death)
-2. Rare resistant / beneficial types (mutation or standing variation)
-3. Stochastic **establishment** of those types
-4. Outcome: extinction vs recovery
+1. Abnehmende Wildtyp-Demografie (negatives Wachstum / steigende Sterblichkeit)
+2. Seltene resistente / vorteilhafte Typen (Mutation oder bestehende Variation)
+3. Stochastische **Etablierung** dieser Typen
+4. Ergebnis: Aussterben gegenüber Erholung
 
-Same programming pattern: function + loop + many replicates.
+Gleiches Programmiermuster: Funktion + Schleife + viele Replikate.
 
-## What a figure can look like
+## Wie eine Abbildung aussehen kann
 
 ```text
 N(t)
  |\,
- |  \______/¯  rescued
+ |  \______/¯  gerettet
  |    \
- |     \___    extinct
+ |     \___    ausgestorben
  +--------------- t
 ```
 
-Many replicate runs → estimate **rescue probability** (like establishment, but for the population).
+Viele Replikatläufe → **Rettungswahrscheinlichkeit** schätzen (wie bei der Etablierung, aber für die Population).
 
-## Checkpoint C (today)
+## Checkpoint C (heute)
 
-**Practical + short presentation (~3–5 min)**
+**Praktischer Teil + kurze Präsentation (~3–5 Min.)**
 
-1. Biological question (rescue under stress)
-2. What you computed (replicates; definition of rescue)
-3. One figure (e.g. rescue probability vs stress / vs \(s\))
-4. Strongest assumption + what a **lab assay** would measure
+1. Biologische Frage (Rettung unter Stress)
+2. Was Sie berechnet haben (Replikate; Definition der Rettung)
+3. Eine Abbildung (z. B. Rettungswahrscheinlichkeit gegen Stress / gegen \(s\))
+4. Stärkste Annahme + was ein **Laborversuch** messen würde
 
-## Notebook / practical goals
+## Ziele des Notebooks / praktischen Teils
 
-- Couple a simple decline to an establishment module from Week 9
-- Sweep one parameter (stress severity or \(s\))
-- Report \(\widehat{\Pr}(\text{rescue})\)
-- Optional: compare “standing variation” vs “new mutation only”
+- Einen einfachen Rückgang mit einem Etablierungsmodul aus Woche 9 koppeln
+- Einen Parameter durchlaufen (Stressintensität oder \(s\))
+- \(\widehat{\Pr}(\text{rescue})\) angeben
+- Optional: „bestehende Variation“ mit „nur neue Mutationen“ vergleichen
 
-## Bridge to programming course
+## Brücke zum Programmierkurs
 
-| Programming | Biology today |
+| Programmierung | Biologie heute |
 |---|---|
-| Nested loops / replicates | many cultures / many introductions |
-| Vectors & summaries | rescue probability |
-| Plot overlays | extinct vs rescued trajectories |
-| Clear definitions in code | operational “extinct” / “rescued” |
+| Verschachtelte Schleifen / Replikate | viele Kulturen / viele Einführungen |
+| Vektoren & Zusammenfassungen | Rettungswahrscheinlichkeit |
+| Überlagerte Abbildungen | ausgestorbene gegenüber geretteten Trajektorien |
+| Klare Definitionen im Code | operational „ausgestorben“ / „gerettet“ |
 
-## Looking ahead
+## Ausblick
 
-Next block: **microbiomes as complex data** — load tables, visualize communities, tell an honest visual story (Weeks 11–13 · Checkpoint D).
+Nächster Block: **Mikrobiome als komplexe Daten** — Tabellen laden, Gemeinschaften visualisieren, eine ehrliche visuelle Geschichte erzählen (Wochen 11–13 · Checkpoint D).
 
-## Exit ticket
+## Abschlussfragen
 
-1. How is rescue different from “allele establishes in a stable population”?
-2. Why are microbes good for testing rescue theory?
-3. What would falsify your simulator in a lab?
+1. Wie unterscheidet sich Rettung davon, dass sich „ein Allel in einer stabilen Population etabliert“?
+2. Warum eignen sich Mikroben gut, um die Theorie der Rettung zu prüfen?
+3. Was würde Ihren Simulator in einem Laborversuch widerlegen?
 
----
+## Literatur
+
+Quellen, die in dieser Einheit namentlich angesprochen werden (Folien-Entwurf):
+
+1. **Gomulkiewicz, R., & Holt, R. D. (1995).** When does evolution by natural selection prevent extinction? *Evolution* 49: 201–207. — demografischer + genetischer Rahmen der Rettung.
+2. **Orr, H. A., & Unckless, R. L. (2008).** Population extinction and the genetics of adaptation. *The American Naturalist* 172: 160–169. — Rettung durch neue Mutationen / Variation.
+3. **Bell, G., & Gonzalez, A. (2009).** Evolutionary rescue can prevent extinction following environmental change. *Ecology Letters* 12: 942–948. — Laborevolution (Hefe) und Replikatkulturen.
+4. Weiterführend: Bell, G., & Gonzalez, A. (2011). Adaptation and evolutionary rescue in metapopulations experiencing environmental deterioration. *Science* 332: 1327–1330.
 
 ## Navigation
 
 | | |
 |---|---|
-| Overview | [Course outline](../../docs/course-outline.html) |
-| Home | [Course home](../../index.html) |
-| Previous | [← Week 9](../week-09/slides.html) |
-| Next | [Week 11 →](../week-11/slides.html) |
+| Übersicht | [Kursplan](../../docs/course-outline.html) |
+| Startseite | [Kurs-Startseite](../../index.html) |
+| Zurück | [← Woche 9](../week-09/slides.html) |
+| Weiter | [Woche 11 →](../week-11/slides.html) |
 
-Keyboard: ← → · **M** menu · **Esc** grid · **F** fullscreen
+Tastatur: ← → · **M** Menü · **Esc** Übersicht · **F** Vollbild

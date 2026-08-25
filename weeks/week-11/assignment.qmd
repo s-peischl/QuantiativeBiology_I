@@ -1,11 +1,11 @@
 ---
-title: "Week 11 — Assignment · Load complex data"
+title: "Woche 11 — Aufgabe · Komplexe Daten einlesen"
 format:
   html:
     toc: true
     css: ../../styles.scss
 ---
 
-1. Data passport: dimensions, library-size summary, sparsity note.
-2. Evidence that sample IDs match (or a fixed mismatch list).
-3. Short paragraph: wide vs long and which you will use for plotting next week.
+1. Datenpass: Dimensionen, Zusammenfassung der Bibliotheksgrössen, Hinweis zur Sparsität.
+2. Nachweis, dass die Proben-IDs übereinstimmen (oder eine korrigierte Liste der Abweichungen).
+3. Kurzer Absatz: breite gegenüber langer Datenform und welche Sie nächste Woche zum Plotten verwenden werden.

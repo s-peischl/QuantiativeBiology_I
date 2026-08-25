@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="340" viewBox="0 0 960 340">
+  <rect width="960" height="340" fill="white"/>
+  <text x="480" y="34" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="#1a5276">Yellowstone - trophische Kaskade (vereinfacht)</text>
+
+  <rect x="380" y="50" width="200" height="70" rx="12" fill="#2c3e50" stroke="#1a252f" stroke-width="3"/>
+  <text x="480" y="80" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="white">Wolf</text>
+  <text x="480" y="102" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#d5d8dc">Top-Praedator</text>
+
+  <text x="480" y="140" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#7f8c8d">v frisst / scheucht</text>
+
+  <rect x="380" y="155" width="200" height="70" rx="12" fill="#d68910" stroke="#9a7b0a" stroke-width="3"/>
+  <text x="480" y="185" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="white">Elch / Wapiti</text>
+  <text x="480" y="207" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#fdebd0">Herbivor</text>
+
+  <text x="480" y="245" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#7f8c8d">v beweidet</text>
+
+  <rect x="380" y="260" width="200" height="60" rx="12" fill="#27ae60" stroke="#1e8449" stroke-width="3"/>
+  <text x="480" y="295" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="white">Weide / Aspen</text>
+
+  <rect x="40" y="70" width="280" height="220" rx="12" fill="#eafaf1" stroke="#27ae60" stroke-width="2"/>
+  <text x="180" y="105" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#196f3d">ohne Wolf (1926-1995)</text>
+  <text x="180" y="140" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">viele Elche</text>
+  <text x="180" y="165" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">starke Beweidung</text>
+  <text x="180" y="190" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Weiden unterdrueckt</text>
+  <text x="180" y="215" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">kaum Biber</text>
+  <text x="180" y="255" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#196f3d">Bottom: Pflanzen leiden</text>
+
+  <rect x="640" y="70" width="280" height="220" rx="12" fill="#eaf2fb" stroke="#2980b9" stroke-width="2"/>
+  <text x="780" y="105" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#1a5276">mit Wolf (ab 1995)</text>
+  <text x="780" y="140" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Elche sinken / weichen aus</text>
+  <text x="780" y="165" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">weniger Verbiss</text>
+  <text x="780" y="190" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Weiden / Aspen wachsen</text>
+  <text x="780" y="215" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Biber kehren zurueck</text>
+  <text x="780" y="255" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1a5276">Top-down: Kaskade</text>
+</svg>

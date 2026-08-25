@@ -1,31 +1,47 @@
 ---
-title: "Week 4 — Assignment · Checkpoint A"
+title: "Woche 4 — Aufgabe · Checkpoint A"
 format:
   html:
     toc: true
     css: ../../styles.scss
 ---
 
-**Checkpoint A** closes the ecology block (Weeks 2–4). Graded practical + short presentation.
+**Checkpoint A** · Sitzung: ~20 min Intro · ~40 min Notebook · ~30 min Kurzpräsentationen.
 
-Use Isle Royale (or another series in `data/`) as a qualitative anchor.
+::: {.callout-important}
+## Anwesenheit Pflicht
 
-## Submit (practical)
+Für die Benotung müssen Sie **anwesend sein und präsentieren**.  
+Siehe [Modul 1](../../docs/module-01-overview.qmd) · [Allgemeine Informationen](../../docs/general-info.qmd).
+:::
 
-1. Your model in words (variables, gains, losses, interactions, question).
-2. Implemented simulator + one key plot.
-3. Two parameter experiments.
-4. Short reflection: which data features you capture vs miss; strongest assumption.
+## Kernbotschaft
 
-## Presentation (in class, ~3–5 min)
+Bei **zwei** Strategien stirbt immer eine aus.  
+Bei **drei** mit zyklischer Dominanz (RPS) kann Vielfalt bleiben — auch als **Punktgleichgewicht**.  
+Stabilitätsformen: **Punkt** · **stabile Oszillation** · **Heteroklinzyklus** (Minima immer näher an 0).
 
-1. Biological question  
-2. What you computed  
-3. One figure  
-4. Strongest assumption / next step  
+## Motivation
 
-Pairs/groups OK. Clarity + biological sense + honest limits matter more than polish.
+*Uta stansburiana* (Orange / Blau / Gelb):  
+[Berkeley Evo News](https://evolution.berkeley.edu/evo-news/high-stakes-rock-paper-scissors-these-lizards-are-all-in-on-an-evolutionary-game/) · Corl et al. (2026) *Science*
 
-## AI disclosure (required)
+## Abgabe
 
-Follow the course [AI policy](../../docs/ai-policy.qmd). End the practical write-up with tool + use, or `AI disclosure: none`. You must still be able to explain every figure live.
+1. Matrix \(A\) (bzw. \(s,w\)) und Startwerte.  
+2. Ein Plot mit RPS-Dynamik.  
+3. **Form:** Punkt / Oszillation / Heteroklin — 1–2 Sätze Begründung.  
+4. Ein Satz: Warum scheitert Vielfalt bei nur zwei Strategien?  
+5. Kurz (½ Seite): Echsen-Lesart + was Sie gelernt haben.
+
+## Literatur
+
+Sinervo & Lively (1996); Corl et al. (2026); May & Leonard (1975) — vollständige Angaben in den [Folien Woche 4](slides.qmd#literatur).
+
+## Präsentation (~2–3 Min.)
+
+Matrix · Plot · **Form** · warum 3 Strategien nötig.
+
+## KI-Offenlegung
+
+[KI-Richtlinie](../../docs/ai-policy.qmd) · Werkzeug nennen oder `KI-Offenlegung: keine`.

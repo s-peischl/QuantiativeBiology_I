@@ -1,6 +1,6 @@
 ---
-title: "Week 6 — Evolution: selection regimes"
-subtitle: "Many generations; compare regimes"
+title: "Woche 6 — Evolution: Selektionsregime"
+subtitle: "Viele Generationen; Regime vergleichen"
 author: "Stephan Peischl"
 format:
   revealjs:
@@ -17,68 +17,73 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Course outline](../../docs/course-outline.html) · [Home](../../index.html)"
+    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html)"
 execute:
   echo: false
   warning: false
   message: false
 ---
 
-## On this deck
+## In diesem Foliensatz
 
-**Week 6** of 14  
-**Thu 22 Oct 2026, 08:15–10:00**
+**Woche 6** von 14  
+**Do., 22. Okt. 2026, 08:15–10:00**
 
-- [Course outline](../../docs/course-outline.html) — full semester plan
-- [Home](../../index.html)
-- Use **arrow keys** / on-screen controls · **M** opens slide menu · **Esc** overview grid
+- [Kursplan](../../docs/course-outline.html) — vollständiger Semesterplan
+- [Start](../../index.html)
+- Verwenden Sie die **Pfeiltasten** / Steuerelemente auf dem Bildschirm · **M** öffnet das Folienmenü · **Esc** zeigt die Übersicht
 
-## Learning goals
+## Lernziele
 
-- Biological focus: Many generations; compare regimes
-- Connect to programming tools for this week
-- Produce plots you can interpret
+- Biologischer Schwerpunkt: Viele Generationen; Regime vergleichen
+- Verbindung zu den Programmierwerkzeugen dieser Woche herstellen
+- Interpretierbare Abbildungen erstellen
 
-## Biological framing
+## Biologischer Rahmen
 
-- What is the biological question this week?
-- What contrast or dataset motivates it?
+- Wie lautet die biologische Frage dieser Woche?
+- Welcher Vergleich oder Datensatz motiviert sie?
 
-## Quantitative idea
+## Quantitative Idee
 
-- Key concept:
-- Link to programming course:
+- Schlüsselkonzept:
+- Verbindung zum Programmierkurs:
 
-## Live / guided demo
+## Live-/angeleitete Demonstration
 
-- Step 1
-- Step 2
-- Step 3
+- Schritt 1
+- Schritt 2
+- Schritt 3
 
-## Notebook preview
+## Vorschau auf das Notebook
 
-What students will do in the notebook this week.
+Was die Studierenden diese Woche im Notebook bearbeiten werden.
 
-## Exit ticket
+## Abschlussfragen
 
 1.
 2.
 3.
 
-## Next week
+## Nächste Woche
 
 …
 
 ---
 
+## Literatur
+
+In diesem Foliensatz-Entwurf noch keine Fallstudien zitiert.  
+Sobald Inhalte ausgearbeitet sind, erscheint hier die vollständige Liste aller genannten Quellen.
+
 ## Navigation
 
 | | |
 |---|---|
-| Overview | [Course outline](../../docs/course-outline.html) |
-| Home | [Course home](../../index.html) |
-| Previous | [← Week 5](../week-05/slides.html) |
-| Next | [Week 7 →](../week-07/slides.html) |
+| Übersicht | [Kursplan](../../docs/course-outline.html) |
+| Startseite | [Kurs-Startseite](../../index.html) |
+| Zurück | [← Woche 5](../week-05/slides.html) |
+| Weiter | [Woche 7 →](../week-07/slides.html) |
 
-Keyboard: ← → move slides · **M** menu · **Esc** slide grid · **F** fullscreen
+Tastatur: ← → Folien wechseln · **M** Menü · **Esc** Folienübersicht · **F** Vollbild
 

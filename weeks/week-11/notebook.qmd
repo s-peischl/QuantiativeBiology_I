@@ -1,6 +1,6 @@
 ---
-title: "Week 11 — Notebook · Load complex microbiome data"
-subtitle: "Abundance tables + metadata joins"
+title: "Woche 11 — Notebook · Komplexe Mikrobiomdaten einlesen"
+subtitle: "Abundanztabellen + Verknüpfung von Metadaten"
 format:
   html:
     toc: true
@@ -11,13 +11,13 @@ execute:
   message: false
 ---
 
-## Learning goals
+## Lernziele
 
-1. Load abundance + metadata files
-2. Diagnose ID mismatches
-3. Compute library sizes and a short data passport
+1. Abundanz- und Metadatendateien einlesen
+2. Nicht übereinstimmende IDs diagnostizieren
+3. Bibliotheksgrössen und einen kurzen Datenpass berechnen
 
-## Tasks
+## Aufgaben
 
 ```{r}
 # abund <- read.csv("data/abundance.csv", row.names = 1)
@@ -26,8 +26,8 @@ execute:
 # TODO: library sizes <- rowSums(abund)
 ```
 
-**Q1.** Wide or long? How can you tell?
+**F1.** Breit oder lang? Woran erkennen Sie das?
 
-**Q2.** List mismatches between abundance rows and metadata.
+**F2.** Listen Sie Abweichungen zwischen den Abundanzzeilen und den Metadaten auf.
 
-**Q3.** Summarize library sizes (min, median, max). Any alarming samples?
+**F3.** Fassen Sie die Bibliotheksgrössen zusammen (Minimum, Median, Maximum). Gibt es auffällige Proben?

@@ -1,30 +1,25 @@
-# Week 4 data — field cycles & classic series
+# Daten zu Woche 4
 
-Real time series for **qualitative** model–data comparison (not formal fitting).
+## Hauptfokus der Sitzung
 
-| File | System | Why it’s here | Source |
+**Spieltheorie / RPS** — kein neuer Pflicht-Datensatz.  
+Ablauf: ~20 min Intro · ~40 min Notebook (3-Spieler-LV, \(A\) drehen) · ~30 min Kurzpräsentationen.  
+Diagnose: **Punkt** vs. **Oszillation**.
+
+Biologische Motivation (extern lesen):
+
+- [Berkeley Evo in the News — lizard RPS](https://evolution.berkeley.edu/evo-news/high-stakes-rock-paper-scissors-these-lizards-are-all-in-on-an-evolutionary-game/)
+- Corl et al. (2026) *Science* [doi:10.1126/science.adw8265](https://www.science.org/doi/10.1126/science.adw8265)
+- Sinervo & Lively (1996) *Nature*
+
+## Optional: Freiland-Zyklen als Kontrast
+
+| Datei | System | Zweck | Quelle |
 |---|---|---|---|
-| `isle_royale_moose_wolf.csv` | Moose (*Alces*) + wolf (*Canis*), Isle Royale | Main classroom opener: real predator–prey in the wild | `gauseR::mclaren_1994_f03` (McLaren & Peterson 1994 *Science*) |
-| `huffaker_mites.csv` | Mite prey + predatory mite (60-week run) | Lab predator–prey with longer persistence / spatial structure story | `gauseR::huffaker_1963` |
-| `hudson_bay_lynx.csv` | Canadian lynx pelt counts 1821–1934 | Famous ~10-year cycles (lynx only; hares not in this file) | R `datasets::lynx` |
+| `isle_royale_moose_wolf.csv` | Elch + Wolf, Isle Royale | Kontrast: Räuber–Beute-Zyklen ≠ Strategie-RPS | McLaren & Peterson 1994 via `gauseR` |
+| `huffaker_mites.csv` | Milben Labor | optionale Zeitreihe | `gauseR::huffaker_1963` |
+| `hudson_bay_lynx.csv` | Luchsfelle | optionale Zyklen | `datasets::lynx` |
 
-## Suggested classroom use
-
-1. Start with **Isle Royale** (two columns: moose & wolf).
-2. Ask: trend, lag, crashes, noise?
-3. Compare to a simple LV / LV+\(K\) simulation from Weeks 2–3.
-4. Optional: Huffaker (refuges / own-model prompt) or lynx cycles.
-
-## Citations
+## Literatur (optional Daten)
 
 - McLaren, B. E., & Peterson, R. O. (1994). Wolves, moose, and tree rings on Isle Royale. *Science*.
-- Huffaker, C. B. (classic mite experiments; see `gauseR` documentation for figure notes).
-- Lynx series: Hudson’s Bay Company records as distributed in R `datasets::lynx`.
-
-## Re-export
-
-```bash
-Rscript weeks/week-03/data/export_datasets.R
-```
-
-(That script also writes the Week 4 CSVs.)

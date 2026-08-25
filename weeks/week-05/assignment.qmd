@@ -1,22 +1,22 @@
 ---
-title: "Week 5 — Assignment · Evolution: allele frequencies as time series"
+title: "Woche 5 — Aufgabe · Evolution: Allelfrequenzen als Zeitreihen"
 format:
   html:
     toc: false
 ---
 
-## Prompt
+## Aufgabenstellung
 
-Use this week's notebook to address the biological question.
+Bearbeiten Sie die biologische Frage mithilfe des Notebooks dieser Woche.
 
-## Deliverables
+## Abzugebende Ergebnisse
 
-1. Rendered notebook (`.html`) or equivalent
-2. One key figure with caption
-3. Short interpretation (120–180 words)
+1. Gerendertes Notebook (`.html`) oder gleichwertiges Format
+2. Eine zentrale Abbildung mit Bildunterschrift
+3. Kurze Interpretation (120–180 Wörter)
 
-## Criteria
+## Kriterien
 
-- Reproducibility (40%)
-- Biological interpretation (40%)
-- Clarity (20%)
+- Reproduzierbarkeit (40%)
+- Biologische Interpretation (40%)
+- Klarheit (20%)

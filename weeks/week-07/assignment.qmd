@@ -1,23 +1,23 @@
 ---
-title: "Week 7 — Assignment · Checkpoint B"
+title: "Woche 7 — Aufgabe · Checkpoint B"
 format:
   html:
     toc: true
     css: ../../styles.scss
 ---
 
-**Checkpoint B** closes the deterministic-evolution block (Weeks 5–7).
+**Checkpoint B** schließt den Block zur deterministischen Evolution ab (Wochen 5–7).
 
-## Submit (practical)
+## Abgabe (praktischer Teil)
 
-1. Compare ≥2 selection regimes with \(p_t\) trajectories (one figure).
-2. Short interpretation: equilibria / speed of change.
-3. Where does a smooth deterministic story feel insufficient?
+1. Vergleichen Sie ≥2 Selektionsregime anhand von \(p_t\)-Trajektorien (eine Abbildung).
+2. Kurze Interpretation: Gleichgewichte / Geschwindigkeit der Veränderung.
+3. Wo erscheint eine glatte deterministische Beschreibung unzureichend?
 
-## Presentation (~3–5 min)
+## Präsentation (~3–5 Min.)
 
-Question → computation → one figure → limitation / bridge to randomness.
+Frage → Berechnung → eine Abbildung → Einschränkung / Brücke zum Zufall.
 
-## AI disclosure (required)
+## Offenlegung der KI-Nutzung (erforderlich)
 
-See [AI policy](../../docs/ai-policy.qmd). Disclose tool + use, or `AI disclosure: none`.
+Siehe [KI-Richtlinie](../../docs/ai-policy.qmd). Geben Sie Werkzeug + Verwendung an oder `KI-Offenlegung: keine`.

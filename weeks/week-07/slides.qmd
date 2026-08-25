@@ -1,6 +1,6 @@
 ---
-title: "Week 7 — Evolution: deterministic limits"
-subtitle: "Bridge from smooth p_t to noisy reality"
+title: "Woche 7 — Evolution: Grenzen deterministischer Modelle"
+subtitle: "Brücke vom glatten p_t zur verrauschten Realität"
 author: "Stephan Peischl"
 format:
   revealjs:
@@ -17,75 +17,80 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Course outline](../../docs/course-outline.html) · [Home](../../index.html)"
+    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html)"
 execute:
   echo: false
   warning: false
   message: false
 ---
 
-## On this deck
+## In diesem Foliensatz
 
-**Week 7** of 14 · **Checkpoint B**  
-**Thu 29 Oct 2026, 08:15–10:00**
+**Woche 7** von 14 · **Checkpoint B**  
+**Do., 29. Okt. 2026, 08:15–10:00**
 
-- [Course outline](../../docs/course-outline.html) — full semester plan
-- [Home](../../index.html)
-- Use **arrow keys** / on-screen controls · **M** opens slide menu · **Esc** overview grid
+- [Kursplan](../../docs/course-outline.html) — vollständiger Semesterplan
+- [Start](../../index.html)
+- Verwenden Sie die **Pfeiltasten** / Steuerelemente auf dem Bildschirm · **M** öffnet das Folienmenü · **Esc** zeigt die Übersicht
 
-## Learning goals
+## Lernziele
 
-- Biological focus: Bridge from smooth \(p_t\) to noisy reality
-- Connect to programming tools for this week
-- Produce plots you can interpret
-- **Checkpoint B:** bigger practical + short graded presentation (same norms as Week 4)
+- Biologischer Schwerpunkt: Brücke vom glatten \(p_t\) zur verrauschten Realität
+- Verbindung zu den Programmierwerkzeugen dieser Woche herstellen
+- Interpretierbare Abbildungen erstellen
+- **Checkpoint B:** umfangreicherer praktischer Teil + kurze benotete Präsentation (gleiche Vorgaben wie in Woche 4)
 
-## Biological framing
+## Biologischer Rahmen
 
-- What is the biological question this week?
-- What contrast or dataset motivates it?
+- Wie lautet die biologische Frage dieser Woche?
+- Welcher Vergleich oder Datensatz motiviert sie?
 
-## Quantitative idea
+## Quantitative Idee
 
-- Key concept:
-- Link to programming course:
+- Schlüsselkonzept:
+- Verbindung zum Programmierkurs:
 
-## Live / guided demo
+## Live-/angeleitete Demonstration
 
-- Step 1
-- Step 2
-- Step 3
+- Schritt 1
+- Schritt 2
+- Schritt 3
 
-## Checkpoint B (today)
+## Checkpoint B (heute)
 
-- Practical: compare ≥2 selection regimes (trajectories / equilibria)
-- Talk (~3–5 min): question → computation → one figure → when deterministic models fail
+- Praktischer Teil: ≥2 Selektionsregime vergleichen (Trajektorien / Gleichgewichte)
+- Vortrag (~3–5 Min.): Frage → Berechnung → eine Abbildung → wann deterministische Modelle versagen
 
-## Notebook preview
+## Vorschau auf das Notebook
 
-What students will do in the notebook this week.
+Was die Studierenden diese Woche im Notebook bearbeiten werden.
 
-## Exit ticket
+## Abschlussfragen
 
 1.
 2.
 3.
 
-## Next week
+## Nächste Woche
 
-Start **establishment** (Weeks 8–10): rare beneficial alleles → evolutionary rescue.  
-Next graded talk: **Checkpoint C at Week 10 (19 Nov)**.
+Beginn des Themas **Etablierung** (Wochen 8–10): seltene vorteilhafte Allele → evolutionäre Rettung.  
+Nächster benoteter Vortrag: **Checkpoint C in Woche 10 (19. Nov.)**.
 
 ---
+
+## Literatur
+
+In diesem Foliensatz-Entwurf noch keine Fallstudien zitiert.  
+Sobald Inhalte ausgearbeitet sind, erscheint hier die vollständige Liste aller genannten Quellen.
 
 ## Navigation
 
 | | |
 |---|---|
-| Overview | [Course outline](../../docs/course-outline.html) |
-| Home | [Course home](../../index.html) |
-| Previous | [← Week 6](../week-06/slides.html) |
-| Next | [Week 8 →](../week-08/slides.html) |
+| Übersicht | [Kursplan](../../docs/course-outline.html) |
+| Startseite | [Kurs-Startseite](../../index.html) |
+| Zurück | [← Woche 6](../week-06/slides.html) |
+| Weiter | [Woche 8 →](../week-08/slides.html) |
 
-Keyboard: ← → move slides · **M** menu · **Esc** slide grid · **F** fullscreen
+Tastatur: ← → Folien wechseln · **M** Menü · **Esc** Folienübersicht · **F** Vollbild
 

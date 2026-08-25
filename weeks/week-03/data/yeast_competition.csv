@@ -1,0 +1,8 @@
+data_type,hour,cerevisiae,kephir,treatment,source,citation
+real_digitized,6,0.38,0.28,mixture,gauseR::gause_1934_book_app_t01,"Gause (1934) Struggle for Existence, Appendix Table 1"
+real_digitized,16,3.99,0.98,mixture,gauseR::gause_1934_book_app_t01,"Gause (1934) Struggle for Existence, Appendix Table 1"
+real_digitized,24,4.69,1.47,mixture,gauseR::gause_1934_book_app_t01,"Gause (1934) Struggle for Existence, Appendix Table 1"
+real_digitized,29,6.15,1.46,mixture,gauseR::gause_1934_book_app_t01,"Gause (1934) Struggle for Existence, Appendix Table 1"
+real_digitized,40,NA,NA,mixture,gauseR::gause_1934_book_app_t01,"Gause (1934) Struggle for Existence, Appendix Table 1"
+real_digitized,48,7.27,1.71,mixture,gauseR::gause_1934_book_app_t01,"Gause (1934) Struggle for Existence, Appendix Table 1"
+real_digitized,53,8.3,1.84,mixture,gauseR::gause_1934_book_app_t01,"Gause (1934) Struggle for Existence, Appendix Table 1"

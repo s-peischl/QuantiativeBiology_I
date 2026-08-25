@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="300" viewBox="0 0 920 300">
+  <rect width="920" height="300" fill="white"/>
+  <text x="460" y="32" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="#222">Stabilität: stören — kehrt zurück?</text>
+
+  <rect x="40" y="60" width="380" height="200" rx="14" fill="#eafaf1" stroke="#27ae60" stroke-width="3"/>
+  <text x="230" y="95" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#196f3d">Endzustand</text>
+  <circle cx="180" cy="160" r="28" fill="#27ae60"/>
+  <text x="180" y="165" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="white" font-weight="bold">Sieger</text>
+  <circle cx="280" cy="170" r="10" fill="#95a5a6"/>
+  <text x="280" y="210" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#555">Verliererin ~ 0</text>
+
+  <text x="460" y="160" font-family="Helvetica, Arial, sans-serif" font-size="32" fill="#7f8c8d">→</text>
+
+  <rect x="500" y="60" width="380" height="200" rx="14" fill="#eaf2fb" stroke="#2980b9" stroke-width="3"/>
+  <text x="690" y="95" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#1a5276">nach kleinem Push</text>
+  <circle cx="640" cy="155" r="28" fill="#27ae60"/>
+  <path d="M700 140 Q730 100 760 140" fill="none" stroke="#c0392b" stroke-width="3"/>
+  <polygon points="755,135 770,140 755,148" fill="#c0392b"/>
+  <circle cx="760" cy="165" r="12" fill="#5dade2"/>
+  <text x="690" y="220" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Impfung der Verliererin</text>
+  <text x="690" y="242" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#196f3d">→ System kehrt zurück</text>
+</svg>

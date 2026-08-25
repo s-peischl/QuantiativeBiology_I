@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="360" viewBox="0 0 920 360">
+  <rect width="920" height="360" fill="#fbfcfd"/>
+  <text x="460" y="32" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="#1a5276">Von der Food-Web-Matrix zur Spiel-Matrix</text>
+
+  <rect x="40" y="60" width="380" height="240" rx="12" fill="#eafaf1" stroke="#27ae60" stroke-width="2"/>
+  <text x="230" y="95" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#196f3d">Woche 3 · Food Web</text>
+  <text x="230" y="130" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Zeilen/Spalten = Arten</text>
+  <text x="230" y="155" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">V, H, P</text>
+  <text x="230" y="190" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Aij = fressen / hemmen</text>
+  <text x="230" y="225" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Frage: stabilisiert P das Netz?</text>
+  <text x="230" y="270" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#196f3d">trophische Interaktion</text>
+
+  <text x="460" y="180" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="28" fill="#7f8c8d">&gt;</text>
+
+  <rect x="500" y="60" width="380" height="240" rx="12" fill="#eaf2fb" stroke="#2980b9" stroke-width="2"/>
+  <text x="690" y="95" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#1a5276">Woche 4 · Spiel</text>
+  <text x="690" y="130" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Zeilen/Spalten = Strategien</text>
+  <text x="690" y="155" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Orange, Blau, Gelb</text>
+  <text x="690" y="190" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Aij = wie stark j i unterdrueckt</text>
+  <text x="690" y="225" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Frage: entsteht RPS?</text>
+  <text x="690" y="270" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1a5276">frequenzabhaengige Fitness</text>
+
+  <text x="460" y="335" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5d6d7e">Gleiche Objektform (Matrix) - andere biologische Semantik</text>
+</svg>

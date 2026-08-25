@@ -1,5 +1,5 @@
-# Archived module folder
+# Archivierter Modulordner
 
-Active Weeks 1–4 materials: `course-outline/weeks/`
+Aktuelle Materialien für die Wochen 1–4: `course-outline/weeks/`
 
-Do not put week materials here.
+Wochenmaterialien nicht hier ablegen.

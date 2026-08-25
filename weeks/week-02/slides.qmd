@@ -1,10 +1,11 @@
 ---
-title: "Week 2 — From Cool Dynamics to Code"
-subtitle: "Paramecium, Didinium, and Lotka–Volterra"
+title: "Woche 2 — Unser erstes Modell"
+subtitle: "Eine Population → Räuber und Beute"
 author: "Stephan Peischl"
 format:
   revealjs:
     theme: simple
+    css: slides.css
     slide-number: true
     incremental: false
     embed-resources: true
@@ -17,397 +18,659 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Course outline](../../docs/course-outline.html) · [Home](../../index.html)"
+    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html)"
 execute:
-  echo: false
+  echo: true
   warning: false
   message: false
   freeze: true
 ---
 
-## On this deck
+## Übersicht
 
-**Week 2** of 14 · Ecology block  
-**Thu 24 Sep 2026, 08:15–10:00**
+**Woche 2** von 14 · **Do., 24. Sept. 2026, 08:15–10:00**
 
-- [Course outline](../../docs/course-outline.html)
-- [Home](../../index.html)
-- Arrow keys / controls · **M** menu · **Esc** grid
+[Kursplan](../../docs/course-outline.html) · [Start](../../index.html)
 
-## Recap from Week 1
-
-- Cool biology needs quantitative tools
-- Today: first modelling bridge to programming
-
-## Learning goals today
-
-1. Read a real ecological contrast in data
-2. Write a **next-state function**
-3. Store results in a **vector**
-4. Automate with a **loop**
-
----
-
-## Start with biology (not equations)
-
-Classic microcosm system from **real experiments**:
-
-- Prey: ***Paramecium caudatum***
-- Predator: ***Didinium nasutum***
-
-Data digitized from **Gause (1934)** (*The Struggle for Existence*), via R package `gauseR`.
-
-## Meet the organisms
-
-:::: {.columns}
-
-::: {.column width="50%"}
-![](../../pics/organisms/paramecium_caudatum_lm.jpg){fig-alt="Paramecium caudatum under a light microscope" width="100%"}
-
-***Paramecium caudatum*** (prey)
+::: aside
+Pfeiltasten · **M** Menü · **Esc** Übersicht
 :::
 
-::: {.column width="50%"}
-![](../../pics/organisms/didinium_3d.jpg){fig-alt="3D illustration of Didinium nasutum" width="85%"}
+## Sitzungsablauf (~2 h)
 
-***Didinium nasutum*** (predator)
+| Teil | Dauer | Was |
+|------|-------|-----|
+| Vorlesung | ~45–50 min | Daten → Modell → Code-Basics → Erweiterung |
+| Notebook | ~40–45 min | selbst herumspielen |
+
+## Heute in einem Blick
+
+::::: columns
+::: {.column width="22%"}
+![](../../pics/icons/icon_observe.svg){fig-alt="Beobachten" width="70%"}
+:::
+::: {.column width="22%"}
+![](../../pics/icons/icon_math.svg){fig-alt="Modell" width="70%"}
+:::
+::: {.column width="22%"}
+![](../../pics/icons/icon_code.svg){fig-alt="Code" width="70%"}
+:::
+::: {.column width="22%"}
+![](../../pics/icons/icon_analyze.svg){fig-alt="Plot" width="70%"}
+:::
+:::::
+
+**Frage** (*Paramecium*-Wachstum) → **Daten** (Gause) → **Modell** → **Code** (`next` → Vektor → `for` → `plot`).
+
+## R parallel — und hier
+
+::::: columns
+::: {.column width="22%"}
+![](../../pics/icons/icon_code.svg){fig-alt="Code" width="75%"}
+:::
+::: {.column width="78%"}
+Im Programmierkurs lernt ihr R systematisch.
+
+**Hier:** nur so viel, dass ihr danach im Notebook spielen könnt:
+
+Funktion (Input/Output) · Vektor · Schleife · `plot()`
+:::
+:::::
+
+## Lernziele heute
+
+![](../../pics/icons/w2_lernziele.svg){fig-alt="Vier Lernziele Woche 2" width="95%"}
+
+::: aside
+[Modul 1](../../docs/module-01-overview.html) · Wochen 1–4
 :::
 
-::::
+------------------------------------------------------------------------
 
-::: {.aside}
-Fritzmann2002 (CC BY-SA 4.0); Denis Zarubin (CC BY-SA 4.0) — Wikimedia Commons
+# Teil 1 · Eine Population
+
+## Die Biologie zuerst
+
+::::: columns
+::: {.column width="45%"}
+![](../../pics/organisms/paramecium_caudatum_lm.jpg){fig-alt="Paramecium caudatum" width="95%"}
+:::
+::: {.column width="55%"}
+***Paramecium caudatum*** (Pantoffeltierchen)
+
+Daten: **Gause (1934)** · heute zuerst: **nur eine Population**
+:::
+:::::
+
+::: aside
+Fritzmann2002, CC BY-SA 4.0
 :::
 
-## Predator meets prey
-
-![](../../pics/organisms/didinium_eating_paramecium.jpg){fig-alt="Historic illustration of Didinium consuming Paramecium" width="78%"}
-
-Classic illustration: *Didinium* engulfing *Paramecium* (Mast 1909; public domain)
-
-## The contrast we care about
-
-**Same prey, two published figures:**
-
-1. *Paramecium* **alone** (Fig. 21 monoculture)
-2. *Paramecium* **with** *Didinium* (Fig. 32)
-
-Question: what process explains the difference?
-
-## Data: prey alone (Gause Fig. 21)
+## Daten laden
 
 ```{r}
-#| fig-height: 4
-#| fig-width: 7
 alone <- read.csv("data/paramecium_alone.csv")
-plot(alone$day, alone$paramecium, type = "b", pch = 16, lwd = 2,
-     xlab = "Day", ylab = "Paramecium abundance",
-     main = "Paramecium alone (Gause 1934, Fig. 21)")
+head(alone, 3)
 ```
 
-Grows, then levels off — persists without predators.
+-   `read.csv(...)` liest eine Tabelle  
+-   Ergebnis → Objekt `alone` (Zuweisung mit `<-`)  
+-   Spalten z. B. `alone$day`, `alone$paramecium`
 
-## Data: prey + predator (Gause Fig. 32)
+## Erste Abbildung — der Befehl
 
 ```{r}
-#| fig-height: 4
+#| fig-height: 3.6
 #| fig-width: 7
-both <- read.csv("data/paramecium_with_didinium.csv")
-plot(both$day, both$paramecium, type = "b", pch = 16, lwd = 2,
-     xlab = "Day", ylab = "Abundance",
-     main = "Paramecium + Didinium (Gause 1934, Fig. 32)",
-     ylim = c(0, max(c(both$paramecium, both$didinium), na.rm = TRUE) * 1.1))
-lines(both$day, both$didinium, type = "b", pch = 17, lwd = 2, lty = 2)
-# mark immigration pulses (Gause periodically added individuals)
-imm <- both$day[both$immigration == "y"]
-abline(v = imm, col = "grey70", lty = 3)
-legend("topright",
-       c("Paramecium (prey)", "Didinium (predator)", "Immigration day"),
-       pch = c(16, 17, NA), lty = c(1, 2, 3), col = c("black", "black", "grey70"),
-       bty = "n", cex = 0.85)
+plot(alone$day, alone$paramecium,
+     type = "b", pch = 16, lwd = 2,
+     xlab = "Tag",
+     ylab = "Haeufigkeit (Paramecium)",
+     main = "Paramecium allein (Gause 1934)")
 ```
 
-## Side by side
+## Was bedeutet `plot(...)`?
 
-```{r}
-#| fig-height: 4.2
-#| fig-width: 8
-par(mfrow = c(1, 2), mar = c(4, 4, 2, 1))
-plot(alone$day, alone$paramecium, type = "b", pch = 16, lwd = 2,
-     xlab = "Day", ylab = "Paramecium", main = "Alone (Fig. 21)")
-plot(both$day, both$paramecium, type = "b", pch = 16, lwd = 2,
-     xlab = "Day", ylab = "Abundance", main = "With Didinium (Fig. 32)",
-     ylim = c(0, max(c(both$paramecium, both$didinium), na.rm = TRUE)))
-lines(both$day, both$didinium, type = "b", pch = 17, lwd = 2, lty = 2)
-legend("topright", c("Prey", "Predator"), pch = c(16, 17), lty = 1:2, bty = "n", cex = 0.8)
-```
+| Teil | Rolle |
+|------|--------|
+| `alone$day` | **x**-Achse (Zeit) |
+| `alone$paramecium` | **y**-Achse (Häufigkeit) |
+| `type = "b"` | both: Punkte **und** Linien |
+| `pch = 16` | Punktform (ausgefüllter Kreis) |
+| `xlab`, `ylab`, `main` | Achsenbeschriftung / Titel |
 
-## What jumps out?
+Später im Notebook: Parameter ändern und neu plotten.
 
-With predators (Fig. 32):
+## Was sehen wir biologisch?
 
-- prey rise → predators rise (delay)
-- prey crash → predators decline
-- **oscillations** appear — but Gause added occasional **immigrants** (grey lines)
+::::: columns
+::: {.column width="28%"}
+![](../../pics/icons/icon_observe.svg){fig-alt="Beobachtung" width="70%"}
+:::
+::: {.column width="72%"}
+-   Population **wächst**
+-   später: **Plateau**
+-   ohne Räuber: bleibt bestehen
+:::
+:::::
 
-Without predators (Fig. 21):
+## Wie modellieren wir das?
 
-- prey grow then **persist**
+**Zeitreihe** · eine Variable: Populationsgrösse \(N\)
 
-## Honest teaching note
+Frage: Wie wird aus \(N_t\) das nächste \(N_{t+1}\)?
 
-Gause’s mixture experiment is famous partly because **simple LV is not enough**:
+## Kräfte (verbal)
 
-- without immigration / refuges, predators often ate all prey then died
-- see also Fig. 30 extinction series in `data/paramecium_didinium_extinction.csv`
+1.  **Wachstum** — mehr Individuen → mehr Nachwuchs  
+2.  **Regulation** — begrenzte Ressourcen → Bremse  
 
-Today we still use LV as a *first* quantitative story — then ask what is missing (Week 3+).
+→ Plateau wie in den Daten.
 
-## Think–pair–share (2 min)
+## Comic: Nachwuchs (\(r\))
 
-In words (no equations yet):
+![](../../pics/comics/comic_r_growth.svg){fig-alt="Comic Parameter r Nachwuchs" width="82%"}
 
-1. What happens to prey when predators appear?
-2. What happens to predators when prey become rare?
-3. Why might immigration matter for coexistence?
+## Comic: Deckel (\(K\))
 
-## Why a model?
+![](../../pics/comics/comic_K_crowding.svg){fig-alt="Comic Parameter K Gedraenge" width="82%"}
 
-Words are not enough.
+## Ein Zeitschritt
 
-We want a precise rule that can generate predator–prey dynamics when we change one ingredient: **predation**.
+> Kennen wir \(N_t\), wie lautet \(N_{t+1}\)?
 
-**Sources:** Gause (1934); digitized in `gauseR` (`gause_1934_book_f21`, `gause_1934_book_f32`).
+**Differenzengleichung** = Regel für **einen** Schritt.
 
----
+## Comic: ein Zeitschritt
 
-## Take the model apart
+![](../../pics/comics/comic_logistic_strip.svg){fig-alt="Comic logistischer Zeitschritt" width="92%"}
 
-## Biological rules (verbal)
-
-1. Prey grow when predators are rare
-2. Prey decline when eaten
-3. Predators grow when prey are abundant
-4. Predators die when prey are scarce
-
-## Continuous form (orientation only)
-
-Classic Lotka–Volterra:
+## Regel (diskret, logistisch)
 
 \[
-\frac{dN}{dt} = rN - aNP
+N_{t+1} = N_t + r\, N_t \left(1 - \frac{N_t}{K}\right)\Delta t
+\qquad\text{mit }\Delta t = 1
 \]
+
+Hier ist \(\Delta t = 1\): ein «Schritt» = eine Zeiteinheit.  
+Dann ist \(r\) klar **pro Schritt** (nicht «pro Tag aus einem Paper»).
+
+| Symbol | Comic-Ereignis |
+|--------|----------------|
+| \(N_t\) | Population jetzt |
+| \(r\) | Nachwuchs / Teilung **pro Schritt** |
+| \(K\) | Deckel (Platz / Futter) |
+| \(\bigl(1 - N/K\bigr)\) | Bremse nahe dem Deckel |
+| \(\Delta t\) | Zeitschritt (hier \(= 1\)) |
+
+## Zwei Sprachen: Differenz vs. Differential
+
+| | Differenzengleichung | Differentialgleichung |
+|--|----------------------|------------------------|
+| **Was** | Regel für **einen** Schritt | Grenzwert «unendlich kleine» Schritte |
+| **Form** | \(N_{t+1} - N_t = \ldots\) | \(\dfrac{\mathrm{d}N}{\mathrm{d}t} = \ldots\) |
+| **Wo** | **unser Kurs / R-Code** | viele Papers / Lehrbücher |
+
+Wir bleiben bei **Differenzen** — einfacher zu simulieren und zu erklären.
+
+::: {.callout-note}
+## Parallel: Mathematische Modellierung
+
+Differentialgleichungen und die formale Brücke zur kontinuierlichen Formulierung werden vertieft in der Vorlesung **Mathematische Modellierung** (Details folgen).  
+Hier in QuBi: nur die Euler-Idee, genug für Simulation und Interpretation.
+:::
+
+## Brücke (Euler)
+
+Literatur schreibt oft:
+
 \[
-\frac{dP}{dt} = baNP - mP
+\frac{\mathrm{d}N}{\mathrm{d}t} = f(N)
 \]
 
-We will **not** solve this analytically.
-
-We simulate in **discrete time**.
-
-## Discrete-time idea
-
-> If I know the state **now**, what is the state **next**?
-
-A **recurrence / update rule**.
-
-## Discrete update (Euler-style)
+Näherung:
 
 \[
-N_{t+1} = N_t + (rN_t - aN_tP_t)\,\Delta t
+\frac{\mathrm{d}N}{\mathrm{d}t}
+  \approx \frac{N_{t+\Delta t} - N_t}{\Delta t}
+\quad\Rightarrow\quad
+N_{t+1} = N_t + f(N_t)\,\Delta t
 \]
+
+Das ist der **Euler-Schritt** — genau das, was unsere `next_*`-Funktionen tun.
+
+## Parameter-Warnung
+
+::: {.callout-warning}
+## \(r\), \(\alpha\), \(a\), … sind nicht «einfach Zahlen aus dem Paper»
+
+- Parameter hängen von der **Zeiteinheit** und von \(\Delta t\) ab.  
+- Bei \(\Delta t = 1\) (Logistik-Start): \(r\) = Wachstum **pro Schritt**.  
+- Später mit kleinem `dt` in R: \(r\) ist eher eine **Rate pro Zeit** — derselbe Buchstabe, andere Bedeutung der Zahl.  
+- Kurswerte sind für *unsere* Simulation getunt. **Nicht** blind aus einem kontinuierlichen ODE-Paper übernehmen.
+:::
+
+**Kursstandard ab hier:** immer
+
 \[
-P_{t+1} = P_t + (baN_tP_t - mP_t)\,\Delta t
+N_{t+1} = N_t + f(N_t)\,\Delta t
 \]
 
-**next state = current state + change**
+(Literatur-\(\dot N\) nur noch als Hinweis.)
 
-## Variables and parameters
+------------------------------------------------------------------------
 
-| Symbol | Meaning | In today's story |
-|---|---|---|
-| \(N_t\) | prey abundance | *Paramecium* |
-| \(P_t\) | predator abundance | *Didinium* |
-| \(r\) | prey growth rate | alone-culture growth |
-| \(a\) | predation rate | Didinium attack |
-| \(b\) | conversion efficiency | prey → predator babies |
-| \(m\) | predator mortality | starvation / death |
-| \(\Delta t\) | time step | e.g. fraction of a day |
+# R-Basics · Funktion
 
----
+## Was ist eine Funktion?
 
-## Programming link 1: a function
+![](../../pics/icons/w2_function_io.svg){fig-alt="Funktion Input Output" width="88%"}
 
-In programming class: functions take inputs → return outputs.
-
-Here:
-
-> A function that calculates the **next state** from the **current state**.
-
-## Conceptual function
+Eine **Maschine**: Input → Rechnung → Output
 
 ```r
-next_state <- function(N, P, r, a, b, m, dt) {
-  dN <- (r * N - a * N * P) * dt
-  dP <- (b * a * N * P - m * P) * dt
-  c(N = N + dN, P = P + dP)
+next_N <- function(N, r, K) {
+  N + r * N * (1 - N / K)
 }
 ```
 
-One biological time step = one function call.
+## Input und Output von `next_N`
 
-## Live demo: one step
+| | |
+|---|---|
+| **Name** | `next_N` |
+| **Inputs** | `N` (aktuell), `r`, `K` |
+| **Output** | eine Zahl: \(N\) im **nächsten** Schritt |
 
-Start from \((N_0, P_0)\) like the early Didinium experiment.
+Die **letzte** Zeile im Funktionskörper wird zurückgegeben.
 
-Call once → \((N_1, P_1)\).
+## Funktion aufrufen — Beispiel
 
-Ask:
+```{r}
+next_N <- function(N, r, K) {
+  N + r * N * (1 - N / K)
+}
 
-- Did *Paramecium* go up or down?
-- Did *Didinium* go up or down?
-- Does that match the verbal rules?
-
----
-
-## Programming link 2: vectors
-
-Store a trajectory:
-
-\[
-N_0, N_1, N_2, \ldots, N_T
-\]
-
-A **vector** (you already know this from programming).
-
-## Manual iteration (painful)
-
-```r
-N <- numeric(6); P <- numeric(6)
-N[1] <- 40; P[1] <- 2
-out <- next_state(N[1], P[1], r, a, b, m, dt)
-N[2] <- out["N"]; P[2] <- out["P"]
-## ... repeat by hand ...
+next_N(N = 20, r = 0.5, K = 200)
 ```
 
-Five steps: annoying.  
-Hundreds of steps: impossible by hand.
+Start 20 · etwas Wachstum · noch weit unter \(K=200\).
 
-## The punchline
+## Noch ein Aufruf: näher an \(K\)
 
-We need **automation**.
+```{r}
+next_N(N = 180, r = 0.5, K = 200)
+next_N(N = 200, r = 0.5, K = 200)
+```
 
----
+Nahe \(K\): wenig Wachstum.  
+Bei \(N=K\): Veränderung \(= 0\).
 
-## Programming link 3: loops
+## Benannte Argumente
 
 ```r
-for (t in 1:(length(N) - 1)) {
+next_N(N = 20, r = 0.5, K = 200)
+next_N(20, 0.5, 200)   # gleiche Reihenfolge
+```
+
+Mit Namen lesbarer — besonders bei vielen Parametern.
+
+------------------------------------------------------------------------
+
+# R-Basics · Vektor & Schleife
+
+## Der Workflow
+
+![](../../pics/icons/w2_pipeline.svg){fig-alt="Funktion Vektor Schleife plot" width="95%"}
+
+## Zeitreihe = Vektor
+
+\[
+N_0,\; N_1,\; \ldots,\; N_T
+\]
+
+```{r}
+T <- 5
+N <- numeric(T + 1)   # Vektor aus Nullen, Laenge 6
+N[1] <- 20            # Startwert (R zaehlt ab 1!)
+N
+```
+
+`N[i]` = Eintrag Nummer \(i\).
+
+## Von Hand — mühsam
+
+```{r}
+r <- 0.5
+K <- 200
+N[2] <- next_N(N[1], r, K)
+N[3] <- next_N(N[2], r, K)
+N[4] <- next_N(N[3], r, K)
+N[1:4]
+```
+
+Muster klar — aber nicht skalierbar.
+
+## Schleife: Computer wiederholt
+
+```{r}
+T <- 40
+N <- numeric(T + 1)
+N[1] <- 20
+r <- 0.5
+K <- 200
+
+for (t in 1:T) {
+  N[t + 1] <- next_N(N[t], r, K)
+}
+
+N[1:6]   # erste Werte ansehen
+```
+
+## Anatomie der `for`-Schleife
+
+```r
+for (t in 1:T) {
+  N[t + 1] <- next_N(N[t], r, K)
+}
+```
+
+| Teil | Bedeutung |
+|------|-----------|
+| `t` | Zählvariable (läuft 1, 2, …, \(T\)) |
+| `1:T` | Folge der Werte für `t` |
+| `{ ... }` | Körper: wird jedes Mal ausgeführt |
+| `N[t]` | Input: Zustand jetzt |
+| `N[t + 1]` | Output: speichern |
+
+## Abbildung der Simulation
+
+```{r}
+#| fig-height: 3.6
+#| fig-width: 7
+plot(0:T, N,
+     type = "l", lwd = 2,
+     xlab = "Schritt t",
+     ylab = "N",
+     main = "Simulation: eine Population")
+abline(h = K, lty = 2, col = "grey40")
+```
+
+## Plot der Simulation — Zerlegung
+
+| Befehl | Rolle |
+|--------|--------|
+| `plot(0:T, N, ...)` | x = Zeitindex, y = gespeicherte \(N\) |
+| `type = "l"` | nur Linie (line) |
+| `lwd = 2` | Linienbreite |
+| `abline(h = K, ...)` | horizontale Hilfslinie bei \(K\) |
+
+## Vergleich Daten ↔ Modell
+
+```{r}
+#| fig-height: 3.5
+#| fig-width: 7.5
+par(mfrow = c(1, 2), mar = c(4, 4, 2, 1))
+plot(alone$day, alone$paramecium, type = "b", pch = 16, lwd = 2,
+     xlab = "Tag", ylab = "Paramecium", main = "Daten")
+plot(0:T, N, type = "l", lwd = 2,
+     xlab = "Schritt", ylab = "N", main = "Modell")
+abline(h = K, lty = 2, col = "grey40")
+```
+
+`par(mfrow = c(1, 2))` = zwei Plots nebeneinander.
+
+## Zwischenstand
+
+![](../../pics/icons/w2_pipeline.svg){fig-alt="Workflow" width="90%"}
+
+| Idee | In R |
+|------|------|
+| ein Schritt | `next_N(N, r, K)` |
+| Zeitreihe | Vektor `N` |
+| viele Schritte | `for (t in 1:T) ...` |
+| ansehen | `plot(...)` |
+
+------------------------------------------------------------------------
+
+# Teil 2 · Räuber und Beute
+
+## Erweiterung
+
+![](../../pics/icons/w2_one_vs_two.svg){fig-alt="Eine vs zwei Populationen" width="90%"}
+
+Zwei Populationen: Beute \(N\) · Räuber \(P\)
+
+**Dieselbe Logik** — mehr Inputs/Outputs.
+
+## Organismen
+
+::::: columns
+::: {.column width="50%"}
+![](../../pics/organisms/paramecium_caudatum_lm.jpg){fig-alt="Paramecium" width="95%"}
+
+Beute
+:::
+
+::: {.column width="50%"}
+![](../../pics/organisms/didinium_3d.jpg){fig-alt="Didinium" width="80%"}
+
+Räuber (*Didinium*)
+:::
+
+:::::
+
+## Daten laden und plotten
+
+```{r}
+#| fig-height: 3.6
+#| fig-width: 7
+both <- read.csv("data/paramecium_with_didinium.csv")
+
+plot(both$day, both$paramecium, type = "b", pch = 16, lwd = 2,
+     xlab = "Tag", ylab = "Haeufigkeit",
+     main = "Paramecium + Didinium",
+     ylim = c(0, max(both$paramecium, both$didinium) * 1.05))
+lines(both$day, both$didinium, type = "b", pch = 17, lwd = 2, lty = 2)
+legend("topright", c("Paramecium", "Didinium"),
+       pch = c(16, 17), lty = 1:2, bty = "n")
+```
+
+## Neue Plot-Befehle
+
+| Befehl | Rolle |
+|--------|--------|
+| `ylim = ...` | y-Achse gross genug für beide Arten |
+| `lines(...)` | **zweite** Kurve in dasselbe Bild |
+| `lty = 2` | gestrichelte Linie |
+| `legend(...)` | Legende |
+
+Erst `plot`, dann `lines` — sonst neues Fenster.
+
+## Was fällt auf?
+
+Beute ↑ → Räuber ↑ (verzögert) → Beute ↓ → Räuber ↓  
+→ Schwingungen (Oszillationen)
+
+![](../../pics/biology/lotka_volterra_cycles.png){fig-alt="Lotka-Volterra Zyklen" width="88%"}
+
+::: aside
+Lehrbeispiel Lotka–Volterra (Idee) — Gause-Daten daneben
+:::
+
+## Kräfte (verbal)
+
+1. Beute wächst  
+2. Beute wird gefressen (**Prädation**)  
+3. Räuber wachsen mit Beute  
+4. Räuber sterben ohne Beute  
+
+## Comics: Parameter = Ereignisse
+
+![](../../pics/comics/comic_pp_params.svg){fig-alt="Comics Parameter r a b m" width="92%"}
+
+## Noch mal einzeln: fressen (\(a\))
+
+![](../../pics/comics/comic_a_predation.svg){fig-alt="Comic Praedation a" width="78%"}
+
+## Fressen → Räuber-Babys (\(b\))
+
+![](../../pics/comics/comic_b_conversion.svg){fig-alt="Comic Umwandlung b" width="78%"}
+
+## Räuber stirbt (\(m\))
+
+![](../../pics/comics/comic_m_death.svg){fig-alt="Comic Sterberate m" width="72%"}
+
+## Ein Zeitschritt (Idee)
+
+Wie auf der Brückenfolie (Euler): Zuwachs \(= f(\cdot)\,\Delta t\).
+
+\[
+\begin{aligned}
+N_{t+1} &= N_t + (r N_t - a N_t P_t)\,\Delta t \\
+P_{t+1} &= P_t + (b a N_t P_t - m P_t)\,\Delta t
+\end{aligned}
+\]
+
+| Term | Ereignis |
+|------|----------|
+| \(+ r N\) | Beute-Nachwuchs |
+| \(- a N P\) | Beute wird gefressen |
+| \(+ b\,a N P\) | Räuber-Nachwuchs aus Fressen |
+| \(- m P\) | Räuber stirbt |
+| \(\Delta t\) | kleiner Zeitschritt |
+
+Wieder: jetzt + Veränderung.
+
+## Funktion mit **zwei** Outputs
+
+```{r}
+next_state <- function(N, P, r, a, b, m, dt) {
+  dN <- (r * N - a * N * P) * dt
+  dP <- (b * a * N * P - m * P) * dt
+  c(N = max(N + dN, 0), P = max(P + dP, 0))
+}
+```
+
+`c(N = ..., P = ...)` = benannter Vektor mit **zwei** Werten.
+
+## Input / Output von `next_state`
+
+| | |
+|---|---|
+| **Inputs** | `N`, `P`, Parameter `r,a,b,m,dt` |
+| **Output** | Vektor Länge 2: neues `N`, neues `P` |
+| `max(..., 0)` | keine negativen Häufigkeiten |
+
+## Aufruf — ein Schritt
+
+```{r}
+out <- next_state(N = 40, P = 2, r = 1, a = 0.1, b = 0.5, m = 0.6, dt = 0.05)
+out
+out["N"]
+out["P"]
+```
+
+Ergebnis in `out` speichern · mit `out["N"]` Einzelteile holen.
+
+## Zwei Vektoren + Schleife
+
+```{r}
+T <- 200
+dt <- 0.05
+N <- numeric(T + 1)
+P <- numeric(T + 1)
+N[1] <- 40
+P[1] <- 2
+r <- 1.0; a <- 0.1; b <- 0.5; m <- 0.6
+
+for (t in 1:T) {
   out <- next_state(N[t], P[t], r, a, b, m, dt)
   N[t + 1] <- out["N"]
   P[t + 1] <- out["P"]
 }
 ```
 
-Biology: many days/generations.  
-Programming: one loop.
-
-## From 5 steps to 500
-
-Change the loop length.
-
-Same function. Same vectors. Same biology.
-
-This is **deterministic simulation**.
-
-## Simulate something Didinium-like
+## Simulation plotten
 
 ```{r}
-#| fig-height: 4
+#| fig-height: 3.6
 #| fig-width: 7
-next_state <- function(N, P, r, a, b, m, dt) {
-  dN <- (r * N - a * N * P) * dt
-  dP <- (b * a * N * P - m * P) * dt
-  c(N = max(N + dN, 0), P = max(P + dP, 0))
-}
-
-T <- 200; dt <- 0.05
-N <- numeric(T + 1); P <- numeric(T + 1)
-N[1] <- 40; P[1] <- 2
-r <- 1.0; a <- 0.1; b <- 0.5; m <- 0.6
-for (t in 1:T) {
-  out <- next_state(N[t], P[t], r, a, b, m, dt)
-  N[t + 1] <- out["N"]; P[t + 1] <- out["P"]
-}
 time <- 0:T * dt
-plot(time, N, type = "l", lwd = 2, xlab = "Time", ylab = "Abundance",
-     main = "LV simulation (prey + predator)", ylim = range(0, N, P))
+plot(time, N, type = "l", lwd = 2,
+     xlab = "Zeit", ylab = "Haeufigkeit",
+     main = "Simulation: Beute und Raeuber",
+     ylim = range(0, N, P))
 lines(time, P, lwd = 2, lty = 2)
-legend("topright", c("Prey N", "Predator P"), lty = 1:2, lwd = 2, bty = "n")
+legend("topright", c("Beute N", "Raeuber P"),
+       lty = 1:2, lwd = 2, bty = "n")
 ```
 
-## Connect model to data
+## Mini-Glossar R (heute)
 
-The model is not a perfect fit today — and that is OK.
+| Konzept | Merksatz |
+|---------|----------|
+| `<-` | speichert Ergebnis in einem Namen |
+| `function(...) { }` | Input → Output |
+| `numeric(n)` | leerer Zahlenvektor |
+| `x[i]` | i-tes Element |
+| `for (i in ...) { }` | wiederholen |
+| `plot` / `lines` | Abbildung |
 
-We ask qualitative questions:
+## Brücke
 
-- Can predation create a crash that alone-culture does not?
-- Which parameter is the “Didinium knob”?
-- What is missing for real microcosms? (Week 3+)
+![](../../pics/icons/w2_pipeline.svg){fig-alt="Bruecke Programmierung Biologie" width="88%"}
 
-## Check your understanding
+| Programmierung | Biologie |
+|----------------|----------|
+| Funktion | ein Zeitschritt |
+| Vektor | Zeitreihe |
+| Schleife | viele Schritte |
+| Plot | Dynamik lesen |
 
-If we increase predation rate \(a\):
+## Ehrlicher Hinweis
 
-1. Short-run effect on *Paramecium*?
-2. Soon after, effect on *Didinium*?
-3. Which line of code changes?
+Modell ≠ perfekter Datenfit.  
+Heute zählt der **Workflow** — Feinschliff ab Woche 3.
 
----
+------------------------------------------------------------------------
 
-## Notebook today
+## Notebook (~45 min)
 
-**Build an iterative simulator + compare to the microcosm contrast**
+::::: columns
+::: {.column width="22%"}
+![](../../pics/icons/icon_code.svg){fig-alt="Notebook" width="70%"}
+:::
+::: {.column width="78%"}
+1.  `next_N` aufrufen (verschiedene Inputs)  
+2.  Vektor + Schleife + `plot`  
+3.  Daten danebenlegen  
+4.  `next_state` + zwei Kurven  
+5.  **Einen** Parameter ändern — was passiert?
+:::
+:::::
 
-1. Load the two CSV files
-2. Complete `next_state()`
-3. Vectors + loop + plot
-4. Change one parameter
-5. Relate output to *Paramecium* / *Didinium* patterns
+## Abschlussfragen
 
-## Bridge to programming course
+1.  Was sind Input und Output von `next_N`?  
+2.  Warum `for` statt Abschreiben?  
+3.  Was ändert `lines()` gegenüber nur `plot()`?
 
-| Programming | Biology today |
-|---|---|
-| Function | one time-step update |
-| Vector | abundance time series |
-| Loop | many days |
-| Plot | interpret predator–prey dynamics |
+## Literatur
 
-## Exit ticket
+Alles, was in dieser Einheit namentlich vorkommt:
 
-1. What differs biologically between the two datasets?
-2. What does `next_state()` represent?
-3. Why do we need a loop?
+1. **Gause, G. F. (1934).** *The Struggle for Existence*. Williams & Wilkins. — *Paramecium*-Monokultur und *Paramecium*–*Didinium*-Experimente (Kursdaten).
+2. **Lotka, A. J. (1925).** *Elements of Physical Biology*. Williams & Wilkins. — Räuber–Beute-Idee.
+3. **Volterra, V. (1926).** Variazioni e fluttuazioni del numero d’individui in specie animali conviventi. *Memorie della R. Accademia Nazionale dei Lincei*. — Räuber–Beute-Idee.
+4. **Mühlbauer, L. K., Schulze, M., Harpole, W. S., & Clark, A. T. (2020).** gauseR: Simple methods for fitting Lotka–Volterra models describing Gause’s «Struggle for Existence». *Ecology and Evolution* 10: 13296–13306. [doi:10.1002/ece3.6926](https://doi.org/10.1002/ece3.6926) — Digitalisierung der Gause-Daten (`gauseR` / Kurs-CSVs).
 
-## Next week
-
-Richer ecological models:
-
-- carrying capacity (why alone-cultures plateau)
-- extra terms / species
-- systematic parameter play
-
----
+Bildnachweise: `pics/README.md` · Organismenfotos Wikimedia Commons (siehe Bildunterschriften).
 
 ## Navigation
 
 | | |
 |---|---|
-| Overview | [Course outline](../../docs/course-outline.html) |
-| Home | [Course home](../../index.html) |
-| Previous | [← Week 1](../week-01/slides.html) |
-| Next | [Week 3 →](../week-03/slides.html) |
-
-Keyboard: ← → · **M** menu · **Esc** grid · **F** fullscreen
+| Kursplan | [Kursplan](../../docs/course-outline.html) |
+| Zurück | [← Woche 1](../week-01/slides.html) |
+| Weiter | [Woche 3 →](../week-03/slides.html) |

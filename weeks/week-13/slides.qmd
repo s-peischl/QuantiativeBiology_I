@@ -1,6 +1,6 @@
 ---
-title: "Week 13 — A Microbiome Visual Story"
-subtitle: "Checkpoint D · load → viz → claim"
+title: "Woche 13 — Eine visuelle Mikrobiom-Geschichte"
+subtitle: "Checkpoint D · einlesen → visualisieren → Aussage"
 author: "Stephan Peischl"
 format:
   revealjs:
@@ -17,91 +17,96 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Course outline](../../docs/course-outline.html) · [Home](../../index.html)"
+    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html)"
 execute:
   echo: false
   warning: false
   message: false
 ---
 
-## On this deck
+## In diesem Foliensatz
 
-**Week 13** of 14 · **Checkpoint D**  
-**Thu 10 Dec 2026, 08:15–10:00**
+**Woche 13** von 14 · **Checkpoint D**  
+**Do., 10. Dez. 2026, 08:15–10:00**
 
-- [Course outline](../../docs/course-outline.html)
-- [Home](../../index.html)
-- Arrow keys / controls · **M** menu · **Esc** grid
+- [Kursplan](../../docs/course-outline.html)
+- [Start](../../index.html)
+- Pfeiltasten / Steuerelemente · **M** Menü · **Esc** Übersicht
 
-## Block recap
+## Rückblick auf den Block
 
-| Week | Skill |
+| Woche | Fähigkeit |
 |---|---|
-| 11 | Load complex tables + metadata |
-| 12 | Visualize without chaos |
-| **13** | Tell one honest data story |
+| 11 | Komplexe Tabellen + Metadaten einlesen |
+| 12 | Ohne Chaos visualisieren |
+| **13** | Eine ehrliche Datengeschichte erzählen |
 
-## Checkpoint D (today)
+## Checkpoint D (heute)
 
-**Bigger practical + short presentation (~3–5 min)**
+**Grössere praktische Arbeit + Kurzpräsentation (ca. 3–5 Min.)**
 
-Not a methods olympiad — a **communication** checkpoint.
+Keine Methodenolympiade — ein Checkpoint zur **Kommunikation**.
 
-## Required beats
+## Erforderliche Bestandteile
 
-1. Biological / ecological question
-2. What you loaded & how you cleaned/joined it
-3. **One primary figure** (+ optional QC inset)
-4. What the figure does **not** show
+1. Biologische / ökologische Fragestellung
+2. Was Sie eingelesen und wie Sie es bereinigt/verknüpft haben
+3. **Eine Hauptabbildung** (+ optionale kleine Grafik zur Qualitätskontrolle)
+4. Was die Abbildung **nicht** zeigt
 
-## Practical workflow (use this checklist)
+## Praktischer Arbeitsablauf (verwenden Sie diese Checkliste)
 
-1. Reload data with your Week 11 checks
-2. Choose aggregation (top taxa / taxonomic level)
-3. Make 1–2 candidate figures; pick the clearest
-4. Write a 2–3 sentence caption
-5. List assumptions (relative vs absolute, filters, batch, …)
+1. Daten mit Ihren Prüfungen aus Woche 11 erneut einlesen
+2. Aggregation wählen (häufigste Taxa / taxonomische Ebene)
+3. 1–2 mögliche Abbildungen erstellen; die klarste auswählen
+4. Eine Bildlegende mit 2–3 Sätzen verfassen
+5. Annahmen auflisten (relativ vs. absolut, Filter, Batch, …)
 
-## Good Checkpoint D topics (examples)
+## Geeignete Themen für Checkpoint D (Beispiele)
 
-- Composition shift across sites / hosts / time
-- A treatment contrast visible at phylum level
-- Dominants vs rare “Other” fraction
-- Library-size QC that changes interpretation
+- Veränderung der Zusammensetzung zwischen Standorten / Wirten / Zeitpunkten
+- Ein auf Stammebene sichtbarer Unterschied zwischen Behandlungen
+- Dominante Taxa gegenüber dem seltenen Anteil «Andere»
+- Qualitätskontrolle der Bibliotheksgrösse, welche die Interpretation verändert
 
-## Grading emphasis
+## Schwerpunkt der Bewertung
 
-| Higher weight | Lower weight |
+| Höhere Gewichtung | Niedrigere Gewichtung |
 |---|---|
-| Clear question + readable figure | Exotic ordinations |
-| Correct joins / labeled axes | Dozens of panels |
-| Honest limits | Decorative colour |
+| Klare Frage + verständliche Abbildung | Exotische Ordinationen |
+| Korrekte Verknüpfungen / beschriftete Achsen | Dutzende Panels |
+| Ehrliche Einschränkungen | Dekorative Farben |
 
-## Bridge across the semester
+## Brücke über das Semester
 
-You started with **models from tiny time series**.
+Sie haben mit **Modellen aus sehr kleinen Zeitreihen** begonnen.
 
-You end the content blocks by **reading complex ecological tables** — the skill working biologists actually need on day one of a microbiome project.
+Sie beenden die Inhaltsblöcke mit dem **Einlesen komplexer ökologischer Tabellen** — einer Fähigkeit, die Biologinnen und Biologen bereits am ersten Tag eines Mikrobiomprojekts benötigen.
 
-## Looking ahead
+## Ausblick
 
-**Week 14 (17 Dec):** synthesis wrap — connect Checkpoints A–D; optional portfolio polish.
+**Woche 14 (17. Dez.):** Synthese und Abschluss — Checkpoints A–D verknüpfen; Portfolio optional überarbeiten.
 
-## Exit ticket
+## Abschlussfragen
 
-1. What is your one-sentence claim?
-2. What would make you distrust your own figure?
-3. Which earlier checkpoint skill did you reuse (loop? replicate thinking? model vs data honesty?)?
+1. Wie lautet Ihre Aussage in einem Satz?
+2. Was würde Sie an Ihrer eigenen Abbildung zweifeln lassen?
+3. Welche Fähigkeit aus einem früheren Checkpoint haben Sie erneut eingesetzt (Schleife? Denken in Replikaten? ehrlicher Umgang mit Modell und Daten?)?
 
 ---
+
+## Literatur
+
+In diesem Foliensatz-Entwurf noch keine Fallstudien zitiert.  
+Sobald Inhalte ausgearbeitet sind, erscheint hier die vollständige Liste aller genannten Quellen.
 
 ## Navigation
 
 | | |
 |---|---|
-| Overview | [Course outline](../../docs/course-outline.html) |
-| Home | [Course home](../../index.html) |
-| Previous | [← Week 12](../week-12/slides.html) |
-| Next | [Week 14 →](../week-14/slides.html) |
+| Übersicht | [Kursplan](../../docs/course-outline.html) |
+| Startseite | [Kursstartseite](../../index.html) |
+| Zurück | [← Woche 12](../week-12/slides.html) |
+| Weiter | [Woche 14 →](../week-14/slides.html) |
 
-Keyboard: ← → · **M** menu · **Esc** grid · **F** fullscreen
+Tastatur: ← → · **M** Menü · **Esc** Übersicht · **F** Vollbild

@@ -1,6 +1,6 @@
 ---
-title: "Week 13 — Notebook · Visual story · Checkpoint D"
-subtitle: "One figure, honest limits"
+title: "Woche 13 — Notebook · Visuelle Geschichte · Checkpoint D"
+subtitle: "Eine Abbildung, ehrliche Einschränkungen"
 format:
   html:
     toc: true
@@ -11,16 +11,16 @@ execute:
   message: false
 ---
 
-## Checkpoint D practical
+## Praktische Arbeit zu Checkpoint D
 
-1. Reload + sanity-check data.
-2. Choose one question.
-3. Produce one primary figure (optional QC inset).
-4. Caption (2–3 sentences) + “not claiming” bullet list.
+1. Daten erneut einlesen + Plausibilität prüfen.
+2. Eine Fragestellung auswählen.
+3. Eine Hauptabbildung erstellen (optionale kleine Grafik zur Qualitätskontrolle).
+4. Bildlegende (2–3 Sätze) + Stichpunktliste «Was wir nicht behaupten».
 
-## Presentation notes (fill before class)
+## Notizen zur Präsentation (vor dem Unterricht ausfüllen)
 
-- Question:
-- Load/clean steps (30 sec):
-- Figure claim:
-- Limits:
+- Fragestellung:
+- Schritte zum Einlesen/Bereinigen (30 Sek.):
+- Aussage der Abbildung:
+- Einschränkungen:

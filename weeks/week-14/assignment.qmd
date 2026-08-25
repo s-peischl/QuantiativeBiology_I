@@ -1,15 +1,15 @@
 ---
-title: "Week 14 — Assignment · Synthesis wrap"
+title: "Woche 14 — Aufgabe · Synthese und Abschluss"
 format:
   html:
     toc: true
     css: ../../styles.scss
 ---
 
-No fifth high-stakes talk. Optional portfolio polish.
+Keine fünfte stark gewichtete Präsentation. Das Portfolio kann optional überarbeitet werden.
 
-## Submit
+## Abgabe
 
-1. Half-page arc reflection connecting Checkpoints **A–D**.
-2. Links (or files) to your four checkpoint products.
-3. Optional: one improved figure from any checkpoint for a course gallery.
+1. Halbseitige Reflexion über den Verlauf, welche die Checkpoints **A–D** verknüpft.
+2. Links (oder Dateien) zu Ihren vier Checkpoint-Produkten.
+3. Optional: eine überarbeitete Abbildung aus einem beliebigen Checkpoint für eine Kursgalerie.

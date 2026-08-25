@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="340" viewBox="0 0 920 340">
+  <rect width="920" height="340" fill="#fbfcfd"/>
+  <text x="460" y="34" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="#1a5276">Zwei Lesarten derselben Mathematik</text>
+
+  <rect x="40" y="60" width="400" height="220" rx="14" fill="#eafaf1" stroke="#27ae60" stroke-width="2"/>
+  <text x="240" y="100" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#196f3d">Oekologie</text>
+  <text x="240" y="140" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">N1, N2, N3 = Arten / Dichten</text>
+  <text x="240" y="170" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">aij = Konkurrenzstaerke</text>
+  <text x="240" y="200" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">Wachstum, Ressourcen</text>
+  <text x="240" y="245" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#196f3d">Lotka-Volterra-Konkurrenz</text>
+
+  <rect x="480" y="60" width="400" height="220" rx="14" fill="#eaf2fb" stroke="#2980b9" stroke-width="2"/>
+  <text x="680" y="100" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#1a5276">Spieltheorie / Verhalten</text>
+  <text x="680" y="140" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">x1, x2, x3 = Strategie-Anteile</text>
+  <text x="680" y="170" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">aij ~ Payoff / Interaktion</text>
+  <text x="680" y="200" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">Fitness haengt von anderen ab</text>
+  <text x="680" y="245" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1a5276">Replikator / evolutionaeres Spiel</text>
+
+  <text x="460" y="315" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#5d6d7e">Gleiche Pipeline: Update-Funktion -&gt; Schleife -&gt; plot</text>
+</svg>
