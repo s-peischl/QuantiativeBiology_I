@@ -70,6 +70,6 @@ website:
 # slides declare format: revealjs in theirs.
 
 execute:
-  freeze: false
+  freeze: auto
   warning: false
   message: false

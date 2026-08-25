@@ -2,6 +2,6 @@
 # IMPORTANT: do not set `format:` here — notebooks/assignments are HTML,
 # slides declare revealjs themselves.
 execute:
-  freeze: false
+  freeze: auto
   warning: false
   message: false

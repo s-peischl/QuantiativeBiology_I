@@ -23,7 +23,7 @@ execute:
   echo: false
   warning: false
   message: false
-  freeze: false
+  freeze: auto
 ---
 
 ## Übersicht
@@ -117,11 +117,15 @@ Beide Arten schaffen allein ein Plateau → Ressource reicht für jede allein.
 #| fig-height: 3.6
 #| fig-width: 7
 mix <- read.csv("data/paramecium_competition.csv")
+# digitalisierte Punkte: fehlende Werte weglassen (sonst Luecken in type="b")
+c_ok <- !is.na(mix$caudatum)
+a_ok <- !is.na(mix$aurelia)
 ymax <- max(c(mix$caudatum, mix$aurelia), na.rm = TRUE)
-plot(mix$day, mix$caudatum, type = "b", pch = 16, lwd = 2,
+plot(mix$day[c_ok], mix$caudatum[c_ok], type = "b", pch = 16, lwd = 2,
      xlab = "Tag", ylab = "Volumen",
-     main = "Mischung (Gause)", ylim = c(0, ymax * 1.05))
-lines(mix$day, mix$aurelia, type = "b", pch = 17, lwd = 2, lty = 2)
+     main = "Mischung (Gause)", ylim = c(0, ymax * 1.05),
+     xlim = range(mix$day, na.rm = TRUE))
+lines(mix$day[a_ok], mix$aurelia[a_ok], type = "b", pch = 17, lwd = 2, lty = 2)
 legend("topright", c("caudatum", "aurelia"), pch = c(16, 17), lty = 1:2, bty = "n")
 ```
 
