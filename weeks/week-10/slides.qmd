@@ -4,6 +4,7 @@ subtitle: "Etablierung vor dem Aussterben · Checkpoint C"
 author: "Stephan Peischl"
 format:
   revealjs:
+    html-math-method: katex
     theme: simple
     slide-number: true
     incremental: false
@@ -37,7 +38,7 @@ execute:
 
 | Woche | Idee |
 |---|---|
-| 5–7 | Deterministische Selektion auf \(p_t\) |
+| 5–7 | Deterministische Selektion auf $p_t$ |
 | 8–9 | Etablierung seltener vorteilhafter Typen |
 | **10** | Etablierung, **während die Population zusammenbricht** → Rettung |
 
@@ -98,14 +99,14 @@ Viele Replikatläufe → **Rettungswahrscheinlichkeit** schätzen (wie bei der E
 
 1. Biologische Frage (Rettung unter Stress)
 2. Was Sie berechnet haben (Replikate; Definition der Rettung)
-3. Eine Abbildung (z. B. Rettungswahrscheinlichkeit gegen Stress / gegen \(s\))
+3. Eine Abbildung (z. B. Rettungswahrscheinlichkeit gegen Stress / gegen $s$)
 4. Stärkste Annahme + was ein **Laborversuch** messen würde
 
 ## Ziele des Notebooks / praktischen Teils
 
 - Einen einfachen Rückgang mit einem Etablierungsmodul aus Woche 9 koppeln
-- Einen Parameter durchlaufen (Stressintensität oder \(s\))
-- \(\widehat{\Pr}(\text{rescue})\) angeben
+- Einen Parameter durchlaufen (Stressintensität oder $s$)
+- $\widehat{\Pr}(\text{rescue})$ angeben
 - Optional: „bestehende Variation“ mit „nur neue Mutationen“ vergleichen
 
 ## Brücke zum Programmierkurs

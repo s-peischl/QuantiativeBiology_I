@@ -89,7 +89,7 @@ Editable starting point for the board (German student slides may translate).
 ### Note 4 — Selection
 
 - **In class today:** alleles are “favoured”, haplotypes “sweep”, adaptation to diving / high altitude.  
-- **But wait …** Can we assign a gene *one* effect \(s\)? It depends on the **environment** — and on **which genome / individual** it sits in.  
+- **But wait …** Can we assign a gene *one* effect $s$? It depends on the **environment** — and on **which genome / individual** it sits in.  
 - **For a model we would need …** Fitness relative to a fixed background and context.  
 - **Lab stickers (optional):** **Bank** (epistasis / genome-dependent effects) · Ringler · Peichel · Seehausen  
 

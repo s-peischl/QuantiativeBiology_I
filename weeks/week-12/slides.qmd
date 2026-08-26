@@ -4,6 +4,7 @@ subtitle: "Von Tabellen zu verständlichen Abbildungen"
 author: "Stephan Peischl"
 format:
   revealjs:
+    html-math-method: katex
     theme: simple
     slide-number: true
     incremental: false
@@ -45,7 +46,7 @@ Hunderte/Tausende Taxa ≠ Hunderte Legendeneinträge.
 
 Sie müssen **aggregieren oder auswählen**:
 
-- häufigste \(k\) Taxa + «Andere»
+- häufigste $k$ Taxa + «Andere»
 - auf Stamm- / Familienebene zusammenfassen
 - auf eine biologisch begründete Auswahl von Taxa fokussieren
 

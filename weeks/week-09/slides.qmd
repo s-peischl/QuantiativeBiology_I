@@ -4,6 +4,7 @@ subtitle: "Etablierungswahrscheinlichkeit u(s) schätzen"
 author: "Stephan Peischl"
 format:
   revealjs:
+    html-math-method: katex
     theme: simple
     slide-number: true
     incremental: false
@@ -37,7 +38,7 @@ execute:
 
 1. Einen Etablierungsversuch *in silico* implementieren
 2. Die Etablierungswahrscheinlichkeit aus vielen Replikaten schätzen
-3. Untersuchen, wie \(u\) von \(s\) (und der Anzahl der Ausgangskopien) abhängt
+3. Untersuchen, wie $u$ von $s$ (und der Anzahl der Ausgangskopien) abhängt
 4. Die Simulation mit einem einfachen analytischen Referenzwert vergleichen
 
 ## Rückblick auf Woche 8
@@ -53,7 +54,7 @@ In jeder Generation kann eine kleine Abstammungslinie:
 - wachsen (Selektion hilft)
 - durch Zufall schrumpfen / aussterben
 
-Wiederholen Sie dies **tausendfach** ausgehend von einer einzigen Kopie → Anteil der Etablierungen \(\approx u\).
+Wiederholen Sie dies **tausendfach** ausgehend von einer einzigen Kopie → Anteil der Etablierungen $\approx u$.
 
 (Die genaue Aktualisierung kann einem Verzweigungsprozess oder einem Wright–Fisher-Modell mit einer Mutante folgen — die Mitwirkenden wählen eine klare Implementierung.)
 
@@ -70,33 +71,33 @@ u_hat <- mean(established)
 - **Funktion:** Schicksal einer Abstammungslinie
 - **Vektor:** Ergebnisse über Replikate
 - **Schleife:** viele Versuche
-- **Abbildung:** \(\hat{u}\) gegen \(s\)
+- **Abbildung:** $\hat{u}$ gegen $s$
 
 ## Was variiert werden soll (jeweils ein Parameter)
 
 | Parameter | Zuerst zu notierende Vorhersage |
 |---|---|
-| Selektionsvorteil \(s\) | größeres \(s\) → höheres \(u\)? |
-| Ausgangskopien \(k\) | schwerer zu verlieren bei \(k \gt 1\)? |
+| Selektionsvorteil $s$ | größeres $s$ → höheres $u$? |
+| Ausgangskopien $k$ | schwerer zu verlieren bei $k \gt 1$? |
 | Population / Tragfähigkeitskontext | Wann spielt die Demografie eine Rolle? |
 
 ## Analytischer Referenzwert (optionales Ziel)
 
-Für ein einfaches vorteilhaftes Allel lautet eine klassische Näherung \(u \approx 2s\) (unter den genannten Annahmen).
+Für ein einfaches vorteilhaftes Allel lautet eine klassische Näherung $u \approx 2s$ (unter den genannten Annahmen).
 
 Anwendung im Unterricht:
 
-1. \(\hat{u}(s)\) simulieren
-2. \(2s\) überlagern
+1. $\hat{u}(s)$ simulieren
+2. $2s$ überlagern
 3. Diskutieren, wo die Übereinstimmung gelingt / scheitert (Annahmen!)
 
 ## Biologische Kernaussage
 
 Die Anpassungsrate durch **neue Mutationen** hängt ab von:
 
-\[
+$$
 \text{mutational supply} \times \text{establishment probability}
-\]
+$$
 
 Nicht nur davon, „wie stark die Selektion“ im deterministischen Sinne ist.
 
@@ -109,14 +110,14 @@ Dieses Problem hat einen Namen: **evolutionäre Rettung**.
 ## Vorschau auf das Notebook
 
 1. `run_one_lineage()` + Replikatschleife
-2. \(u\) für mehrere \(s\)-Werte schätzen
-3. Optional: mit \(k=1,2,5\) Kopien beginnen
+2. $u$ für mehrere $s$-Werte schätzen
+3. Optional: mit $k=1,2,5$ Kopien beginnen
 4. Kurzer Text: Annahmen Ihres Simulators
 
 ## Abschlussfragen
 
 1. Wie haben Sie „etabliert“ im Code definiert?
-2. Stieg \(\hat{u}\) wie vorhergesagt mit \(s\)?
+2. Stieg $\hat{u}$ wie vorhergesagt mit $s$?
 3. Welche Komponente fehlt noch für Populationen unter tödlichem Stress?
 
 ## Nächste Woche

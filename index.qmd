@@ -15,6 +15,15 @@ format:
 - **[KI-Richtlinie](docs/ai-policy.qmd)** — erlaubte Nutzung, Verbote und Offenlegung
 - **[Collaborators](docs/for-collaborators.qmd)** — Quarto + GitHub (English)
 
+## Materialien finden
+
+Oben in der **Navigationsleiste**:
+
+- **Folien** → Woche wählen  
+- **Notebooks** → Woche wählen  
+
+Direkt zu Woche 2: **[Notebook Woche 2](weeks/week-02/notebook.qmd)** · **[Folien Woche 2](weeks/week-02/slides.qmd)**
+
 ## Vorlesungstermin
 
 **Donnerstags 08:15–10:00** · erste Sitzung **17. Sep 2026** · bis **17. Dez 2026**
@@ -32,12 +41,12 @@ Für die Bewertung müssen Sie **anwesend sein und präsentieren**.
 Details: [Modul 1](docs/module-01-overview.qmd) · [Allgemeine Informationen](docs/general-info.qmd).
 :::
 
-| Woche | Datum | Thema |
-|------:|------|--------|
-| [1](weeks/week-01/slides.qmd) | 17. Sep | Einstieg — Bajau → Tibet |
-| [2](weeks/week-02/slides.qmd) | 24. Sep | Erstes Modell |
-| [3](weeks/week-03/slides.qmd) | 1. Okt | Ausschluss / Food Web |
-| [4](weeks/week-04/slides.qmd) | 8. Okt | RPS · **Checkpoint A** |
+| Woche | Datum | Thema | Materialien |
+|------:|------|--------|-------------|
+| 1 | 17. Sep | Einstieg — Bajau → Tibet | [Folien](weeks/week-01/slides.qmd) · [Notebook](weeks/week-01/notebook.qmd) |
+| 2 | 24. Sep | Erstes Modell | [Folien](weeks/week-02/slides.qmd) · [**Notebook**](weeks/week-02/notebook.qmd) |
+| 3 | 1. Okt | Ausschluss / Food Web | [Folien](weeks/week-03/slides.qmd) · [Notebook](weeks/week-03/notebook.qmd) |
+| 4 | 8. Okt | RPS · **Checkpoint A** | [Folien](weeks/week-04/slides.qmd) · [Notebook](weeks/week-04/notebook.qmd) |
 
 ## Bogen (ganzes Semester)
 

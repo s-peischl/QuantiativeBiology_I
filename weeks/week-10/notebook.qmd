@@ -23,7 +23,7 @@ execute:
 2. Lassen Sie seltene vorteilhafte/resistente Typen zu (Mutation oder bestehende Variation).
 3. Verwenden Sie die Etablierungslogik aus den Wochen 8–9 wieder.
 4. Klassifizieren Sie jedes Replikat: **ausgestorben** gegenüber **gerettet**.
-5. Durchlaufen Sie Stress oder \(s\); stellen Sie die Rettungswahrscheinlichkeit dar.
+5. Durchlaufen Sie Stress oder $s$; stellen Sie die Rettungswahrscheinlichkeit dar.
 
 ## Leitfragen für Checkpoint C
 

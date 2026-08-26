@@ -4,6 +4,7 @@ subtitle: "20′ Intro · 40′ Notebook · 30′ Kurzpräsentationen"
 author: "Stephan Peischl"
 format:
   revealjs:
+    html-math-method: katex
     theme: simple
     css: slides.css
     slide-number: true
@@ -41,7 +42,7 @@ Pfeiltasten · **M** Menü · **Esc** Übersicht
 | Teil | Dauer | Was |
 |------|-------|-----|
 | **Intro** | **~20 min** | Spieltheorie · Echsen · 2 vs. 3 · Stabilitätsformen |
-| **Notebook** | **~40 min** | \(A\) drehen → RPS; Form diagnostizieren |
+| **Notebook** | **~40 min** | $A$ drehen → RPS; Form diagnostizieren |
 | **Präsentationen** | **~30 min** | Matrix · Plot · welche Stabilitätsform? |
 
 ## Heute in einem Blick
@@ -61,7 +62,7 @@ Pfeiltasten · **M** Menü · **Esc** Übersicht
 :::
 :::::
 
-**Frage** (frequenzabhängige Fitness / RPS) → **Modell** \(A\) → **Simulation** → **Kurzpräsentation**.
+**Frage** (frequenzabhängige Fitness / RPS) → **Modell** $A$ → **Simulation** → **Kurzpräsentation**.
 
 ## Checkpoint A — Anwesenheit Pflicht
 
@@ -101,53 +102,60 @@ Orange → Blau → Gelb → Orange. Sinervo & Lively (1996); Corl et al. (2026)
 
 ## Modell (vorgegeben)
 
-Kursstandard — Euler / Differenzen (wie im R-Code):
+Kursstandard — additive Differenzengleichung (wie im R-Code):
 
-\[
+$$
 N_{i,t+1}
   = N_{i,t}
-    + r\, N_{i,t}\left(1 - \frac{(AN)_i}{K}\right)\Delta t,
+    + r\, N_{i,t}\left(1 - \frac{(AN)_i}{K}\right),
 \qquad
 (AN)_i = \sum_j A_{ij}\, N_j
-\]
+$$
 
-Zuwachs von Typ \(i\): \(f_i\Delta t\) mit \(f_i = r N_i\bigl(1-(AN)_i/K\bigr)\).
+Zuwachs von Typ $i$ pro Schritt: $r N_i\bigl(1-(AN)_i/K\bigr)$.
 
-\((AN)_i\): **Gesamtlast** auf Typ \(i\).  
-\(A_{ij}\): **Interaktionsstärke** — wie stark Typ \(j\) Typ \(i\) unterdrückt.
+$(AN)_i$: **Gesamtlast** auf Typ $i$.  
+$A_{ij}$: **Interaktionsstärke** — wie stark Typ $j$ Typ $i$ unterdrückt.
 
-Literatur oft \(\mathrm{d}N_i/\mathrm{d}t=\ldots\); Parameter gelten für **unser** \(\Delta t\).
+| Symbol | Bedeutung | Wertebereich | Kursbeispiel |
+|--------|-----------|--------------|--------------|
+| $r$ | Wachstumsrate pro Schritt | $0 < r \le 0.2$ | oft $0.02$–$0.05$ |
+| $K$ | Tragfähigkeit | $K > 0$ | $100$ |
+| $A_{ij}$ | Last von Typ $j$ auf Typ $i$ | meist $\ge 0$ | Diagonale $=1$; RPS: eine Richtung $>1$, Gegenrichtung $<1$ |
+| $s,w$ | starke / schwache Interaktion | $s > 1 > w \ge 0$ | z. B. $s=1.5$, $w=0.5$ |
+
+**Kurzer Hinweis:** In der Literatur stehen oft Differentialgleichungen; wir verwenden additive diskrete Schritte.
 
 ## Warum Diagonale = 1 (nicht 0)?
 
-Das ist ein **Konkurrenz**-LV: alle Einträge von \(A\) sind Unterdrückung (Last).  
+Das ist ein **Konkurrenz**-LV: alle Einträge von $A$ sind Unterdrückung (Last).  
 Keine «positiven Fitness-Payoffs» mit Vorzeichen ± — die Diagonale misst **Selbstkonkurrenz**.
 
-| Situation | Last \((AN)_i\) | Zuwachs \(f_i\Delta t\) |
+| Situation | Last $(AN)_i$ | Zuwachs pro Schritt |
 |-----------|-----------------|-------------------------|
-| allein, \(N_i \lt K\) | \(A_{ii} N_i = N_i \lt K\) | \(\gt 0\) → **wächst** |
-| allein, \(N_i = K\) | \(= K\) | \(= 0\) → **Gleichgewicht** |
-| allein, \(N_i \gt K\) | \(\gt K\) | \(\lt 0\) → **schrumpft** |
+| allein, $N_i \lt K$ | $A_{ii} N_i = N_i \lt K$ | $\gt 0$ → **wächst** |
+| allein, $N_i = K$ | $= K$ | $= 0$ → **Gleichgewicht** |
+| allein, $N_i \gt K$ | $\gt K$ | $\lt 0$ → **schrumpft** |
 
-Diagonale \(1\) = Normierung: «eine Einheit eigener Dichte zählt als eine Einheit Last».  
-(Andere Modelle — Payoff-Matrix / Replikator — setzen oft \(0\) auf der Diagonale und arbeiten mit Vorzeichen. **Hier nicht.**)
+Diagonale $1$ = Normierung: «eine Einheit eigener Dichte zählt als eine Einheit Last».  
+(Andere Modelle — Payoff-Matrix / Replikator — setzen oft $0$ auf der Diagonale und arbeiten mit Vorzeichen. **Hier nicht.**)
 
-## Wann schrumpft / wächst Typ \(i\) mit Konkurrenten?
+## Wann schrumpft / wächst Typ $i$ mit Konkurrenten?
 
-Massstab ist immer die Diagonale \(1\):
+Massstab ist immer die Diagonale $1$:
 
-- \(A_{ij} \gt 1\): Typ \(j\) belastet \(i\) **stärker** als \(i\) sich selbst → \(i\) hat es schwerer  
-- \(A_{ij} \lt 1\): Typ \(j\) belastet \(i\) **schwächer** als Selbstkonkurrenz → \(i\) hat es leichter  
-- \(A_{ij} = 1\): \(j\) wirkt wie ein weiteres Individuum von \(i\)
+- $A_{ij} \gt 1$: Typ $j$ belastet $i$ **stärker** als $i$ sich selbst → $i$ hat es schwerer  
+- $A_{ij} \lt 1$: Typ $j$ belastet $i$ **schwächer** als Selbstkonkurrenz → $i$ hat es leichter  
+- $A_{ij} = 1$: $j$ wirkt wie ein weiteres Individuum von $i$
 
-Also: **\(\gt 1\) / \(\lt 1\)** heisst «stärker / schwächer als Selbstkonkurrenz» — nicht «positiv / negativ».
+Also: **$\gt 1$ / $\lt 1$** heisst «stärker / schwächer als Selbstkonkurrenz» — nicht «positiv / negativ».
 
 ## RPS mit zwei Interaktionsparametern
 
-Vollständige \(3\times 3\)-Matrix: **9** Einträge. Diagonale fix \(=1\) → noch **6** Interaktionen.  
-Wir reduzieren auf **zwei** Parameter \(s\) und \(w\):
+Vollständige $3\times 3$-Matrix: **9** Einträge. Diagonale fix $=1$ → noch **6** Interaktionen.  
+Wir reduzieren auf **zwei** Parameter $s$ und $w$:
 
-\[
+$$
 A =
 \begin{pmatrix}
 1 & w & s \\
@@ -156,25 +164,25 @@ w & s & 1
 \end{pmatrix}
 \qquad
 (s \gt 1 \gt w)
-\]
+$$
 
-- \(s\): **starke** Interaktion (\(s \gt 1\))  
-- \(w\): **schwache** Interaktion (\(w \lt 1\))
+- $s$: **starke** Interaktion ($s \gt 1$)  
+- $w$: **schwache** Interaktion ($w \lt 1$)
 
 **Warum reduzieren?** Annahme der **zyklischen Symmetrie**: jedes Paar sieht denselben Kontrast «stark vs. schwach», nur rotiert.  
-Dann reichen \(s,w\) — und die Faustregel \(s+w\) vs. \(2\) wird lesbar.
+Dann reichen $s,w$ — und die Faustregel $s+w$ vs. $2$ wird lesbar.
 
-## \(s\) und \(w\) sind Interaktionen
+## $s$ und $w$ sind Interaktionen
 
-Merksatz: **\(s\) = starke Interaktion**, **\(w\) = schwache Interaktion** (Unterdrückung \(j \to i\)).
+Merksatz: **$s$ = starke Interaktion**, **$w$ = schwache Interaktion** (Unterdrückung $j \to i$).
 
 In jedem Paar eine Richtung stark, die Gegenrichtung schwach:
 
-| Paar | starke Interaktion \(s\) | schwache Interaktion \(w\) | Gewinner |
+| Paar | starke Interaktion $s$ | schwache Interaktion $w$ | Gewinner |
 |------|--------------------------|----------------------------|----------|
-| 1 vs 2 | \(A_{21}=s\): 1 drückt 2 stark | \(A_{12}=w\): 2 drückt 1 schwach | **1 schlägt 2** |
-| 2 vs 3 | \(A_{32}=s\) | \(A_{23}=w\) | **2 schlägt 3** |
-| 3 vs 1 | \(A_{13}=s\) | \(A_{31}=w\) | **3 schlägt 1** |
+| 1 vs 2 | $A_{21}=s$: 1 drückt 2 stark | $A_{12}=w$: 2 drückt 1 schwach | **1 schlägt 2** |
+| 2 vs 3 | $A_{32}=s$ | $A_{23}=w$ | **2 schlägt 3** |
+| 3 vs 1 | $A_{13}=s$ | $A_{31}=w$ | **3 schlägt 1** |
 
 → Zyklus **1 → 2 → 3 → 1** (Schere–Stein–Papier / *Uta*).
 
@@ -182,19 +190,21 @@ In jedem Paar eine Richtung stark, die Gegenrichtung schwach:
 
 Das **qualitative** Muster ist ein Zyklus von «stärker / schwächer»:
 
-\[
+$$
 A_{\mathrm{Muster}} =
 \begin{pmatrix}
 1 & \lt 1 & \gt 1 \\
 \gt 1 & 1 & \lt 1 \\
 \lt 1 & \gt 1 & 1
 \end{pmatrix}
-\]
+$$
 
-- Volle \(s,w\)-Symmetrie ist nur eine **bequeme** Spezialisierung.  
-- RPS braucht **nicht**, dass alle starken Einträge gleich \(s\) und alle schwachen gleich \(w\) sind — nur dass in jedem Paar die richtige Richtung \(\gt 1\) bzw. \(\lt 1\) ist.
+- Volle $s,w$-Symmetrie ist nur eine **bequeme** Spezialisierung.  
+- RPS braucht **nicht**, dass alle starken Einträge gleich $s$ und alle schwachen gleich $w$ sind — nur dass in jedem Paar die richtige Richtung $\gt 1$ bzw. $\lt 1$ ist.
 
-## Asymmetrisch, aber immer noch RPS \[SIM\]
+## Asymmetrisch, aber immer noch RPS $$
+SIM
+$$
 
 ```{r}
 #| fig-height: 3.4
@@ -203,16 +213,16 @@ A_{\mathrm{Muster}} =
 A_asym <- matrix(c(1, 0.4, 1.5,
                    1.15, 1, 0.55,
                    0.7, 1.35, 1), 3, 3, byrow = TRUE)
-next_3lv <- function(N, r, A, K, dt) {
+next_3lv <- function(N, r, A, K) {
   load <- as.numeric(A %*% N)
-  pmax(N + r * N * (1 - load / K) * dt, 0)
+  pmax(N + r * N * (1 - load / K), 0)
 }
-sim_n <- function(A, N0, T = 2000, dt = 0.05, r = 1, K = 100) {
+sim_n <- function(A, N0, T = 2000, r = 0.05, K = 100) {
   n <- length(N0)
   N <- matrix(0, T + 1, n)
   N[1, ] <- N0
-  for (t in 1:T) N[t + 1, ] <- next_3lv(N[t, ], r, A, K, dt)
-  data.frame(time = 0:T * dt, N)
+  for (t in 1:T) N[t + 1, ] <- next_3lv(N[t, ], r, A, K)
+  data.frame(time = 0:T, N)
 }
 cols <- c("#e67e22", "#2980b9", "#f1c40f")
 d_asym <- sim_n(A_asym, c(40, 35, 30), T = 3000)
@@ -222,38 +232,40 @@ matplot(d_asym$time, d_asym[, -1], type = "l", lty = 1, lwd = 2.5, col = cols,
 legend("right", c("1", "2", "3"), col = cols, lty = 1, lwd = 2.5, bty = "n", cex = 0.8)
 ```
 
-Drei Typen bleiben — ohne dass \(A\) nur aus zwei Zahlen \(s,w\) gebaut ist.  
-Im Notebook nutzen wir trotzdem \(s,w\): **weniger Drehknöpfe**, gleiche Idee.
+Drei Typen bleiben — ohne dass $A$ nur aus zwei Zahlen $s,w$ gebaut ist.  
+Im Notebook nutzen wir trotzdem $s,w$: **weniger Drehknöpfe**, gleiche Idee.
 
-## Faustregel \(s+w\) (bei Symmetrie)
+## Faustregel $s+w$ (bei Symmetrie)
 
-Nur wenn wir auf \(s,w\) reduzieren, gilt die einfache Orientierung:
+Nur wenn wir auf $s,w$ reduzieren, gilt die einfache Orientierung:
 
-- mild (\(s,w\) näher an 1, \(s+w \lt 2\)) → eher **Punkt**  
-- Grenze \(s+w \approx 2\) → **stabile Oszillation**  
-- scharf (\(s+w \gt 2\)) → **Heteroklin**
+- mild ($s,w$ näher an 1, $s+w \lt 2$) → eher **Punkt**  
+- Grenze $s+w \approx 2$ → **stabile Oszillation**  
+- scharf ($s+w \gt 2$) → **Heteroklin**
 
-Streng aus dem **kontinuierlichen** May–Leonard-Modell; bei uns mit kleinem `dt` eine **qualitative** Faustregel (Parameter nicht 1:1 aus Papers kopieren).
+Die May–Leonard-Ergebnisse sind hier nur eine **qualitative Orientierung**; Parameter nicht 1:1 aus Papers kopieren.
 
 ------------------------------------------------------------------------
 
 # Warum drei? — das macht RPS aus
 
-## Zwei Strategien: immer Exclusion \[SIM\]
+## Zwei Strategien: immer Exclusion $$
+SIM
+$$
 
 ```{r}
 #| fig-height: 3.5
 #| fig-width: 8.5
-next_3lv <- function(N, r, A, K, dt) {
+next_3lv <- function(N, r, A, K) {
   load <- as.numeric(A %*% N)
-  pmax(N + r * N * (1 - load / K) * dt, 0)
+  pmax(N + r * N * (1 - load / K), 0)
 }
-sim_n <- function(A, N0, T = 2000, dt = 0.05, r = 1, K = 100) {
+sim_n <- function(A, N0, T = 2000, r = 0.05, K = 100) {
   n <- length(N0)
   N <- matrix(0, T + 1, n)
   N[1, ] <- N0
-  for (t in 1:T) N[t + 1, ] <- next_3lv(N[t, ], r, A, K, dt)
-  data.frame(time = 0:T * dt, N)
+  for (t in 1:T) N[t + 1, ] <- next_3lv(N[t, ], r, A, K)
+  data.frame(time = 0:T, N)
 }
 # RPS-Matrix, aber nur zwei Typen vorhanden
 A_rps <- matrix(c(1, 0.5, 1.2,
@@ -275,7 +287,9 @@ legend("right", c("1", "3"), col = cols[c(1, 3)], lty = 1, lwd = 2.5, bty = "n",
 
 Bei **zwei** Strategien gewinnt immer eine — die andere → 0.
 
-## Dritte Strategie stabilisiert \[SIM\]
+## Dritte Strategie stabilisiert $$
+SIM
+$$
 
 ```{r}
 #| fig-height: 3.5
@@ -305,16 +319,16 @@ Dieselbe zyklische Logik — aber **drei** Typen bleiben. Das ist der RPS-Kern.
 
 ## Übersicht
 
-| Form | \(s,w\)-Intuition | Zeitreihe | Simplex |
+| Form | $s,w$-Intuition | Zeitreihe | Simplex |
 |------|-------------------|-----------|---------|
-| **Punkt** | mild (\(s+w < 2\)) | → konstante Dichten | Spirale **ins Innere** |
-| **Stabile Oszillation** | \(s+w \approx 2\) | dauerhafte Schwingung | **geschlossener Zyklus** |
-| **Heteroklinzyklus** | scharf (\(s+w > 2\)) | Minima → 0 | Drift zu den **Rändern** |
+| **Punkt** | mild ($s+w < 2$) | → konstante Dichten | Spirale **ins Innere** |
+| **Stabile Oszillation** | $s+w \approx 2$ | dauerhafte Schwingung | **geschlossener Zyklus** |
+| **Heteroklinzyklus** | scharf ($s+w > 2$) | Minima → 0 | Drift zu den **Rändern** |
 
 ## Phasenraum: das Simplex
 
 Drei Typen → Zustände als **Häufigkeiten**
-\(f_i = N_i / \sum_j N_j\) mit \(f_1 + f_2 + f_3 = 1\).  
+$f_i = N_i / \sum_j N_j$ mit $f_1 + f_2 + f_3 = 1$.  
 Das ist ein **Dreieck** (2-Simplex): Ecken = eine Strategie allein.
 
 ```{r}
@@ -369,11 +383,13 @@ text(mid[1], mid[2] - 0.08, "Mischung", col = "#8e44ad", cex = 0.85)
 ```
 
 Kanten = eine Strategie fehlt (Exclusion-Rand).  
-Innen = alle drei \(\gt 0\).
+Innen = alle drei $\gt 0$.
 
-## 1 · Punktgleichgewicht (auch RPS!) \[SIM\]
+## 1 · Punktgleichgewicht (auch RPS!) $$
+SIM
+$$
 
-\(s=1.2\), \(w=0.5\) → \(s+w=1.7 < 2\)
+$s=1.2$, $w=0.5$ → $s+w=1.7 < 2$
 
 ```{r}
 #| fig-height: 3.5
@@ -388,9 +404,11 @@ plot_simplex_traj(d3, main = "Simplex → Punkt")
 
 Dominanz-Logik zyklisch — Langzeit = **fester Punkt** im Inneren (alle ≈ gleich).
 
-## 2 · Stabile Oszillation \[SIM\]
+## 2 · Stabile Oszillation $$
+SIM
+$$
 
-\(s=1.35\), \(w=0.65\) → \(s+w=2\)
+$s=1.35$, $w=0.65$ → $s+w=2$
 
 ```{r}
 #| fig-height: 3.5
@@ -398,7 +416,7 @@ Dominanz-Logik zyklisch — Langzeit = **fester Punkt** im Inneren (alle ≈ gle
 A_osc <- matrix(c(1, 0.65, 1.35,
                   1.35, 1, 0.65,
                   0.65, 1.35, 1), 3, 3, byrow = TRUE)
-d_osc <- sim_n(A_osc, c(45, 30, 25), T = 4000, dt = 0.02)
+d_osc <- sim_n(A_osc, c(45, 30, 25), T = 4000, r = 0.02)
 par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
 matplot(d_osc$time, d_osc[, -1], type = "l", lty = 1, lwd = 2.2, col = cols,
         xlab = "Zeit", ylab = "N",
@@ -409,9 +427,11 @@ plot_simplex_traj(d_osc, main = "Simplex: geschlossener Zyklus")
 
 Dominanz rotiert dauerhaft — auf dem Simplex ein **Orbit**, der nicht an den Rand driftet.
 
-## 3 · Heteroklinzyklus \[SIM\]
+## 3 · Heteroklinzyklus $$
+SIM
+$$
 
-\(s=1.40\), \(w=0.65\) → \(s+w=2.05 > 2\)
+$s=1.40$, $w=0.65$ → $s+w=2.05 > 2$
 
 ```{r}
 #| fig-height: 3.5
@@ -419,7 +439,7 @@ Dominanz rotiert dauerhaft — auf dem Simplex ein **Orbit**, der nicht an den R
 A_het <- matrix(c(1, 0.65, 1.40,
                   1.40, 1, 0.65,
                   0.65, 1.40, 1), 3, 3, byrow = TRUE)
-d_het <- sim_n(A_het, c(45, 30, 25), T = 12000, dt = 0.015)
+d_het <- sim_n(A_het, c(45, 30, 25), T = 12000, r = 0.015)
 par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
 matplot(d_het$time, d_het[, -1], type = "l", lty = 1, lwd = 1.8, col = cols,
         xlab = "Zeit", ylab = "N",
@@ -473,11 +493,11 @@ Gleiche zyklische Interaktionslogik — **verschiedene Orbits** im Simplex.
 1. Zwei Strategien → Exclusion bestätigen  
 2. Mit drei Strategien RPS erzeugen  
 3. Mindestens **eine** Form klar hinbekommen (Punkt / Oszillation / Heteroklin)  
-4. Optional: alle drei Formen ansteuern (\(s+w\) drehen)  
+4. Optional: alle drei Formen ansteuern ($s+w$ drehen)  
 
 ## Präsentation (~2–3 Min.)
 
-1. Matrix \(A\)  
+1. Matrix $A$  
 2. Ein Plot (Zeitreihe **oder** Simplex)  
 3. **Welche Form?** Punkt · Oszillation · Heteroklin — Beleg in einem Satz  
 4. Warum wäre dasselbe mit nur zwei Strategien unmöglich?
@@ -486,8 +506,8 @@ Gleiche zyklische Interaktionslogik — **verschiedene Orbits** im Simplex.
 
 ## Abschlussfragen
 
-1. Warum Diagonale \(=1\) — und was heisst \(A_{ij}\gt 1\) vs. \(A_{ij}\lt 1\)?  
-2. Warum reduzieren wir auf \(s,w\) — und was braucht RPS *ohne* volle Symmetrie?  
+1. Warum Diagonale $=1$ — und was heisst $A_{ij}\gt 1$ vs. $A_{ij}\lt 1$?  
+2. Warum reduzieren wir auf $s,w$ — und was braucht RPS *ohne* volle Symmetrie?  
 3. Was sehen Sie auf dem **Simplex** bei Punkt vs. Oszillation vs. Heteroklin?  
 4. Woran erkennen Sie einen Heteroklinzyklus (Zeitreihe *und* Simplex)?
 
@@ -497,7 +517,7 @@ Alles, was in dieser Einheit namentlich vorkommt:
 
 1. **Sinervo, B., & Lively, C. M. (1996).** The rock–paper–scissors game and the evolution of alternative male strategies. *Nature* 380: 240–243. [doi:10.1038/380240a0](https://doi.org/10.1038/380240a0) — *Uta*-RPS.
 2. **Corl, A., et al. (2026).** The genetics, evolution, and maintenance of a biological rock-paper-scissors game. *Science* 391: 69–74. [doi:10.1126/science.adw8265](https://doi.org/10.1126/science.adw8265).
-3. **May, R. M., & Leonard, W. J. (1975).** Nonlinear aspects of competition between three species. *SIAM Journal on Applied Mathematics* 29: 243–253. — \(s,w\)-Idee / Stabilitätsformen (Faustregel qualitativ).
+3. **May, R. M., & Leonard, W. J. (1975).** Nonlinear aspects of competition between three species. *SIAM Journal on Applied Mathematics* 29: 243–253. — $s,w$-Idee / Stabilitätsformen (Faustregel qualitativ).
 4. **Lotka, A. J. (1925)**; **Volterra, V. (1926)**; **Gause, G. F. (1934).** — Konkurrenz / Exclusion-Hintergrund (Wochen 2–3).
 5. Berkeley Understanding Evolution: [High-stakes rock-paper-scissors…](https://evolution.berkeley.edu/evo-news/high-stakes-rock-paper-scissors-these-lizards-are-all-in-on-an-evolutionary-game/) — populäre Zusammenfassung zu Corl et al.
 

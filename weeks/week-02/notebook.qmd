@@ -1,9 +1,11 @@
 ---
-title: "Woche 2 — Notebook · Erstes Modell"
-subtitle: "Eine Population → Räuber–Beute"
+title: "Woche 2 — Notebook"
+subtitle: "Quantitative Biologie I · Eine Population, dann Räuber–Beute"
 format:
   html:
     toc: true
+    toc-title: "Inhalt"
+    code-fold: false
     css: ../../styles.scss
 execute:
   echo: true
@@ -11,73 +13,324 @@ execute:
   message: false
 ---
 
-::: {.callout-note}
-**Sitzung:** nach ~45 min Vorlesung → ~45 min Notebook.  
-Blöcke A/B üben die Pipeline aus den Folien: Daten → ein Schritt → Vektor → Schleife → Plot.
+## Vorbereitung: Daten bereitstellen
+
+Damit dieses Notebook läuft, müssen die CSV-Dateien **neben** dem Notebook liegen — typischerweise so:
+
+```text
+week-02/
+  notebook.qmd          ← dieses File (oder Ihre .R / .Rmd-Kopie)
+  data/
+    paramecium_alone.csv
+    paramecium_with_didinium.csv
+    paramecium_didinium_extinction.csv
+```
+
+**So gehen Sie vor:**
+
+1. Legen Sie einen Ordner `data` im gleichen Verzeichnis wie Ihr Notebook an (falls noch nicht vorhanden).  
+2. Laden Sie die Kursdaten herunter (Kurswebsite / ILIAS / GitHub-Repo unter `weeks/week-02/data/`) und legen Sie die drei CSV-Dateien in `data/`.  
+3. Arbeitsverzeichnis in R / RStudio / Quarto: Ordner `week-02` (nicht der übergeordnete Kursordner).  
+4. Kurz testen:
+
+```{r check-data, eval=FALSE}
+list.files("data")
+# erwartet u. a.: paramecium_alone.csv, paramecium_with_didinium.csv, ...
+```
+
+Wenn `read.csv("data/...")` mit «cannot open» scheitert: meist falsches Arbeitsverzeichnis oder fehlender `data/`-Ordner.
+
+## Lernziele
+
+- Eine biologische Regel in einen **Ein-Schritt-Update** übersetzen
+- **Selbst** ausprobieren, wie Parameter und Anfangsbedingungen die Dynamik ändern
+- Dieselbe Modellierungslogik auf **eine** und dann auf **zwei** Populationen anwenden
+- Grenzen einfacher Modelle diskutieren
+
+
+------------------------------------------------------------------------
+
+# Teil A — Eine Spezies (*Paramecium* allein)
+
+## A0) Daten anschauen
+
+```{r daten-allein}
+alone <- read.csv("data/paramecium_alone.csv")
+
+plot(
+  alone$day, alone$paramecium,
+  type = "b", pch = 16, lwd = 2,
+  xlab = "Tag", ylab = "Häufigkeit (Paramecium)",
+  main = "Paramecium allein (Gause 1934)"
+)
+```
+
+Die Population wächst und scheint sich einem **Deckel** (Tragfähigkeit $K$) zu nähern.
+
+## A1) Modell: logistisches Wachstum
+
+$$
+N_{t+1} = N_t + r\, N_t \left(1 - \frac{N_t}{K}\right)
+$$
+
+| Symbol | Bedeutung | Einschränkung | Kursbeispiel |
+|--------|-----------|---------------|--------------|
+| $N_t$ | Populationsgrösse | $N \ge 0$ | Start $20$ |
+| $r$ | Wachstum pro Schritt | $r > 0$ | $0.5$ |
+| $K$ | Deckel | $K > 0$ | $200$ |
+
+```{r next-N}
+next_N <- function(N, r, K) {
+  N + r * N * (1 - N / K)
+}
+```
+
+## A2) Ein Zeitschritt — Sie ändern die Inputs
+
+Startpunkt (ein Aufruf):
+
+```{r ein-schritt-allein}
+next_N(N = 20, r = 0.5, K = 200)
+```
+
+::: {.callout-tip}
+## Frage F1 · Ein Zeitschritt
+
+Führen Sie `next_N` **mehrmals selbst** aus und ändern Sie jeweils **nur eine** Sache:
+
+| Versuch | Was ändern? | Beispiel |
+|---------|-------------|----------|
+| a | Start $N$ weit unter $K$ | z. B. $N = 20$ |
+| b | Start nahe $K$ | z. B. $N = 180$ |
+| c | Start gleich $K$ | $N = 200$ |
+| d | Start über $K$ | z. B. $N = 250$ |
+| e | Wachstumsrate $r$ | z. B. kleiner / grösser als $0.5$ |
+
+Notieren Sie kurz: Wann wächst $N$? Wann schrumpft es? Was passiert bei $N = K$?
 :::
 
-## Lernziele (Notebook)
+## A3) Simulation — Sie experimentieren
 
-1. Eine Population: Differenzenschritt → Vektor → Schleife → Plot  
-2. Qualitativer Vergleich mit `paramecium_alone.csv`  
-3. Räuber–Beute: zwei Variablen, dieselbe Pipeline  
-4. Einen Parameter ändern und biologisch kommentieren  
+Gerüst (Basis einmal laufen lassen, dann **Zahlen ändern** und Zelle erneut ausführen):
 
-## Block A · Eine Population (~20 min)
+```{r simulation-allein}
+next_N <- function(N, r, K) {
+  N + r * N * (1 - N / K)
+}
 
-### A1 Daten ansehen
+T <- 40
+N <- numeric(T + 1)
+N[1] <- 20      # Anfangsgrösse — ändern!
+r <- 0.5        # Wachstumsrate — ändern!
+K <- 200        # Deckel — bei Bedarf ändern!
 
-```{r}
-# alone <- read.csv("data/paramecium_alone.csv")
-# plot(...)
+for (t in 1:T) {
+  N[t + 1] <- next_N(N[t], r, K)
+}
+
+plot(
+  0:T, N,
+  type = "l", lwd = 2,
+  xlab = "Schritt", ylab = "N",
+  main = "Simulation: eine Population",
+  ylim = c(0, max(N, K) * 1.05)
+)
+abline(h = K, col = "grey50", lty = 2)
 ```
 
-**Frage:** Wachstum? Plateau?
+::: {.callout-tip}
+## Frage F2 · Parameter $r$
 
-### A2 Ein Schritt
+Setzen Sie $r$ einmal **höher** und einmal **niedriger**. Was ändert sich am Verlauf — und was bleibt (bezogen auf $K$) gleich?
+:::
 
-```{r}
-# next_N <- function(N, r, K) { ... }
-# next_N(20, r = 0.5, K = 200)
+::: {.callout-tip}
+## Frage F3 · Anfangsbedingung vs. $K$
+
+Starten Sie einmal mit $N_0 < K$ und einmal mit $N_0 > K$. Wohin tendiert $N$ langfristig?
+:::
+
+::: {.callout-tip}
+## Frage F4 · Vergleich mit Daten
+
+Vergleichen Sie Ihre Simulation **qualitativ** mit den Gause-Daten «allein». Nennen Sie eine Übereinstimmung und eine mögliche Diskrepanz.
+:::
+
+------------------------------------------------------------------------
+
+# Teil B — Zwei Spezies (Räuber–Beute)
+
+## B0) Daten: *Paramecium* + *Didinium* (mit Immigration)
+
+```{r daten-beide}
+both <- read.csv("data/paramecium_with_didinium.csv")
+
+plot(
+  both$day, both$paramecium,
+  type = "b", pch = 16, lwd = 2,
+  xlab = "Tag", ylab = "Häufigkeit",
+  main = "Paramecium + Didinium (Gause)",
+  ylim = range(0, both$paramecium, both$didinium)
+)
+lines(both$day, both$didinium, type = "b", pch = 17, lwd = 2, lty = 2)
+legend("topright", c("Paramecium", "Didinium"),
+       pch = c(16, 17), lty = 1:2, bty = "n")
 ```
 
-### A3 Vektor + Schleife + Plot
+::: {.callout-note}
+## Hinweis
 
-```{r}
-# N <- numeric(T + 1); N[1] <- ...
-# for (t in 1:T) N[t + 1] <- next_N(N[t], r, K)
-# plot(0:T, N, type = "l", ...)
+In diesem Datensatz gibt es Tage mit **Immigration** (neue Individuen). Wir ignorieren das vorerst und betrachten es genauer in Teil C.
+:::
+
+## B1) Modell: Räuber–Beute
+
+$N$ = Beute (*Paramecium*), $P$ = Räuber (*Didinium*).
+
+$$
+\begin{aligned}
+N_{t+1} &= N_t + (r N_t - a N_t P_t) \\
+P_{t+1} &= P_t + (b a N_t P_t - m P_t)
+\end{aligned}
+$$
+
+| Symbol | Bedeutung | Einschränkung | Kursbeispiel |
+|--------|-----------|---------------|--------------|
+| $N, P$ | Beute, Räuber | $\ge 0$ | Start $40$, $2$ |
+| $r$ | Beute-Wachstum | $r > 0$ | $0.05$ |
+| $a$ | Prädation | $a > 0$ | $0.005$ |
+| $b$ | Umwandlung Beute → Räuber | $0 < b \le 1$ | $0.5$ |
+| $m$ | Räuber-Sterblichkeit | $m > 0$ | $0.03$ |
+
+```{r next-state}
+next_state <- function(N, P, r, a, b, m) {
+  dN <- r * N - a * N * P
+  dP <- b * a * N * P - m * P
+  c(
+    N = max(N + dN, 0),
+    P = max(P + dP, 0)
+  )
+}
 ```
 
-### A4 Vergleich
+## B2) Ein Zeitschritt
 
-Daten und Simulation nebeneinander. Qualitativ kommentieren (keine Perfektion nötig).
-
-## Block B · Räuber und Beute (~20 min)
-
-### B1 Daten
-
-```{r}
-# both <- read.csv("data/paramecium_with_didinium.csv")
-# Immigration-Tage markieren (Spalte immigration)
+```{r ein-schritt-zwei}
+next_state(N = 40, P = 2, r = 0.05, a = 0.005, b = 0.5, m = 0.03)
 ```
 
-### B2 `next_state` + Schleife + Plot
+::: {.callout-tip}
+## Frage F5 · Ein Zeitschritt (zwei Spezies)
 
-Wie in den Folien: zwei Vektoren `N`, `P`.
+Steigt oder sinkt die Beute in diesem Schritt? Der Räuber? Entspricht das Ihrer Intuition?
 
-### B3 Parameter-Experiment
+Probieren Sie **einen** anderen Start oder Parameter und vergleichen Sie.
+:::
 
-Nur **einen** Parameter ändern (z. B. `a`). Was passiert mit Beute / Räuber?
+## B3) Simulation — Sie drehen an den Knöpfen
 
-## Block C · Kurzreflexion (~5 min)
+```{r simulation-zwei}
+T <- 400
+N <- numeric(T + 1)
+P <- numeric(T + 1)
+N[1] <- 40
+P[1] <- 2
 
-- Wichtigstes Coding-Muster heute:  
-- Wichtigste biologische Idee:  
+r <- 0.05
+a <- 0.005   # Prädation — später ändern!
+b <- 0.5
+m <- 0.03
 
-## Hinweise für Autor:innen
+for (t in 1:T) {
+  out <- next_state(N[t], P[t], r, a, b, m)
+  N[t + 1] <- out["N"]
+  P[t + 1] <- out["P"]
+}
 
-- Sprache: Deutsch, Erstsemester; R-Basics in den Folien schon skizziert (Funktion I/O, Vektor, for, plot/lines)
-- Notebook soll **dieselben Namen** nutzen: `next_N`, `next_state`, `N`, `P`, `r`, `K`, …
-- Aufgaben: Inputs variieren, einen Parameter drehen, kurz interpretieren
-- Daten: `weeks/week-02/data/` + `README.md`
+plot(
+  0:T, N,
+  type = "l", lwd = 2,
+  xlab = "Schritt", ylab = "Häufigkeit",
+  main = "LV-Simulation",
+  ylim = range(0, N, P)
+)
+lines(0:T, P, lwd = 2, lty = 2)
+legend("topright", c("Beute N", "Räuber P"), lty = 1:2, lwd = 2, bty = "n")
+```
+
+::: {.callout-tip}
+## Frage F6 · Prädation $a$
+
+Erhöhen Sie $a$ (stärkere Prädation) und führen Sie die Zelle erneut aus. Was passiert mit den Kurven?
+:::
+
+::: {.callout-tip}
+## Frage F7 · Anfangsbedingungen
+
+Ändern Sie die **Anfangsbedingungen** (`N[1]`, `P[1]`). Bleibt das qualitative Muster ähnlich?
+:::
+
+------------------------------------------------------------------------
+
+# Teil C — Diskussion: Aussterben und Immigration
+
+Bisher haben wir den «schönen» Datensatz mit Räuber und Beute genutzt. Gause hat aber auch Experimente **ohne** weiteren Nachschub gemacht.
+
+```{r aussterben-daten}
+both <- read.csv("data/paramecium_with_didinium.csv")
+both_ex <- read.csv("data/paramecium_didinium_extinction.csv")
+
+par(mfrow = c(1, 2))
+
+plot(
+  both$day, both$paramecium,
+  type = "b", pch = 16, lwd = 2,
+  xlab = "Tag", ylab = "Häufigkeit",
+  main = "Mit Immigration",
+  ylim = range(0, both$paramecium, both$didinium)
+)
+abline(v = both$day[both$immigration == "y"], col = "grey70", lty = 3)
+lines(both$day, both$didinium, type = "b", pch = 17, lwd = 2, lty = 2)
+legend("topright", c("Paramecium", "Didinium", "Immigration"),
+       pch = c(16, 17, NA), lty = c(1, 2, 3),
+       col = c("black", "black", "grey70"), bty = "n", cex = 0.75)
+
+plot(
+  both_ex$day, both_ex$paramecium,
+  type = "b", pch = 16, lwd = 2,
+  xlab = "Tag", ylab = "Häufigkeit",
+  main = "Ohne weitere Manipulation",
+  ylim = range(0, both_ex$paramecium, both_ex$didinium, na.rm = TRUE)
+)
+lines(both_ex$day, both_ex$didinium, type = "b", pch = 17, lwd = 2, lty = 2)
+legend("topright", c("Paramecium", "Didinium"),
+       pch = c(16, 17), lty = 1:2, bty = "n", cex = 0.8)
+```
+
+::: {.callout-tip}
+## Frage F8 · Immigration vs. Aussterben
+
+Warum oszilliert die linke Serie länger «ordentlich», während rechts schnell **Aussterben** droht?
+:::
+
+::: {.callout-tip}
+## Frage F9 · Modell und «fast null»
+
+Schauen Sie in Ihrer Simulation aus Teil B: Erreichen $N$ oder $P$ jemals **genau** $0$?
+
+Diskutieren Sie:
+
+- Wann wirkt das Modell «fast ausgestorben», ohne exakt null zu sein?
+- Warum kann unser Modell unrealistisch lange solche niedrigen Werte behalten?
+- Was würde Aussterben in der Natur bedeuten — und was fehlt unserem Modell dazu?
+:::
+
+## Zusammenfassung
+
+::: {.callout-note}
+## Zum Mitnehmen
+
+- Wichtigstes Ergebnis zu **einer** Spezies:
+- Wichtigstes Ergebnis zu **zwei** Spezies:
+- Eine Grenze des Modells / der Daten (Teil C):
+:::

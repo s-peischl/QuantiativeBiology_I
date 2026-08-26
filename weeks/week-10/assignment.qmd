@@ -11,7 +11,7 @@ format:
 ## Abgabe (praktischer Teil)
 
 1. Kurze Beschreibung des Modells in Worten (Rückgang + seltene angepasste Typen + Etablierung).
-2. Simulator + eine zentrale Abbildung (z. B. Rettungswahrscheinlichkeit gegen Stress oder \(s\)).
+2. Simulator + eine zentrale Abbildung (z. B. Rettungswahrscheinlichkeit gegen Stress oder $s$).
 3. Kurze Notiz mit Bezug zu **Labor**experimenten zur evolutionären Rettung (was eine Replikatkultur misst).
 4. Stärkste Annahme / was das Modell widerlegen würde.
 

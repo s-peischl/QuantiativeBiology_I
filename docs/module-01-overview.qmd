@@ -41,7 +41,7 @@ Für die **Benotung von Checkpoint A** müssen Sie **anwesend sein und präsenti
 Wer fehlt, kann diesen Checkpoint nicht ablegen (Details: [Allgemeine Informationen](general-info.qmd)).
 :::
 
-**Format (kurz):** ca. 2–3 Min. · Matrix \(A\) · ein Plot · Stabilitätsform · ein Satz Biologie.  
+**Format (kurz):** ca. 2–3 Min. · Matrix $A$ · ein Plot · Stabilitätsform · ein Satz Biologie.  
 Arbeit zu zweit möglich. Keine separate Hausarbeit — die Notebook-Arbeit ist die Vorbereitung.
 
 ## Materialien

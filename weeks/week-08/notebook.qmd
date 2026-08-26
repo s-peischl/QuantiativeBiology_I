@@ -13,7 +13,7 @@ execute:
 
 ## Lernziele
 
-1. Deterministisches Denken über \(p_t\) dem Schicksal einer einzelnen Abstammungslinie gegenüberstellen
+1. Deterministisches Denken über $p_t$ dem Schicksal einer einzelnen Abstammungslinie gegenüberstellen
 2. Viele replizierte Einführungen durchführen
 3. Eine Etablierungshäufigkeit schätzen
 

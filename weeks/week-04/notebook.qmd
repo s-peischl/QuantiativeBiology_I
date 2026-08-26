@@ -49,34 +49,39 @@ Am Schluss: kurze Präsentation.
 
 # 1. Setup
 
-Kursstandard — Euler / Differenzen (wie `next_3lv`):
+Kursstandard — additive Differenzengleichung (wie `next_3lv`):
 
-\[
+$$
 N_{i,t+1}
   = N_{i,t}
-    + r\, N_{i,t}\left(1 - \frac{(AN)_i}{K}\right)\Delta t,
+    + r\, N_{i,t}\left(1 - \frac{(AN)_i}{K}\right),
 \qquad
 (AN)_i = \sum_j A_{ij}\, N_j
-\]
+$$
 
-Literatur oft \(\mathrm{d}N_i/\mathrm{d}t=\ldots\); Parameter gelten für **unser** \(\Delta t\).
+| Symbol | Bedeutung | Wertebereich | Kursbeispiel |
+|--------|-----------|--------------|--------------|
+| $r$ | Wachstumsrate pro Schritt | $0 < r \le 0.2$ | oft $0.02$–$0.05$ |
+| $K$ | Tragfähigkeit | $K > 0$ | $100$ |
+| $A_{ij}$ | Last von Typ $j$ auf Typ $i$ | meist $\ge 0$ | Diagonale $=1$; RPS: eine Richtung $>1$, Gegenrichtung $<1$ |
+| $s,w$ | starke / schwache Interaktion | $s > 1 > w \ge 0$ | z. B. $s=1.5$, $w=0.5$ |
 
-## Interaktionen \(A_{ij}\)
+## Interaktionen $A_{ij}$
 
-\(A_{ij}\): **Interaktionsstärke** — wie stark Typ \(j\) Typ \(i\) unterdrückt (Last).
+$A_{ij}$: **Interaktionsstärke** — wie stark Typ $j$ Typ $i$ unterdrückt (Last).
 
 **Warum Diagonale = 1?** Konkurrenz-LV: Selbstkonkurrenz als Massstab.  
-Allein: Gleichgewicht bei \(N_i = K\) (Zuwachs \(=0\)). Keine ±-Payoffs — alles ist Unterdrückung.
+Allein: Gleichgewicht bei $N_i = K$ (Zuwachs $=0$). Keine ±-Payoffs — alles ist Unterdrückung.
 
-- \(A_{ij} \gt 1\): \(j\) belastet \(i\) **stärker** als Selbstkonkurrenz → \(i\) schrumpft eher  
-- \(A_{ij} \lt 1\): \(j\) belastet \(i\) **schwächer** → \(i\) hat es leichter  
+- $A_{ij} \gt 1$: $j$ belastet $i$ **stärker** als Selbstkonkurrenz → $i$ schrumpft eher  
+- $A_{ij} \lt 1$: $j$ belastet $i$ **schwächer** → $i$ hat es leichter  
 
-## Warum nur \(s\) und \(w\)?
+## Warum nur $s$ und $w$?
 
 Vollmatrix: 6 freie Interaktionen (Diagonale fix).  
-**Zyklische Symmetrie** → alle starken Einträge \(= s\), alle schwachen \(= w\):
+**Zyklische Symmetrie** → alle starken Einträge $= s$, alle schwachen $= w$:
 
-\[
+$$
 A =
 \begin{pmatrix}
 1 & w & s \\
@@ -85,35 +90,35 @@ w & s & 1
 \end{pmatrix}
 \qquad
 (s \gt 1 \gt w)
-\]
+$$
 
-- **\(s\)**: starke Interaktion (gewinnende Richtung im Paar)  
-- **\(w\)**: schwache Interaktion (verlierende Richtung)  
+- **$s$**: starke Interaktion (gewinnende Richtung im Paar)  
+- **$w$**: schwache Interaktion (verlierende Richtung)  
 
 Zyklus: **1 schlägt 2** · **2 schlägt 3** · **3 schlägt 1**.
 
-**Wichtig:** RPS braucht nur das Muster «in jedem Paar eine Seite \(\gt 1\), die andere \(\lt 1\)» im Zyklus — **nicht** volle \(s,w\)-Gleichheit. Die Reduktion macht die Faustregel \(s+w\) einfach.
+**Wichtig:** RPS braucht nur das Muster «in jedem Paar eine Seite $\gt 1$, die andere $\lt 1$» im Zyklus — **nicht** volle $s,w$-Gleichheit. Die Reduktion macht die Faustregel $s+w$ einfach.
 
-| \(s+w\) | Intuition | Form |
+| $s+w$ | Intuition | Form |
 |---------|-----------|------|
-| \(\lt 2\) | mildes RPS | **Punkt** |
-| \(\approx 2\) | Grenze | **stabile Oszillation** |
-| \(\gt 2\) | scharfes RPS | **Heteroklin** |
+| $\lt 2$ | mildes RPS | **Punkt** |
+| $\approx 2$ | Grenze | **stabile Oszillation** |
+| $\gt 2$ | scharfes RPS | **Heteroklin** |
 
-Faustregel aus dem kontinuierlichen May–Leonard-Modell — bei uns mit kleinem `dt` **qualitative** Orientierung.
+Die May–Leonard-Ergebnisse dienen hier nur als **qualitative Orientierung**.
 
 ```{r}
-next_3lv <- function(N, r, A, K, dt) {
+next_3lv <- function(N, r, A, K) {
   load <- as.numeric(A %*% N)
-  pmax(N + r * N * (1 - load / K) * dt, 0)
+  pmax(N + r * N * (1 - load / K), 0)
 }
 
-simulate_3lv <- function(N0, r, A, K, T = 2000, dt = 0.05) {
+simulate_3lv <- function(N0, r, A, K, T = 2000) {
   n <- length(N0)
   N <- matrix(0, T + 1, n)
   N[1, ] <- N0
-  for (t in 1:T) N[t + 1, ] <- next_3lv(N[t, ], r, A, K, dt)
-  out <- data.frame(time = 0:T * dt)
+  for (t in 1:T) N[t + 1, ] <- next_3lv(N[t, ], r, A, K)
+  out <- data.frame(time = 0:T)
   for (j in seq_len(n)) out[[paste0("N", j)]] <- N[, j]
   out
 }
@@ -185,7 +190,7 @@ block_mins <- function(df, nblock = 5) {
   out
 }
 
-r <- 1
+r <- 0.05
 K <- 100
 ```
 
@@ -224,9 +229,9 @@ A_demo
 
 # 4. Alle drei Stabilitätsformen ansteuern
 
-Nutzen Sie `make_rps_A(s, w)` und die Faustregel \(s+w\).
+Nutzen Sie `make_rps_A(s, w)` und die Faustregel $s+w$.
 
-## A · Punkt (\(s+w < 2\))
+## A · Punkt ($s+w < 2$)
 
 ```{r}
 #| fig-height: 3.6
@@ -240,26 +245,26 @@ plot_simplex(df, main = "Simplex → Punkt?")
 cat("s+w =", 1.2 + 0.5, "\n")
 ```
 
-## B · Stabile Oszillation (\(s+w \approx 2\))
+## B · Stabile Oszillation ($s+w \approx 2$)
 
 ```{r}
 #| fig-height: 3.6
 #| fig-width: 9
 A_osc <- make_rps_A(s = 1.35, w = 0.65)
-df <- simulate_3lv(c(45, 30, 25), r, A_osc, K, T = 4000, dt = 0.02)
+df <- simulate_3lv(c(45, 30, 25), r = 0.02, A = A_osc, K = K, T = 4000)
 par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
 plot_3lv(df, main = "Zeitreihe")
 plot_simplex(df, main = "Simplex: Zyklus?")
 cat("s+w =", 1.35 + 0.65, "\n")
 ```
 
-## C · Heteroklinzyklus (\(s+w > 2\))
+## C · Heteroklinzyklus ($s+w > 2$)
 
 ```{r}
 #| fig-height: 3.8
 #| fig-width: 9
 A_het <- make_rps_A(s = 1.40, w = 0.65)
-df_het <- simulate_3lv(c(45, 30, 25), r, A_het, K, T = 10000, dt = 0.015)
+df_het <- simulate_3lv(c(45, 30, 25), r = 0.015, A = A_het, K = K, T = 10000)
 par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
 plot_3lv(df_het, main = "Zeitreihe")
 plot_simplex(df_het, main = "Simplex → Kanten?")
@@ -282,8 +287,8 @@ matplot(seq_len(nrow(bm)), bm, type = "b", pch = 16, lwd = 2,
 
 # 4b · Optional: asymmetrisches RPS-Muster
 
-Die Faustregel \(s+w\) gilt für die **symmetrische** Reduktion.  
-RPS braucht nur das qualitative Muster (Zyklus von \(\gt 1\) / \(\lt 1\)):
+Die Faustregel $s+w$ gilt für die **symmetrische** Reduktion.  
+RPS braucht nur das qualitative Muster (Zyklus von $\gt 1$ / $\lt 1$):
 
 ```{r}
 #| fig-height: 3.6
@@ -296,7 +301,7 @@ plot_3lv(simulate_3lv(c(40, 35, 30), r, A_asym, K, T = 4000),
 A_asym
 ```
 
-**F3b.** Bleibt Vielfalt? Warum reicht das Muster ohne volle \(s,w\)-Symmetrie?
+**F3b.** Bleibt Vielfalt? Warum reicht das Muster ohne volle $s,w$-Symmetrie?
 
 ---
 
@@ -309,7 +314,7 @@ w <- 0.5
 A_final <- make_rps_A(s, w)
 N0 <- c(40, 35, 30)
 
-df_final <- simulate_3lv(N0, r, A_final, K, T = 5000, dt = 0.02)
+df_final <- simulate_3lv(N0, r = 0.02, A = A_final, K = K, T = 5000)
 par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
 plot_3lv(df_final, main = "Mein RPS")
 plot_simplex(df_final, main = "Mein Simplex")
@@ -331,8 +336,8 @@ cat("s+w =", s + w, "\n")
 
 # Merksatz
 
-> \(A_{ij}\) = Interaktion (Unterdrückung); Diagonale \(1\) = Selbstkonkurrenz als Massstab.  
-> \(s,w\) = bequeme Reduktion bei zyklischer Symmetrie — RPS braucht nur das Stark/Schwach-Muster.  
+> $A_{ij}$ = Interaktion (Unterdrückung); Diagonale $1$ = Selbstkonkurrenz als Massstab.  
+> $s,w$ = bequeme Reduktion bei zyklischer Symmetrie — RPS braucht nur das Stark/Schwach-Muster.  
 > Zwei Strategien: Exclusion. Drei + Zyklus: Vielfalt möglich (Punkt / Oszillation / Heteroklin).
 
 ---

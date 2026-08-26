@@ -28,7 +28,7 @@ Stabilitätsformen: **Punkt** · **stabile Oszillation** · **Heteroklinzyklus**
 
 ## Abgabe
 
-1. Matrix \(A\) (bzw. \(s,w\)) und Startwerte.  
+1. Matrix $A$ (bzw. $s,w$) und Startwerte.  
 2. Ein Plot mit RPS-Dynamik.  
 3. **Form:** Punkt / Oszillation / Heteroklin — 1–2 Sätze Begründung.  
 4. Ein Satz: Warum scheitert Vielfalt bei nur zwei Strategien?  

@@ -4,6 +4,7 @@ subtitle: "Wenn deterministische Änderungen der Allelfrequenz nicht ausreichen"
 author: "Stephan Peischl"
 format:
   revealjs:
+    html-math-method: katex
     theme: simple
     slide-number: true
     incremental: false
@@ -41,8 +42,8 @@ execute:
 
 ## Rückblick: Erkenntnisse aus den Wochen 5–7
 
-- Allelfrequenz \(p_t\) als glatte Zeitreihe
-- Selektionsrekursion \(p_{t+1} = f(p_t)\)
+- Allelfrequenz $p_t$ als glatte Zeitreihe
+- Selektionsrekursion $p_{t+1} = f(p_t)$
 - Deterministische Trajektorien und Gleichgewichte
 
 **Verborgene Annahme:** Viele Genkopien segregieren bereits — Mittelwerte verhalten sich regelmäßig.
@@ -61,7 +62,7 @@ Zu Beginn dominieren Zufallsereignisse:
 
 | Frage | Typisches Werkzeug |
 |---|---|
-| Wie verändert sich \(p\), sobald das Allel häufig ist? | Deterministische Selektion (Wochen 5–7) |
+| Wie verändert sich $p$, sobald das Allel häufig ist? | Deterministische Selektion (Wochen 5–7) |
 | Kann sich ein seltener vorteilhafter Typ **überhaupt etablieren**? | **Etablierungswahrscheinlichkeit** (dieser Block) |
 
 ## Etablierung (verbale Definition)
@@ -89,13 +90,13 @@ Anpassung durch neue Mutationen ≈ **Angebot an Mutanten × Etablierungswahrsch
 
 ## Quantitative Skizze (Orientierung)
 
-In einfachen Modellen steigt die Etablierungswahrscheinlichkeit häufig mit dem Selektionsvorteil \(s\).
+In einfachen Modellen steigt die Etablierungswahrscheinlichkeit häufig mit dem Selektionsvorteil $s$.
 
 Bekannter Referenzwert (Intuition für haploide Organismen / schwache Selektion):
 
-\[
+$$
 u \approx 2s
-\]
+$$
 
 (Wir behandeln Formeln als **Referenz für den Vergleich mit Simulationen**, nicht als Magie.)
 
@@ -109,18 +110,18 @@ u \approx 2s
 
 1. Eine seltene vorteilhafte Abstammungslinie vielfach simulieren
 2. Etablierung gegenüber Verlust klassifizieren
-3. \(\hat{u}\) als Häufigkeit über Replikate schätzen
-4. \(s\) verändern; vor der Ausführung eine Vorhersage treffen
+3. $\hat{u}$ als Häufigkeit über Replikate schätzen
+4. $s$ verändern; vor der Ausführung eine Vorhersage treffen
 
 ## Abschlussfragen
 
-1. Deterministisches \(p_t\) gegenüber Etablierung — jeweils ein Satz.
+1. Deterministisches $p_t$ gegenüber Etablierung — jeweils ein Satz.
 2. Warum verändert „beginnt mit einer Kopie“ die Mathematik?
-3. Was benötigen wir nächste Woche, um \(u\) sauber im Code zu schätzen?
+3. Was benötigen wir nächste Woche, um $u$ sauber im Code zu schätzen?
 
 ## Nächste Woche
 
-**Etablierungswahrscheinlichkeiten** — systematische Simulation, Vergleich mit einer einfachen Formel, Variation von \(s\) und der Anzahl der Ausgangskopien.
+**Etablierungswahrscheinlichkeiten** — systematische Simulation, Vergleich mit einer einfachen Formel, Variation von $s$ und der Anzahl der Ausgangskopien.
 
 ---
 

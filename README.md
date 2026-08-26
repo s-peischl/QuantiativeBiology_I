@@ -134,7 +134,7 @@ Beispiele:
 ## An equation
 
 $$
-\frac{dN}{dt} = rN - aNP
+N_{t+1} = N_t + (r N_t - a N_t P_t)
 $$
 
 ## Two columns

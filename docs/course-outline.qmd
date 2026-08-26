@@ -66,7 +66,7 @@ Anstelle einer einzigen grossen Abschlusspräsentation: **vier Checkpoints** (A�
 | Checkpoint | Zeitpunkt | Thema | Praktische Arbeit | Präsentation (kurz) |
 |---|---|---|---|---|
 | **A** | Woche **4** · **8. Okt. 2026** | Ökologie / Spieltheorie | 3-Spieler-RPS; Punkt / Oszillation / Heteroklin | ~2–3 Min.: Matrix → Plot → Form → warum 3 Strategien |
-| **B** | Woche **7** · **29. Okt. 2026** | Evolution (deterministisch) | Vergleich von Selektionsregimen (\(p_t\)-Verläufe) | Gleiches Format; Schwerpunkt auf Rekursion / Gleichgewichten |
+| **B** | Woche **7** · **29. Okt. 2026** | Evolution (deterministisch) | Vergleich von Selektionsregimen ($p_t$-Verläufe) | Gleiches Format; Schwerpunkt auf Rekursion / Gleichgewichten |
 | **C** | Woche **10** · **19. Nov. 2026** | Evolutionäre Rettung | Simulation von Rettung / Etablierung + Bezug zu einem Laborergebnis | Wann passt sich eine schrumpfende Population rechtzeitig an? |
 | **D** | Woche **13** · **10. Dez. 2026** | Visualisierung von Mikrobiomdaten | Eine reale Gemeinschaftstabelle einlesen und visualisieren; eine klare visuelle Geschichte | Was das Diagramm zeigt — und was **nicht** |
 | Abschluss | Woche **14** · **17. Dez. 2026** | Synthese | Optionale Überarbeitung / Peer-Feedback / Aufräumen in ILIAS | Keine fünfte Präsentation mit hohem Gewicht — A–D miteinander verbinden |
@@ -115,28 +115,28 @@ Fusszeile → Kursplan / Startseite · Links zur ersten und letzten Woche · **M
 
 ## Ökologie (Wochen 2–4) → Checkpoint A
 
-Grundprinzip: biologische Regel → **diskrete** Aktualisierung (Euler) → `next_state()` → Vektoren → Schleife → Diagramm
+Grundprinzip: biologische Regel → **additive Differenzengleichung** $X_{t+1}=X_t+f(X_t)$ → `next_*()` → Vektoren → Schleife → Diagramm
 
-**Kursstandard:** Differenzen / Euler \(N_{t+1}=N_t+f\,\Delta t\). Differentialgleichungen nur als Literaturbrücke in Woche 2; Parameter hängen von \(\Delta t\) ab.
+**Kursstandard:** $N_{t+1}=N_t+f(N_t)$ (kein $\Delta t$). Differentialgleichungen höchstens kurz erwähnt; Parameter sind **pro Simulationsschritt** mit angegebenem Wertebereich.
 
 ### Woche 2 — Unser erstes Modell
 **Wann:** Do., 24. Sept. 2026, 08:15–10:00 Uhr  
 **Materialien:** [Folien](../weeks/week-02/slides.qmd) · [Notebook](../weeks/week-02/notebook.qmd) · [Aufgabe](../weeks/week-02/assignment.qmd)
 
 - **Sitzung:** ~45 min Vorlesung + ~45 min Notebook (Spielraum)
-- **Teil 1:** Gause-Daten *Paramecium* allein → Variable \(N\) → Wachstum + Regulation → ein Zeitschritt → Vektor → Schleife → Vergleich
-- Brücke: Differenz vs. Differential (Euler); Hinweis auf Vorlesung **Mathematische Modellierung** (Platzhalter); Parameter-Warnung (\(\Delta t=1\) vs. kleines `dt`)
+- **Teil 1:** Gause-Daten *Paramecium* allein → Variable $N$ → Wachstum + Regulation → ein Zeitschritt → Vektor → Schleife → Vergleich
+- Parametertabelle mit Wertebereichen; ein Satz: Literatur oft DGL, wir Differenzen; Hinweis auf **Mathematische Modellierung**
 - **Teil 2:** Räuber–Beute (*Didinium*) → zwei Variablen → dieselbe Pipeline → Plot
 - Daten in `weeks/week-02/data/`
-- Notebook: Übungsblöcke A/B (Pipeline üben)
+- Notebook: Übungsblöcke (Pipeline üben)
 
 ### Woche 3 — Ausschluss, Bistabilität, Food-Web-Stabilisierung
 **Wann:** Do., 1. Okt. 2026, 08:15–10:00 Uhr  
 **Materialien:** [Folien](../weeks/week-03/slides.qmd) · [Notebook](../weeks/week-03/notebook.qmd) · [Aufgabe](../weeks/week-03/assignment.qmd)
 
-- Modelle als **Euler-Differenzen** (wie im Code); Literatur-DGL nur erwähnt
+- Modelle als **additive Differenzengleichungen**; bei jedem Modell Parametertabelle + Wertebereich
 - **Competitive exclusion (Konkurrenzausschluss):** *Paramecium* (Gause) + LV-Modell — stärkere Art gewinnt unabhängig vom Start
-- **Bistabilität:** \(\alpha\) drehen → Start entscheidet; Grasland/Wald als Bio-Lesart (Literatur, keine Kursdaten); Stabilitätsformen mit konkreten Beispielen (Punkt / Bistabil / Zyklus)
+- **Bistabilität:** $\alpha$ drehen → Start entscheidet; Grasland/Wald als Bio-Lesart (Literatur, keine Kursdaten); Stabilitätsformen mit konkreten Beispielen (Punkt / Bistabil / Zyklus)
 - **Food Web:** Aspen + Sage + Elk (+ Wolf) — Elk erzeugt Exclusion von Aspen; Wolf stabilisiert Aspen (Elk bleibt mittel); optional reicheres Netz (+Kojote, +Biber)
 - **Qualitativer Ausblick:** Paine 1966 (Keystone-*Pisaster*) und Smith et al. 2021 PNAS (Seeotter–Seeigel–Kelp-Mosaik) — ohne Modell
 
@@ -146,22 +146,22 @@ Grundprinzip: biologische Regel → **diskrete** Aktualisierung (Euler) → `nex
 
 - **Ablauf:** ~20 min Intro · ~40 min Notebook · ~30 min Kurzpräsentationen
 - Intro: Spieltheorie + *Uta*-RPS; **2 Strategien → Exclusion**, 3. Strategie stabilisiert; RPS kann **Punkt** sein
-- Modell: Euler \(N_{i,t+1}=N_{i,t}+f_i\Delta t\); Interaktionen \(A_{ij}\); \(s,w\)-Reduktion
+- Modell: additive Differenzengleichung $N_{i,t+1}=N_{i,t}+f_i(N_t)$; Interaktionen $A_{ij}$; $s,w$-Reduktion; Parametertabelle mit Wertebereichen
 - Stabilitätsformen: Punkt · Oszillation · Heteroklin — Zeitreihe **und** Simplex (Frequenzen)
-- Notebook: \(A\) (bzw. \(s,w\)) drehen; Form diagnostizieren
+- Notebook: $A$ (bzw. $s,w$) drehen; Form diagnostizieren
 - **Präsenzpflicht** für Präsentation / Bewertung — siehe [Modul 1](module-01-overview.qmd)
 
 ---
 
 ## Evolution — deterministisch (Wochen 5–7) → Checkpoint B
 
-Dasselbe Grundprinzip; Untersuchungsobjekt = **Allelfrequenz** \(p_t\).
+Dasselbe Grundprinzip; Untersuchungsobjekt = **Allelfrequenz** $p_t$.
 
 ### Woche 5 — Allelfrequenzen als Zeitreihen
 **Wann:** Do., 15. Okt. 2026, 08:15–10:00 Uhr  
 **Materialien:** [Folien](../weeks/week-05/slides.qmd) · [Notebook](../weeks/week-05/notebook.qmd) · [Aufgabe](../weeks/week-05/assignment.qmd)
 
-- Vektoren für \(p_t\); Selektionsrekursion \(p_{t+1}=f(p_t)\); Funktion für eine Generation
+- Vektoren für $p_t$; Selektionsrekursion $p_{t+1}=f(p_t)$; Funktion für eine Generation
 
 ### Woche 6 — Selektionsregime
 **Wann:** Do., 22. Okt. 2026, 08:15–10:00 Uhr  
@@ -173,7 +173,7 @@ Dasselbe Grundprinzip; Untersuchungsobjekt = **Allelfrequenz** \(p_t\).
 **Wann:** Do., 29. Okt. 2026, 08:15–10:00 Uhr  
 **Materialien:** [Folien](../weeks/week-07/slides.qmd) · [Notebook](../weeks/week-07/notebook.qmd) · [Aufgabe](../weeks/week-07/assignment.qmd)
 
-- Gleichmässiges \(p_t\) als durchschnittliches Verhalten; Zufall als nächsten Aspekt motivieren
+- Gleichmässiges $p_t$ als durchschnittliches Verhalten; Zufall als nächsten Aspekt motivieren
 - **Checkpoint B:** ≥2 Selektionsregime vergleichen; eine Abbildung präsentieren und erläutern, wann die deterministische Beschreibung nicht ausreicht
 - Brücke zum nächsten Thema: Ein vorteilhaftes Allel, das als **einzelne Kopie** auftritt, etabliert sich möglicherweise nie — selbst wenn die Selektion im Durchschnitt «stark» ist
 
@@ -189,18 +189,18 @@ Dieselbe Programmierlogik wie zuvor; neues Untersuchungsobjekt = **Schicksal sel
 **Wann:** Do., 5. Nov. 2026, 08:15–10:00 Uhr  
 **Materialien:** [Folien](../weeks/week-08/slides.qmd) · [Notebook](../weeks/week-08/notebook.qmd) · [Aufgabe](../weeks/week-08/assignment.qmd)
 
-- Rückblick auf die Wochen 5–7: gleichmässiges \(p_t\), wenn bereits viele Kopien segregieren
+- Rückblick auf die Wochen 5–7: gleichmässiges $p_t$, wenn bereits viele Kopien segregieren
 - Kernaussage: Eine **neue** vorteilhafte Mutante beginnt mit einer Kopie — der Zufall entscheidet über ihr frühes Schicksal
 - Einführung der **Etablierungswahrscheinlichkeit** (Intuition: Verzweigungsprozess / viele gescheiterte Anläufe)
 - Simulation: viele unabhängige Einführungen; Anteil, der sich «durchsetzt»
-- Weiterhin optional: klassisches \(u \approx 2s\) als Vergleichswert (haploid / schwache Selektion)
+- Weiterhin optional: klassisches $u \approx 2s$ als Vergleichswert (haploid / schwache Selektion)
 
 ### Woche 9 — Etablierungswahrscheinlichkeiten im Code
 **Wann:** Do., 12. Nov. 2026, 08:15–10:00 Uhr  
 **Materialien:** [Folien](../weeks/week-09/slides.qmd) · [Notebook](../weeks/week-09/notebook.qmd) · [Aufgabe](../weeks/week-09/assignment.qmd)
 
 - Einen Etablierungssimulator erstellen / verfeinern (Schleife über Wiederholungen; Ergebnisse in einem Vektor/einer Matrix speichern)
-- Untersuchen, wie die Etablierung vom Selektionskoeffizienten \(s\), von der Populationsgrösse und von der anfänglichen Kopienzahl abhängt
+- Untersuchen, wie die Etablierung vom Selektionskoeffizienten $s$, von der Populationsgrösse und von der anfänglichen Kopienzahl abhängt
 - Simulationsschätzungen mit einem einfachen analytischen Referenzwert vergleichen
 - Biologische Interpretation: Warum «Mutationsangebot × Etablierung» für die Anpassung ausgehend von einer neuen Mutation wichtig ist
 

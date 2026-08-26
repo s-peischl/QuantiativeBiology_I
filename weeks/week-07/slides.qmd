@@ -4,6 +4,7 @@ subtitle: "Brücke vom glatten p_t zur verrauschten Realität"
 author: "Stephan Peischl"
 format:
   revealjs:
+    html-math-method: katex
     theme: simple
     slide-number: true
     incremental: false
@@ -35,7 +36,7 @@ execute:
 
 ## Lernziele
 
-- Biologischer Schwerpunkt: Brücke vom glatten \(p_t\) zur verrauschten Realität
+- Biologischer Schwerpunkt: Brücke vom glatten $p_t$ zur verrauschten Realität
 - Verbindung zu den Programmierwerkzeugen dieser Woche herstellen
 - Interpretierbare Abbildungen erstellen
 - **Checkpoint B:** umfangreicherer praktischer Teil + kurze benotete Präsentation (gleiche Vorgaben wie in Woche 4)

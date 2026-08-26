@@ -13,9 +13,9 @@ execute:
 
 ## Lernziele
 
-1. \(u\) über ein Raster von \(s\)-Werten schätzen
-2. \(\hat{u}(s)\) darstellen
-3. Optional einen einfachen analytischen Referenzwert überlagern (z. B. \(2s\))
+1. $u$ über ein Raster von $s$-Werten schätzen
+2. $\hat{u}(s)$ darstellen
+3. Optional einen einfachen analytischen Referenzwert überlagern (z. B. $2s$)
 
 ## Aufgaben
 

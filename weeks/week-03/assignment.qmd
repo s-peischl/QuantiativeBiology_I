@@ -9,7 +9,7 @@ format:
 ## Abgabe
 
 1. **Exclusion:** Abbildung aus *Paramecium*-Daten **oder** Simulation (zwei Starts, gleicher Gewinner).
-2. **Bistabilität:** zwei Starts bei starken \(\alpha\) — Gras/Wald-Lesart kurz erklären (keine Kursdaten nötig).
+2. **Bistabilität:** zwei Starts bei starken $\alpha$ — Gras/Wald-Lesart kurz erklären (keine Kursdaten nötig).
 3. **Stabilität (kurz):** Nennen Sie zu **Punkt**, **Bistabil** und **Zyklus** je ein konkretes Kursbeispiel (ein Satz pro Form).
 4. **Food Web:** Plot ohne vs. mit Wolf — zeigen, dass **Aspen** ohne Wolf gegen 0 geht und mit Wolf stabil bleibt, und dass **Elk** mit Wolf **nicht** gegen 0 geht.
 5. 3–5 Sätze: Was bedeutet «Stabilisierung durch Wolf» in Ihrem Plot (Aspen + Elk)?

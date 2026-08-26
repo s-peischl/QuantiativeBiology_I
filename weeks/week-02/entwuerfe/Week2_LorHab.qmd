@@ -1,0 +1,191 @@
+---
+title: "Week 2 — Notebook"
+subtitle: "Quantitative Biology I - Predator-Prey (Räuber-Beute)"
+format:
+  html:
+    toc: true
+    code-fold: false
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Learning goals
+
+- Understand how we can use simple verbal arguments to model populations
+- Understand how different parameters can affect the resulting patterns
+- Identify possible limitations of such models
+
+## Biological background
+
+We can find interesting patterns in nature through simple observations. For example, if we track the population size (number of individuals in a given area) through time, we can observe how populations might expand and decline. If we keep track of populations for a long enough time, we might find how the pattern of population growth follows a specific pattern. But, what could cause these patterns?
+
+During the lecture we formalised some underlying verbal arguments that we expect to shape the interaction between predators and their prey. Now we want to explore how the balance between these forces will result in different population patterns.
+
+## 1) Paramecium data
+
+We have population data from Gause's 1934 experiment with *Paramecium* (German: "Pantoffeltierchen") from the `gauseR` package. Gause tracked the population size of *Paramecium caudatum* when growing by itself, and when growing with its predator, *Didinium nasutum*. Let's take a look at these empirical data:
+
+```{r Gause example}
+
+# load the data for Paramecium growing alone
+alone <- read.csv("data/paramecium_alone.csv") 
+
+# load the data for Paramecium growing with Didinium
+both <- read.csv("data/paramecium_with_didinium.csv")
+
+# plot the population data
+par(mfrow = c(1, 2)) # to show two plots side-by-side
+
+## Fig. 1) Paramecium alone
+plot(x = alone$day, # data for x-axis
+     y = alone$paramecium, # data for y-axis
+     type = "b", # line type - b = lines and points
+     pch = 16, # the shape of the points
+     lwd = 2, # line width/thickness
+     xlab = "Tag", # label of x-axis
+     ylab = "Abundance (Paramecium)", # label of y-axis
+     main = "Paramecium allein (Gause 1934)") # title of graph
+
+## Fig. 2) Paramecium together with 
+plot(x = both$day, 
+     y = both$paramecium, 
+     type = "b", 
+     pch = 16, 
+     lwd = 2,
+     xlab = "Tag", ylab = "Abundance",
+     main = "Paramecium + Didinium")
+lines(x = both$day, # to add another line to the plot with the didinium population data
+      y = both$didinium, 
+      type = "b", pch = 17, lwd = 2, lty = 2)
+legend("topright", c("Paramecium", "Didinium"),  # a legend to axplain the different lines
+       pch = c(16, 17), lty = 1:2, bty = "n")
+
+```
+
+**Q1:** Does the *Paramecium* data match our verbal model?
+
+## 2) Modelling population growth - One-step update function (Lotka-Volterra)
+Next, we can try to reacreate these empirical patterns using a simple model. Using a one-step update function we can compute population size at time $t+1$ based on the population state at time $t$. For this we define a function, that tracks our variables of interest (predator abundance $N$ and prey abundance $P$), as a function of the prey growth rate $r$, predation rate $a$, conversion efficiency $b$ and predator mortality $m$. Specifically, what we are calculating is the change of abundances per time unit, which can be captured by equations of the form $\frac{dN}{dt}=rN - aNP$ and $\frac{dP}{dt}=baN_tP - mP$.
+
+```{r predator-prey function}
+next_state <- function(N, # prey abundance; changes over time t
+                       P, # predator abundance; changes over time t
+                       r, # prey growth rate; stays constant over time t
+                       a, # predation ("attack") rate; independent of time t
+                       b, # conversion efficiency (how well the consumed prey is turned into new predator babies); stays constant over time t
+                       m, # predator mortality; stays constant over time t
+                       dt) # time step
+  {
+  dN <- (r * N - a * N * P) * dt # change in N given the time step
+  dP <- (b * a * N * P - m * P) * dt # change in P given the time step
+  c(N = max(N + dN, 0), # updated N (cannot be negative -> population will go extinct and N = 0)
+    P = max(P + dP, 0)) # updated P (cannot be negative -> population will go extinct and P = 0)
+}
+
+```
+
+### 2.1) Model one time step
+Using this function, we can now feed the species abundances at time $t$ into the model, and it will return abundances at time $t+1$ 
+
+```{r one step}
+## try one step
+next_state(N = 40, P = 2, r = 1.0, a = 0.1, b = 0.5, m = 0.6, dt = 0.05)
+```
+
+**Q2:** What happened? Did that match your expectations?
+
+### 2.2) Model multiple time steps
+We can chain together many time steps by repeating them in a so-called "loop" -> you will learn more about loops in the R coding class later on
+
+```{r}
+
+# time (how long we're keeping track and at which intervals)
+tot_time <- 200 # total number of time steps we investigate
+dt <- 0.1 # time step
+
+N <- numeric(tot_time + 1) # a vector to keep track of prey abundances; its length is the initial condition + all time steps
+P <- numeric(tot_time + 1) # a vector to keep track of predator abundances ; its length is the initial condition + all time steps
+N[1] <- 40 # starting prey abundance
+P[1] <- 2 # starting predator abundance
+
+# constants to describe the predator-prey interaction
+r <- 1.0 # prey growth rate
+a <- 0.1 # predation ("attack") rate
+b <- 0.5 # conversion efficiency (how well the consumed prey is turned into new predator babies)
+m <- 0.6 # predator mortality
+
+# chain together many time steps
+for (t in 1:tot_time) { # we repeat the one-step calculations for all time points we are interested in
+  out <- next_state(N[t], P[t], r, a, b, m, dt)
+  N[t + 1] <- out["N"]
+  P[t + 1] <- out["P"]
+}
+
+# plot the model results
+time <- 0:tot_time * dt # time-axis 
+plot(time, 
+     N, 
+     type = "l", lwd = 2, xlab = "Time", ylab = "Abundance",
+     main = "LV simulation")
+lines(time, 
+      P, 
+      lwd = 2, lty = 2)
+legend("topright", c("Prey", "Predator"), lty = 1:2, lwd = 2, bty = "n")
+```
+**Q3:** What do you observe? Does this match the empirical data from Gause?
+
+### 2.3) Play around with parameters
+**Q4:** Change $a$ in our model. How does do larger $a$ affect the species abundances? Why do you think this happens?
+
+## 3) Let's take a closer look
+With increased $a$ the time between population booms starts to increase and we get what appears to be extinctions (depending on the time frame we are observing). On the surface, this seems to differ from Gause's results, however as Gause set out to test the Lotka-Volterra predator-prey expectations, he himself was also met with constant extinctions. The abundance oscillations shown above are actually the result of a regular input of new individuals. Let's take a more detailed look at his data: 
+
+```{r extinction scenario}
+# load the data for Paramecium growing with Didinium 
+both_ex <- read.csv("data/paramecium_didinium_extinction.csv")
+
+# plot the population data
+par(mfrow = c(1, 2)) # to show two plots side-by-side
+
+# Fig. 1) Paramecium and Didinium with regular supply of new individuals
+plot(x = both$day, 
+     y = both$paramecium, 
+     type = "b", 
+     pch = 16, 
+     lwd = 2,
+     xlab = "Tag", ylab = "Abundance",
+     main = "Regular immigration")
+abline(v = both$day[both$immigration == "y"], # add a vertical line on each day with an immigration event
+       col = "grey70", lty = 3)
+lines(x = both$day, 
+      y = both$didinium, 
+      type = "b", pch = 17, lwd = 2, lty = 2)
+legend("topright", c("Paramecium", "Didinium"),  
+       pch = c(16, 17), lty = 1:2, bty = "n")
+
+# Fig. 2) Paramecium and Didinium and no further manipulation
+plot(x = both_ex$day, 
+     y = both_ex$paramecium, 
+     type = "b", 
+     pch = 16, 
+     lwd = 2,
+     xlab = "Tag", ylab = "Abundance",
+     main = "No further manipulation")
+lines(x = both_ex$day,
+      y = both_ex$didinium, 
+      type = "b", pch = 17, lwd = 2, lty = 2)
+legend("topright", c("Paramecium", "Didinium"),  
+       pch = c(16, 17), lty = 1:2, bty = "n")
+
+```
+
+**Q5:** Putting everything together? Why do you think he observed these frequent extinctions?
+
+**Q6:** Go back and look at the data from our model; do we observe true extinctions (abundance = 0)? If not, why?
+
+## Wrap-up
+
+- Main quantitative result:
+- Main biological interpretation:

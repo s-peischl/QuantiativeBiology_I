@@ -4,6 +4,7 @@ subtitle: ""
 author: "Stephan Peischl"
 format:
   revealjs:
+    html-math-method: katex
     theme: simple
     css: slides.css
     slide-number: true
@@ -111,8 +112,8 @@ Drei Stränge, die heute selbstverständlich wirken — jeweils mit einem Beispi
 
 ## Frage → Daten → Analyse
 
-**Frage:** Hängt Merkmal \(Y\) mit einer Messgrösse \(X\) zusammen?  
-**Daten:** Paare \((X_i, Y_i)\) aus einer Stichprobe.  
+**Frage:** Hängt Merkmal $Y$ mit einer Messgrösse $X$ zusammen?  
+**Daten:** Paare $(X_i, Y_i)$ aus einer Stichprobe.  
 **Analyse:** Regression / Trend — und Vorsicht bei Struktur (Simpson).
 
 ## Regression
@@ -592,7 +593,7 @@ Huerta-Sánchez et al. 2014 *Nature* · Author manuscript via PMC4134395
 
 ## Was die Figur sagt
 
--   x: durchschnittliche genetische Distanz zwischen Populationen (\(F_{ST}\))  
+-   x: durchschnittliche genetische Distanz zwischen Populationen ($F_{ST}$)  
 -   y: stärkster Allelfrequenz-Unterschied irgendwo im Genom  
 -   **EPAS1** (Stern): extrem differenziert — obwohl Han und Tibeter:innen  
     insgesamt relativ ähnlich sind

@@ -20,7 +20,7 @@ execute:
 ## Aufgaben
 
 1. Beginnen Sie mit den bereinigten Objekten aus Woche 11.
-2. Erstellen Sie eine Tabelle der häufigsten \(k\) Taxa + Andere (oder eine Zusammenfassung auf Stammebene).
+2. Erstellen Sie eine Tabelle der häufigsten $k$ Taxa + Andere (oder eine Zusammenfassung auf Stammebene).
 3. Plotten Sie die Zusammensetzung nach Probe oder Gruppe.
 4. Erstellen Sie eine Heatmap **oder** einen Vergleich mit Facetten.
 5. **F:** Welche visuelle Aussage wird gestützt? Welche nicht?

@@ -26,27 +26,27 @@ Zwei Stories:
 # 0. Setup
 
 ```{r}
-next_comp <- function(N1, N2, r1, r2, K1, K2, a12, a21, dt) {
-  d1 <- r1 * N1 * (1 - (N1 + a12 * N2) / K1) * dt
-  d2 <- r2 * N2 * (1 - (N2 + a21 * N1) / K2) * dt
+next_comp <- function(N1, N2, r1, r2, K1, K2, a12, a21) {
+  d1 <- r1 * N1 * (1 - (N1 + a12 * N2) / K1)
+  d2 <- r2 * N2 * (1 - (N2 + a21 * N1) / K2)
   c(N1 = max(N1 + d1, 0), N2 = max(N2 + d2, 0))
 }
 
-sim_comp <- function(N10, N20, a12, a21, T = 800, dt = 0.05) {
+sim_comp <- function(N10, N20, a12, a21, T = 800) {
   N1 <- numeric(T + 1); N2 <- numeric(T + 1)
   N1[1] <- N10; N2[1] <- N20
   for (t in 1:T) {
-    out <- next_comp(N1[t], N2[t], 1, 1, 100, 100, a12, a21, dt)
+    out <- next_comp(N1[t], N2[t], 0.05, 0.05, 100, 100, a12, a21)
     N1[t + 1] <- out["N1"]; N2[t + 1] <- out["N2"]
   }
-  data.frame(time = 0:T * dt, N1 = N1, N2 = N2)
+  data.frame(time = 0:T, N1 = N1, N2 = N2)
 }
 
 plot_comp <- function(df, main = "", labs = c("N1", "N2"),
                       cols = c("#2980b9", "#27ae60")) {
   matplot(df$time, cbind(df$N1, df$N2), type = "l", lty = 1, lwd = 2.5,
           col = cols, ylim = c(0, max(df$N1, df$N2, 1) * 1.05),
-          xlab = "Zeit", ylab = "Haeufigkeit", main = main)
+          xlab = "Zeit (Schritte)", ylab = "Haeufigkeit", main = main)
   legend("topright", labs, col = cols, lty = 1, lwd = 2.5, bty = "n", cex = 0.85)
 }
 ```
@@ -54,6 +54,14 @@ plot_comp <- function(df, main = "", labs = c("N1", "N2"),
 ---
 
 # 1. Exclusion — Daten + Modell
+
+Das Konkurrenzmodell verwendet $N_{t+1}=N_t+$ Wachstum und Konkurrenzwirkung.
+
+| Symbol | Bedeutung | Wertebereich | Kursbeispiel |
+|--------|-----------|--------------|--------------|
+| $r_1,r_2$ | Wachstum der Arten | $0 < r \le 1$ | $0.05$ |
+| $K_1,K_2$ | Tragfähigkeiten | $K > 0$ | $100$ |
+| $\alpha_{12},\alpha_{21}$ | Konkurrenzstärken | $\alpha \ge 0$ | Exclusion: $1.4$ / $0.5$ |
 
 ```{r}
 pc <- read.csv("data/paramecium_caudatum_alone.csv")
@@ -86,7 +94,7 @@ plot_comp(sim_comp(10, 80, 1.4, 0.5), main = "Start viel N2")
 
 # 2. Bistabilität — Modell drehen
 
-\(\alpha_{12} = \alpha_{21} = 1.5\) · Lesart Gras / Wald (keine Kursdaten).
+$\alpha_{12} = \alpha_{21} = 1.5$ · Lesart Gras / Wald (keine Kursdaten).
 
 ```{r}
 par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
@@ -110,24 +118,33 @@ plot_comp(sim_comp(15, 80, 1.5, 1.5), main = "Start: viel Wald",
 | **Bistabil** | Gras vs. Wald (oben) |
 | **Zyklus** | klass. Räuber–Beute (unten / Woche 2) |
 
+Für das Räuber–Beute-Modell gilt: neuer Bestand = alter Bestand + Wachstum − Verlust.
+
+| Symbol | Bedeutung | Wertebereich | Kursbeispiel |
+|--------|-----------|--------------|--------------|
+| $r$ | Wachstum der Beute | $0 < r \le 0.1$ | $0.020$ |
+| $a$ | Angriffsrate | $0 < a \le 0.02$ | $0.002$ |
+| $e$ | Umwandlungseffizienz | $0 < e \le 1$ | $0.3$ |
+| $m$ | Mortalität der Räuber | $0 < m \le 0.1$ | $0.008$ |
+
 ```{r}
 #| fig-height: 3.5
 #| fig-width: 8
-sim_pp <- function(N0 = 40, P0 = 8, T = 2500, dt = 0.02) {
+sim_pp <- function(N0 = 40, P0 = 8, T = 2500) {
   N <- numeric(T + 1); P <- numeric(T + 1)
   N[1] <- N0; P[1] <- P0
-  r <- 1.0; a <- 0.1; e <- 0.3; m <- 0.4
+  r <- 0.020; a <- 0.002; e <- 0.3; m <- 0.008
   for (t in 1:T) {
-    dN <- (r * N[t] - a * N[t] * P[t]) * dt
-    dP <- (e * a * N[t] * P[t] - m * P[t]) * dt
+    dN <- r * N[t] - a * N[t] * P[t]
+    dP <- e * a * N[t] * P[t] - m * P[t]
     N[t + 1] <- max(N[t] + dN, 0)
     P[t + 1] <- max(P[t] + dP, 0)
   }
-  data.frame(time = 0:T * dt, N = N, P = P)
+  data.frame(time = 0:T, N = N, P = P)
 }
 pp <- sim_pp()
 matplot(pp$time, cbind(pp$N, pp$P), type = "l", lty = 1, lwd = 2.2,
-        col = c("#27ae60", "#c0392b"), xlab = "Zeit", ylab = "Dichte",
+        col = c("#27ae60", "#c0392b"), xlab = "Zeit (Schritte)", ylab = "Dichte",
         main = "Zyklus-Beispiel: Raeuber-Beute")
 legend("topright", c("Beute", "Raeuber"), col = c("#27ae60", "#c0392b"),
        lty = 1, lwd = 2.2, bty = "n")
@@ -139,35 +156,46 @@ legend("topright", c("Beute", "Raeuber"), col = c("#27ae60", "#c0392b"),
 
 # 3. Food Web — Aspen, Sage, Elk, Wolf
 
+Alle vier Bestände werden additiv aktualisiert: $X_{t+1}=X_t+$ Wachstum − Verluste.
+
+| Symbol | Bedeutung | Wertebereich | Kursbeispiel |
+|--------|-----------|--------------|--------------|
+| $r_A,r_S$ | Pflanzenwachstum | $0 < r \le 0.1$ | $\approx 0.02$–$0.025$ |
+| $K$ | Tragfähigkeit | $K > 0$ | $100$ |
+| $\alpha_{AS},\alpha_{SA}$ | Konkurrenz | $\alpha \ge 0$ | $\approx 0.55$ / $0.7$ |
+| $a_{\mathrm{EA}},a_{\mathrm{ES}},a_{\mathrm{WE}}$ | Angriffs-/Beweidungsraten | $0 < a \le 0.05$ | $a_{\mathrm{EA}} \gg a_{\mathrm{ES}}$ |
+| $e_E,e_W$ | Umwandlungseffizienzen | $0 < e \le 1$ | $\approx 0.2$–$0.8$ |
+| $m_E,m_W$ | Mortalitäten | $0 < m < 1$ | $\approx 0.01$–$0.1$ |
+
 ```{r}
-next_web <- function(x, p, dt) {
+next_web <- function(x, p) {
   A <- x["Aspen"]; S <- x["Sage"]; E <- x["Elk"]; W <- x["Wolf"]
-  dA <- (p$rA * A * (1 - (A + p$aAS * S) / p$K) - p$a_elk_aspen * A * E) * dt
-  dS <- (p$rS * S * (1 - (S + p$aSA * A) / p$K) - p$a_elk_sage * S * E) * dt
+  dA <- p$rA * A * (1 - (A + p$aAS * S) / p$K) - p$a_elk_aspen * A * E
+  dS <- p$rS * S * (1 - (S + p$aSA * A) / p$K) - p$a_elk_sage * S * E
   dE <- (p$eE * (p$a_elk_aspen * A + p$a_elk_sage * S) * E -
-           p$mE * E - p$a_wolf_elk * E * W) * dt
-  dW <- (p$eW * p$a_wolf_elk * E * W - p$mW * W) * dt
+           p$mE * E - p$a_wolf_elk * E * W)
+  dW <- p$eW * p$a_wolf_elk * E * W - p$mW * W
   c(Aspen = max(A + dA, 0), Sage = max(S + dS, 0),
     Elk = max(E + dE, 0), Wolf = max(W + dW, 0))
 }
 web_p <- list(
-  rA = 1.2, rS = 1.0, K = 100,
+  rA = 0.024, rS = 0.020, K = 100,
   aAS = 0.55, aSA = 0.70,
-  a_elk_aspen = 0.035, a_elk_sage = 0.020,
-  eE = 0.45, mE = 0.10,
-  a_wolf_elk = 0.040, eW = 0.40, mW = 0.30
+  a_elk_aspen = 0.0007, a_elk_sage = 0.0004,
+  eE = 0.45, mE = 0.002,
+  a_wolf_elk = 0.0008, eW = 0.40, mW = 0.006
 )
-sim_web <- function(Wolf0 = 0, T = 6000, dt = 0.02, p = web_p) {
+sim_web <- function(Wolf0 = 0, T = 6000, p = web_p) {
   X <- matrix(0, T + 1, 4,
               dimnames = list(NULL, c("Aspen", "Sage", "Elk", "Wolf")))
   X[1, ] <- c(Aspen = 40, Sage = 50, Elk = 25, Wolf = Wolf0)
-  for (t in 1:T) X[t + 1, ] <- next_web(X[t, ], p, dt)
-  data.frame(time = 0:T * dt, X)
+  for (t in 1:T) X[t + 1, ] <- next_web(X[t, ], p)
+  data.frame(time = 0:T, X)
 }
 plot_web <- function(df, main = "") {
   cols <- c(Aspen = "#27ae60", Sage = "#1abc9c", Elk = "#d68910", Wolf = "#2c3e50")
   matplot(df$time, df[, names(cols)], type = "l", lty = 1, lwd = 2.3,
-          col = cols, xlab = "Zeit", ylab = "Haeufigkeit", main = main)
+          col = cols, xlab = "Zeit (Schritte)", ylab = "Haeufigkeit", main = main)
   legend("topright", names(cols), col = cols, lty = 1, lwd = 2.3, bty = "n", cex = 0.8)
 }
 late_mean <- function(df) colMeans(tail(df[, c("Aspen", "Sage", "Elk", "Wolf")], 1500))
@@ -233,37 +261,46 @@ abline(v = 1995, lty = 2)
 
 Dieselbe Pipeline, mehr Knoten — nur zur Illustration (nicht Abgabe-Pflicht).
 
+| Symbol | Bedeutung | Wertebereich | Kursbeispiel |
+|--------|-----------|--------------|--------------|
+| $r_C,r_B$ | Wachstum Kojote / Biber | $0 < r \le 0.1$ | klein positiv |
+| $K_C,K_B$ | Tragfähigkeiten | $K > 0$ | positiv |
+| $a_{WC}$ | Angriff Wolf → Kojote | $0 < a \le 0.05$ | klein positiv |
+| $m_B$ | Mortalität Biber | $0 < m < 1$ | klein positiv |
+| $f_{BA}$ | Förderung von Aspen | $0 < f \le 1$ | $\le 1$ |
+| $h_A,h_B$ | Halbsättigung | $h > 0$ | positiv |
+
 ```{r}
 #| fig-height: 4.2
 #| fig-width: 9
-next_rich <- function(x, p, dt) {
+next_rich <- function(x, p) {
   A <- x["Aspen"]; S <- x["Sage"]; E <- x["Elk"]
   W <- x["Wolf"]; C <- x["Coyote"]; B <- x["Beaver"]
-  dA <- (p$rA * A * (1 - (A + p$aAS * S) / p$K) *
-           (1 + p$fBA * B / (p$hB + B)) - p$aEA * A * E) * dt
-  dS <- (p$rS * S * (1 - (S + p$aSA * A) / p$K) - p$aES * S * E) * dt
-  dE <- (p$eE * (p$aEA * A + p$aES * S) * E - p$mE * E - p$aWE * E * W) * dt
-  dW <- (p$eW * p$aWE * E * W - p$mW * W) * dt
-  dC <- (p$rC * C * (1 - C / p$KC) - p$aWC * C * W) * dt
-  dB <- (p$rB * B * (A / (p$hA + A)) - p$mB * B * (1 + B / p$KB)) * dt
+  dA <- p$rA * A * (1 - (A + p$aAS * S) / p$K) *
+           (1 + p$fBA * B / (p$hB + B)) - p$aEA * A * E
+  dS <- p$rS * S * (1 - (S + p$aSA * A) / p$K) - p$aES * S * E
+  dE <- p$eE * (p$aEA * A + p$aES * S) * E - p$mE * E - p$aWE * E * W
+  dW <- p$eW * p$aWE * E * W - p$mW * W
+  dC <- p$rC * C * (1 - C / p$KC) - p$aWC * C * W
+  dB <- p$rB * B * (A / (p$hA + A)) - p$mB * B * (1 + B / p$KB)
   c(Aspen = max(A + dA, 0), Sage = max(S + dS, 0),
     Elk = max(E + dE, 0), Wolf = max(W + dW, 0),
     Coyote = max(C + dC, 0), Beaver = max(B + dB, 0))
 }
 rich_p <- list(
-  rA = 1.2, rS = 1.0, K = 100, aAS = 0.55, aSA = 0.70,
-  aEA = 0.035, aES = 0.020, eE = 0.45, mE = 0.10,
-  aWE = 0.040, eW = 0.40, mW = 0.30,
-  rC = 0.70, KC = 28, aWC = 0.022,
-  rB = 0.50, hA = 10, mB = 0.16, KB = 12, fBA = 0.30, hB = 5
+  rA = 0.024, rS = 0.020, K = 100, aAS = 0.55, aSA = 0.70,
+  aEA = 0.0007, aES = 0.0004, eE = 0.45, mE = 0.002,
+  aWE = 0.0008, eW = 0.40, mW = 0.006,
+  rC = 0.014, KC = 28, aWC = 0.00044,
+  rB = 0.010, hA = 10, mB = 0.0032, KB = 12, fBA = 0.30, hB = 5
 )
-sim_rich <- function(Wolf0 = 0, T = 5500, dt = 0.02, p = rich_p) {
+sim_rich <- function(Wolf0 = 0, T = 5500, p = rich_p) {
   nm <- c("Aspen", "Sage", "Elk", "Wolf", "Coyote", "Beaver")
   X <- matrix(0, T + 1, 6, dimnames = list(NULL, nm))
   X[1, ] <- c(Aspen = 40, Sage = 50, Elk = 25, Wolf = Wolf0,
               Coyote = 12, Beaver = 3)
-  for (t in 1:T) X[t + 1, ] <- next_rich(X[t, ], p, dt)
-  data.frame(time = 0:T * dt, X)
+  for (t in 1:T) X[t + 1, ] <- next_rich(X[t, ], p)
+  data.frame(time = 0:T, X)
 }
 cols6 <- c(Aspen = "#27ae60", Sage = "#1abc9c", Elk = "#d68910",
            Wolf = "#2c3e50", Coyote = "#7f8c8d", Beaver = "#8e44ad")
@@ -271,9 +308,9 @@ par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
 df0 <- sim_rich(Wolf0 = 0)
 df1 <- sim_rich(Wolf0 = 2)
 matplot(df0$time, df0[, names(cols6)], type = "l", lty = 1, lwd = 2,
-        col = cols6, xlab = "Zeit", ylab = "N", main = "ohne Wolf")
+        col = cols6, xlab = "Zeit (Schritte)", ylab = "N", main = "ohne Wolf")
 matplot(df1$time, df1[, names(cols6)], type = "l", lty = 1, lwd = 2,
-        col = cols6, xlab = "Zeit", ylab = "N", main = "mit Wolf")
+        col = cols6, xlab = "Zeit (Schritte)", ylab = "N", main = "mit Wolf")
 legend("topright", names(cols6), col = cols6, lty = 1, lwd = 2,
        bty = "n", cex = 0.65, ncol = 2)
 ```

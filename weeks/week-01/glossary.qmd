@@ -89,8 +89,8 @@ ohne Introgression. Kann Introgression *imitieren*.
 **Likelihood**  
 Mass dafür, wie gut ein Modell die beobachteten Daten erklärt («Wie plausibel sind die Daten unter diesem Modell?»).
 
-**Lotka–Volterra**  
-Klassisches Differentialgleichungs-Modell für Räuber–Beute (oder verwandte Interaktionen): oft oszillierende Dichten / Zyklen im Phasenraum.
+**Lotka–Volterra**
+Klassisches Räuber–Beute-Modell (oft oszillierende Dichten). In der Literatur häufig als Differentialgleichung; in QuBi als **additive Differenzengleichung** $N_{t+1}=N_t+f(N_t,P_t)$.
 
 **Locus**  
 Eine Stelle / Region im Genom.
@@ -125,8 +125,8 @@ Ein vorteilhaftes Allel wird häufig; dabei sinkt die genetische Vielfalt in der
 Ein Trend in den Gesamtdaten kann sich **umkehren** (oder verschwinden), wenn man nach Gruppen / Populationen trennt.  
 Lehrpunkt: dieselbe Tabelle, andere Frage — andere Geschichte. Daten «sprechen» nicht von allein.
 
-**Selektion / Selektionskoeffizient \(s\)**  
-Unterschiedlicher Fortpflanzungserfolg von Varianten. \(s\) ist eine Modellgrösse — kontextabhängig (Umwelt, Hintergrund).
+**Selektion / Selektionskoeffizient $s$**  
+Unterschiedlicher Fortpflanzungserfolg von Varianten. $s$ ist eine Modellgrösse — kontextabhängig (Umwelt, Hintergrund).
 
 **Simulation**  
 Am Computer durchspielen, welche Daten ein mathematisches Modell typischerweise erzeugen würde.
@@ -154,6 +154,6 @@ Einfaches populationsgenetisches Modell für Allelfrequenzen über Generationen 
 | Population | Wer gehört dazu? Wo sind die Grenzen? |
 | Gen | Codierende Sequenz, Regulator, Haplotyp oder nur ein Name? |
 | Generation | Diskrete Schritte? Überlappend? Wie viele Jahre? |
-| Selektion | \(s\) wovon, auf wen, in welcher Umwelt? |
+| Selektion | $s$ wovon, auf wen, in welcher Umwelt? |
 
 Erst wenn verbale Modelle **konkret** werden (Gleichungen, Simulationen), werden versteckte Annahmen sichtbar.

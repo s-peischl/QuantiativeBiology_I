@@ -10,7 +10,7 @@ format:
 
 ## Abgabe (praktischer Teil)
 
-1. Vergleichen Sie ≥2 Selektionsregime anhand von \(p_t\)-Trajektorien (eine Abbildung).
+1. Vergleichen Sie ≥2 Selektionsregime anhand von $p_t$-Trajektorien (eine Abbildung).
 2. Kurze Interpretation: Gleichgewichte / Geschwindigkeit der Veränderung.
 3. Wo erscheint eine glatte deterministische Beschreibung unzureichend?
 

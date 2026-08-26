@@ -4,6 +4,7 @@ subtitle: "Checkpoints A–D verknüpfen; Portfolio optional überarbeiten"
 author: "Stephan Peischl"
 format:
   revealjs:
+    html-math-method: katex
     theme: simple
     slide-number: true
     incremental: false

@@ -4,6 +4,7 @@ subtitle: "Eine Population → Räuber und Beute"
 author: "Stephan Peischl"
 format:
   revealjs:
+    html-math-method: katex
     theme: simple
     css: slides.css
     slide-number: true
@@ -18,19 +19,19 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html)"
+    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html) · [Notebook](notebook.html)"
 execute:
   echo: true
   warning: false
   message: false
-  freeze: true
+  freeze: false
 ---
 
 ## Übersicht
 
 **Woche 2** von 14 · **Do., 24. Sept. 2026, 08:15–10:00**
 
-[Kursplan](../../docs/course-outline.html) · [Start](../../index.html)
+[Kursplan](../../docs/course-outline.html) · [Start](../../index.html) · **[Notebook](notebook.html)**
 
 ::: aside
 Pfeiltasten · **M** Menü · **Esc** Übersicht
@@ -156,9 +157,9 @@ Später im Notebook: Parameter ändern und neu plotten.
 
 ## Wie modellieren wir das?
 
-**Zeitreihe** · eine Variable: Populationsgrösse \(N\)
+**Zeitreihe** · eine Variable: Populationsgrösse $N$
 
-Frage: Wie wird aus \(N_t\) das nächste \(N_{t+1}\)?
+Frage: Wie wird aus $N_t$ das nächste $N_{t+1}$?
 
 ## Kräfte (verbal)
 
@@ -167,17 +168,17 @@ Frage: Wie wird aus \(N_t\) das nächste \(N_{t+1}\)?
 
 → Plateau wie in den Daten.
 
-## Comic: Nachwuchs (\(r\))
+## Comic: Nachwuchs ($r$)
 
 ![](../../pics/comics/comic_r_growth.svg){fig-alt="Comic Parameter r Nachwuchs" width="82%"}
 
-## Comic: Deckel (\(K\))
+## Comic: Deckel ($K$)
 
 ![](../../pics/comics/comic_K_crowding.svg){fig-alt="Comic Parameter K Gedraenge" width="82%"}
 
 ## Ein Zeitschritt
 
-> Kennen wir \(N_t\), wie lautet \(N_{t+1}\)?
+> Kennen wir $N_t$, wie lautet $N_{t+1}$?
 
 **Differenzengleichung** = Regel für **einen** Schritt.
 
@@ -187,76 +188,35 @@ Frage: Wie wird aus \(N_t\) das nächste \(N_{t+1}\)?
 
 ## Regel (diskret, logistisch)
 
-\[
-N_{t+1} = N_t + r\, N_t \left(1 - \frac{N_t}{K}\right)\Delta t
-\qquad\text{mit }\Delta t = 1
-\]
+$$
+N_{t+1} = N_t + r\, N_t \left(1 - \frac{N_t}{K}\right)
+$$
 
-Hier ist \(\Delta t = 1\): ein «Schritt» = eine Zeiteinheit.  
-Dann ist \(r\) klar **pro Schritt** (nicht «pro Tag aus einem Paper»).
+**Jetzt + Änderung** — additive Differenzengleichung (ein Schritt).
 
-| Symbol | Comic-Ereignis |
-|--------|----------------|
-| \(N_t\) | Population jetzt |
-| \(r\) | Nachwuchs / Teilung **pro Schritt** |
-| \(K\) | Deckel (Platz / Futter) |
-| \(\bigl(1 - N/K\bigr)\) | Bremse nahe dem Deckel |
-| \(\Delta t\) | Zeitschritt (hier \(= 1\)) |
+## Parameter (Logistik)
 
-## Zwei Sprachen: Differenz vs. Differential
+| Symbol | Bedeutung | Einschränkung | Kursbeispiel |
+|--------|-----------|---------------|--------------|
+| $N_t$ | Populationsgrösse jetzt | $N \ge 0$ | Start oft $20$ |
+| $r$ | Netto-Wachstum **pro Schritt** | $r > 0$ | $0.5$ |
+| $K$ | Deckel (Platz / Futter) | $K > 0$ | $200$ |
 
-| | Differenzengleichung | Differentialgleichung |
-|--|----------------------|------------------------|
-| **Was** | Regel für **einen** Schritt | Grenzwert «unendlich kleine» Schritte |
-| **Form** | \(N_{t+1} - N_t = \ldots\) | \(\dfrac{\mathrm{d}N}{\mathrm{d}t} = \ldots\) |
-| **Wo** | **unser Kurs / R-Code** | viele Papers / Lehrbücher |
+Nahe $K$: Faktor $\bigl(1-N/K\bigr)$ bremst das Wachstum (bei $N>K$ negativ).
 
-Wir bleiben bei **Differenzen** — einfacher zu simulieren und zu erklären.
+## Kurz: was die Literatur oft schreibt
 
-::: {.callout-note}
-## Parallel: Mathematische Modellierung
+Viele Papers nutzen **Differentialgleichungen**. Wir nutzen **Differenzengleichungen** $N_{t+1}=N_t+f(N_t)$.
 
-Differentialgleichungen und die formale Brücke zur kontinuierlichen Formulierung werden vertieft in der Vorlesung **Mathematische Modellierung** (Details folgen).  
-Hier in QuBi: nur die Euler-Idee, genug für Simulation und Interpretation.
-:::
-
-## Brücke (Euler)
-
-Literatur schreibt oft:
-
-\[
-\frac{\mathrm{d}N}{\mathrm{d}t} = f(N)
-\]
-
-Näherung:
-
-\[
-\frac{\mathrm{d}N}{\mathrm{d}t}
-  \approx \frac{N_{t+\Delta t} - N_t}{\Delta t}
-\quad\Rightarrow\quad
-N_{t+1} = N_t + f(N_t)\,\Delta t
-\]
-
-Das ist der **Euler-Schritt** — genau das, was unsere `next_*`-Funktionen tun.
-
-## Parameter-Warnung
+Vertiefung: Vorlesung **Mathematische Modellierung**.
 
 ::: {.callout-warning}
-## \(r\), \(\alpha\), \(a\), … sind nicht «einfach Zahlen aus dem Paper»
+## Parameter nicht blind aus Papers kopieren
 
-- Parameter hängen von der **Zeiteinheit** und von \(\Delta t\) ab.  
-- Bei \(\Delta t = 1\) (Logistik-Start): \(r\) = Wachstum **pro Schritt**.  
-- Später mit kleinem `dt` in R: \(r\) ist eher eine **Rate pro Zeit** — derselbe Buchstabe, andere Bedeutung der Zahl.  
-- Kurswerte sind für *unsere* Simulation getunt. **Nicht** blind aus einem kontinuierlichen ODE-Paper übernehmen.
+ODE-Zahlen ≠ unsere **pro-Schritt**-Parameter.
 :::
 
-**Kursstandard ab hier:** immer
-
-\[
-N_{t+1} = N_t + f(N_t)\,\Delta t
-\]
-
-(Literatur-\(\dot N\) nur noch als Hinweis.)
+**Kursstandard:** $N_{t+1} = N_t + f(N_t)$
 
 ------------------------------------------------------------------------
 
@@ -280,7 +240,7 @@ next_N <- function(N, r, K) {
 |---|---|
 | **Name** | `next_N` |
 | **Inputs** | `N` (aktuell), `r`, `K` |
-| **Output** | eine Zahl: \(N\) im **nächsten** Schritt |
+| **Output** | eine Zahl: $N$ im **nächsten** Schritt |
 
 Die **letzte** Zeile im Funktionskörper wird zurückgegeben.
 
@@ -294,17 +254,17 @@ next_N <- function(N, r, K) {
 next_N(N = 20, r = 0.5, K = 200)
 ```
 
-Start 20 · etwas Wachstum · noch weit unter \(K=200\).
+Start 20 · etwas Wachstum · noch weit unter $K=200$.
 
-## Noch ein Aufruf: näher an \(K\)
+## Noch ein Aufruf: näher an $K$
 
 ```{r}
 next_N(N = 180, r = 0.5, K = 200)
 next_N(N = 200, r = 0.5, K = 200)
 ```
 
-Nahe \(K\): wenig Wachstum.  
-Bei \(N=K\): Veränderung \(= 0\).
+Nahe $K$: wenig Wachstum.  
+Bei $N=K$: Veränderung $= 0$.
 
 ## Benannte Argumente
 
@@ -325,9 +285,9 @@ Mit Namen lesbarer — besonders bei vielen Parametern.
 
 ## Zeitreihe = Vektor
 
-\[
+$$
 N_0,\; N_1,\; \ldots,\; N_T
-\]
+$$
 
 ```{r}
 T <- 5
@@ -336,7 +296,7 @@ N[1] <- 20            # Startwert (R zaehlt ab 1!)
 N
 ```
 
-`N[i]` = Eintrag Nummer \(i\).
+`N[i]` = Eintrag Nummer $i$.
 
 ## Von Hand — mühsam
 
@@ -377,7 +337,7 @@ for (t in 1:T) {
 
 | Teil | Bedeutung |
 |------|-----------|
-| `t` | Zählvariable (läuft 1, 2, …, \(T\)) |
+| `t` | Zählvariable (läuft 1, 2, …, $T$) |
 | `1:T` | Folge der Werte für `t` |
 | `{ ... }` | Körper: wird jedes Mal ausgeführt |
 | `N[t]` | Input: Zustand jetzt |
@@ -400,10 +360,10 @@ abline(h = K, lty = 2, col = "grey40")
 
 | Befehl | Rolle |
 |--------|--------|
-| `plot(0:T, N, ...)` | x = Zeitindex, y = gespeicherte \(N\) |
+| `plot(0:T, N, ...)` | x = Zeitindex, y = gespeicherte $N$ |
 | `type = "l"` | nur Linie (line) |
 | `lwd = 2` | Linienbreite |
-| `abline(h = K, ...)` | horizontale Hilfslinie bei \(K\) |
+| `abline(h = K, ...)` | horizontale Hilfslinie bei $K$ |
 
 ## Vergleich Daten ↔ Modell
 
@@ -439,7 +399,7 @@ abline(h = K, lty = 2, col = "grey40")
 
 ![](../../pics/icons/w2_one_vs_two.svg){fig-alt="Eine vs zwei Populationen" width="90%"}
 
-Zwei Populationen: Beute \(N\) · Räuber \(P\)
+Zwei Populationen: Beute $N$ · Räuber $P$
 
 **Dieselbe Logik** — mehr Inputs/Outputs.
 
@@ -509,45 +469,55 @@ Lehrbeispiel Lotka–Volterra (Idee) — Gause-Daten daneben
 
 ![](../../pics/comics/comic_pp_params.svg){fig-alt="Comics Parameter r a b m" width="92%"}
 
-## Noch mal einzeln: fressen (\(a\))
+## Noch mal einzeln: fressen ($a$)
 
 ![](../../pics/comics/comic_a_predation.svg){fig-alt="Comic Praedation a" width="78%"}
 
-## Fressen → Räuber-Babys (\(b\))
+## Fressen → Räuber-Babys ($b$)
 
 ![](../../pics/comics/comic_b_conversion.svg){fig-alt="Comic Umwandlung b" width="78%"}
 
-## Räuber stirbt (\(m\))
+## Räuber stirbt ($m$)
 
 ![](../../pics/comics/comic_m_death.svg){fig-alt="Comic Sterberate m" width="72%"}
 
 ## Ein Zeitschritt (Idee)
 
-Wie auf der Brückenfolie (Euler): Zuwachs \(= f(\cdot)\,\Delta t\).
+Jetzt + Änderung — **additive** Differenzengleichung:
 
-\[
+$$
 \begin{aligned}
-N_{t+1} &= N_t + (r N_t - a N_t P_t)\,\Delta t \\
-P_{t+1} &= P_t + (b a N_t P_t - m P_t)\,\Delta t
+N_{t+1} &= N_t + (r N_t - a N_t P_t) \\
+P_{t+1} &= P_t + (b a N_t P_t - m P_t)
 \end{aligned}
-\]
+$$
+
+## Parameter (Räuber–Beute)
+
+| Symbol | Bedeutung | Einschränkung | Kursbeispiel |
+|--------|-----------|---------------|--------------|
+| $N_t$ | Beute | $N \ge 0$ | Start $40$ |
+| $P_t$ | Räuber | $P \ge 0$ | Start $2$ |
+| $r$ | Beute-Wachstum ohne Räuber | $r > 0$ | $0.05$ |
+| $a$ | Prädation | $a > 0$ | $0.005$ |
+| $b$ | Umwandlung Beute → Räuber | $0 < b \le 1$ | $0.5$ |
+| $m$ | Räuber-Sterblichkeit | $m > 0$ | $0.03$ |
+
+## Terme im Update
 
 | Term | Ereignis |
 |------|----------|
-| \(+ r N\) | Beute-Nachwuchs |
-| \(- a N P\) | Beute wird gefressen |
-| \(+ b\,a N P\) | Räuber-Nachwuchs aus Fressen |
-| \(- m P\) | Räuber stirbt |
-| \(\Delta t\) | kleiner Zeitschritt |
-
-Wieder: jetzt + Veränderung.
+| $+ r N$ | Beute-Nachwuchs |
+| $- a N P$ | Beute wird gefressen |
+| $+ b\,a N P$ | Räuber-Nachwuchs aus Fressen |
+| $- m P$ | Räuber stirbt |
 
 ## Funktion mit **zwei** Outputs
 
 ```{r}
-next_state <- function(N, P, r, a, b, m, dt) {
-  dN <- (r * N - a * N * P) * dt
-  dP <- (b * a * N * P - m * P) * dt
+next_state <- function(N, P, r, a, b, m) {
+  dN <- r * N - a * N * P
+  dP <- b * a * N * P - m * P
   c(N = max(N + dN, 0), P = max(P + dP, 0))
 }
 ```
@@ -558,14 +528,14 @@ next_state <- function(N, P, r, a, b, m, dt) {
 
 | | |
 |---|---|
-| **Inputs** | `N`, `P`, Parameter `r,a,b,m,dt` |
+| **Inputs** | `N`, `P`, Parameter `r, a, b, m` |
 | **Output** | Vektor Länge 2: neues `N`, neues `P` |
 | `max(..., 0)` | keine negativen Häufigkeiten |
 
 ## Aufruf — ein Schritt
 
 ```{r}
-out <- next_state(N = 40, P = 2, r = 1, a = 0.1, b = 0.5, m = 0.6, dt = 0.05)
+out <- next_state(N = 40, P = 2, r = 0.05, a = 0.005, b = 0.5, m = 0.03)
 out
 out["N"]
 out["P"]
@@ -576,16 +546,15 @@ Ergebnis in `out` speichern · mit `out["N"]` Einzelteile holen.
 ## Zwei Vektoren + Schleife
 
 ```{r}
-T <- 200
-dt <- 0.05
+T <- 400
 N <- numeric(T + 1)
 P <- numeric(T + 1)
 N[1] <- 40
 P[1] <- 2
-r <- 1.0; a <- 0.1; b <- 0.5; m <- 0.6
+r <- 0.05; a <- 0.005; b <- 0.5; m <- 0.03
 
 for (t in 1:T) {
-  out <- next_state(N[t], P[t], r, a, b, m, dt)
+  out <- next_state(N[t], P[t], r, a, b, m)
   N[t + 1] <- out["N"]
   P[t + 1] <- out["P"]
 }
@@ -596,13 +565,12 @@ for (t in 1:T) {
 ```{r}
 #| fig-height: 3.6
 #| fig-width: 7
-time <- 0:T * dt
-plot(time, N, type = "l", lwd = 2,
-     xlab = "Zeit", ylab = "Haeufigkeit",
-     main = "Simulation: Beute und Raeuber",
+plot(0:T, N, type = "l", lwd = 2,
+     xlab = "Schritt", ylab = "Häufigkeit",
+     main = "Simulation: Beute und Räuber",
      ylim = range(0, N, P))
-lines(time, P, lwd = 2, lty = 2)
-legend("topright", c("Beute N", "Raeuber P"),
+lines(0:T, P, lwd = 2, lty = 2)
+legend("topright", c("Beute N", "Räuber P"),
        lty = 1:2, lwd = 2, bty = "n")
 ```
 
@@ -617,7 +585,7 @@ legend("topright", c("Beute N", "Raeuber P"),
 | `for (i in ...) { }` | wiederholen |
 | `plot` / `lines` | Abbildung |
 
-## Brücke
+## Programmierung ↔ Biologie
 
 ![](../../pics/icons/w2_pipeline.svg){fig-alt="Bruecke Programmierung Biologie" width="88%"}
 
@@ -637,16 +605,20 @@ Heute zählt der **Workflow** — Feinschliff ab Woche 3.
 
 ## Notebook (~45 min)
 
+**→ [Notebook Woche 2 öffnen](notebook.html)**
+
 ::::: columns
 ::: {.column width="22%"}
 ![](../../pics/icons/icon_code.svg){fig-alt="Notebook" width="70%"}
 :::
 ::: {.column width="78%"}
-1.  `next_N` aufrufen (verschiedene Inputs)  
-2.  Vektor + Schleife + `plot`  
-3.  Daten danebenlegen  
-4.  `next_state` + zwei Kurven  
-5.  **Einen** Parameter ändern — was passiert?
+Zuerst: Ordner `data/` mit den CSVs neben dem Notebook.
+
+**A** eine Spezies — `next_N`, $r$ und Start $\lessgtr K$ **selbst** drehen  
+
+**B** zwei Spezies — `next_state`, Parameter selbst ändern  
+
+**C** Diskussion: Immigration vs. Aussterben; Modell und «fast null»
 :::
 :::::
 
@@ -672,5 +644,6 @@ Bildnachweise: `pics/README.md` · Organismenfotos Wikimedia Commons (siehe Bild
 | | |
 |---|---|
 | Kursplan | [Kursplan](../../docs/course-outline.html) |
+| Notebook | [Notebook Woche 2](notebook.html) |
 | Zurück | [← Woche 1](../week-01/slides.html) |
 | Weiter | [Woche 3 →](../week-03/slides.html) |
