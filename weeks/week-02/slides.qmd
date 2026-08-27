@@ -420,11 +420,12 @@ Räuber (*Didinium*)
 
 :::::
 
-## Daten laden und plotten
+## Daten laden und Plot programmieren
 
 ```{r}
 #| fig-height: 3.6
 #| fig-width: 7
+#| fig-show: hide
 both <- read.csv("data/paramecium_with_didinium.csv")
 
 plot(both$day, both$paramecium, type = "b", pch = 16, lwd = 2,
@@ -446,6 +447,45 @@ legend("topright", c("Paramecium", "Didinium"),
 | `legend(...)` | Legende |
 
 Erst `plot`, dann `lines` — sonst neues Fenster.
+
+## Die Daten im Plot
+
+```{r}
+#| echo: false
+#| fig-height: 3.8
+#| fig-width: 7.5
+#| out-width: 62%
+plot(both$day, both$paramecium, type = "b", pch = 16, lwd = 2,
+     xlab = "Tag", ylab = "Haeufigkeit",
+     main = "Paramecium + Didinium",
+     ylim = c(0, max(both$paramecium, both$didinium) * 1.05))
+lines(both$day, both$didinium, type = "b", pch = 17, lwd = 2, lty = 2)
+legend("topright", c("Paramecium", "Didinium"),
+       pch = c(16, 17), lty = 1:2, bty = "n")
+```
+
+## Empirische Daten im Phasenraum
+
+```{r}
+#| echo: false
+#| fig-height: 4
+#| fig-width: 7
+#| out-width: 62%
+plot(both$paramecium, both$didinium, type = "o", pch = 16, lwd = 1.8,
+     xlab = "Beute: Paramecium", ylab = "Raeuber: Didinium",
+     main = "Ein Punkt = ein Tag")
+arrows(both$paramecium[-nrow(both)], both$didinium[-nrow(both)],
+       both$paramecium[-1], both$didinium[-1],
+       length = 0.08, angle = 22, col = "#5d6d7e")
+imm <- both$immigration == "y"
+points(both$paramecium[imm], both$didinium[imm],
+       pch = 21, bg = "#f4d03f", cex = 1.4)
+legend("topright", "Immigration", pch = 21, pt.bg = "#f4d03f", bty = "n")
+```
+
+**Pfeile = Zeit:** Erst nimmt die Beute zu, dann folgt der Räuber.
+
+Die markierten Tage enthalten Immigration — die Kurve ist daher keine ungestörte geschlossene Bahn.
 
 ## Was fällt auf?
 
@@ -574,6 +614,49 @@ legend("topright", c("Beute N", "Räuber P"),
        lty = 1:2, lwd = 2, bty = "n")
 ```
 
+## Daten und Simulation — vier Panels
+
+```{r}
+#| echo: false
+#| fig-height: 5.2
+#| fig-width: 9
+#| out-width: 95%
+par(mfrow = c(2, 2), mar = c(4, 4, 2.2, 1), oma = c(0, 0, 0, 0))
+
+# 1 Zeitreihe: Daten
+plot(both$day, both$paramecium, type = "b", pch = 16, lwd = 2,
+     xlab = "Tag", ylab = "Haeufigkeit",
+     main = "Daten: Zeitreihe",
+     ylim = c(0, max(both$paramecium, both$didinium) * 1.05))
+lines(both$day, both$didinium, type = "b", pch = 17, lwd = 2, lty = 2)
+legend("topright", c("Paramecium", "Didinium"),
+       pch = c(16, 17), lty = 1:2, bty = "n", cex = 0.8)
+
+# 2 Zeitreihe: Simulation
+plot(0:T, N, type = "l", lwd = 2,
+     xlab = "Schritt", ylab = "Haeufigkeit",
+     main = "Simulation: Zeitreihe",
+     ylim = range(0, N, P))
+lines(0:T, P, lwd = 2, lty = 2)
+legend("topright", c("Beute N", "Raeuber P"),
+       lty = 1:2, lwd = 2, bty = "n", cex = 0.8)
+
+# 3 Phasenraum: Daten
+plot(both$paramecium, both$didinium, type = "o", pch = 16, lwd = 1.5,
+     xlab = "Beute: Paramecium", ylab = "Raeuber: Didinium",
+     main = "Daten: Phasenraum")
+arrows(both$paramecium[-nrow(both)], both$didinium[-nrow(both)],
+       both$paramecium[-1], both$didinium[-1],
+       length = 0.06, angle = 22, col = "#5d6d7e")
+
+# 4 Phasenraum: Simulation
+plot(N, P, type = "l", lwd = 1.8,
+     xlab = "Beute N", ylab = "Raeuber P",
+     main = "Simulation: Phasenraum")
+```
+
+Oben: Zeitreihen nebeneinander · unten: Phasenräume nebeneinander.
+
 ## Mini-Glossar R (heute)
 
 | Konzept | Merksatz |
@@ -596,11 +679,6 @@ legend("topright", c("Beute N", "Räuber P"),
 | Schleife | viele Schritte |
 | Plot | Dynamik lesen |
 
-## Ehrlicher Hinweis
-
-Modell ≠ perfekter Datenfit.  
-Heute zählt der **Workflow** — Feinschliff ab Woche 3.
-
 ------------------------------------------------------------------------
 
 ## Notebook (~45 min)
@@ -614,7 +692,7 @@ Heute zählt der **Workflow** — Feinschliff ab Woche 3.
 ::: {.column width="78%"}
 Zuerst: Ordner `data/` mit den CSVs neben dem Notebook.
 
-**A** eine Spezies — `next_N`, $r$ und Start $\lessgtr K$ **selbst** drehen  
+**A** eine Spezies — `next_N`, $r$ und Start $\lessgtr K$ **selbst ändern**  
 
 **B** zwei Spezies — `next_state`, Parameter selbst ändern  
 
