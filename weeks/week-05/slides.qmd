@@ -25,7 +25,7 @@ execute:
   echo: false
   warning: false
   message: false
-  freeze: false
+  freeze: auto
 ---
 
 ```{r}
@@ -54,7 +54,6 @@ plot_hwe <- function(dat, main, cex = 0.7) {
 hapmap <- read.csv("data/hapmap_chb_chr1.csv")
 hapmap <- cbind(hapmap, freqs(hapmap$AA, hapmap$AB, hapmap$BB))
 
-famous <- read.csv("data/famous_snps.csv")
 panel <- read.csv("data/panel_ceu_yri.csv")
 ceu_p <- panel[panel$pop == "CEU", ]
 yri_p <- panel[panel$pop == "YRI", ]
@@ -72,11 +71,6 @@ yri_f <- cbind(yri_p, freqs(yri_p$AA, yri_p$AB, yri_p$BB))
 
 pgrid <- seq(0, 1, length.out = 301)
 cols <- c(AA = "#2166ac", AB = "#1b9e77", BB = "#b2182b")
-
-duffy <- famous[famous$snp == "rs2814778", ]
-d_ceu <- duffy[duffy$pop == "CEU", ]
-d_yri <- duffy[duffy$pop == "YRI", ]
-pC <- function(row) (2 * row$BB + row$AB) / (2 * (row$AA + row$AB + row$BB))
 ```
 
 ## Übersicht
@@ -351,8 +345,8 @@ In Westafrika fast alle Menschen; in Europa fast niemand.
 
 | | TT | TC | CC | $p$ (C) |
 |---|---:|---:|---:|---:|
-| CEU (Utah) | `r d_ceu$AA` | `r d_ceu$AB` | `r d_ceu$BB` | $\approx`r round(pC(d_ceu), 2)`$ |
-| YRI (Ibadan) | `r d_yri$AA` | `r d_yri$AB` | `r d_yri$BB` | $\approx`r round(pC(d_yri), 2)`$ |
+| CEU (Utah) | 99 | 0 | 0 | $\approx 0$ |
+| YRI (Ibadan) | 0 | 1 | 107 | $\approx 1$ |
 
 C = Duffy-Null. In der einen Gruppe praktisch **0**, in der anderen fast **1**.
 

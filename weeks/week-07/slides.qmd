@@ -25,7 +25,7 @@ execute:
   echo: false
   warning: false
   message: false
-  freeze: false
+  freeze: auto
 ---
 
 ```{r}
