@@ -1,22 +1,32 @@
 ---
-title: "Woche 8 — Aufgabe · Warum spielt Zufall in der Evolution eine Rolle?"
+title: "Woche 8 — Aufgabe · Checkpoint B"
 format:
   html:
-    toc: false
+    toc: true
+    css: ../../styles.scss
 ---
 
-## Aufgabenstellung
+**Checkpoint B** schliesst den Block zur deterministischen Evolution ab
+(Wochen 5–8).
 
-Bearbeiten Sie die biologische Frage mithilfe des Notebooks dieser Woche.
+::: {.callout-important}
+## Anwesenheit Pflicht
 
-## Abzugebende Ergebnisse
+Für die Benotung müssen Sie **anwesend sein und präsentieren**.
+Siehe [Allgemeine Informationen](../../docs/general-info.qmd).
+:::
 
-1. Gerendertes Notebook (`.html`) oder gleichwertiges Format
-2. Eine zentrale Abbildung mit Bildunterschrift
-3. Kurze Interpretation (120–180 Wörter)
+## Abgabe (Notebook)
 
-## Kriterien
+1. Genau **eine** der drei Fragen aus dem Notebook.
+2. Eine zentrale Abbildung mit Bildunterschrift.
+3. Die vier Interpretationsfragen in Stichpunkten.
 
-- Reproduzierbarkeit (40%)
-- Biologische Interpretation (40%)
-- Klarheit (20%)
+## Präsentation (~3–5 Min.)
+
+Frage → Modell/Parameter → Abbildung → biologisches Ergebnis → Modellgrenze.
+
+## Offenlegung der KI-Nutzung
+
+Siehe [KI-Richtlinie](../../docs/ai-policy.qmd). Werkzeug + Verwendung
+oder `KI-Offenlegung: keine`.

@@ -1,11 +1,11 @@
 ---
-title: "Woche 12 — Aufgabe · Gemeinschaften visualisieren"
+title: "Woche 12 — Aufgabe · Komplexe Daten einlesen"
 format:
   html:
     toc: true
     css: ../../styles.scss
 ---
 
-1. Eine Darstellung der Zusammensetzung mit angegebener Aggregationsregel.
-2. Eine Heatmap oder ein Vergleich mit Facetten.
-3. Bildlegende + ein Absatz über einen vermiedenen visuellen Fallstrick.
+1. Datenpass: Dimensionen, Zusammenfassung der Bibliotheksgrössen, Hinweis zur Sparsität.
+2. Nachweis, dass die Proben-IDs übereinstimmen (oder eine korrigierte Liste der Abweichungen).
+3. Kurzer Absatz: breite gegenüber langer Datenform und welche Sie nächste Woche zum Plotten verwenden werden.

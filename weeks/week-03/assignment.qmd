@@ -8,12 +8,20 @@ format:
 
 ## Abgabe
 
-1. **Exclusion:** Abbildung aus *Paramecium*-Daten **oder** Simulation (zwei Starts, gleicher Gewinner).
-2. **Bistabilität:** zwei Starts bei starken $\alpha$ — Gras/Wald-Lesart kurz erklären (keine Kursdaten nötig).
-3. **Stabilität (kurz):** Nennen Sie zu **Punkt**, **Bistabil** und **Zyklus** je ein konkretes Kursbeispiel (ein Satz pro Form).
-4. **Food Web:** Plot ohne vs. mit Wolf — zeigen, dass **Aspen** ohne Wolf gegen 0 geht und mit Wolf stabil bleibt, und dass **Elk** mit Wolf **nicht** gegen 0 geht.
-5. 3–5 Sätze: Was bedeutet «Stabilisierung durch Wolf» in Ihrem Plot (Aspen + Elk)?
+1. **Terme lesen:** Erklären Sie biologisch den Unterschied zwischen
+   $rN$, $N^2$ und $NP$. Was geschieht mit $NP$, wenn eine Art fehlt?
+2. **Exclusion:** Abbildung aus *Paramecium*-Daten **oder** Simulation
+   (zwei positive Starts, gleicher Gewinner).
+3. Erklären Sie in 2–3 Sätzen mit **Gleichgewicht** und **Einzugsgebiet**,
+   warum der Exclusion-Endpunkt stabil ist.
+4. **Bistabilität:** zwei Starts bei starken $\alpha$ zeigen; erklären Sie,
+   warum eine Störung nur beim Überschreiten der **Beckengrenze** den Zustand wechselt.
+5. **Food Web:** Plot ohne vs. mit Wolf — zeigen, dass **Aspen** ohne Wolf
+   gegen 0 geht und mit Wolf positiv bleibt, während der **Elch** nicht gegen 0 geht.
+6. Erklären Sie in 3–5 Sätzen den Mechanismus im **Kursmodell**.
+   Nennen Sie einen Angriffsparameter und seine Wirkung in beiden betroffenen Gleichungen.
+   Unterscheiden Sie dabei trophische Kaskade von allgemeiner Netzwerkstabilität.
 
 ## Literatur
 
-Gause (1934); Scheffer et al. (2001); Staver et al. (2011); Ripple & Beschta (2012); Smith et al. (2021); Paine (1966) — vollständige Angaben in den [Folien Woche 3](slides.qmd#literatur).
+Gause (1934); Scheffer et al. (2001); Staver et al. (2011); Ripple & Beschta (2012); Smith et al. (2021); Paine (1966); Chaparro-Pedraza & de Roos (2020) — vollständige Angaben in den [Folien Woche 3](slides.qmd#literatur).

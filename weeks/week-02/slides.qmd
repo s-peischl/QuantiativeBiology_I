@@ -10,6 +10,7 @@ format:
     slide-number: true
     incremental: false
     embed-resources: true
+    auto-stretch: false
     transition: none
     controls: true
     controls-layout: edges
@@ -41,8 +42,16 @@ Pfeiltasten · **M** Menü · **Esc** Übersicht
 
 | Teil | Dauer | Was |
 |------|-------|-----|
-| Vorlesung | ~45–50 min | Daten → Modell → Code-Basics → Erweiterung |
-| Notebook | ~40–45 min | selbst herumspielen |
+| Vorlesung | ~45 min | *Paramecium* → Modell → Räuber–Beute |
+| Notebook | ~45 min | selbst herumspielen |
+
+## Lernziele
+
+Nach heute können Sie …
+
+1. *Paramecium*-Wachstum als **eine** Variable $N$ lesen,
+2. die Gleichung $N_{t+1}=N_t+f(N_t)$ als **einen Zeitschritt** sehen,
+3. denselben Schritt für **zwei Arten** nachvollziehen.
 
 ## Heute in einem Blick
 
@@ -78,15 +87,16 @@ Funktion (Input/Output) · Vektor · Schleife · `plot()`
 :::
 :::::
 
-## Lernziele heute
+## Heute in dieser Reihenfolge
 
-![](../../pics/icons/w2_lernziele.svg){fig-alt="Vier Lernziele Woche 2" width="95%"}
+1. Was macht *Paramecium* allein?
+2. Warum reicht «wächst» nicht — Regulation?
+3. Ein Zeitschritt, dann viele: $N_{t+1}=N_t+f(N_t)$
+4. Zwei Arten: Räuber und Beute
 
 ::: aside
-[Modul 1](../../docs/module-01-overview.html) · Wochen 1–4
+[Modul 1](../../docs/module-01-overview.html) · [Glossar](../../docs/glossary.html)
 :::
-
-------------------------------------------------------------------------
 
 # Teil 1 · Eine Population
 
@@ -168,11 +178,11 @@ Frage: Wie wird aus $N_t$ das nächste $N_{t+1}$?
 
 → Plateau wie in den Daten.
 
-## Comic: Nachwuchs ($r$)
+##  Nachwuchs ($r$)
 
 ![](../../pics/comics/comic_r_growth.svg){fig-alt="Comic Parameter r Nachwuchs" width="82%"}
 
-## Comic: Deckel ($K$)
+## Kapazität ($K$)
 
 ![](../../pics/comics/comic_K_crowding.svg){fig-alt="Comic Parameter K Gedraenge" width="82%"}
 
@@ -182,7 +192,7 @@ Frage: Wie wird aus $N_t$ das nächste $N_{t+1}$?
 
 **Differenzengleichung** = Regel für **einen** Schritt.
 
-## Comic: ein Zeitschritt
+## ein Zeitschritt
 
 ![](../../pics/comics/comic_logistic_strip.svg){fig-alt="Comic logistischer Zeitschritt" width="92%"}
 
@@ -217,8 +227,6 @@ ODE-Zahlen ≠ unsere **pro-Schritt**-Parameter.
 :::
 
 **Kursstandard:** $N_{t+1} = N_t + f(N_t)$
-
-------------------------------------------------------------------------
 
 # R-Basics · Funktion
 
@@ -274,8 +282,6 @@ next_N(20, 0.5, 200)   # gleiche Reihenfolge
 ```
 
 Mit Namen lesbarer — besonders bei vielen Parametern.
-
-------------------------------------------------------------------------
 
 # R-Basics · Vektor & Schleife
 
@@ -391,8 +397,6 @@ abline(h = K, lty = 2, col = "grey40")
 | viele Schritte | `for (t in 1:T) ...` |
 | ansehen | `plot(...)` |
 
-------------------------------------------------------------------------
-
 # Teil 2 · Räuber und Beute
 
 ## Erweiterung
@@ -464,29 +468,6 @@ legend("topright", c("Paramecium", "Didinium"),
        pch = c(16, 17), lty = 1:2, bty = "n")
 ```
 
-## Empirische Daten im Phasenraum
-
-```{r}
-#| echo: false
-#| fig-height: 4
-#| fig-width: 7
-#| out-width: 62%
-plot(both$paramecium, both$didinium, type = "o", pch = 16, lwd = 1.8,
-     xlab = "Beute: Paramecium", ylab = "Raeuber: Didinium",
-     main = "Ein Punkt = ein Tag")
-arrows(both$paramecium[-nrow(both)], both$didinium[-nrow(both)],
-       both$paramecium[-1], both$didinium[-1],
-       length = 0.08, angle = 22, col = "#5d6d7e")
-imm <- both$immigration == "y"
-points(both$paramecium[imm], both$didinium[imm],
-       pch = 21, bg = "#f4d03f", cex = 1.4)
-legend("topright", "Immigration", pch = 21, pt.bg = "#f4d03f", bty = "n")
-```
-
-**Pfeile = Zeit:** Erst nimmt die Beute zu, dann folgt der Räuber.
-
-Die markierten Tage enthalten Immigration — die Kurve ist daher keine ungestörte geschlossene Bahn.
-
 ## Was fällt auf?
 
 Beute ↑ → Räuber ↑ (verzögert) → Beute ↓ → Räuber ↓  
@@ -505,7 +486,7 @@ Lehrbeispiel Lotka–Volterra (Idee) — Gause-Daten daneben
 3. Räuber wachsen mit Beute  
 4. Räuber sterben ohne Beute  
 
-## Comics: Parameter = Ereignisse
+## Parameter = Ereignisse
 
 ![](../../pics/comics/comic_pp_params.svg){fig-alt="Comics Parameter r a b m" width="92%"}
 
@@ -520,6 +501,26 @@ Lehrbeispiel Lotka–Volterra (Idee) — Gause-Daten daneben
 ## Räuber stirbt ($m$)
 
 ![](../../pics/comics/comic_m_death.svg){fig-alt="Comic Sterberate m" width="72%"}
+
+## Wie liest man einen Modellterm?
+
+![](../../pics/comics/comic_term_dependencies.svg){fig-alt="r mal N hängt von einer Art ab; N Quadrat beschreibt Begegnungen derselben Art; N mal P beschreibt Begegnungen zweier Arten" width="62%"}
+
+**Produkte zählen gemeinsame Anwesenheit.**
+
+## Terme und mögliche Wirkungen
+
+::: {style="font-size: 0.72em;"}
+| Term | braucht | Wirkung |
+|------|---------|---------|
+| $+rN$ | $N$ | Wachstum / Geburten |
+| $-cN^2$ | $N$ zweimal | innerartliches Gedränge |
+| $-aNP$ | $N$ und $P$ | Verlust durch Begegnung |
+| $+baNP$ | $N$ und $P$ | Konsument gewinnt |
+| $-mP$ | $P$ | unabhängige Sterblichkeit |
+
+**Koeffizient:** Richtung/Stärke · **Produkt:** Abhängigkeit.
+:::
 
 ## Ein Zeitschritt (Idee)
 
@@ -679,7 +680,11 @@ Oben: Zeitreihen nebeneinander · unten: Phasenräume nebeneinander.
 | Schleife | viele Schritte |
 | Plot | Dynamik lesen |
 
-------------------------------------------------------------------------
+## Take-home
+
+1. Erst das Beispiel (*Paramecium*), dann die Gleichung $N_{t+1}=N_t+f(N_t)$.
+2. Ein Zeitschritt als Funktion; viele Schritte als Schleife.
+3. Zwei Arten: dieselbe Idee, zwei Variablen.
 
 ## Notebook (~45 min)
 
@@ -708,6 +713,7 @@ Zuerst: Ordner `data/` mit den CSVs neben dem Notebook.
 
 ## Literatur
 
+:::: {.lit}
 Alles, was in dieser Einheit namentlich vorkommt:
 
 1. **Gause, G. F. (1934).** *The Struggle for Existence*. Williams & Wilkins. — *Paramecium*-Monokultur und *Paramecium*–*Didinium*-Experimente (Kursdaten).
@@ -716,6 +722,7 @@ Alles, was in dieser Einheit namentlich vorkommt:
 4. **Mühlbauer, L. K., Schulze, M., Harpole, W. S., & Clark, A. T. (2020).** gauseR: Simple methods for fitting Lotka–Volterra models describing Gause’s «Struggle for Existence». *Ecology and Evolution* 10: 13296–13306. [doi:10.1002/ece3.6926](https://doi.org/10.1002/ece3.6926) — Digitalisierung der Gause-Daten (`gauseR` / Kurs-CSVs).
 
 Bildnachweise: `pics/README.md` · Organismenfotos Wikimedia Commons (siehe Bildunterschriften).
+::::
 
 ## Navigation
 

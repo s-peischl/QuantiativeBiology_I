@@ -1,6 +1,6 @@
 ---
-title: "Woche 12 — Mikrobiomdaten visualisieren"
-subtitle: "Von Tabellen zu verständlichen Abbildungen"
+title: "Woche 12 — Komplexe Mikrobiomdaten einlesen"
+subtitle: "Tabellen, Metadaten und Plausibilitätsprüfungen"
 author: "Stephan Peischl"
 format:
   revealjs:
@@ -34,71 +34,78 @@ execute:
 - [Start](../../index.html)
 - Pfeiltasten / Steuerelemente · **M** Menü · **Esc** Übersicht
 
-## Rückblick
+## Verlauf des Blocks (Wochen 12–14)
 
-Woche 11: einlesen → verknüpfen → Plausibilität prüfen.
+1. **Heute:** komplexe Gemeinschaftstabellen einlesen und aufbereiten
+2. **Woche 13:** hochdimensionale Daten visualisieren
+3. **Woche 14:** eine visuelle Geschichte entwickeln · **Checkpoint D**
 
-Heute: die Gemeinschaft **erkennen**, ohne in 500 Farben zu versinken.
+## Warum es diesen Block gibt
 
-## Das Visualisierungsproblem
+Frühere Wochen: Modelle aus **kleinen** Zeitreihen.
 
-Hunderte/Tausende Taxa ≠ Hunderte Legendeneinträge.
+Mikrobiome: wieder Ökologie, doch die erste wichtige Fähigkeit ist der Umgang mit **realen Datenobjekten**.
 
-Sie müssen **aggregieren oder auswählen**:
+## Was «ein Mikrobiomdatensatz» normalerweise umfasst
 
-- häufigste $k$ Taxa + «Andere»
-- auf Stamm- / Familienebene zusammenfassen
-- auf eine biologisch begründete Auswahl von Taxa fokussieren
+Drei miteinander verknüpfte Bestandteile:
 
-## Zentrale Grafiktypen (diese sollten Sie beherrschen)
+1. **Abundanztabelle** — Proben × Taxa (Zählwerte oder relative Abundanzen)
+2. **Taxonomie** — Bedeutung der einzelnen Taxon-IDs
+3. **Metadaten** — Wirt, Standort, Zeitpunkt, Behandlung, …
 
-1. Balkendiagramm/Histogramm der **Bibliotheksgrösse** (Qualitätskontrolle)
-2. **Gestapelte Zusammensetzung** nach Probe (oder Gruppenmittelwert)
-3. **Heatmap** (Proben × ausgewählte Taxa)
-4. **Facetten** nach Metadaten (Standort, Behandlung, Zeitpunkt)
-5. Optional: einfache Balkendiagramme für Artenreichtum / Shannon-Index — nur wenn sie zur Aussage beitragen
+Fehler bei der Verknüpfung → nächste Woche unbemerkt unsinnige Grafiken.
 
-## Gestaltungsregeln
+## Datenformen, die Ihnen begegnen werden
 
-- Proben/Taxa bewusst anordnen (nicht nach zufälligen IDs)
-- Kategorische Farben begrenzen (maximal ca. 8–12 in einem Panel)
-- Kleine Teilgrafiken gegenüber einem überladenen Panel bevorzugen
-- Achsen biologisch verständlich beschriften (relative Abundanz, Zählwerte, …)
-- In der Bildlegende angeben: Was wurde gefiltert / aggregiert?
+| Form | Typische Verwendung |
+|---|---|
+| Breite Matrix | Zeilen = Proben, Spalten = Taxa |
+| Lange (tidy) Tabelle | Spalten: Probe, Taxon, Abundanz |
+| Metadatentabelle | eine Zeile pro Probe |
 
-## Fallstricke
+Grundregel: Klären Sie vor dem Plotten, welche Datenform vorliegt.
 
-- Kompositionsdaten wie unabhängige Zählwerte behandeln
-- Rohzählwerte bei ungleichen Bibliotheksgrössen unkritisch vergleichen
-- Regenbogen-Heatmaps, die Strukturen verdecken
-- Alle Taxa plotten, «weil wir es können»
+## Arbeitsablauf beim Einlesen (praktisch)
+
+1. Abundanzdatei einlesen (`read.csv` / `read.table`)
+2. Metadaten einlesen
+3. Übereinstimmung der Proben-IDs prüfen (Diagnose mit setdiff / merge)
+4. Dimensionen, Sparsität und Bibliotheksgrössen untersuchen
+5. Entscheiden: Zählwerte oder relative Abundanzen für spätere Visualisierungen
+
+## Plausibilitätsprüfungen (jedes Mal durchführen)
+
+- Sind `#samples` und `#taxa` plausibel?
+- Gibt es doppelte Probennamen?
+- Wie viele Nullen gibt es? (Sparsität ist normal)
+- Bibliotheksgrösse = Zeilensummen — gibt es sehr kleine / grosse Ausreisser?
+- Fehlen für einige Proben Metadaten?
 
 ## Brücke zur Programmierung
 
-- Wiederverwendbare Funktionen wie `plot_composition(df, group)`
-- Daten im langen Format eignen sich gut für Grafikgrammatiken
-- Dieselben Schleifen-/Vektorgewohnheiten: Zusammenfassungen berechnen, dann plotten
-
-## Ziele der Live-Demonstration
-
-1. Qualitätskontrolle der Bibliotheksgrössen
-2. Zusammensetzung der häufigsten Taxa nach Gruppe
-3. Eine Heatmap einer gezielt ausgewählten Taxa-Gruppe
-4. Diskussion: Welche Aussage wird visuell gestützt?
+| Konzept | Hier |
+|---|---|
+| Vektoren | Bibliotheksgrössen; ein Taxon über mehrere Proben |
+| Matrizen / Data Frames | Abundanztabellen |
+| Schleifen / apply | optionale Zusammenfassungen über Taxa |
+| Funktionen | `load_abundances()`, `check_ids()` |
 
 ## Vorschau auf das Notebook
 
-Erstellen Sie mit dem Datensatz aus Woche 11 ein kleines «Visualisierungs-Kochbuch»: mindestens eine Darstellung der Zusammensetzung + eine Heatmap/Facette.
+- Ein für die Lehre aufbereitetes Mikrobiom-CSV-Paket aus `data/` einlesen (Kooperationen: einen offenen Datensatz auswählen)
+- Metadaten verknüpfen
+- Einen kurzen «Datenpass» erstellen (Dimensionen, Zusammenfassung der Bibliotheksgrössen, nicht übereinstimmende IDs)
 
 ## Abschlussfragen
 
-1. Welche Aggregation haben Sie gewählt — und warum?
-2. Nennen Sie eine visuelle Täuschung, die bei Mikrobiomgrafiken zu vermeiden ist.
-3. Welche Abbildung möchten Sie für Checkpoint D perfektionieren?
+1. Breite und lange Abundanztabelle — je ein Satz.
+2. Nennen Sie zwei Plausibilitätsprüfungen, die Sie immer durchführen werden.
+3. Was geht schief, wenn die Proben-IDs nicht mit den Metadaten übereinstimmen?
 
 ## Nächste Woche
 
-**Visuelle Geschichte + Checkpoint D** — eine klare Aussage mit Einschränkungen präsentieren.
+Gemeinschaftsdaten **visualisieren** — Zusammensetzung, Heatmaps, Facetten; Farbchaos vermeiden.
 
 ---
 

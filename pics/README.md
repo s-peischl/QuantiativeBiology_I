@@ -66,6 +66,11 @@ Privates Kursfoto (nicht von Commons):
 | `diversity_valley.svg` | Lehrschema Valley of Diversity | Kursmaterial |
 | `sweep_hitchhiking_schematic.svg` | Lehrschema Hitchhiking / Hard Sweep | Kursmaterial |
 
+## PopGen-Beispiele (`pics/popgen/`)
+
+Fotos für Wochen 5–7 (Elektrophorese, Drosophila, Anopheles, Sichelzellen,
+Mine, Agrostis, Inselfuchs, Kākāpō, Kimura, Québec): siehe `pics/popgen/CREDITS.md`.
+
 ## Organismen (`pics/organisms/`)
 
 | Lokale Datei | Commons-Datei | Urheber:in | Lizenz |

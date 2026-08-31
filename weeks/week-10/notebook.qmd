@@ -1,9 +1,14 @@
 ---
-title: "Woche 10 — Notebook · Evolutionäre Rettung · Checkpoint C"
-subtitle: "Rückgang + Etablierung → Persistenzwahrscheinlichkeit"
+title: "Woche 10 — Notebook"
+subtitle: "Demografie + Etablierung → Rettungswahrscheinlichkeit"
+author: "Stephan Peischl"
 format:
   html:
     toc: true
+    toc-title: "Inhalt"
+    toc-depth: 2
+    code-fold: false
+    embed-resources: true
     css: ../../styles.scss
 execute:
   echo: true
@@ -11,24 +16,179 @@ execute:
   message: false
 ---
 
-## Lernziele
+::: {.callout-warning}
+## Entwurf
 
-1. Abnehmende Demografie mit seltenen angepassten Typen koppeln
-2. Die Rettungswahrscheinlichkeit über Replikate schätzen
-3. Abbildung + Stichpunkte für Checkpoint C vorbereiten
+Dieses Notebook ist noch nicht in der Sitzungsfassung. Die Folien tragen
+die biologische Frage; Übungen kommen später.
+:::
 
-## Praktischer Teil
+# Ziel und Zeitplan
 
-1. Definieren Sie den Rückgang des Wildtyps (ein Parameter für die Stressintensität).
-2. Lassen Sie seltene vorteilhafte/resistente Typen zu (Mutation oder bestehende Variation).
-3. Verwenden Sie die Etablierungslogik aus den Wochen 8–9 wieder.
-4. Klassifizieren Sie jedes Replikat: **ausgestorben** gegenüber **gerettet**.
-5. Durchlaufen Sie Stress oder $s$; stellen Sie die Rettungswahrscheinlichkeit dar.
+In ungefähr **45 Minuten**:
 
-## Leitfragen für Checkpoint C
+| Teil | ca. | Ziel |
+|---|---:|---|
+| A | 12 min | Trajektorien: gerettet gegen ausgestorben |
+| B | 15 min | $\Pr(\mathrm{rescue})$ gegen Rückgang $r$ |
+| C | 12 min | gegen Startgrösse $N_0$ |
+| D | 6 min | eine Frage für Checkpoint C |
 
-- Biologische Frage:
-- Was Sie berechnet haben:
-- Eine Abbildung:
-- Laborbezug (was würde in Hefe-/Bakterienkulturen gemessen?):
-- Stärkste Annahme:
+**Rettung:** mindestens eine de-novo-Mutante etabliert sich, bevor der
+Wildtyp demografisch verschwindet. $N_{\mathrm{wt}}$ fällt deterministisch
+mit Rate $r$. Jede neue Mutante etabliert sich mit $u\approx 2s$.
+
+```{r functions}
+p_rescue_approx <- function(N0, r, s, U) {
+  1 - exp(-2 * N0 * U * s / pmax(r, 1e-12))
+}
+
+one_rescue_run <- function(N0, r, s, U, max_gen = 180) {
+  n_wt <- N0
+  n_mut <- 0
+  established <- FALSE
+  N <- numeric(max_gen + 1)
+  N[1] <- N0
+  u <- min(1, max(0, 2 * s))
+  for (t in seq_len(max_gen)) {
+    if (!established && n_wt >= 1) {
+      n_new <- rpois(1, lambda = U * n_wt)
+      if (n_new > 0 && any(runif(n_new) < u)) {
+        established <- TRUE
+        n_mut <- 1
+      }
+    }
+    n_wt <- n_wt * (1 - r)
+    if (n_wt < 1) n_wt <- 0
+    if (established) n_mut <- n_mut * (1 + s)
+    tot <- n_wt + n_mut
+    N[t + 1] <- tot
+    if (!established && n_wt < 1) {
+      if (t < max_gen) N[(t + 2):(max_gen + 1)] <- 0
+      break
+    }
+  }
+  list(rescued = established && (n_wt + n_mut) >= 1,
+       N = pmax(N, 0), generation = 0:max_gen)
+}
+
+rescue_rate <- function(N0, r, s, U, n_reps = 80, max_gen = 160) {
+  mean(replicate(n_reps, one_rescue_run(N0, r, s, U, max_gen)$rescued))
+}
+```
+
+`one_rescue_run()` ist **ein** Replikat — analog zu einer Kultur.
+
+------------------------------------------------------------------------
+
+# A — Zwei Ausgänge
+
+```{r traj}
+set.seed(10)
+N0 <- 1e5
+r <- 0.10
+s <- 0.12
+U <- 2e-5
+plot(NA, xlim = c(0, 120), ylim = c(0, 6.1),
+     xlab = "Generation", ylab = "log10 N",
+     main = "20 Replikate")
+for (i in 1:20) {
+  run <- one_rescue_run(N0, r, s, U, 120)
+  col <- if (run$rescued) "#2166ac" else "#bdbdbd"
+  lines(run$generation, log10(pmax(run$N, 1)), col = col, lwd = 1.6)
+}
+legend("topright", c("gerettet", "ausgestorben"),
+       col = c("#2166ac", "#bdbdbd"), lwd = 2, bty = "n")
+```
+
+::: {.callout-tip}
+## Aufgabe A1
+
+1. Zählen Sie ungefähr: wie viele der 20 Linien kehren um?
+2. Ändern Sie `r` auf `0.20`. Was passiert mit den blauen Kurven?
+3. Welche Grösse fällt hier ohne Zufall — welche Ereignisse sind zufällig?
+:::
+
+------------------------------------------------------------------------
+
+# B — Rettung gegen Rückgang $r$
+
+```{r vs-r}
+set.seed(10)
+N0 <- 8e4
+s <- 0.08
+U <- 1.5e-5
+r_grid <- c(0.04, 0.08, 0.12, 0.18)  # Parameter aendern
+n_reps <- 60
+p_hat <- numeric(length(r_grid))
+for (i in seq_along(r_grid)) {
+  p_hat[i] <- rescue_rate(N0, r_grid[i], s, U, n_reps = n_reps)
+}
+plot(r_grid, p_hat, type = "b", pch = 19, lwd = 2, col = "#2166ac",
+     ylim = c(0, 1), xlab = "r", ylab = "Pr(rescue)",
+     main = "gegen Rueckgang")
+r_line <- seq(min(r_grid), max(r_grid), length.out = 60)
+lines(r_line, p_rescue_approx(N0, r_line, s, U),
+      lwd = 2, lty = 2, col = "#d95f02")
+legend("topright", c("Simulation", "Formel"),
+       col = c("#2166ac", "#d95f02"), lwd = 2, lty = c(1, 2), bty = "n")
+```
+
+::: {.callout-tip}
+## Aufgabe B1
+
+1. Warum fällt $\Pr(\mathrm{rescue})$ mit $r$?
+2. Liegt die gestrichelte Linie auf den Punkten? Wo weicht sie ab?
+3. Setzen Sie `r_grid <- c(0.03, 0.06, 0.10, 0.25)`. Welche $r$ wären
+   in einem Antibiotikum «viel Zeit bis zum Aussterben»?
+:::
+
+------------------------------------------------------------------------
+
+# C — Rettung gegen Startgrösse $N_0$
+
+Bell & Gonzalez (2009): Schwelle in der ancestralen Populationsgrösse.
+
+```{r vs-n0}
+set.seed(10)
+s <- 0.10
+U <- 2e-5
+r <- 0.10
+N0_grid <- c(5e3, 2e4, 8e4, 3e5)  # Parameter aendern
+p_n <- numeric(length(N0_grid))
+for (i in seq_along(N0_grid)) {
+  p_n[i] <- rescue_rate(N0_grid[i], r, s, U, n_reps = 60)
+}
+plot(log10(N0_grid), p_n, type = "b", pch = 19, lwd = 2, col = "#2166ac",
+     ylim = c(0, 1), xlab = "log10 N0", ylab = "Pr(rescue)",
+     main = "gegen Startgroesse")
+n_line <- 10^seq(log10(min(N0_grid)), log10(max(N0_grid)), length.out = 60)
+lines(log10(n_line), p_rescue_approx(n_line, r, s, U),
+      lwd = 2, lty = 2, col = "#d95f02")
+legend("bottomright", c("Simulation", "Formel"),
+       col = c("#2166ac", "#d95f02"), lwd = 2, lty = c(1, 2), bty = "n")
+```
+
+::: {.callout-tip}
+## Aufgabe C1
+
+1. Wo liegt ungefähr die Schwelle in $N_0$?
+2. $N_0$ und $U$ stehen in der Formel als Produkt. Was würde ein
+   Laborversuch an $N_0$ ändern — und was an $U$?
+3. Unser Modell kennt nur de novo. Was würde stehende Variation an
+   dieser Schwelle tun?
+:::
+
+------------------------------------------------------------------------
+
+# D — Vorbereitung auf Checkpoint C
+
+Wählen Sie **eines**: Parameter $r$, $s$ oder $N_0$.
+
+1. biologische Frage (Rettung unter Stress / Antibiotikum / Salz)
+2. welcher Parameter sich ändert
+3. welche Abbildung Sie in Woche 11 zeigen
+4. eine Annahme (deterministische Demografie, nur de novo, $u=2s$)
+5. was ein Laborversuch an Kulturen messen würde
+
+Nächste Woche: kurze Synthese, Notebook, 3–5-Minuten-Präsentation.

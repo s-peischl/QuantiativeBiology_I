@@ -1,6 +1,6 @@
 ---
-title: "Woche 14 — Synthese und Abschluss"
-subtitle: "Checkpoints A–D verknüpfen; Portfolio optional überarbeiten"
+title: "Woche 14 — Eine visuelle Mikrobiom-Geschichte"
+subtitle: "Checkpoint D · einlesen → visualisieren → Aussage · kurze Synthese"
 author: "Stephan Peischl"
 format:
   revealjs:
@@ -27,47 +27,93 @@ execute:
 
 ## In diesem Foliensatz
 
-**Woche 14** von 14 · Synthese und Abschluss  
+**Woche 14** von 14 · **Checkpoint D**  
 **Do., 17. Dez. 2026, 08:15–10:00**
 
-- [Kursplan](../../docs/course-outline.html) — vollständiger Semesterplan
+- [Kursplan](../../docs/course-outline.html)
 - [Start](../../index.html)
-- Verwenden Sie die **Pfeiltasten** / Steuerelemente auf dem Bildschirm · **M** öffnet das Folienmenü · **Esc** die Übersicht
+- Pfeiltasten / Steuerelemente · **M** Menü · **Esc** Übersicht
 
-## Lernziele
+## Sitzungsablauf (~90 min)
 
-- Den Verlauf des Semesters anhand Ihrer vier Checkpoints wiedergeben
-- Optional: ein Produkt für ein ILIAS-Portfolio / eine Galerie überarbeiten
-- **Keine** fünfte stark gewichtete Präsentation — bewertete Vorträge fanden in den Wochen 4, 7, 10 und 13 statt
+| Teil | Dauer | Was |
+|------|-------|-----|
+| Intro | ~15 min | Mikrobiom-Block + Semesterbogen |
+| Notebook | ~40 min | eine visuelle Geschichte · Entwurf |
+| Präsentationen | ~30 min | Checkpoint D, Anwesenheit Pflicht |
 
-## Biologischer Rahmen
+## Rückblick auf den Block
 
-- Ökologie → Evolution (kontinuierlich) → Etablierung / Rescue → Mikrobiom-**Datenkompetenzen**
-- Was änderte sich jeweils an der *Art* der Daten und des Modells?
+| Woche | Fähigkeit |
+|---|---|
+| 12 | Komplexe Tabellen + Metadaten einlesen |
+| 13 | Ohne Chaos visualisieren |
+| **14** | Eine ehrliche Datengeschichte erzählen · **Checkpoint D** |
 
-## Quantitative Idee
+## Checkpoint D (heute)
 
-- Dieselben Grundlagen wiederverwendet: Funktion / Vektor / Schleife → Matrizen → hochdimensionale Tabellen
-- Die Präsentationen trainierten während des gesamten Semesters die wissenschaftliche Kommunikation
+**Praktische Arbeit + Kurzpräsentation (ca. 3–5 Min.)**
 
-## Live-Demonstration / angeleitete Demonstration
+Keine Methodenolympiade — ein Checkpoint zur **Kommunikation**.
 
-- Galerie mit Höhepunkten der Checkpoints (freiwillige Zweiergruppen)
-- Peer-Feedback mit Fokus auf Klarheit und Einschränkungen
+::::: columns
+::: {.column width="18%"}
+![](../../pics/icons/icon_warning.svg){fig-alt="Wichtig" width="80%"}
+:::
+::: {.column width="82%"}
+Heute wird **präsentiert und benotet**.
+Sie müssen **anwesend sein und vortragen**.
+:::
+:::::
 
-## Vorschau auf das Notebook
+## Erforderliche Bestandteile
 
-Portfolio-Checkliste: Produkte A–D verlinken; halbseitige Reflexion über den Verlauf.
+1. Biologische / ökologische Fragestellung
+2. Was Sie eingelesen und wie Sie es bereinigt/verknüpft haben
+3. **Eine Hauptabbildung** (+ optionale kleine Grafik zur Qualitätskontrolle)
+4. Was die Abbildung **nicht** zeigt
+
+## Praktischer Arbeitsablauf (verwenden Sie diese Checkliste)
+
+1. Daten mit Ihren Prüfungen aus Woche 12 erneut einlesen
+2. Aggregation wählen (häufigste Taxa / taxonomische Ebene)
+3. 1–2 mögliche Abbildungen erstellen; die klarste auswählen
+4. Eine Bildlegende mit 2–3 Sätzen verfassen
+5. Annahmen auflisten (relativ vs. absolut, Filter, Batch, …)
+
+## Geeignete Themen für Checkpoint D (Beispiele)
+
+- Veränderung der Zusammensetzung zwischen Standorten / Wirten / Zeitpunkten
+- Ein auf Stammebene sichtbarer Unterschied zwischen Behandlungen
+- Dominante Taxa gegenüber dem seltenen Anteil «Andere»
+- Qualitätskontrolle der Bibliotheksgrösse, welche die Interpretation verändert
+
+## Schwerpunkt der Bewertung
+
+| Höhere Gewichtung | Niedrigere Gewichtung |
+|---|---|
+| Klare Frage + verständliche Abbildung | Exotische Ordinationen |
+| Korrekte Verknüpfungen / beschriftete Achsen | Dutzende Panels |
+| Ehrliche Einschränkungen | Dekorative Farben |
+
+## Der Semesterbogen (kurz)
+
+Ökologie → Evolution (zuerst deterministisch, dann Zufall und Rettung)
+→ Mikrobiom als **komplexe ökologische Tabellen**.
+
+Checkpoints **A–D** sind die benoteten Vorträge. Keine fünfte Präsentation.
+
+## Notebook
+
+**→ [Notebook Woche 14 öffnen](notebook.html)** · Entwurf
+
+Eine Fragestellung, eine Hauptabbildung, Einschränkungen.
 
 ## Abschlussfragen
 
-1. Aus welchem Checkpoint haben Sie am meisten gelernt?
-2. Wo scheiterte ein Modell auf ehrliche Weise — und warum ist das nützlich?
-3. Was würden Sie in Quantitative Biologie II / die Programmierung mitnehmen?
-
-## Nächste Woche
-
-*Kursende*
+1. Wie lautet Ihre Aussage in einem Satz?
+2. Was würde Sie an Ihrer eigenen Abbildung zweifeln lassen?
+3. Welche Fähigkeit aus einem früheren Checkpoint haben Sie erneut eingesetzt (Schleife? Denken in Replikaten? ehrlicher Umgang mit Modell und Daten?)?
 
 ---
 
@@ -85,5 +131,4 @@ Sobald Inhalte ausgearbeitet sind, erscheint hier die vollständige Liste aller 
 | Zurück | [← Woche 13](../week-13/slides.html) |
 | Weiter | *Kursende* |
 
-Tastatur: ← → Folien wechseln · **M** Menü · **Esc** Folienübersicht · **F** Vollbild
-
+Tastatur: ← → · **M** Menü · **Esc** Übersicht · **F** Vollbild

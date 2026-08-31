@@ -1,15 +1,32 @@
 ---
-title: "Woche 14 — Aufgabe · Synthese und Abschluss"
+title: "Woche 14 — Aufgabe · Checkpoint D (visuelle Geschichte)"
 format:
   html:
     toc: true
     css: ../../styles.scss
 ---
 
-Keine fünfte stark gewichtete Präsentation. Das Portfolio kann optional überarbeitet werden.
+**Checkpoint D** schliesst den Mikrobiom-Block (Wochen 12–14) ab: **einlesen → visualisieren → Aussage**.
+Kurze Synthese des Semesters in derselben Sitzung — keine fünfte Präsentation.
 
-## Abgabe
+::: {.callout-important}
+## Anwesenheit Pflicht
 
-1. Halbseitige Reflexion über den Verlauf, welche die Checkpoints **A–D** verknüpft.
-2. Links (oder Dateien) zu Ihren vier Checkpoint-Produkten.
-3. Optional: eine überarbeitete Abbildung aus einem beliebigen Checkpoint für eine Kursgalerie.
+Für die Benotung müssen Sie **anwesend sein und präsentieren**.
+Siehe [Allgemeine Informationen](../../docs/general-info.qmd).
+:::
+
+## Abgabe (praktische Arbeit)
+
+1. Fragestellung in einem Satz.
+2. Hauptabbildung (+ optionale kleine Grafik zur Qualitätskontrolle) mit Bildlegende, die Filter/Aggregation angibt.
+3. «Was wir **nicht** behaupten» (3–5 Stichpunkte).
+4. Kurze Notiz zu den durchgeführten Prüfungen beim Einlesen/Verknüpfen.
+
+## Präsentation (ca. 3–5 Min.)
+
+Fragestellung → wie eingelesen/bereinigt → eine Abbildung → Einschränkungen.
+
+## Offenlegung der KI-Nutzung (obligatorisch)
+
+Siehe [KI-Richtlinie](../../docs/ai-policy.qmd). Geben Sie Werkzeug + Verwendung an oder schreiben Sie `KI-Offenlegung: keine`.

@@ -1,6 +1,6 @@
 ---
 title: "Woche 3 — Notebook"
-subtitle: "Ausschluss · Bistabilität · Wolf rettet Aspen"
+subtitle: "Ein Endpunkt · zwei Endpunkte · Food Web"
 author: "Stephan Peischl"
 format:
   html:
@@ -16,10 +16,15 @@ execute:
 
 # Ziel
 
-Zwei Stories:
+In diesem Notebook untersuchen wir **Stabilität**:
 
-1. **Exclusion** → Modell drehen → **Bistabilität** (+ Stabilitätsformen mit Beispielen)  
-2. **Food Web:** Elk → Aspen gegen 0; Wolf → Aspen stabil, Elk bleibt mittel
+1. **Ein Endpunkt:** verschiedene positive Starts → derselbe Gewinner  
+2. **Bistabilität:** zwei Einzugsgebiete; Beckengrenze entscheidet  
+3. **Food Web:** Elch → Aspen gegen 0; Wolf → Aspen bleibt positiv  
+
+**Arbeitsdefinition:** Ein Gleichgewicht ist stabil, wenn das System nach einer
+kleinen Störung zurückkehrt. Ein *Einzugsgebiet* umfasst alle Starts und
+Störungen, die zum selben Gleichgewicht führen.
 
 ---
 
@@ -63,6 +68,17 @@ Das Konkurrenzmodell verwendet $N_{t+1}=N_t+$ Wachstum und Konkurrenzwirkung.
 | $K_1,K_2$ | Tragfähigkeiten | $K > 0$ | $100$ |
 | $\alpha_{12},\alpha_{21}$ | Konkurrenzstärken | $\alpha \ge 0$ | Exclusion: $1.4$ / $0.5$ |
 
+## Terme biologisch lesen
+
+| Term | Abhängigkeit | Ereignis |
+|------|--------------|----------|
+| $+r_iN_i$ | nur Art $i$ | Nachwuchs |
+| $-r_iN_i^2/K_i$ | zwei Individuen von Art $i$ | Gedränge innerhalb der Art |
+| $-r_i\alpha_{ij}N_iN_j/K_i$ | Art $i$ und Art $j$ | Konkurrenz zwischen Arten |
+
+**Aufgabe 0.** Was passiert mit dem Kreuzterm $N_iN_j$, wenn eine Art fehlt?
+Was ändert sich direkt, wenn Sie $\alpha_{ij}$ erhöhen?
+
 ```{r}
 pc <- read.csv("data/paramecium_caudatum_alone.csv")
 pa <- read.csv("data/paramecium_aurelia_alone.csv")
@@ -90,6 +106,9 @@ plot_comp(sim_comp(10, 80, 1.4, 0.5), main = "Start viel N2")
 
 **Aufgabe 2.** Wer gewinnt jeweils? Hängt es vom Start ab?
 
+**Aufgabe 2b.** Formulieren Sie mit den Begriffen *Gleichgewicht* und
+*Einzugsgebiet*, warum dieser Endpunkt stabil ist.
+
 ---
 
 # 2. Bistabilität — Modell drehen
@@ -110,51 +129,18 @@ plot_comp(sim_comp(15, 80, 1.5, 1.5), main = "Start: viel Wald",
 # YOUR CODE — z.B. a12 = a21 = 0.5: wieder Exclusion/Koexistenz?
 ```
 
-## Stabilitätsformen — je ein konkretes Beispiel
+## Stabilität bei Bistabilität
 
-| Form | Kursbeispiel |
-|------|----------------|
-| **Punkt** | Exclusion: N1→0, N2→K |
-| **Bistabil** | Gras vs. Wald (oben) |
-| **Zyklus** | klass. Räuber–Beute (unten / Woche 2) |
+Jedes Gleichgewicht ist **stabil gegen kleine Störungen**. Eine grosse Störung
+führt nur dann zum anderen Zustand, wenn sie die **Beckengrenze** überschreitet.
+Der symmetrische Koexistenzpunkt ist ein instabiler Sattelpunkt auf dieser Grenze.
 
-Für das Räuber–Beute-Modell gilt: neuer Bestand = alter Bestand + Wachstum − Verlust.
-
-| Symbol | Bedeutung | Wertebereich | Kursbeispiel |
-|--------|-----------|--------------|--------------|
-| $r$ | Wachstum der Beute | $0 < r \le 0.1$ | $0.020$ |
-| $a$ | Angriffsrate | $0 < a \le 0.02$ | $0.002$ |
-| $e$ | Umwandlungseffizienz | $0 < e \le 1$ | $0.3$ |
-| $m$ | Mortalität der Räuber | $0 < m \le 0.1$ | $0.008$ |
-
-```{r}
-#| fig-height: 3.5
-#| fig-width: 8
-sim_pp <- function(N0 = 40, P0 = 8, T = 2500) {
-  N <- numeric(T + 1); P <- numeric(T + 1)
-  N[1] <- N0; P[1] <- P0
-  r <- 0.020; a <- 0.002; e <- 0.3; m <- 0.008
-  for (t in 1:T) {
-    dN <- r * N[t] - a * N[t] * P[t]
-    dP <- e * a * N[t] * P[t] - m * P[t]
-    N[t + 1] <- max(N[t] + dN, 0)
-    P[t + 1] <- max(P[t] + dP, 0)
-  }
-  data.frame(time = 0:T, N = N, P = P)
-}
-pp <- sim_pp()
-matplot(pp$time, cbind(pp$N, pp$P), type = "l", lty = 1, lwd = 2.2,
-        col = c("#27ae60", "#c0392b"), xlab = "Zeit (Schritte)", ylab = "Dichte",
-        main = "Zyklus-Beispiel: Raeuber-Beute")
-legend("topright", c("Beute", "Raeuber"), col = c("#27ae60", "#c0392b"),
-       lty = 1, lwd = 2.2, bty = "n")
-```
-
-**Aufgabe 3b.** Ein Satz: Worin unterscheidet sich der Zyklus vom Exclusion-Punkt?
+**Aufgabe 3b.** Testen Sie Starts knapp auf beiden Seiten der Symmetrie,
+zum Beispiel `(51, 49)` und `(49, 51)`. Welcher Endzustand stellt sich ein?
 
 ---
 
-# 3. Food Web — Aspen, Sage, Elk, Wolf
+# 3. Food Web — Aspen, Sage, Elch, Wolf
 
 Alle vier Bestände werden additiv aktualisiert: $X_{t+1}=X_t+$ Wachstum − Verluste.
 
@@ -167,16 +153,27 @@ Alle vier Bestände werden additiv aktualisiert: $X_{t+1}=X_t+$ Wachstum − Ver
 | $e_E,e_W$ | Umwandlungseffizienzen | $0 < e \le 1$ | $\approx 0.2$–$0.8$ |
 | $m_E,m_W$ | Mortalitäten | $0 < m < 1$ | $\approx 0.01$–$0.1$ |
 
+| Term | Ereignis | Wirkung |
+|------|----------|---------|
+| $-a_{EA}AE$ | Elch frisst Aspen | Aspen verliert Bestand |
+| $+e_Ea_{EA}AE$ | dieselbe Nahrung wird umgewandelt | Elch gewinnt Bestand |
+| $-a_{WE}EW$ | Wolf frisst Elch | Elch verliert Bestand |
+| $+e_Wa_{WE}EW$ | Beute wird in Wolf-Nachwuchs umgewandelt | Wolf gewinnt Bestand |
+| $-m_EE$, $-m_WW$ | natürliche Mortalität | hängt nur von der jeweiligen Tierart ab |
+
+**Aufgabe 4a.** Wählen Sie einen Angriffsparameter. Markieren Sie alle
+Gleichungen, in denen er vorkommt, und erklären Sie die Vorzeichen.
+
 ```{r}
 next_web <- function(x, p) {
-  A <- x["Aspen"]; S <- x["Sage"]; E <- x["Elk"]; W <- x["Wolf"]
+  A <- x["Aspen"]; S <- x["Sage"]; E <- x["Elch"]; W <- x["Wolf"]
   dA <- p$rA * A * (1 - (A + p$aAS * S) / p$K) - p$a_elk_aspen * A * E
   dS <- p$rS * S * (1 - (S + p$aSA * A) / p$K) - p$a_elk_sage * S * E
   dE <- (p$eE * (p$a_elk_aspen * A + p$a_elk_sage * S) * E -
            p$mE * E - p$a_wolf_elk * E * W)
   dW <- p$eW * p$a_wolf_elk * E * W - p$mW * W
   c(Aspen = max(A + dA, 0), Sage = max(S + dS, 0),
-    Elk = max(E + dE, 0), Wolf = max(W + dW, 0))
+    Elch = max(E + dE, 0), Wolf = max(W + dW, 0))
 }
 web_p <- list(
   rA = 0.024, rS = 0.020, K = 100,
@@ -187,21 +184,21 @@ web_p <- list(
 )
 sim_web <- function(Wolf0 = 0, T = 6000, p = web_p) {
   X <- matrix(0, T + 1, 4,
-              dimnames = list(NULL, c("Aspen", "Sage", "Elk", "Wolf")))
-  X[1, ] <- c(Aspen = 40, Sage = 50, Elk = 25, Wolf = Wolf0)
+              dimnames = list(NULL, c("Aspen", "Sage", "Elch", "Wolf")))
+  X[1, ] <- c(Aspen = 40, Sage = 50, Elch = 25, Wolf = Wolf0)
   for (t in 1:T) X[t + 1, ] <- next_web(X[t, ], p)
   data.frame(time = 0:T, X)
 }
 plot_web <- function(df, main = "") {
-  cols <- c(Aspen = "#27ae60", Sage = "#1abc9c", Elk = "#d68910", Wolf = "#2c3e50")
+  cols <- c(Aspen = "#27ae60", Sage = "#1abc9c", Elch = "#d68910", Wolf = "#2c3e50")
   matplot(df$time, df[, names(cols)], type = "l", lty = 1, lwd = 2.3,
           col = cols, xlab = "Zeit (Schritte)", ylab = "Haeufigkeit", main = main)
   legend("topright", names(cols), col = cols, lty = 1, lwd = 2.3, bty = "n", cex = 0.8)
 }
-late_mean <- function(df) colMeans(tail(df[, c("Aspen", "Sage", "Elk", "Wolf")], 1500))
+late_mean <- function(df) colMeans(tail(df[, c("Aspen", "Sage", "Elch", "Wolf")], 1500))
 ```
 
-## A: + Elk, kein Wolf
+## A: + Elch, kein Wolf
 
 ```{r}
 #| fig-height: 4
@@ -211,7 +208,7 @@ plot_web(noW, main = "Kein Wolf: Aspen -> 0?")
 round(late_mean(noW), 2)
 ```
 
-**Aufgabe 4.** Geht Aspen gegen null? Wie hoch ist Elk am Ende?
+**Aufgabe 4.** Geht Aspen gegen null? Wie hoch ist Elch am Ende?
 
 ## B: + Wolf
 
@@ -219,15 +216,15 @@ round(late_mean(noW), 2)
 #| fig-height: 4
 #| fig-width: 8
 withW <- sim_web(Wolf0 = 2)
-plot_web(withW, main = "Mit Wolf: Aspen stabil, Elk mittel?")
+plot_web(withW, main = "Mit Wolf: Aspen stabil, Elch mittel?")
 round(late_mean(withW), 2)
 ```
 
-**Aufgabe 5.** Vergleichen Sie Aspen und Elk ohne/mit Wolf. Bleibt Elk klar über null?
+**Aufgabe 5.** Vergleichen Sie Aspen und Elch ohne/mit Wolf. Bleibt Elch klar über null?
 
 ```{r}
 # YOUR CODE — z.B. a_elk_aspen groesser: Exclusion haerter;
-# a_wolf_elk groesser: staerkere Rettung, aber Elk kleiner?
+# a_wolf_elk groesser: staerkere Rettung, aber Elch kleiner?
 ```
 
 ---
@@ -250,10 +247,10 @@ abline(v = 1995, lty = 2)
 
 # Merksatz
 
-> Exclusion: bessere Art gewinnt — Start egal (Punktattraktor).  
-> Bistabilität: Start entscheidet (Gras/Wald).  
-> Zyklus: Räuber–Beute schwingt (Orbit).  
-> Food Web: Elk kann Aspen excludieren; Wolf stabilisiert Aspen, Elk bleibt mittel.
+> Exclusion: Für positive Anfangsbestände führt ein Einzugsgebiet zum selben Gleichgewicht.  
+> Bistabilität: Zwei Einzugsgebiete; ein Zustandswechsel erfordert das Überschreiten der Beckengrenze.  
+> Food Web: Elch kann Aspen top-down verdrängen; Wolf verhindert im Kursmodell den Verlust von Aspen.  
+> Regime Shift (Folien): Ökologie und Evolution oft auf ähnlichen Zeitskalen, aber verschoben — die Umwelt ändert sich jetzt, der Zustand kippt später.
 
 ---
 
@@ -274,7 +271,7 @@ Dieselbe Pipeline, mehr Knoten — nur zur Illustration (nicht Abgabe-Pflicht).
 #| fig-height: 4.2
 #| fig-width: 9
 next_rich <- function(x, p) {
-  A <- x["Aspen"]; S <- x["Sage"]; E <- x["Elk"]
+  A <- x["Aspen"]; S <- x["Sage"]; E <- x["Elch"]
   W <- x["Wolf"]; C <- x["Coyote"]; B <- x["Beaver"]
   dA <- p$rA * A * (1 - (A + p$aAS * S) / p$K) *
            (1 + p$fBA * B / (p$hB + B)) - p$aEA * A * E
@@ -284,7 +281,7 @@ next_rich <- function(x, p) {
   dC <- p$rC * C * (1 - C / p$KC) - p$aWC * C * W
   dB <- p$rB * B * (A / (p$hA + A)) - p$mB * B * (1 + B / p$KB)
   c(Aspen = max(A + dA, 0), Sage = max(S + dS, 0),
-    Elk = max(E + dE, 0), Wolf = max(W + dW, 0),
+    Elch = max(E + dE, 0), Wolf = max(W + dW, 0),
     Coyote = max(C + dC, 0), Beaver = max(B + dB, 0))
 }
 rich_p <- list(
@@ -295,14 +292,14 @@ rich_p <- list(
   rB = 0.010, hA = 10, mB = 0.0032, KB = 12, fBA = 0.30, hB = 5
 )
 sim_rich <- function(Wolf0 = 0, T = 5500, p = rich_p) {
-  nm <- c("Aspen", "Sage", "Elk", "Wolf", "Coyote", "Beaver")
+  nm <- c("Aspen", "Sage", "Elch", "Wolf", "Coyote", "Beaver")
   X <- matrix(0, T + 1, 6, dimnames = list(NULL, nm))
-  X[1, ] <- c(Aspen = 40, Sage = 50, Elk = 25, Wolf = Wolf0,
+  X[1, ] <- c(Aspen = 40, Sage = 50, Elch = 25, Wolf = Wolf0,
               Coyote = 12, Beaver = 3)
   for (t in 1:T) X[t + 1, ] <- next_rich(X[t, ], p)
   data.frame(time = 0:T, X)
 }
-cols6 <- c(Aspen = "#27ae60", Sage = "#1abc9c", Elk = "#d68910",
+cols6 <- c(Aspen = "#27ae60", Sage = "#1abc9c", Elch = "#d68910",
            Wolf = "#2c3e50", Coyote = "#7f8c8d", Beaver = "#8e44ad")
 par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
 df0 <- sim_rich(Wolf0 = 0)

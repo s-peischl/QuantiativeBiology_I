@@ -60,7 +60,7 @@ alone <- read.csv("data/paramecium_alone.csv")
 plot(
   alone$day, alone$paramecium,
   type = "b", pch = 16, lwd = 2,
-  xlab = "Tag", ylab = "Häufigkeit (Paramecium)",
+  xlab = "Tag", ylab = "Haeufigkeit (Paramecium)",
   main = "Paramecium allein (Gause 1934)"
 )
 ```
@@ -168,7 +168,7 @@ both <- read.csv("data/paramecium_with_didinium.csv")
 plot(
   both$day, both$paramecium,
   type = "b", pch = 16, lwd = 2,
-  xlab = "Tag", ylab = "Häufigkeit",
+  xlab = "Tag", ylab = "Haeufigkeit",
   main = "Paramecium + Didinium (Gause)",
   ylim = range(0, both$paramecium, both$didinium)
 )
@@ -227,7 +227,7 @@ Steigt oder sinkt die Beute in diesem Schritt? Der Räuber? Entspricht das Ihrer
 Probieren Sie **einen** anderen Start oder Parameter und vergleichen Sie.
 :::
 
-## B3) Simulation — Sie drehen an den Knöpfen
+## B3) Simulation — Parameter ändern
 
 ```{r simulation-zwei}
 T <- 400
@@ -250,12 +250,12 @@ for (t in 1:T) {
 plot(
   0:T, N,
   type = "l", lwd = 2,
-  xlab = "Schritt", ylab = "Häufigkeit",
+  xlab = "Schritt", ylab = "Haeufigkeit",
   main = "LV-Simulation",
   ylim = range(0, N, P)
 )
 lines(0:T, P, lwd = 2, lty = 2)
-legend("topright", c("Beute N", "Räuber P"), lty = 1:2, lwd = 2, bty = "n")
+legend("topright", c("Beute N", "Raeuber P"), lty = 1:2, lwd = 2, bty = "n")
 ```
 
 ::: {.callout-tip}
@@ -285,7 +285,7 @@ par(mfrow = c(1, 2))
 plot(
   both$day, both$paramecium,
   type = "b", pch = 16, lwd = 2,
-  xlab = "Tag", ylab = "Häufigkeit",
+  xlab = "Tag", ylab = "Haeufigkeit",
   main = "Mit Immigration",
   ylim = range(0, both$paramecium, both$didinium)
 )
@@ -298,7 +298,7 @@ legend("topright", c("Paramecium", "Didinium", "Immigration"),
 plot(
   both_ex$day, both_ex$paramecium,
   type = "b", pch = 16, lwd = 2,
-  xlab = "Tag", ylab = "Häufigkeit",
+  xlab = "Tag", ylab = "Haeufigkeit",
   main = "Ohne weitere Manipulation",
   ylim = range(0, both_ex$paramecium, both_ex$didinium, na.rm = TRUE)
 )

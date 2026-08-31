@@ -10,6 +10,7 @@ format:
     slide-number: true
     incremental: false
     embed-resources: true
+    auto-stretch: false
     transition: none
     controls: true
     controls-layout: edges
@@ -19,7 +20,7 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html)"
+    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html) · [Notebook](notebook.html)"
 execute:
   echo: false
   warning: false
@@ -64,6 +65,21 @@ Pfeiltasten · **M** Menü · **Esc** Übersicht
 
 **Frage** (frequenzabhängige Fitness / RPS) → **Modell** $A$ → **Simulation** → **Kurzpräsentation**.
 
+## Heute in dieser Reihenfolge
+
+1. Warum Spieltheorie — *Uta*?
+2. Zwei Strategien: Exclusion
+3. Drei Strategien: RPS-Formen
+4. Notebook, dann 2–3 Minuten vortragen
+
+## Lernziele
+
+Nach heute können Sie …
+
+1. sagen, warum **zwei** Strategien Exclusion bedeuten,
+2. die **dritte** Strategie als das, was alle drei hält, erkennen,
+3. RPS-Formen am Plot benennen: Punkt, Oszillation, Heteroklin.
+
 ## Checkpoint A — Anwesenheit Pflicht
 
 ::::: columns
@@ -80,12 +96,10 @@ Sie müssen **anwesend sein und vortragen**.
 
 ## Brücke von Woche 3
 
-Woche 3: Exclusion · Bistabilität · Punkt / Zyklus.  
+Woche 3: Stabilität — Gleichgewicht · Einzugsgebiet · Bistabilität · Food Web · Tipping.  
 Heute: **Strategien** statt trophischer Ebenen — und warum **drei** Strategien anders sind als zwei.
 
 ![](../../pics/comics/comic_matrix_bridge.svg){fig-alt="Bruecke Food Web zu Spiel" width="88%"}
-
-------------------------------------------------------------------------
 
 # Spieltheorie & Echsen
 
@@ -245,8 +259,6 @@ Nur wenn wir auf $s,w$ reduzieren, gilt die einfache Orientierung:
 
 Die May–Leonard-Ergebnisse sind hier nur eine **qualitative Orientierung**; Parameter nicht 1:1 aus Papers kopieren.
 
-------------------------------------------------------------------------
-
 # Warum drei? — das macht RPS aus
 
 ## Zwei Strategien: immer Exclusion $$
@@ -312,8 +324,6 @@ Dieselbe zyklische Logik — aber **drei** Typen bleiben. Das ist der RPS-Kern.
 > RPS heisst nicht zwingend «Schwingung».  
 > RPS heisst: zyklische Dominanz + die **dritte Strategie verhindert Exclusion**.  
 > Ein **Punktgleichgewicht** kann also durchaus RPS sein.
-
-------------------------------------------------------------------------
 
 # Drei Stabilitätsformen (Beispiele)
 
@@ -484,8 +494,6 @@ plot_simplex_traj(d_het, main = "Heteroklin")
 
 Gleiche zyklische Interaktionslogik — **verschiedene Orbits** im Simplex.
 
-------------------------------------------------------------------------
-
 # Auftrag
 
 ## Notebook (~40 min)
@@ -504,6 +512,12 @@ Gleiche zyklische Interaktionslogik — **verschiedene Orbits** im Simplex.
 
 **Anwesenheit Pflicht** — ohne Vortrag kein Checkpoint A.
 
+## Take-home
+
+1. Zwei Strategien: Exclusion. Die dritte hält alle drei.
+2. RPS kann Punkt, Oszillation oder Heteroklin sein — dasselbe $+/-$-Muster, andere Stärke.
+3. Die Matrix *ist* die Mathematik; heute lesen Sie die Form.
+
 ## Abschlussfragen
 
 1. Warum Diagonale $=1$ — und was heisst $A_{ij}\gt 1$ vs. $A_{ij}\lt 1$?  
@@ -513,6 +527,7 @@ Gleiche zyklische Interaktionslogik — **verschiedene Orbits** im Simplex.
 
 ## Literatur
 
+:::: {.lit}
 Alles, was in dieser Einheit namentlich vorkommt:
 
 1. **Sinervo, B., & Lively, C. M. (1996).** The rock–paper–scissors game and the evolution of alternative male strategies. *Nature* 380: 240–243. [doi:10.1038/380240a0](https://doi.org/10.1038/380240a0) — *Uta*-RPS.
@@ -520,6 +535,7 @@ Alles, was in dieser Einheit namentlich vorkommt:
 3. **May, R. M., & Leonard, W. J. (1975).** Nonlinear aspects of competition between three species. *SIAM Journal on Applied Mathematics* 29: 243–253. — $s,w$-Idee / Stabilitätsformen (Faustregel qualitativ).
 4. **Lotka, A. J. (1925)**; **Volterra, V. (1926)**; **Gause, G. F. (1934).** — Konkurrenz / Exclusion-Hintergrund (Wochen 2–3).
 5. Berkeley Understanding Evolution: [High-stakes rock-paper-scissors…](https://evolution.berkeley.edu/evo-news/high-stakes-rock-paper-scissors-these-lizards-are-all-in-on-an-evolutionary-game/) — populäre Zusammenfassung zu Corl et al.
+::::
 
 ## Navigation
 

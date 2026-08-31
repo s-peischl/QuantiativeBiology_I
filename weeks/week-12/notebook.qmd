@@ -1,6 +1,6 @@
 ---
-title: "Woche 12 — Notebook · Mikrobiomdaten visualisieren"
-subtitle: "Zusammensetzung, Heatmap, Facetten"
+title: "Woche 12 — Notebook · Komplexe Mikrobiomdaten einlesen"
+subtitle: "Abundanztabellen + Verknüpfung von Metadaten"
 format:
   html:
     toc: true
@@ -13,14 +13,21 @@ execute:
 
 ## Lernziele
 
-1. Taxa für verständliche Grafiken aggregieren
-2. Eine Grafik zur Zusammensetzung und eine Heatmap oder ein Facetten-Panel erstellen
-3. Bildlegenden verfassen, die Filter/Aggregationen angeben
+1. Abundanz- und Metadatendateien einlesen
+2. Nicht übereinstimmende IDs diagnostizieren
+3. Bibliotheksgrössen und einen kurzen Datenpass berechnen
 
 ## Aufgaben
 
-1. Beginnen Sie mit den bereinigten Objekten aus Woche 11.
-2. Erstellen Sie eine Tabelle der häufigsten $k$ Taxa + Andere (oder eine Zusammenfassung auf Stammebene).
-3. Plotten Sie die Zusammensetzung nach Probe oder Gruppe.
-4. Erstellen Sie eine Heatmap **oder** einen Vergleich mit Facetten.
-5. **F:** Welche visuelle Aussage wird gestützt? Welche nicht?
+```{r}
+# abund <- read.csv("data/abundance.csv", row.names = 1)
+# meta  <- read.csv("data/metadata.csv")
+# TODO: check setdiff(rownames(abund), meta$sample_id)
+# TODO: library sizes <- rowSums(abund)
+```
+
+**F1.** Breit oder lang? Woran erkennen Sie das?
+
+**F2.** Listen Sie Abweichungen zwischen den Abundanzzeilen und den Metadaten auf.
+
+**F3.** Fassen Sie die Bibliotheksgrössen zusammen (Minimum, Median, Maximum). Gibt es auffällige Proben?

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="330" viewBox="0 0 960 330">
+  <rect width="960" height="330" fill="white"/>
+  <text x="480" y="34" text-anchor="middle" font-family="Helvetica, Arial, sans-serif"
+        font-size="18" font-weight="bold" fill="#1a5276">Wovon haengt ein Modellterm ab?</text>
+
+  <rect x="25" y="60" width="280" height="235" rx="14" fill="#eafaf1"
+        stroke="#27ae60" stroke-width="3"/>
+  <text x="165" y="105" text-anchor="middle" font-family="Helvetica, Arial, sans-serif"
+        font-size="25" font-weight="bold" fill="#196f3d">r x N</text>
+  <circle cx="165" cy="150" r="25" fill="#27ae60"/>
+  <text x="165" y="157" text-anchor="middle" font-family="Helvetica, Arial, sans-serif"
+        font-size="16" font-weight="bold" fill="white">N</text>
+  <text x="165" y="205" text-anchor="middle" font-family="Helvetica, Arial, sans-serif"
+        font-size="14" fill="#333">haengt nur von N ab</text>
+  <text x="165" y="232" text-anchor="middle" font-family="Helvetica, Arial, sans-serif"
+        font-size="13" fill="#555">Geburten / Wachstum</text>
+  <text x="165" y="265" text-anchor="middle" font-family="Helvetica, Arial, sans-serif"
+        font-size="12" fill="#196f3d">kein Partner noetig</text>
+
+  <rect x="340" y="60" width="280" height="235" rx="14" fill="#eaf2fb"
+        stroke="#2980b9" stroke-width="3"/>
+  <text x="480" y="105" text-anchor="middle" font-family="Helvetica, Arial, sans-serif"
+        font-size="25" font-weight="bold" fill="#1a5276">N x N = N^2</text>
+  <circle cx="450" cy="150" r="23" fill="#5dade2"/>
+  <circle cx="510" cy="150" r="23" fill="#5dade2"/>
+  <text x="450" y="157" text-anchor="middle" font-family="Helvetica, Arial, sans-serif"
+        font-size="15" font-weight="bold" fill="white">N</text>
+  <text x="510" y="157" text-anchor="middle" font-family="Helvetica, Arial, sans-serif"
+        font-size="15" font-weight="bold" fill="white">N</text>
+  <text x="480" y="205" text-anchor="middle" font-family="Helvetica, Arial, sans-serif"
+        font-size="14" fill="#333">zwei derselben Art</text>
+  <text x="480" y="232" text-anchor="middle" font-family="Helvetica, Arial, sans-serif"
+        font-size="13" fill="#555">Gedraenge / Konkurrenz</text>
+  <text x="480" y="265" text-anchor="middle" font-family="Helvetica, Arial, sans-serif"
+        font-size="12" fill="#1a5276">haeufiger bei hoher Dichte</text>
+
+  <rect x="655" y="60" width="280" height="235" rx="14" fill="#fef5e7"
+        stroke="#d68910" stroke-width="3"/>
+  <text x="795" y="105" text-anchor="middle" font-family="Helvetica, Arial, sans-serif"
+        font-size="25" font-weight="bold" fill="#7e5109">N x P</text>
+  <circle cx="765" cy="150" r="23" fill="#27ae60"/>
+  <circle cx="825" cy="150" r="23" fill="#d68910"/>
+  <text x="765" y="157" text-anchor="middle" font-family="Helvetica, Arial, sans-serif"
+        font-size="15" font-weight="bold" fill="white">N</text>
+  <text x="825" y="157" text-anchor="middle" font-family="Helvetica, Arial, sans-serif"
+        font-size="15" font-weight="bold" fill="white">P</text>
+  <text x="795" y="205" text-anchor="middle" font-family="Helvetica, Arial, sans-serif"
+        font-size="14" fill="#333">haengt von N und P ab</text>
+  <text x="795" y="232" text-anchor="middle" font-family="Helvetica, Arial, sans-serif"
+        font-size="13" fill="#555">Begegnung / Interaktion</text>
+  <text x="795" y="265" text-anchor="middle" font-family="Helvetica, Arial, sans-serif"
+        font-size="12" fill="#7e5109">null, wenn eine Art fehlt</text>
+</svg>

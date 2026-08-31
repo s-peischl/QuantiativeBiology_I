@@ -6,6 +6,9 @@ project:
     - docs/course-outline.qmd
     - docs/general-info.qmd
     - docs/module-01-overview.qmd
+    - docs/module-02-overview.qmd
+    - docs/module-03-overview.qmd
+    - docs/glossary.qmd
     - docs/for-collaborators.qmd
     - docs/ai-policy.qmd
     - docs/mfb-alignment.qmd
@@ -28,6 +31,12 @@ website:
         text: Infos
       - href: docs/module-01-overview.qmd
         text: Modul 1
+      - href: docs/module-02-overview.qmd
+        text: Modul 2
+      - href: docs/module-03-overview.qmd
+        text: Modul 3
+      - href: docs/glossary.qmd
+        text: Glossar
       - href: docs/course-outline.qmd
         text: Kursplan
       - href: docs/ai-policy.qmd

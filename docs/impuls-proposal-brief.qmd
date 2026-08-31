@@ -75,7 +75,7 @@ In year 2, modelling/stats offerings are reshaped (including mathematical modell
 | Biology first, methods as tools | Bajau opener; Gause / food webs / rescue / microbiome tables |
 | Parallel to programming course | Explicit engine: function → vector → loop → plot |
 | Competency / practice | Checkpoints A–D (practical + short talk), not only one big final project |
-| Real / research-like data | Digitised classics and field series; open microbiome tables (W11–13) |
+| Real / research-like data | Digitised classics and field series; open microbiome tables (W12–14) |
 | Modular digital materials | Quarto site, week folders, notebooks, GitHub Pages |
 | AI / modern scientific practice | Course [AI policy](ai-policy.qmd) (German, student-facing) |
 | MfB competency landscape | Touch many codes; no full-coverage claim — [MfB map](mfb-alignment.qmd) |

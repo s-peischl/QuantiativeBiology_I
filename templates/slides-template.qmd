@@ -6,9 +6,11 @@ format:
   revealjs:
     html-math-method: katex
     theme: simple
+    css: slides.css
     slide-number: true
     incremental: false
     embed-resources: true
+    auto-stretch: false
     transition: none
     controls: true
     controls-layout: edges
@@ -18,46 +20,60 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Kursplan](../../docs/course-outline.qmd) · [Start](../../index.qmd)"
+    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html) · [Notebook](notebook.html)"
 execute:
   echo: false
   warning: false
   message: false
 ---
 
-## In diesem Foliensatz
+## Übersicht
 
-**Woche XX** von 14
+**Woche XX** von 14 · **Do., DATUM, 08:15–10:00**
 
-- [Kursplan](../../docs/course-outline.qmd)
-- [Start](../../index.qmd)
-- Pfeiltasten / Steuerelemente · **M** Menü · **Esc** Übersicht
+| Teil | Dauer | Was |
+|------|-------|-----|
+| Vorlesung | ~45 min | Beispiel → Frage → Bild |
+| Notebook | ~45 min | selbst herumspielen |
+
+::: aside
+Pfeiltasten · **M** Menü · **Esc** Übersicht
+:::
 
 ## Lernziele
 
-- Ziel 1
-- Ziel 2
-- Ziel 3
+Nach heute können Sie …
+
+1. Ziel 1
+2. Ziel 2
+3. Ziel 3
+
+## Heute in dieser Reihenfolge
+
+1. Biologische Frage
+2. Warum Zahlen / Mathematik?
+3. Das Bild (Modell)
+4. Was das Notebook ändert
+
+# Teil 1
 
 ## Biologischer Rahmen
 
 - Wie lautet die biologische Fragestellung?
 - Welcher Vergleich oder Datensatz motiviert sie?
 
-## Quantitative Idee
+Das **Beispiel** zwingt zur Mathematik. Heute: *warum* die Gleichung so
+aussieht und *was* sie tut. Ableiten: andere Vorlesung.
 
-- Schlüsselkonzept:
-- Verbindung zum Programmierkurs:
+## Take-home
 
-## Angeleitete Demonstration
+1.
+2.
+3.
 
-- Schritt 1
-- Schritt 2
-- Schritt 3
+## Notebook (~45 min)
 
-## Vorschau auf das Notebook
-
-Was die Studierenden diese Woche tun werden.
+**→ [Notebook öffnen](notebook.html)**
 
 ## Abschlussfragen
 
@@ -65,15 +81,18 @@ Was die Studierenden diese Woche tun werden.
 2.
 3.
 
----
+## Literatur
+
+:::: {.lit}
+1.
+::::
 
 ## Navigation
 
 | | |
 |---|---|
-| Übersicht | [Kursplan](../../docs/course-outline.qmd) |
-| Startseite | [Kursstartseite](../../index.qmd) |
-| Zurück | [← vorherige Woche](../week-XX/slides.qmd) |
-| Weiter | [nächste Woche →](../week-XX/slides.qmd) |
-
-Tastatur: ← → · **M** Menü · **Esc** Folienübersicht · **F** Vollbild
+| Kursplan | [Kursplan](../../docs/course-outline.html) |
+| Notebook | [Notebook](notebook.html) |
+| Glossar | [Glossar](../../docs/glossary.html) |
+| Zurück | [← vorherige Woche](../week-XX/slides.html) |
+| Weiter | [nächste Woche →](../week-XX/slides.html) |

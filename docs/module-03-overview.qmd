@@ -1,0 +1,63 @@
+---
+title: "Modul 3 — Wochen 9–11"
+subtitle: "Zufall · Etablierung · evolutionäre Rettung · Checkpoint C"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    css: ../styles.scss
+---
+
+**Eine Seite Überblick** · Quantitative Biologie I · HS 2026
+
+## Was ist Modul 3?
+
+Der dritte Block: Zufall kommt ins Allelfrequenz-Modell. Eine neue
+Mutante beginnt mit **einer** Kopie. Dann koppeln wir das mit
+schrumpfender Demografie — **evolutionäre Rettung**.
+
+Das **Beispiel** kommt zuerst (Hefe unter Salz; Antibiotika).
+Mathematik erklärt, *warum* dieselben Parameter Aussterben *oder*
+Überleben bedeuten. Ableiten und Tests: andere Vorlesungen.
+
+| Woche | Datum | Thema | Fokus |
+|------:|------|--------|--------|
+| **9** | 12. Nov. | Zufall · Etablierung | Zufallszahlen · $p$ mit Drift · $\hat u(s)$ |
+| **10** | 19. Nov. | Evolutionäre Rettung | Demografie deterministisch + de novo · Orr vs. Simulation |
+| **11** | 26. Nov. | Synthese | **Checkpoint C** |
+
+Details: [Kursplan](course-outline.qmd) · [Glossar](glossary.qmd).
+
+## Was Sie können sollen (am Ende von Woche 11)
+
+- Sagen, warum das deterministische $p$ für *eine* neue Mutation nicht reicht
+- Zufallszahlen ziehen (`set.seed`, `rbinom`) und in den Generationsschritt einbauen
+- Die Etablierungswahrscheinlichkeit $\hat u$ aus Replikaten schätzen
+- Rettung als Etablierung **vor** $N=0$ erkennen
+- Eine biologische Frage in **eine** Abbildung übersetzen (Checkpoint C)
+
+## Checkpoint C (Woche 11) — Präsenzpflicht
+
+In **Woche 11** finden die **Kurzpräsentationen** statt (Intro → Notebook → Vorträge).
+
+::: {.callout-important}
+## Anwesenheit erforderlich
+
+Für die **Benotung von Checkpoint C** müssen Sie **anwesend sein und präsentieren**.  
+Wer fehlt, kann diesen Checkpoint nicht ablegen (Details: [Allgemeine Informationen](general-info.qmd)).
+:::
+
+**Format (kurz):** ca. 3–5 Min. · biologische Frage · eine Abbildung · Pointe.  
+Arbeit zu zweit möglich. Keine separate Hausarbeit — die Notebook-Arbeit ist die Vorbereitung.
+
+Themen: Rettung gegen $r$; gegen $s$; gegen $N_0$ (Bell & Gonzalez).
+
+## Materialien
+
+| Woche | Folien | Notebook | Aufgabe |
+|------:|--------|----------|---------|
+| 9 | [Folien](../weeks/week-09/slides.qmd) | [Notebook](../weeks/week-09/notebook.qmd) | [Aufgabe](../weeks/week-09/assignment.qmd) |
+| 10 | [Folien](../weeks/week-10/slides.qmd) | [Notebook](../weeks/week-10/notebook.qmd) | [Aufgabe](../weeks/week-10/assignment.qmd) |
+| 11 | [Folien](../weeks/week-11/slides.qmd) | [Notebook](../weeks/week-11/notebook.qmd) | [Aufgabe](../weeks/week-11/assignment.qmd) |
+
+Zurück: [Start](../index.qmd) · [Modul 2](module-02-overview.qmd) · [Allgemeine Informationen](general-info.qmd)

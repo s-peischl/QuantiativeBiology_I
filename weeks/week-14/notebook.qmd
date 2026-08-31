@@ -1,47 +1,31 @@
 ---
-title: "Woche 14 — Notebook · Mikrobiomprojekt + Synthese"
-subtitle: "Mikrobiomprojekt + Synthese"
+title: "Woche 14 — Notebook · Visuelle Geschichte · Checkpoint D"
+subtitle: "Eine Abbildung, ehrliche Einschränkungen · kurze Synthese"
 format:
   html:
     toc: true
-    code-fold: false
+    css: ../../styles.scss
 execute:
   echo: true
   warning: false
   message: false
 ---
 
-## Lernziele
+## Praktische Arbeit zu Checkpoint D
 
-- Ziel 1
-- Ziel 2
-- Ziel 3
+1. Daten erneut einlesen + Plausibilität prüfen (Woche 12).
+2. Eine Fragestellung auswählen.
+3. Eine Hauptabbildung erstellen (optionale kleine Grafik zur Qualitätskontrolle).
+4. Bildlegende (2–3 Sätze) + Stichpunktliste «Was wir nicht behaupten».
 
-## Biologischer Hintergrund
+## Notizen zur Präsentation (vor dem Unterricht ausfüllen)
 
-Kurzer Kontext für diese Woche.
+- Fragestellung:
+- Schritte zum Einlesen/Bereinigen (30 Sek.):
+- Aussage der Abbildung:
+- Einschränkungen:
 
-## Vorbereitung
+## Optional: Semesterbogen
 
-```{r}
-# libraries / parameters
-```
-
-## Angeleitete Arbeit
-
-```{r}
-# starter code
-```
-
-## Übung 1
-
-…
-
-## Übung 2
-
-…
-
-## Zusammenfassung
-
-- Wichtigstes quantitatives Ergebnis:
-- Wichtigste biologische Interpretation:
+Ein Absatz: welcher Checkpoint (A–D) die eigene Arbeit heute am meisten trägt
+(Schleife? Replikate? ehrliche Modellgrenze?).

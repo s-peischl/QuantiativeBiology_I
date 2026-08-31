@@ -1,14 +1,16 @@
 ---
-title: "Woche 8 — Von der Selektion zur Etablierung"
-subtitle: "Wenn deterministische Änderungen der Allelfrequenz nicht ausreichen"
+title: "Woche 8 — Checkpoint B"
+subtitle: "Eine biologische Frage, eine Abbildung"
 author: "Stephan Peischl"
 format:
   revealjs:
     html-math-method: katex
     theme: simple
+    css: slides.css
     slide-number: true
     incremental: false
     embed-resources: true
+    auto-stretch: false
     transition: none
     controls: true
     controls-layout: edges
@@ -18,125 +20,162 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html)"
+    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html) · [Notebook](notebook.html)"
 execute:
   echo: false
   warning: false
   message: false
 ---
 
-## In diesem Foliensatz
+## Übersicht
 
-**Woche 8** von 14 · Block zum Zufall  
-**Do., 5. Nov. 2026, 08:15–10:00**
+**Woche 8** von 14 · **Checkpoint B** · **Do., 5. Nov. 2026, 08:15–10:00**
 
-- [Kursplan](../../docs/course-outline.html)
-- [Start](../../index.html)
-- Pfeiltasten / Steuerelemente · **M** Menü · **Esc** Übersicht
+| Teil | Dauer | Was |
+|------|-------|-----|
+| Intro | ~20 min | Landkarte der Wochen 5–7 |
+| Notebook | ~40 min | eine Frage, eine Abbildung · Entwurf |
+| Präsentationen | ~30 min | 3–5 Minuten, Anwesenheit Pflicht |
 
-## Verlauf des Blocks (Wochen 8–10)
+::: aside
+Pfeiltasten · **M** Menü · **Esc** Übersicht
+:::
 
-1. **Heute:** deterministische Selektion → **Etablierung**
-2. **Woche 9:** Etablierungswahrscheinlichkeiten im Code
-3. **Woche 10:** **evolutionäre Rettung** (im Labor geprüfte Theorie) · Checkpoint C
+## Heute in dieser Reihenfolge
 
-## Rückblick: Erkenntnisse aus den Wochen 5–7
+1. Landkarte: was die Wochen 5–7 gefragt haben
+2. Eine Frage wählen, **eine** Abbildung
+3. 3–5 Minuten vortragen
 
-- Allelfrequenz $p_t$ als glatte Zeitreihe
-- Selektionsrekursion $p_{t+1} = f(p_t)$
-- Deterministische Trajektorien und Gleichgewichte
+## Heute in einem Blick
 
-**Verborgene Annahme:** Viele Genkopien segregieren bereits — Mittelwerte verhalten sich regelmäßig.
+::::: columns
+::: {.column width="22%"}
+![](../../pics/icons/icon_biology.svg){fig-alt="Biologie" width="70%"}
+:::
+::: {.column width="22%"}
+![](../../pics/icons/icon_math.svg){fig-alt="Modell" width="70%"}
+:::
+::: {.column width="22%"}
+![](../../pics/icons/icon_code.svg){fig-alt="Code" width="70%"}
+:::
+::: {.column width="22%"}
+![](../../pics/icons/icon_speak.svg){fig-alt="Praesentation" width="70%"}
+:::
+:::::
 
-## Die biologische Lücke in der Beschreibung
+**Frage** → leichtes Modell → **eine** Abbildung → biologische Pointe.
+Die Mathematik ist das Gerüst der Abbildung. Ableiten und Tests:
+andere Vorlesungen — das Bild nehmen Sie mit.
 
-Eine **neue** vorteilhafte Mutation beginnt meist als:
+## Landkarte — die Fragen
 
-- **ein** Individuum / eine Chromosomenkopie
+::::::: columns
+::::: {.column width="24%"}
+![](../../pics/popgen/electrophoresis.jpg){fig-alt="Elektrophorese" width="100%"}
 
-Zu Beginn dominieren Zufallsereignisse:
+**5** · Eine Population?
+:::::
+::::: {.column width="24%"}
+![](../../pics/organisms/stickleback.jpg){fig-alt="Stichling" width="100%"}
 
-- Die Abstammungslinie kann aussterben, selbst wenn sie „im Mittel begünstigt“ ist
+**6** · Unterschiede bleiben?
+:::::
+::::: {.column width="24%"}
+![](../../pics/popgen/kimura.png){fig-alt="Motoo Kimura" width="100%"}
 
-## Zwei Fragen (klar auseinanderhalten)
+**7** · Warum so viel Variation?
+:::::
+::::: {.column width="24%"}
+![](../../pics/popgen/drosophila.jpg){fig-alt="Drosophila" width="100%"}
 
-| Frage | Typisches Werkzeug |
-|---|---|
-| Wie verändert sich $p$, sobald das Allel häufig ist? | Deterministische Selektion (Wochen 5–7) |
-| Kann sich ein seltener vorteilhafter Typ **überhaupt etablieren**? | **Etablierungswahrscheinlichkeit** (dieser Block) |
+**7** · Halten Saisons die Variation?
+:::::
+:::::::
 
-## Etablierung (verbale Definition)
+Immer dieselbe Schleife: Frage → Bild → was das Modell *nicht* kann.
 
-Wahrscheinlichkeit, dass eine seltene vorteilhafte Abstammungslinie dem frühen stochastischen Verlust entgeht und häufig genug wird, damit die deterministische Selektion übernimmt.
+## Was wir gebraucht haben
 
-Nicht in jedem Modell dasselbe wie langfristige Fixierung — in einfachen populationsgenetischen Modellen jedoch eng damit verbunden.
+| | Wozu | Nicht heute |
+|---|---|---|
+| **Plot** (W5) | Nullbild vs. Genotypen | $\chi^2$, $F_{IS}$ |
+| **zwei $p$ iterieren** (W6) | Selektion gegen Genfluss | $F_{ST}$-Schätzer |
+| **Zykluslänge $L$** (W7) | wann Oszillation innen bleibt | Drift, wenn $p$ nahe $0$ |
 
-## Anschauliches Bild
+Mathematik, Statistik und Code tauchen auf, weil die Biologie sie **braucht** —
+nicht als eigenes Kapitel.
 
-```text
-viele gescheiterte Anläufe
-      · · · · · ·
-           \
-            ········  etablierte Trajektorie
-```
+## Drei Fragen — eine wählen
 
-Anpassung durch neue Mutationen ≈ **Angebot an Mutanten × Etablierungswahrscheinlichkeit**.
+1. **Resistenz in einer Population.** Kann ein Vorteil-Allel häufig werden
+   — Sichelzelle, Duffy, ein Sweep? (Parameter $s$, $h$)
+2. **See und Meer.** Bleiben zwei Habitate verschieden, obwohl jemand
+   wandert? (Stichling; Parameter $m$)
+3. **1966 und Saisons.** Wie bleibt Variation in einer Population?
+   (Überdominanz, Schwelle, oder Zykluslänge $L$; *Drosophila*)
 
-## Denken – Austauschen – Besprechen
+Eine Frage, **eine** Abbildung, eine Modellgrenze.
 
-1. Warum kann ein stark vorteilhaftes Allel dennoch verloren gehen, wenn es selten ist?
-2. Wann ist die deterministische Beschreibung aus Woche 6 „gut genug“?
-3. Was würden Sie in einer Simulation zählen, um die Etablierung zu schätzen?
+## Gemeinsame Annahmen
 
-## Quantitative Skizze (Orientierung)
+Deterministisch heisst hier:
 
-In einfachen Modellen steigt die Etablierungswahrscheinlichkeit häufig mit dem Selektionsvorteil $s$.
+- unendlich grosse Population (keine Drift)
+- $p$ ist ein Mittelwert, kein Schicksal einer Kopie
+- ein Locus, zwei Allele
 
-Bekannter Referenzwert (Intuition für haploide Organismen / schwache Selektion):
+Das reicht für die drei Fragen. Eine **neue** Mutation beginnt mit einer
+Kopie — das ist Woche 9, nicht die heutige Note.
 
-$$
-u \approx 2s
-$$
+## Brücke zur nächsten Einheit
 
-(Wir behandeln Formeln als **Referenz für den Vergleich mit Simulationen**, nicht als Magie.)
+Sobald ein vorteilhaftes Allel **häufig** ist, beschreibt der Mittelwert
+$p$ die Dynamik gut.
 
-## Verbindung zum Programmieren heute
+Eine neue Mutation beginnt mit **einer** Kopie. Dann entscheidet Zufall
+über frühes Aussterben — auch bei $s>0$.
 
-- Gleiches Grundprinzip: Aktualisierungsregel → Funktion → Schleife
-- Neue Wendung: **viele unabhängige Versuche** (Replikate)
-- Ergebnisse speichern: etabliert / verloren → eine Wahrscheinlichkeit schätzen
+Wochen 9–11: Etablierung, Rettung, Checkpoint C.
 
-## Vorschau auf das Notebook
+## Checkpoint B · heute
 
-1. Eine seltene vorteilhafte Abstammungslinie vielfach simulieren
-2. Etablierung gegenüber Verlust klassifizieren
-3. $\hat{u}$ als Häufigkeit über Replikate schätzen
-4. $s$ verändern; vor der Ausführung eine Vorhersage treffen
+::::: columns
+::: {.column width="18%"}
+![](../../pics/icons/icon_warning.svg){fig-alt="Wichtig" width="80%"}
+:::
+::: {.column width="82%"}
+Heute wird **präsentiert und benotet**.
+Sie müssen **anwesend sein und vortragen**.
+:::
+:::::
 
-## Abschlussfragen
+Vortrag (3–5 Min.):
 
-1. Deterministisches $p_t$ gegenüber Etablierung — jeweils ein Satz.
-2. Warum verändert „beginnt mit einer Kopie“ die Mathematik?
-3. Was benötigen wir nächste Woche, um $u$ sauber im Code zu schätzen?
+1. biologische Frage
+2. welchen Parameter Sie geändert haben (einer reicht)
+3. **eine** Abbildung
+4. biologisches Ergebnis
+5. eine Modellgrenze
 
-## Nächste Woche
+## Notebook
 
-**Etablierungswahrscheinlichkeiten** — systematische Simulation, Vergleich mit einer einfachen Formel, Variation von $s$ und der Anzahl der Ausgangskopien.
+**→ [Notebook Woche 8 öffnen](notebook.html)** · Entwurf
 
----
+Nur **eine** der drei Fragen. Fertige Hilfsfunktionen dürfen bleiben;
+die Note gilt der Frage und der Abbildung, nicht dem Code-Umfang.
 
-## Literatur
+## Take-home
 
-In diesem Foliensatz-Entwurf noch keine Fallstudien zitiert.  
-Sobald Inhalte ausgearbeitet sind, erscheint hier die vollständige Liste aller genannten Quellen.
+1. Eine biologische Frage, **eine** Abbildung, eine Pointe.
+2. Die Kurve ist die Mathematik — Ableiten kommt später.
+3. Anwesenheit: ohne Vortrag kein Checkpoint B.
 
 ## Navigation
 
 | | |
 |---|---|
-| Übersicht | [Kursplan](../../docs/course-outline.html) |
-| Startseite | [Kurs-Startseite](../../index.html) |
+| Kursplan | [Kursplan](../../docs/course-outline.html) |
+| Notebook | [Notebook Woche 8](notebook.html) |
 | Zurück | [← Woche 7](../week-07/slides.html) |
 | Weiter | [Woche 9 →](../week-09/slides.html) |
-
-Tastatur: ← → · **M** Menü · **Esc** Übersicht · **F** Vollbild

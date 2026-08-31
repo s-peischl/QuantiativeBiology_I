@@ -1,0 +1,247 @@
+---
+title: "Glossar"
+subtitle: "Fachbegriffe für Erstsemestrige (Gymnasium → Uni)"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    css: ../styles.scss
+---
+
+Kurze Erklärungen in Alltagssprache. In den Folien tauchen die Begriffe auf — hier können Sie nachschlagen.
+
+Das **Beispiel** kommt zuerst. Mathematik, Statistik und Code erklären, *warum* die Zahlen so aussehen. Ableiten und Tests üben andere Vorlesungen — dort sitzen Sie nicht verloren, weil Sie das Bild schon kennen.
+
+[Start](../index.qmd) · [Kursplan](course-outline.qmd) · [Modul 1](module-01-overview.qmd) · [Modul 2](module-02-overview.qmd) · [Modul 3](module-03-overview.qmd)
+
+---
+
+## Vier Kursbegriffe
+
+Erst wenn verbale Modelle **konkret** werden (Gleichungen, Simulationen), werden Ungenauigkeit und versteckte Annahmen sichtbar.
+
+| Begriff | Typische Härtefrage |
+|---|---|
+| **Population** | Wer gehört dazu? Wo sind die Grenzen? |
+| **Gen** | Codierende Sequenz, Regulator, Haplotyp oder nur ein Name? |
+| **Generation** | Diskrete Schritte? Überlappend? Wie viele Jahre? |
+| **Selektion** | $s$ wovon, auf wen, in welcher Umwelt? |
+
+---
+
+## Einstieg (Woche 1)
+
+**Allel**  
+Eine Variante an einer Stelle im Genom (z. B. Variante A oder B eines Gens).
+
+**Apnoetauchen**  
+Tauchen mit angehaltenem Atem — ohne Pressluftflasche.
+
+**Assoziation**  
+Statistischer Zusammenhang zwischen z. B. genetischer Variante und Merkmal.  
+*Wichtig:* Zusammenhang ≠ automatisch Ursache (Kausalität).
+
+**Assembly / Genome Assembly**  
+Aus vielen kurzen Sequenzstücken (**Reads**) ein längeres Genom (oder Teile davon) zusammensetzen — ein Kernproblem der Bioinformatik.
+
+**Admixture (Mischung)**  
+Vermischung von Populationen/Linien: Nachkommen tragen DNA aus beiden.  
+Voraussetzung dafür, dass später **Introgression** einzelner Abschnitte sichtbar wird.
+
+**Bioinformatik**  
+Fachgebiet: biologische Fragen mit Algorithmen, Statistik und grossen Datensätzen (oft DNA-Sequenzen) bearbeiten.
+
+**de Bruijn-Graph**  
+Graphenmodell für Genome Assembly: Knoten = kurze Sequenzstücke ($(k-1)$-mere), Kanten = Überlappungen ($k$-mere).  
+Pfad durch den Graphen ≈ zusammengesetzte Sequenz (Contig).
+
+**Denisova-Menschen**  
+Ausgestorbene archaische Menschengruppe (Verwandte der Neandertaler).  
+Bekannt vor allem durch DNA aus der **Denisova-Höhle** (Altai).  
+DNA-Spuren in manchen heutigen Populationen; Lehrbeispiel Tibet / **EPAS1**.
+
+**Erythrozyten**  
+Rote Blutkörperchen — transportieren Sauerstoff.
+
+**Eugenik**  
+Historische (und abgelehnte) Programme, menschliche Fortpflanzung über «Erbanlagen» steuern zu wollen.  
+Quantitative Methoden können missbraucht werden — Forschungsziele und Ethik gehören zur Wissenschaft dazu.
+
+**EPAS1**  
+Gen / Transkriptionsfaktor im Hypoxie-Signalweg; bei Tibeter:innen stark selektiert.  
+Der häufige Tibeter-Haplotyp gleicht stark dem Denisova-Muster (Huerta-Sánchez et al. 2014).
+
+**Fisher, R. A.**  
+Einflussreicher Statistiker/Genetiker des 20. Jahrhunderts. Werkzeuge der modernen Statistik eng mit Evolutions- und Genetikfragen verknüpft. Historisch auch mit Eugenik verbunden — im Kurs kritisch einordnen.
+
+**Haplotyp**  
+Ein Stück Chromosom bzw. eine Kombination benachbarter Varianten, die oft gemeinsam vererbt werden.
+
+**Hitchhiking** («Mitfahrgelegenheit»)  
+Wenn eine vorteilhafte Variante häufiger wird, steigen benachbarte (oft neutrale) Varianten mit — sofern Rekombination sie nicht trennt.
+
+**Hypoxie**  
+Sauerstoffmangel (z. B. in grosser Höhe).
+
+**Introgression**  
+Übernahme von DNA-Abschnitten aus einer anderen Population oder Art **nach** früherer Trennung (z. B. archaische DNA in modernen Menschen). Oft kurze Haplotypen — nicht «halb Denisova».
+
+**ILS (incomplete lineage sorting)**  
+Unvollständige Liniensortierung: DNA-Kopien können einen Genbaum erzeugen, der *anders* aussieht als die Populationsgeschichte — ohne Introgression.
+
+**Konvergente Evolution**  
+Ähnliche Merkmale entstehen unabhängig (nicht durch gemeinsame Herkunft derselben Mutation).
+
+**Likelihood**  
+Mass dafür, wie gut ein Modell die beobachteten Daten erklärt («Wie plausibel sind die Daten unter diesem Modell?»).
+
+**Model selection**  
+Systematischer Vergleich mehrerer Modelle: welches passt besser zu den Daten?
+
+**Phänotyp**  
+Messbares Merkmal (z. B. Milzgrösse) — im Gegensatz zum Genotyp.
+
+**Physiologie**  
+Wie Körper und Organe funktionieren (Atmung, Kreislauf, Milzkontraktion, …).
+
+**Plastizität**  
+Der Körper passt sich an die Umwelt an, *ohne* dass sich die DNA ändern muss.
+
+**Reads**  
+Kurze Sequenzstücke aus dem Sequenziergerät.
+
+**Rekombination**  
+Umschichtung genetischen Materials zwischen Chromosomen — bricht langfristig Haplotypen auseinander.
+
+**Selective Sweep**  
+Ein vorteilhaftes Allel wird häufig; dabei sinkt die genetische Vielfalt in der Umgebung (**Valley of Diversity**).
+
+**Simpson-Paradoxon**  
+Ein Trend in den Gesamtdaten kann sich **umkehren** (oder verschwinden), wenn man nach Gruppen trennt. Dieselbe Tabelle, andere Frage — andere Geschichte.
+
+**Simulation**  
+Am Computer durchspielen, welche Daten ein mathematisches Modell typischerweise erzeugen würde.
+
+**t-Test**  
+Klassischer statistischer Test zum Vergleich von Mittelwerten zweier Gruppen (Details in QuBi II / Statistik).
+
+**Valley of Diversity**  
+«Tal» geringer genetischer Vielfalt um einen Sweep-Locus — typische Suchsignatur.
+
+**Vasokonstriktion**  
+Verengung von Blutgefässen (Teil des Tauchreflexes).
+
+---
+
+## Ökologie (Wochen 2–4)
+
+**$N$ (Populationsgrösse)**  
+Zahl (oder Dichte) der Individuen. Die Zustandsvariable der Wochen 2–4.
+
+**Wachstum**  
+Ohne Begrenzung: mehr Individuen → noch mehr Nachkommen. Im einfachsten Modell proportional zu $N$.
+
+**Regulation**  
+Begrenzung durch Ressourcen, Gedränge, Räuber. Ohne Regulation wächst $N$ unbegrenzt.
+
+**Differenzengleichung**  
+Vorschrift für den **nächsten** Zeitpunkt: $N_{t+1}=N_t+f(N_t)$.  
+Ein Zeitschritt, dann Vektor, dann Schleife. In der Literatur oft als Differentialgleichung; hier diskret, Parameter **pro Simulationsschritt**.
+
+**Lotka–Volterra**  
+Klassisches Räuber–Beute- oder Konkurrenzmodell (oft oszillierende Dichten).  
+In QuBi als additive Differenzengleichung $N_{t+1}=N_t+f(N_t,P_t)$.
+
+**Gleichgewicht**  
+Ein Zustand, der sich ohne Störung nicht mehr ändert.
+
+**Stabilität**  
+Nach einer **kleinen** Störung kehrt das System zum Gleichgewicht zurück.
+
+**Persistenz**  
+Arten bleiben im System auf der beobachteten Zeitskala — nicht dasselbe wie ein stabiles Gleichgewicht (Räuber–Beute kann schwingen und trotzdem persistieren).
+
+**Einzugsgebiet**  
+Alle Starts und Störungen, die zum selben Gleichgewicht führen.
+
+**Konkurrenzausschluss**  
+Zwei Arten, dieselbe Ressource: oft überlebt nur eine. Lehrbeispiel: *Paramecium* (Gause).
+
+**Bistabilität**  
+Zwei stabile Gleichgewichte. Der Start (oder eine grosse Störung) entscheidet, welches erreicht wird. Analogie: Grasland oder Wald.
+
+**Heteroklin**  
+Eine Bahn, die sich den Rändern (fast nur eine Strategie) nähert und lange dort bleibt, bevor sie wechselt. Eine der drei RPS-Formen neben Punkt und Oszillation.
+
+**RPS (Rock–Paper–Scissors)**  
+Drei Typen, zyklische Überlegenheit: A schlägt B, B schlägt C, C schlägt A. Mit **zwei** Typen Exclusion; die dritte Strategie kann alle drei halten. Lehrbeispiel: *Uta*-Echsen.
+
+**Interaktionsmatrix $A$**  
+Einträge $A_{ij}$: wie Typ $j$ das Wachstum von Typ $i$ beeinflusst. Diagonale oft $1$ (gleiche Typen). $A_{ij}>1$ Vorteil, $A_{ij}<1$ Nachteil.
+
+---
+
+## Evolution, deterministisch (Wochen 5–8)
+
+**Locus**  
+Eine Stelle / Region im Genom. Heute oft **ein** Locus, zwei Allele.
+
+**Genotyp**  
+Die beiden Kopien an einem diploiden Locus: $AA$, $AB$, $BB$.
+
+**Allelfrequenz $p$**  
+Anteil von Allel A unter **allen** Kopien in der Stichprobe. Nicht dasselbe wie der Anteil der Genotypen $AA$.
+
+**SNP**  
+*Single nucleotide polymorphism*: eine Stelle mit zwei Nukleotiden in der Population (oft A/G oder C/T).
+
+**Hardy–Weinberg (HWE)**  
+Bei zufälliger Paarung in **einer** Population: Genotypfrequenzen $p^2$, $2pq$, $q^2$.  
+Nullbild: liegen die Punkte auf den drei Kurven? Tests und Algebra: Statistik- bzw. Modellierungsvorlesung — das Bild brauchen Sie dort.
+
+**Wahlund-Effekt**  
+Zwei Gruppen mit verschiedenem $p$ in **einer** Probe: zu wenige Heterozygote.  
+Nicht weil niemand paart — die Mischung war keine Population (Wahlund 1928).
+
+**Duffy-Null**  
+Promotor-SNP (`rs2814778`) von *ACKR1*: auf Erythrozyten kein Duffy-Protein. *Plasmodium vivax* kommt nicht rein. In Westafrika fast fixiert, in Europa fast abwesend.
+
+**Überdominanz**  
+Heterozygote am fittesten. $p$ kann **innen** gehalten werden (Lehrbeispiel Sichelzelle / Malaria). Erklärt nicht alle häufigen Polymorphismen von 1966.
+
+**Unterdominanz**  
+Heterozygote im Nachteil (z. B. Chromosomeninversionen). In einer Population gewinnt, was schon häufig ist. Diversität wird hier nicht gehalten.
+
+**Fluktuierende Selektion**  
+Fitness wechselt **in der Zeit** (z. B. Sommer/Winter). Eine Population, zwei Welten nacheinander. Isolation und räumliche Selektion halten Diversität **zwischen** Orten (Woche 6); hier sitzt sie in einer gemischten Population. Kurze Zyklen: $p$ oszilliert innen. Lange Zyklen: $p$ an den Rand. *Drosophila*: Bergland et al. (2014); Wittmann et al. (2017); Rudman et al. (2022).
+
+**Neutralität**  
+Viele molekulare Unterschiede sind selektiv fast gleich (Kimura 1968). Dann *kann* Diversität hoch sein, ohne dass jeder Locus «gehalten» wird. Braucht Zufall und endliche $N$ — ab Woche 9. Die Gegenseite: Selektion kann dieselben Muster tragen (Gillespie 1991). Die Debatte ist nicht geschlossen.
+
+**Mutation–Selektions-Gleichgewicht**  
+Mutation speist schädliche Allele nach, Selektion räumt auf. $p$ bleibt **selten, aber nicht null**.
+
+**Mutationslast**  
+Fitnessabstand zu einer hypothetischen Population ohne schädliche Allele (Muller 1950; Haldane 1937). Zählen «schädlicher SNPs» $\neq$ Last messen.
+
+**$F_{ST}$**  
+Fasst zusammen, wie weit Allelfrequenzen **zwischen** Gruppen auseinanderliegen.  
+Scans suchen ungewöhnlich grosse Abstände. Die **Zahl schätzen und testen**: Statistikvorlesung. Heute reicht: Unterschiede können existieren.
+
+**Gene swamping**  
+Zu viel Genfluss: lokale Anpassung wird von eingewanderten Allelen überschwemmt, $p_1$ und $p_2$ fallen zusammen.
+
+**Wright–Fisher-Modell**  
+Einfaches populationsgenetisches Modell für Allelfrequenzen über Generationen bei endlicher $N$. Haploid im Kurs: erst Selektion $p'$, dann $X\sim\mathrm{Binomial}(N,p')$, $p\leftarrow X/N$. Ab Woche 9.
+
+**Zufallszahl / Pseudozufall**  
+Der Computer würfelt nicht. `rbinom` zieht aus einer Folge, die sich wie Zufall benimmt. `set.seed` macht dieselbe Folge — und dieselbe Abbildung — wiederholbar.
+
+**Etablierungswahrscheinlichkeit**  
+$u$: Wahrscheinlichkeit, dass eine vorteilhafte Mutante, die mit **einer** Kopie startet, nicht sofort bei $p=0$ verloren geht. Schätzung $\hat u$: Anteil der Replikate, die nicht aussterben. Kleines $s$, grosses $N$: oft $u\approx 2s$ (Haldane 1927).
+
+**de novo / stehende Variation / HGT**  
+Drei Wege zu einem rettenden Typ: die Mutation entsteht **jetzt** (de novo); das Allel war schon selten da (stehende Variation); es kommt von aussen (horizontaler Gentransfer). Im Kurs zuerst de novo.
+
+**Evolutionäre Rettung**  
+Eine Population schrumpft unter Stress. Sie wird gerettet, wenn ein angepasster Typ sich **etabliert, bevor** $N$ bei null ist. Gomulkiewicz & Holt (1995); Orr & Unckless (2014). Labor: Bell & Gonzalez (2009), Hefe unter Salz.

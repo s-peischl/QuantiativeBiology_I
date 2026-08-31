@@ -26,18 +26,18 @@ format:
 |-----:|------|---|
 | 1 | Do., **17. Sept. 2026**, 08:15–10:00 Uhr | Einstieg — Bajau → Tibeter:innen |
 | 2 | Do., **24. Sept. 2026**, 08:15–10:00 Uhr | Ökologie |
-| 3 | Do., **1. Okt. 2026**, 08:15–10:00 Uhr | Ausschluss / Bistab. / Food Web |
+| 3 | Do., **1. Okt. 2026**, 08:15–10:00 Uhr | Stabilität · Ausschluss · Food Web |
 | 4 | Do., **8. Okt. 2026**, 08:15–10:00 Uhr | Spieltheorie / RPS · **Checkpoint A** |
-| 5 | Do., **15. Okt. 2026**, 08:15–10:00 Uhr | Evolution (deterministisch) |
-| 6 | Do., **22. Okt. 2026**, 08:15–10:00 Uhr | Evolution (deterministisch) |
-| 7 | Do., **29. Okt. 2026**, 08:15–10:00 Uhr | Evolution (deterministisch) · **Checkpoint B** |
-| 8 | Do., **5. Nov. 2026**, 08:15–10:00 Uhr | Etablierung (ausgehend von deterministischer Selektion) |
-| 9 | Do., **12. Nov. 2026**, 08:15–10:00 Uhr | Etablierungswahrscheinlichkeiten |
-| 10 | Do., **19. Nov. 2026**, 08:15–10:00 Uhr | Evolutionäre Rettung · **Checkpoint C** |
-| 11 | Do., **26. Nov. 2026**, 08:15–10:00 Uhr | Mikrobiom · komplexe Daten einlesen |
-| 12 | Do., **3. Dez. 2026**, 08:15–10:00 Uhr | Mikrobiom · visualisieren |
-| 13 | Do., **10. Dez. 2026**, 08:15–10:00 Uhr | Mikrobiom · visuelle Geschichte · **Checkpoint D** |
-| 14 | Do., **17. Dez. 2026**, 08:15–10:00 Uhr | Abschliessende Synthese |
+| 5 | Do., **15. Okt. 2026**, 08:15–10:00 Uhr | HWE · HapMap · Wahlund |
+| 6 | Do., **22. Okt. 2026**, 08:15–10:00 Uhr | Selektion · lokale Anpassung |
+| 7 | Do., **29. Okt. 2026**, 08:15–10:00 Uhr | Molekulare Diversität · Erhalt |
+| 8 | Do., **5. Nov. 2026**, 08:15–10:00 Uhr | Synthese · **Checkpoint B** |
+| 9 | Do., **12. Nov. 2026**, 08:15–10:00 Uhr | Zufall · Etablierung |
+| 10 | Do., **19. Nov. 2026**, 08:15–10:00 Uhr | Evolutionäre Rettung |
+| 11 | Do., **26. Nov. 2026**, 08:15–10:00 Uhr | Synthese · **Checkpoint C** |
+| 12 | Do., **3. Dez. 2026**, 08:15–10:00 Uhr | Mikrobiom · komplexe Daten einlesen |
+| 13 | Do., **10. Dez. 2026**, 08:15–10:00 Uhr | Mikrobiom · visualisieren |
+| 14 | Do., **17. Dez. 2026**, 08:15–10:00 Uhr | Mikrobiom · visuelle Geschichte · **Checkpoint D** |
 
 ### Biologischer Bogen
 
@@ -49,12 +49,11 @@ format:
 |---|---|---|---|---|
 | **Einstieg** | 1 | Anpassung beim Menschen: Tauchen der Bajau → Höhenlage in Tibet | Frage → Daten → Analyse; Vielfalt quantitativer Methoden in der Biologie | — |
 | **Ökologie** | 2–4 | Populationen und Interaktionen | Deterministische Simulation (Funktion → Vektor → Schleife) | **A · Woche 4** |
-| **Evolution (deterministisch)** | 5–7 | Veränderung der Allelfrequenz, Selektion | Rekursionsgleichungen; dieselbe Programmierlogik | **B · Woche 7** |
-| **Evolution (zufällig)** | 8–10 | Etablierung → evolutionäre Rettung | Stochastische Schicksale; im Labor geprüfte Theorie der evolutionären Rettung | **C · Woche 10** |
-| **Mikrobiom** | 11–13 | Komplexe Datensätze von Gemeinschaften | Hochdimensionale Tabellen einlesen → aufbereiten → visualisieren | **D · Woche 13** |
-| **Synthese** | 14 | Den gesamten Bogen zusammenführen | Reflektieren / optionale kleine Erweiterung | Kurzer Abschluss (nicht die einzige benotete Präsentation) |
+| **Evolution (deterministisch)** | 5–8 | HWE, Selektion, lokale Anpassung, Variation | Rekursionsgleichungen; dieselbe Programmierlogik | **B · Woche 8** |
+| **Evolution (zufällig)** | 9–11 | Etablierung → evolutionäre Rettung | Stochastische Schicksale; im Labor geprüfte Theorie der evolutionären Rettung | **C · Woche 11** |
+| **Mikrobiom** | 12–14 | Komplexe Datensätze von Gemeinschaften | Hochdimensionale Tabellen einlesen → aufbereiten → visualisieren | **D · Woche 14** |
 
-**Kernaussage des Semesters:** deterministische ökologische Dynamik → evolutionäre Veränderung (zunächst gleichmässig, dann Etablierung/Rettung unter Zufallseinfluss) → Rückkehr zur Ökologie in Form **komplexer Daten**, die sorgfältig eingelesen und visualisiert werden müssen.
+**Kernaussage des Semesters:** deterministische ökologische Dynamik → evolutionäre Veränderung (zunächst gleichmässig, dann Etablierung/Rettung unter Zufallseinfluss) → Rückkehr zur Ökologie in Form **komplexer Daten**, die sorgfältig eingelesen und visualisiert werden müssen. Checkpoint D in Woche 14 trägt die kurze Synthese mit.
 
 ### Prüfungsrhythmus (Präsentationen über das Semester verteilt) {#assessment-rhythm-presentations-throughout}
 
@@ -66,12 +65,11 @@ Anstelle einer einzigen grossen Abschlusspräsentation: **vier Checkpoints** (A�
 | Checkpoint | Zeitpunkt | Thema | Praktische Arbeit | Präsentation (kurz) |
 |---|---|---|---|---|
 | **A** | Woche **4** · **8. Okt. 2026** | Ökologie / Spieltheorie | 3-Spieler-RPS; Punkt / Oszillation / Heteroklin | ~2–3 Min.: Matrix → Plot → Form → warum 3 Strategien |
-| **B** | Woche **7** · **29. Okt. 2026** | Evolution (deterministisch) | Vergleich von Selektionsregimen ($p_t$-Verläufe) | Gleiches Format; Schwerpunkt auf Rekursion / Gleichgewichten |
-| **C** | Woche **10** · **19. Nov. 2026** | Evolutionäre Rettung | Simulation von Rettung / Etablierung + Bezug zu einem Laborergebnis | Wann passt sich eine schrumpfende Population rechtzeitig an? |
-| **D** | Woche **13** · **10. Dez. 2026** | Visualisierung von Mikrobiomdaten | Eine reale Gemeinschaftstabelle einlesen und visualisieren; eine klare visuelle Geschichte | Was das Diagramm zeigt — und was **nicht** |
-| Abschluss | Woche **14** · **17. Dez. 2026** | Synthese | Optionale Überarbeitung / Peer-Feedback / Aufräumen in ILIAS | Keine fünfte Präsentation mit hohem Gewicht — A–D miteinander verbinden |
+| **B** | Woche **8** · **5. Nov. 2026** | Evolution (deterministisch) | Eine Frage zu Sweep, lokaler Anpassung oder Variationserhalt | Gleiches Format; Schwerpunkt auf Rekursion / Gleichgewichten |
+| **C** | Woche **11** · **26. Nov. 2026** | Evolutionäre Rettung | Simulation von Rettung / Etablierung + Bezug zu einem Laborergebnis | Wann passt sich eine schrumpfende Population rechtzeitig an? |
+| **D** | Woche **14** · **17. Dez. 2026** | Visualisierung von Mikrobiomdaten | Eine reale Gemeinschaftstabelle einlesen und visualisieren; eine klare visuelle Geschichte | Was das Diagramm zeigt — und was **nicht** |
 
-**Präsenz:** An Checkpoint-Terminen (**Wochen 4, 7, 10, 13**) müssen Studierende **anwesend sein und präsentieren**. Modul 1: [Überblick Wochen 1–4](module-01-overview.qmd).
+**Präsenz:** An Checkpoint-Terminen (**Wochen 4, 8, 11, 14**) müssen Studierende **anwesend sein und präsentieren**. Modul 1: [Überblick Wochen 1–4](module-01-overview.qmd). Modul 2: [Überblick Wochen 5–8](module-02-overview.qmd). Modul 3: [Überblick Wochen 9–11](module-03-overview.qmd). [Glossar](glossary.qmd).
 
 **Vorgaben für Präsentationen (alle Checkpoints):**
 
@@ -100,16 +98,16 @@ Fusszeile → Kursplan / Startseite · Links zur ersten und letzten Woche · **M
 
 **Wann:** Do., 17. Sept. 2026, 08:15–10:00 Uhr  
 **Biologie:** Tauchen der Bajau (Andika) → tibetische Höhenlage (EPAS1 / Denisova-ähnlich)  
-**Materialien:** [Folien](../weeks/week-01/slides.qmd) · [Notebook](../weeks/week-01/notebook.qmd) · [Aufgabe](../weeks/week-01/assignment.qmd) · [Glossar](../weeks/week-01/glossary.qmd)
+**Materialien:** [Folien](../weeks/week-01/slides.qmd) · [Notebook](../weeks/week-01/notebook.qmd) · [Aufgabe](../weeks/week-01/assignment.qmd) · [Glossar](glossary.qmd)
 
+- **Sitzung:** 2 × 45 min Vorlesung (kein Notebook in der Sitzung); Pause nach Bajau
 - Einstieg: Darwin → **Zeitlinie** → Beispiele (**Statistik:** Regression, Simpson; **Öko/Evo:** Lotka–Volterra; **Bioinformatik:** Sequenzdaten / de Bruijn)
-- Framing: **Frage → Daten / Experiment → Analyse** (keine «Werkzeugkasten»-Rhetorik)
-- Persönliche Geschichte + Foto (Andika / Bajau)
+- Das Beispiel zwingt zur Mathematik: *warum* die Zahlen; Ableiten in anderen Vorlesungen
 - **Bajau:** Milzdaten (Statistik) → Genome (Assembly) → Sweep-Scan; PDE10A, BDKRB2 — **ohne** Denisova
 - **Tibet:** EPAS1 Denisova-ähnlich; Alternativen (Konvergenz, ILS); Simulation & Modellvergleich
 - **Abschluss:** Glossar — *Population*, *Gen*, *Generation*, *Selektion*
 - Publikationen: Ilardo et al. 2018 *Cell*; Ilardo et al. 2021 *Front. Physiol.*; Huerta-Sánchez et al. 2014 *Nature*
-- Modul-Überblick: [Modul 1](module-01-overview.qmd) · Bewertung: [Allgemeine Informationen](general-info.qmd)
+- Modul-Überblick: [Modul 1](module-01-overview.qmd) · [Modul 2](module-02-overview.qmd) · [Modul 3](module-03-overview.qmd) · [Glossar](glossary.qmd)
 
 ---
 
@@ -130,15 +128,18 @@ Grundprinzip: biologische Regel → **additive Differenzengleichung** $X_{t+1}=X
 - Daten in `weeks/week-02/data/`
 - Notebook: Übungsblöcke (Pipeline üben)
 
-### Woche 3 — Ausschluss, Bistabilität, Food-Web-Stabilisierung
+### Woche 3 — Stabilität: ein Endpunkt, zwei Endpunkte, Food Webs
 **Wann:** Do., 1. Okt. 2026, 08:15–10:00 Uhr  
 **Materialien:** [Folien](../weeks/week-03/slides.qmd) · [Notebook](../weeks/week-03/notebook.qmd) · [Aufgabe](../weeks/week-03/assignment.qmd)
 
-- Modelle als **additive Differenzengleichungen**; bei jedem Modell Parametertabelle + Wertebereich
-- **Competitive exclusion (Konkurrenzausschluss):** *Paramecium* (Gause) + LV-Modell — stärkere Art gewinnt unabhängig vom Start
-- **Bistabilität:** $\alpha$ drehen → Start entscheidet; Grasland/Wald als Bio-Lesart (Literatur, keine Kursdaten); Stabilitätsformen mit konkreten Beispielen (Punkt / Bistabil / Zyklus)
-- **Food Web:** Aspen + Sage + Elk (+ Wolf) — Elk erzeugt Exclusion von Aspen; Wolf stabilisiert Aspen (Elk bleibt mittel); optional reicheres Netz (+Kojote, +Biber)
-- **Qualitativer Ausblick:** Paine 1966 (Keystone-*Pisaster*) und Smith et al. 2021 PNAS (Seeotter–Seeigel–Kelp-Mosaik) — ohne Modell
+- **Sitzung:** ~45 min Vorlesung + ~45 min Notebook (Spielraum)
+- **Brücke Woche 2:** Räuber–Beute nur als Persistenz auf der beobachteten Zeitskala; keine erneute Simulation
+- Arbeitsbegriffe: **Gleichgewicht**, Rückkehr nach kleiner Störung, **Einzugsgebiet**
+- Modellterme biologisch lesen: $rN$ (eine Art), $N^2$ (innerartliches Gedränge), $N_iN_j$ (Begegnung zweier Arten)
+- **Konkurrenzausschluss:** *Paramecium* (Gause) + LV — für positive Starts derselbe stabile Endpunkt
+- **Bistabilität:** zwei Einzugsgebiete; Beckengrenze und instabiler Sattelpunkt; Grasland/Wald als Analogie
+- **Food Web:** vereinfachte Yellowstone-Kaskade; 4-Knoten-Kern Aspen + Sage + Elch + Wolf; Paine und Smith et al. als knappe Empirie
+- **Regime Shift (kurz):** Ökologie und Evolution oft auf ähnlichen Zeitskalen, aber verschoben — Umwelt jetzt, Merkmal danach, Zustand später; Chaparro-Pedraza & de Roos (2020)
 
 ### Woche 4 — Spieltheorie, RPS & **Checkpoint A**
 **Wann:** Do., 8. Okt. 2026, 08:15–10:00 Uhr  
@@ -153,81 +154,101 @@ Grundprinzip: biologische Regel → **additive Differenzengleichung** $X_{t+1}=X
 
 ---
 
-## Evolution — deterministisch (Wochen 5–7) → Checkpoint B
+## Evolution — deterministisch (Wochen 5–8) → Checkpoint B
 
-Dasselbe Grundprinzip; Untersuchungsobjekt = **Allelfrequenz** $p_t$.
+**[Modul 2](module-02-overview.qmd)** — Allelfrequenz und Selektion.
 
-### Woche 5 — Allelfrequenzen als Zeitreihen
+Untersuchungsobjekt wechselt von Populationsgrösse zu **Allelfrequenz** $p$
+und Genotypzahlen. Das **Beispiel** zuerst; Mathematik erklärt, *warum* die
+Kurven so aussehen. Ableiten und Tests: andere Vorlesungen.
+
+### Woche 5 — Hardy–Weinberg und Wahlund
 **Wann:** Do., 15. Okt. 2026, 08:15–10:00 Uhr  
 **Materialien:** [Folien](../weeks/week-05/slides.qmd) · [Notebook](../weeks/week-05/notebook.qmd) · [Aufgabe](../weeks/week-05/assignment.qmd)
 
-- Vektoren für $p_t$; Selektionsrekursion $p_{t+1}=f(p_t)$; Funktion für eine Generation
+- **Sitzung:** ~45 min Vorlesung + ~45 min Notebook (Spielraum)
+- SNP, Locus, Allel, Genotyp; HapMap-Muster; HWE als Nullbild ($\chi^2$ → Statistik)
+- CEU+YRI gepoolt: Ausreisser, Diskussion, was ist eine Population?
+- Getrennt: HWE passt wieder (Wahlund); Duffy $p\approx 0$ vs. $p\approx 1$ als Teaser für Woche 6
 
-### Woche 6 — Selektionsregime
+### Woche 6 — Selektion und lokale Anpassung
 **Wann:** Do., 22. Okt. 2026, 08:15–10:00 Uhr  
 **Materialien:** [Folien](../weeks/week-06/slides.qmd) · [Notebook](../weeks/week-06/notebook.qmd) · [Aufgabe](../weeks/week-06/assignment.qmd)
 
-- Viele Generationen; Regime vergleichen; Gleichgewichte / Verläufe
+- **Sitzung:** ~45 min Vorlesung + ~45 min Notebook (Spielraum)
+- Empirie: genetische Unterschiede beim Stichling (Meer/See) trotz Verbindung
+- $F_{ST}$-Scan nur als **Motiv**; Schätzer und Tests → Statistikvorlesung (das Bild brauchen Sie dort)
+- Zentral: **stabile** $p_1\neq p_2$ sind möglich; sonst Gene swamping
 
-### Woche 7 — Grenzen der deterministischen Evolution + **Checkpoint B**
+### Woche 7 — Wie bleibt Variation erhalten?
 **Wann:** Do., 29. Okt. 2026, 08:15–10:00 Uhr  
 **Materialien:** [Folien](../weeks/week-07/slides.qmd) · [Notebook](../weeks/week-07/notebook.qmd) · [Aufgabe](../weeks/week-07/assignment.qmd)
 
-- Gleichmässiges $p_t$ als durchschnittliches Verhalten; Zufall als nächsten Aspekt motivieren
-- **Checkpoint B:** ≥2 Selektionsregime vergleichen; eine Abbildung präsentieren und erläutern, wann die deterministische Beschreibung nicht ausreicht
-- Brücke zum nächsten Thema: Ein vorteilhaftes Allel, das als **einzelne Kopie** auftritt, etabliert sich möglicherweise nie — selbst wenn die Selektion im Durchschnitt «stark» ist
+- **Sitzung:** ~45 min Vorlesung + ~45 min Notebook (Spielraum)
+- Diversitätsparadoxon (1966); Kimura und Gillespie; Neutralisten vs. Selektionisten
+- Selektion als Ursache: Überdominanz hält, Unterdominanz nicht
+- Isolation und räumliche Selektion (Woche 6) halten Diversität zwischen Orten
+- Zeitlich fluktuierende Selektion (eine Population, nacheinander): *Drosophila*-Saisons (Bergland, Wittmann, Rudman)
+- Parameter $L$ (Saisonlänge): wann bleibt Polymorphismus, wann Rand?
+
+### Woche 8 — Synthese und **Checkpoint B**
+**Wann:** Do., 5. Nov. 2026, 08:15–10:00 Uhr  
+**Materialien:** [Folien](../weeks/week-08/slides.qmd) · [Notebook](../weeks/week-08/notebook.qmd) · [Aufgabe](../weeks/week-08/assignment.qmd)
+
+- Foto-Landkarte der Fragen aus Wochen 5–7; was Mathe/Statistik/Code geleistet hat
+- **Checkpoint B:** eine biologische Frage (Resistenz, Habitate, Variation/$L$); eine Abbildung + 3–5-Min-Vortrag
+- Brücke: eine neue Mutation beginnt mit einer Kopie — Zufall ab Woche 9
 
 ---
 
-## Evolution — zufällig (Wochen 8–10) → Checkpoint C
+## Evolution — zufällig (Wochen 9–11) → Checkpoint C
+
+**[Modul 3](module-03-overview.qmd)** — Zufall, Etablierung, Rettung.
 
 **Didaktischer Bogen:** deterministische Selektion → **Etablierungswahrscheinlichkeiten** → **evolutionäre Rettung** (eine im Labor umfassend geprüfte populationsgenetische Theorie).
 
 Dieselbe Programmierlogik wie zuvor; neues Untersuchungsobjekt = **Schicksal seltener vorteilhafter Typen** (überleben oder verloren gehen), danach **Fortbestand der Population** unter Stress.
 
-### Woche 8 — Von deterministischer Selektion zur Etablierung
-**Wann:** Do., 5. Nov. 2026, 08:15–10:00 Uhr  
-**Materialien:** [Folien](../weeks/week-08/slides.qmd) · [Notebook](../weeks/week-08/notebook.qmd) · [Aufgabe](../weeks/week-08/assignment.qmd)
-
-- Rückblick auf die Wochen 5–7: gleichmässiges $p_t$, wenn bereits viele Kopien segregieren
-- Kernaussage: Eine **neue** vorteilhafte Mutante beginnt mit einer Kopie — der Zufall entscheidet über ihr frühes Schicksal
-- Einführung der **Etablierungswahrscheinlichkeit** (Intuition: Verzweigungsprozess / viele gescheiterte Anläufe)
-- Simulation: viele unabhängige Einführungen; Anteil, der sich «durchsetzt»
-- Weiterhin optional: klassisches $u \approx 2s$ als Vergleichswert (haploid / schwache Selektion)
-
-### Woche 9 — Etablierungswahrscheinlichkeiten im Code
+### Woche 9 — Zufall und Etablierung
 **Wann:** Do., 12. Nov. 2026, 08:15–10:00 Uhr  
 **Materialien:** [Folien](../weeks/week-09/slides.qmd) · [Notebook](../weeks/week-09/notebook.qmd) · [Aufgabe](../weeks/week-09/assignment.qmd)
 
-- Einen Etablierungssimulator erstellen / verfeinern (Schleife über Wiederholungen; Ergebnisse in einem Vektor/einer Matrix speichern)
-- Untersuchen, wie die Etablierung vom Selektionskoeffizienten $s$, von der Populationsgrösse und von der anfänglichen Kopienzahl abhängt
-- Simulationsschätzungen mit einem einfachen analytischen Referenzwert vergleichen
-- Biologische Interpretation: Warum «Mutationsangebot × Etablierung» für die Anpassung ausgehend von einer neuen Mutation wichtig ist
+- **Sitzung:** ~45 min Vorlesung + ~45 min Notebook (Spielraum)
+- Bis hier Zufall ignoriert. Aufhänger: evolutionäre Rettung (Klima, Pestizid, Behandlungsresistenz); Bell & Gonzalez (2009)
+- Zwei Ausgänge: aussterben oder überleben. Deterministisch sagen die Parameter den Endpunkt — unrealistisch
+- Fokus **de novo** (stehende Variation und HGT nur genannt)
+- Zufallszahlen: `set.seed`, `rbinom`; Einbau in haploides $p$-Modell mit Selektion
+- Etablierungswahrscheinlichkeit $\hat u$; Vergleich $u\approx 2s$ (Haldane; Otto & Whitlock; Peischl & Kirkpatrick)
 
-### Woche 10 — Evolutionäre Rettung + **Checkpoint C**
+### Woche 10 — Evolutionäre Rettung
 **Wann:** Do., 19. Nov. 2026, 08:15–10:00 Uhr  
 **Materialien:** [Folien](../weeks/week-10/slides.qmd) · [Notebook](../weeks/week-10/notebook.qmd) · [Aufgabe](../weeks/week-10/assignment.qmd)
 
-- **Biologie:** Eine Population schrumpft unter Umweltstress; die Anpassung muss sich **vor dem Aussterben** etablieren
-- Minimales Rettungsmodell: Demografie (Rückgang) + seltene vorteilhafte / resistente Typen + Etablierung
-- **Bezug zum Labor:** Die evolutionäre Rettung gehört zu den populationsgenetischen Konzepten, die an Mikroorganismen (Hefen, Bakterien) unter kontrolliertem Stress besonders umfassend geprüft wurden
-  - Klassische Theorie: Gomulkiewicz & Holt; Orr & Unckless usw.
-  - Experimente: z. B. Bell & Gonzalez und verwandte Versuche zur mikrobiellen Rettung / Persistenz (in den Folien genau zitieren)
-- **Checkpoint C:** ein Rettungsszenario simulieren; präsentieren: (1) Frage, (2) Ergebnisse für Etablierung bzw. Aussterben, (3) eine Abbildung, (4) was ein Laborexperiment messen würde
+- **Sitzung:** ~45 min Vorlesung + ~45 min Notebook (Spielraum)
+- Demografie zuerst **deterministisch**, Mutation und Etablierung zufällig
+- Gomulkiewicz & Holt (1995); Orr & Unckless (2014): $\Pr(R)\approx 1-\exp(-2 N_0 U s/r)$ neben die Simulation
+- Bell & Gonzalez (2009): Schwelle in $N_0$ bestätigt den Schlüsselfaktor
+- Ausblick: Rettung im Raum (Bell & Gonzalez 2011; Uecker et al. 2014); mit Interaktionen (Osmond & de Mazancourt 2013)
+
+### Woche 11 — Synthese und **Checkpoint C**
+**Wann:** Do., 26. Nov. 2026, 08:15–10:00 Uhr  
+**Materialien:** [Folien](../weeks/week-11/slides.qmd) · [Notebook](../weeks/week-11/notebook.qmd) · [Aufgabe](../weeks/week-11/assignment.qmd)
+
+- Foto-Landkarte der Fragen aus Wochen 9–10
+- **Checkpoint C:** eine biologische Frage ($r$, $s$ oder $N_0$); eine Abbildung + 3–5-Min-Vortrag; Laborbezug
+- **Präsenzpflicht** — siehe [Modul 3](module-03-overview.qmd)
 
 ---
 
-## Mikrobiom — komplexe Daten einlesen und visualisieren (Wochen 11–13) → Checkpoint D
+## Mikrobiom — komplexe Daten einlesen und visualisieren (Wochen 12–14) → Checkpoint D
 
 Rückkehr zur **Ökologie**, doch nun liegt der praktische Engpass bei **hochdimensionalen, unübersichtlichen Tabellen**.
 
-**Didaktischer Bogen:** komplexe Daten einlesen → explorative Visualisierung → eine benotete visuelle Geschichte (Checkpoint D).
+**Didaktischer Bogen:** komplexe Daten einlesen → explorative Visualisierung → eine benotete visuelle Geschichte (Checkpoint D). Kurze Semestersynthese in derselben Sitzung.
 
-Damit lassen sich gut 2–3 Wochen füllen: Dateiformate, Abundanzmatrizen, Verknüpfung von Metadaten, relative und absolute Abundanzen, Zusammensetzungsdiagramme, Heatmaps, Facettierung nach Wirt/Ort/Zeit und ehrliche Bildlegenden.
-
-### Woche 11 — Komplexe Mikrobiomdaten einlesen
-**Wann:** Do., 26. Nov. 2026, 08:15–10:00 Uhr  
-**Materialien:** [Folien](../weeks/week-11/slides.qmd) · [Notebook](../weeks/week-11/notebook.qmd) · [Aufgabe](../weeks/week-11/assignment.qmd)
+### Woche 12 — Komplexe Mikrobiomdaten einlesen
+**Wann:** Do., 3. Dez. 2026, 08:15–10:00 Uhr  
+**Materialien:** [Folien](../weeks/week-12/slides.qmd) · [Notebook](../weeks/week-12/notebook.qmd) · [Aufgabe](../weeks/week-12/assignment.qmd)
 
 - Aufbau eines Mikrobiomdatensatzes: Proben × Taxa (+ Taxonomie) + **Metadaten**
 - CSV/TSV einlesen (und BIOM- / QIIME-artige Exporte als Formate erwähnen, die «in der Praxis vorkommen»)
@@ -235,34 +256,23 @@ Damit lassen sich gut 2–3 Wochen füllen: Dateiformate, Abundanzmatrizen, Verk
 - Plausibilitätsprüfungen: Bibliotheksgrösse, fehlende Werte, vereinzelte Nullen, nicht übereinstimmende Proben-IDs
 - Zunächst nur numerische Zusammenfassungen (Gesamtsummen pro Probe) — **Diagramme folgen nächste Woche**
 
-### Woche 12 — Gemeinschaftsdaten visualisieren
-**Wann:** Do., 3. Dez. 2026, 08:15–10:00 Uhr  
-**Materialien:** [Folien](../weeks/week-12/slides.qmd) · [Notebook](../weeks/week-12/notebook.qmd) · [Aufgabe](../weeks/week-12/assignment.qmd)
+### Woche 13 — Gemeinschaftsdaten visualisieren
+**Wann:** Do., 10. Dez. 2026, 08:15–10:00 Uhr  
+**Materialien:** [Folien](../weeks/week-13/slides.qmd) · [Notebook](../weeks/week-13/notebook.qmd) · [Aufgabe](../weeks/week-13/assignment.qmd)
 
 - «Grammar of Graphics» für viele Taxa: geeignete **Aggregationen** wählen (häufigste Taxa, Zusammenfassung auf Phylum-Ebene)
 - Zentrale Diagrammtypen: gestapelte Zusammensetzung, Heatmap, Facettierung nach Gruppe/Zeit, bei Bedarf einfache Balkendiagramme zur Diversität
 - Visuelle Fallstricke: Reihenfolge, zu viele Farben, Einschränkungen kompositioneller Daten, logarithmische Skalen
 - Brücke zur Programmierung: Vektoren/Matrizen wiederverwenden; wiederverwendbare Plotfunktionen erstellen
 
-### Woche 13 — Eine visuelle Geschichte + **Checkpoint D**
-**Wann:** Do., 10. Dez. 2026, 08:15–10:00 Uhr  
-**Materialien:** [Folien](../weeks/week-13/slides.qmd) · [Notebook](../weeks/week-13/notebook.qmd) · [Aufgabe](../weeks/week-13/assignment.qmd)
-
-- Gruppen oder Zeitpunkte anhand einer **kleinen Auswahl an Abbildungen** vergleichen (keine ziellose Suche nach Mustern)
-- Optionale einfache Zusammenfassungen (Artenreichtum / einfache Beta-Diversitätsvisualisierung) nur, soweit sie die Geschichte unterstützen
-- **Checkpoint D:** einlesen → bereinigen → visualisieren → eine klare Aussage mitsamt Einschränkungen präsentieren
-- Schwerpunkt: Qualität der visuellen Kommunikation > exotische Methoden
-
----
-
-## Woche 14 — Synthese (kurzer Abschluss)
-
+### Woche 14 — Eine visuelle Geschichte + **Checkpoint D**
 **Wann:** Do., 17. Dez. 2026, 08:15–10:00 Uhr  
 **Materialien:** [Folien](../weeks/week-14/slides.qmd) · [Notebook](../weeks/week-14/notebook.qmd) · [Aufgabe](../weeks/week-14/assignment.qmd)
 
-- Die Checkpoints **A–D** zu einer Gesamtgeschichte verbinden (Öko-Modelle → Evo → Etablierung/Rettung → **Visualisierung von Mikrobiomdaten**)
-- Optional: einen Checkpoint für eine Galerie / ein ILIAS-Portfolio überarbeiten
-- **Nicht** die einzige benotete Präsentation des Kurses — diese fanden bereits in den Wochen 4, 7, 10 und 13 statt
+- Gruppen oder Zeitpunkte anhand einer **kleinen Auswahl an Abbildungen** vergleichen
+- **Checkpoint D:** einlesen → bereinigen → visualisieren → eine klare Aussage mitsamt Einschränkungen präsentieren
+- Kurze Synthese: Checkpoints **A–D** verbinden — keine fünfte Präsentation
+- Schwerpunkt: Qualität der visuellen Kommunikation > exotische Methoden
 
 ---
 
@@ -271,10 +281,9 @@ Damit lassen sich gut 2–3 Wochen füllen: Dateiformate, Abundanzmatrizen, Verk
 ```text
 1           Einstieg (Tauchen der Bajau → tibetische Höhenlage)
 2–4         Ökologie                         → Checkpoint A (8. Okt.)
-5–7         Evolution (deterministisch)      → Checkpoint B (29. Okt.)
-8–10        Etablierung → Rettung            → Checkpoint C (19. Nov.)
-11–13       Mikrobiom: einlesen → visualisieren → Geschichte → Checkpoint D (10. Dez.)
-14          Synthese / Portfolio-Abschluss
+5–8         Evolution (deterministisch)      → Checkpoint B (5. Nov.)
+9–11        Etablierung → Rettung            → Checkpoint C (26. Nov.)
+12–14       Mikrobiom: einlesen → visualisieren → Geschichte → Checkpoint D (17. Dez.)
 ```
 
 ## Prioritäten für Mitwirkende
@@ -282,9 +291,9 @@ Damit lassen sich gut 2–3 Wochen füllen: Dateiformate, Abundanzmatrizen, Verk
 | Priorität | Wochen | Schwerpunkt |
 |---|---|---|
 | Höchste | 2–4 | Einstiege in die Ökologie + Bewertungskriterien für praktische Arbeit/Präsentation von **Checkpoint A** |
-| Hoch | 5–7 | Arbeitsablauf zur Allelfrequenz + **Checkpoint B** |
-| Hoch | 8–10 | Etablierung → **evolutionäre Rettung** (+ Laborpublikationen) + **Checkpoint C** |
-| Danach | 11–14 | **Mikrobiomtabellen einlesen/visualisieren** + **Checkpoint D** + Abschluss in Woche 14 |
+| Hoch | 5–8 | Arbeitsablauf zur Allelfrequenz + **Checkpoint B** |
+| Hoch | 9–11 | Etablierung → **evolutionäre Rettung** (+ Laborpublikationen) + **Checkpoint C** |
+| Danach | 12–14 | **Mikrobiomtabellen einlesen/visualisieren** + **Checkpoint D** |
 
 ## Materialübersicht
 

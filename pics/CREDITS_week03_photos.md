@@ -17,3 +17,7 @@ Course diagrams (not photos): `pics/foodweb/*.svg`, `pics/comics/comic_stability
 Keystone / cascade finale (Woche 3): see `pics/keystone/CREDITS.md` (Paine / Smith et al. qualitative examples).
 
 Existing course photos reused: `organisms/didinium_eating_paramecium.jpg`, `biology/lotka_volterra_cycles.png`.
+
+Paper figure: `papers/chaparro-fig2.png` is a teaching crop of Fig. 2 from
+Chaparro-Pedraza & de Roos (2020), *Nature Ecology & Evolution* 4: 412–418,
+https://doi.org/10.1038/s41559-020-1110-0.

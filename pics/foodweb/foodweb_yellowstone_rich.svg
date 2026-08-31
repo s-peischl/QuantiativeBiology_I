@@ -57,6 +57,6 @@
   <text x="250" y="220" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#7f8c8d">Beute-Ueberlapp</text>
 
   <rect x="40" y="480" width="920" height="55" rx="10" fill="#eaf2fb" stroke="#2980b9" stroke-width="1.5"/>
-  <text x="500" y="505" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1a5276">Unterricht: 4 Knoten (Aspen-Sage-Elk-Wolf) · Erweiterung: +Kojote +Biber (Simulation)</text>
+  <text x="500" y="505" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1a5276">Unterricht: 4 Knoten (Aspen-Sage-Elch-Wolf) · Erweiterung: +Kojote +Biber (Simulation)</text>
   <text x="500" y="525" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5d6d7e">Ripple &amp; Beschta u.a.; Daten hier: Wolf + Elch (compiled published)</text>
 </svg>

@@ -1,22 +1,52 @@
 ---
-title: "Woche 5 — Aufgabe · Evolution: Allelfrequenzen als Zeitreihen"
+title: "Woche 5 — Aufgabe"
+subtitle: "HapMap-Muster und Wahlund-Effekt"
 format:
   html:
-    toc: false
+    toc: true
+    css: ../../styles.scss
 ---
 
-## Aufgabenstellung
+## Abgabe
 
-Bearbeiten Sie die biologische Frage mithilfe des Notebooks dieser Woche.
+Kurzes gerendertes Dokument (`.html` oder `.pdf`) mit Code, Abbildungen
+und Antworten. Laufzeit: **base R**, lokale Dateien in `data/`.
 
-## Abzugebende Ergebnisse
+## Teil 1 — Das HapMap-Muster
 
-1. Gerendertes Notebook (`.html`) oder gleichwertiges Format
-2. Eine zentrale Abbildung mit Bildunterschrift
-3. Kurze Interpretation (120–180 Wörter)
+1. Plotten Sie für die 225 CHB-SNPs die beobachteten Genotypfrequenzen
+   gegen $p$ zusammen mit den HWE-Kurven $p^2$, $2pq$, $q^2$.
+2. Erklären Sie in 4–6 Sätzen: **Welche Frage beantwortet das Modell?**
+   Warum liegen die Punkte nahe an den Kurven?
+3. Wählen Sie `SNP_200` und vergleichen Sie beobachtete Genotypzahlen
+   mit $N\hat p^2$, $2N\hat p\hat q$, $N\hat q^2$ (ohne Teststatistik).
+4. Nennen Sie **drei** Faktoren, die HWE verletzen können — nicht nur
+   Selektion.
 
-## Kriterien
+## Teil 2 — Wahlund
 
-- Reproduzierbarkeit (40%)
-- Biologische Interpretation (40%)
-- Klarheit (20%)
+Verwenden Sie `data/panel_ceu_yri.csv` und **einen** SNP aus
+`data/famous_snps.csv` (Duffy `rs2814778` oder Laktase `rs4988235`).
+
+1. Behandeln Sie CEU und YRI zuerst als **eine** Stichprobe. Derselbe
+   HWE-Plot wie in Teil 1.
+2. Dieselben SNPs **getrennt** nach Population: zwei HWE-Plots
+   (CEU, YRI).
+3. Interpretation (120–180 Wörter):
+   - Welche Abweichung sehen Sie im Pool, und was ändert sich nach dem
+     Trennen?
+   - Was ist der Wahlund-Effekt?
+   - Was bleibt biologisch spannend an Duffy/Laktase, auch wenn die
+     Abweichung im Pool von der Mischung kommt?
+
+## Bewertung
+
+- HapMap-Abbildung und Modelllesart: **35%**
+- Wahlund-Plots (gepoolt, dann getrennt): **35%**
+- Diskussion der Abweichungsursachen: **20%**
+- Reproduzierbarkeit: **10%**
+
+## Datenquellen
+
+HapMap Consortium (2007); 1000 Genomes Project Consortium (2015);
+Wahlund (1928) — Angaben in den [Folien](slides.qmd#literatur).

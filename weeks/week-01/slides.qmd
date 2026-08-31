@@ -10,6 +10,7 @@ format:
     slide-number: true
     incremental: false
     embed-resources: true
+    auto-stretch: false
     transition: none
     controls: true
     controls-layout: edges
@@ -19,7 +20,7 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html)"
+    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html) · [Glossar](../../docs/glossary.html)"
 execute:
   echo: false
   warning: false
@@ -30,7 +31,13 @@ execute:
 
 **Woche 1** von 14 · **Do., 17. Sept. 2026, 08:15–10:00**
 
-[Kursplan](../../docs/course-outline.html) · [Start](../../index.html) · [Glossar](glossary.html)
+| Teil | Dauer | Was |
+|------|-------|-----|
+| 1. Hälfte | ~45 min | Warum quantitative Biologie? · Bajau |
+| Pause | ~5 min | |
+| 2. Hälfte | ~45 min | Tibet · vier Kursbegriffe |
+
+Kein Notebook in der Sitzung. [Glossar](../../docs/glossary.html)
 
 ::: aside
 Pfeiltasten · **M** Menü · **Esc** Übersicht
@@ -55,7 +62,7 @@ Pfeiltasten · **M** Menü · **Esc** Übersicht
 
 -   Quantitative Biologie I — parallel zu **R-Programmierung**
 -   Dort: *wie* man code schreibt · Hier: *welche Fragen* Biologie stellt — und wo Mathematik, Statistik, Algorithmen **natürlich** auftauchen
--   Do **08:15–10:00** · Kurzvorträge Wochen **4, 7, 10, 13**
+-   Do **08:15–10:00** · Kurzvorträge Wochen **4, 8, 11, 14**
 -   [KI-Richtlinie](../../docs/ai-policy.html)
 
 ## Lernziele (Woche 1 = Einführung)
@@ -66,11 +73,16 @@ Am Ende sollen Sie **sehen** — nicht alles können:
 eine biologische **Frage** → sinnvolle **Daten / Experimente** → wo quantitative Methoden ins Spiel kommen.  
 Kein Leistungsdruck heute: Orientierung und Neugier.
 
-::: aside
-[Modul 1](../../docs/module-01-overview.html) · [Infos](../../docs/general-info.html)
-:::
+## Heute in dieser Reihenfolge
 
-------------------------------------------------------------------------
+1. Warum Mathematik in der Biologie?
+2. Bajau: eine Frage, mehrere Ebenen
+3. Tibet: dieselbe Logik, schärfere Frage
+4. Was müssen wir festlegen: Population, Gen, Generation, Selektion?
+
+::: aside
+[Modul 1](../../docs/module-01-overview.html) · [Glossar](../../docs/glossary.html)
+:::
 
 # Einstieg · Warum quantitative Biologie?
 
@@ -98,6 +110,9 @@ Darwin Online / *Life and Letters*; gemeinfrei
 
 Punkt: Selbst Darwin sah Mathematik als **Hilfe für die Biologie** — nicht als Fremdkörper.
 
+In diesem Kurs: das **Beispiel** zwingt zur Mathematik. Heute sehen Sie
+*warum*. Ableiten kommt später — dort sitzen Sie nicht verloren.
+
 ## Zeitlinie (Überblick)
 
 ![](../../pics/biology/history_quant_bio_timeline.svg){fig-alt="Zeitlinie quantitative Biologie" width="92%"}
@@ -105,8 +120,6 @@ Punkt: Selbst Darwin sah Mathematik als **Hilfe für die Biologie** — nicht al
 Drei Stränge, die heute selbstverständlich wirken — jeweils mit einem Beispiel:
 
 **Statistik** · **Ökologie / Evolution** · **Bioinformatik**
-
-------------------------------------------------------------------------
 
 # Beispiel · Statistik
 
@@ -170,8 +183,6 @@ Unterschied: die **Frage** (ignorieren wir Struktur — oder nicht?).
 
 Deshalb: Kontext, Annahmen, Gruppierung — bevor man «den Daten folgt».
 
-------------------------------------------------------------------------
-
 # Beispiel · Ökologie & Evolution
 
 ## Mathematik als Sprache für Dynamik
@@ -199,8 +210,6 @@ Klassische Idee: Beute und Räuber oszillieren — im Phasenraum ein **Zyklus**.
 
 Heute: nur **sehen**, dass solche Modelle existieren. Ab Woche 2: selber bauen.
 
-------------------------------------------------------------------------
-
 # Beispiel · Bioinformatik
 
 ## Sequenzdaten → Algorithmen
@@ -227,18 +236,13 @@ Bajau- und Tibet-Geschichten brauchen genau das.
 
 Punkt: Biologie erzeugt hier ein **Rechenproblem** — nicht nur eine Laborfrage.
 
-------------------------------------------------------------------------
-
 # Heute weiter: zwei Geschichten
 
 ## Der grosse Bogen heute
 
-![](../../pics/biology/session_roadmap_week01.svg){fig-alt="Kreislauf Beobachtung Frage Analyse Biologie" width="88%"}
+![](../../pics/biology/session_roadmap_week01.svg){fig-alt="Kreislauf Beobachtung Frage Analyse Biologie" width="82%"}
 
-**Beobachtung → Frage → Analyse / Modell → zurück zur Biologie** — und von vorn.
-
-Bajau und Tibet stehen für sich.  
-Jeweils: Was ist die Frage? Welche Daten könnten helfen? Wo greifen Statistik, Algorithmen, Modelle?
+**Beobachtung → Frage → Analyse / Modell → zurück zur Biologie**
 
 ## Sitzungsablauf (A–D)
 
@@ -248,8 +252,6 @@ Jeweils: Was ist die Frage? Welche Daten könnten helfen? Wo greifen Statistik, 
 | **B** Bajau | Messung → Statistik → Genome → Sweep |
 | **C** Tibet | EPAS1 / Denisova → rivalisierende Modelle |
 | **D** Abschluss | Interpretation, Begriffe, Annahmen |
-
-------------------------------------------------------------------------
 
 # A · Beobachtung
 
@@ -367,8 +369,6 @@ Oder auch **Physiologie** — evolutionär geprägt?
 ::: notes
 Noch keine Auflösung.
 :::
-
-------------------------------------------------------------------------
 
 # B · Bajau — eine Frage, mehrere Antwortenbenen
 
@@ -542,7 +542,11 @@ Drei Ebenen derselben Geschichte — **ohne** Denisova.
 Je Stufe: Frage → Daten → Analyse.  
 Gennamen (PDE10A, BDKRB2) sind **Illustration**; der Punkt ist die Argumentkette.
 
-------------------------------------------------------------------------
+## Pause (~5 min)
+
+Erste Hälfte: Frage → Daten → Bajau.
+
+Zweite Hälfte: Tibet — dieselbe Logik, schärfere Frage.
 
 # C · Tibet — dieselbe Logik, schärfere Frage
 
@@ -729,8 +733,6 @@ Bei Tibet reicht «Scan → Treffer» nicht: mehrere Erklärungen müssen **gege
 
 ![](../../pics/biology/toolkit_bajau_tibet.svg){fig-alt="Bajau und Tibet Fragen und Analysen" width="88%"}
 
-------------------------------------------------------------------------
-
 # D · Abschluss
 
 ## Drei Fragen für den Kurs
@@ -752,39 +754,11 @@ Zwei Geschichten stehen für sich. Jeweils:
 
 Können kommt über das Semester; heute reicht: **sehen und nachdenken**.
 
-## Publikationen (Einstieg)
+## Take-home
 
-Alles, was heute namentlich vorkam — zum Nachlesen (Kurzform).
-
-**Fallstudien**
-
-1. Ilardo, M., et al. (2018). Physiological and genetic adaptations to diving in sea nomads. *Cell* 173: 569–580. [doi:10.1016/j.cell.2018.03.054](https://doi.org/10.1016/j.cell.2018.03.054)
-2. Ilardo, M. A., et al. (2021). An erythropoietin-independent mechanism of erythrocytic precursor proliferation underlies hypoxia tolerance in sea nomads. *Frontiers in Physiology* 12: 760851. [doi:10.3389/fphys.2021.760851](https://doi.org/10.3389/fphys.2021.760851)
-3. Huerta-Sánchez, E., et al. (2014). Altitude adaptation in Tibetans caused by introgression of Denisovan-like DNA. *Nature* 512: 194–197. [doi:10.1038/nature13408](https://doi.org/10.1038/nature13408)
-
-**Einstieg / Statistik / Modelle**
-
-4. Darwin, C. (1876/1958). *The Autobiography of Charles Darwin* (Auszug zu Mathematik). Darwin Online / gemeinfrei.
-5. Simpson, E. H. (1951). The interpretation of interaction in contingency tables. *Journal of the Royal Statistical Society B* 13: 238–241. *(Simpson-Paradoxon)*
-6. Lotka, A. J. (1925). *Elements of Physical Biology*. Williams & Wilkins.
-7. Volterra, V. (1926). Variazioni e fluttuazioni del numero d’individui in specie animali conviventi. *Mem. Accad. Lincei*.
-8. Gause, G. F. (1934). *The Struggle for Existence*. Williams & Wilkins.
-9. Fisher, R. A. (1930). *The Genetical Theory of Natural Selection*. Clarendon Press.
-10. Wright, S. (1931). Evolution in Mendelian populations. *Genetics* 16: 97–159.
-
-**Sweeps / Assembly**
-
-11. Maynard Smith, J., & Haigh, J. (1974). The hitch-hiking effect of a favourable gene. *Genetical Research* 23: 23–35.
-12. Kaplan, N. L., Hudson, R. R., & Langley, C. H. (1989). The «hitchhiking effect» revisited. *Genetics* 123: 887–899.
-13. Sabeti, P. C., et al. (2002). Detecting recent positive selection in the human genome from haplotype structure. *Nature* 419: 832–837.
-14. Nielsen, R., et al. (2005). Genomic scans for selective sweeps using SNP data. *Genome Research* 15: 1566–1575.
-15. Idury, R. M., & Waterman, M. S. (1995). A new algorithm for DNA sequence assembly. *Journal of Computational Biology* 2: 291–306.
-16. Pevzner, P. A., Tang, H., & Waterman, M. S. (2001). An Eulerian path approach to DNA fragment assembly. *PNAS* 98: 9748–9753.
-17. Compeau, P. E. C., Pevzner, P. A., & Tesler, G. (2011). How to apply de Bruijn graphs to genome assembly. *Nature Biotechnology* 29: 987–991.
-
-Abbildungsnachweise (Fotos/Figuren): siehe `pics/README.md` und Bildunterschriften.
-
-------------------------------------------------------------------------
+1. Das Beispiel zwingt zur Mathematik — Bajau und Tibet zuerst, dann Zahlen.
+2. Dieselbe Frage auf mehreren Ebenen: Physiologie, Genetik, Geschichte.
+3. Vier Begriffe festlegen: Population, Gen, Generation, Selektion.
 
 ## Beiläufige Begriffe
 
@@ -805,9 +779,45 @@ Erst wenn wir verbale Modelle **konkret** machen, werden Ungenauigkeit und **ver
 
 Einen Begriff wählen: Wie kam er vor? Wo unscharf? Was müsste ein Modell festlegen?
 
+## Literatur 1/2
+
+:::: {.lit}
+**Fallstudien**
+
+1. Ilardo, M., et al. (2018). Physiological and genetic adaptations to diving in sea nomads. *Cell* 173: 569–580. [doi:10.1016/j.cell.2018.03.054](https://doi.org/10.1016/j.cell.2018.03.054)
+2. Ilardo, M. A., et al. (2021). An erythropoietin-independent mechanism of erythrocytic precursor proliferation underlies hypoxia tolerance in sea nomads. *Frontiers in Physiology* 12: 760851. [doi:10.3389/fphys.2021.760851](https://doi.org/10.3389/fphys.2021.760851)
+3. Huerta-Sánchez, E., et al. (2014). Altitude adaptation in Tibetans caused by introgression of Denisovan-like DNA. *Nature* 512: 194–197. [doi:10.1038/nature13408](https://doi.org/10.1038/nature13408)
+
+**Einstieg / Statistik / Modelle**
+
+4. Darwin, C. (1876/1958). *The Autobiography of Charles Darwin* (Auszug zu Mathematik). Darwin Online / gemeinfrei.
+5. Simpson, E. H. (1951). The interpretation of interaction in contingency tables. *Journal of the Royal Statistical Society B* 13: 238–241. *(Simpson-Paradoxon)*
+6. Lotka, A. J. (1925). *Elements of Physical Biology*. Williams & Wilkins.
+7. Volterra, V. (1926). Variazioni e fluttuazioni del numero d’individui in specie animali conviventi. *Mem. Accad. Lincei*.
+8. Gause, G. F. (1934). *The Struggle for Existence*. Williams & Wilkins.
+9. Fisher, R. A. (1930). *The Genetical Theory of Natural Selection*. Clarendon Press.
+10. Wright, S. (1931). Evolution in Mendelian populations. *Genetics* 16: 97–159.
+::::
+
+## Literatur 2/2
+
+:::: {.lit}
+**Sweeps / Assembly**
+
+11. Maynard Smith, J., & Haigh, J. (1974). The hitch-hiking effect of a favourable gene. *Genetical Research* 23: 23–35.
+12. Kaplan, N. L., Hudson, R. R., & Langley, C. H. (1989). The «hitchhiking effect» revisited. *Genetics* 123: 887–899.
+13. Sabeti, P. C., et al. (2002). Detecting recent positive selection in the human genome from haplotype structure. *Nature* 419: 832–837.
+14. Nielsen, R., et al. (2005). Genomic scans for selective sweeps using SNP data. *Genome Research* 15: 1566–1575.
+15. Idury, R. M., & Waterman, M. S. (1995). A new algorithm for DNA sequence assembly. *Journal of Computational Biology* 2: 291–306.
+16. Pevzner, P. A., Tang, H., & Waterman, M. S. (2001). An Eulerian path approach to DNA fragment assembly. *PNAS* 98: 9748–9753.
+17. Compeau, P. E. C., Pevzner, P. A., & Tesler, G. (2011). How to apply de Bruijn graphs to genome assembly. *Nature Biotechnology* 29: 987–991.
+
+Abbildungsnachweise: `pics/README.md` und Bildunterschriften.
+::::
+
 ## Glossar
 
-Ausführlich: **[Woche-1-Glossar](glossary.html)**
+Ausführlich: **[Kursglossar](../../docs/glossary.html)**
 
 | | |
 |---|---|
@@ -818,13 +828,11 @@ Ausführlich: **[Woche-1-Glossar](glossary.html)**
 | Likelihood, Model selection | Modellvergleich |
 | Plastizität, Hypoxie, Apnoe | Physiologie / Kontext |
 
-------------------------------------------------------------------------
-
 ## Navigation
 
 | | |
 |---|---|
-| Glossar | [Woche 1](glossary.html) |
+| Glossar | [Kursglossar](../../docs/glossary.html) |
 | Kursplan | [Kursplan](../../docs/course-outline.html) |
 | Weiter | [Woche 2 →](../week-02/slides.html) |
 

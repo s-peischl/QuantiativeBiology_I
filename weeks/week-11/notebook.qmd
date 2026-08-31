@@ -1,9 +1,13 @@
 ---
-title: "Woche 11 — Notebook · Komplexe Mikrobiomdaten einlesen"
-subtitle: "Abundanztabellen + Verknüpfung von Metadaten"
+title: "Woche 11 — Notebook · Checkpoint C"
+subtitle: "Eine Frage, eine Abbildung"
 format:
   html:
     toc: true
+    toc-title: "Inhalt"
+    toc-depth: 2
+    code-fold: false
+    embed-resources: true
     css: ../../styles.scss
 execute:
   echo: true
@@ -11,23 +15,163 @@ execute:
   message: false
 ---
 
-## Lernziele
+::: {.callout-warning}
+## Entwurf
 
-1. Abundanz- und Metadatendateien einlesen
-2. Nicht übereinstimmende IDs diagnostizieren
-3. Bibliotheksgrössen und einen kurzen Datenpass berechnen
+Hilfsfunktionen dürfen stehen bleiben. Die Note gilt der **biologischen
+Frage** und **einer** Abbildung, nicht dem Code-Umfang.
+:::
 
-## Aufgaben
+# Anweisung
 
-```{r}
-# abund <- read.csv("data/abundance.csv", row.names = 1)
-# meta  <- read.csv("data/metadata.csv")
-# TODO: check setdiff(rownames(abund), meta$sample_id)
-# TODO: library sizes <- rowSums(abund)
+Wählen Sie **genau eine** der drei Fragen. Erzeugen Sie eine beschriftete
+Abbildung und beantworten Sie die vier Interpretationsfragen darunter.
+
+**Grössen.** Haploid. Wildtyp $N_{\mathrm{wt}}$ fällt mit Rate $r$.
+Mutationsrate $U$ zum rettenden Typ. Vorteil $s$; Etablierung mit
+$u\approx 2s$. Ein Replikat ist gerettet, wenn mindestens eine Mutante
+etabliert wird, bevor $N_{\mathrm{wt}}<1$.
+
+```{r shared}
+p_rescue_approx <- function(N0, r, s, U) {
+  1 - exp(-2 * N0 * U * s / pmax(r, 1e-12))
+}
+
+one_rescue_run <- function(N0, r, s, U, max_gen = 180) {
+  n_wt <- N0
+  n_mut <- 0
+  established <- FALSE
+  N <- numeric(max_gen + 1)
+  N[1] <- N0
+  u <- min(1, max(0, 2 * s))
+  for (t in seq_len(max_gen)) {
+    if (!established && n_wt >= 1) {
+      n_new <- rpois(1, lambda = U * n_wt)
+      if (n_new > 0 && any(runif(n_new) < u)) {
+        established <- TRUE
+        n_mut <- 1
+      }
+    }
+    n_wt <- n_wt * (1 - r)
+    if (n_wt < 1) n_wt <- 0
+    if (established) n_mut <- n_mut * (1 + s)
+    tot <- n_wt + n_mut
+    N[t + 1] <- tot
+    if (!established && n_wt < 1) {
+      if (t < max_gen) N[(t + 2):(max_gen + 1)] <- 0
+      break
+    }
+  }
+  list(rescued = established && (n_wt + n_mut) >= 1,
+       N = pmax(N, 0), generation = 0:max_gen)
+}
+
+rescue_rate <- function(N0, r, s, U, n_reps = 80, max_gen = 160) {
+  mean(replicate(n_reps, one_rescue_run(N0, r, s, U, max_gen)$rescued))
+}
 ```
 
-**F1.** Breit oder lang? Woran erkennen Sie das?
+------------------------------------------------------------------------
 
-**F2.** Listen Sie Abweichungen zwischen den Abundanzzeilen und den Metadaten auf.
+# Option 1 — Rückgang ($r$)
 
-**F3.** Fassen Sie die Bibliotheksgrössen zusammen (Minimum, Median, Maximum). Gibt es auffällige Proben?
+Zustand: Population unter Stress. Parameter: Rückgangsrate $r$
+(Anteil, den der Wildtyp pro Generation verliert).
+
+```{r option1}
+# Parameter aendern
+set.seed(11)
+N0 <- 8e4
+s <- 0.08
+U <- 1.5e-5
+r_values <- c(0.04, 0.12)
+n_reps <- 50
+p_hat <- numeric(length(r_values))
+for (i in seq_along(r_values)) {
+  p_hat[i] <- rescue_rate(N0, r_values[i], s, U, n_reps = n_reps)
+}
+plot(r_values, p_hat, type = "b", pch = 19, lwd = 3, col = "#2166ac",
+     xlim = c(0.02, 0.22), ylim = c(0, 1),
+     xlab = "r", ylab = "Pr(rescue)",
+     main = "Option 1: Rueckgang")
+r_line <- seq(0.03, 0.20, length.out = 50)
+lines(r_line, p_rescue_approx(N0, r_line, s, U),
+      lwd = 2, lty = 2, col = "#d95f02")
+```
+
+**F1.** Was ist $r$ biologisch (Antibiotikum, Salz, Klima)?  
+**F2.** Warum fällt $\Pr(\mathrm{rescue})$ mit $r$?  
+**F3.** Liegt die Formel auf den Punkten?  
+**F4.** Welche Annahme (deterministische Demografie / nur de novo)
+würde ein Laborversuch zuerst treffen?
+
+------------------------------------------------------------------------
+
+# Option 2 — Vorteil ($s$)
+
+Zustand: dieselbe schrumpfende Population. Parameter: Selektionsvorteil
+$s$ des rettenden Typs.
+
+```{r option2}
+set.seed(11)
+N0 <- 8e4
+r <- 0.10
+U <- 1.5e-5
+s_values <- c(0.03, 0.12)
+n_reps <- 50
+p_hat <- numeric(length(s_values))
+for (i in seq_along(s_values)) {
+  p_hat[i] <- rescue_rate(N0, r, s_values[i], U, n_reps = n_reps)
+}
+plot(s_values, p_hat, type = "b", pch = 19, lwd = 3, col = "#2166ac",
+     xlim = c(0, 0.20), ylim = c(0, 1),
+     xlab = "s", ylab = "Pr(rescue)",
+     main = "Option 2: Vorteil")
+s_line <- seq(0.01, 0.18, length.out = 50)
+lines(s_line, p_rescue_approx(N0, r, s_line, U),
+      lwd = 2, lty = 2, col = "#d95f02")
+```
+
+**F1.** Was ist $s$ — und wo steckt $u\approx 2s$?  
+**F2.** Ändert $s$ die Richtung der Demografie oder die Chance, dass
+eine Mutante bleibt?  
+**F3.** Was wäre bei sehr kleinem $s$ anders als die gestrichelte Linie?  
+**F4.** Warum beschreibt das nicht HGT oder stehende Variation?
+
+------------------------------------------------------------------------
+
+# Option 3 — Startgrösse ($N_0$)
+
+Zustand: Mutationsangebot $N_0 U$. Parameter: ancestrale Grösse $N_0$.
+Bell & Gonzalez (2009): Schwelle in der Startpopulation.
+
+```{r option3}
+set.seed(11)
+s <- 0.10
+U <- 2e-5
+r <- 0.10
+N0_values <- c(8e3, 2e5)
+n_reps <- 50
+p_hat <- numeric(length(N0_values))
+for (i in seq_along(N0_values)) {
+  p_hat[i] <- rescue_rate(N0_values[i], r, s, U, n_reps = n_reps)
+}
+plot(log10(N0_values), p_hat, type = "b", pch = 19, lwd = 3, col = "#2166ac",
+     xlim = c(3.5, 5.6), ylim = c(0, 1),
+     xlab = "log10 N0", ylab = "Pr(rescue)",
+     main = "Option 3: Startgroesse")
+n_line <- 10^seq(3.6, 5.5, length.out = 50)
+lines(log10(n_line), p_rescue_approx(n_line, r, s, U),
+      lwd = 2, lty = 2, col = "#d95f02")
+```
+
+**F1.** Warum steht $N_0$ in der Formel als Produkt mit $U$?  
+**F2.** Wo liegt ungefähr eine Schwelle — und was sahen Bell & Gonzalez?  
+**F3.** Ist $\Pr(\mathrm{rescue})\approx 0.5$ «die Population ist halb gerettet»?  
+**F4.** Was fehlt gegenüber einer echten Hefekultur (stehende Variation, stochastische $N$)?
+
+------------------------------------------------------------------------
+
+# Für die Präsentation
+
+Frage → Parameter → Abbildung → Ergebnis → eine Grenze · Laborbezug.

@@ -1,153 +1,19 @@
 ---
 title: "Woche 1 — Glossar"
-subtitle: "Fachbegriffe für Erstsemestrige (Gymnasium → Uni)"
+subtitle: "Weiterleitung auf das Kursglossar"
 format:
   html:
-    toc: true
-    toc-depth: 2
+    toc: false
     css: ../../styles.scss
 ---
 
-Kurze Erklärungen in Alltagssprache. In den Folien tauchen die Begriffe auf — hier können Sie nachschlagen.
+Das Glossar liegt jetzt **kursweit** hier:
 
-Zurück: [Folien Woche 1](slides.qmd) · [Kursplan](../../docs/course-outline.qmd)
+**→ [Kursglossar](../../docs/glossary.qmd)**
 
----
+Dort: Einstieg (Woche 1), Ökologie (Wochen 2–4), Evolution (Wochen 5–8).
 
-## A–D
-
-**Allel**  
-Eine Variante an einer Stelle im Genom (z. B. Variante A oder B eines Gens).
-
-**Apnoetauchen**  
-Tauchen mit angehaltenem Atem — ohne Pressluftflasche.
-
-**Assoziation**  
-Statistischer Zusammenhang zwischen z. B. genetischer Variante und Merkmal.  
-*Wichtig:* Zusammenhang ≠ automatisch Ursache (Kausalität).
-
-**Assembly / Genome Assembly**  
-Aus vielen kurzen Sequenzstücken (**Reads**) ein längeres Genom (oder Teile davon) zusammensetzen — ein Kernproblem der Bioinformatik.
-
-## B–H
-
-**Bioinformatik**  
-Fachgebiet: biologische Fragen mit Algorithmen, Statistik und grossen Datensätzen (oft DNA-Sequenzen) bearbeiten.
-
-**Admixture (Mischung)**  
-Vermischung von Populationen/Linien: Nachkommen tragen DNA aus beiden.  
-Voraussetzung dafür, dass später **Introgression** einzelner Abschnitte sichtbar wird.
-
-**de Bruijn-Graph**  
-Graphenmodell für Genome Assembly: Knoten = kurze Sequenzstücke ((k−1)-mere), Kanten = Überlappungen (k-mere).  
-Pfad durch den Graphen ≈ zusammengesetzte Sequenz (Contig).
-
-**Denisova-Menschen**  
-Ausgestorbene archaische Menschengruppe (Verwandte der Neandertaler).  
-Bekannt vor allem durch DNA aus der **Denisova-Höhle** (Altai).  
-DNA-Spuren in manchen heutigen Populationen; Lehrbeispiel Tibet / **EPAS1**.
-
-**Erythrozyten**  
-Rote Blutkörperchen — transportieren Sauerstoff.
-
-**Eugenik**  
-Historische (und abgelehnte) Programme, menschliche Fortpflanzung über «Erbanlagen» steuern zu wollen.  
-Wichtig: quantitative Methoden können missbraucht werden — Forschungsziele und Ethik gehören zur Wissenschaft dazu.  
-Heute taucht verwandte Rhetorik manchmal als «just following the data» / «race realism» auf Social Media auf — Satire und Kritik im Kurs: Daten sprechen nicht von allein.
-
-**EPAS1**  
-Gen / Transkriptionsfaktor im Hypoxie-Signalweg; bei Tibeter:innen stark selektiert.  
-Der häufige Tibeter-Haplotyp gleicht stark dem Denisova-Muster und unterscheidet sich von nahen menschlichen Populationen (Huerta-Sánchez et al. 2014).
-
-**Fisher, R. A.**  
-Einflussreicher Statistiker/Genetiker des 20. Jahrhunderts; Werkzeuge der modernen Statistik eng mit Evolutions- und Genetikfragen verknüpft.  
-(Historisch auch mit Eugenik verbunden — im Kurs kritisch einordnen.)
-
-**Haplotyp**  
-Ein Stück Chromosom bzw. eine Kombination benachbarter Varianten, die oft gemeinsam vererbt werden.
-
-**Hitchhiking** («Mitfahrgelegenheit»)  
-Wenn eine vorteilhafte Variante häufiger wird, steigen benachbarte (oft neutrale) Varianten mit — sofern Rekombination sie nicht trennt.
-
-**Hypoxie**  
-Sauerstoffmangel (z. B. in grosser Höhe).
-
-## I–M
-
-**Introgression**  
-Übernahme von DNA-Abschnitten aus einer anderen Population oder Art **nach** früherer Trennung  
-(z. B. archaische DNA in modernen Menschen). Oft kurze Haplotypen — nicht «halb Denisova».
-
-**ILS (incomplete lineage sorting)**  
-Unvollständige Liniensortierung: DNA-Kopien «wandern» rückwärts durch den Populationsbaum  
-und können einen Genbaum erzeugen, der *anders* aussieht als die Populationsgeschichte —  
-ohne Introgression. Kann Introgression *imitieren*.
-
-**Konvergente Evolution**  
-Ähnliche Merkmale entstehen unabhängig (nicht durch gemeinsame Herkunft derselben Mutation).
-
-**Likelihood**  
-Mass dafür, wie gut ein Modell die beobachteten Daten erklärt («Wie plausibel sind die Daten unter diesem Modell?»).
-
-**Lotka–Volterra**
-Klassisches Räuber–Beute-Modell (oft oszillierende Dichten). In der Literatur häufig als Differentialgleichung; in QuBi als **additive Differenzengleichung** $N_{t+1}=N_t+f(N_t,P_t)$.
-
-**Locus**  
-Eine Stelle / Region im Genom.
-
-## N–S
-
-**Model selection**  
-Systematischer Vergleich mehrerer Modelle: welches passt besser zu den Daten?
-
-**Phänotyp**  
-Messbares Merkmal (z. B. Milzgrösse) — im Gegensatz zum Genotyp (genetische Ausstattung).
-
-**Physiologie**  
-Wie Körper und Organe funktionieren (Atmung, Kreislauf, Milzkontraktion, …).
-
-**Plastizität**  
-Der Körper passt sich an die Umwelt an, *ohne* dass sich die DNA ändern muss (Training, Lebensweise, …).
-
-**Population**  
-In Modellen oft eine klar abgegrenzte Gruppe von Individuen. Beim Menschen oft unscharf (Migration, kontinuierlicher Raum).
-
-**Reads**  
-Kurze Sequenzstücke aus dem Sequenziergerät.
-
-**Rekombination**  
-Umschichtung genetischen Materials zwischen Chromosomen — bricht langfristig Haplotypen auseinander.
-
-**Selective Sweep**  
-Ein vorteilhaftes Allel wird häufig; dabei sinkt die genetische Vielfalt in der Umgebung (**Valley of Diversity**).
-
-**Simpson-Paradoxon**  
-Ein Trend in den Gesamtdaten kann sich **umkehren** (oder verschwinden), wenn man nach Gruppen / Populationen trennt.  
-Lehrpunkt: dieselbe Tabelle, andere Frage — andere Geschichte. Daten «sprechen» nicht von allein.
-
-**Selektion / Selektionskoeffizient $s$**  
-Unterschiedlicher Fortpflanzungserfolg von Varianten. $s$ ist eine Modellgrösse — kontextabhängig (Umwelt, Hintergrund).
-
-**Simulation**  
-Am Computer durchspielen, welche Daten ein mathematisches Modell typischerweise erzeugen würde.
-
-## T–Z
-
-**t-Test**  
-Klassischer statistischer Test zum Vergleich von Mittelwerten zweier Gruppen (Details in QuBi II).
-
-**Valley of Diversity**  
-«Tal» geringer genetischer Vielfalt um einen Sweep-Locus — typische Suchsignatur.
-
-**Vasokonstriktion**  
-Verengung von Blutgefässen (Teil des Tauchreflexes).
-
-**Wright–Fisher-Modell**  
-Einfaches populationsgenetisches Modell für Allelfrequenzen über Generationen (später im Kurs).
-
----
-
-## Vier Kursbegriffe (Abschlussdiskussion)
+## Vier Kursbegriffe (Abschluss Woche 1)
 
 | Begriff | Typische Härtefrage |
 |---|---|
@@ -157,3 +23,5 @@ Einfaches populationsgenetisches Modell für Allelfrequenzen über Generationen 
 | Selektion | $s$ wovon, auf wen, in welcher Umwelt? |
 
 Erst wenn verbale Modelle **konkret** werden (Gleichungen, Simulationen), werden versteckte Annahmen sichtbar.
+
+Zurück: [Folien Woche 1](slides.qmd) · [Kursplan](../../docs/course-outline.qmd)

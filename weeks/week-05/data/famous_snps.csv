@@ -1,0 +1,7 @@
+snp,gene,story,pop,n,AA,AB,BB,allele_A,allele_B,source
+rs2814778,ACKR1,Duffy-Null: Resistenz gegen Plasmodium vivax,CEU,99,99,0,0,T,C,1000Genomes_phase3_allele_counts
+rs2814778,ACKR1,Duffy-Null: Resistenz gegen Plasmodium vivax,YRI,108,0,1,107,T,C,1000Genomes_phase3_allele_counts
+rs4988235,MCM6/LCT,Laktasepersistenz im Erwachsenenalter,CEU,99,54,38,7,A,G,1000Genomes_phase3_HWE_integers
+rs4988235,MCM6/LCT,Laktasepersistenz im Erwachsenenalter,YRI,108,0,0,108,A,G,1000Genomes_phase3_allele_counts
+rs1426654,SLC24A5,helle Hautpigmentierung,CEU,99,99,0,0,A,G,1000Genomes_phase3_allele_counts
+rs1426654,SLC24A5,helle Hautpigmentierung,YRI,108,0,3,105,A,G,1000Genomes_phase3_allele_counts

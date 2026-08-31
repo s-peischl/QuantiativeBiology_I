@@ -1,6 +1,6 @@
 ---
-title: "Woche 13 — Eine visuelle Mikrobiom-Geschichte"
-subtitle: "Checkpoint D · einlesen → visualisieren → Aussage"
+title: "Woche 13 — Mikrobiomdaten visualisieren"
+subtitle: "Von Tabellen zu verständlichen Abbildungen"
 author: "Stephan Peischl"
 format:
   revealjs:
@@ -27,72 +27,78 @@ execute:
 
 ## In diesem Foliensatz
 
-**Woche 13** von 14 · **Checkpoint D**  
+**Woche 13** von 14 · Mikrobiom-Block  
 **Do., 10. Dez. 2026, 08:15–10:00**
 
 - [Kursplan](../../docs/course-outline.html)
 - [Start](../../index.html)
 - Pfeiltasten / Steuerelemente · **M** Menü · **Esc** Übersicht
 
-## Rückblick auf den Block
+## Rückblick
 
-| Woche | Fähigkeit |
-|---|---|
-| 11 | Komplexe Tabellen + Metadaten einlesen |
-| 12 | Ohne Chaos visualisieren |
-| **13** | Eine ehrliche Datengeschichte erzählen |
+Woche 12: einlesen → verknüpfen → Plausibilität prüfen.
 
-## Checkpoint D (heute)
+Heute: die Gemeinschaft **erkennen**, ohne in 500 Farben zu versinken.
 
-**Grössere praktische Arbeit + Kurzpräsentation (ca. 3–5 Min.)**
+## Das Visualisierungsproblem
 
-Keine Methodenolympiade — ein Checkpoint zur **Kommunikation**.
+Hunderte/Tausende Taxa ≠ Hunderte Legendeneinträge.
 
-## Erforderliche Bestandteile
+Sie müssen **aggregieren oder auswählen**:
 
-1. Biologische / ökologische Fragestellung
-2. Was Sie eingelesen und wie Sie es bereinigt/verknüpft haben
-3. **Eine Hauptabbildung** (+ optionale kleine Grafik zur Qualitätskontrolle)
-4. Was die Abbildung **nicht** zeigt
+- häufigste $k$ Taxa + «Andere»
+- auf Stamm- / Familienebene zusammenfassen
+- auf eine biologisch begründete Auswahl von Taxa fokussieren
 
-## Praktischer Arbeitsablauf (verwenden Sie diese Checkliste)
+## Zentrale Grafiktypen (diese sollten Sie beherrschen)
 
-1. Daten mit Ihren Prüfungen aus Woche 11 erneut einlesen
-2. Aggregation wählen (häufigste Taxa / taxonomische Ebene)
-3. 1–2 mögliche Abbildungen erstellen; die klarste auswählen
-4. Eine Bildlegende mit 2–3 Sätzen verfassen
-5. Annahmen auflisten (relativ vs. absolut, Filter, Batch, …)
+1. Balkendiagramm/Histogramm der **Bibliotheksgrösse** (Qualitätskontrolle)
+2. **Gestapelte Zusammensetzung** nach Probe (oder Gruppenmittelwert)
+3. **Heatmap** (Proben × ausgewählte Taxa)
+4. **Facetten** nach Metadaten (Standort, Behandlung, Zeitpunkt)
+5. Optional: einfache Balkendiagramme für Artenreichtum / Shannon-Index — nur wenn sie zur Aussage beitragen
 
-## Geeignete Themen für Checkpoint D (Beispiele)
+## Gestaltungsregeln
 
-- Veränderung der Zusammensetzung zwischen Standorten / Wirten / Zeitpunkten
-- Ein auf Stammebene sichtbarer Unterschied zwischen Behandlungen
-- Dominante Taxa gegenüber dem seltenen Anteil «Andere»
-- Qualitätskontrolle der Bibliotheksgrösse, welche die Interpretation verändert
+- Proben/Taxa bewusst anordnen (nicht nach zufälligen IDs)
+- Kategorische Farben begrenzen (maximal ca. 8–12 in einem Panel)
+- Kleine Teilgrafiken gegenüber einem überladenen Panel bevorzugen
+- Achsen biologisch verständlich beschriften (relative Abundanz, Zählwerte, …)
+- In der Bildlegende angeben: Was wurde gefiltert / aggregiert?
 
-## Schwerpunkt der Bewertung
+## Fallstricke
 
-| Höhere Gewichtung | Niedrigere Gewichtung |
-|---|---|
-| Klare Frage + verständliche Abbildung | Exotische Ordinationen |
-| Korrekte Verknüpfungen / beschriftete Achsen | Dutzende Panels |
-| Ehrliche Einschränkungen | Dekorative Farben |
+- Kompositionsdaten wie unabhängige Zählwerte behandeln
+- Rohzählwerte bei ungleichen Bibliotheksgrössen unkritisch vergleichen
+- Regenbogen-Heatmaps, die Strukturen verdecken
+- Alle Taxa plotten, «weil wir es können»
 
-## Brücke über das Semester
+## Brücke zur Programmierung
 
-Sie haben mit **Modellen aus sehr kleinen Zeitreihen** begonnen.
+- Wiederverwendbare Funktionen wie `plot_composition(df, group)`
+- Daten im langen Format eignen sich gut für Grafikgrammatiken
+- Dieselben Schleifen-/Vektorgewohnheiten: Zusammenfassungen berechnen, dann plotten
 
-Sie beenden die Inhaltsblöcke mit dem **Einlesen komplexer ökologischer Tabellen** — einer Fähigkeit, die Biologinnen und Biologen bereits am ersten Tag eines Mikrobiomprojekts benötigen.
+## Ziele der Live-Demonstration
 
-## Ausblick
+1. Qualitätskontrolle der Bibliotheksgrössen
+2. Zusammensetzung der häufigsten Taxa nach Gruppe
+3. Eine Heatmap einer gezielt ausgewählten Taxa-Gruppe
+4. Diskussion: Welche Aussage wird visuell gestützt?
 
-**Woche 14 (17. Dez.):** Synthese und Abschluss — Checkpoints A–D verknüpfen; Portfolio optional überarbeiten.
+## Vorschau auf das Notebook
+
+Erstellen Sie mit dem Datensatz aus Woche 12 ein kleines «Visualisierungs-Kochbuch»: mindestens eine Darstellung der Zusammensetzung + eine Heatmap/Facette.
 
 ## Abschlussfragen
 
-1. Wie lautet Ihre Aussage in einem Satz?
-2. Was würde Sie an Ihrer eigenen Abbildung zweifeln lassen?
-3. Welche Fähigkeit aus einem früheren Checkpoint haben Sie erneut eingesetzt (Schleife? Denken in Replikaten? ehrlicher Umgang mit Modell und Daten?)?
+1. Welche Aggregation haben Sie gewählt — und warum?
+2. Nennen Sie eine visuelle Täuschung, die bei Mikrobiomgrafiken zu vermeiden ist.
+3. Welche Abbildung möchten Sie für Checkpoint D perfektionieren?
+
+## Nächste Woche
+
+**Visuelle Geschichte + Checkpoint D** — eine klare Aussage mit Einschränkungen präsentieren; kurze Synthese des Semesters.
 
 ---
 

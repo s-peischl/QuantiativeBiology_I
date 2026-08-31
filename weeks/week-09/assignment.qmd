@@ -1,22 +1,28 @@
 ---
-title: "Woche 9 — Aufgabe · Wright–Fisher: eine Trajektorie"
+title: "Woche 9 — Aufgabe"
+subtitle: "Zufall in p und u(s)"
 format:
   html:
-    toc: false
+    toc: true
+    css: ../../styles.scss
 ---
 
-## Aufgabenstellung
+## Aufgabe
 
-Bearbeiten Sie die biologische Frage mithilfe des Notebooks dieser Woche.
+Arbeiten Sie mit dem Notebook dieser Woche. Keine benotete Abgabe —
+der Kurs hat keine Hausaufgaben. Die Übung hilft in den Wochen 10–11.
 
-## Abzugebende Ergebnisse
+1. Ziehen Sie `rbinom` mit und ohne `set.seed`. Ein Satz: was ist
+   wiederholbar, was ist biologisch der Zufall?
+2. Eine Abbildung: deterministisches $p$ und **eine** stochastische
+   Trajektorie, Start $p=1/N$.
+3. $\hat u$ für mindestens drei Werte von $s$, Linie $u=2s$.
+4. Interpretation (120–180 Wörter):
+   - Warum gehen die meisten Linien mit $s>0$ trotzdem nach $0$?
+   - Wann ist $2s$ eine brauchbare Referenz?
+   - Ein Satz: was fehlt noch, wenn die **ganze** Population schrumpft?
 
-1. Gerendertes Notebook (`.html`) oder gleichwertiges Format
-2. Eine zentrale Abbildung mit Bildunterschrift
-3. Kurze Interpretation (120–180 Wörter)
+## Literatur
 
-## Kriterien
-
-- Reproduzierbarkeit (40%)
-- Biologische Interpretation (40%)
-- Klarheit (20%)
+Haldane (1927); Otto & Whitlock (1997); Peischl & Kirkpatrick (2012);
+Bell & Gonzalez (2009) — [Folien](slides.qmd#literatur).

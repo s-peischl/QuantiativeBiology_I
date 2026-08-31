@@ -1,14 +1,16 @@
 ---
 title: "Woche 10 — Evolutionäre Rettung"
-subtitle: "Etablierung vor dem Aussterben · Checkpoint C"
+subtitle: "Schrumpfende $N$ · de-novo-Etablierung · Orr gegen Simulation"
 author: "Stephan Peischl"
 format:
   revealjs:
     html-math-method: katex
     theme: simple
+    css: slides.css
     slide-number: true
     incremental: false
     embed-resources: true
+    auto-stretch: false
     transition: none
     controls: true
     controls-layout: edges
@@ -18,132 +20,363 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html)"
+    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html) · [Notebook](notebook.html)"
 execute:
   echo: false
   warning: false
   message: false
+  freeze: false
 ---
 
-## In diesem Foliensatz
+```{r}
+#| include: false
+p_rescue_approx <- function(N0, r, s, U) {
+  1 - exp(-2 * N0 * U * s / pmax(r, 1e-12))
+}
 
-**Woche 10** von 14 · **Checkpoint C**  
-**Do., 19. Nov. 2026, 08:15–10:00**
+one_rescue_run <- function(N0, r, s, U, max_gen = 180) {
+  n_wt <- N0
+  n_mut <- 0
+  established <- FALSE
+  N <- numeric(max_gen + 1)
+  N[1] <- N0
+  u <- min(1, max(0, 2 * s))
+  for (t in seq_len(max_gen)) {
+    if (!established && n_wt >= 1) {
+      n_new <- rpois(1, lambda = U * n_wt)
+      if (n_new > 0 && any(runif(n_new) < u)) {
+        established <- TRUE
+        n_mut <- 1
+      }
+    }
+    n_wt <- n_wt * (1 - r)
+    if (n_wt < 1) n_wt <- 0
+    if (established) n_mut <- n_mut * (1 + s)
+    tot <- n_wt + n_mut
+    N[t + 1] <- tot
+    if (!established && n_wt < 1) {
+      if (t < max_gen) N[(t + 2):(max_gen + 1)] <- 0
+      break
+    }
+  }
+  list(rescued = established && (n_wt + n_mut) >= 1,
+       N = pmax(N, 0), generation = 0:max_gen)
+}
 
-- [Kursplan](../../docs/course-outline.html)
-- [Start](../../index.html)
-- Pfeiltasten / Steuerelemente · **M** Menü · **Esc** Übersicht
-
-## Wo wir im Themenbogen stehen
-
-| Woche | Idee |
-|---|---|
-| 5–7 | Deterministische Selektion auf $p_t$ |
-| 8–9 | Etablierung seltener vorteilhafter Typen |
-| **10** | Etablierung, **während die Population zusammenbricht** → Rettung |
-
-## Evolutionäre Rettung (verbal)
-
-Eine Population nimmt ab, weil die Umweltbedingungen ungünstig geworden sind.
-
-Sie wird **gerettet**, wenn angepasste Typen entstehen und sich früh genug **etablieren**, sodass das Wachstum vor dem Aussterben wieder einsetzt.
-
-## Warum sich dieses System gut für den Unterricht eignet
-
-- Verbindet Demografie + Genetik in einer Beschreibung
-- Natürliche Anwendung von **Etablierungswahrscheinlichkeiten**
-- Besonders eng mit **Laborevolution** verknüpft (Mikroben unter kontrolliertem Stress)
-
-## Theorie → Experiment (Hinweise für die Folien)
-
-**Theorie (Beispiele, die in den Materialien korrekt zu zitieren sind):**
-
-- Gomulkiewicz & Holt (demografischer + genetischer Rahmen der Rettung)
-- Orr & Unckless und verwandte Modelle der Rettung durch neue Mutationen / bestehende Variation
-
-**Labortradition (Beispiele):**
-
-- Mikrobielle Populationen werden stressreichen Bedingungen ausgesetzt (z. B. Salz, Medikamente, Temperatur)
-- Aussterben gegenüber Erholung über viele Replikatkulturen verfolgen
-- Klassische empirische Forschungslinie: **Bell & Gonzalez** (Hefe) und Folgestudien mit Bakterien/Hefe
-
-::: {.notes}
-Genaue Literaturliste + 1–2 Abbildungen aus offenen Quellen / neu gezeichnete Schemata einfügen. Betonen: Replikatkulturen ≈ unsere computergestützten Replikate.
-:::
-
-## Minimale Modellkomponenten
-
-1. Abnehmende Wildtyp-Demografie (negatives Wachstum / steigende Sterblichkeit)
-2. Seltene resistente / vorteilhafte Typen (Mutation oder bestehende Variation)
-3. Stochastische **Etablierung** dieser Typen
-4. Ergebnis: Aussterben gegenüber Erholung
-
-Gleiches Programmiermuster: Funktion + Schleife + viele Replikate.
-
-## Wie eine Abbildung aussehen kann
-
-```text
-N(t)
- |\,
- |  \______/¯  gerettet
- |    \
- |     \___    ausgestorben
- +--------------- t
+rescue_rate <- function(N0, r, s, U, n_reps = 80, max_gen = 160) {
+  mean(replicate(n_reps, one_rescue_run(N0, r, s, U, max_gen)$rescued))
+}
 ```
 
-Viele Replikatläufe → **Rettungswahrscheinlichkeit** schätzen (wie bei der Etablierung, aber für die Population).
+## Übersicht
 
-## Checkpoint C (heute)
+**Woche 10** von 14 · **Do., 19. Nov. 2026, 08:15–10:00**
 
-**Praktischer Teil + kurze Präsentation (~3–5 Min.)**
+| Teil | Dauer | Was |
+|------|-------|-----|
+| Vorlesung | ~45 min | Demografie + $u$ → Rettung |
+| Notebook | ~45 min | Draft: $\Pr(\mathrm{rescue})$ gegen Formel |
 
-1. Biologische Frage (Rettung unter Stress)
-2. Was Sie berechnet haben (Replikate; Definition der Rettung)
-3. Eine Abbildung (z. B. Rettungswahrscheinlichkeit gegen Stress / gegen $s$)
-4. Stärkste Annahme + was ein **Laborversuch** messen würde
+::: aside
+Pfeiltasten · **M** Menü · **Esc** Übersicht
+:::
 
-## Ziele des Notebooks / praktischen Teils
+## Lernziele
 
-- Einen einfachen Rückgang mit einem Etablierungsmodul aus Woche 9 koppeln
-- Einen Parameter durchlaufen (Stressintensität oder $s$)
-- $\widehat{\Pr}(\text{rescue})$ angeben
-- Optional: „bestehende Variation“ mit „nur neue Mutationen“ vergleichen
+Nach heute können Sie …
 
-## Brücke zum Programmierkurs
+1. evolutionäre Rettung in einem Satz sagen: Anpassung **vor** $N=0$,
+2. Demografie zuerst **deterministisch** koppeln mit der $u$ aus Woche 9,
+3. eine einfache Formel für $\Pr(\mathrm{rescue})$ gegen Simulation legen,
+4. am Hefe-Experiment die Rolle von $N_0$ wiedererkennen.
 
-| Programmierung | Biologie heute |
+## Heute in dieser Reihenfolge
+
+1. Rückgriff: zwei Ausgänge, U-Kurve.
+2. Gomulkiewicz & Holt: der Rahmen.
+3. Orr & Unckless: de novo, Demografie deterministisch.
+4. Simulation neben der Formel.
+5. Bell & Gonzalez: $N_0$ als Schlüsselfaktor.
+6. Was Modelle danach noch tun (Raum, Interaktionen).
+
+# Teil 1 · Rettung als Kopplung
+
+## Was letzte Woche fehlte
+
+Woche 9: eine Mutante in einer Population fester Grösse $N$.
+$u$ sagt, ob *diese Linie* überlebt.
+
+Unter Stress schrumpft **die ganze** Population.
+Dann muss sich die Mutante etablieren, **bevor** $N$ bei null ist.
+
+Das hat einen Namen: **evolutionäre Rettung**.
+
+## Dieselbe U-Kurve, jetzt mit Teilen
+
+```{r}
+#| fig-height: 3.45
+#| fig-width: 8.4
+#| out-width: 90%
+set.seed(10)
+par(mar = c(4, 4.2, 1.2, 0.8))
+plot(NA, xlim = c(0, 120), ylim = c(0, 6.1),
+     xlab = "Generation", ylab = "log10 N",
+     main = "Wildtyp sinkt; Mutante kann retten")
+N0 <- 1e5
+r <- 0.10
+s <- 0.12
+U <- 2e-5
+for (i in 1:10) {
+  run <- one_rescue_run(N0, r, s, U, 120)
+  col <- if (run$rescued) adjustcolor("#2166ac", 0.75) else adjustcolor("#bdbdbd", 0.9)
+  lwd <- if (run$rescued) 2.2 else 1.3
+  nplot <- pmax(run$N, 1)
+  lines(run$generation, log10(nplot), col = col, lwd = lwd)
+}
+legend("topright", c("gerettet", "ausgestorben"),
+       col = c("#2166ac", "#bdbdbd"), lwd = 2, bty = "n")
+```
+
+Grau: Wildtyp läuft aus, keine Etablierung rechtzeitig.
+Blau: eine de-novo-Mutante etabliert sich — Dichte kehrt um.
+
+## Gomulkiewicz & Holt (1995)
+
+Gomulkiewicz & Holt (1995) *Evolution*: Wann verhindert Selektion
+das Aussterben?
+
+Zwei Zeitskalen in **einem** Bild:
+
+- Demografie: $N$ fällt, weil die Umwelt nicht mehr passt
+- Evolution: ein angepasster Typ muss häufig werden, bevor $N$
+  in den Bereich kommt, aus dem es demografisch kein Zurück gibt
+
+Der Rahmen ist demografisch **und** genetisch. Die Rechnung für
+de-novo-Mutanten in einem Locus: Orr & Unckless.
+
+# Teil 2 · Ein minimales Modell
+
+## Was wir festhalten — und was wir zufällig lassen
+
+Erste Näherung, der Einfachheit halber:
+
+| Teil | Behandlung |
 |---|---|
-| Verschachtelte Schleifen / Replikate | viele Kulturen / viele Einführungen |
-| Vektoren & Zusammenfassungen | Rettungswahrscheinlichkeit |
-| Überlagerte Abbildungen | ausgestorbene gegenüber geretteten Trajektorien |
-| Klare Definitionen im Code | operational „ausgestorben“ / „gerettet“ |
+| Wildtyp-Grösse $N_{\mathrm{wt}}$ | **deterministisch** fallend |
+| neue Mutanten | Zufall (wie viele, wann) |
+| Etablierung jeder Mutante | Zufall, mit $u$ aus Woche 9 |
 
-## Ausblick
+Orr & Unckless (2014) *PLoS Genetics*: haploid, plötzlicher
+Umweltwechsel, ein Locus. Wir nehmen nur den de-novo-Zweig.
 
-Nächster Block: **Mikrobiome als komplexe Daten** — Tabellen laden, Gemeinschaften visualisieren, eine ehrliche visuelle Geschichte erzählen (Wochen 11–13 · Checkpoint D).
+## Die drei Zutaten
+
+**Rückgang.** Jede Generation
+
+$$
+N_{\mathrm{wt}}(t+1)=(1-r)\,N_{\mathrm{wt}}(t),
+$$
+
+mit Rückgangsrate $r>0$. Ohne Mutation: Aussterben in endlicher Zeit.
+
+**Mutation.** Pro Generation im Mittel $U\cdot N_{\mathrm{wt}}$ neue
+Kopien. $U$: Mutationsrate zum rettenden Typ, pro Individuum
+und Generation.
+
+**Etablierung.** Jede neue Kopie etabliert sich unabhängig mit
+$u\approx 2s$ (Woche 9). Danach wächst sie mit Faktor $1+s$.
+
+## Wann ist die Population gerettet?
+
+Ein Replikat ist **gerettet**, wenn mindestens eine Mutante
+etabliert wird, bevor $N_{\mathrm{wt}}<1$.
+
+Sonst: **ausgestorben**.
+
+Viele Replikate $\to$ Schätzung $\widehat{\Pr}(\mathrm{rescue})$,
+genau wie $\hat u$ in Woche 9 — nur gilt das Ja/Nein jetzt der
+**Population**, nicht der einzelnen Linie.
+
+## Eine Formel zum Drüberlegen
+
+Solange $r$ nicht winzig ist, ist die erwartete Zahl etablierender
+Mutanten ungefähr $2 N_0 U s / r$.
+Dann, ohne Herleitung:
+
+$$
+\Pr(R)\ \approx\ 1-\exp\bigl(-2 N_0 U s / r\bigr).
+$$
+
+Orr & Unckless (2014). Ableitung: andere Vorlesung.
+Heute: liegt die Kurve auf den Punkten?
+
+Was die Formel sagt: grösseres $N_0$, grösseres $U$, grösseres $s$,
+kleineres $r$ $\to$ Rettung wahrscheinlicher.
+
+## Simulation gegen die Kurve: $r$
+
+```{r}
+#| fig-height: 3.5
+#| fig-width: 8.2
+#| out-width: 88%
+set.seed(10)
+N0 <- 8e4
+s <- 0.08
+U <- 1.5e-5
+r_grid <- c(0.04, 0.06, 0.08, 0.11, 0.15, 0.22)
+p_hat <- vapply(r_grid, function(r) {
+  rescue_rate(N0, r, s, U, n_reps = 70)
+}, 0.0)
+par(mar = c(4, 4.2, 1.4, 0.8))
+plot(r_grid, p_hat, type = "b", pch = 19, lwd = 2, col = "#2166ac",
+     ylim = c(0, 1), xlab = "r  (Rueckgang pro Generation)",
+     ylab = "Pr(rescue)",
+     main = "N0 = 8e4, s = 0.08, U = 1.5e-5")
+r_line <- seq(0.03, 0.24, length.out = 80)
+lines(r_line, p_rescue_approx(N0, r_line, s, U),
+      lwd = 2, lty = 2, col = "#d95f02")
+legend("topright", c("Simulation", "1 - exp(-2 N0 U s / r)"),
+       col = c("#2166ac", "#d95f02"), lwd = 2, lty = c(1, 2), bty = "n")
+```
+
+Schnellerer Rückgang: weniger Generationen, in denen eine Mutante
+auftauchen und sich etablieren kann.
+
+## Wo die Näherung bricht
+
+Die gestrichelte Linie ist keine Identität.
+
+- $s$ nicht klein: $u\approx 2s$ war schon in Woche 9 grob
+- $N_0$ klein: Demografie ist selbst zufällig — unsere
+  deterministische $N_{\mathrm{wt}}$ unterschätzt das Aussterben
+- $r$ winzig: die Population schrumpft kaum; Rettung ist nicht
+  das richtige Wort
+- stehende Variation oder HGT: hier nicht im Modell
+
+# Teil 3 · Was das Experiment zeigt
+
+## Zurück zu Bell & Gonzalez (2009)
+
+Hefe, Salz, Hunderte Replikatkulturen. Zwei Vorhersagen aus der
+Theorie, die man **zählen** kann:
+
+1. gerettete Kulturen zeigen die U-Kurve der Dichte
+2. die Rettungswahrscheinlichkeit steigt mit der **Startgrösse** $N_0$
+
+$N_0$ steckt in der Formel als Mutationsangebot $N_0 U$:
+mehr Zellen, mehr Versuche, eine resistente Mutante zu ziehen.
+
+## Schema: Schwelle in $N_0$
+
+```{r}
+#| fig-height: 3.5
+#| fig-width: 8.2
+#| out-width: 88%
+set.seed(10)
+s <- 0.10
+U <- 2e-5
+r <- 0.10
+N0_grid <- c(2e3, 8e3, 2e4, 5e4, 1.2e5, 3e5)
+p_n <- vapply(N0_grid, function(n0) {
+  rescue_rate(n0, r, s, U, n_reps = 70)
+}, 0.0)
+par(mar = c(4, 4.2, 1.4, 0.8))
+plot(log10(N0_grid), p_n, type = "b", pch = 19, lwd = 2, col = "#2166ac",
+     ylim = c(0, 1), xlab = "log10 N0", ylab = "Pr(rescue)",
+     main = "r = 0.10, s = 0.10, U = 2e-5")
+n_line <- 10^seq(3.2, 5.6, length.out = 80)
+lines(log10(n_line), p_rescue_approx(n_line, r, s, U),
+      lwd = 2, lty = 2, col = "#d95f02")
+legend("bottomright", c("Simulation", "Formel"),
+       col = c("#2166ac", "#d95f02"), lwd = 2, lty = c(1, 2), bty = "n")
+```
+
+Unter einer Schwelle fast nie Rettung; darüber fast immer.
+Bell & Gonzalez (2009) sahen genau diese Schwelle in der
+ancestralen Populationsgrösse.
+
+## Was ein Laborversuch misst
+
+Eine Replikatkultur $\approx$ ein Lauf von `one_rescue_run()`.
+
+Zählbar: Anteil der Kulturen, die nach dem Einbruch wieder wachsen;
+ob die Erholung eine U-Kurve ist; wie das von $N_0$ und von der
+Härte des Stresses abhängt.
+
+Nicht direkt sichtbar in der Dichte: ob die Rettung von *einer*
+de-novo-Kopie kam oder von stehender Variation. Das Experiment
+lässt beides zu — unser Modell nur de novo.
+
+# Teil 4 · Was danach kommt
+
+## Rettung im Raum
+
+Eine Population, ein Stressor: das heutige Modell.
+
+Mehrere Orte, Migration, ein Stressor, der sich ausbreitet:
+Bell & Gonzalez (2011) *Science* — Hefe in Metapopulationen,
+Rate der Verschlechterung und Vernetzung ändern die Rettung.
+
+Uecker, Otto & Hermisson (2014): Theorie der Rettung in
+**strukturierten** Populationen. $u$ ist dann nicht mehr das
+$u$ aus einer gut gemischten Kultur.
+
+## Rettung mit ökologischen Interaktionen
+
+Eine Art allein: $N$ fällt, eine Mutante rettet *diese* $N$.
+
+Mit Konkurrenz oder Räuber–Beute ändert sich, *wen* die Mutante
+eigentlich retten muss. Osmond & de Mazancourt (2013): Konkurrenz
+kann Rettung erleichtern oder erschweren — je nachdem, wer mit wem
+um denselben Einbruch konkurriert.
+
+Das ist der nächste Modellschritt, nicht der heutige Simulator.
+
+## Take-home
+
+1. Rettung = Etablierung **vor** demografischem Kollaps.
+2. Erste Näherung: $N_{\mathrm{wt}}$ deterministisch, Mutation und
+   $u$ zufällig.
+3. $\Pr(R)\approx 1-\exp(-2 N_0 U s/r)$ — Simulation daneben legen.
+4. Bell & Gonzalez: $N_0$ ist ein Schlüsselfaktor, den man im Labor
+   sieht.
+5. Raum und Interaktionen: eigene Modelle, eigene $u$.
+
+## Notebook (~45 min)
+
+**→ [Notebook Woche 10 öffnen](notebook.html)** · Entwurf
+
+Trajektorien $\to$ $\Pr(\mathrm{rescue})$ gegen $r$ und gegen $N_0$.
+
+Nächste Woche: **Checkpoint C** — eine Frage, eine Abbildung.
 
 ## Abschlussfragen
 
-1. Wie unterscheidet sich Rettung davon, dass sich „ein Allel in einer stabilen Population etabliert“?
-2. Warum eignen sich Mikroben gut, um die Theorie der Rettung zu prüfen?
-3. Was würde Ihren Simulator in einem Laborversuch widerlegen?
+1. Was unterscheidet Rettung von «ein Allel etabliert sich in fester $N$»?
+2. Welche Grösse ist bei uns deterministisch — und warum ist das
+   eine Näherung?
+3. Warum steht $N_0$ *und* $r$ in der Formel?
+4. Was hat Bell & Gonzalez an $N_0$ gesehen, das zur Formel passt?
+5. Welche Annahme würde ein Laborversuch an Hefe oder Bakterien
+   zuerst treffen?
 
 ## Literatur
 
-Quellen, die in dieser Einheit namentlich angesprochen werden (Folien-Entwurf):
-
-1. **Gomulkiewicz, R., & Holt, R. D. (1995).** When does evolution by natural selection prevent extinction? *Evolution* 49: 201–207. — demografischer + genetischer Rahmen der Rettung.
-2. **Orr, H. A., & Unckless, R. L. (2008).** Population extinction and the genetics of adaptation. *The American Naturalist* 172: 160–169. — Rettung durch neue Mutationen / Variation.
-3. **Bell, G., & Gonzalez, A. (2009).** Evolutionary rescue can prevent extinction following environmental change. *Ecology Letters* 12: 942–948. — Laborevolution (Hefe) und Replikatkulturen.
-4. Weiterführend: Bell, G., & Gonzalez, A. (2011). Adaptation and evolutionary rescue in metapopulations experiencing environmental deterioration. *Science* 332: 1327–1330.
+:::: {.lit}
+1. **Gomulkiewicz, R. & Holt, R. D. (1995).** When does evolution by natural selection prevent extinction? *Evolution* 49: 201–207. [doi:10.1111/j.1558-5646.1995.tb05971.x](https://doi.org/10.1111/j.1558-5646.1995.tb05971.x)
+2. **Orr, H. A. & Unckless, R. L. (2008).** Population extinction and the genetics of adaptation. *Am. Nat.* 172: 160–169. [doi:10.1086/589460](https://doi.org/10.1086/589460)
+3. **Orr, H. A. & Unckless, R. L. (2014).** The population genetics of evolutionary rescue. *PLoS Genet.* 10: e1004551. [doi:10.1371/journal.pgen.1004551](https://doi.org/10.1371/journal.pgen.1004551)
+4. **Bell, G. & Gonzalez, A. (2009).** Evolutionary rescue can prevent extinction following environmental change. *Ecology Letters* 12: 942–948. [doi:10.1111/j.1461-0248.2009.01350.x](https://doi.org/10.1111/j.1461-0248.2009.01350.x)
+5. **Bell, G. & Gonzalez, A. (2011).** Adaptation and evolutionary rescue in metapopulations experiencing environmental deterioration. *Science* 332: 1327–1330. [doi:10.1126/science.1203105](https://doi.org/10.1126/science.1203105)
+6. **Uecker, H., Otto, S. P. & Hermisson, J. (2014).** Evolutionary rescue in structured populations. *Am. Nat.* 183: E17–E35. [doi:10.1086/674571](https://doi.org/10.1086/674571)
+7. **Osmond, M. M. & de Mazancourt, C. (2013).** How competition affects evolutionary rescue. *Phil. Trans. R. Soc. B* 368: 20120077. [doi:10.1098/rstb.2012.0077](https://doi.org/10.1098/rstb.2012.0077)
+::::
 
 ## Navigation
 
 | | |
 |---|---|
-| Übersicht | [Kursplan](../../docs/course-outline.html) |
-| Startseite | [Kurs-Startseite](../../index.html) |
+| Kursplan | [Kursplan](../../docs/course-outline.html) |
+| Notebook | [Notebook Woche 10](notebook.html) |
 | Zurück | [← Woche 9](../week-09/slides.html) |
 | Weiter | [Woche 11 →](../week-11/slides.html) |
-
-Tastatur: ← → · **M** Menü · **Esc** Übersicht · **F** Vollbild

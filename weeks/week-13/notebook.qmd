@@ -1,6 +1,6 @@
 ---
-title: "Woche 13 — Notebook · Visuelle Geschichte · Checkpoint D"
-subtitle: "Eine Abbildung, ehrliche Einschränkungen"
+title: "Woche 13 — Notebook · Mikrobiomdaten visualisieren"
+subtitle: "Zusammensetzung, Heatmap, Facetten"
 format:
   html:
     toc: true
@@ -11,16 +11,16 @@ execute:
   message: false
 ---
 
-## Praktische Arbeit zu Checkpoint D
+## Lernziele
 
-1. Daten erneut einlesen + Plausibilität prüfen.
-2. Eine Fragestellung auswählen.
-3. Eine Hauptabbildung erstellen (optionale kleine Grafik zur Qualitätskontrolle).
-4. Bildlegende (2–3 Sätze) + Stichpunktliste «Was wir nicht behaupten».
+1. Taxa für verständliche Grafiken aggregieren
+2. Eine Grafik zur Zusammensetzung und eine Heatmap oder ein Facetten-Panel erstellen
+3. Bildlegenden verfassen, die Filter/Aggregationen angeben
 
-## Notizen zur Präsentation (vor dem Unterricht ausfüllen)
+## Aufgaben
 
-- Fragestellung:
-- Schritte zum Einlesen/Bereinigen (30 Sek.):
-- Aussage der Abbildung:
-- Einschränkungen:
+1. Beginnen Sie mit den bereinigten Objekten aus Woche 12.
+2. Erstellen Sie eine Tabelle der häufigsten $k$ Taxa + Andere (oder eine Zusammenfassung auf Stammebene).
+3. Plotten Sie die Zusammensetzung nach Probe oder Gruppe.
+4. Erstellen Sie eine Heatmap **oder** einen Vergleich mit Facetten.
+5. **F:** Welche visuelle Aussage wird gestützt? Welche nicht?

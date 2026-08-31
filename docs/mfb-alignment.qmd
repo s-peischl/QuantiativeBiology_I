@@ -33,10 +33,10 @@ QuBi I **cannot** cover every MfB learning goal of years 1–2. The aim is to **
 
 | Code | Strong focus in QuBi I | Lighter / outlook | Mostly elsewhere |
 |---|---|---|---|
-| **MOD** | W2–4 ecological models; W5–7 selection; W8–10 establishment & rescue | Stability ideas for logistic / LV | Full phase-plane theory |
-| **PROG** | Every week: function → vector → loop; Quarto notebooks | Matrices for replicates (W9–10) | Python track; software engineering |
+| **MOD** | W2–4 ecological models; W5–8 deterministic evolution; W9–11 establishment & rescue | Stability ideas for logistic / LV | Full phase-plane theory |
+| **PROG** | Every week: function → vector → loop; Quarto notebooks | Matrices for replicates (W9–11) | Python track; software engineering |
 | **LOG** | Model assumptions; honest model–data comparison; checkpoint talks; **AI policy** | Spotting bad visuals in microbiome block | Formal fallacies |
-| **DAT** | W11–13 load/join/visualise complex tables | FAIR habits (cite data, be transparent) | Excel track; full ML/PCA course |
+| **DAT** | W12–14 load/join/visualise complex tables | FAIR habits (cite data, be transparent) | Excel track; full ML/PCA course |
 | **MATH** | Discrete additive updates $N_{t+1}=N_t+f(N_t)$; ODE mention only | Equilibrium intuition (logistic, selection) | Formal derivatives, eigenvalues, Leslie |
 | **PROB** | Establishment as stochastic fate; rescue probabilities; replicate cultures | LLN intuition via many sims | Distribution theory, Markov homework |
 | **STAT** | Qualitative pattern reading; means of replicates | p-values / CI only if a data story needs them | Dedicated statistics course |
@@ -51,16 +51,16 @@ QuBi I **cannot** cover every MfB learning goal of years 1–2. The aim is to **
 | 2 | Gause PP → discrete LV → code | MOD, PROG, LOG |
 | 3 | Exclusion, bistability, predator-mediated coexistence | MOD, PROG, DAT |
 | 4 | Game theory / RPS lizards; **Checkpoint A** | MOD, PROG, LOG |
-| 5 | Allele-frequency recursion | MOD, PROG, MATH (light) |
-| 6 | Selection regimes | MOD, PROG, LOG |
-| 7 | Limits of deterministic models; **Checkpoint B** | MOD, LOG, PROB (motivation) |
-| 8 | Selection → establishment | MOD, PROB, LOG |
-| 9 | Estimating $u(s)$; replicates | PROB, PROG, MOD |
-| 10 | Evolutionary rescue; **Checkpoint C** | MOD, PROB, LOG |
-| 11 | Load complex microbiome data | DAT, PROG, LOG |
-| 12 | Visualise communities | DAT, LOG, PROG |
-| 13 | Visual story; **Checkpoint D** | DAT, LOG |
-| 14 | Closing synthesis | LOG (arc reflection) |
+| 5 | HWE, HapMap, Wahlund | MOD, PROG, LOG |
+| 6 | Selection and local adaptation | MOD, PROG, LOG |
+| 7 | Maintaining variation | MOD, PROG, LOG |
+| 8 | Synthesis; **Checkpoint B** | MOD, LOG |
+| 9 | Establishment probabilities | MOD, PROB, PROG |
+| 10 | Evolutionary rescue | MOD, PROB, PROG |
+| 11 | Rescue synthesis; **Checkpoint C** | MOD, PROB, LOG |
+| 12 | Load complex microbiome data | DAT, PROG, LOG |
+| 13 | Visualise communities | DAT, LOG, PROG |
+| 14 | Visual story; **Checkpoint D** (short synthesis) | DAT, LOG |
 
 **Checkpoints** deliberately train **LOG** (assumptions, limits) and communication on top of the block’s content codes.
 

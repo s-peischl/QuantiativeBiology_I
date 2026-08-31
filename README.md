@@ -16,8 +16,8 @@ Diese README erklärt, wie Mitwirkende Folien, Notebooks und Aufgaben mit **Quar
 |------:|-------|
 | 1 | Einstieg — Bajau → Tibeter:innen |
 | 2–4 | Ökologie |
-| 5–7 | Evolution (deterministisch) |
-| 8–10 | Evolution (zufällig) |
+| 5–8 | Evolution (deterministisch) |
+| 9–10 | Evolution (zufällig) |
 | 11–13 | Mikrobiom (laden → visualisieren) |
 | 14 | Projekt |
 

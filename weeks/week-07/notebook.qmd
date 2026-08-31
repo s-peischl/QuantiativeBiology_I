@@ -1,47 +1,227 @@
 ---
-title: "Woche 7 — Notebook · Evolution: Grenzen deterministischer Modelle"
-subtitle: "Evolution: Grenzen deterministischer Modelle"
+title: "Woche 7 — Notebook"
+subtitle: "Zykluslänge und stehende Variation"
+author: "Stephan Peischl"
 format:
   html:
     toc: true
+    toc-title: "Inhalt"
+    toc-depth: 2
     code-fold: false
+    embed-resources: true
+    css: ../../styles.scss
 execute:
   echo: true
   warning: false
   message: false
 ---
 
-## Lernziele
+::: {.callout-warning}
+## Entwurf
 
-- Ziel 1
-- Ziel 2
-- Ziel 3
+Dieses Notebook ist noch nicht in der Sitzungsfassung. Die Folien tragen
+die biologische Frage; Übungen kommen später.
+:::
 
-## Biologischer Hintergrund
+# Ziel und Zeitplan
 
-Kurzer Kontext für diese Woche.
+In ungefähr **45 Minuten**:
 
-## Vorbereitung
+| Teil | ca. | Ziel |
+|---|---:|---|
+| Muster | 8 min | Diversitätsparadoxon 1966 |
+| A | 8 min | Überdominanz hält |
+| B | 7 min | Unterdominanz hält nicht |
+| C | 15 min | fluktuierende Selektion: Parameter $L$ |
+| D | 7 min | eine Frage für Checkpoint B |
 
-```{r}
-# libraries / parameters
+Frage in C: bei welcher Zykluslänge $L$ bleibt Polymorphismus — und wann nicht?
+
+## Grössen, bevor der Code sie braucht
+
+Ein Locus, zwei Allele A und B.
+
+- **Allelfrequenz** $p = f(A)$: Anteil der A-Kopien. $q = 1-p$.
+- **Genotypfrequenzen** (HWE, Woche 5): $p^2$ (AA), $2pq$ (AB), $q^2$ (BB).
+- **Fitness** `fitness = (wAA, wAB, wBB)`: eine Zahl pro Genotyp.
+- **$L$**: Generationen pro Saison (Teil C).
+
+Selektion wirkt auf Genotypen; danach ist der Zustand wieder $p$.
+
+```{r functions}
+selection_step_general <- function(p, fitness) {
+  q <- 1 - p
+  names(fitness) <- c("AA", "AB", "BB")
+  wbar <- p^2 * fitness["AA"] +
+    2 * p * q * fitness["AB"] +
+    q^2 * fitness["BB"]
+  (p^2 * fitness["AA"] + p * q * fitness["AB"]) / wbar
+}
+
+simulate_p <- function(p0, fitness, generations = 200) {
+  p <- numeric(generations + 1)
+  p[1] <- p0
+  for (t in seq_len(generations)) {
+    p[t + 1] <- selection_step_general(p[t], fitness)
+  }
+  data.frame(generation = 0:generations, p = p)
+}
+
+simulate_fluct <- function(p0, w1, w2, L, generations = 400) {
+  p <- numeric(generations + 1)
+  p[1] <- p0
+  for (t in seq_len(generations)) {
+    env1 <- ((t - 1) %/% L) %% 2 == 0
+    p[t + 1] <- selection_step_general(p[t], if (env1) w1 else w2)
+  }
+  data.frame(generation = 0:generations, p = p)
+}
+
+plot_starts <- function(starts, fitness, generations = 150, main = "") {
+  plot(NA, xlim = c(0, generations), ylim = c(0, 1),
+       xlab = "Generation", ylab = "p = f(A)", main = main)
+  cols <- c("#2166ac", "#1b9e77", "#d95f02", "#762a83")
+  for (i in seq_along(starts)) {
+    sim <- simulate_p(starts[i], fitness, generations)
+    lines(sim$generation, sim$p, lwd = 2, col = cols[i])
+  }
+  legend("right", paste("p0 =", starts), col = cols[seq_along(starts)],
+         lwd = 2, bty = "n")
+}
+
+draw_loci <- function(poly, main) {
+  n <- length(poly)
+  plot(NA, xlim = c(0.4, n + 0.6), ylim = c(0, 1.15), axes = FALSE,
+       xlab = "", ylab = "", main = main)
+  for (i in seq_len(n)) {
+    rect(i - 0.4, 0.18, i + 0.4, 0.95,
+         col = if (poly[i] == 1) "#2166ac" else "#d9d9d9",
+         border = "#4d4d4d", lwd = 1.4)
+  }
+}
 ```
 
-## Angeleitete Arbeit
+Die Funktionen oben machen einen Generationsschritt.
 
-```{r}
-# starter code
+------------------------------------------------------------------------
+
+# Muster — 1966
+
+Klassische Erwartung: fast alle Loci homozygot Wildtyp. Elektrophorese
+von Enzymen zeigte viele polymorphe Loci (Hubby & Lewontin 1966;
+Lewontin & Hubby 1966). **Diversitätsparadoxon:** zu viel stehende
+Variation, als dass gerichtete Selektion an jedem Locus sie erklären könnte.
+Kimura (1968): viele Unterschiede können **neutral** sein. Gillespie (1991):
+Selektion kann molekulare Variation halten, vor allem wenn die Fitness
+**schwankt**. Die Debatte läuft weiter (Kern & Hahn 2018; Jensen et al. 2019).
+Lehrschema: 18 Loci, 7 polymorph.
+
+```{r loci-1966}
+klassik <- c(1, rep(0, 17))
+elektrophorese <- c(1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1)
+par(mfrow = c(1, 2), mar = c(2.2, 0.6, 2.4, 0.4))
+draw_loci(klassik, "Klassik: fast monomorph")
+draw_loci(elektrophorese, "Elektrophorese 1966")
 ```
 
-## Übung 1
+::: {.callout-tip}
+## Aufgabe Muster
 
-…
+1. Was bestimmt, wie viel Diversität eine Population — oder eine Art — hat?
+2. Isolation, räumliche Selektion, Überdominanz, zeitliche Fluktuation:
+   wo sitzt die Diversität jeweils?
+3. Welcher Mechanismus braucht **zwei Habitate gleichzeitig**
+   — und welcher nur eine Population nacheinander?
+:::
 
-## Übung 2
+Gerichtete Selektion in **einer** gut gemischten Population treibt $p$
+oft an den Rand. Isolation und räumliche Selektion (Woche 6) können
+Diversität **zwischen** Orten halten. Die Modelle unten fragen: wann
+bleibt Variation **in** einer Population?
 
-…
+------------------------------------------------------------------------
 
-## Zusammenfassung
+# A — Überdominanz
 
-- Wichtigstes quantitatives Ergebnis:
-- Wichtigste biologische Interpretation:
+```{r overdominance}
+overdom <- c(wAA = 0.80, wAB = 1.00, wBB = 0.70)
+plot_starts(c(0.05, 0.3, 0.7, 0.95), overdom, main = "Ueberdominanz")
+```
+
+::: {.callout-tip}
+## Aufgabe A1
+
+Lesen Sie das ungefähre Gleichgewicht ab. Ändern Sie `wAA` und `wBB`
+leicht: wandert $\hat p$? Reicht dieses Modell, um *alle* Enzym-Polymorphismen
+von 1966 zu erklären?
+:::
+
+------------------------------------------------------------------------
+
+# B — Unterdominanz
+
+```{r underdominance}
+underdom <- c(wAA = 1.00, wAB = 0.70, wBB = 1.00)
+plot_starts(c(0.2, 0.45, 0.55, 0.8), underdom, generations = 80,
+            main = "Unterdominanz")
+```
+
+::: {.callout-tip}
+## Aufgabe B1
+
+Welche Starts gehen nach 0, welche nach 1? Wird Diversität **in einer**
+Population gehalten — oder geht sie verloren?
+:::
+
+------------------------------------------------------------------------
+
+# C — Fluktuierende Selektion (Zykluslänge $L$)
+
+Eine Population, zwei Saisons **nacheinander**. Sommer: Allel A im
+Vorteil. Winter: Allel B. Dasselbe Bild wie bei *Drosophila*
+(Bergland et al. 2014; Rudman et al. 2022): stehende Variation, die
+mit den Jahreszeiten mitschwingt.
+
+Zustand bleibt die Allelfrequenz $p = f(A)$. Die Genotypfrequenzen
+kommen aus HWE. Neu ist nur der Parameter **$L$**: Generationen
+pro Saison, danach wechselt der Fitnessvektor.
+
+```{r fluct-L}
+w_sommer <- c(AA = 1.30, AB = 1.00, BB = 0.75)
+w_winter <- c(AA = 0.75, AB = 1.00, BB = 1.30)
+L_values <- c(5, 40)   # Parameter aendern, z.B. 2, 10, 80
+par(mfrow = c(1, 2), mar = c(4, 4, 2.2, 1))
+for (L in L_values) {
+  sim <- simulate_fluct(0.5, w_sommer, w_winter, L, generations = 300)
+  plot(sim$generation, sim$p, type = "l", lwd = 2, col = "#2166ac",
+       ylim = c(0, 1), xlab = "Generation", ylab = "p = f(A)",
+       main = paste("L =", L))
+  abline(h = c(0, 1), col = "grey80")
+}
+```
+
+::: {.callout-tip}
+## Aufgabe C1
+
+1. Bei welchem $L$ bleibt $p$ **innen** — wann läuft es an den Rand?
+2. Ändern Sie `L_values <- c(2, 10, 80)`. Ab wann würden Sie noch von
+   stabilem Polymorphismus sprechen?
+3. Lassen Sie `w_winter <- w_sommer` (keine Umkehr). Was bleibt von der
+   Oszillation?
+4. Woche 6 hatte zwei Habitate **gleichzeitig**. Was ist hier anders?
+5. Nahe $0$ wäre das seltene Allel mit Drift verloren. Was fehlt dem
+   deterministischen Modell (Woche 9)?
+:::
+
+------------------------------------------------------------------------
+
+# D — Vorbereitung auf Checkpoint B
+
+Wählen Sie **eines**: Überdominanz, Unterdominanz, oder Zykluslänge $L$.
+
+1. biologische Frage (1966 / Saisons / wann bleibt Variation?)
+2. Parameter, die Sie ändern
+3. welche Abbildung Sie in Woche 8 zeigen
+4. eine Modellgrenze (unendlich grosse Population, ein Locus, …)
+
+Nächste Woche: kurze Synthese, Notebook, 3–5-Minuten-Präsentation.

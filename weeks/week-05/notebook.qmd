@@ -1,47 +1,283 @@
 ---
-title: "Woche 5 — Notebook · Evolution: Allelfrequenzen als Zeitreihen"
-subtitle: "Evolution: Allelfrequenzen als Zeitreihen"
+title: "Woche 5 — Notebook"
+subtitle: "HapMap-Muster, Hardy–Weinberg und Wahlund"
+author: "Stephan Peischl"
 format:
   html:
     toc: true
+    toc-title: "Inhalt"
+    toc-depth: 2
     code-fold: false
+    embed-resources: true
+    css: ../../styles.scss
 execute:
   echo: true
   warning: false
   message: false
 ---
 
-## Lernziele
+::: {.callout-warning}
+## Entwurf
 
-- Ziel 1
-- Ziel 2
-- Ziel 3
+Dieses Notebook ist noch nicht in der Sitzungsfassung. Die Folien tragen
+die biologische Frage; Übungen kommen später.
+:::
 
-## Biologischer Hintergrund
+# Ziel und Zeitplan
 
-Kurzer Kontext für diese Woche.
+In ungefähr **45 Minuten**:
 
-## Vorbereitung
+| Teil | ca. | Ziel |
+|---|---:|---|
+| A | 8 min | Allel- vs. Genotypfrequenzen |
+| B | 12 min | HapMap-Muster mit HWE-Kurven erklären |
+| C | 10 min | Struktur ignorieren: derselbe HWE-Plot |
+| D | 15 min | Populationen trennen; Abweichungen diskutieren |
 
-```{r}
-# libraries / parameters
+Das Notebook läuft mit **base R**.
+
+## Daten
+
+- `data/hapmap_chb_chr1.csv`: 225 SNPs, 84 CHB-Personen (HapMap).
+- `data/famous_snps.csv`: Duffy, Laktase, *SLC24A5* in CEU und YRI
+  (1000 Genomes Phase 3).
+- `data/panel_ceu_yri.csv`: 50 SNPs in CEU und YRI; innerhalb jeder
+  Population unter HWE simuliert.
+
+Details: `data/README.md`.
+
+```{r check-data}
+stopifnot(
+  file.exists("data/hapmap_chb_chr1.csv"),
+  file.exists("data/famous_snps.csv"),
+  file.exists("data/panel_ceu_yri.csv")
+)
+hapmap <- read.csv("data/hapmap_chb_chr1.csv")
+famous <- read.csv("data/famous_snps.csv")
+panel <- read.csv("data/panel_ceu_yri.csv")
+head(hapmap)
 ```
 
-## Angeleitete Arbeit
+------------------------------------------------------------------------
 
-```{r}
-# starter code
+# A — Allele und Genotypen
+
+Ein diploider Locus, Allele A und B, Genotypen $AA$, $AB$, $BB$.
+Das sind **keine Haplotypen**.
+
+$$
+p=f(A)=\frac{2n_{AA}+n_{AB}}{2N},\qquad q=1-p.
+$$
+
+```{r allele-frequency-function}
+allele_frequency <- function(AA, AB, BB) {
+  n <- AA + AB + BB
+  p <- (2 * AA + AB) / (2 * n)
+  c(n = n, p = p, q = 1 - p)
+}
+
+allele_frequency(AA = 25, AB = 50, BB = 25)
 ```
 
-## Übung 1
+::: {.callout-tip}
+## Aufgabe A1
 
-…
+Vergleichen Sie `AA=25, AB=50, BB=25` mit `AA=50, AB=0, BB=50`.
+Gleiche Allelfrequenzen? Gleiche Genotypfrequenzen?
+:::
 
-## Übung 2
+```{r exercise-a1}
+rbind(
+  Population_1 = allele_frequency(25, 50, 25),
+  Population_2 = allele_frequency(50, 0, 50)
+)
+```
 
-…
+------------------------------------------------------------------------
 
-## Zusammenfassung
+# B — Kann HWE das HapMap-Muster erklären?
 
-- Wichtigstes quantitatives Ergebnis:
-- Wichtigste biologische Interpretation:
+Unter zufälliger Paarung:
+
+$$f(AA)=p^2,\quad f(AB)=2pq,\quad f(BB)=q^2.$$
+
+```{r hwe-curves}
+pgrid <- seq(0, 1, length.out = 301)
+cols <- c(AA = "#2166ac", AB = "#1b9e77", BB = "#b2182b")
+
+plot_hwe <- function(dat, main, cex = 0.7) {
+  plot(pgrid, pgrid^2, type = "l", lwd = 2.5, col = cols["AA"],
+       ylim = c(0, 1), xlab = "p = f(A)", ylab = "Genotypfrequenz",
+       main = main)
+  lines(pgrid, 2 * pgrid * (1 - pgrid), lwd = 2.5, col = cols["AB"])
+  lines(pgrid, (1 - pgrid)^2, lwd = 2.5, col = cols["BB"])
+  points(dat$p, dat$f_AA, pch = 16, cex = cex,
+         col = adjustcolor(cols["AA"], 0.5))
+  points(dat$p, dat$f_AB, pch = 16, cex = cex,
+         col = adjustcolor(cols["AB"], 0.5))
+  points(dat$p, dat$f_BB, pch = 16, cex = cex,
+         col = adjustcolor(cols["BB"], 0.5))
+  legend("top", names(cols), col = cols, pch = 16, lwd = 2.5,
+         bty = "n", ncol = 3)
+}
+
+plot(pgrid, pgrid^2, type = "l", lwd = 3, col = cols["AA"],
+     ylim = c(0, 1), xlab = "p = f(A)", ylab = "Genotypfrequenz",
+     main = "Hardy-Weinberg-Erwartung")
+lines(pgrid, 2 * pgrid * (1 - pgrid), lwd = 3, col = cols["AB"])
+lines(pgrid, (1 - pgrid)^2, lwd = 3, col = cols["BB"])
+legend("top", c("AA: p²", "AB: 2pq", "BB: q²"),
+       col = cols, lwd = 3, bty = "n", ncol = 3)
+```
+
+```{r prepare-hapmap}
+hapmap$n <- rowSums(hapmap[c("AA", "AB", "BB")])
+hapmap$p <- (2 * hapmap$AA + hapmap$AB) / (2 * hapmap$n)
+hapmap$f_AA <- hapmap$AA / hapmap$n
+hapmap$f_AB <- hapmap$AB / hapmap$n
+hapmap$f_BB <- hapmap$BB / hapmap$n
+```
+
+```{r observed-over-theory}
+plot_hwe(hapmap, "225 CHB-SNPs und HWE-Kurven", cex = 0.55)
+```
+
+::: {.callout-tip}
+## Aufgabe B1
+
+Erklärt das Modell das Muster? Warum erwarten Sie bei $N=84$ Streuung
+um die Kurven, selbst wenn HWE gilt?
+:::
+
+------------------------------------------------------------------------
+
+# C — Struktur ignorieren
+
+Jetzt 50 SNPs aus **CEU** und **YRI**. Zuerst behandeln wir alle Personen
+als **eine** Stichprobe — Herkunft ignoriert.
+
+```{r pool-panel}
+ceu <- panel[panel$pop == "CEU", ]
+yri <- panel[panel$pop == "YRI", ]
+stopifnot(identical(ceu$snp, yri$snp))
+
+pooled <- data.frame(
+  snp = ceu$snp,
+  AA = ceu$AA + yri$AA,
+  AB = ceu$AB + yri$AB,
+  BB = ceu$BB + yri$BB
+)
+pooled$n <- rowSums(pooled[c("AA", "AB", "BB")])
+pooled$p <- (2 * pooled$AA + pooled$AB) / (2 * pooled$n)
+pooled$f_AA <- pooled$AA / pooled$n
+pooled$f_AB <- pooled$AB / pooled$n
+pooled$f_BB <- pooled$BB / pooled$n
+```
+
+```{r pooled-hwe-plot}
+plot_hwe(pooled, "CEU + YRI als eine Stichprobe")
+```
+
+::: {.callout-tip}
+## Aufgabe C1
+
+Vergleichen Sie mit dem CHB-Plot. Liegen **alle** grünen Punkte unter
+$2pq$, oder nur ein Teil? Was könnte der Unterschied zwischen diesen
+SNPs sein?
+:::
+
+::: {.callout-tip}
+## Aufgabe C2 — Diskussion
+
+Welche Faktoren könnten zu einer Abweichung von HWE führen?
+Nennen Sie mindestens drei, nicht nur Selektion.
+:::
+
+> Ob ein Punkt «weit weg» ist, quantifiziert später die Statistikvorlesung
+> (z. B. mit einem $\chi^2$-Vergleich). Heute reicht der Plot.
+
+------------------------------------------------------------------------
+
+# D — Dieselben SNPs, Populationen getrennt
+
+```{r split-panel}
+ceu$n <- rowSums(ceu[c("AA", "AB", "BB")])
+ceu$p <- (2 * ceu$AA + ceu$AB) / (2 * ceu$n)
+ceu$f_AA <- ceu$AA / ceu$n
+ceu$f_AB <- ceu$AB / ceu$n
+ceu$f_BB <- ceu$BB / ceu$n
+
+yri$n <- rowSums(yri[c("AA", "AB", "BB")])
+yri$p <- (2 * yri$AA + yri$AB) / (2 * yri$n)
+yri$f_AA <- yri$AA / yri$n
+yri$f_AB <- yri$AB / yri$n
+yri$f_BB <- yri$BB / yri$n
+```
+
+```{r split-hwe-plot}
+par(mfrow = c(1, 2), mar = c(4, 4, 2.2, 0.6))
+plot_hwe(ceu, "nur CEU", cex = 0.65)
+plot_hwe(yri, "nur YRI", cex = 0.65)
+```
+
+::: {.callout-tip}
+## Aufgabe D1
+
+Was ändert sich am Plot, wenn man die Herkunft **nicht** ignoriert?
+Welche der Ursachen aus C2 erklärt das am direktesten?
+:::
+
+Das ist der **Wahlund-Effekt**: zwei Populationen mit verschiedenem $p$,
+jede für sich in HWE, ergeben im **Pool** zu wenige Heterozygote.
+
+$$
+\overline{2pq} < 2\bar p\,\bar q
+$$
+
+## Duffy macht denselben Punkt extrem
+
+C = Duffy-Null (`rs2814778`): Resistenz gegen *P. vivax*. In YRI fast
+fixiert, in CEU praktisch abwesend.
+
+```{r duffy}
+duffy <- famous[famous$snp == "rs2814778", ]
+ceu_d <- duffy[duffy$pop == "CEU", ]
+yri_d <- duffy[duffy$pop == "YRI", ]
+pool_d <- data.frame(
+  AA = ceu_d$AA + yri_d$AA,
+  AB = ceu_d$AB + yri_d$AB,
+  BB = ceu_d$BB + yri_d$BB
+)
+n_pool <- sum(pool_d)
+p_pool <- (2 * pool_d$AA + pool_d$AB) / (2 * n_pool)
+
+rbind(
+  CEU = c(TT = ceu_d$AA, TC = ceu_d$AB, CC = ceu_d$BB),
+  YRI = c(TT = yri_d$AA, TC = yri_d$AB, CC = yri_d$BB),
+  gepoolt = c(TT = pool_d$AA, TC = pool_d$AB, CC = pool_d$BB)
+)
+c(
+  p_gepoolt = p_pool,
+  erwartet_2pq = 2 * p_pool * (1 - p_pool),
+  beobachtet_f_AB = pool_d$AB / n_pool
+)
+```
+
+::: {.callout-tip}
+## Aufgabe D2
+
+1. Formulieren Sie Wahlund in einem Satz.
+2. Warum erwartet HWE im Duffy-Pool viele Heterozygote, obwohl fast
+   niemand heterozygot ist?
+3. Warum bleibt Duffy biologisch spannend — obwohl die Abweichung im
+   Pool von der **Mischung** kommt?
+:::
+
+------------------------------------------------------------------------
+
+# Zusammenfassung
+
+- HapMap-Punkte folgen $p^2,2pq,q^2$, wenn eine Population zufällig paart.
+- Abweichungen vom HWE-Plot haben mehrere mögliche Ursachen.
+- Zwei Populationen poolen kann Heterozygote unter $2pq$ drücken (**Wahlund**).
+- Nach Population trennen: dieselben SNPs liegen wieder auf den Kurven.

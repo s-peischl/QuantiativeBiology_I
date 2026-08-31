@@ -31,10 +31,9 @@ Kalender: [Kursplan — Sitzungskalender](course-outline.qmd#session-calendar).
 | Modul | Wochen | Checkpoint |
 |-------|--------|------------|
 | **1** Einstieg + Ökologie | 1–4 | **A** in Woche **4** ([Modul 1](module-01-overview.qmd)) |
-| **2** Evolution (deterministisch) | 5–7 | **B** in Woche **7** |
-| **3** Evolution (zufällig) / Rettung | 8–10 | **C** in Woche **10** |
-| **4** Mikrobiom | 11–13 | **D** in Woche **13** |
-| Abschluss | 14 | Synthese (keine 5. Präsentation) |
+| **2** Allelfrequenz und Selektion | 5–8 | **B** in Woche **8** ([Modul 2](module-02-overview.qmd)) |
+| **3** Evolution (zufällig) / Rettung | 9–11 | **C** in Woche **11** ([Modul 3](module-03-overview.qmd)) |
+| **4** Mikrobiom | 12–14 | **D** in Woche **14** (kurze Synthese in derselben Sitzung) |
 
 ## Bewertung — bestanden / nicht bestanden (Entwurf)
 
@@ -55,7 +54,7 @@ Statt Hausaufgaben und statt einer grossen Abschlussprüfung: **vier Checkpoints
 ::: {.callout-important}
 ## Präsenz an Checkpoint-Terminen
 
-An den Checkpoint-Wochen (**4, 7, 10, 13**) müssen Sie **anwesend sein und präsentieren**, damit der Checkpoint zählt.  
+An den Checkpoint-Wochen (**4, 8, 11, 14**) müssen Sie **anwesend sein und präsentieren**, damit der Checkpoint zählt.  
 Wer fehlt, kann diesen Termin nicht nachholen (Ausnahmen nur nach Absprache / gemäss Fakultätsregeln — folgt).
 :::
 
@@ -78,5 +77,8 @@ Wer fehlt, kann diesen Termin nicht nachholen (Ausnahmen nur nach Absprache / ge
 |--|--|
 | [Start](../index.qmd) | Hub-Startseite |
 | [Modul 1 (Wochen 1–4)](module-01-overview.qmd) | Ein-Seiten-Überblick inkl. Checkpoint A |
+| [Modul 2 (Wochen 5–8)](module-02-overview.qmd) | Allelfrequenz und Selektion · Checkpoint B |
+| [Modul 3 (Wochen 9–11)](module-03-overview.qmd) | Zufall · Etablierung · Rettung · Checkpoint C |
+| [Glossar](glossary.qmd) | Fachbegriffe |
 | [Kursplan](course-outline.qmd) | Vollständiger Wochenplan |
 | [KI-Richtlinie](ai-policy.qmd) | Erlaubte Nutzung & Offenlegung |

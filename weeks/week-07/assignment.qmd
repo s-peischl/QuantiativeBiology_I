@@ -1,23 +1,33 @@
 ---
-title: "Woche 7 — Aufgabe · Checkpoint B"
+title: "Woche 7 — Aufgabe"
+subtitle: "Vorbereitung auf Checkpoint B"
 format:
   html:
     toc: true
     css: ../../styles.scss
 ---
 
-**Checkpoint B** schließt den Block zur deterministischen Evolution ab (Wochen 5–7).
+## Aufgabe
 
-## Abgabe (praktischer Teil)
+Bereiten Sie **eine** Frage für Woche 8 vor. Wählen Sie genau ein Thema:
 
-1. Vergleichen Sie ≥2 Selektionsregime anhand von $p_t$-Trajektorien (eine Abbildung).
-2. Kurze Interpretation: Gleichgewichte / Geschwindigkeit der Veränderung.
-3. Wo erscheint eine glatte deterministische Beschreibung unzureichend?
+1. Sweep / Dominanz in einer Population (Woche 6, ein Deme),
+2. lokale Anpassung vs. Gene swamping (Woche 6, zwei Demen),
+3. Erhalt von Variation (heute: Überdominanz, Unterdominanz oder
+   Zykluslänge $L$ bei fluktuierender Selektion).
 
-## Präsentation (~3–5 Min.)
+Schreiben Sie eine halbe Seite:
 
-Frage → Berechnung → eine Abbildung → Einschränkung / Brücke zum Zufall.
+- Frage in einem Satz (halten / welches Bild?)
+- Parameter, die Sie ändern
+- erwartete Abbildung
+- welche Gleichgewichtsform Sie erwarten
+- eine Grenze des deterministischen Modells
 
-## Offenlegung der KI-Nutzung (erforderlich)
+Keine Präsentation heute. Abgabe hilft, in Woche 8 sofort zu arbeiten.
 
-Siehe [KI-Richtlinie](../../docs/ai-policy.qmd). Geben Sie Werkzeug + Verwendung an oder `KI-Offenlegung: keine`.
+## Literatur
+
+Hubby & Lewontin (1966); Kimura (1968); Gillespie (1991);
+Bergland et al. (2014); Wittmann et al. (2017); Rudman et al. (2022) —
+[Folien](slides.qmd#literatur).

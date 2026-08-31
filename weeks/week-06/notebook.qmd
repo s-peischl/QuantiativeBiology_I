@@ -1,47 +1,617 @@
 ---
-title: "Woche 6 — Notebook · Evolution: Selektionsregime"
-subtitle: "Evolution: Selektionsregime"
+title: "Woche 6 — Notebook"
+subtitle: "Zwei Habitate und stabile Unterschiede"
+author: "Stephan Peischl"
 format:
   html:
     toc: true
+    toc-title: "Inhalt"
+    toc-depth: 2
     code-fold: false
+    embed-resources: true
+    css: ../../styles.scss
 execute:
   echo: true
   warning: false
   message: false
 ---
 
-## Lernziele
+<!--
+Teil C: Karte s1 gegen s2 bei festem m (geschuetzter Polymorphismus).
+Diagonal s1 = s2 > 0: immer Polymorphismus. Differenzierung |p1-p2| ist
+eine andere Frage (Teil D).
+-->
 
-- Ziel 1
-- Ziel 2
-- Ziel 3
+::: {.callout-warning}
+## Entwurf
 
-## Biologischer Hintergrund
+Dieses Notebook ist noch nicht in der Sitzungsfassung. Die Folien tragen
+die biologische Frage; Übungen kommen später.
+:::
 
-Kurzer Kontext für diese Woche.
+# Ziel und Zeitplan
 
-## Vorbereitung
+In ungefähr **45 Minuten** bearbeiten wir fünf Schritte:
 
-```{r}
-# libraries / parameters
+| Teil | ca. | Ziel |
+|---|---:|---|
+| Muster | 8 min | $F_{ST}$-Scan zwischen zwei Habitaten lesen |
+| A | 10 min | Gerüst: HWE + Selektion + Mischung |
+| B | 8 min | $p_1$, $p_2$ und globale Frequenz simulieren |
+| C | 12 min | Karte $s_1$ gegen $s_2$ bei festem $m$: bleiben beide Allele? |
+| D | 7 min | Polymorphismus vs. Differenzierung; Peaks |
+
+Das Notebook läuft vollständig mit **base R**. Es muss kein Paket installiert
+oder geladen werden.
+
+## Biologisches Szenario
+
+Dreistachlige Stichlinge im **Meer** und im **Süsswasser**.
+Dieselbe Art, zwei Umwelten, Genfluss nicht null.
+Kreuzungen und Genome: Peichel et al. (2001); Colosimo et al. (2005);
+Jones et al. (2012); Peichel & Marques (2017).
+
+Ein diploider Locus, Allele A und B:
+
+- In **Deme 1** begünstigt Habitat 1 das Allel A.
+- In **Deme 2** begünstigt Habitat 2 das Allel B.
+- Nach lokaler Viabilitätsselektion wandert ein Anteil $m$.
+- Beide Demen gleich gross; Migration symmetrisch.
+
+$$p_{1,t}=f(A)\text{ in Deme 1},\qquad
+p_{2,t}=f(A)\text{ in Deme 2}.$$
+
+Für gleich grosse Demen ist $\bar p_t=(p_{1,t}+p_{2,t})/2$.
+
+------------------------------------------------------------------------
+
+# Muster — ein $F_{ST}$-Scan
+
+$F_{ST}$ fasst zusammen, wie verschieden zwei Populationen an einem Locus
+sind:
+
+$$
+F_{ST}=\frac{\mathrm{Var}(p)}{\bar p\,(1-\bar p)}.
+$$
+
+Schätzer und Fenster gehören nicht in diese Sitzung. Heute: Punkte gegen
+die Genomposition.
+
+```{r read-scan}
+stopifnot(file.exists("data/fst_scan.csv"))
+scan <- read.csv("data/fst_scan.csv")
+head(scan)
 ```
 
-## Angeleitete Arbeit
-
-```{r}
-# starter code
+```{r plot-scan}
+chr_breaks <- tapply(scan$x, scan$chr, mean)
+cols <- ifelse(scan$chr %% 2 == 1, "#4d4d4d", "#2166ac")
+plot(scan$x, scan$fst, pch = 16, cex = 0.45,
+     col = adjustcolor(cols, 0.7), ylim = c(0, 1),
+     xlab = "Genomposition (Lehrschema)", ylab = "Fst",
+     main = "Meer vs. Suesswasser", xaxt = "n")
+axis(1, at = chr_breaks, labels = paste("Chr", seq_along(chr_breaks)))
+lab <- scan[scan$label != "", ]
+points(lab$x, lab$fst, pch = 16, cex = 1.2, col = "#b2182b")
+text(lab$x, pmin(0.97, lab$fst + 0.10), lab$label,
+     col = "#b2182b", font = 2)
 ```
 
-## Übung 1
+::: {.callout-tip}
+## Aufgabe Muster
 
-…
+1. Wo liegt der Hintergrund, wo die Peaks?
+2. Alle SNPs teilen ungefähr denselben Genfluss. Was könnte die Peaks
+   von den übrigen Loci unterscheiden?
+3. Warum beweist ein Peak noch keine Funktion des Gens?
+:::
 
-## Übung 2
+> Das Modell unten fragt: wann bleibt $|p_1-p_2|$ trotz Migration erhalten?
 
-…
+------------------------------------------------------------------------
 
-## Zusammenfassung
+# A — Eine Generation: das Gerüst
 
-- Wichtigstes quantitatives Ergebnis:
-- Wichtigste biologische Interpretation:
+Wie Lotka–Volterra: Zustand $\to$ Update $\to$ neuer Zustand.  
+Heute der Zustand $(p_1,p_2)$ — zwei Allelfrequenzen, nicht zwei Arten.
+
+**Extra gegenüber Woche 2:** Vererbung. In jeder Deme nehmen wir HWE an
+(Woche 5): Genotypen $p^2,2pq,q^2$. Selektion wirkt auf Genotypen;
+danach reicht wieder ein $p$.
+
+Die Funktionen unten machen diesen Sprung. Sie müssen $\bar w$ nicht
+herleiten — lesen Sie, **was** passiert.
+
+## Selektion lokal (HWE steckt darin)
+
+```{r selection-function}
+selection_step_general <- function(p, fitness) {
+  stopifnot(
+    length(p) == 1, is.finite(p), p >= 0, p <= 1,
+    length(fitness) == 3, all(is.finite(fitness)), all(fitness > 0)
+  )
+  names(fitness) <- c("AA", "AB", "BB")
+  q <- 1 - p
+  wbar <- p^2 * fitness["AA"] +
+    2 * p * q * fitness["AB"] +
+    q^2 * fitness["BB"]
+  p_after_selection <- (
+    p^2 * fitness["AA"] + p * q * fitness["AB"]
+  ) / wbar
+  unname(p_after_selection)
+}
+```
+
+Im additiven Kursmodell verwenden wir:
+
+```{r fitness-regimes}
+fitness_two_habitats <- function(s = 0.1, s1 = s, s2 = s) {
+  stopifnot(
+    length(s1) == 1, is.finite(s1), s1 >= 0,
+    length(s2) == 1, is.finite(s2), s2 >= 0
+  )
+  list(
+    deme1 = c(AA = 1 + s1, AB = 1 + s1 / 2, BB = 1),
+    deme2 = c(AA = 1, AB = 1 + s2 / 2, BB = 1 + s2)
+  )
+}
+
+fitness_two_habitats(s1 = 0.1, s2 = 0.1)
+```
+
+## Migration als Mischung
+
+Ein Anteil $m$ jeder Deme wird durch die andere Seite ersetzt — dasselbe
+«Einrühren» wie Nachbarn in einem räumlichen Modell:
+
+$$
+p_1'=(1-m)p_1^S+m\,p_2^S.
+$$
+
+## Vollständige Funktion: eine Generation
+
+```{r two-deme-step}
+two_deme_step <- function(p1, p2, s, m, s1 = s, s2 = s) {
+  stopifnot(
+    length(p1) == 1, is.finite(p1), p1 >= 0, p1 <= 1,
+    length(p2) == 1, is.finite(p2), p2 >= 0, p2 <= 1,
+    length(m) == 1, is.finite(m), m >= 0, m <= 0.5
+  )
+  fit <- fitness_two_habitats(s1 = s1, s2 = s2)
+
+  p1_after_selection <- selection_step_general(p1, fit$deme1)
+  p2_after_selection <- selection_step_general(p2, fit$deme2)
+
+  p1_next <- (1 - m) * p1_after_selection + m * p2_after_selection
+  p2_next <- (1 - m) * p2_after_selection + m * p1_after_selection
+
+  c(
+    p1_after_selection = p1_after_selection,
+    p2_after_selection = p2_after_selection,
+    p1_next = p1_next,
+    p2_next = p2_next
+  )
+}
+
+two_deme_step(p1 = 0.70, p2 = 0.30, s = 0.10, m = 0.05)
+```
+
+```{r fst-two}
+fst_two <- function(p1, p2) {
+  pbar <- (p1 + p2) / 2
+  if (pbar <= 0 || pbar >= 1) return(0)
+  varp <- ((p1 - pbar)^2 + (p2 - pbar)^2) / 2
+  varp / (pbar * (1 - pbar))
+}
+```
+
+::: {.callout-tip}
+## Vorhersage A1 — vor dem Ausführen beantworten
+
+Für $p_1=0.70$, $p_2=0.30$, $s=0.10$, $m=0.05$:
+
+1. Welche Frequenz steigt während der Selektion?
+2. Vergrössert oder verkleinert Migration danach $|p_1-p_2|$?
+3. Ändert symmetrische Migration das Mittel der beiden Frequenzen?
+
+Prüfen Sie Ihre Antworten mit der Funktionsausgabe.
+:::
+
+```{r exercise-a1}
+step_a1 <- two_deme_step(
+  p1 = 0.70,
+  p2 = 0.30,
+  s = 0.10,
+  m = 0.05
+)
+
+rbind(
+  vorher = c(p1 = 0.70, p2 = 0.30,
+             mean = mean(c(0.70, 0.30)),
+             Fst = fst_two(0.70, 0.30)),
+  nach_Selektion = c(
+    p1 = step_a1["p1_after_selection"],
+    p2 = step_a1["p2_after_selection"],
+    mean = mean(step_a1[c("p1_after_selection", "p2_after_selection")]),
+    Fst = fst_two(step_a1["p1_after_selection"], step_a1["p2_after_selection"])
+  ),
+  nach_Migration = c(
+    p1 = step_a1["p1_next"],
+    p2 = step_a1["p2_next"],
+    mean = mean(step_a1[c("p1_next", "p2_next")]),
+    Fst = fst_two(step_a1["p1_next"], step_a1["p2_next"])
+  )
+)
+```
+
+> Die Reihenfolge ist Teil des Modells. „Migration → Selektion“ würde einen
+> anderen Lebenszyklus und im Allgemeinen andere Zahlen beschreiben.
+
+------------------------------------------------------------------------
+
+# B — Viele Generationen simulieren
+
+## Vollständige Simulationsfunktion
+
+```{r simulation-function}
+simulate_two_demes <- function(p1_0, p2_0, s, m, generations = 200,
+                               s1 = s, s2 = s) {
+  stopifnot(
+    length(generations) == 1,
+    generations == as.integer(generations),
+    generations >= 1
+  )
+
+  out <- data.frame(
+    generation = 0:generations,
+    p1 = NA_real_,
+    p2 = NA_real_
+  )
+  out$p1[1] <- p1_0
+  out$p2[1] <- p2_0
+
+  for (t in seq_len(generations)) {
+    next_values <- two_deme_step(
+      p1 = out$p1[t],
+      p2 = out$p2[t],
+      s = s,
+      m = m,
+      s1 = s1,
+      s2 = s2
+    )
+    out$p1[t + 1] <- next_values["p1_next"]
+    out$p2[t + 1] <- next_values["p2_next"]
+  }
+
+  out$p_global <- (out$p1 + out$p2) / 2
+  out$differentiation <- abs(out$p1 - out$p2)
+  out
+}
+
+sim_example <- simulate_two_demes(
+  p1_0 = 0.5, p2_0 = 0.5,
+  s = 0.1, m = 0.02,
+  generations = 200
+)
+tail(sim_example)
+```
+
+## Vollständige Plotfunktion
+
+```{r trajectory-plot-function}
+plot_two_demes <- function(simulation, main = "Zwei-Demen-Simulation") {
+  required <- c("generation", "p1", "p2", "p_global")
+  stopifnot(all(required %in% names(simulation)))
+
+  plot(
+    simulation$generation, simulation$p1,
+    type = "l", lwd = 3, col = "#d95f02",
+    ylim = c(0, 1),
+    xlab = "Generation", ylab = "Frequenz von A",
+    main = main
+  )
+  lines(simulation$generation, simulation$p2,
+        lwd = 3, col = "#3182bd")
+  lines(simulation$generation, simulation$p_global,
+        lwd = 2, lty = 2, col = "#222222")
+  legend(
+    "right",
+    c("p1: A-Habitat", "p2: B-Habitat", "globales Mittel"),
+    col = c("#d95f02", "#3182bd", "#222222"),
+    lwd = c(3, 3, 2), lty = c(1, 1, 2), bty = "n"
+  )
+}
+
+plot_two_demes(
+  sim_example,
+  main = "Divergente Selektion und Migration"
+)
+```
+
+::: {.callout-tip}
+## Aufgabe B1 — Migration vorhersagen
+
+Erzeugen Sie drei Simulationen mit $s=0.1$ und
+$m\in\{0,\ 0.02,\ 0.30\}$.
+
+Sagen Sie **vorher** voraus:
+
+1. Bei welchem $m$ wird $|p_1-p_2|$ am grössten?
+2. Bleibt bei $m=0$ jede Deme polymorph?
+3. Kann bei $m=0.30$ die globale Frequenz nahe 0.5 liegen, obwohl die lokale
+   Anpassung schwach ist?
+:::
+
+```{r exercise-b1}
+m_values <- c(0, 0.02, 0.30)
+sims_m <- lapply(
+  m_values,
+  function(m) simulate_two_demes(
+    p1_0 = 0.5, p2_0 = 0.5,
+    s = 0.1, m = m, generations = 200
+  )
+)
+
+old_par <- par(mfrow = c(1, 3))
+for (i in seq_along(m_values)) {
+  plot_two_demes(sims_m[[i]], main = paste("m =", m_values[i]))
+}
+par(old_par)
+```
+
+## Drei biologische Diagnosen
+
+Am Ende einer Simulation unterscheiden wir:
+
+```{r three-diagnostics}
+diagnose_state <- function(simulation, local_epsilon = 0.01,
+                           weak_difference = 0.10) {
+  last <- simulation[nrow(simulation), ]
+  data.frame(
+    p1 = last$p1,
+    p2 = last$p2,
+    p_global = last$p_global,
+    differentiation = last$differentiation,
+    local_adaptation = last$p1 > last$p2,
+    polymorphic_deme1 =
+      last$p1 > local_epsilon && last$p1 < 1 - local_epsilon,
+    polymorphic_deme2 =
+      last$p2 > local_epsilon && last$p2 < 1 - local_epsilon,
+    weakly_differentiated =
+      last$differentiation < weak_difference
+  )
+}
+
+do.call(rbind, lapply(sims_m, diagnose_state))
+```
+
+Die Grenzen 0.01 und 0.10 sind **operationale Diagnosegrenzen** für diese
+Übung. Sie sind keine universellen biologischen Schwellenwerte.
+
+------------------------------------------------------------------------
+
+# C — Wann bleiben beide Allele? $s_1$ gegen $s_2$
+
+Bisher war die Selektion **gleich stark**, nur entgegengesetzt: $s_1=s_2=s$.
+Dann bleiben beide Allele. Jetzt getrennt:
+
+- $s_1$: Vorteil von A in Habitat 1 (Fitness `AA, AB, BB` = $1+s_1$, $1+s_1/2$, $1$)
+- $s_2$: Vorteil von B in Habitat 2 (Fitness `AA, AB, BB` = $1$, $1+s_2/2$, $1+s_2$)
+- $m$ **fest** — nicht mit $s$ in eine Achse packen
+
+Ein Allel ist **geschützt**, wenn es zunimmt, sobald es selten ist. Beide
+bleiben genau dann, wenn A *und* B geschützt sind. Das ist nicht dasselbe
+wie $|p_1-p_2|$ gross.
+
+## Invasionswachstum (exakt, dasselbe Modell)
+
+Seltenes A: nach Selektion multipliziert sich $p$ in Habitat 1 mit
+$1+s_1/2$, in Habitat 2 mit $(1+s_2/2)/(1+s_2)$. Danach dieselbe Mischung
+wie im Simulationsschritt. Der führende Faktor dieser linearen Abbildung
+muss $>1$ sein; analog für seltenes B.
+
+```{r invasion-exact}
+leading_growth <- function(alpha, beta, m) {
+  tau <- (1 - m) * (alpha + beta)
+  disc <- tau * tau - 4 * (1 - 2 * m) * alpha * beta
+  0.5 * (tau + sqrt(pmax(disc, 0)))
+}
+
+protected_both_alleles <- function(s1, s2, m) {
+  stopifnot(
+    length(s1) == 1, is.finite(s1), s1 >= 0,
+    length(s2) == 1, is.finite(s2), s2 >= 0,
+    length(m) == 1, is.finite(m), m >= 0, m <= 0.5
+  )
+  a1 <- 1 + s1 / 2
+  a2 <- (1 + s2 / 2) / (1 + s2)
+  b1 <- (1 + s1 / 2) / (1 + s1)
+  b2 <- 1 + s2 / 2
+  leading_growth(a1, a2, m) > 1 && leading_growth(b1, b2, m) > 1
+}
+
+c(
+  diagonal = protected_both_alleles(s1 = 0.10, s2 = 0.10, m = 0.10),
+  unequal = protected_both_alleles(s1 = 0.10, s2 = 0.05, m = 0.10)
+)
+```
+
+::: {.callout-tip}
+## Vorhersage C1
+
+Bei festem $m$: wo bleiben beide Allele — nahe der Diagonalen $s_1=s_2$,
+oder auch wenn ein Habitat viel stärker selektiert?
+:::
+
+## Karte bei festem $m$
+
+```{r polymorphism-map}
+m_fixed <- 0.10
+s_grid <- seq(0.005, 0.50, length.out = 81)
+poly_z <- matrix(NA_real_, length(s_grid), length(s_grid))
+for (i in seq_along(s_grid)) {
+  for (j in seq_along(s_grid)) {
+    poly_z[i, j] <- as.numeric(
+      protected_both_alleles(s_grid[i], s_grid[j], m_fixed)
+    )
+  }
+}
+
+par(pty = "s")
+image(
+  x = s_grid, y = s_grid, z = poly_z,
+  col = c("#f4a582", "#2166ac"),
+  xlab = "s1  (A in Habitat 1)",
+  ylab = "s2  (B in Habitat 2)",
+  main = "m = 0.10 fest",
+  useRaster = TRUE
+)
+abline(0, 1, lwd = 2, col = "#111111")
+legend(
+  "topleft",
+  c("beide Allele bleiben", "ein Allel geht verloren"),
+  fill = c("#2166ac", "#f4a582"),
+  bty = "n"
+)
+```
+
+Die Grenze kommt aus dem Invasionskriterium, nicht aus einem Schema
+«$m>s$». Andere Dominanz oder eine andere Reihenfolge im Lebenszyklus
+verschieben sie.
+
+::: {.callout-tip}
+## Aufgabe C2 — $m$ und die Diagonale
+
+1. Prüfen Sie `protected_both_alleles` für mehrere Punkte mit $s_1=s_2>0$
+   und dem aktuellen `m_fixed`.
+2. Finden Sie ein Paar $s_1\neq s_2$, bei dem ein Allel verloren geht.
+3. Setzen Sie `m_fixed <- 0.02` und zeichnen Sie die Karte neu. Wird das
+   Band um die Diagonale breiter oder schmaler?
+:::
+
+```{r exercise-c2}
+s_equal <- c(0.02, 0.10, 0.30)
+data.frame(
+  s1 = s_equal,
+  s2 = s_equal,
+  m = m_fixed,
+  both_remain = vapply(
+    s_equal,
+    function(s) protected_both_alleles(s, s, m_fixed),
+    logical(1)
+  )
+)
+
+protected_both_alleles(s1 = 0.20, s2 = 0.04, m = m_fixed)
+```
+
+------------------------------------------------------------------------
+
+# D — Polymorphismus ist nicht Differenzierung
+
+Beide Allele können bleiben, **ohne** dass $p_1$ und $p_2$ weit auseinander
+liegen: viel Migration mischt die Habitate, $\bar p$ bleibt in der Mitte.
+
+Umgekehrt: starke lokale Unterschiede heissen nicht, dass beide Allele in
+*jeder* Deme häufig sind.
+
+```{r equilibrium-summary-function}
+equilibrium_summary <- function(s1, s2, m, p1_0 = 0.5, p2_0 = 0.5,
+                                generations = 800) {
+  sim <- simulate_two_demes(
+    p1_0 = p1_0, p2_0 = p2_0,
+    s = s1, m = m, s1 = s1, s2 = s2,
+    generations = generations
+  )
+  last <- sim[nrow(sim), ]
+  data.frame(
+    s1 = s1, s2 = s2, m = m,
+    p1 = last$p1,
+    p2 = last$p2,
+    p_global = last$p_global,
+    differentiation = last$differentiation,
+    Fst = fst_two(last$p1, last$p2),
+    both_protected = protected_both_alleles(s1, s2, m)
+  )
+}
+
+rbind(
+  equal_little_m = equilibrium_summary(s1 = 0.10, s2 = 0.10, m = 0.02),
+  equal_much_m = equilibrium_summary(s1 = 0.10, s2 = 0.10, m = 0.30),
+  unequal = equilibrium_summary(s1 = 0.10, s2 = 0.05, m = 0.10)
+)
+```
+
+## Aufgabe D1 — Begriffe nicht vermischen
+
+Wählen Sie aus den bisherigen Resultaten je ein Beispiel für:
+
+1. hohe globale Vielfalt, aber schwache lokale Differenzierung,
+2. starke lokale Differenzierung, aber wenig Polymorphismus innerhalb jeder
+   Deme,
+3. Polymorphismus in beiden Demen und lokale Anpassung.
+
+Geben Sie jeweils $p_1$, $p_2$, $\bar p$, $\Delta$ und $F_{ST}$ an.
+
+## Zurück zum Scan
+
+Ein Genom hat viele Loci mit ungefähr demselben $m$ und verschiedenem
+$s_1$, $s_2$. Im Modell:
+
+- $s_1=s_2$ klein oder $m$ gross → $p_1\approx p_2$ → Hintergrund
+- $s_1=s_2$ gross relativ zu $m$ → hoher $F_{ST}$ → Peak
+- $s_1$ und $s_2$ sehr ungleich → ein Allel kann global verloren gehen
+
+Meer und See sind die biologische Version derselben Frage:
+reicht divergente Selektion gegen den Genfluss?
+
+Ein Peak bleibt ein **Kandidat**. Inversionen, Demografie und Kopplung
+können $F_{ST}$ ebenfalls anheben.
+
+## Von zwei Demen zum Netzwerk
+
+Für viele Demen bleibt der Algorithmus einfach:
+
+1. Berechne für jeden Knoten $i$ die lokale Selektion $p_i\to p_i^S$.
+2. Mische danach Beiträge aus den über Kanten verbundenen Demen.
+3. Wiederhole den Lebenszyklus.
+
+Eine Randdeme, ein zentraler Knoten oder eine Quelle können trotz gleicher
+lokaler Selektionsstärke verschiedene Dynamiken zeigen. Dazu brauchen wir
+heute keine Matrixalgebra.
+
+------------------------------------------------------------------------
+
+# Zusammenfassung
+
+::: {.callout-note}
+## Zum Mitnehmen
+
+- Ein $F_{ST}$-Scan vergleicht zwei Habitate entlang des Genoms.
+- Der Zustand eines Locus besteht aus zwei Frequenzen: $p_1$ und $p_2$.
+- Der Lebenszyklus ist explizit **Selektion → Migration**.
+- Divergente Selektion erhöht, Migration vermindert meist $F_{ST}$.
+- Bei $s_1=s_2>0$ bleiben beide Allele; ungleich stark kann eines global verloren gehen.
+- $\bar p$, Polymorphismus und $F_{ST}$ sind verschiedene Diagnosen.
+- Gene swamping kann Peaks flach drücken, ohne globale Vielfalt zu löschen.
+- Ein Peak ist ein Kandidat, kein Beweis.
+:::
+
+## Quellen
+
+- Peichel, C. L. et al. (2001). The genetic architecture of divergence
+  between threespine stickleback species. *Nature* 414: 901–905.
+  [doi:10.1038/414901a](https://doi.org/10.1038/414901a)
+- Colosimo, P. F. et al. (2005). Widespread parallel evolution in sticklebacks
+  by repeated fixation of Ectodysplasin alleles. *Science* 307: 1928–1933.
+  [doi:10.1126/science.1107239](https://doi.org/10.1126/science.1107239)
+- Jones, F. C. et al. (2012). The genomic basis of adaptive evolution in
+  threespine sticklebacks. *Nature* 484: 55–61.
+  [doi:10.1038/nature10944](https://doi.org/10.1038/nature10944)
+- Peichel, C. L. & Marques, D. A. (2017). The genetic and molecular
+  architecture of phenotypic diversity in sticklebacks. *Phil. Trans. R. Soc. B*
+  372: 20150486.
+  [doi:10.1098/rstb.2015.0486](https://doi.org/10.1098/rstb.2015.0486)
+- Lenormand, T. (2002). Gene flow and the limits to natural selection.
+  *Trends in Ecology & Evolution* 17: 183–189.
+  [doi:10.1016/S0169-5347(02)02497-7](https://doi.org/10.1016/S0169-5347(02)02497-7)

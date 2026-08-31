@@ -1,14 +1,16 @@
 ---
-title: "Woche 11 — Komplexe Mikrobiomdaten einlesen"
-subtitle: "Tabellen, Metadaten und Plausibilitätsprüfungen"
+title: "Woche 11 — Checkpoint C"
+subtitle: "Eine biologische Frage, eine Abbildung"
 author: "Stephan Peischl"
 format:
   revealjs:
     html-math-method: katex
     theme: simple
+    css: slides.css
     slide-number: true
     incremental: false
     embed-resources: true
+    auto-stretch: false
     transition: none
     controls: true
     controls-layout: edges
@@ -18,109 +20,183 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html)"
+    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html) · [Notebook](notebook.html)"
 execute:
   echo: false
   warning: false
   message: false
+  freeze: false
 ---
 
-## In diesem Foliensatz
+```{r}
+#| include: false
+p_rescue_approx <- function(N0, r, s, U) {
+  1 - exp(-2 * N0 * U * s / pmax(r, 1e-12))
+}
 
-**Woche 11** von 14 · Mikrobiom-Block  
-**Do., 26. Nov. 2026, 08:15–10:00**
+one_rescue_run <- function(N0, r, s, U, max_gen = 180) {
+  n_wt <- N0
+  n_mut <- 0
+  established <- FALSE
+  N <- numeric(max_gen + 1)
+  N[1] <- N0
+  u <- min(1, max(0, 2 * s))
+  for (t in seq_len(max_gen)) {
+    if (!established && n_wt >= 1) {
+      n_new <- rpois(1, lambda = U * n_wt)
+      if (n_new > 0 && any(runif(n_new) < u)) {
+        established <- TRUE
+        n_mut <- 1
+      }
+    }
+    n_wt <- n_wt * (1 - r)
+    if (n_wt < 1) n_wt <- 0
+    if (established) n_mut <- n_mut * (1 + s)
+    tot <- n_wt + n_mut
+    N[t + 1] <- tot
+    if (!established && n_wt < 1) {
+      if (t < max_gen) N[(t + 2):(max_gen + 1)] <- 0
+      break
+    }
+  }
+  list(rescued = established && (n_wt + n_mut) >= 1,
+       N = pmax(N, 0), generation = 0:max_gen)
+}
 
-- [Kursplan](../../docs/course-outline.html)
-- [Start](../../index.html)
-- Pfeiltasten / Steuerelemente · **M** Menü · **Esc** Übersicht
+rescue_rate <- function(N0, r, s, U, n_reps = 50, max_gen = 140) {
+  mean(replicate(n_reps, one_rescue_run(N0, r, s, U, max_gen)$rescued))
+}
+```
 
-## Verlauf des Blocks (Wochen 11–13)
+## Übersicht
 
-1. **Heute:** komplexe Gemeinschaftstabellen einlesen und aufbereiten
-2. **Woche 12:** hochdimensionale Daten visualisieren
-3. **Woche 13:** eine visuelle Geschichte entwickeln · **Checkpoint D**
+**Woche 11** von 14 · **Checkpoint C** · **Do., 26. Nov. 2026, 08:15–10:00**
 
-## Warum es diesen Block gibt
+| Teil | Dauer | Was |
+|------|-------|-----|
+| Intro | ~20 min | Landkarte der Wochen 9–10 |
+| Notebook | ~40 min | eine Frage, eine Abbildung · Entwurf |
+| Präsentationen | ~30 min | 3–5 Minuten, Anwesenheit Pflicht |
 
-Frühere Wochen: Modelle aus **kleinen** Zeitreihen.
+::: aside
+Pfeiltasten · **M** Menü · **Esc** Übersicht
+:::
 
-Mikrobiome: wieder Ökologie, doch die erste wichtige Fähigkeit ist der Umgang mit **realen Datenobjekten**.
+## Heute in dieser Reihenfolge
 
-## Was «ein Mikrobiomdatensatz» normalerweise umfasst
+1. Landkarte: was die Wochen 9–10 gefragt haben
+2. Eine Frage wählen, **eine** Abbildung
+3. 3–5 Minuten vortragen
 
-Drei miteinander verknüpfte Bestandteile:
+## Heute in einem Blick
 
-1. **Abundanztabelle** — Proben × Taxa (Zählwerte oder relative Abundanzen)
-2. **Taxonomie** — Bedeutung der einzelnen Taxon-IDs
-3. **Metadaten** — Wirt, Standort, Zeitpunkt, Behandlung, …
+::::: columns
+::: {.column width="22%"}
+![](../../pics/icons/icon_biology.svg){fig-alt="Biologie" width="70%"}
+:::
+::: {.column width="22%"}
+![](../../pics/icons/icon_math.svg){fig-alt="Modell" width="70%"}
+:::
+::: {.column width="22%"}
+![](../../pics/icons/icon_code.svg){fig-alt="Code" width="70%"}
+:::
+::: {.column width="22%"}
+![](../../pics/icons/icon_speak.svg){fig-alt="Praesentation" width="70%"}
+:::
+:::::
 
-Fehler bei der Verknüpfung → nächste Woche unbemerkt unsinnige Grafiken.
+**Frage** → leichtes Modell → **eine** Abbildung → biologische Pointe.
+Die Mathematik ist das Gerüst der Abbildung. Ableiten und Tests:
+andere Vorlesungen — das Bild nehmen Sie mit.
 
-## Datenformen, die Ihnen begegnen werden
+## Landkarte — die Fragen
 
-| Form | Typische Verwendung |
-|---|---|
-| Breite Matrix | Zeilen = Proben, Spalten = Taxa |
-| Lange (tidy) Tabelle | Spalten: Probe, Taxon, Abundanz |
-| Metadatentabelle | eine Zeile pro Probe |
+::::::: columns
+::::: {.column width="32%"}
+**9** · Eine neue Mutante beginnt mit einer Kopie. Reicht $s>0$?
+:::::
+::::: {.column width="32%"}
+**9** · Was ist $u$ — und wann ist $u\approx 2s$ brauchbar?
+:::::
+::::: {.column width="32%"}
+**10** · Schrumpft $N$, muss $u$ **vor** dem Kollaps greifen.
+:::::
+:::::::
 
-Grundregel: Klären Sie vor dem Plotten, welche Datenform vorliegt.
+Immer dieselbe Schleife: Frage → Bild → was das Modell *nicht* kann.
 
-## Arbeitsablauf beim Einlesen (praktisch)
+## Was wir gebraucht haben
 
-1. Abundanzdatei einlesen (`read.csv` / `read.table`)
-2. Metadaten einlesen
-3. Übereinstimmung der Proben-IDs prüfen (Diagnose mit setdiff / merge)
-4. Dimensionen, Sparsität und Bibliotheksgrössen untersuchen
-5. Entscheiden: Zählwerte oder relative Abundanzen für spätere Visualisierungen
+| | Wozu | Nicht heute |
+|---|---|---|
+| **Zufallszahlen** (W9) | $X\sim\mathrm{Binomial}$, Replikate | PRNG-Theorie |
+| **$\hat u(s)$** (W9) | Schicksal einer Kopie | Kimura-Formel ableiten |
+| **$N_{\mathrm{wt}}(t)$** (W10) | Demografie zuerst deterministisch | stochastische $N$ |
+| **$\Pr(R)$** (W10) | Population gerettet oder nicht | Raum, Interaktionen |
 
-## Plausibilitätsprüfungen (jedes Mal durchführen)
+Mathematik, Statistik und Code tauchen auf, weil die Biologie sie **braucht** —
+nicht als eigenes Kapitel.
 
-- Sind `#samples` und `#taxa` plausibel?
-- Gibt es doppelte Probennamen?
-- Wie viele Nullen gibt es? (Sparsität ist normal)
-- Bibliotheksgrösse = Zeilensummen — gibt es sehr kleine / grosse Ausreisser?
-- Fehlen für einige Proben Metadaten?
+## Drei Fragen — eine wählen
 
-## Brücke zur Programmierung
+1. **Rückgang $r$.** Wie schnell darf der Wildtyp schrumpfen, damit
+   Rettung noch häufig ist? (Antibiotikum, Salz, Klima)
+2. **Vorteil $s$.** Reicht ein schwacher Resistenzvorteil — oder nur
+   ein grosses $s$?
+3. **Startgrösse $N_0$.** Gibt es eine Schwelle, wie bei Bell & Gonzalez
+   (2009)? Mutationsangebot $N_0 U$.
 
-| Konzept | Hier |
-|---|---|
-| Vektoren | Bibliotheksgrössen; ein Taxon über mehrere Proben |
-| Matrizen / Data Frames | Abundanztabellen |
-| Schleifen / apply | optionale Zusammenfassungen über Taxa |
-| Funktionen | `load_abundances()`, `check_ids()` |
+Eine Frage, **eine** Abbildung, eine Modellgrenze.
+Formel $\Pr(R)\approx 1-\exp(-2 N_0 U s/r)$ darf daneben liegen.
 
-## Vorschau auf das Notebook
+## Gemeinsame Annahmen
 
-- Ein für die Lehre aufbereitetes Mikrobiom-CSV-Paket aus `data/` einlesen (Kooperationen: einen offenen Datensatz auswählen)
-- Metadaten verknüpfen
-- Einen kurzen «Datenpass» erstellen (Dimensionen, Zusammenfassung der Bibliotheksgrössen, nicht übereinstimmende IDs)
+- haploid, ein Locus, de-novo-Mutation
+- Wildtyp-Demografie **deterministisch**
+- Etablierung mit $u\approx 2s$
+- keine stehende Variation, kein HGT, kein Raum
 
-## Abschlussfragen
+Das reicht für die drei Fragen. Bell & Gonzalez lassen in den Kulturen
+mehr zu als unser Simulator.
 
-1. Breite und lange Abundanztabelle — je ein Satz.
-2. Nennen Sie zwei Plausibilitätsprüfungen, die Sie immer durchführen werden.
-3. Was geht schief, wenn die Proben-IDs nicht mit den Metadaten übereinstimmen?
+## Checkpoint C · heute
 
-## Nächste Woche
+::::: columns
+::: {.column width="18%"}
+![](../../pics/icons/icon_warning.svg){fig-alt="Wichtig" width="80%"}
+:::
+::: {.column width="82%"}
+Heute wird **präsentiert und benotet**.
+Sie müssen **anwesend sein und vortragen**.
+:::
+:::::
 
-Gemeinschaftsdaten **visualisieren** — Zusammensetzung, Heatmaps, Facetten; Farbchaos vermeiden.
+Vortrag (3–5 Min.):
 
----
+1. biologische Frage
+2. welchen Parameter Sie geändert haben (einer reicht)
+3. **eine** Abbildung
+4. biologisches Ergebnis
+5. eine Modellgrenze · was ein Laborversuch messen würde
 
-## Literatur
+## Notebook
 
-In diesem Foliensatz-Entwurf noch keine Fallstudien zitiert.  
-Sobald Inhalte ausgearbeitet sind, erscheint hier die vollständige Liste aller genannten Quellen.
+**→ [Notebook Woche 11 öffnen](notebook.html)** · Entwurf
+
+Nur **eine** der drei Fragen. Fertige Hilfsfunktionen dürfen bleiben;
+die Note gilt der Frage und der Abbildung, nicht dem Code-Umfang.
+
+## Take-home
+
+1. Eine biologische Frage, **eine** Abbildung, eine Pointe.
+2. Rettung ist Etablierung mit Ablaufdatum.
+3. Anwesenheit: ohne Vortrag kein Checkpoint C.
 
 ## Navigation
 
 | | |
 |---|---|
-| Übersicht | [Kursplan](../../docs/course-outline.html) |
-| Startseite | [Kursstartseite](../../index.html) |
+| Kursplan | [Kursplan](../../docs/course-outline.html) |
+| Notebook | [Notebook Woche 11](notebook.html) |
 | Zurück | [← Woche 10](../week-10/slides.html) |
 | Weiter | [Woche 12 →](../week-12/slides.html) |
-
-Tastatur: ← → · **M** Menü · **Esc** Übersicht · **F** Vollbild

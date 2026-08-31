@@ -1,14 +1,16 @@
 ---
-title: "Woche 9 — Etablierungswahrscheinlichkeiten"
-subtitle: "Etablierungswahrscheinlichkeit u(s) schätzen"
+title: "Woche 9 — Zufall und Etablierung"
+subtitle: "Zufallszahlen · Allelfrequenz mit Drift · u(s)"
 author: "Stephan Peischl"
 format:
   revealjs:
     html-math-method: katex
     theme: simple
+    css: slides.css
     slide-number: true
     incremental: false
     embed-resources: true
+    auto-stretch: false
     transition: none
     controls: true
     controls-layout: edges
@@ -18,126 +20,427 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html)"
+    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html) · [Notebook](notebook.html)"
 execute:
   echo: false
   warning: false
   message: false
+  freeze: false
 ---
 
-## In diesem Foliensatz
+```{r}
+#| include: false
+selection_step_haploid <- function(p, s) {
+  p * (1 + s) / (1 + p * s)
+}
 
-**Woche 9** von 14 · Block zum Zufall  
-**Do., 12. Nov. 2026, 08:15–10:00**
+wf_step <- function(p, s, N) {
+  p_sel <- selection_step_haploid(p, s)
+  if (p_sel <= 0) return(0)
+  if (p_sel >= 1) return(1)
+  rbinom(1, N, p_sel) / N
+}
 
-- [Kursplan](../../docs/course-outline.html)
-- [Start](../../index.html)
-- Pfeiltasten / Steuerelemente · **M** Menü · **Esc** Übersicht
+simulate_det <- function(p0, s, generations = 200) {
+  p <- numeric(generations + 1)
+  p[1] <- p0
+  for (t in seq_len(generations)) p[t + 1] <- selection_step_haploid(p[t], s)
+  data.frame(generation = 0:generations, p = p)
+}
+
+simulate_wf <- function(p0, s, N, generations = 200) {
+  p <- numeric(generations + 1)
+  p[1] <- p0
+  for (t in seq_len(generations)) p[t + 1] <- wf_step(p[t], s, N)
+  data.frame(generation = 0:generations, p = p)
+}
+
+lineage_fate <- function(s, N, k = 1, max_gen = 400) {
+  p <- k / N
+  for (t in seq_len(max_gen)) {
+    p <- wf_step(p, s, N)
+    if (p <= 0) return(0)
+    if (p >= 1) return(1)
+  }
+  as.numeric(p >= 0.5)
+}
+
+u_hat <- function(s, N, n_reps = 250, k = 1) {
+  mean(replicate(n_reps, lineage_fate(s, N, k = k)))
+}
+
+schematic_rescue <- function(generations = 80, N0 = 1e6, r = 0.12, s = 0.18,
+                             establish_at = 28) {
+  t <- 0:generations
+  n_wt <- N0 * (1 - r)^t
+  n_mut <- numeric(length(t))
+  if (establish_at <= generations) {
+    n_mut[(establish_at + 1):length(t)] <-
+      20 * (1 + s)^(t[(establish_at + 1):length(t)] - establish_at)
+  }
+  n_tot <- n_wt + n_mut
+  n_tot[n_tot < 1] <- 1
+  data.frame(generation = t, N = n_tot, n_wt = pmax(n_wt, 1),
+             n_ext = pmax(N0 * (1 - r)^t, 1))
+}
+```
+
+## Übersicht
+
+**Woche 9** von 14 · **Do., 12. Nov. 2026, 08:15–10:00**
+
+| Teil | Dauer | Was |
+|------|-------|-----|
+| Vorlesung | ~45 min | Zufall · Modell · Etablierung |
+| Notebook | ~45 min | Draft: Zufallszahlen und $\hat u(s)$ |
+
+::: aside
+Pfeiltasten · **M** Menü · **Esc** Übersicht
+:::
 
 ## Lernziele
 
-1. Einen Etablierungsversuch *in silico* implementieren
-2. Die Etablierungswahrscheinlichkeit aus vielen Replikaten schätzen
-3. Untersuchen, wie $u$ von $s$ (und der Anzahl der Ausgangskopien) abhängt
-4. Die Simulation mit einem einfachen analytischen Referenzwert vergleichen
+Nach heute können Sie …
 
-## Rückblick auf Woche 8
+1. sagen, warum **dieselben Parameter** Aussterben *oder* Überleben bedeuten können,
+2. Zufallszahlen in R **ziehen** (`set.seed`, `rbinom`),
+3. Zufall in das Allelfrequenz-Modell mit Selektion **einbauen**,
+4. die **Etablierungswahrscheinlichkeit** $\hat u$ aus Replikaten schätzen
+   und mit $u\approx 2s$ vergleichen.
 
-- Deterministische Selektion ≈ mittleres Verhalten bei hoher Häufigkeit
-- Seltene vorteilhafte Typen müssen sich **etablieren**
-- Heute: daraus ein klares computergestütztes Experiment entwickeln
+## Heute in dieser Reihenfolge
 
-## Minimales stochastisches Vorgehen (konzeptionell)
+1. Bis hier: Zufall ignoriert. Jetzt dazu.
+2. Zwei Ausgänge — evolutionäre Rettung als Aufhänger.
+3. Was Zufallszahlen sind, und wie wir sie ziehen.
+4. Dieselbe Rekursion wie Woche 6, plus eine Ziehung.
+5. Ziel: Etablierung einer neuen Mutante.
 
-In jeder Generation kann eine kleine Abstammungslinie:
+# Teil 1 · Zwei Ausgänge
 
-- wachsen (Selektion hilft)
-- durch Zufall schrumpfen / aussterben
+## Bis hier: Zufall ignoriert
 
-Wiederholen Sie dies **tausendfach** ausgehend von einer einzigen Kopie → Anteil der Etablierungen $\approx u$.
+Wochen 5–8: die Allelfrequenz $p$ ist ein **Mittelwert**.
+Dieselben Parameter $\to$ dieselbe Kurve.
 
-(Die genaue Aktualisierung kann einem Verzweigungsprozess oder einem Wright–Fisher-Modell mit einer Mutante folgen — die Mitwirkenden wählen eine klare Implementierung.)
+Das reicht, wenn schon **viele** Kopien segregieren.
+Eine neue Mutation beginnt mit **einer** Kopie.
 
-## Bereits bekanntes Codemuster
+Heute: Zufall ins Modell. Und Ökologie und Evolution in einem
+einfachen Setting — **evolutionäre Rettung**.
 
-```r
-established <- logical(n_reps)
-for (i in 1:n_reps) {
-  established[i] <- run_one_lineage(s = s, ...)
+## Zwei Zustände
+
+Eine Population unter Stress: **aussterben** oder **überleben**.
+
+Deterministisch sagen die Parameter den Endpunkt.
+Entweder die Fitness reicht — oder nicht.
+Kein Dazwischen, kein Timing.
+
+Das ist nicht, was man in Kulturen sieht.
+
+## Wo das vorkommt
+
+Derselbe Gegensatz, verschiedene Systeme:
+
+- **Klima:** eine lokale Population, die Umwelt wird ungünstig
+- **Pestizid:** Insekten oder Unkraut unter neuem Wirkstoff
+- **Behandlung:** Bakterien, Viren, Krebszellen unter Antibiotikum
+  oder Therapie
+
+Gemeinsam: die Zeit bis zum demografischen Kollaps ist oft **nicht null**.
+
+## Ein Laborbild: Hefe unter Salz
+
+Bell & Gonzalez (2009): Hunderte Hefekulturen, Salz in einer
+Konzentration, die den Vorfahren tötet.
+
+Manche Replikate sterben aus. Manche erholen sich —
+charakteristische **U-Kurve** der Dichte, oft innerhalb von
+etwa 25 Generationen.
+
+Grössere Startpopulationen werden häufiger gerettet.
+
+Bell & Gonzalez (2009) *Ecology Letters*.
+
+## Schema: ausgestorben oder gerettet
+
+```{r}
+#| fig-height: 3.45
+#| fig-width: 8.4
+#| out-width: 90%
+set.seed(9)
+par(mar = c(4, 4.2, 1.2, 0.8))
+plot(NA, xlim = c(0, 80), ylim = c(0, 6.2),
+     xlab = "Generation", ylab = "log10 N",
+     main = "Zwei Ausgaenge, gleiche Stressstaerke")
+for (i in 1:12) {
+  r_i <- 0.11 + runif(1, -0.01, 0.01)
+  t <- 0:80
+  n <- 1e6 * (1 - r_i)^t * exp(rnorm(length(t), 0, 0.04))
+  n[n < 1] <- 1
+  lines(t, log10(n), col = adjustcolor("#bdbdbd", 0.85), lwd = 1.3)
 }
-u_hat <- mean(established)
+sch <- schematic_rescue()
+lines(sch$generation, log10(sch$n_ext), col = "#636363", lwd = 3)
+lines(sch$generation, log10(sch$N), col = "#2166ac", lwd = 3.5)
+legend("topright", c("gerettet", "ausgestorben"),
+       col = c("#2166ac", "#636363"), lwd = 3, bty = "n")
 ```
 
-- **Funktion:** Schicksal einer Abstammungslinie
-- **Vektor:** Ergebnisse über Replikate
-- **Schleife:** viele Versuche
-- **Abbildung:** $\hat{u}$ gegen $s$
+Dieselben Bedingungen, verschiedene Schicksale. Das deterministische
+Modell kennt nur **eine** der beiden Linien.
 
-## Was variiert werden soll (jeweils ein Parameter)
+## Warum «entweder oder» nicht reicht
 
-| Parameter | Zuerst zu notierende Vorhersage |
-|---|---|
-| Selektionsvorteil $s$ | größeres $s$ → höheres $u$? |
-| Ausgangskopien $k$ | schwerer zu verlieren bei $k \gt 1$? |
-| Population / Tragfähigkeitskontext | Wann spielt die Demografie eine Rolle? |
+Bakterien unter einem Antibiotikum: oft **etwa 50 Generationen**,
+bis die empfindliche Population demografisch verschwunden ist.
 
-## Analytischer Referenzwert (optionales Ziel)
+In der Zeit kann eine resistente Variante entstehen.
+Der Endpunkt ist dann nicht mehr der, den die Startfitness verspricht.
 
-Für ein einfaches vorteilhaftes Allel lautet eine klassische Näherung $u \approx 2s$ (unter den genannten Annahmen).
+## Drei Wege zur Resistenz
 
-Anwendung im Unterricht:
+Eine resistente Variante kann kommen über:
 
-1. $\hat{u}(s)$ simulieren
-2. $2s$ überlagern
-3. Diskutieren, wo die Übereinstimmung gelingt / scheitert (Annahmen!)
+1. **stehende Variation** — das Allel war schon selten da
+2. **horizontalen Gentransfer (HGT)** — das Allel kommt von aussen
+3. **de-novo-Mutation** — eine neue Kopie entsteht jetzt
 
-## Biologische Kernaussage
+Wir nehmen **de novo**: eine Mutante, Start mit einer Kopie.
+Am einfachsten, und der direkte Anschluss an das $p$-Modell.
 
-Die Anpassungsrate durch **neue Mutationen** hängt ab von:
+# Teil 2 · Zufallszahlen
+
+## Was der Computer zieht
+
+Ein Computer würfelt nicht. Er erzeugt eine **Folge von Zahlen**,
+die sich wie Zufall benimmt — Pseudozufall.
+
+`set.seed` legt den Start fest: dieselbe Folge, dieselbe Abbildung.
+
+`rbinom(n, size, prob)` zieht, wie oft «Erfolg» in `size` Versuchen
+mit Erfolgswahrscheinlichkeit `prob` vorkommt.
+
+## Dieselbe Ziehung, zweimal
+
+```{r}
+#| fig-height: 3.35
+#| fig-width: 8.4
+#| out-width: 90%
+par(mfrow = c(1, 2), mar = c(4, 4, 2.2, 0.8))
+set.seed(9)
+h1 <- rbinom(2000, size = 20, prob = 0.5)
+set.seed(9)
+h2 <- rbinom(2000, size = 20, prob = 0.5)
+hist(h1, breaks = 0:21 - 0.5, col = "#9ecae1", border = "white",
+     main = "set.seed(9)", xlab = "X ~ Binomial(20, 0.5)", ylab = "Anzahl")
+hist(h2, breaks = 0:21 - 0.5, col = "#9ecae1", border = "white",
+     main = "dieselbe seed: identisch", xlab = "X ~ Binomial(20, 0.5)",
+     ylab = "Anzahl")
+```
+
+Ohne `set.seed` wäre das rechte Histogramm ein anderes Sample.
+Mit Seed ist die Simulation **wiederholbar**.
+
+## Was `rbinom` mit einer Generation zu tun hat
+
+$N$ haploide Individuen. Nach Selektion ist der Anteil von Allel A
+gleich $p'$.
+
+Die nächste Generation: $X$ Kopien von A, gezogen mit
 
 $$
-\text{mutational supply} \times \text{establishment probability}
+X \sim \mathrm{Binomial}(N,\ p').
 $$
 
-Nicht nur davon, „wie stark die Selektion“ im deterministischen Sinne ist.
+Dann $p_{t+1}=X/N$. Eine Zahl, kein Mittelwert.
 
-## Brücke zu Woche 10
+# Teil 3 · Zufall in $p$
 
-Wenn die gesamte **Population abnimmt**, muss die Etablierung **vor dem Aussterben** erfolgen.
+## Haploid, ein Locus, zwei Allele
 
-Dieses Problem hat einen Namen: **evolutionäre Rettung**.
+**Allelfrequenz** $p = f(A)$: Anteil der A-Kopien.
+Haploid: $N$ Individuen = $N$ Kopien. Passt zu Bakterien und Hefe.
 
-## Vorschau auf das Notebook
+Selektion zuerst — der haploide Verwandte von `selection_step`
+aus Woche 6 — danach die Ziehung:
 
-1. `run_one_lineage()` + Replikatschleife
-2. $u$ für mehrere $s$-Werte schätzen
-3. Optional: mit $k=1,2,5$ Kopien beginnen
-4. Kurzer Text: Annahmen Ihres Simulators
+$$
+p' = \frac{p\,(1+s)}{1+p s}, \qquad
+X\sim\mathrm{Binomial}(N,\,p'), \qquad
+p_{t+1}=X/N.
+$$
+
+$s$: Fitnessvorteil von A gegenüber B. $s=0.05$ heisst: A hat
+5% mehr Nachkommen im Mittel.
+
+## Wenn A schon häufig ist
+
+```{r}
+#| fig-height: 3.45
+#| fig-width: 8.2
+#| out-width: 88%
+set.seed(9)
+par(mar = c(4, 4.2, 1.4, 0.8))
+det <- simulate_det(0.20, s = 0.05, 150)
+plot(det$generation, det$p, type = "l", lwd = 3, col = "#2166ac",
+     ylim = c(0, 1), xlab = "Generation", ylab = "p = f(A)",
+     main = "Start p = 0.20, N = 2000, s = 0.05")
+for (i in 1:8) {
+  sim <- simulate_wf(0.20, 0.05, N = 2000, 150)
+  lines(sim$generation, sim$p, col = adjustcolor("#d95f02", 0.55), lwd = 1.4)
+}
+legend("bottomright", c("deterministisch", "mit Zufall"),
+       col = c("#2166ac", "#d95f02"), lwd = c(3, 2), bty = "n")
+```
+
+Die orangen Linien zittern. Der Trend ist derselbe wie die blaue Kurve.
+Deshalb hat das deterministische Modell bisher gereicht.
+
+## Eine Kopie: $p=1/N$
+
+```{r}
+#| fig-height: 3.45
+#| fig-width: 8.2
+#| out-width: 88%
+set.seed(11)
+par(mar = c(4, 4.2, 1.4, 0.8))
+N <- 500
+plot(NA, xlim = c(0, 200), ylim = c(0, 1),
+     xlab = "Generation", ylab = "p = f(A)",
+     main = "Start: eine Kopie, N = 500, s = 0.05")
+lost <- 0
+kept <- 0
+for (i in 1:40) {
+  sim <- simulate_wf(1 / N, 0.05, N, 200)
+  went_to_zero <- min(sim$p) == 0 && sim$p[length(sim$p)] == 0
+  col <- if (went_to_zero) adjustcolor("#bdbdbd", 0.7) else "#d95f02"
+  lwd <- if (went_to_zero) 1.1 else 2
+  lines(sim$generation, sim$p, col = col, lwd = lwd)
+  if (went_to_zero) lost <- lost + 1 else kept <- kept + 1
+}
+legend("topleft", c("verloren", "nicht verloren"),
+       col = c("#bdbdbd", "#d95f02"), lwd = c(2, 2), bty = "n")
+```
+
+$s>0$, und trotzdem gehen die meisten Linien nach $0$.
+Selektion hilft im Mittel — der Zufall entscheidet früh.
+
+# Teil 4 · Etablierungswahrscheinlichkeit
+
+## Was «etabliert» heisst
+
+Eine Linie startet mit **einer** Kopie ($k=1$).
+
+Im Code: Generation für Generation `wf_step`, bis
+
+- $p=0$ — verloren, oder
+- $p=1$ — fixiert / etabliert.
+
+Die **Etablierungswahrscheinlichkeit** $u$ ist der Anteil der
+Replikate, die nicht bei $0$ enden.
+
+$\hat u$ ist dieser Anteil in einer endlichen Zahl von Versuchen.
+
+## $u$ hängt von $s$ ab
+
+```{r}
+#| fig-height: 3.5
+#| fig-width: 8.2
+#| out-width: 88%
+set.seed(9)
+s_grid <- c(0.02, 0.04, 0.06, 0.08, 0.10, 0.12)
+u_est <- vapply(s_grid, function(s) u_hat(s, N = 800, n_reps = 180), 0.0)
+par(mar = c(4, 4.2, 1.4, 0.8))
+plot(s_grid, u_est, type = "b", pch = 19, lwd = 2, col = "#2166ac",
+     xlim = c(0, 0.13), ylim = c(0, 0.28),
+     xlab = "s", ylab = "u hat",
+     main = "Etablierung, Start k = 1, N = 800")
+curve(2 * x, from = 0, to = 0.13, add = TRUE, lwd = 2, lty = 2, col = "#d95f02")
+legend("topleft", c("Simulation", "u = 2s"),
+       col = c("#2166ac", "#d95f02"), lwd = 2, lty = c(1, 2), bty = "n")
+```
+
+Grösseres $s$ $\to$ höheres $u$. Die gestrichelte Linie ist die
+klassische Näherung $u\approx 2s$ (Haldane 1927), für kleine $s$
+und grosse $N$.
+
+## Wo $2s$ herkommt — und wo sie bricht
+
+Poisson-Nachkommen, schwache Selektion, $N$ gross:
+eine neue vorteilhafte Mutante etabliert sich mit $u\approx 2s$.
+
+Die Formel ist keine Identität.
+
+- $s$ nicht klein: $2s$ wird zu grob (kann über 1 laufen)
+- $N$ klein: Fixierung $\neq$ Etablierung; Kimuras $2s/(1-e^{-2Ns})$
+- $N$ ändert sich in der Zeit: $u$ folgt nicht dem $s$ von heute allein
+
+Ableitung: Modellierungsvorlesung. Heute der Vergleich auf dem Plot.
+
+## Etablierung, wenn sich die Welt ändert
+
+Otto & Whitlock (1997): $N$ wächst oder schrumpft — dann ist $u$
+nicht $2s$, sondern hängt von der **aktuellen** Wachstumsrate ab.
+
+Peischl & Kirkpatrick (2012): Selektion wechselt in der Zeit.
+Dann $u\approx 2s_e$, und $s_e$ gewichtet die **ersten** Generationen
+nach dem Auftreten am stärksten.
+
+Kirkpatrick & Peischl (2013): dasselbe in Raum und Zeit — relevant
+für Rettung, wenn der günstige Patch wandert.
+
+## Was die Anpassungsrate trägt
+
+Anpassung aus **neuen** Mutationen:
+
+$$
+\text{Mutationsangebot}\ \times\ \text{Etablierungswahrscheinlichkeit}.
+$$
+
+Nicht nur «wie stark $s$ im deterministischen $p$-Modell ist».
+
+Nächste Woche: die Population **schrumpft**, während diese Rechnung
+läuft. Dann hat $u$ ein Ablaufdatum.
+
+## Take-home
+
+1. Bisher: Zufall ignoriert. Eine neue Mutante beginnt mit einer Kopie.
+2. Zwei Ausgänge unter Stress: aussterben oder überleben — Rettung.
+3. Fokus de novo, weil der einfachste Weg.
+4. `rbinom` nach dem Selektionsschritt: $p$ wird eine Ziehung.
+5. $u$ aus Replikaten; $u\approx 2s$ ist die Referenz, keine Identität.
+
+## Notebook (~45 min)
+
+**→ [Notebook Woche 9 öffnen](notebook.html)** · Entwurf
+
+Zufallszahlen $\to$ eine Trajektorie $\to$ $\hat u(s)$ gegen $2s$.
 
 ## Abschlussfragen
 
-1. Wie haben Sie „etabliert“ im Code definiert?
-2. Stieg $\hat{u}$ wie vorhergesagt mit $s$?
-3. Welche Komponente fehlt noch für Populationen unter tödlichem Stress?
-
-## Nächste Woche
-
-**Evolutionäre Rettung** — Demografie + Etablierung; im Labor geprüfte Theorie; **Checkpoint C**.
-
----
+1. Warum reicht das deterministische $p$-Modell nicht für *eine* neue Mutation?
+2. Was ändert `set.seed` an einer Abbildung — und was nicht?
+3. Wo sitzt der Zufall im Generationsschritt, und wo sitzt $s$?
+4. Wie ist «etabliert» im Code definiert?
+5. Wann erwarten Sie $\hat u \approx 2s$, wann nicht?
 
 ## Literatur
 
-In diesem Foliensatz-Entwurf noch keine Fallstudien zitiert.  
-Sobald Inhalte ausgearbeitet sind, erscheint hier die vollständige Liste aller genannten Quellen.
+:::: {.lit}
+1. **Haldane, J. B. S. (1927).** A mathematical theory of natural and artificial selection, Part V. *Proc. Camb. Philos. Soc.* 23: 838–844.
+2. **Otto, S. P. & Whitlock, M. C. (1997).** The probability of fixation in populations of changing size. *Genetics* 146: 723–733. [doi:10.1093/genetics/146.2.723](https://doi.org/10.1093/genetics/146.2.723)
+3. **Peischl, S. & Kirkpatrick, M. (2012).** Establishment of new mutations in changing environments. *Genetics* 191: 895–906. [doi:10.1534/genetics.112.140756](https://doi.org/10.1534/genetics.112.140756)
+4. **Kirkpatrick, M. & Peischl, S. (2013).** Evolutionary rescue by beneficial mutations in environments that change in space and time. *Phil. Trans. R. Soc. B* 368: 20120082. [doi:10.1098/rstb.2012.0082](https://doi.org/10.1098/rstb.2012.0082)
+5. **Bell, G. & Gonzalez, A. (2009).** Evolutionary rescue can prevent extinction following environmental change. *Ecology Letters* 12: 942–948. [doi:10.1111/j.1461-0248.2009.01350.x](https://doi.org/10.1111/j.1461-0248.2009.01350.x)
+::::
 
 ## Navigation
 
 | | |
 |---|---|
-| Übersicht | [Kursplan](../../docs/course-outline.html) |
-| Startseite | [Kurs-Startseite](../../index.html) |
+| Kursplan | [Kursplan](../../docs/course-outline.html) |
+| Notebook | [Notebook Woche 9](notebook.html) |
 | Zurück | [← Woche 8](../week-08/slides.html) |
 | Weiter | [Woche 10 →](../week-10/slides.html) |
-
-Tastatur: ← → · **M** Menü · **Esc** Übersicht · **F** Vollbild

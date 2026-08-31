@@ -1,9 +1,13 @@
 ---
-title: "Woche 8 — Notebook · Auf dem Weg zur Etablierung"
-subtitle: "Viele Versuche; seltene vorteilhafte Abstammungslinien"
+title: "Woche 8 — Notebook · Checkpoint B"
+subtitle: "Eine Frage, eine Abbildung"
 format:
   html:
     toc: true
+    toc-title: "Inhalt"
+    toc-depth: 2
+    code-fold: false
+    embed-resources: true
     css: ../../styles.scss
 execute:
   echo: true
@@ -11,35 +15,165 @@ execute:
   message: false
 ---
 
-## Lernziele
+::: {.callout-warning}
+## Entwurf
 
-1. Deterministisches Denken über $p_t$ dem Schicksal einer einzelnen Abstammungslinie gegenüberstellen
-2. Viele replizierte Einführungen durchführen
-3. Eine Etablierungshäufigkeit schätzen
+Hilfsfunktionen dürfen stehen bleiben. Die Note gilt der **biologischen
+Frage** und **einer** Abbildung, nicht dem Code-Umfang.
+:::
 
-## Gestaltungshinweis für Mitwirkende
+# Anweisung
 
-Stellen Sie eine einfache stochastische Aktualisierung der Abstammungslinie bereit (Verzweigungsprozess oder WF mit einer Mutante). Halten Sie die API für die Wochen 9–10 stabil.
+Wählen Sie **genau eine** der drei Fragen. Erzeugen Sie eine beschriftete
+Abbildung und beantworten Sie die vier Interpretationsfragen darunter.
 
-## Ausgangsgerüst
+**Grössen.** Ein Locus, zwei Allele A und B.
+Allelfrequenz $p = f(A)$, $q = 1-p$.
+Genotypfrequenzen unter HWE: $p^2$ (AA), $2pq$ (AB), $q^2$ (BB).
+Selektion wirkt auf Genotypen; der Zustand ist danach wieder $p$.
+Option 2: zwei Allelfrequenzen $p_1$, $p_2$.
+Option 3: zusätzlich Parameter $L$ (Generationen pro Saison).
 
-```{r}
-# Pseudocode / fill-in: replace with the course's chosen update
-run_one_lineage <- function(s, max_gen = 200, establish_threshold = 50) {
-  n <- 1
-  for (g in 1:max_gen) {
-    # TODO: stochastic update using s
-    # if n hits 0 -> lost; if n >= threshold -> established
-  }
-  FALSE
+```{r shared}
+selection_step <- function(p, s, h) {
+  q <- 1 - p
+  wbar <- p^2 * (1 + s) + 2 * p * q * (1 + h * s) + q^2
+  (p^2 * (1 + s) + p * q * (1 + h * s)) / wbar
 }
 
-n_reps <- 500
-s <- 0.05
-established <- replicate(n_reps, run_one_lineage(s))
-mean(established)
+simulate_selection <- function(p0, s, h, generations = 200) {
+  p <- numeric(generations + 1)
+  p[1] <- p0
+  for (t in seq_len(generations)) p[t + 1] <- selection_step(p[t], s, h)
+  data.frame(generation = 0:generations, p = p)
+}
+
+selection_step_general <- function(p, fitness) {
+  q <- 1 - p
+  wbar <- p^2 * fitness[1] + 2 * p * q * fitness[2] + q^2 * fitness[3]
+  (p^2 * fitness[1] + p * q * fitness[2]) / wbar
+}
+
+two_deme_step <- function(p1, p2, s = 0.1, m = 0.02) {
+  p1s <- selection_step_general(p1, c(1 + s, 1 + s / 2, 1))
+  p2s <- selection_step_general(p2, c(1, 1 + s / 2, 1 + s))
+  c(p1 = (1 - m) * p1s + m * p2s,
+    p2 = (1 - m) * p2s + m * p1s)
+}
+
+simulate_two_demes <- function(p1_0, p2_0, s = 0.1, m = 0.02,
+                               generations = 200) {
+  out <- matrix(NA_real_, generations + 1, 2)
+  out[1, ] <- c(p1_0, p2_0)
+  for (t in seq_len(generations)) {
+    out[t + 1, ] <- two_deme_step(out[t, 1], out[t, 2], s, m)
+  }
+  data.frame(generation = 0:generations, p1 = out[, 1], p2 = out[, 2],
+             p_global = rowMeans(out))
+}
+
+simulate_fluct <- function(p0, w1, w2, L, generations = 400) {
+  p <- numeric(generations + 1)
+  p[1] <- p0
+  for (t in seq_len(generations)) {
+    env1 <- ((t - 1) %/% L) %% 2 == 0
+    p[t + 1] <- selection_step_general(p[t], if (env1) w1 else w2)
+  }
+  data.frame(generation = 0:generations, p = p)
+}
+
+simulate_p <- function(p0, fitness, generations = 200) {
+  p <- numeric(generations + 1)
+  p[1] <- p0
+  for (t in seq_len(generations)) {
+    p[t + 1] <- selection_step_general(p[t], fitness)
+  }
+  data.frame(generation = 0:generations, p = p)
+}
 ```
 
-**F1.** Formulieren Sie Ihre operationale Definition von „etabliert“.
+------------------------------------------------------------------------
 
-**F2.** Sagen Sie voraus, wie sich `mean(established)` verändert, wenn Sie `s` erhöhen.
+# Option 1 — Sweep ($s$ und $h$)
+
+Zustand: Allelfrequenz $p = f(A)$.
+Parameter: Selektionskoeffizient $s$, Dominanz $h$
+(Fitnessen $1+s$, $1+hs$, $1$).
+
+```{r option1}
+# Parameter aendern
+s_values <- c(0.02, 0.10)
+h <- 0.5
+plot(NA, xlim = c(0, 250), ylim = c(0, 1),
+     xlab = "Generation", ylab = "p = f(A)",
+     main = "Option 1: Selektionsstaerke")
+cols <- c("#a6cee3", "#08306b")
+for (i in seq_along(s_values)) {
+  sim <- simulate_selection(0.02, s_values[i], h, 250)
+  lines(sim$generation, sim$p, lwd = 3, col = cols[i])
+}
+legend("bottomright", paste("s =", s_values), col = cols, lwd = 3, bty = "n")
+```
+
+**F1.** Was ist $s$, was ist $h$?  
+**F2.** Ändert $s$ die Richtung oder die Geschwindigkeit?  
+**F3.** Was wäre bei $h=0$ anders?  
+**F4.** Welche Annahme macht die glatte Kurve ungeeignet für *eine* neue Mutation?
+
+------------------------------------------------------------------------
+
+# Option 2 — Lokale Anpassung ($m$, $s$)
+
+Zustände: Allelfrequenzen $p_1$ (See) und $p_2$ (Meer).
+Parameter: lokaler Vorteil $s$, Migrationsanteil $m$.
+
+```{r option2}
+m_values <- c(0.01, 0.30)
+s <- 0.1
+par(mfrow = c(1, 2), mar = c(4, 4, 2.2, 1))
+for (m in m_values) {
+  z <- simulate_two_demes(0.5, 0.5, s = s, m = m, generations = 200)
+  plot(z$generation, z$p1, type = "l", lwd = 3, col = "#d95f02",
+       ylim = c(0, 1), xlab = "Generation", ylab = "p = f(A)",
+       main = paste("m =", m))
+  lines(z$generation, z$p2, lwd = 3, col = "#3182bd")
+  lines(z$generation, z$p_global, lwd = 2, lty = 2)
+}
+```
+
+**F1.** Was ist lokale Anpassung, was ist $\bar p$?  
+**F2.** Welche $m$ erhält Unterschiede?  
+**F3.** Ist $\bar p=0.5$ gleich lokale Anpassung?  
+**F4.** Was fehlt gegenüber einem echten Meer–See-Paar beim Stichling?
+
+------------------------------------------------------------------------
+
+# Option 3 — Erhalt von Variation ($L$)
+
+Zustand: Allelfrequenz $p = f(A)$. Sommer: Allel A im Vorteil. Winter: Allel B.
+Parameter $L$: Generationen pro Saison. Fitnessen für AA, AB, BB.
+
+```{r option3}
+w_sommer <- c(AA = 1.30, AB = 1.00, BB = 0.75)
+w_winter <- c(AA = 0.75, AB = 1.00, BB = 1.30)
+L_values <- c(5, 40)   # Parameter aendern, z.B. 2, 10, 80
+par(mfrow = c(1, 2), mar = c(4, 4, 2.2, 1))
+for (L in L_values) {
+  sim <- simulate_fluct(0.5, w_sommer, w_winter, L, generations = 300)
+  plot(sim$generation, sim$p, type = "l", lwd = 3, col = "#2166ac",
+       ylim = c(0, 1), xlab = "Generation", ylab = "p = f(A)",
+       main = paste("L =", L))
+  abline(h = c(0, 1), col = "grey80")
+}
+```
+
+**F1.** Was ist zeitlich fluktuierende Selektion — und was ist $L$?  
+**F2.** Bei welchem $L$ bleibt Polymorphismus, wann fast der Rand?  
+**F3.** Was wäre anders als Woche 6 (zwei Habitate gleichzeitig)?  
+**F4.** Warum beschreibt das nicht das Schicksal einer einzelnen Mutante?
+
+------------------------------------------------------------------------
+
+# Für die Präsentation
+
+Frage → Parameter → Abbildung → Ergebnis → eine Grenze.

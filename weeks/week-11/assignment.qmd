@@ -1,11 +1,33 @@
 ---
-title: "Woche 11 — Aufgabe · Komplexe Daten einlesen"
+title: "Woche 11 — Aufgabe · Checkpoint C"
 format:
   html:
     toc: true
     css: ../../styles.scss
 ---
 
-1. Datenpass: Dimensionen, Zusammenfassung der Bibliotheksgrössen, Hinweis zur Sparsität.
-2. Nachweis, dass die Proben-IDs übereinstimmen (oder eine korrigierte Liste der Abweichungen).
-3. Kurzer Absatz: breite gegenüber langer Datenform und welche Sie nächste Woche zum Plotten verwenden werden.
+**Checkpoint C** schliesst den Block zum Zufall ab (Wochen 9–11):
+Etablierung → **evolutionäre Rettung**.
+
+::: {.callout-important}
+## Anwesenheit Pflicht
+
+Für die Benotung müssen Sie **anwesend sein und präsentieren**.
+Siehe [Allgemeine Informationen](../../docs/general-info.qmd).
+:::
+
+## Abgabe (Notebook)
+
+1. Genau **eine** der drei Fragen aus dem Notebook.
+2. Eine zentrale Abbildung mit Bildunterschrift.
+3. Die vier Interpretationsfragen in Stichpunkten.
+
+## Präsentation (~3–5 Min.)
+
+Frage → Modell/Parameter → Abbildung → biologisches Ergebnis →
+Modellgrenze / was ein Laborversuch messen würde.
+
+## Offenlegung der KI-Nutzung
+
+Siehe [KI-Richtlinie](../../docs/ai-policy.qmd). Werkzeug + Verwendung
+oder `KI-Offenlegung: keine`.

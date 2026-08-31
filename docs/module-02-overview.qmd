@@ -1,0 +1,61 @@
+---
+title: "Modul 2 — Wochen 5–8"
+subtitle: "Allelfrequenz und Selektion · Checkpoint B"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    css: ../styles.scss
+---
+
+**Eine Seite Überblick** · Quantitative Biologie I · HS 2026
+
+## Was ist Modul 2?
+
+Der zweite Block: von **Genotypzahlen in einer Stichprobe** zu **Selektion, Migration und Erhalt von Variation** — und zum zweiten benoteten Checkpoint.
+
+Das **Beispiel** kommt zuerst (HapMap, Duffy, Stichling, Sichelzelle, *Drosophila*-Saisons). Mathematik erklärt, *warum* die Kurven so aussehen. Ableiten und Tests: andere Vorlesungen — dort sitzen Sie nicht verloren.
+
+| Woche | Datum | Thema | Fokus |
+|------:|------|--------|--------|
+| **5** | 15. Okt. | HWE · Wahlund | HapMap-Muster · eine oder zwei Populationen? · Duffy |
+| **6** | 22. Okt. | Lokale Anpassung | Stichling Meer/See · können $p_1\neq p_2$ bleiben? |
+| **7** | 29. Okt. | Variation erhalten | Paradoxon → Selektion → zeitliche Fluktuation |
+| **8** | 5. Nov. | Synthese | **Checkpoint B** |
+
+Details: [Kursplan](course-outline.qmd) · [Glossar](glossary.qmd).
+
+## Was Sie können sollen (am Ende von Woche 8)
+
+- Ein Genotypmuster **lesen** und Hardy–Weinberg als Nullbild erkennen
+- Den **Wahlund-Effekt** in einem Satz erklären
+- An Trajektorien sehen, wann Unterschiede zwischen Habitaten **stabil** sind
+- Sagen, wann Selektion Diversität hält — konstant und wenn die Fitness in der Zeit wechselt
+- Eine biologische Frage in **eine Abbildung** übersetzen (Checkpoint B)
+
+## Checkpoint B (Woche 8) — Präsenzpflicht
+
+In **Woche 8** finden die **Kurzpräsentationen** statt (Intro → Notebook → Vorträge).
+
+::: {.callout-important}
+## Anwesenheit erforderlich
+
+Für die **Benotung von Checkpoint B** müssen Sie **anwesend sein und präsentieren**.  
+Wer fehlt, kann diesen Checkpoint nicht ablegen (Details: [Allgemeine Informationen](general-info.qmd)).
+:::
+
+**Format (kurz):** ca. 3–5 Min. · biologische Frage · eine Abbildung · Pointe.  
+Arbeit zu zweit möglich. Keine separate Hausarbeit — die Notebook-Arbeit ist die Vorbereitung.
+
+Themen: Resistenz / Duffy; zwei Habitate; Variation / Zykluslänge $L$.
+
+## Materialien
+
+| Woche | Folien | Notebook | Aufgabe |
+|------:|--------|----------|---------|
+| 5 | [Folien](../weeks/week-05/slides.qmd) | [Notebook](../weeks/week-05/notebook.qmd) | [Aufgabe](../weeks/week-05/assignment.qmd) |
+| 6 | [Folien](../weeks/week-06/slides.qmd) | [Notebook](../weeks/week-06/notebook.qmd) | [Aufgabe](../weeks/week-06/assignment.qmd) |
+| 7 | [Folien](../weeks/week-07/slides.qmd) | [Notebook](../weeks/week-07/notebook.qmd) | [Aufgabe](../weeks/week-07/assignment.qmd) |
+| 8 | [Folien](../weeks/week-08/slides.qmd) | [Notebook](../weeks/week-08/notebook.qmd) | [Aufgabe](../weeks/week-08/assignment.qmd) |
+
+Zurück: [Start](../index.qmd) · [Modul 1](module-01-overview.qmd) · [Modul 3](module-03-overview.qmd) · [Allgemeine Informationen](general-info.qmd)

@@ -1,24 +1,31 @@
 ---
-title: "Woche 10 — Aufgabe · Checkpoint C (evolutionäre Rettung)"
+title: "Woche 10 — Aufgabe"
+subtitle: "Vorbereitung auf Checkpoint C"
 format:
   html:
     toc: true
     css: ../../styles.scss
 ---
 
-**Checkpoint C** schließt den Block zum Zufall ab (Wochen 8–10): Etablierung → **evolutionäre Rettung**.
+## Aufgabe
 
-## Abgabe (praktischer Teil)
+Bereiten Sie **eine** Frage für Woche 11 vor. Wählen Sie genau ein Thema:
 
-1. Kurze Beschreibung des Modells in Worten (Rückgang + seltene angepasste Typen + Etablierung).
-2. Simulator + eine zentrale Abbildung (z. B. Rettungswahrscheinlichkeit gegen Stress oder $s$).
-3. Kurze Notiz mit Bezug zu **Labor**experimenten zur evolutionären Rettung (was eine Replikatkultur misst).
-4. Stärkste Annahme / was das Modell widerlegen würde.
+1. Rettungswahrscheinlichkeit gegen Rückgangsrate $r$,
+2. gegen Selektionsvorteil $s$,
+3. gegen Startgrösse $N_0$ (Mutationsangebot).
 
-## Präsentation (~3–5 Min.)
+Schreiben Sie eine halbe Seite:
 
-Frage → Berechnung → eine Abbildung → Laborbezug / Einschränkung.
+- Frage in einem Satz
+- Parameter, die Sie ändern
+- erwartete Abbildung (Simulation, optional Formel daneben)
+- eine Grenze des Modells (deterministische Demografie, nur de novo)
+- ein Satz: was eine Replikatkultur messen würde
 
-## Offenlegung der KI-Nutzung (erforderlich)
+Keine Präsentation heute. Abgabe hilft, in Woche 11 sofort zu arbeiten.
 
-Siehe [KI-Richtlinie](../../docs/ai-policy.qmd). Geben Sie Werkzeug + Verwendung an oder `KI-Offenlegung: keine`.
+## Literatur
+
+Gomulkiewicz & Holt (1995); Orr & Unckless (2014); Bell & Gonzalez (2009)
+— [Folien](slides.qmd#literatur).

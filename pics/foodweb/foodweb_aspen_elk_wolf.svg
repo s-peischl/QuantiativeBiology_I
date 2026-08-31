@@ -10,7 +10,7 @@
   <text x="480" y="140" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#7f8c8d">a_wolf_elk</text>
 
   <rect x="360" y="155" width="200" height="58" rx="10" fill="#d68910"/>
-  <text x="460" y="190" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="white">Elk</text>
+  <text x="460" y="190" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="white">Elch</text>
 
   <path d="M400,213 L280,255" stroke="#7f8c8d" stroke-width="3"/>
   <path d="M520,213 L640,255" stroke="#7f8c8d" stroke-width="3"/>
@@ -27,5 +27,5 @@
   <text x="460" y="285" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#7f8c8d">Konkurrenz alpha</text>
 
   <rect x="80" y="350" width="760" height="50" rx="8" fill="#eaf2fb" stroke="#2980b9" stroke-width="1.5"/>
-  <text x="460" y="380" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#1a5276">ohne Wolf: Aspen -&gt; 0 | mit Wolf: Aspen bleibt positiv, Elk bleibt mittel</text>
+  <text x="460" y="380" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#1a5276">ohne Wolf: Aspen -&gt; 0 | mit Wolf: Aspen bleibt positiv, Elch bleibt mittel</text>
 </svg>
