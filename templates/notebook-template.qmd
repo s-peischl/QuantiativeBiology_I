@@ -1,6 +1,7 @@
 ---
 title: "Woche XX — Notebook"
 subtitle: "Quantitative Biologie I"
+author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:
     toc: true

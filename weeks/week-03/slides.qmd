@@ -1,7 +1,7 @@
 ---
 title: "Woche 3 — Stabilität"
 subtitle: "Ein Endpunkt · zwei Endpunkte · Food Webs · Kipppunkte als Konzept"
-author: "Stephan Peischl"
+author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:
     html-math-method: katex

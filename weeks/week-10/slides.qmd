@@ -1,7 +1,7 @@
 ---
 title: "Woche 10 — Evolutionäre Rettung"
 subtitle: "Schrumpfende $N$ · de-novo-Etablierung · Orr gegen Simulation"
-author: "Stephan Peischl"
+author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:
     html-math-method: katex

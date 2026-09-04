@@ -105,7 +105,7 @@ Jeder Foliensatz beginnt mit YAML, das Reveal.js **deklarieren muss**:
 ---
 title: "Week X — Title"
 subtitle: "…"
-author: "…"
+author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:
     theme: simple

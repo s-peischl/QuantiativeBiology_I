@@ -1,7 +1,7 @@
 ---
 title: "Woche 4 — Spieltheorie & Checkpoint A"
 subtitle: "20′ Intro · 40′ Notebook · 30′ Kurzpräsentationen"
-author: "Stephan Peischl"
+author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:
     html-math-method: katex

@@ -1,5 +1,6 @@
 ---
 title: "Woche 1 — Aufgabe · Zwei Extreme"
+author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:
     toc: true

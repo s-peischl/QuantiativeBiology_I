@@ -1,5 +1,6 @@
 ---
 title: "Woche XX - Arbeitsblatt"
+author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:
     toc: false

@@ -8,7 +8,7 @@ format:
     css: ../styles.scss
 ---
 
-**Quantitative Biologie I** · HS 2026 · Stephan Peischl
+**Quantitative Biologie I** · HS 2026 · Stephan Peischl, Loraine Hablützel und Emma Ochsner
 
 ::: {.callout-note}
 ## Entwurf

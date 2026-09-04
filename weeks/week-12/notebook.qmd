@@ -1,6 +1,7 @@
 ---
 title: "Woche 12 — Notebook · Komplexe Mikrobiomdaten einlesen"
 subtitle: "Abundanztabellen + Verknüpfung von Metadaten"
+author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:
     toc: true

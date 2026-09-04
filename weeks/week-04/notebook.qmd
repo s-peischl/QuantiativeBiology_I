@@ -1,7 +1,7 @@
 ---
 title: "Woche 4 — Notebook · Checkpoint A"
 subtitle: "2 vs. 3 · RPS · Punkt / Oszillation / Heteroklin"
-author: "Stephan Peischl"
+author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:
     toc: true

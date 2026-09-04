@@ -1,6 +1,7 @@
 ---
 title: "Woche 5 — Aufgabe"
 subtitle: "HapMap-Muster und Wahlund-Effekt"
+author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:
     toc: true

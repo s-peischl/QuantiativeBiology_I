@@ -104,6 +104,13 @@ Paths in chunks are relative to the `.qmd` directory (`data/...` → `weeks/week
 - Prefer short slides (one idea per `##`), biology before model/code.
 - Reuse YAML, footer, and nav patterns from existing polished weeks (e.g. 1–2).
 - Prefer real data/citations for empirical claims; document image licenses.
+- Course author credit on slides / notebooks / assignments (YAML `author:`):
+
+```yaml
+author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
+```
+
+  Do not replace scientific citations (e.g. Peischl & Kirkpatrick) or grant PI lists with this string.
 
 ---
 

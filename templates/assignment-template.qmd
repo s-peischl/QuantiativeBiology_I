@@ -1,5 +1,6 @@
 ---
 title: "Woche XX — Aufgabe"
+author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:
     toc: false

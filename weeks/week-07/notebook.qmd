@@ -1,7 +1,7 @@
 ---
 title: "Woche 7 — Notebook"
 subtitle: "Zykluslänge und stehende Variation"
-author: "Stephan Peischl"
+author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:
     toc: true

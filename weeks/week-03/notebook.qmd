@@ -1,7 +1,7 @@
 ---
 title: "Woche 3 — Notebook"
 subtitle: "Ein Endpunkt · zwei Endpunkte · Food Web"
-author: "Stephan Peischl"
+author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:
     toc: true

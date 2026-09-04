@@ -1,6 +1,7 @@
 ---
 title: "Woche 1 — Glossar"
 subtitle: "Weiterleitung auf das Kursglossar"
+author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:
     toc: false

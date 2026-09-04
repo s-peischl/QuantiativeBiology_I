@@ -1,5 +1,6 @@
 ---
 title: "Woche 14 — Aufgabe · Checkpoint D (visuelle Geschichte)"
+author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:
     toc: true

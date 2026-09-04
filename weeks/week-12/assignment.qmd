@@ -1,5 +1,6 @@
 ---
 title: "Woche 12 — Aufgabe · Komplexe Daten einlesen"
+author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:
     toc: true

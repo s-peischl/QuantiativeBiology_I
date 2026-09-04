@@ -1,6 +1,7 @@
 ---
 title: "Woche 6 — Aufgabe"
 subtitle: "Lokale Anpassung und Gene swamping"
+author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:
     toc: true

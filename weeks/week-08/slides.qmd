@@ -1,7 +1,7 @@
 ---
 title: "Woche 8 — Checkpoint B"
 subtitle: "Eine biologische Frage, eine Abbildung"
-author: "Stephan Peischl"
+author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:
     html-math-method: katex

@@ -1,5 +1,6 @@
 ---
 title: "Woche 2 — Aufgabe · Erstes Modell"
+author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:
     toc: false

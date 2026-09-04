@@ -1,7 +1,7 @@
 ---
 title: "Woche 6 — Notebook"
 subtitle: "Zwei Habitate und stabile Unterschiede"
-author: "Stephan Peischl"
+author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:
     toc: true

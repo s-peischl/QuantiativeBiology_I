@@ -1,6 +1,7 @@
 ---
 title: "Woche 8 — Notebook · Checkpoint B"
 subtitle: "Eine Frage, eine Abbildung"
+author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:
     toc: true
