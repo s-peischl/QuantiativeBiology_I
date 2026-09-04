@@ -6,9 +6,14 @@ Privates Kursfoto (nicht von Commons):
 
 | Lokale Datei | Hinweis |
 |---|---|
-| `Andika.jpg` | Privates Kursfoto (Andika). Nicht ohne Genehmigung weiterverbreiten. |
-| `manta.jpg` | Privates Kursfoto (Manta). Nicht ohne Genehmigung weiterverbreiten. |
-| `komdo.jpg` | Privates Kursfoto (Komodo / Tauchreise). Nicht ohne Genehmigung weiterverbreiten. |
+| `Andika.jpg` | Privates Kursfoto (Andika). Stephan Peischl; Andika Ramadhan. Nicht ohne Genehmigung weiterverbreiten. |
+| `manta.jpg` | Privates Kursfoto (Manta). Stephan Peischl; Andika Ramadhan ([Instagram](https://www.instagram.com/andikaramadhan__/)). Nicht ohne Genehmigung weiterverbreiten. |
+| `komdo.jpg` | Privates Kursfoto (Komodo / Tauchreise). Stephan Peischl; Andika Ramadhan ([Instagram](https://www.instagram.com/andikaramadhan__/)). Nicht ohne Genehmigung weiterverbreiten. |
+| `clownfish.jpg` | Kursfoto (Clownfish). Siehe Folien-Fußzeile / Link zu [Marion Talbi](https://www.aqua.iee.unibe.ch/about_us/team/marion_talbi/talbi_marion/index_eng.html) (Uni Bern; percomorph fishes). |
+| `high-altitude/DSCF0622.jpg` | Privates Kursfoto (Spiti Valley). Stephan Peischl. Nicht ohne Genehmigung weiterverbreiten. |
+| `high-altitude/DSCF0610.jpg` | Privates Kursfoto (Hochland / Yak). Stephan Peischl. Nicht ohne Genehmigung weiterverbreiten. |
+| `high-altitude/P1040203.jpg` | Privates Kursfoto (Hochland / Pferde). Stephan Peischl. Nicht ohne Genehmigung weiterverbreiten. |
+| `high-altitude/P1040210.jpg` | Privates Kursfoto (Cotopaxi). Stephan Peischl. Nicht ohne Genehmigung weiterverbreiten. |
 
 ## Bajau (`pics/bajau/`)
 
@@ -38,13 +43,15 @@ Privates Kursfoto (nicht von Commons):
 | `tibetan_wildflowers.jpg` | [Wildflowers on the Tibetan Plateau](https://commons.wikimedia.org/wiki/File:Wildflowers_on_the_Tibetan_Plateau.jpg) | CC BY-SA 4.0 |
 | `tibetan_pilgrim.jpg` | [A Tibetan Pilgrim Lighting Ghee Lamps](https://commons.wikimedia.org/wiki/File:A_Tibetan_Pilgrim_Lighting_Ghee_Lamps.jpg) | CC BY-SA 4.0 |
 | `denisova_cave.jpg` | [Denisova cave 01](https://commons.wikimedia.org/wiki/File:Denisova_cave_01.jpg) | CC BY-SA 3.0 |
-| `denisova_where_schematic.svg` | Lehrkarte Denisova-Höhle / Altai | Kursmaterial |
+| `denisova_where_schematic.png` | Lehrkarte Denisova-Höhle / Altai + Verwandtschaft | Kursmaterial |
+| `denisova_where_schematic.svg` | ältere SVG-Variante (PNG wird in Folien genutzt) | Kursmaterial |
 | `epas1_haplotype_schematic.svg` | Lehrschema EPAS1: Tibet ≠ nahe Pops ≈ Denisova | Kursmaterial; Idee nach Huerta-Sánchez et al. 2014 |
 | `introgression_schematic.svg` | Lehrschema Introgression / Admixture | Kursmaterial |
 | `ils_schematic.svg` | Lehrschema incomplete lineage sorting | Kursmaterial |
 | `convergence_schematic.svg` | Lehrschema konvergente Evolution | Kursmaterial |
 | `three_histories_compare.svg` | Drei rivalisierende Geschichten im Überblick | Kursmaterial |
-| `history_quant_bio_timeline.svg` | Lehrschema Zeitlinie Bio↔Mathe | Kursmaterial |
+| `history_quant_bio_timeline.png` | Lehrschema Zeitlinie Bio↔Mathe | Kursmaterial (PNG; SVG-Quelle parallel) |
+| `history_quant_bio_timeline.svg` | Quelle/Alternative zur Zeitlinie | Kursmaterial |
 | `lotka_volterra_cycles.png` | Lehrplot LV Zeitreihe + Phasenzyklus | Kursmaterial (`scripts/make_lv_schematic.R`) |
 | `debruijn_assembly.svg` | Lehrschema Reads → de Bruijn → Contig | Kursmaterial |
 | `simpson_penguins.png` | Lehrsimulation Simpson-Paradoxon (Pinguin-Stil) | Kursmaterial (`scripts/make_simpson_penguins.R`) |

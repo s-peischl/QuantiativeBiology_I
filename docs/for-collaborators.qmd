@@ -24,7 +24,7 @@ This page is the teaching-hub version of the repository [README](https://github.
 
 **Ecology → Evolution (deterministic → stochastic) → Microbiome (ecology with randomness)**
 
-Canonical materials live under `weeks/week-XX/` (slides, notebook, assignment). Do not recreate week sources under `modules/`.
+Canonical materials live under `weeks/week-XX/` (slides, notebook). Do not recreate week sources under `modules/`.
 
 ---
 
@@ -63,7 +63,6 @@ Source files outside this repo: see paths noted on those pages.
 |------|------|
 | `weeks/week-XX/slides.qmd` | Reveal.js deck |
 | `weeks/week-XX/notebook.qmd` | Student notebook (HTML) |
-| `weeks/week-XX/assignment.qmd` | Assignment (HTML) |
 | `weeks/week-XX/data/` | Week CSVs + data README |
 | `pics/` | Images (+ credits in `pics/README.md`) |
 | `templates/` | Templates for new weeks |
@@ -107,18 +106,16 @@ Keyboard: `←` `→` · `M` menu · `Esc` overview · `F` fullscreen.
 ```bash
 cp templates/slides-template.qmd weeks/week-03/slides.qmd
 cp templates/notebook-template.qmd weeks/week-03/notebook.qmd
-cp templates/assignment-template.qmd weeks/week-03/assignment.qmd
 ```
 
 Update titles, navigation links, and content.
 
 ---
 
-## Notebooks and assignments
+## Notebooks
 
 ```bash
 quarto preview weeks/week-02/notebook.qmd
-quarto preview weeks/week-02/assignment.qmd
 ```
 
 Commit solution keys to `main` only when that is intentional.

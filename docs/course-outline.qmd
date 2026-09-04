@@ -11,7 +11,7 @@ format:
 
 - Parallel zum **Programmierkurs** des ersten Studienjahres
 - Dieser Kurs: biologische **Fragen** → Experiment / Daten → wo Mathematik, Statistik, Algorithmen natürlich auftauchen
-- 14 Wochen; für jede Woche gibt es `slides.qmd`, `notebook.qmd` und `assignment.qmd` unter `weeks/week-XX/`
+- 14 Wochen; für jede Woche gibt es `slides.qmd` und `notebook.qmd` unter `weeks/week-XX/`
 - **[KI-Richtlinie](ai-policy.qmd)** — generative KI darf zum Lernen eingesetzt werden; benotete Arbeiten müssen Ihre eigenen sein, und die Unterstützung durch KI muss offengelegt werden
 
 ### Vorlesungszeit
@@ -98,7 +98,7 @@ Fusszeile → Kursplan / Startseite · Links zur ersten und letzten Woche · **M
 
 **Wann:** Do., 17. Sept. 2026, 08:15–10:00 Uhr  
 **Biologie:** Tauchen der Bajau (Andika) → tibetische Höhenlage (EPAS1 / Denisova-ähnlich)  
-**Materialien:** [Folien](../weeks/week-01/slides.qmd) · [Notebook](../weeks/week-01/notebook.qmd) · [Aufgabe](../weeks/week-01/assignment.qmd) · [Glossar](glossary.qmd)
+**Materialien:** [Folien](../weeks/week-01/slides.qmd) · [Notebook](../weeks/week-01/notebook.qmd) · [Glossar](glossary.qmd)
 
 - **Sitzung:** 2 × 45 min Vorlesung (kein Notebook in der Sitzung); Pause nach Bajau
 - Einstieg: Darwin → **Zeitlinie** → Beispiele (**Statistik:** Regression, Simpson; **Öko/Evo:** Lotka–Volterra; **Bioinformatik:** Sequenzdaten / de Bruijn)
@@ -119,7 +119,7 @@ Grundprinzip: biologische Regel → **additive Differenzengleichung** $X_{t+1}=X
 
 ### Woche 2 — Unser erstes Modell
 **Wann:** Do., 24. Sept. 2026, 08:15–10:00 Uhr  
-**Materialien:** [Folien](../weeks/week-02/slides.qmd) · [Notebook](../weeks/week-02/notebook.qmd) · [Aufgabe](../weeks/week-02/assignment.qmd)
+**Materialien:** [Folien](../weeks/week-02/slides.qmd) · [Notebook](../weeks/week-02/notebook.qmd)
 
 - **Sitzung:** ~45 min Vorlesung + ~45 min Notebook (Spielraum)
 - **Teil 1:** Gause-Daten *Paramecium* allein → Variable $N$ → Wachstum + Regulation → ein Zeitschritt → Vektor → Schleife → Vergleich
@@ -130,7 +130,7 @@ Grundprinzip: biologische Regel → **additive Differenzengleichung** $X_{t+1}=X
 
 ### Woche 3 — Stabilität: ein Endpunkt, zwei Endpunkte, Food Webs
 **Wann:** Do., 1. Okt. 2026, 08:15–10:00 Uhr  
-**Materialien:** [Folien](../weeks/week-03/slides.qmd) · [Notebook](../weeks/week-03/notebook.qmd) · [Aufgabe](../weeks/week-03/assignment.qmd)
+**Materialien:** [Folien](../weeks/week-03/slides.qmd) · [Notebook](../weeks/week-03/notebook.qmd)
 
 - **Sitzung:** ~45 min Vorlesung + ~45 min Notebook (Spielraum)
 - **Brücke Woche 2:** Räuber–Beute nur als Persistenz auf der beobachteten Zeitskala; keine erneute Simulation
@@ -143,7 +143,7 @@ Grundprinzip: biologische Regel → **additive Differenzengleichung** $X_{t+1}=X
 
 ### Woche 4 — Spieltheorie, RPS & **Checkpoint A**
 **Wann:** Do., 8. Okt. 2026, 08:15–10:00 Uhr  
-**Materialien:** [Folien](../weeks/week-04/slides.qmd) · [Notebook](../weeks/week-04/notebook.qmd) · [Aufgabe](../weeks/week-04/assignment.qmd)
+**Materialien:** [Folien](../weeks/week-04/slides.qmd) · [Notebook](../weeks/week-04/notebook.qmd)
 
 - **Ablauf:** ~20 min Intro · ~40 min Notebook · ~30 min Kurzpräsentationen
 - Intro: Spieltheorie + *Uta*-RPS; **2 Strategien → Exclusion**, 3. Strategie stabilisiert; RPS kann **Punkt** sein
@@ -164,7 +164,7 @@ Kurven so aussehen. Ableiten und Tests: andere Vorlesungen.
 
 ### Woche 5 — Hardy–Weinberg und Wahlund
 **Wann:** Do., 15. Okt. 2026, 08:15–10:00 Uhr  
-**Materialien:** [Folien](../weeks/week-05/slides.qmd) · [Notebook](../weeks/week-05/notebook.qmd) · [Aufgabe](../weeks/week-05/assignment.qmd)
+**Materialien:** [Folien](../weeks/week-05/slides.qmd) · [Notebook](../weeks/week-05/notebook.qmd)
 
 - **Sitzung:** ~45 min Vorlesung + ~45 min Notebook (Spielraum)
 - SNP, Locus, Allel, Genotyp; HapMap-Muster; HWE als Nullbild ($\chi^2$ → Statistik)
@@ -173,7 +173,7 @@ Kurven so aussehen. Ableiten und Tests: andere Vorlesungen.
 
 ### Woche 6 — Selektion und lokale Anpassung
 **Wann:** Do., 22. Okt. 2026, 08:15–10:00 Uhr  
-**Materialien:** [Folien](../weeks/week-06/slides.qmd) · [Notebook](../weeks/week-06/notebook.qmd) · [Aufgabe](../weeks/week-06/assignment.qmd)
+**Materialien:** [Folien](../weeks/week-06/slides.qmd) · [Notebook](../weeks/week-06/notebook.qmd)
 
 - **Sitzung:** ~45 min Vorlesung + ~45 min Notebook (Spielraum)
 - Empirie: genetische Unterschiede beim Stichling (Meer/See) trotz Verbindung
@@ -182,7 +182,7 @@ Kurven so aussehen. Ableiten und Tests: andere Vorlesungen.
 
 ### Woche 7 — Wie bleibt Variation erhalten?
 **Wann:** Do., 29. Okt. 2026, 08:15–10:00 Uhr  
-**Materialien:** [Folien](../weeks/week-07/slides.qmd) · [Notebook](../weeks/week-07/notebook.qmd) · [Aufgabe](../weeks/week-07/assignment.qmd)
+**Materialien:** [Folien](../weeks/week-07/slides.qmd) · [Notebook](../weeks/week-07/notebook.qmd)
 
 - **Sitzung:** ~45 min Vorlesung + ~45 min Notebook (Spielraum)
 - Diversitätsparadoxon (1966); Kimura und Gillespie; Neutralisten vs. Selektionisten
@@ -193,7 +193,7 @@ Kurven so aussehen. Ableiten und Tests: andere Vorlesungen.
 
 ### Woche 8 — Synthese und **Checkpoint B**
 **Wann:** Do., 5. Nov. 2026, 08:15–10:00 Uhr  
-**Materialien:** [Folien](../weeks/week-08/slides.qmd) · [Notebook](../weeks/week-08/notebook.qmd) · [Aufgabe](../weeks/week-08/assignment.qmd)
+**Materialien:** [Folien](../weeks/week-08/slides.qmd) · [Notebook](../weeks/week-08/notebook.qmd)
 
 - Foto-Landkarte der Fragen aus Wochen 5–7; was Mathe/Statistik/Code geleistet hat
 - **Checkpoint B:** eine biologische Frage (Resistenz, Habitate, Variation/$L$); eine Abbildung + 3–5-Min-Vortrag
@@ -211,7 +211,7 @@ Dieselbe Programmierlogik wie zuvor; neues Untersuchungsobjekt = **Schicksal sel
 
 ### Woche 9 — Zufall und Etablierung
 **Wann:** Do., 12. Nov. 2026, 08:15–10:00 Uhr  
-**Materialien:** [Folien](../weeks/week-09/slides.qmd) · [Notebook](../weeks/week-09/notebook.qmd) · [Aufgabe](../weeks/week-09/assignment.qmd)
+**Materialien:** [Folien](../weeks/week-09/slides.qmd) · [Notebook](../weeks/week-09/notebook.qmd)
 
 - **Sitzung:** ~45 min Vorlesung + ~45 min Notebook (Spielraum)
 - Bis hier Zufall ignoriert. Aufhänger: evolutionäre Rettung (Klima, Pestizid, Behandlungsresistenz); Bell & Gonzalez (2009)
@@ -222,7 +222,7 @@ Dieselbe Programmierlogik wie zuvor; neues Untersuchungsobjekt = **Schicksal sel
 
 ### Woche 10 — Evolutionäre Rettung
 **Wann:** Do., 19. Nov. 2026, 08:15–10:00 Uhr  
-**Materialien:** [Folien](../weeks/week-10/slides.qmd) · [Notebook](../weeks/week-10/notebook.qmd) · [Aufgabe](../weeks/week-10/assignment.qmd)
+**Materialien:** [Folien](../weeks/week-10/slides.qmd) · [Notebook](../weeks/week-10/notebook.qmd)
 
 - **Sitzung:** ~45 min Vorlesung + ~45 min Notebook (Spielraum)
 - Demografie zuerst **deterministisch**, Mutation und Etablierung zufällig
@@ -232,7 +232,7 @@ Dieselbe Programmierlogik wie zuvor; neues Untersuchungsobjekt = **Schicksal sel
 
 ### Woche 11 — Synthese und **Checkpoint C**
 **Wann:** Do., 26. Nov. 2026, 08:15–10:00 Uhr  
-**Materialien:** [Folien](../weeks/week-11/slides.qmd) · [Notebook](../weeks/week-11/notebook.qmd) · [Aufgabe](../weeks/week-11/assignment.qmd)
+**Materialien:** [Folien](../weeks/week-11/slides.qmd) · [Notebook](../weeks/week-11/notebook.qmd)
 
 - Foto-Landkarte der Fragen aus Wochen 9–10
 - **Checkpoint C:** eine biologische Frage ($r$, $s$ oder $N_0$); eine Abbildung + 3–5-Min-Vortrag; Laborbezug
@@ -248,7 +248,7 @@ Rückkehr zur **Ökologie**, doch nun liegt der praktische Engpass bei **hochdim
 
 ### Woche 12 — Komplexe Mikrobiomdaten einlesen
 **Wann:** Do., 3. Dez. 2026, 08:15–10:00 Uhr  
-**Materialien:** [Folien](../weeks/week-12/slides.qmd) · [Notebook](../weeks/week-12/notebook.qmd) · [Aufgabe](../weeks/week-12/assignment.qmd)
+**Materialien:** [Folien](../weeks/week-12/slides.qmd) · [Notebook](../weeks/week-12/notebook.qmd)
 
 - Aufbau eines Mikrobiomdatensatzes: Proben × Taxa (+ Taxonomie) + **Metadaten**
 - CSV/TSV einlesen (und BIOM- / QIIME-artige Exporte als Formate erwähnen, die «in der Praxis vorkommen»)
@@ -258,7 +258,7 @@ Rückkehr zur **Ökologie**, doch nun liegt der praktische Engpass bei **hochdim
 
 ### Woche 13 — Gemeinschaftsdaten visualisieren
 **Wann:** Do., 10. Dez. 2026, 08:15–10:00 Uhr  
-**Materialien:** [Folien](../weeks/week-13/slides.qmd) · [Notebook](../weeks/week-13/notebook.qmd) · [Aufgabe](../weeks/week-13/assignment.qmd)
+**Materialien:** [Folien](../weeks/week-13/slides.qmd) · [Notebook](../weeks/week-13/notebook.qmd)
 
 - «Grammar of Graphics» für viele Taxa: geeignete **Aggregationen** wählen (häufigste Taxa, Zusammenfassung auf Phylum-Ebene)
 - Zentrale Diagrammtypen: gestapelte Zusammensetzung, Heatmap, Facettierung nach Gruppe/Zeit, bei Bedarf einfache Balkendiagramme zur Diversität
@@ -267,7 +267,7 @@ Rückkehr zur **Ökologie**, doch nun liegt der praktische Engpass bei **hochdim
 
 ### Woche 14 — Eine visuelle Geschichte + **Checkpoint D**
 **Wann:** Do., 17. Dez. 2026, 08:15–10:00 Uhr  
-**Materialien:** [Folien](../weeks/week-14/slides.qmd) · [Notebook](../weeks/week-14/notebook.qmd) · [Aufgabe](../weeks/week-14/assignment.qmd)
+**Materialien:** [Folien](../weeks/week-14/slides.qmd) · [Notebook](../weeks/week-14/notebook.qmd)
 
 - Gruppen oder Zeitpunkte anhand einer **kleinen Auswahl an Abbildungen** vergleichen
 - **Checkpoint D:** einlesen → bereinigen → visualisieren → eine klare Aussage mitsamt Einschränkungen präsentieren
@@ -299,6 +299,6 @@ Rückkehr zur **Ökologie**, doch nun liegt der praktische Engpass bei **hochdim
 
 ```text
 weeks/week-01 … week-14/
-  slides.qmd · notebook.qmd · assignment.qmd
+  slides.qmd · notebook.qmd
 templates/ · pics/
 ```

@@ -33,11 +33,11 @@ execute:
 
 | Teil | Dauer | Was |
 |------|-------|-----|
-| 1. Hälfte | ~45 min | Warum quantitative Biologie? · Bajau |
+| 1. Hälfte | ~45 min | Warum quantitative Biologie? · Beispiel 1: Bajau |
 | Pause | ~5 min | |
-| 2. Hälfte | ~45 min | Tibet · vier Kursbegriffe |
+| 2. Hälfte | ~45 min | Beispiel 2: Tibet · Diskussion |
 
-Kein Notebook in der Sitzung. [Glossar](../../docs/glossary.html)
+[Glossar](../../docs/glossary.html)
 
 ::: aside
 Pfeiltasten · **M** Menü · **Esc** Übersicht
@@ -60,25 +60,26 @@ Pfeiltasten · **M** Menü · **Esc** Übersicht
 :::
 :::::
 
--   Quantitative Biologie I — parallel zu **R-Programmierung**
--   Dort: *wie* man code schreibt · Hier: *welche Fragen* Biologie stellt — und wo Mathematik, Statistik, Algorithmen **natürlich** auftauchen
--   Do **08:15–10:00** · Kurzvorträge Wochen **4, 8, 11, 14**
+-   Quantitative Biologie I — parallel zu **R-Programmier Kurs** (Anja Mühlemann)
+-   Dort: lernen *wie* man code schreibt · Hier: *welche Fragen* Biologie stellt — und wo Mathematik, Statistik, Porgrammierung **natürlich** auftauchen
+-   Do **08:15–10:00** · Kurzvorträge Wochen **4, 8, 11, 14** (Anwesenheitspflicht)
 -   [KI-Richtlinie](../../docs/ai-policy.html)
 
 ## Lernziele (Woche 1 = Einführung)
 
 ![](../../pics/icons/lernziele_icons.svg){fig-alt="Drei Lernziele als Karten" width="95%"}
 
-Am Ende sollen Sie **sehen** — nicht alles können:  
+Am Ende sollen Sie **gesehen haben** — nicht alles können:  
 eine biologische **Frage** → sinnvolle **Daten / Experimente** → wo quantitative Methoden ins Spiel kommen.  
-Kein Leistungsdruck heute: Orientierung und Neugier.
 
-## Heute in dieser Reihenfolge
+Heute kein Leistungsdruck: Orientierung und Neugier.
 
-1. Warum Mathematik in der Biologie?
-2. Bajau: eine Frage, mehrere Ebenen
-3. Tibet: dieselbe Logik, schärfere Frage
-4. Was müssen wir festlegen: Population, Gen, Generation, Selektion?
+## Das Program
+
+1. Warum Mathematik / Statistik / Programmieren in der Biologie?
+2. Warum taucht Andika besser als ich?
+3. Warum wurde ich in höhenkrank, während andere Fussball spielen?
+4. Und warum wollen uns Stephan, Loraine und Emma uns Mathe beibringen, wenn wir doch Bio studieren?
 
 ::: aside
 [Modul 1](../../docs/module-01-overview.html) · [Glossar](../../docs/glossary.html)
@@ -86,7 +87,7 @@ Kein Leistungsdruck heute: Orientierung und Neugier.
 
 # Einstieg · Warum quantitative Biologie?
 
-## Lange getrennt
+## Bio und Mathe lange getrennt, endlich vereint
 
 ![](../../pics/icons/bio_vs_math.svg){fig-alt="Biologie und Mathematik lange getrennt" width="92%"}
 
@@ -115,7 +116,7 @@ In diesem Kurs: das **Beispiel** zwingt zur Mathematik. Heute sehen Sie
 
 ## Zeitlinie (Überblick)
 
-![](../../pics/biology/history_quant_bio_timeline.svg){fig-alt="Zeitlinie quantitative Biologie" width="92%"}
+![](../../pics/biology/history_quant_bio_timeline.png){fig-alt="Zeitlinie quantitative Biologie" width="92%"}
 
 Drei Stränge, die heute selbstverständlich wirken — jeweils mit einem Beispiel:
 
@@ -135,7 +136,7 @@ Drei Stränge, die heute selbstverständlich wirken — jeweils mit einem Beispi
 
 Streuende Punkte + Ausgleichsgerade: Variation zählen und Zusammenhänge schätzen.
 
-Mit Evolution/Genetik wurde das zentral — u. a. **R. A. Fisher** (1930).
+Mit Evolution/Genetik wurde das zentral — u.a. **R. A. Fisher** (1930).
 
 ## Kritischer Einschub: Eugenik
 
@@ -152,8 +153,6 @@ Für uns heute:
 
 ![](../../pics/icons/tweet_race_realist.svg){fig-alt="Satirischer Tweet Race Realist" width="70%"}
 
-Klassischer Sound eines **«race realist» on Twitter**:  
-Rassismus im Laborkittel — getarnt als reine Empirie.
 
 ## Daten sprechen nicht
 
@@ -191,7 +190,7 @@ Deshalb: Kontext, Annahmen, Gruppierung — bevor man «den Daten folgt».
 **Daten / Idee:** Zählungen, Experimente — oder ein Modell der Regeln.  
 **Analyse:** Differenzen-/Differenzialgleichungen, Simulation.
 
-Ab **Woche 2** bauen wir genau diesen Strang.
+Ab **Woche 2** bauen wir genau diesen Strang weiter aus
 
 ## Räuber–Beute: Lotka–Volterra
 
@@ -206,7 +205,7 @@ Klassische Idee: Beute und Räuber oszillieren — im Phasenraum ein **Zyklus**.
 | Lotka (1925), Volterra (1926) | Räuber–Beute / populationsdynamische Modelle |
 | Gause (1934) | Experimente mit *Paramecium* / Konkurrenz |
 | Fisher (1930) | *The Genetical Theory of Natural Selection* |
-| Wright (1931 u. a.) | Populationsstruktur, Drift |
+| Wright (1931 u.a.) | Populationsstruktur, Drift |
 
 Heute: nur **sehen**, dass solche Modelle existieren. Ab Woche 2: selber bauen.
 
@@ -244,7 +243,7 @@ Punkt: Biologie erzeugt hier ein **Rechenproblem** — nicht nur eine Laborfrage
 
 **Beobachtung → Frage → Analyse / Modell → zurück zur Biologie**
 
-## Sitzungsablauf (A–D)
+## Ablauf (A–D)
 
 | | |
 |---|---|
@@ -255,33 +254,39 @@ Punkt: Biologie erzeugt hier ein **Rechenproblem** — nicht nur eine Laborfrage
 
 # A · Beobachtung
 
-## Andika
+## Warum taucht Andika besser als ich?
 
-::::: columns
-::: {.column width="33%"}
-![](../../pics/Andika.jpg){fig-alt="Andika beim Freitauchen" width="100%"}
+::: {.photo-grid}
+::: {.photo-tile .photo-portrait}
+![](../../pics/Andika.jpg){fig-alt="Andika beim Freitauchen"}
 
 Andika
 :::
 
-::: {.column width="33%"}
-![](../../pics/manta.jpg){fig-alt="Manta" width="100%"}
+::: {.photo-stack}
+::: {.photo-tile .photo-landscape}
+![](../../pics/manta.jpg){fig-alt="Manta"}
 
 Manta
 :::
 
-::: {.column width="34%"}
-![](../../pics/komdo.jpg){fig-alt="Komodo" width="100%"}
+::: {.photo-tile .photo-landscape}
+![](../../pics/komdo.jpg){fig-alt="Komodo"}
 
 Komodo
 :::
-:::::
+:::
 
-Sommer 2026: mit ihm schnorcheln — tiefer, länger, entspannter.  
-Frage: stammst du aus Sulawesi?
+::: {.photo-tile .photo-portrait-crop}
+![](../../pics/clownfish.jpg){fig-alt="Clownfish in Anemone"}
+
+Clownfish
+:::
+:::
 
 ::: aside
-Private Kursfotos
+Fotos: Stephan Peischl, Andika Ramadhan ([Instagram](https://www.instagram.com/andikaramadhan__/))  
+Link zu Uni Bern: [Marion Talbi](https://www.aqua.iee.unibe.ch/about_us/team/marion_talbi/talbi_marion/index_eng.html) forscht an percomorph fishes
 :::
 
 ## Die Bajau («Seenomaden»)
@@ -299,7 +304,7 @@ Private Kursfotos
 
 ::: {.column width="45%"}
 -   Philippinen · Borneo · Sulawesi · Ostindonesien
--   Studienort u. a. **Wakatobi**
+-   Studienort u.a. **Wakatobi** (Sulawesi)
 -   Lehrkarte — ungefähre Region
 :::
 :::::
@@ -538,39 +543,53 @@ DOI: [10.1016/j.cell.2018.03.054](https://doi.org/10.1016/j.cell.2018.03.054)
 
 ![](../../pics/icons/tools_trio.svg){fig-alt="Drei Ebenen Statistik Bioinformatik Sweep" width="92%"}
 
-Drei Ebenen derselben Geschichte — **ohne** Denisova.  
+Drei Ebenen derselben Geschichte 
 Je Stufe: Frage → Daten → Analyse.  
-Gennamen (PDE10A, BDKRB2) sind **Illustration**; der Punkt ist die Argumentkette.
+Der Punkt ist die Argumentkette.
 
 ## Pause (~5 min)
 
-Erste Hälfte: Frage → Daten → Bajau.
 
-Zweite Hälfte: Tibet — dieselbe Logik, schärfere Frage.
-
-# C · Tibet — dieselbe Logik, schärfere Frage
+# C · Höhenanpasung in Tibet 
 
 ## Zweites Extrem
 
 ![](../../pics/icons/sea_vs_highland.svg){fig-alt="Meer vs Hochland" width="90%"}
 
 Wieder: Anpassung — und welche Geschichte erzählt die DNA?  
-Die Bajau-Kette reicht hier nicht; die **Frage** wird anspruchsvoller.
 
-## Tibet
+## High Altitude Adaptation
 
-::::: columns
-::: {.column width="50%"}
-![](../../pics/biology/tibetan_plateau_ximencuo.jpg){fig-alt="Plateau" width="100%"}
+::: {.photo-grid}
+::: {.photo-tile .photo-portrait-crop}
+![](../../pics/high-altitude/DSCF0610.jpg){fig-alt="Yak und Siedlung im Hochland"}
+
+Yak, gut angepasst
 :::
 
-::: {.column width="50%"}
-![](../../pics/biology/tibetan_pilgrim.jpg){fig-alt="Pilgerin" width="90%"}
+::: {.photo-stack}
+::: {.photo-tile .photo-landscape}
+![](../../pics/high-altitude/DSCF0622.jpg){fig-alt="Spiti Valley"}
+
+Spiti Valley, karg aber hübsch
 :::
-:::::
+
+::: {.photo-tile .photo-landscape}
+![](../../pics/high-altitude/P1040203.jpg){fig-alt="Pferde vor Hochgebirge"}
+
+Pferde, auch gut angepasst
+:::
+:::
+
+::: {.photo-tile .photo-portrait-crop}
+![](../../pics/high-altitude/P1040210.jpg){fig-alt="Cotopaxi"}
+
+Ich vor Cotopaxi, kurzatmig und erschöpft
+:::
+:::
 
 ::: aside
-CC BY-SA 4.0
+Fotos: Stephan Peischl (privat)
 :::
 
 ## Hypoxie — die biologische Herausforderung
@@ -618,7 +637,7 @@ Huerta-Sánchez et al. 2014 · PMC author manuscript — Tibeter-Haplotyp vs Han
 
 ## Was bedeutet das Muster?
 
--   Der selektierte Tibeter-**Haplotyp** ist unter **nahen** Populationen selten / anders  
+-   Der selektierte Tibeter-**Haplotyp** ist unter **nahen** Populationen anders  
 -   Er gleicht stark dem Muster aus dem **Denisova**-Genom  
 -   «Ähnlich» ist ein Befund — noch keine fertige Geschichte
 
@@ -632,7 +651,7 @@ Huerta-Sánchez et al. 2014 Fig. 3 · Tibeter-Haplotyp nahe Denisova im Netzwerk
 
 ## Wer waren die Denisova-Menschen?
 
-![](../../pics/biology/denisova_where_schematic.svg){fig-alt="Denisova-Hoehle Altai schematisch" width="90%"}
+![](../../pics/biology/denisova_where_schematic.png){fig-alt="Denisova-Hoehle Altai schematisch" width="92%"}
 
 ## Die Denisova-Höhle
 
@@ -671,8 +690,11 @@ Für uns heute zählt: einzelne DNA-Stücke können **wandern**.
 ## Introgression — in einem Satz
 
 **Introgression** = nach früherer Trennung wird DNA  
-durch Mischung in eine andere Linie übernommen  
-— oft nur kurze Abschnitte (**Haplotypen**), nicht das ganze Genom.
+durch eine **kurze Berührung** in eine andere Linie übernommen  
+— oft nur kurze Abschnitte (**Haplotypen**).  
+
+Denisova stirbt danach aus; die menschlichen Linien laufen weiter  
+und tragen Spuren der Begegnung mit.
 
 Lehrfrage bei EPAS1: Kam der Tibeter-Haplotyp so von Denisova?
 
@@ -719,7 +741,7 @@ Ohne systematischen Vergleich bleibt «Denisova-ähnlich» eine **attraktive Erz
 
 ![](../../pics/biology/denisova_model_comparison.svg){fig-alt="Modellvergleich" width="88%"}
 
-## Was die schärfere Frage verlangt
+## Was die Frage verlangt
 
 | Idee | Rolle |
 |------|--------|
@@ -729,17 +751,10 @@ Ohne systematischen Vergleich bleibt «Denisova-ähnlich» eine **attraktive Erz
 
 Bei Tibet reicht «Scan → Treffer» nicht: mehrere Erklärungen müssen **gegeneinander** getestet werden.
 
-## Bajau und Tibet — nebeneinander
+Die Arbeit zeigte, dass Introgression die *wahrscheinlichste* Erklärung ist, basierend auf Modellsimuatlionene und statistischen Analysen. 
 
-![](../../pics/biology/toolkit_bajau_tibet.svg){fig-alt="Bajau und Tibet Fragen und Analysen" width="88%"}
 
 # D · Abschluss
-
-## Drei Fragen für den Kurs
-
-1.  Gene ↔ Anpassung? → Messung, Assoziation, Statistik  
-2.  Archaischer Ursprung? → Referenzen, Introgressionsideen  
-3.  Nur «ähnlich»? → rivalisierende Modelle vergleichen  
 
 ## Zusammenfassung
 
@@ -758,7 +773,7 @@ Können kommt über das Semester; heute reicht: **sehen und nachdenken**.
 
 1. Das Beispiel zwingt zur Mathematik — Bajau und Tibet zuerst, dann Zahlen.
 2. Dieselbe Frage auf mehreren Ebenen: Physiologie, Genetik, Geschichte.
-3. Vier Begriffe festlegen: Population, Gen, Generation, Selektion.
+3. Modelle (verbal oder mathematisch) haben implizite Annahmen: Population, Gen, Generation, Selektion. Exakt formulieren bringt diese Annahmen oft erst zum Vorschein. 
 
 ## Beiläufige Begriffe
 
@@ -766,18 +781,14 @@ Können kommt über das Semester; heute reicht: **sehen und nachdenken**.
 
 Erst wenn wir verbale Modelle **konkret** machen, werden Ungenauigkeit und **versteckte Annahmen** sichtbar.
 
-## Härtefragen
+## Fragen
 
-| Begriff | Härte |
+| Begriff | Frage |
 |---------|--------|
 | Population | Wer gehört dazu? |
 | Gen | Welches Objekt? |
 | Generation | Welche Uhr? |
-| Selektion | Effekt wovon, auf wen? |
-
-## Abschlussfrage
-
-Einen Begriff wählen: Wie kam er vor? Wo unscharf? Was müsste ein Modell festlegen?
+| Selektion | Effekt wovon, auf wen, wann, wie und wie stark? |
 
 ## Literatur 1/2
 

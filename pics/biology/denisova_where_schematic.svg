@@ -1,42 +1,122 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="900" height="420" viewBox="0 0 900 420">
-  <rect width="900" height="420" fill="white"/>
-  <text x="450" y="34" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="bold" fill="#222">Wer waren die Denisova-Menschen?</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="620" viewBox="0 0 1100 620">
+  <defs>
+    <linearGradient id="land" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8f0e6"/>
+      <stop offset="100%" stop-color="#d5e5d0"/>
+    </linearGradient>
+    <linearGradient id="mount" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#cfd8dc"/>
+      <stop offset="100%" stop-color="#90a4ae"/>
+    </linearGradient>
+    <filter id="soft" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1.2" flood-color="#000" flood-opacity="0.12"/>
+    </filter>
+  </defs>
 
-  <ellipse cx="420" cy="220" rx="280" ry="130" fill="#eaf2f8" stroke="#5d6d7e" stroke-width="2"/>
-  <text x="300" y="180" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5d6d7e">Europa</text>
-  <text x="480" y="170" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5d6d7e">Asien</text>
-  <text x="420" y="320" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#7f8c8d">(schematisch, nicht massstabsgetreu)</text>
+  <rect width="1100" height="620" fill="#fbfcfd"/>
 
-  <circle cx="520" cy="200" r="14" fill="#8e44ad" stroke="#4a235a" stroke-width="2"/>
-  <circle cx="520" cy="200" r="5" fill="white"/>
-  <line x1="520" y1="214" x2="520" y2="245" stroke="#8e44ad" stroke-width="2"/>
-  <text x="520" y="265" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#6c3483">Denisova-Höhle</text>
-  <text x="520" y="283" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">Altai-Gebirge (Sibirien)</text>
+  <text x="550" y="38" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="22" font-weight="bold" fill="#1a5276">Wer waren die Denisova-Menschen?</text>
+  <text x="550" y="62" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5d6d7e">Eine ausgestorbene Menschenlinie &#8212; vor allem &#252;ber DNA bekannt</text>
 
-  <circle cx="560" cy="250" r="8" fill="#e67e22" stroke="#a04000" stroke-width="2"/>
-  <text x="620" y="255" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#a04000">Hochland Tibet</text>
-  <text x="620" y="272" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#777">(EPAS1-Geschichte)</text>
+  <!-- ===== LEFT: family tree ===== -->
+  <rect x="40" y="90" width="320" height="340" rx="16" fill="white" stroke="#d5d8dc" stroke-width="1.5" filter="url(#soft)"/>
+  <text x="200" y="122" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#2c3e50">Verwandtschaft (schematisch)</text>
 
-  <rect x="40" y="70" width="200" height="280" rx="12" fill="#f8f9f9" stroke="#bbb"/>
-  <text x="140" y="105" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#222">Kurzprofil</text>
-  <text x="55" y="140" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">* ausgestorben</text>
-  <text x="55" y="165" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">* archaische</text>
-  <text x="55" y="185" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">  Menschengruppe</text>
-  <text x="55" y="215" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">* bekannt vor allem</text>
-  <text x="55" y="235" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">  durch DNA aus</text>
-  <text x="55" y="255" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">  Knochen/Zähnen</text>
-  <text x="55" y="285" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">* Verwandte der</text>
-  <text x="55" y="305" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">  Neandertaler</text>
-  <text x="55" y="330" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">* Spuren in manchen</text>
-  <text x="55" y="350" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">  heutigen Genomen</text>
+  <circle cx="200" cy="165" r="22" fill="#95a5a6" stroke="#2c3e50" stroke-width="2"/>
+  <text x="200" y="170" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="white" font-weight="bold">Vorfahr</text>
 
-  <rect x="700" y="70" width="170" height="150" rx="12" fill="#f5eef8" stroke="#8e44ad" stroke-width="2"/>
-  <text x="785" y="105" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" fill="#6c3483">Wichtig</text>
-  <text x="785" y="135" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">Kein Alien -</text>
-  <text x="785" y="155" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">eine Menschen-</text>
-  <text x="785" y="175" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">linie, die mit</text>
-  <text x="785" y="195" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">uns gemischt hat.</text>
+  <line x1="200" y1="187" x2="200" y2="220" stroke="#2c3e50" stroke-width="2.5"/>
+  <line x1="90" y1="220" x2="310" y2="220" stroke="#2c3e50" stroke-width="2.5"/>
+  <line x1="90" y1="220" x2="90" y2="255" stroke="#2980b9" stroke-width="2.5"/>
+  <line x1="200" y1="220" x2="200" y2="255" stroke="#7f8c8d" stroke-width="2.5"/>
+  <line x1="310" y1="220" x2="310" y2="255" stroke="#8e44ad" stroke-width="2.5"/>
 
-  <text x="450" y="400" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#666">Lehrkarte. Foto der Höhle folgt auf der nächsten Folie (Commons).</text>
+  <rect x="40" y="255" width="100" height="54" rx="10" fill="#d6eaf8" stroke="#2980b9" stroke-width="2"/>
+  <text x="90" y="278" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="bold" fill="#1a5276">moderne</text>
+  <text x="90" y="296" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="bold" fill="#1a5276">Menschen</text>
+
+  <rect x="150" y="255" width="100" height="54" rx="10" fill="#ebebeb" stroke="#7f8c8d" stroke-width="2"/>
+  <text x="200" y="278" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="bold" fill="#566573">Neander-</text>
+  <text x="200" y="296" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="bold" fill="#566573">taler</text>
+
+  <rect x="260" y="255" width="100" height="54" rx="10" fill="#f5eef8" stroke="#8e44ad" stroke-width="2.5"/>
+  <text x="310" y="278" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="bold" fill="#6c3483">Denisova</text>
+  <text x="310" y="296" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="bold" fill="#6c3483">(archaisch)</text>
+
+  <text x="200" y="340" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">Schwestergruppe der Neandertaler</text>
+  <text x="200" y="362" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">&#8212; nicht &#171;Aliens&#187;, sondern Homo</text>
+
+  <rect x="70" y="380" width="260" height="34" rx="8" fill="#fdebd0" stroke="#d68910" stroke-width="1.5"/>
+  <text x="200" y="402" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#7e5109">kurze Mischung mit modernen Menschen</text>
+
+  <!-- ===== RIGHT: map ===== -->
+  <rect x="390" y="90" width="670" height="340" rx="16" fill="white" stroke="#d5d8dc" stroke-width="1.5" filter="url(#soft)"/>
+  <text x="725" y="122" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#2c3e50">Fundort und Kontext</text>
+
+  <!-- simplified Eurasia landmass -->
+  <path d="M470 300
+           C480 250, 510 210, 560 195
+           C610 180, 670 175, 730 185
+           C790 195, 850 210, 900 230
+           C940 250, 970 280, 980 320
+           C970 350, 930 370, 880 375
+           C820 380, 760 370, 710 355
+           C660 340, 620 345, 580 355
+           C540 365, 500 350, 480 330
+           C470 320, 468 310, 470 300 Z"
+        fill="url(#land)" stroke="#7f8c8d" stroke-width="2"/>
+
+  <!-- mountain hatch / Altai region -->
+  <path d="M700 250 L720 215 L740 250 L760 220 L780 255 L800 230 L820 260"
+        fill="none" stroke="url(#mount)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="760" y="205" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#607d8b">Altai</text>
+
+  <!-- Europe / Asia labels -->
+  <text x="540" y="275" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#7f8c8d">Europa</text>
+  <text x="820" y="290" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#7f8c8d">Asien</text>
+
+  <!-- Denisova cave pin -->
+  <circle cx="745" cy="245" r="11" fill="#8e44ad" stroke="#4a235a" stroke-width="2"/>
+  <circle cx="745" cy="245" r="4" fill="white"/>
+  <line x1="745" y1="256" x2="745" y2="278" stroke="#8e44ad" stroke-width="2.5"/>
+  <rect x="680" y="282" width="130" height="44" rx="8" fill="#f5eef8" stroke="#8e44ad" stroke-width="1.5"/>
+  <text x="745" y="300" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="bold" fill="#6c3483">Denisova-H&#246;hle</text>
+  <text x="745" y="317" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#555">Sibirien</text>
+
+  <!-- Tibet marker -->
+  <polygon points="790,330 798,348 782,348" fill="#e67e22" stroke="#a04000" stroke-width="1.5"/>
+  <text x="860" y="340" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="bold" fill="#a04000">Hochland Tibet</text>
+  <text x="860" y="356" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#7f8c8d">EPAS1-Geschichte</text>
+
+  <text x="725" y="405" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#95a5a6">schematisch &#183; nicht massstabsgetreu</text>
+
+  <!-- ===== BOTTOM fact cards ===== -->
+  <rect x="40" y="455" width="245" height="120" rx="14" fill="white" stroke="#d5d8dc" stroke-width="1.5" filter="url(#soft)"/>
+  <circle cx="78" cy="490" r="16" fill="#eaf2fb" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="78" y="495" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#1a5276">1</text>
+  <text x="110" y="488" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" fill="#1a5276">Ausgestorben</text>
+  <text x="110" y="510" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">keine lebende</text>
+  <text x="110" y="528" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">Population heute</text>
+
+  <rect x="305" y="455" width="245" height="120" rx="14" fill="white" stroke="#d5d8dc" stroke-width="1.5" filter="url(#soft)"/>
+  <circle cx="343" cy="490" r="16" fill="#f5eef8" stroke="#8e44ad" stroke-width="1.5"/>
+  <text x="343" y="495" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#6c3483">2</text>
+  <text x="375" y="488" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" fill="#6c3483">DNA-Funde</text>
+  <text x="375" y="510" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">Knochen / Z&#228;hne</text>
+  <text x="375" y="528" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">aus der H&#246;hle</text>
+
+  <rect x="570" y="455" width="245" height="120" rx="14" fill="white" stroke="#d5d8dc" stroke-width="1.5" filter="url(#soft)"/>
+  <circle cx="608" cy="490" r="16" fill="#ebebeb" stroke="#7f8c8d" stroke-width="1.5"/>
+  <text x="608" y="495" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#566573">3</text>
+  <text x="640" y="488" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" fill="#566573">Verwandt</text>
+  <text x="640" y="510" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">eng mit den</text>
+  <text x="640" y="528" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">Neandertalern</text>
+
+  <rect x="835" y="455" width="225" height="120" rx="14" fill="white" stroke="#d5d8dc" stroke-width="1.5" filter="url(#soft)"/>
+  <circle cx="873" cy="490" r="16" fill="#eafaf1" stroke="#27ae60" stroke-width="1.5"/>
+  <text x="873" y="495" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#196f3d">4</text>
+  <text x="905" y="488" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" fill="#196f3d">Spuren heute</text>
+  <text x="905" y="510" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">in manchen</text>
+  <text x="905" y="528" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">heutigen Genomen</text>
 </svg>

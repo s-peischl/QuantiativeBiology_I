@@ -111,4 +111,4 @@ Bewertung (Entwurf): [Allgemeine Informationen](docs/general-info.qmd).
 
 ## Vorlagen
 
-- [Folien](templates/slides-template.qmd) · [Notebook](templates/notebook-template.qmd) · [Aufgabe](templates/assignment-template.qmd)
+- [Folien](templates/slides-template.qmd) · [Notebook](templates/notebook-template.qmd)

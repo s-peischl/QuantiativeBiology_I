@@ -15,7 +15,6 @@ project:
     - docs/impuls-proposal-brief.qmd
     - docs/week-01-dept-map-brief.qmd
     - weeks/*/notebook.qmd
-    - weeks/*/assignment.qmd
     - weeks/*/slides.qmd
     - weeks/*/glossary.qmd
 

@@ -1,43 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="420" viewBox="0 0 1000 420">
   <rect width="1000" height="420" fill="white"/>
-  <text x="500" y="36" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="bold" fill="#222">Biologie und Mathematik - grobe Zeitlinie</text>
-
+  <text x="500" y="36" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="bold" fill="#222">Biologie und Mathematik &#8212; grobe Zeitlinie</text>
   <line x1="80" y1="200" x2="920" y2="200" stroke="#2c3e50" stroke-width="4"/>
-
-  <!-- 1 -->
   <circle cx="140" cy="200" r="12" fill="#7f8c8d" stroke="#2c3e50" stroke-width="2"/>
   <text x="140" y="120" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#555">lange Zeit</text>
-  <text x="140" y="145" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">wenig Verknüpfung</text>
-  <text x="140" y="165" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">Bio &lt;-&gt; Mathe</text>
+  <text x="140" y="145" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">wenig Verkn&#252;pfung</text>
+  <text x="140" y="165" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">Bio &#8596; Mathe</text>
   <text x="140" y="250" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#666">Darwin: Mathe</text>
-  <text x="140" y="268" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#666">wäre hilfreich</text>
-
-  <!-- 2 -->
+  <text x="140" y="268" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#666">w&#228;re hilfreich</text>
   <circle cx="360" cy="200" r="12" fill="#d68910" stroke="#7e5109" stroke-width="2"/>
   <text x="360" y="120" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#7e5109">~20. Jh.</text>
   <text x="360" y="145" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">Statistik &amp;</text>
-  <text x="360" y="165" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">Genetik (Fisher &)</text>
+  <text x="360" y="165" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">Genetik (Fisher)</text>
   <text x="360" y="250" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#c0392b">auch: Eugenik</text>
   <text x="360" y="268" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#c0392b">kritisch sehen</text>
-
-  <!-- 3 -->
   <circle cx="580" cy="200" r="12" fill="#27ae60" stroke="#196f3d" stroke-width="2"/>
-  <text x="580" y="120" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#196f3d">Ökologie &amp;</text>
+  <text x="580" y="120" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#196f3d">&#214;kologie &amp;</text>
   <text x="580" y="145" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#196f3d">Evolution</text>
   <text x="580" y="165" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">Mathematik als</text>
   <text x="580" y="250" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">Modellsprache</text>
   <text x="580" y="268" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#666">(Populationen, Dynamik)</text>
-
-  <!-- 4 -->
   <circle cx="800" cy="200" r="12" fill="#8e44ad" stroke="#4a235a" stroke-width="2"/>
   <text x="800" y="120" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#6c3483">Sequenzierung</text>
   <text x="800" y="145" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">Bioinformatik</text>
   <text x="800" y="165" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">Algorithmen / Daten</text>
   <text x="800" y="250" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">Genome als</text>
   <text x="800" y="268" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">Rechenproblem</text>
-
   <rect x="80" y="320" width="840" height="70" rx="10" fill="#f7f9fb" stroke="#bdc3c7"/>
-  <text x="500" y="350" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#222">Heute: Mathe, Statistik und Programmierung gehören zur biologischen Forschung dazu </text>
-  <text x="500" y="372" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#222">nicht als Extrafach, sondern im Kreislauf Beobachtung  Frage  Analyse  Biologie.</text>
+  <text x="500" y="350" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#222">Heute: Mathe, Statistik und Programmierung geh&#246;ren zur biologischen Forschung dazu &#8212;</text>
+  <text x="500" y="372" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#222">nicht als Extrafach, sondern im Kreislauf Beobachtung &#8594; Frage &#8594; Analyse &#8594; Biologie.</text>
 </svg>

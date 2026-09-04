@@ -1,5 +1,5 @@
 # Shared non-format defaults for week materials.
-# IMPORTANT: do not set `format:` here — notebooks/assignments are HTML,
+# IMPORTANT: do not set `format:` here — notebooks are HTML,
 # slides declare revealjs themselves.
 execute:
   freeze: auto

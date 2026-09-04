@@ -46,12 +46,12 @@ Arbeit zu zweit möglich. Keine separate Hausarbeit — die Notebook-Arbeit ist 
 
 ## Materialien
 
-| Woche | Folien | Notebook | Aufgabe |
-|------:|--------|----------|---------|
-| 1 | [Folien](../weeks/week-01/slides.qmd) | [Notebook](../weeks/week-01/notebook.qmd) | [Aufgabe](../weeks/week-01/assignment.qmd) |
-| 2 | [Folien](../weeks/week-02/slides.qmd) | [Notebook](../weeks/week-02/notebook.qmd) | [Aufgabe](../weeks/week-02/assignment.qmd) |
-| 3 | [Folien](../weeks/week-03/slides.qmd) | [Notebook](../weeks/week-03/notebook.qmd) | [Aufgabe](../weeks/week-03/assignment.qmd) |
-| 4 | [Folien](../weeks/week-04/slides.qmd) | [Notebook](../weeks/week-04/notebook.qmd) | [Aufgabe](../weeks/week-04/assignment.qmd) |
+| Woche | Folien | Notebook |
+|------:|--------|----------|
+| 1 | [Folien](../weeks/week-01/slides.qmd) | [Notebook](../weeks/week-01/notebook.qmd) |
+| 2 | [Folien](../weeks/week-02/slides.qmd) | [Notebook](../weeks/week-02/notebook.qmd) |
+| 3 | [Folien](../weeks/week-03/slides.qmd) | [Notebook](../weeks/week-03/notebook.qmd) |
+| 4 | [Folien](../weeks/week-04/slides.qmd) | [Notebook](../weeks/week-04/notebook.qmd) |
 
 - [Glossar](glossary.qmd)
 

@@ -99,6 +99,82 @@
   object-fit: contain;
 }
 
+/* Photo strip: portrait | stacked landscapes | portrait crop */
+.reveal .photo-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 1.45fr 1.05fr;
+  gap: 0.75rem;
+  align-items: stretch;
+  margin: 0.15em 0 0.35em;
+  height: min(520px, 64vh);
+}
+
+.reveal .photo-grid .photo-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+}
+
+.reveal .photo-grid .photo-tile {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+}
+
+.reveal .photo-grid .photo-stack .photo-tile {
+  flex: 1 1 0;
+  height: auto;
+}
+
+.reveal .photo-grid .photo-tile > p:first-child {
+  margin: 0;
+  min-height: 0;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f4f6f7;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.reveal .photo-grid .photo-tile img {
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  border-radius: 10px;
+}
+
+.reveal .photo-grid .photo-portrait img {
+  object-fit: contain;
+  object-position: center top;
+}
+
+.reveal .photo-grid .photo-landscape img {
+  object-fit: contain;
+  object-position: center;
+}
+
+.reveal .photo-grid .photo-portrait-crop img {
+  object-fit: cover;
+  object-position: center;
+}
+
+.reveal .photo-grid .photo-tile > p:last-child {
+  flex: 0 0 auto;
+  margin: 0.3em 0 0;
+  text-align: center;
+  font-size: 0.62em;
+  font-weight: 600;
+  color: #34495e;
+  line-height: 1.2;
+}
+
 .reveal p {
   margin-top: 0.22em;
   margin-bottom: 0.32em;

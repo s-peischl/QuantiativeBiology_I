@@ -79,7 +79,6 @@ Den **Ordner** in RStudio / VS Code / Cursor öffnen (nicht nur eine einzelne Da
 │   └── week-01 … week-14/
 │       ├── slides.qmd        ← Reveal.js-Foliensatz
 │       ├── notebook.qmd      ← Notebook für Studierende
-│       ├── assignment.qmd    ← Hausaufgabe / Abschlussarbeit
 │       └── data/             ← wochenbezogene CSVs (bei Bedarf)
 ├── pics/                     ← Bilder (Nachweise in pics/README.md)
 ├── templates/                ← Vorlagen für neue Wochen
@@ -200,25 +199,23 @@ Tastatur nach dem Öffnen: `←` `→` navigieren · `M` Menü · `Esc` Übersic
 
 ```bash
 cp templates/slides-template.qmd weeks/week-03/slides.qmd
-# also notebook + assignment templates as needed
+# also notebook template as needed
 ```
 
 Danach Titel, Wochennummer, Navigationslinks am Ende und Inhalte aktualisieren.
 
 ---
 
-## Notebooks und Aufgaben bearbeiten
+## Notebooks bearbeiten
 
 | Datei | Zielgruppe | Format |
 |------|----------|--------|
 | `weeks/week-XX/notebook.qmd` | Unterricht / Praktikum | HTML |
-| `weeks/week-XX/assignment.qmd` | Hausaufgabe | HTML |
 
 Vorschau:
 
 ```bash
 quarto preview weeks/week-02/notebook.qmd
-quarto preview weeks/week-02/assignment.qmd
 ```
 
 Anweisungen für Studierende klar formulieren; Lösungen bei Bedarf in einer separaten Datei oder einem privaten Branch ablegen (Lösungsschlüssel nur absichtlich nach `main` committen).
@@ -358,7 +355,6 @@ Vorlagen:
 
 - `templates/slides-template.qmd`
 - `templates/notebook-template.qmd`
-- `templates/assignment-template.qmd`
 
 ---
 

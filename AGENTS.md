@@ -58,7 +58,7 @@ After adding R figures that must appear on Pages, freeze locally and commit free
 
 | Do | Don't |
 |----|--------|
-| Edit `weeks/week-XX/{slides,notebook,assignment,glossary}.qmd` | Put week sources under `modules/` (legacy / notes only) |
+| Edit `weeks/week-XX/{slides,notebook,glossary}.qmd` | Put week sources under `modules/` (legacy / notes only) |
 | Add images under `pics/` + credit in `pics/README.md` (or folder CREDITS) | Set `format:` in `_quarto.yml` or `weeks/_metadata.yml` (breaks Reveal.js) |
 | Put week CSVs in `weeks/week-XX/data/` + document source | Commit solution keys or private data to `main` by accident |
 | New weeks from `templates/*-template.qmd` | Treat editor Markdown preview as slide preview |
@@ -104,7 +104,7 @@ Paths in chunks are relative to the `.qmd` directory (`data/...` → `weeks/week
 - Prefer short slides (one idea per `##`), biology before model/code.
 - Reuse YAML, footer, and nav patterns from existing polished weeks (e.g. 1–2).
 - Prefer real data/citations for empirical claims; document image licenses.
-- Course author credit on slides / notebooks / assignments (YAML `author:`):
+- Course author credit on slides / notebooks (YAML `author:`):
 
 ```yaml
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
