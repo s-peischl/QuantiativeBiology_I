@@ -26,25 +26,35 @@ execute:
 ## A0) Daten anschauen
 
 ```{r Paramecium}
+# Daten laden
 pcaudatum <- read.csv("data/paramecium_caudatum_alone.csv")
 paurelia <- read.csv("data/paramecium_aurelia_alone.csv")
 mix <- read.csv("data/paramecium_competition.csv")
 
-par(mfrow = c(1, 3))
-plot(pcaudatum$day, 
-     pcaudatum$volume, 
-     type = "b", pch = 16, lty = 1, main = "caudatum allein",
-     xlab = "Tag", ylab = "Volumen")
-plot(paurelia$day, paurelia$volume, 
-     type = "b", pch = 17, lty = 2, main = "aurelia allein",
-     xlab = "Tag", ylab = "Volumen")
-ymax <- max(mix$caudatum, mix$aurelia, na.rm = TRUE)
-plot(mix$day, 
-     mix$caudatum, 
+# Daten darstellen
+par(mfrow = c(1, 3)) # um drei Graphen nebeneinander zu haben
+
+# Graph 1)
+plot(x = pcaudatum$day, # x-Achse
+     y = pcaudatum$volume, # y-Achse
+     type = "b", pch = 16, lty = 1, # Art des Graphen - durchgezogene Linie und Punkte
+     main = "caudatum allein", xlab = "Tag", ylab = "Volumen") # Achsen- und Titelbeschriftung
+
+# Graph 2)
+plot(x = paurelia$day, 
+     y = paurelia$volume, 
+     type = "b", pch = 17, lty = 2, # Art des Graphen - gestrichelte Linie und Dreiecke
+     main = "aurelia allein", xlab = "Tag", ylab = "Volumen")
+
+# Graph 3)
+ymax <- max(mix$caudatum, mix$aurelia, na.rm = TRUE) # maximaler erwarteter Wert um die y-Achse zu skalieren
+plot(x = mix$day, 
+     y = mix$caudatum, 
      type = "b", pch = 16, ylim = c(0, ymax * 1.05),
      main = "Mischung", xlab = "Tag", ylab = "Volumen")
-lines(mix$day, 
-      mix$aurelia, 
+# zusätzliche Linie für Paramecium aurelia
+lines(x = mix$day, 
+      y = mix$aurelia, 
       type = "b", pch = 17, lty = 2)
 
 ```
@@ -83,11 +93,13 @@ Das Konkurrenzmodell verwendet $N_{t+1}=N_t+$ Wachstum und Konkurrenzwirkung.
 | $-r_i\alpha_{ij}N_iN_j/K_i$ | Art $i$ und Art $j$ | Konkurrenz zwischen Arten |
 
 ```{r next-comp}
-next_comp <- function(N1, N2, r1, r2, K1, K2, a12, a21) {
-  d1 <- r1 * N1 * (1 - (N1 + a12 * N2) / K1)
-  d2 <- r2 * N2 * (1 - (N2 + a21 * N1) / K2)
+# Funktion um schrittweise die Populationsgrössen zu ermitteln 
+next_comp <- function(N1, N2, r1, r2, K1, K2, a12, a21) { # Argumente, die die Funktion braucht, um die gewünschten Schritte durchzuführen
   
-  c(N1 = max(N1 + d1, 0), N2 = max(N2 + d2, 0))
+  d1 <- r1 * N1 * (1 - (N1 + a12 * N2) / K1) # Differenz in Populationsgrösse der Art 1 von Zeitpunkt t zu t+1
+  d2 <- r2 * N2 * (1 - (N2 + a21 * N1) / K2) # Differenz in Populationsgrösse der Art 2 von Zeitpunkt t zu t+1
+  
+  c(N1 = max(N1 + d1, 0), N2 = max(N2 + d2, 0)) # Veränderung der Populationsgrössen (nie negativ)
 }
 ```
 
@@ -96,6 +108,7 @@ next_comp <- function(N1, N2, r1, r2, K1, K2, a12, a21) {
 Gerüst (Basis einmal laufen lassen, dann **Zahlen ändern** und Zelle erneut ausführen):
 
 ```{r simulation-comp}
+# Variabeln und Parameter
 T <- 40
 N1 <- numeric(T + 1)
 N2 <- numeric(T + 1)
@@ -108,27 +121,33 @@ K2 <- 200
 a12 <- 1    # F2) Konkurrenzkoeffizient - ändern!
 a21 <- 1.5    # F2) Konkurrenzkoeffizient - ändern!
 
+# loop, die Zeitschritte wiederholt
 for (t in 1:T) {
   N1[t + 1] <- next_comp(N1[t], N2[t], r1, r2, K1, K2, a12, a21)[1]
   N2[t + 1] <- next_comp(N1[t], N2[t], r1, r2, K1, K2, a12, a21)[2]
 }
 
-plot(
-  0:T, N1,
-  type = "l", lwd = 2,
+# Graph der Daten
+plot(0:T, 
+     N1,
+  type = "l", lwd = 2, lty = 1, # Art des Graphen - dicke durchgezogene Linie
   xlab = "Schritt", ylab = "N",
   ylim = c(0, max(N1, K1) * 1.05)
 )
-lines(0:T, N2, 
-      type = "l", lwd = 2, pch = 17, lty = 2)
-abline(h = K1, col = "grey50", lty = 1)
+lines(0:T, 
+      N2, 
+      type = "l", lwd = 2, lty = 2) # Art des Graphen - dicke gestrichelte Linie
+# horizontale Linie, um die Tragfähigkeit (Populationsdeckel) hervorzuheben
+abline(h = K1, col = "grey50", lty = 1) 
+# Legende in einer kleinen Box
+legend("topleft", c("Art 1", "Art 2"), lty = 1:2, lwd = 2, bty = "y")
 
 ```
 
 ::: {.callout-tip}
 ## Frage F2 · $\alpha_{ij}$ ändern
 
-Was verändert sich, wenn Sie  $\alpha_{ij}$ ändern? Unter welchen Umständen erreicht eine Art ihren Populationsdeckel $K$?
+Was verändert sich, wenn Sie  $\alpha_{ij}$ ändern? Unter welchen Umständen erreicht eine Art ihren Tragfähigkeit $K$?
 
 :::
 
@@ -182,29 +201,28 @@ Alle vier Bestände werden additiv aktualisiert: $X_{t+1}=X_t+$ Wachstum − Ver
 ::: {.callout-tip}
 ## Frage F4 · Verständnis des Gleichungssystems
 
-Schauen Sie sich die Gleichungen an; was erwaten Sie, passiert mit den Pflanzen ohne den Elch? Und mit dem Elch?
-Was passiert mit dem Wolf ohne die Pflanzen? Erklären Sie anhand der Terme.
+Schauen Sie sich die Gleichungen an; können Sie die Bezihungen zwischen den einzelnen Arten beschreiben? (Konkurrenz, Beute, Räuber,...) Erklären Sie anhand der Terme.
 
 :::
 
 ## B2) Simulationen: Einfluss vom Wolf
 
 ```{r next-web}
-next_web <- function(x, rA, rS, K, aAS, aSA, a_elk_aspen, a_elk_sage, eE, mE, a_wolf_elk, eW, mW) {
-  A <- x["Aspen"]; S <- x["Sage"]; E <- x["Elch"]; W <- x["Wolf"]
+# Funktion um schrittweise die Populationsgrössen zu ermitteln
+next_web <- function(X, rA, rS, K, aAS, aSA, a_elk_aspen, a_elk_sage, eE, mE, a_wolf_elk, eW, mW) {
+  A <- X["Aspen"]; S <- X["Sage"]; E <- X["Elch"]; W <- X["Wolf"] # hier speichern wir alle Populationsgrössen in einer Matrix (x) ab; sehen Sie unten, wie diese konstruiert wird
   dA <- rA * A * (1 - (A + aAS * S) / K) - a_elk_aspen * A * E
   dS <- rS * S * (1 - (S + aSA * A) / K) - a_elk_sage * S * E
-  dE <- (eE * (a_elk_aspen * A + a_elk_sage * S) * E -
-           mE * E - a_wolf_elk * E * W)
+  dE <- (eE * (a_elk_aspen * A + a_elk_sage * S) * E - mE * E - a_wolf_elk * E * W)
   dW <- eW * a_wolf_elk * E * W - mW * W
   c(Aspen = max(A + dA, 0), Sage = max(S + dS, 0),
     Elch = max(E + dE, 0), Wolf = max(W + dW, 0))
 }
 
+# Variabeln und Parameter
 T = 6000
-X <- matrix(0, T + 1, 4,
-              dimnames = list(NULL, c("Aspen", "Sage", "Elch", "Wolf")))
-X[1, ] <- c(Aspen = 40, Sage = 50, Elch = 25, Wolf = 5) # F5) Anfangsgrössen - ändern!
+X <- matrix(0, T + 1, 4, dimnames = list(NULL, c("Aspen", "Sage", "Elch", "Wolf")))
+X[1, ] <- c(Aspen = 40, Sage = 50, Elch = 25, Wolf = 0) # F6) Anfangsgrössen - ändern!
 rA = 0.024
 rS = 0.020
 K = 100
@@ -218,13 +236,14 @@ a_wolf_elk = 0.0008
 eW = 0.40
 mW = 0.006
 
-
-  for (t in 1:T){
+# loop um Zeitschritte zu wiederholen
+for (t in 1:T){
     
     X[t + 1, ] <- next_web(X[t, ], rA, rS, K, aAS, aSA, a_elk_aspen, a_elk_sage, eE, mE, a_wolf_elk, eW, mW)
     
-  } 
+} 
 
+# Graph für die Simulationsresultate
 plot(
   0:T, X[,"Aspen"],
   type = "l", lwd = 2,
@@ -243,37 +262,20 @@ legend("topright", c("Aspen", "Sage", "Elch", "Wolf"), lwd = 2, col = c("forestg
 ```
 
 ::: {.callout-tip}
-## Frage F5 · Einfluss vom Wolf
+## Frage F5 · Abwesenheit des Wolfs
 
-Setzen Sie je eine Art auf 0 (fehlt im Ökosystem). Was beobachten Sie bezüglich der Artenvielfalt? Was ist die Rolle des Wolfs im Ökosystem?
+Beschrieben Sie, wie sich das Ökosystem in Abwesenheit des Wolfs verhält. Wie viele Arten bleiben bestehen? Was bedeutet das für die Artenvielfalt?
 
 :::
 
----
 
-# Optional: Yellowstone-Daten (Motivation)
+::: {.callout-tip}
+## Frage F6 · Einfluss des Wolfs
 
-```{r}
-wolves <- read.csv("data/yellowstone_wolves.csv")
-elk <- read.csv("data/yellowstone_elk.csv")
-par(mfrow = c(1, 2), mar = c(4, 4, 2, 1))
-plot(wolves$year, wolves$wolves_ynp, type = "b", pch = 16, col = "#2c3e50",
-     xlab = "Jahr", ylab = "Woelfe", main = "Motivation")
-abline(v = 1995, lty = 2)
-plot(elk$year, elk$elk_northern_min, type = "b", pch = 17, col = "#d68910",
-     xlab = "Jahr", ylab = "Elche", main = "Motivation")
-abline(v = 1995, lty = 2)
-```
+Führen Sie nun den Wolf in das Ökosystem ein: `X[1, ] <- c(Aspen = 40, Sage = 50, Elch = 25, Wolf = ... )`. Was beobachten Sie? Wie viele Arten bleiben bestehen? Was bedeutet das für die Artenvielfalt?
 
----
+:::
 
-# Merksatz
 
-> Exclusion: Für positive Anfangsbestände führt ein Einzugsgebiet zum selben Gleichgewicht.  
-> Bistabilität: Zwei Einzugsgebiete; ein Zustandswechsel erfordert das Überschreiten der Beckengrenze.  
-> Food Web: Elch kann Aspen top-down verdrängen; Wolf verhindert im Kursmodell den Verlust von Aspen.  
-> Regime Shift (Folien): Ökologie und Evolution oft auf ähnlichen Zeitskalen, aber verschoben — die Umwelt ändert sich jetzt, der Zustand kippt später.
-
----
 
 
