@@ -56,13 +56,15 @@ Wenn `read.csv("data/...")` mit «cannot open» scheitert: meist falsches Arbeit
 ## A0) Daten anschauen
 
 ```{r daten-allein}
+# Daten laten
 alone <- read.csv("data/paramecium_alone.csv")
 
-plot(
-  alone$day, alone$paramecium,
-  type = "b", pch = 16, lwd = 2,
-  xlab = "Tag", ylab = "Haeufigkeit (Paramecium)",
-  main = "Paramecium allein (Gause 1934)"
+# Daten darstellen
+plot(x = alone$day, # x-Achse
+     y = alone$paramecium, # y-Achse
+  type = "b", pch = 16, lwd = 2, # Art des Graphen - dicke Linie mit Punkten
+  xlab = "Tag", ylab = "Haeufigkeit (Paramecium)", # Beschriftung der x und y Achse
+  main = "Paramecium allein (Gause 1934)" # Titel
 )
 ```
 
@@ -81,7 +83,8 @@ $$
 | $K$ | Deckel | $K > 0$ | $200$ |
 
 ```{r next-N}
-next_N <- function(N, r, K) {
+# Funktion um schrittweise die Populationsgrössen zu ermitteln 
+next_N <- function(N, r, K) { # Argumente, die die Funktion braucht, um den gewünschten Schritt durchzuführen
   N + r * N * (1 - N / K)
 }
 ```
@@ -91,6 +94,7 @@ next_N <- function(N, r, K) {
 Startpunkt (ein Aufruf):
 
 ```{r ein-schritt-allein}
+# Ausführen der Funktion
 next_N(N = 20, r = 0.5, K = 200)
 ```
 
@@ -119,23 +123,27 @@ next_N <- function(N, r, K) {
   N + r * N * (1 - N / K)
 }
 
+# Variabeln und Parameter
 T <- 40
 N <- numeric(T + 1)
-N[1] <- 20      # Anfangsgrösse — ändern!
-r <- 0.5        # Wachstumsrate — ändern!
+N[1] <- 20      # F3) Anfangsgrösse — ändern!
+r <- 0.5        # F2) Wachstumsrate — ändern!
 K <- 200        # Deckel — bei Bedarf ändern!
 
+# Schlaufe, die Zeitschritte wiederholt 
 for (t in 1:T) {
   N[t + 1] <- next_N(N[t], r, K)
 }
 
-plot(
-  0:T, N,
-  type = "l", lwd = 2,
-  xlab = "Schritt", ylab = "N",
-  main = "Simulation: eine Population",
-  ylim = c(0, max(N, K) * 1.05)
+# Graph für die Simulationsresultate
+plot(x = 0:T, 
+     y = N,
+  type = "l", lwd = 2, # dicke Linie
+  xlab = "Schritt", ylab = "N", # Achsenbeschriftung
+  main = "Simulation: eine Population", # Titel
+  ylim = c(0, max(N, K) * 1.05) # Skalierung der y-Achse
 )
+# horizontale Linie, um Tragfähigkeit (Populationsdeckel) hervorzuheben
 abline(h = K, col = "grey50", lty = 2)
 ```
 
@@ -164,16 +172,20 @@ Vergleichen Sie Ihre Simulation **qualitativ** mit den Gause-Daten «allein». N
 ## B0) Daten: *Paramecium* + *Didinium* (mit Immigration)
 
 ```{r daten-beide}
+# Daten laden
 both <- read.csv("data/paramecium_with_didinium.csv")
 
-plot(
-  both$day, both$paramecium,
-  type = "b", pch = 16, lwd = 2,
-  xlab = "Tag", ylab = "Haeufigkeit",
-  main = "Paramecium + Didinium (Gause)",
-  ylim = range(0, both$paramecium, both$didinium)
+# Daten darstellen
+plot(x = both$day, 
+     y = both$paramecium,
+  type = "b", pch = 16, lwd = 2, # dicke Linie mit Punkten
+  xlab = "Tag", ylab = "Haeufigkeit", # Achsenbeschriftung
+  main = "Paramecium + Didinium (Gause)", # Titel
+  ylim = range(0, both$paramecium, both$didinium) # Skalierung der y-Achse
 )
+# zusätzliche Linie für Didinium
 lines(both$day, both$didinium, type = "b", pch = 17, lwd = 2, lty = 2)
+# Legende
 legend("topright", c("Paramecium", "Didinium"),
        pch = c(16, 17), lty = 1:2, bty = "n")
 ```
@@ -208,8 +220,8 @@ next_state <- function(N, P, r, a, b, m) {
   dN <- r * N - a * N * P
   dP <- b * a * N * P - m * P
   c(
-    N = max(N + dN, 0),
-    P = max(P + dP, 0)
+    N = max(N + dN, 0), # ausschliessen, dass negative Werte entstehen
+    P = max(P + dP, 0) # ausschliessen, dass negative Werte entstehen
   )
 }
 ```
@@ -234,11 +246,11 @@ Probieren Sie **einen** anderen Start oder Parameter und vergleichen Sie.
 T <- 400
 N <- numeric(T + 1)
 P <- numeric(T + 1)
-N[1] <- 40
-P[1] <- 2
+N[1] <- 40 # F7) Anfangsgrösse - später ändern!
+P[1] <- 2 # F7) Anfangsgrösse - später ändern!
 
 r <- 0.05
-a <- 0.005   # Prädation — später ändern!
+a <- 0.005   # F6) Prädation — später ändern!
 b <- 0.5
 m <- 0.03
 

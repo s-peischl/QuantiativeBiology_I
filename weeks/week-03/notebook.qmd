@@ -121,7 +121,7 @@ K2 <- 200
 a12 <- 1    # F2) Konkurrenzkoeffizient - ändern!
 a21 <- 1.5    # F2) Konkurrenzkoeffizient - ändern!
 
-# loop, die Zeitschritte wiederholt
+# Schlaufe, die Zeitschritte wiederholt
 for (t in 1:T) {
   N1[t + 1] <- next_comp(N1[t], N2[t], r1, r2, K1, K2, a12, a21)[1]
   N2[t + 1] <- next_comp(N1[t], N2[t], r1, r2, K1, K2, a12, a21)[2]
@@ -236,7 +236,7 @@ a_wolf_elk = 0.0008
 eW = 0.40
 mW = 0.006
 
-# loop um Zeitschritte zu wiederholen
+# Schlaufe um Zeitschritte zu wiederholen
 for (t in 1:T){
     
     X[t + 1, ] <- next_web(X[t, ], rA, rS, K, aAS, aSA, a_elk_aspen, a_elk_sage, eE, mE, a_wolf_elk, eW, mW)
