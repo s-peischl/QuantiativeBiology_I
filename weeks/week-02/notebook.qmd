@@ -94,7 +94,7 @@ next_N <- function(N, r, K) { # Argumente, die die Funktion braucht, um den gew�
 Startpunkt (ein Aufruf):
 
 ```{r ein-schritt-allein}
-# Ausführen der Funktion
+# Ausführen der obigen Funktion
 next_N(N = 20, r = 0.5, K = 200)
 ```
 
@@ -105,27 +105,30 @@ Führen Sie `next_N` **mehrmals selbst** aus und ändern Sie jeweils **nur eine*
 
 | Versuch | Was ändern? | Beispiel |
 |---------|-------------|----------|
-| a | Start $N$ weit unter $K$ | z. B. $N = 20$ |
-| b | Start nahe $K$ | z. B. $N = 180$ |
+| a | Start $N$ weit unter $K$ | z.B. $N = 20$ |
+| b | Start nahe $K$ | z.B. $N = 180$ |
 | c | Start gleich $K$ | $N = 200$ |
-| d | Start über $K$ | z. B. $N = 250$ |
-| e | Wachstumsrate $r$ | z. B. kleiner / grösser als $0.5$ |
+| d | Start über $K$ | z.B. $N = 250$ |
+| e | Wachstumsrate $r$ | z.B. kleiner / grösser als $0.5$ |
 
-Notieren Sie kurz: Wann wächst $N$? Wann schrumpft es? Was passiert bei $N = K$?
+Gehen Sie die verschiedenen Verusche durch und notieren Sie kurz: Wann wächst $N$? Wann schrumpft es? Was passiert bei $N = K$?
 :::
 
 ## A3) Simulation — Sie experimentieren
 
+Nun hängen Sie mehrere Zeitschritte aneinander.
+
 Gerüst (Basis einmal laufen lassen, dann **Zahlen ändern** und Zelle erneut ausführen):
 
 ```{r simulation-allein}
+# die selbe Funktion von oben
 next_N <- function(N, r, K) {
   N + r * N * (1 - N / K)
 }
 
 # Variabeln und Parameter
-T <- 40
-N <- numeric(T + 1)
+T <- 40 # Zeitrahmen
+N <- numeric(T + 1) # Vektor für Populationsgrösse N (Länge T+1; startet mit der Anfangsgrösse)
 N[1] <- 20      # F3) Anfangsgrösse — ändern!
 r <- 0.5        # F2) Wachstumsrate — ändern!
 K <- 200        # Deckel — bei Bedarf ändern!
@@ -136,8 +139,8 @@ for (t in 1:T) {
 }
 
 # Graph für die Simulationsresultate
-plot(x = 0:T, 
-     y = N,
+plot(x = 0:T, # x = Zeitachse
+     y = N, # y = Populationsgrösse
   type = "l", lwd = 2, # dicke Linie
   xlab = "Schritt", ylab = "N", # Achsenbeschriftung
   main = "Simulation: eine Population", # Titel
@@ -216,6 +219,7 @@ $$
 | $m$ | Räuber-Sterblichkeit | $m > 0$ | $0.03$ |
 
 ```{r next-state}
+# Funktion um schrittweise die Populationsgrössen zu ermitteln; für Räuber und Beute gleichzeitig
 next_state <- function(N, P, r, a, b, m) {
   dN <- r * N - a * N * P
   dP <- b * a * N * P - m * P
@@ -229,6 +233,7 @@ next_state <- function(N, P, r, a, b, m) {
 ## B2) Ein Zeitschritt
 
 ```{r ein-schritt-zwei}
+# Ausführen der obigen Räuber-Beute Funktion
 next_state(N = 40, P = 2, r = 0.05, a = 0.005, b = 0.5, m = 0.03)
 ```
 
@@ -243,6 +248,7 @@ Probieren Sie **einen** anderen Start oder Parameter und vergleichen Sie.
 ## B3) Simulation — Parameter ändern
 
 ```{r simulation-zwei}
+# Variabeln und Parameter
 T <- 400
 N <- numeric(T + 1)
 P <- numeric(T + 1)
@@ -254,14 +260,16 @@ a <- 0.005   # F6) Prädation — später ändern!
 b <- 0.5
 m <- 0.03
 
+# Schlaufe, die Zeitschritte wiederholt 
 for (t in 1:T) {
   out <- next_state(N[t], P[t], r, a, b, m)
   N[t + 1] <- out["N"]
   P[t + 1] <- out["P"]
 }
 
-plot(
-  0:T, N,
+# Graph für die Simulationsresultate
+plot(0:T, 
+     N,
   type = "l", lwd = 2,
   xlab = "Schritt", ylab = "Haeufigkeit",
   main = "LV-Simulation",
@@ -290,26 +298,31 @@ Erhöhen Sie $a$ (stärkere Prädation) und führen Sie die Zelle erneut aus. Wa
 Bisher haben wir den «schönen» Datensatz mit Räuber und Beute genutzt. Gause hat aber auch Experimente **ohne** weiteren Nachschub gemacht.
 
 ```{r aussterben-daten}
+# Daten laden
 both <- read.csv("data/paramecium_with_didinium.csv")
 both_ex <- read.csv("data/paramecium_didinium_extinction.csv")
 
-par(mfrow = c(1, 2))
+# Daten darstellen
+par(mfrow = c(1, 2)) # um zwei Graphen nebeneinander zu haben
 
-plot(
-  both$day, both$paramecium,
+# Graph 1)
+plot(both$day, 
+     both$paramecium,
   type = "b", pch = 16, lwd = 2,
   xlab = "Tag", ylab = "Haeufigkeit",
   main = "Mit Immigration",
   ylim = range(0, both$paramecium, both$didinium)
 )
+# vertikale Linien um Immigrationsereignise hervorzuheben
 abline(v = both$day[both$immigration == "y"], col = "grey70", lty = 3)
 lines(both$day, both$didinium, type = "b", pch = 17, lwd = 2, lty = 2)
 legend("topright", c("Paramecium", "Didinium", "Immigration"),
        pch = c(16, 17, NA), lty = c(1, 2, 3),
        col = c("black", "black", "grey70"), bty = "n", cex = 0.75)
 
-plot(
-  both_ex$day, both_ex$paramecium,
+# Graph 2)
+plot(both_ex$day, 
+     both_ex$paramecium,
   type = "b", pch = 16, lwd = 2,
   xlab = "Tag", ylab = "Haeufigkeit",
   main = "Ohne weitere Manipulation",

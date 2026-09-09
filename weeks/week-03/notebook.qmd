@@ -17,7 +17,7 @@ execute:
 # Lernziele
 - Verstehen, wie man **Stabilität** testet
 - Ein Beispiel geben, wie es zu **Bistabilität** kommen kann
-- Die Logik eines komplizierteren Food web models nachvollziehen können
+- Die Logik eines komplizierteren **Food web** models nachvollziehen können
 
 ---
 
@@ -154,7 +154,7 @@ Was verändert sich, wenn Sie  $\alpha_{ij}$ ändern? Unter welchen Umständen e
 ::: {.callout-tip}
 ## Frage F3 · Anfangsgrössen ändern
 
-Behalten Sie nun $\alpha_{ij}$ konstant und ändern Sie die Anfangsgrössen `N1[1]` und `N2[1]`. Beeinflusst das den Endpunkt der Simulation?
+Behalten Sie nun $\alpha_{ij}$ konstant und ändern Sie die Anfangsgrössen `N1[1]` und `N2[1]`. Beeinflusst das den **Endpunkt** der Simulation?
 Mit welchen Werten von $\alpha_{ij}$ finden Sie einen, wann zwei Endpunkte?
 
 :::
@@ -162,7 +162,7 @@ Mit welchen Werten von $\alpha_{ij}$ finden Sie einen, wann zwei Endpunkte?
 ::: {.callout-note}
 ## Hinweis
 
-Wir erwarten Bistabilität, wenn beide Arten einander stark hemmen. Dann sollte die Art, die zuerst häufiger ist einen Vorteil haben - "Priority effect".
+Wir erwarten Bistabilität, wenn beide Arten einander stark hemmen. Dann sollte die Art, die zuerst häufiger ist, einen Vorteil haben - "Priority effect".
 
 :::
 
@@ -201,7 +201,7 @@ Alle vier Bestände werden additiv aktualisiert: $X_{t+1}=X_t+$ Wachstum − Ver
 ::: {.callout-tip}
 ## Frage F4 · Verständnis des Gleichungssystems
 
-Schauen Sie sich die Gleichungen an; können Sie die Bezihungen zwischen den einzelnen Arten beschreiben? (Konkurrenz, Beute, Räuber,...) Erklären Sie anhand der Terme.
+Schauen Sie sich die Gleichungen an; können Sie die Beziehungen zwischen den einzelnen Arten beschreiben? (Konkurrenz, Beute, Räuber,...) Erklären Sie anhand der Terme.
 
 :::
 
@@ -236,7 +236,7 @@ a_wolf_elk = 0.0008
 eW = 0.40
 mW = 0.006
 
-# Schlaufe um Zeitschritte zu wiederholen
+# Schlaufe, um Zeitschritte zu wiederholen
 for (t in 1:T){
     
     X[t + 1, ] <- next_web(X[t, ], rA, rS, K, aAS, aSA, a_elk_aspen, a_elk_sage, eE, mE, a_wolf_elk, eW, mW)
@@ -276,6 +276,14 @@ Führen Sie nun den Wolf in das Ökosystem ein: `X[1, ] <- c(Aspen = 40, Sage = 
 
 :::
 
+## Zusammenfassung
 
+::: {.callout-note}
+## Zum Mitnehmen
+
+- Wichtigstes Ergebnis zu **Konkurrenz**:
+- Wichtigstes Ergebnis zu **Stabilität**:
+- Wichtigstes Ergebnis aus **Food web** Modellen:
+:::
 
 
