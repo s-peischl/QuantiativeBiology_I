@@ -58,18 +58,20 @@ After adding R figures that must appear on Pages, freeze locally and commit free
 
 | Do | Don't |
 |----|--------|
-| Edit `weeks/week-XX/{slides,notebook,glossary}.qmd` | Put week sources under `modules/` (legacy / notes only) |
+| Edit `weeks/week-XX/{slides,notebook,glossary}.qmd` | Put week sources outside `weeks/` |
 | Add images under `pics/` + credit in `pics/README.md` (or folder CREDITS) | Set `format:` in `_quarto.yml` or `weeks/_metadata.yml` (breaks Reveal.js) |
 | Put week CSVs in `weeks/week-XX/data/` + document source | Commit solution keys or private data to `main` by accident |
 | New weeks from `templates/*-template.qmd` | Treat editor Markdown preview as slide preview |
 
-Course arc: weeks 1 → 14 under `weeks/`; `modules/` is not the teaching source of truth.
+Course arc: weeks 1 → 14 under `weeks/`.
 
 ### Live hub (GitHub Pages)
 
-Only **published** weeks are built and linked. Currently: **weeks 1–4** (Modul 1 through Checkpoint A). Later weeks stay in git.
+Only **published** weeks are built and linked. Currently: **weeks 1–4** (Modul 1 through Checkpoint A). Later weeks stay in git. **Week 1 has slides only** (no student notebook). Navbar: `Start`, `Glossar`, `KI-Richtlinie`, Folien/Notebooks as `Woche N`. Module overviews are linked from the homepage, not the navbar.
 
-To release the next week: add it to `render:` and the Folien/Notebooks navbar in `_quarto.yml`, then replace «folgt» links on `index.qmd`, `docs/course-outline.qmd`, and the module overview.
+Course organisation and grading live on **ILIAS**, not as hub webpages. Student PDFs: `docs/kursinfo.pdf` (rules) and `docs/kursplan.pdf` (calendar + week content), built with `scripts/render_handouts_pdf.sh`. Source for the plan: `docs/course-outline.qmd` (not rendered as HTML).
+
+To release the next week: add it to `render:` and the Folien/Notebooks navbar in `_quarto.yml`, then replace «folgt» links on `index.qmd` and the module overview.
 
 ---
 
@@ -87,9 +89,19 @@ CI (`.github/workflows/deploy-pages.yml`) runs:
 
 ```bash
 quarto render --no-execute
+python3 scripts/export_slide_pdfs.py
 ```
 
 So `{r}` plots appear online only if frozen results are committed (or CI execute is intentionally enabled). Project default: `execute: freeze: auto`.
+
+Slide **PDF** downloads are generated in CI from the rendered HTML (not committed). Student pages link to `weeks/week-XX/slides.pdf`. Locally:
+
+```bash
+python3 -m pip install -r scripts/requirements-pdf.txt
+python3 -m playwright install chromium
+quarto render --no-execute
+python3 scripts/export_slide_pdfs.py
+```
 
 When adding/changing executed figures for Pages:
 

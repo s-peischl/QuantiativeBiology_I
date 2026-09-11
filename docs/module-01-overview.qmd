@@ -21,7 +21,7 @@ Der erste Block des Kurses: von «warum quantitative Biologie?» zu **Population
 | **3** | 1. Okt. | Stabilität / Food Webs | Gleichgewicht · Einzugsgebiet · Bistabilität · Tipping |
 | **4** | 8. Okt. | Spieltheorie / RPS | *Uta* · 3-Spieler-LV · **Checkpoint A** |
 
-Details zu Inhalten: [Kursplan](course-outline.qmd).
+Details zu Inhalten stehen in den Folien der jeweiligen Woche.
 
 ## Was Sie können sollen (am Ende von Woche 4)
 
@@ -38,7 +38,7 @@ In **Woche 4** finden die **Kurzpräsentationen** statt (Teil der Sitzung: Intro
 ## Anwesenheit erforderlich
 
 Für die **Benotung von Checkpoint A** müssen Sie **anwesend sein und präsentieren**.  
-Wer fehlt, kann diesen Checkpoint nicht ablegen (Details: [Allgemeine Informationen](general-info.qmd)).
+Wer fehlt, kann diesen Checkpoint nicht ablegen (siehe [Kursinfo (PDF)](kursinfo.pdf) · ILIAS).
 :::
 
 **Format (kurz):** ca. 2–3 Min. · Matrix $A$ · ein Plot · Stabilitätsform · ein Satz Biologie.  
@@ -46,13 +46,15 @@ Arbeit zu zweit möglich. Keine separate Hausarbeit — die Notebook-Arbeit ist 
 
 ## Materialien
 
-| Woche | Folien | Notebook |
-|------:|--------|----------|
-| 1 | [Folien](../weeks/week-01/slides.qmd) | [Notebook](../weeks/week-01/notebook.qmd) |
-| 2 | [Folien](../weeks/week-02/slides.qmd) | [Notebook](../weeks/week-02/notebook.qmd) |
-| 3 | [Folien](../weeks/week-03/slides.qmd) | [Notebook](../weeks/week-03/notebook.qmd) |
-| 4 | [Folien](../weeks/week-04/slides.qmd) | [Notebook](../weeks/week-04/notebook.qmd) |
+| Woche | Folien | PDF | Notebook |
+|------:|--------|-----|----------|
+| 1 | [Folien](../weeks/week-01/slides.qmd) | [PDF](../weeks/week-01/slides.pdf) | — |
+| 2 | [Folien](../weeks/week-02/slides.qmd) | [PDF](../weeks/week-02/slides.pdf) | [Notebook](../weeks/week-02/notebook.qmd) |
+| 3 | [Folien](../weeks/week-03/slides.qmd) | [PDF](../weeks/week-03/slides.pdf) | [Notebook](../weeks/week-03/notebook.qmd) |
+| 4 | [Folien](../weeks/week-04/slides.qmd) | [PDF](../weeks/week-04/slides.pdf) | [Notebook](../weeks/week-04/notebook.qmd) |
+
+PDF-Dateien werden beim Veröffentlichen der Website erzeugt. Alternativ in den Folien **E** drücken und «Als PDF speichern».
 
 - [Glossar](glossary.qmd)
 
-Zurück: [Start](../index.qmd) · [Modul 2](module-02-overview.qmd) · [Modul 3](module-03-overview.qmd) · [Allgemeine Informationen](general-info.qmd)
+Zurück: [Start](../index.qmd) · [Modul 2](module-02-overview.qmd) · [Modul 3](module-03-overview.qmd) · [Kursinfo (PDF)](kursinfo.pdf)

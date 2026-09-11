@@ -25,4 +25,4 @@ Dort: Einstieg (Woche 1), Ökologie (Wochen 2–4), Evolution (Wochen 5–8).
 
 Erst wenn verbale Modelle **konkret** werden (Gleichungen, Simulationen), werden versteckte Annahmen sichtbar.
 
-Zurück: [Folien Woche 1](slides.qmd) · [Kursplan](../../docs/course-outline.qmd)
+Zurück: [Folien Woche 1](slides.qmd) · [Start](../../index.qmd)

@@ -18,7 +18,7 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html)"
+    footer: "[Start](../../index.html)"
 execute:
   echo: false
   warning: false
@@ -30,7 +30,6 @@ execute:
 **Woche 13** von 14 · Mikrobiom-Block  
 **Do., 10. Dez. 2026, 08:15–10:00**
 
-- [Kursplan](../../docs/course-outline.html)
 - [Start](../../index.html)
 - Pfeiltasten / Steuerelemente · **M** Menü · **Esc** Übersicht
 
@@ -111,7 +110,7 @@ Sobald Inhalte ausgearbeitet sind, erscheint hier die vollständige Liste aller 
 
 | | |
 |---|---|
-| Übersicht | [Kursplan](../../docs/course-outline.html) |
+| Übersicht | [Start](../../index.html) |
 | Startseite | [Kursstartseite](../../index.html) |
 | Zurück | [← Woche 12](../week-12/slides.html) |
 | Weiter | [Woche 14 →](../week-14/slides.html) |

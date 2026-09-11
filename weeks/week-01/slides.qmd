@@ -6,7 +6,7 @@ format:
   revealjs:
     html-math-method: katex
     theme: simple
-    css: slides.css
+    css: [slides.css, ../print.css]
     slide-number: true
     incremental: false
     embed-resources: true
@@ -20,7 +20,7 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html) · [Glossar](../../docs/glossary.html)"
+    footer: "[Start](../../index.html) · [Glossar](../../docs/glossary.html)"
 execute:
   echo: false
   warning: false
@@ -40,7 +40,7 @@ execute:
 [Glossar](../../docs/glossary.html)
 
 ::: aside
-Pfeiltasten · **M** Menü · **Esc** Übersicht
+Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 :::
 
 ## Dieser Kurs
@@ -848,7 +848,7 @@ Ausführlich: **[Kursglossar](../../docs/glossary.html)**
 | | |
 |---|---|
 | Glossar | [Kursglossar](../../docs/glossary.html) |
-| Kursplan | [Kursplan](../../docs/course-outline.html) |
+| PDF | Taste **E**, dann Drucken → Als PDF speichern |
 | Weiter | [Woche 2 →](../week-02/slides.html) |
 
-← → · **M** · **Esc** · **F**
+← → · **M** · **E** (PDF) · **Esc** · **F**

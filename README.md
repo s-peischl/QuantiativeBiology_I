@@ -21,7 +21,7 @@ Diese README erklärt, wie Mitwirkende Folien, Notebooks und Aufgaben mit **Quar
 | 11–13 | Mikrobiom (laden → visualisieren) |
 | 14 | Projekt |
 
-Die massgeblichen Materialien befinden sich unter `weeks/week-XX/`, nicht in den älteren Verzeichnisbäumen `modules/.../weeks/...`.
+Die massgeblichen Materialien befinden sich unter `weeks/week-XX/`.
 
 ---
 
@@ -72,7 +72,9 @@ Den **Ordner** in RStudio / VS Code / Cursor öffnen (nicht nur eine einzelne Da
 ├── _quarto.yml               ← Website-Konfiguration (Navigation, Renderumfang)
 ├── styles.css                ← gemeinsame HTML-Gestaltung
 ├── docs/
-│   ├── course-outline.qmd    ← Semesterplan (Studierende)
+│   ├── course-outline.qmd    ← Semesterplan (Quelle für PDF)
+│   ├── kursinfo.qmd / .pdf   ← Kursinfo für ILIAS (Bewertung, Anwesenheit)
+│   ├── kursplan.pdf          ← Kursplan für Hub / ILIAS
 │   └── for-collaborators.qmd ← entsprechender Leitfaden auf der Live-Website
 ├── weeks/
 │   ├── _metadata.yml         ← gemeinsame Standardwerte (hier KEIN Format setzen)
@@ -82,11 +84,10 @@ Den **Ordner** in RStudio / VS Code / Cursor öffnen (nicht nur eine einzelne Da
 │       └── data/             ← wochenbezogene CSVs (bei Bedarf)
 ├── pics/                     ← Bilder (Nachweise in pics/README.md)
 ├── templates/                ← Vorlagen für neue Wochen
-├── modules/                  ← nur übergeordnete Modulnotizen (keine Wochenquellen)
 └── .github/workflows/        ← Bereitstellung über GitHub Pages
 ```
 
-**Faustregel:** `weeks/week-XX/*.qmd` bearbeiten. Wocheninhalte nicht unter `modules/` neu anlegen.
+**Faustregel:** `weeks/week-XX/*.qmd` bearbeiten.
 
 ---
 
@@ -191,7 +192,7 @@ Anschliessend öffnen:
 _site/weeks/week-02/slides.html
 ```
 
-Tastatur nach dem Öffnen: `←` `→` navigieren · `M` Menü · `Esc` Übersicht · `F` Vollbild · `S` Vortragsnotizen (falls aktiviert).
+Tastatur nach dem Öffnen: `←` `→` navigieren · `M` Menü · `E` Druckansicht (PDF) · `Esc` Übersicht · `F` Vollbild · `S` Vortragsnotizen (falls aktiviert).
 
 **Nicht** auf die einfache Markdown-Vorschau des Editors verlassen — sie zeigt ein Dokument, keinen Foliensatz.
 
@@ -277,6 +278,8 @@ Ein Push nach `main` löst **Deploy Quarto Site** aus:
 
 `.github/workflows/deploy-pages.yml`
 
+Die Action erzeugt ausserdem **PDF-Fassungen** der veröffentlichten Folien (`_site/weeks/week-XX/slides.pdf`; nicht im Git).
+
 Nach erfolgreicher Ausführung wird die Website hier aktualisiert:
 
 https://s-peischl.github.io/QuantiativeBiology_I/
@@ -347,7 +350,7 @@ Alternativ eine betreuende Person bitten, die Ausführung in CI zu aktivieren (d
 - YAML / Fusszeile / Navigationsblock der bestehenden Wochen 1–2 übernehmen
 - Kurze Folien bevorzugen (eine Idee pro `##`)
 - Zuerst Biologie, danach Modell / Code
-- **Kursübersicht** und **Startseite** in der Fusszeile verlinken
+- **Startseite** in der Fusszeile verlinken
 - Bildquellen nachweisen (Folienrand oder `pics/README.md`)
 - Für empirische Aussagen reale Daten / Zitate verwenden
 
@@ -374,7 +377,7 @@ Vorlagen:
 
 - Quarto-Folien: https://quarto.org/docs/presentations/revealjs/
 - Quarto-Projekte / Websites: https://quarto.org/docs/websites/
-- Kursübersicht für Studierende: [`docs/course-outline.qmd`](docs/course-outline.qmd)
+- Semesterplan (Quelle): [`docs/course-outline.qmd`](docs/course-outline.qmd) → `docs/kursplan.pdf`
 - Leitfaden für Mitwirkende auf der Live-Plattform: https://s-peischl.github.io/QuantiativeBiology_I/docs/for-collaborators.html
 
 Bei Fragen zu Didaktik oder Zuständigkeiten für einzelne Wochen → **Stephan Peischl** kontaktieren.

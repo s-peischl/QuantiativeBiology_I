@@ -20,7 +20,7 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html) · [Notebook](notebook.html)"
+    footer: "[Start](../../index.html) · [Notebook](notebook.html)"
 execute:
   echo: false
   warning: false
@@ -196,7 +196,6 @@ die Note gilt der Frage und der Abbildung, nicht dem Code-Umfang.
 
 | | |
 |---|---|
-| Kursplan | [Kursplan](../../docs/course-outline.html) |
 | Notebook | [Notebook Woche 11](notebook.html) |
 | Zurück | [← Woche 10](../week-10/slides.html) |
 | Weiter | [Woche 12 →](../week-12/slides.html) |

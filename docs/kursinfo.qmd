@@ -1,0 +1,38 @@
+---
+title: "Quantitative Biologie I"
+subtitle: "Kursinformationen · Herbstsemester 2026"
+author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
+# Render with: scripts/render_kursinfo_pdf.sh
+# (project lang: de + TeX Live 2016 breaks Quarto's PDF babel options)
+---
+
+**Universität Bern** · Teaching Hub: [s-peischl.github.io/QuantiativeBiology_I](https://s-peischl.github.io/QuantiativeBiology_I/)  
+Verbindliche organisatorische Angaben: **ILIAS**.
+
+Donnerstags **08:15–10:00** · 17. September bis 17. Dezember 2026 · 14 Sitzungen.  
+Parallel: Kurs «R-Programmierung» (dort systematisch R; hier Modelle und Biologie).
+
+**Teaching Hub:** Folien, Notebooks, Glossar, Kursplan-PDF. **ILIAS:** Organisation, Bewertung, Mitteilungen.
+
+## Semesteraufbau
+
+| Block | Wochen | Checkpoint |
+|-------|--------|------------|
+| Einstieg + Ökologie | 1–4 | **A** · 8. Oktober 2026 |
+| Allelfrequenz und Selektion | 5–8 | **B** · 5. November 2026 |
+| Evolution (zufällig) / Rettung | 9–11 | **C** · 26. November 2026 |
+| Mikrobiom | 12–14 | **D** · 17. Dezember 2026 |
+
+## Bewertung
+
+**Bestanden / nicht bestanden**, über **Mitarbeit** (keine Abschlussprüfung, **keine Hausaufgaben**).
+
+Die Mitarbeit besteht aus kurzen **Präsentationen** an vier **Checkpoints** (A–D), jeweils am Ende eines Themenblocks (ca. **3–5 Minuten**; Arbeit zu zweit möglich). Vorbereitung in der Sitzung bzw. im Notebook.
+
+**Anwesenheitspflicht** an den Checkpoint-Terminen (Wochen **4, 8, 11 und 14**): der Checkpoint zählt nur, wenn Sie **anwesend sind und präsentieren**. Wer fehlt, kann den Termin in der Regel nicht nachholen (Ausnahmen nach Absprache / gemäss Fakultätsregeln, siehe ILIAS).
+
+**Bestanden**, wenn Sie **mindestens 3 von 4** Checkpoints gemacht haben (Anwesenheit **und** Präsentation).
+
+**Vorgaben für die Präsentationen:** biologische Frage · was berechnet wurde · eine Abbildung · wichtigste Annahme oder nächster Schritt. Bewertet werden Klarheit, biologischer Gehalt und ehrliche Einschränkungen — nicht aufwendige Grafiken.
+
+Fragen zur Organisation und Bewertung über die Kanäle auf **ILIAS**.

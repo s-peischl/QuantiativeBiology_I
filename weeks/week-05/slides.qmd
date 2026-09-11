@@ -20,7 +20,7 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html) · [Notebook](notebook.html)"
+    footer: "[Start](../../index.html) · [Notebook](notebook.html)"
 execute:
   echo: false
   warning: false
@@ -400,7 +400,6 @@ Daten: `data/README.md`. LCT-CEU-Genotypen sind ganzzahlige HWE-Werte zu den 100
 
 | | |
 |---|---|
-| Kursplan | [Kursplan](../../docs/course-outline.html) |
 | Notebook | [Notebook Woche 5](notebook.html) |
 | Zurück | [← Woche 4](../week-04/slides.html) |
 | Weiter | [Woche 6 →](../week-06/slides.html) |

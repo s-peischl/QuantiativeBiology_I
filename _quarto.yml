@@ -3,22 +3,21 @@ project:
   output-dir: _site
   resources:
     - styles.css
+    - docs/kursinfo.pdf
+    - docs/kursplan.pdf
   render:
     - index.qmd
-    - docs/course-outline.qmd
-    - docs/general-info.qmd
     - docs/module-01-overview.qmd
     - docs/module-02-overview.qmd
     - docs/module-03-overview.qmd
     - docs/glossary.qmd
     - docs/for-collaborators.qmd
     - docs/ai-policy.qmd
-    - docs/mfb-alignment.qmd
-    - docs/impuls-proposal-brief.qmd
-    - docs/week-01-dept-map-brief.qmd
     # Live hub: only published weeks (Modul 1 through Checkpoint A).
     # Later week sources stay in git; add paths here when releasing.
-    - weeks/week-01/*.qmd
+    # Week 1 has slides only (no student notebook).
+    - weeks/week-01/slides.qmd
+    - weeks/week-01/glossary.qmd
     - weeks/week-02/*.qmd
     - weeks/week-03/*.qmd
     - weeks/week-04/*.qmd
@@ -31,42 +30,28 @@ website:
     left:
       - href: index.qmd
         text: Start
-      - href: docs/general-info.qmd
-        text: Infos
-      - href: docs/module-01-overview.qmd
-        text: Modul 1
-      - href: docs/module-02-overview.qmd
-        text: Modul 2
-      - href: docs/module-03-overview.qmd
-        text: Modul 3
       - href: docs/glossary.qmd
         text: Glossar
-      - href: docs/course-outline.qmd
-        text: Kursplan
       - href: docs/ai-policy.qmd
         text: KI-Richtlinie
-      - href: docs/for-collaborators.qmd
-        text: Collaborators
       - text: Folien
         menu:
           - href: weeks/week-01/slides.qmd
-            text: "01"
+            text: "Woche 1"
           - href: weeks/week-02/slides.qmd
-            text: "02"
+            text: "Woche 2"
           - href: weeks/week-03/slides.qmd
-            text: "03"
+            text: "Woche 3"
           - href: weeks/week-04/slides.qmd
-            text: "04"
+            text: "Woche 4"
       - text: Notebooks
         menu:
-          - href: weeks/week-01/notebook.qmd
-            text: "01"
           - href: weeks/week-02/notebook.qmd
-            text: "02"
+            text: "Woche 2"
           - href: weeks/week-03/notebook.qmd
-            text: "03"
+            text: "Woche 3"
           - href: weeks/week-04/notebook.qmd
-            text: "04"
+            text: "Woche 4"
 
 # Do NOT set project-level format: html here.
 # That overrides slide decks. HTML pages declare format in their own YAML;

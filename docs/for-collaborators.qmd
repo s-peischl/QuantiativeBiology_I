@@ -24,9 +24,9 @@ This page is the teaching-hub version of the repository [README](https://github.
 
 **Ecology → Evolution (deterministic → stochastic) → Microbiome (ecology with randomness)**
 
-Canonical materials live under `weeks/week-XX/` (slides, notebook). Do not recreate week sources under `modules/`.
+Canonical materials live under `weeks/week-XX/` (slides, notebook).
 
-**Live hub:** only published weeks are rendered and linked (currently weeks **1–4**). Later week sources stay in the repo; they appear as «folgt» until added to `_quarto.yml` (`render:` + navbar) and the student pages.
+**Live hub:** only published weeks are rendered and linked (currently weeks **1–4**). Later week sources stay in the repo; they appear as «folgt» until added to `_quarto.yml` (`render:` + navbar) and the student pages. The semester plan is a PDF (`docs/kursplan.pdf`), not an HTML page.
 
 ---
 
@@ -51,9 +51,9 @@ Open the **project folder** (not a single file) so `_quarto.yml` and relative pa
 
 ## Internal briefs (collaborators)
 
-- [MfB ↔ QuBi alignment](mfb-alignment.qmd)  
-- [IMPULS LEHRE proposal briefing](impuls-proposal-brief.qmd)  
-- [Week-1 department map / glossary briefing](week-01-dept-map-brief.qmd)  
+- [MfB ↔ QuBi alignment](https://github.com/s-peischl/QuantiativeBiology_I/blob/main/docs/mfb-alignment.qmd)  
+- [IMPULS LEHRE proposal briefing](https://github.com/s-peischl/QuantiativeBiology_I/blob/main/docs/impuls-proposal-brief.qmd)  
+- [Week-1 department map / glossary briefing](https://github.com/s-peischl/QuantiativeBiology_I/blob/main/docs/week-01-dept-map-brief.qmd)  
 
 Source files outside this repo: see paths noted on those pages.
 
@@ -68,10 +68,19 @@ Source files outside this repo: see paths noted on those pages.
 | `weeks/week-XX/data/` | Week CSVs + data README |
 | `pics/` | Images (+ credits in `pics/README.md`) |
 | `templates/` | Templates for new weeks |
-| `docs/course-outline.qmd` | Full semester plan (German, students) |
-| `docs/general-info.qmd` | Org / Pass-Fail draft (German, students) |
+| `docs/course-outline.qmd` | Semester plan source (PDF via `scripts/render_handouts_pdf.sh`) |
+| `docs/kursinfo.qmd` / `docs/kursinfo.pdf` | Course info PDF (grading, attendance) |
+| `docs/kursplan.pdf` | Student course-plan PDF |
 | `docs/module-01-overview.qmd` | Module 1 one-pager (German, students) |
 | `_quarto.yml` | Site navbar + render list |
+
+Rebuild the student PDFs after editing `docs/kursinfo.qmd` or `docs/course-outline.qmd`:
+
+```bash
+scripts/render_handouts_pdf.sh
+```
+
+Commit the updated `docs/kursinfo.pdf` and `docs/kursplan.pdf`.
 
 ---
 
@@ -101,7 +110,7 @@ quarto preview weeks/week-02/slides.qmd
 
 Use **Quarto Preview / Render**, not the editor’s plain Markdown preview.
 
-Keyboard: `←` `→` · `M` menu · `Esc` overview · `F` fullscreen.
+Keyboard: `←` `→` · `M` menu · `E` print/PDF · `Esc` overview · `F` fullscreen.
 
 ### New week
 
@@ -151,10 +160,18 @@ Open a **pull request** to `main`:
 
 ### After merge / push to `main`
 
-GitHub Actions runs **Deploy Quarto Site** (`.github/workflows/deploy-pages.yml`) and updates Pages.
+GitHub Actions runs **Deploy Quarto Site** (`.github/workflows/deploy-pages.yml`) and updates Pages. After render, the workflow exports a **PDF** of each published slide deck into `_site/weeks/week-XX/slides.pdf` (Playwright; not stored in git).
 
 Progress: Repository → **Actions**.  
 Site: <https://s-peischl.github.io/QuantiativeBiology_I/>
+
+Local PDF export (optional, after a full render):
+
+```bash
+python3 -m pip install -r scripts/requirements-pdf.txt
+python3 -m playwright install chromium
+python3 scripts/export_slide_pdfs.py
+```
 
 ---
 
@@ -202,5 +219,5 @@ git commit -m "Week XX: freeze figures for Pages"
 
 - [Quarto Reveal.js](https://quarto.org/docs/presentations/revealjs/)  
 - [Quarto websites](https://quarto.org/docs/websites/)  
-- [Student course outline (German)](course-outline.qmd)  
+- Semester plan source: [`course-outline.qmd`](course-outline.qmd) → `kursplan.pdf`  
 - Full GitHub README: <https://github.com/s-peischl/QuantiativeBiology_I#readme>

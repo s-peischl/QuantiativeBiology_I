@@ -6,7 +6,7 @@ format:
   revealjs:
     html-math-method: katex
     theme: simple
-    css: slides.css
+    css: [slides.css, ../print.css]
     slide-number: true
     incremental: false
     embed-resources: true
@@ -20,7 +20,7 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html) · [Notebook](notebook.html)"
+    footer: "[Start](../../index.html) · [Notebook](notebook.html)"
 execute:
   echo: true
   warning: false
@@ -32,10 +32,10 @@ execute:
 
 **Woche 2** von 14 · **Do., 24. Sept. 2026, 08:15–10:00**
 
-[Kursplan](../../docs/course-outline.html) · [Start](../../index.html) · **[Notebook](notebook.html)**
+[Start](../../index.html) · **[Notebook](notebook.html)**
 
 ::: aside
-Pfeiltasten · **M** Menü · **Esc** Übersicht
+Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 :::
 
 ## Sitzungsablauf (~2 h)
@@ -728,7 +728,7 @@ Bildnachweise: `pics/README.md` · Organismenfotos Wikimedia Commons (siehe Bild
 
 | | |
 |---|---|
-| Kursplan | [Kursplan](../../docs/course-outline.html) |
 | Notebook | [Notebook Woche 2](notebook.html) |
+| PDF | Taste **E**, dann Drucken → Als PDF speichern |
 | Zurück | [← Woche 1](../week-01/slides.html) |
 | Weiter | [Woche 3 →](../week-03/slides.html) |

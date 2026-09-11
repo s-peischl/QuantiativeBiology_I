@@ -6,7 +6,7 @@ format:
   revealjs:
     html-math-method: katex
     theme: simple
-    css: slides.css
+    css: [slides.css, ../print.css]
     slide-number: true
     incremental: false
     embed-resources: true
@@ -20,7 +20,7 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html) · [Notebook](notebook.html)"
+    footer: "[Start](../../index.html) · [Notebook](notebook.html)"
 execute:
   echo: false
   warning: false
@@ -37,7 +37,7 @@ execute:
 | Notebook | ~45 min | selbst herumspielen |
 
 ::: aside
-Pfeiltasten · **M** Menü · **Esc** Übersicht
+Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 :::
 
 ## Lernziele
@@ -91,8 +91,8 @@ aussieht und *was* sie tut. Ableiten: andere Vorlesung.
 
 | | |
 |---|---|
-| Kursplan | [Kursplan](../../docs/course-outline.html) |
 | Notebook | [Notebook](notebook.html) |
+| PDF | Taste **E**, dann Drucken → Als PDF speichern |
 | Glossar | [Glossar](../../docs/glossary.html) |
 | Zurück | [← vorherige Woche](../week-XX/slides.html) |
 | Weiter | [nächste Woche →](../week-XX/slides.html) |

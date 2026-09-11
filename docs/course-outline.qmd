@@ -1,4 +1,7 @@
 ---
+# Source for the student PDF (`docs/kursplan.pdf`).
+# Render with: scripts/render_handouts_pdf.sh
+# Not published as HTML on the hub.
 title: "Kursplan — gesamtes Semester"
 format:
   html:
@@ -11,7 +14,7 @@ format:
 
 - Parallel zum **Programmierkurs** des ersten Studienjahres
 - Dieser Kurs: biologische **Fragen** → Experiment / Daten → wo Mathematik, Statistik, Algorithmen natürlich auftauchen
-- 14 Wochen; derzeit veröffentlicht: **Wochen 1–4** (Folien + Notebook). Spätere Materialien folgen.
+- 14 Wochen; derzeit veröffentlicht: **Wochen 1–4** (Folien; Notebooks ab Woche 2). Spätere Materialien folgen.
 - **[KI-Richtlinie](ai-policy.qmd)** — generative KI darf zum Lernen eingesetzt werden; benotete Arbeiten müssen Ihre eigenen sein, und die Unterstützung durch KI muss offengelegt werden
 
 ### Vorlesungszeit
@@ -57,7 +60,7 @@ format:
 
 ### Prüfungsrhythmus (Präsentationen über das Semester verteilt) {#assessment-rhythm-presentations-throughout}
 
-**Aktueller Entwurf (bestanden / nicht bestanden):** siehe **[Allgemeine Informationen](general-info.qmd)**.  
+**Bewertung:** bestanden / nicht bestanden über **Mitarbeit** (Kurzpräsentationen an den Checkpoints). **Anwesenheitspflicht** an den Checkpoint-Terminen; **mindestens 3 von 4** müssen gemacht werden. Details: **[Kursinfo (PDF)](kursinfo.pdf)** (auch auf ILIAS).  
 Kurz: bestanden bei **Anwesenheit + Präsentation an mindestens 3 von 4** Checkpoints; **keine Hausaufgaben**; Gruppenarbeit möglich; ca. 3–5 Min. Kurzvortrag.
 
 Anstelle einer einzigen grossen Abschlusspräsentation: **vier Checkpoints** (A–D) am Ende jedes Themenblocks.
@@ -98,7 +101,7 @@ Fusszeile → Kursplan / Startseite · Links zur ersten und letzten Woche · **M
 
 **Wann:** Do., 17. Sept. 2026, 08:15–10:00 Uhr  
 **Biologie:** Tauchen der Bajau (Andika) → tibetische Höhenlage (EPAS1 / Denisova-ähnlich)  
-**Materialien:** [Folien](../weeks/week-01/slides.qmd) · [Notebook](../weeks/week-01/notebook.qmd) · [Glossar](glossary.qmd)
+**Materialien:** [Folien](../weeks/week-01/slides.qmd) · [PDF](../weeks/week-01/slides.pdf) · [Glossar](glossary.qmd)
 
 - **Sitzung:** 2 × 45 min Vorlesung (kein Notebook in der Sitzung); Pause nach Bajau
 - Einstieg: Darwin → **Zeitlinie** → Beispiele (**Statistik:** Regression, Simpson; **Öko/Evo:** Lotka–Volterra; **Bioinformatik:** Sequenzdaten / de Bruijn)
@@ -119,7 +122,7 @@ Grundprinzip: biologische Regel → **additive Differenzengleichung** $X_{t+1}=X
 
 ### Woche 2 — Unser erstes Modell
 **Wann:** Do., 24. Sept. 2026, 08:15–10:00 Uhr  
-**Materialien:** [Folien](../weeks/week-02/slides.qmd) · [Notebook](../weeks/week-02/notebook.qmd)
+**Materialien:** [Folien](../weeks/week-02/slides.qmd) · [PDF](../weeks/week-02/slides.pdf) · [Notebook](../weeks/week-02/notebook.qmd)
 
 - **Sitzung:** ~45 min Vorlesung + ~45 min Notebook (Spielraum)
 - **Teil 1:** Gause-Daten *Paramecium* allein → Variable $N$ → Wachstum + Regulation → ein Zeitschritt → Vektor → Schleife → Vergleich
@@ -130,7 +133,7 @@ Grundprinzip: biologische Regel → **additive Differenzengleichung** $X_{t+1}=X
 
 ### Woche 3 — Stabilität: ein Endpunkt, zwei Endpunkte, Food Webs
 **Wann:** Do., 1. Okt. 2026, 08:15–10:00 Uhr  
-**Materialien:** [Folien](../weeks/week-03/slides.qmd) · [Notebook](../weeks/week-03/notebook.qmd)
+**Materialien:** [Folien](../weeks/week-03/slides.qmd) · [PDF](../weeks/week-03/slides.pdf) · [Notebook](../weeks/week-03/notebook.qmd)
 
 - **Sitzung:** ~45 min Vorlesung + ~45 min Notebook (Spielraum)
 - **Brücke Woche 2:** Räuber–Beute nur als Persistenz auf der beobachteten Zeitskala; keine erneute Simulation
@@ -143,7 +146,7 @@ Grundprinzip: biologische Regel → **additive Differenzengleichung** $X_{t+1}=X
 
 ### Woche 4 — Spieltheorie, RPS & **Checkpoint A**
 **Wann:** Do., 8. Okt. 2026, 08:15–10:00 Uhr  
-**Materialien:** [Folien](../weeks/week-04/slides.qmd) · [Notebook](../weeks/week-04/notebook.qmd)
+**Materialien:** [Folien](../weeks/week-04/slides.qmd) · [PDF](../weeks/week-04/slides.pdf) · [Notebook](../weeks/week-04/notebook.qmd)
 
 - **Ablauf:** ~20 min Intro · ~40 min Notebook · ~30 min Kurzpräsentationen
 - Intro: Spieltheorie + *Uta*-RPS; **2 Strategien → Exclusion**, 3. Strategie stabilisiert; RPS kann **Punkt** sein
@@ -299,6 +302,6 @@ Rückkehr zur **Ökologie**, doch nun liegt der praktische Engpass bei **hochdim
 
 ```text
 weeks/week-01 … week-14/
-  slides.qmd · notebook.qmd
+  slides.qmd · notebook.qmd   # Woche 1: nur Folien + Glossar
 templates/ · pics/
 ```

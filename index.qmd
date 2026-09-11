@@ -9,29 +9,32 @@ format:
 
 ## Hier starten
 
-- **[Allgemeine Informationen](docs/general-info.qmd)** — Termine, bestanden/nicht bestanden, Checkpoints (**Entwurf**)
+- **[Kursinfo (PDF)](docs/kursinfo.pdf)** — Termine, Bewertung, Checkpoints (auch auf ILIAS)
+- **[Kursplan (PDF)](docs/kursplan.pdf)** — Kalender und Wocheninhalte
 - **[Modul 1 · Wochen 1–4](docs/module-01-overview.qmd)** — Einstieg · Ökologie · **Checkpoint A**
 - **[Modul 2 · Wochen 5–8](docs/module-02-overview.qmd)** — Allelfrequenz und Selektion · **Checkpoint B** · folgt
 - **[Modul 3 · Wochen 9–11](docs/module-03-overview.qmd)** — Zufall · Etablierung · Rettung · **Checkpoint C** · folgt
 - **[Glossar](docs/glossary.qmd)** — Fachbegriffe (Gymnasium → Uni)
-- **[Kursplan](docs/course-outline.qmd)** — vollständiger Wochenplan
 - **[KI-Richtlinie](docs/ai-policy.qmd)** — erlaubte Nutzung, Verbote und Offenlegung
-- **[Collaborators](docs/for-collaborators.qmd)** — Quarto + GitHub (English)
 
 ## Materialien finden
 
 Oben in der **Navigationsleiste**:
 
-- **Folien** → Woche wählen  
-- **Notebooks** → Woche wählen  
+- **Folien** → Woche 1–4  
+- **Notebooks** → Woche 2–4 (Woche 1 hat kein Notebook)  
 
 Aktuell veröffentlicht: **Wochen 1–4**. Spätere Wochen erscheinen hier, sobald sie frei gegeben sind.
+
+## Folien mitnehmen
+
+- **PDF:** in der Tabelle unten auf **PDF** klicken (erscheint mit der veröffentlichten Website).  
+- **Im Browser:** Folien öffnen → Taste **E** (Druckansicht) → Drucken → **Als PDF speichern**. Am besten Chrome oder Edge; Querformat, Ränder «Keine», Hintergrundgrafiken ein.  
+- **HTML:** Die Folien sind eine einzige Datei — im Browser «Seite speichern». Funktioniert offline.
 
 ## Vorlesungstermin
 
 **Donnerstags 08:15–10:00** · erste Sitzung **17. Sep 2026** · bis **17. Dez 2026**
-
-Vollständiger Kalender: [Kursplan](docs/course-outline.qmd#session-calendar).
 
 ## Modul 1 (jetzt)
 
@@ -41,15 +44,15 @@ Einstieg → Ökologie → Spieltheorie · endet mit **Checkpoint A in Woche 4**
 ## Woche 4: Präsentationen — Anwesenheit Pflicht
 
 Für die Bewertung müssen Sie **anwesend sein und präsentieren**.  
-Details: [Modul 1](docs/module-01-overview.qmd) · [Allgemeine Informationen](docs/general-info.qmd).
+Details: [Modul 1](docs/module-01-overview.qmd) · [Kursinfo (PDF)](docs/kursinfo.pdf) · ILIAS.
 :::
 
 | Woche | Datum | Thema | Materialien |
 |------:|------|--------|-------------|
-| 1 | 17. Sep | Einstieg — Bajau → Tibet | [Folien](weeks/week-01/slides.qmd) · [Notebook](weeks/week-01/notebook.qmd) |
-| 2 | 24. Sep | Erstes Modell | [Folien](weeks/week-02/slides.qmd) · [**Notebook**](weeks/week-02/notebook.qmd) |
-| 3 | 1. Okt | Stabilität / Food Web | [Folien](weeks/week-03/slides.qmd) · [Notebook](weeks/week-03/notebook.qmd) |
-| 4 | 8. Okt | RPS · **Checkpoint A** | [Folien](weeks/week-04/slides.qmd) · [Notebook](weeks/week-04/notebook.qmd) |
+| 1 | 17. Sep | Einstieg — Bajau → Tibet | [Folien](weeks/week-01/slides.qmd) · [PDF](weeks/week-01/slides.pdf) |
+| 2 | 24. Sep | Erstes Modell | [Folien](weeks/week-02/slides.qmd) · [PDF](weeks/week-02/slides.pdf) · [**Notebook**](weeks/week-02/notebook.qmd) |
+| 3 | 1. Okt | Stabilität / Food Web | [Folien](weeks/week-03/slides.qmd) · [PDF](weeks/week-03/slides.pdf) · [Notebook](weeks/week-03/notebook.qmd) |
+| 4 | 8. Okt | RPS · **Checkpoint A** | [Folien](weeks/week-04/slides.qmd) · [PDF](weeks/week-04/slides.pdf) · [Notebook](weeks/week-04/notebook.qmd) |
 
 ## Modul 2 · folgt
 
@@ -97,4 +100,4 @@ Folien und Notebooks erscheinen hier, sobald der Block frei gegeben ist. Überbl
 | 13 | 10. Dez | Mikrobiom · visualisieren | |
 | 14 | 17. Dez | Mikrobiom · visuelle Geschichte | **D** |
 
-Bewertung (Entwurf): [Allgemeine Informationen](docs/general-info.qmd).
+Bewertung: Mitarbeit an den Checkpoints (Anwesenheit + Präsentation; **mindestens 3 von 4**). [Kursinfo (PDF)](docs/kursinfo.pdf) · ILIAS.

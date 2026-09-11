@@ -32,7 +32,7 @@ Mathematik erklärt, *warum* dieselben Parameter Aussterben *oder*
 | **10** | 19. Nov. | Evolutionäre Rettung | Demografie deterministisch + de novo · Orr vs. Simulation |
 | **11** | 26. Nov. | Synthese | **Checkpoint C** |
 
-Details: [Kursplan](course-outline.qmd) · [Glossar](glossary.qmd).
+Details: [Glossar](glossary.qmd).
 
 ## Was Sie können sollen (am Ende von Woche 11)
 
@@ -50,7 +50,7 @@ In **Woche 11** finden die **Kurzpräsentationen** statt (Intro → Notebook →
 ## Anwesenheit erforderlich
 
 Für die **Benotung von Checkpoint C** müssen Sie **anwesend sein und präsentieren**.  
-Wer fehlt, kann diesen Checkpoint nicht ablegen (Details: [Allgemeine Informationen](general-info.qmd)).
+Wer fehlt, kann diesen Checkpoint nicht ablegen (siehe [Kursinfo (PDF)](kursinfo.pdf) · ILIAS).
 :::
 
 **Format (kurz):** ca. 3–5 Min. · biologische Frage · eine Abbildung · Pointe.  
@@ -66,4 +66,4 @@ Themen: Rettung gegen $r$; gegen $s$; gegen $N_0$ (Bell & Gonzalez).
 | 10 | folgt | folgt |
 | 11 | folgt | folgt |
 
-Zurück: [Start](../index.qmd) · [Modul 2](module-02-overview.qmd) · [Allgemeine Informationen](general-info.qmd)
+Zurück: [Start](../index.qmd) · [Modul 2](module-02-overview.qmd) · [Kursinfo (PDF)](kursinfo.pdf)

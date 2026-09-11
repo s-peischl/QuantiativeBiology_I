@@ -20,7 +20,7 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html) · [Notebook](notebook.html)"
+    footer: "[Start](../../index.html) · [Notebook](notebook.html)"
 execute:
   echo: false
   warning: false
@@ -553,7 +553,6 @@ Dieselbe Frage: $L$ ändern, ablesen wann Variation bleibt.
 
 | | |
 |---|---|
-| Kursplan | [Kursplan](../../docs/course-outline.html) |
 | Notebook | [Notebook Woche 7](notebook.html) |
 | Zurück | [← Woche 6](../week-06/slides.html) |
 | Weiter | [Woche 8 →](../week-08/slides.html) |

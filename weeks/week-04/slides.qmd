@@ -6,7 +6,7 @@ format:
   revealjs:
     html-math-method: katex
     theme: simple
-    css: slides.css
+    css: [slides.css, ../print.css]
     slide-number: true
     incremental: false
     embed-resources: true
@@ -20,7 +20,7 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html) · [Notebook](notebook.html)"
+    footer: "[Start](../../index.html) · [Notebook](notebook.html)"
 execute:
   echo: false
   warning: false
@@ -32,10 +32,10 @@ execute:
 
 **Woche 4** von 14 · **Do., 8. Okt. 2026, 08:15–10:00**
 
-[Kursplan](../../docs/course-outline.html) · [Start](../../index.html)
+[Start](../../index.html)
 
 ::: aside
-Pfeiltasten · **M** Menü · **Esc** Übersicht
+Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 :::
 
 ## Sitzungsablauf (~90 min)
@@ -90,7 +90,7 @@ Nach heute können Sie …
 Heute wird **präsentiert und benotet**.  
 Sie müssen **anwesend sein und vortragen**.
 
-[Modul 1](../../docs/module-01-overview.html) · [Infos](../../docs/general-info.html)
+[Modul 1](../../docs/module-01-overview.html)
 :::
 :::::
 
@@ -541,7 +541,7 @@ Alles, was in dieser Einheit namentlich vorkommt:
 
 | | |
 |---|---|
-| Kursplan | [Kursplan](../../docs/course-outline.html) |
 | Zurück | [← Woche 3](../week-03/slides.html) |
 | Weiter | [Woche 5 →](../week-05/slides.html) |
 | Notebook | [Notebook](notebook.html) |
+| PDF | Taste **E**, dann Drucken → Als PDF speichern |

@@ -6,7 +6,7 @@ format:
   revealjs:
     html-math-method: katex
     theme: simple
-    css: slides.css
+    css: [slides.css, ../print.css]
     slide-number: true
     incremental: false
     embed-resources: true
@@ -20,7 +20,7 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html) · [Notebook](notebook.html)"
+    footer: "[Start](../../index.html) · [Notebook](notebook.html)"
 execute:
   echo: false
   warning: false
@@ -38,7 +38,7 @@ execute:
 | Notebook | ~45 min | dieselben Modelle selbst verändern |
 
 ::: aside
-Pfeiltasten · **M** Menü · **Esc** Übersicht
+Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 :::
 
 ## Lernziele
@@ -645,7 +645,7 @@ Bildnachweise: `pics/ecosystems/`, `pics/yellowstone/`, `pics/keystone/` (CREDIT
 
 | | |
 |---|---|
-| Kursplan | [Kursplan](../../docs/course-outline.html) |
 | Notebook | [Notebook Woche 3](notebook.html) |
+| PDF | Taste **E**, dann Drucken → Als PDF speichern |
 | Zurück | [← Woche 2](../week-02/slides.html) |
 | Weiter | [Woche 4 →](../week-04/slides.html) |

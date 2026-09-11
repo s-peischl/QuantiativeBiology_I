@@ -29,7 +29,7 @@ Das **Beispiel** kommt zuerst (HapMap, Duffy, Stichling, Sichelzelle, *Drosophil
 | **7** | 29. Okt. | Variation erhalten | Paradoxon → Selektion → zeitliche Fluktuation |
 | **8** | 5. Nov. | Synthese | **Checkpoint B** |
 
-Details: [Kursplan](course-outline.qmd) · [Glossar](glossary.qmd).
+Details: [Glossar](glossary.qmd).
 
 ## Was Sie können sollen (am Ende von Woche 8)
 
@@ -47,7 +47,7 @@ In **Woche 8** finden die **Kurzpräsentationen** statt (Intro → Notebook → 
 ## Anwesenheit erforderlich
 
 Für die **Benotung von Checkpoint B** müssen Sie **anwesend sein und präsentieren**.  
-Wer fehlt, kann diesen Checkpoint nicht ablegen (Details: [Allgemeine Informationen](general-info.qmd)).
+Wer fehlt, kann diesen Checkpoint nicht ablegen (siehe [Kursinfo (PDF)](kursinfo.pdf) · ILIAS).
 :::
 
 **Format (kurz):** ca. 3–5 Min. · biologische Frage · eine Abbildung · Pointe.  
@@ -64,4 +64,4 @@ Themen: Resistenz / Duffy; zwei Habitate; Variation / Zykluslänge $L$.
 | 7 | folgt | folgt |
 | 8 | folgt | folgt |
 
-Zurück: [Start](../index.qmd) · [Modul 1](module-01-overview.qmd) · [Modul 3](module-03-overview.qmd) · [Allgemeine Informationen](general-info.qmd)
+Zurück: [Start](../index.qmd) · [Modul 1](module-01-overview.qmd) · [Modul 3](module-03-overview.qmd) · [Kursinfo (PDF)](kursinfo.pdf)

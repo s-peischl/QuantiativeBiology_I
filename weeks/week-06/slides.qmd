@@ -20,7 +20,7 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html) · [Notebook](notebook.html)"
+    footer: "[Start](../../index.html) · [Notebook](notebook.html)"
 execute:
   echo: false
   warning: false
@@ -486,7 +486,6 @@ $m$ fest, $s_1$ und $s_2$ ändern: wann bleiben beide Allele?
 
 | | |
 |---|---|
-| Kursplan | [Kursplan](../../docs/course-outline.html) |
 | Notebook | [Notebook Woche 6](notebook.html) |
 | Zurück | [← Woche 5](../week-05/slides.html) |
 | Weiter | [Woche 7 →](../week-07/slides.html) |

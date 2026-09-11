@@ -20,7 +20,7 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html) · [Notebook](notebook.html)"
+    footer: "[Start](../../index.html) · [Notebook](notebook.html)"
 execute:
   echo: false
   warning: false
@@ -440,7 +440,6 @@ Zufallszahlen $\to$ eine Trajektorie $\to$ $\hat u(s)$ gegen $2s$.
 
 | | |
 |---|---|
-| Kursplan | [Kursplan](../../docs/course-outline.html) |
 | Notebook | [Notebook Woche 9](notebook.html) |
 | Zurück | [← Woche 8](../week-08/slides.html) |
 | Weiter | [Woche 10 →](../week-10/slides.html) |

@@ -20,3 +20,4 @@ _freeze/weeks/*
 *.Ruserdata
 .DS_Store
 /.quarto/
+weeks/**/slides.pdf

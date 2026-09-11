@@ -20,7 +20,7 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Kursplan](../../docs/course-outline.html) · [Start](../../index.html) · [Notebook](notebook.html)"
+    footer: "[Start](../../index.html) · [Notebook](notebook.html)"
 execute:
   echo: false
   warning: false
@@ -376,7 +376,6 @@ Nächste Woche: **Checkpoint C** — eine Frage, eine Abbildung.
 
 | | |
 |---|---|
-| Kursplan | [Kursplan](../../docs/course-outline.html) |
 | Notebook | [Notebook Woche 10](notebook.html) |
 | Zurück | [← Woche 9](../week-09/slides.html) |
 | Weiter | [Woche 11 →](../week-11/slides.html) |
