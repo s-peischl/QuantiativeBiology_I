@@ -10,6 +10,12 @@ format:
 
 **Eine Seite Überblick** · Quantitative Biologie I · HS 2026
 
+::: {.callout-note}
+## Materialien folgen
+
+Der Block ist geplant; Folien und Notebooks erscheinen hier, sobald sie frei gegeben sind.
+:::
+
 ## Was ist Modul 2?
 
 Der zweite Block: von **Genotypzahlen in einer Stichprobe** zu **Selektion, Migration und Erhalt von Variation** — und zum zweiten benoteten Checkpoint.
@@ -53,9 +59,9 @@ Themen: Resistenz / Duffy; zwei Habitate; Variation / Zykluslänge $L$.
 
 | Woche | Folien | Notebook |
 |------:|--------|----------|
-| 5 | [Folien](../weeks/week-05/slides.qmd) | [Notebook](../weeks/week-05/notebook.qmd) |
-| 6 | [Folien](../weeks/week-06/slides.qmd) | [Notebook](../weeks/week-06/notebook.qmd) |
-| 7 | [Folien](../weeks/week-07/slides.qmd) | [Notebook](../weeks/week-07/notebook.qmd) |
-| 8 | [Folien](../weeks/week-08/slides.qmd) | [Notebook](../weeks/week-08/notebook.qmd) |
+| 5 | folgt | folgt |
+| 6 | folgt | folgt |
+| 7 | folgt | folgt |
+| 8 | folgt | folgt |
 
 Zurück: [Start](../index.qmd) · [Modul 1](module-01-overview.qmd) · [Modul 3](module-03-overview.qmd) · [Allgemeine Informationen](general-info.qmd)

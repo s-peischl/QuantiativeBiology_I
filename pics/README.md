@@ -14,6 +14,7 @@ Privates Kursfoto (nicht von Commons):
 | `high-altitude/DSCF0610.jpg` | Privates Kursfoto (Hochland / Yak). Stephan Peischl. Nicht ohne Genehmigung weiterverbreiten. |
 | `high-altitude/P1040203.jpg` | Privates Kursfoto (Hochland / Pferde). Stephan Peischl. Nicht ohne Genehmigung weiterverbreiten. |
 | `high-altitude/P1040210.jpg` | Privates Kursfoto (Cotopaxi). Stephan Peischl. Nicht ohne Genehmigung weiterverbreiten. |
+| `umfrage/qr-fragebogen.png` | QR-Code zum Studierenden-Fragebogen (Woche 1). |
 
 ## Bajau (`pics/bajau/`)
 

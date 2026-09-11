@@ -65,6 +65,12 @@ After adding R figures that must appear on Pages, freeze locally and commit free
 
 Course arc: weeks 1 → 14 under `weeks/`; `modules/` is not the teaching source of truth.
 
+### Live hub (GitHub Pages)
+
+Only **published** weeks are built and linked. Currently: **weeks 1–4** (Modul 1 through Checkpoint A). Later weeks stay in git.
+
+To release the next week: add it to `render:` and the Folien/Notebooks navbar in `_quarto.yml`, then replace «folgt» links on `index.qmd`, `docs/course-outline.qmd`, and the module overview.
+
 ---
 
 ## Render, preview, freeze

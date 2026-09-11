@@ -74,16 +74,20 @@ eine biologische **Frage** → sinnvolle **Daten / Experimente** → wo quantita
 
 Heute kein Leistungsdruck: Orientierung und Neugier.
 
-## Das Program
+## Das Programm
 
 1. Warum Mathematik / Statistik / Programmieren in der Biologie?
 2. Warum taucht Andika besser als ich?
-3. Warum wurde ich in höhenkrank, während andere Fussball spielen?
-4. Und warum wollen uns Stephan, Loraine und Emma uns Mathe beibringen, wenn wir doch Bio studieren?
+3. Warum wurde ich höhenkrank, während andere Fussball spielen?
+4. Und warum wollen uns Stephan, Loraine und Emma Mathe beibringen, wenn wir doch Bio studieren?
 
 ::: aside
 [Modul 1](../../docs/module-01-overview.html) · [Glossar](../../docs/glossary.html)
 :::
+
+## Umfrage
+
+![](../../pics/umfrage/qr-fragebogen.png){fig-alt="QR-Code zum Fragebogen" width="55%"}
 
 # Einstieg · Warum quantitative Biologie?
 

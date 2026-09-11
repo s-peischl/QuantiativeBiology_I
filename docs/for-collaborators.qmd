@@ -26,6 +26,8 @@ This page is the teaching-hub version of the repository [README](https://github.
 
 Canonical materials live under `weeks/week-XX/` (slides, notebook). Do not recreate week sources under `modules/`.
 
+**Live hub:** only published weeks are rendered and linked (currently weeks **1–4**). Later week sources stay in the repo; they appear as «folgt» until added to `_quarto.yml` (`render:` + navbar) and the student pages.
+
 ---
 
 ## Setup

@@ -11,8 +11,8 @@ format:
 
 - **[Allgemeine Informationen](docs/general-info.qmd)** — Termine, bestanden/nicht bestanden, Checkpoints (**Entwurf**)
 - **[Modul 1 · Wochen 1–4](docs/module-01-overview.qmd)** — Einstieg · Ökologie · **Checkpoint A**
-- **[Modul 2 · Wochen 5–8](docs/module-02-overview.qmd)** — Allelfrequenz und Selektion · **Checkpoint B**
-- **[Modul 3 · Wochen 9–11](docs/module-03-overview.qmd)** — Zufall · Etablierung · Rettung · **Checkpoint C**
+- **[Modul 2 · Wochen 5–8](docs/module-02-overview.qmd)** — Allelfrequenz und Selektion · **Checkpoint B** · folgt
+- **[Modul 3 · Wochen 9–11](docs/module-03-overview.qmd)** — Zufall · Etablierung · Rettung · **Checkpoint C** · folgt
 - **[Glossar](docs/glossary.qmd)** — Fachbegriffe (Gymnasium → Uni)
 - **[Kursplan](docs/course-outline.qmd)** — vollständiger Wochenplan
 - **[KI-Richtlinie](docs/ai-policy.qmd)** — erlaubte Nutzung, Verbote und Offenlegung
@@ -25,7 +25,7 @@ Oben in der **Navigationsleiste**:
 - **Folien** → Woche wählen  
 - **Notebooks** → Woche wählen  
 
-Direkt zu Woche 2: **[Notebook Woche 2](weeks/week-02/notebook.qmd)** · **[Folien Woche 2](weeks/week-02/slides.qmd)**
+Aktuell veröffentlicht: **Wochen 1–4**. Spätere Wochen erscheinen hier, sobald sie frei gegeben sind.
 
 ## Vorlesungstermin
 
@@ -51,40 +51,30 @@ Details: [Modul 1](docs/module-01-overview.qmd) · [Allgemeine Informationen](do
 | 3 | 1. Okt | Stabilität / Food Web | [Folien](weeks/week-03/slides.qmd) · [Notebook](weeks/week-03/notebook.qmd) |
 | 4 | 8. Okt | RPS · **Checkpoint A** | [Folien](weeks/week-04/slides.qmd) · [Notebook](weeks/week-04/notebook.qmd) |
 
-## Modul 2
+## Modul 2 · folgt
 
 Hardy–Weinberg → lokale Anpassung → Erhalt von Variation · endet mit **Checkpoint B in Woche 8**.
 
-::: {.callout-important}
-## Woche 8: Präsentationen — Anwesenheit Pflicht
-
-Für die Bewertung müssen Sie **anwesend sein und präsentieren**.  
-Details: [Modul 2](docs/module-02-overview.qmd) · [Allgemeine Informationen](docs/general-info.qmd).
-:::
+Folien und Notebooks erscheinen hier, sobald der Block frei gegeben ist. Überblick: [Modul 2](docs/module-02-overview.qmd).
 
 | Woche | Datum | Thema | Materialien |
 |------:|------|--------|-------------|
-| 5 | 15. Okt. | HWE · Wahlund · Duffy | [Folien](weeks/week-05/slides.qmd) · [Notebook](weeks/week-05/notebook.qmd) |
-| 6 | 22. Okt. | Lokale Anpassung | [Folien](weeks/week-06/slides.qmd) · [Notebook](weeks/week-06/notebook.qmd) |
-| 7 | 29. Okt. | Erhalt von Variation | [Folien](weeks/week-07/slides.qmd) · [Notebook](weeks/week-07/notebook.qmd) |
-| 8 | 5. Nov. | Synthese · **Checkpoint B** | [Folien](weeks/week-08/slides.qmd) · [Notebook](weeks/week-08/notebook.qmd) |
+| 5 | 15. Okt. | HWE · Wahlund · Duffy | folgt |
+| 6 | 22. Okt. | Lokale Anpassung | folgt |
+| 7 | 29. Okt. | Erhalt von Variation | folgt |
+| 8 | 5. Nov. | Synthese · **Checkpoint B** | folgt |
 
-## Modul 3
+## Modul 3 · folgt
 
 Zufall in $p$ → Etablierung → evolutionäre Rettung · endet mit **Checkpoint C in Woche 11**.
 
-::: {.callout-important}
-## Woche 11: Präsentationen — Anwesenheit Pflicht
-
-Für die Bewertung müssen Sie **anwesend sein und präsentieren**.  
-Details: [Modul 3](docs/module-03-overview.qmd) · [Allgemeine Informationen](docs/general-info.qmd).
-:::
+Folien und Notebooks erscheinen hier, sobald der Block frei gegeben ist. Überblick: [Modul 3](docs/module-03-overview.qmd).
 
 | Woche | Datum | Thema | Materialien |
 |------:|------|--------|-------------|
-| 9 | 12. Nov. | Zufall · Etablierung | [Folien](weeks/week-09/slides.qmd) · [Notebook](weeks/week-09/notebook.qmd) |
-| 10 | 19. Nov. | Evolutionäre Rettung | [Folien](weeks/week-10/slides.qmd) · [Notebook](weeks/week-10/notebook.qmd) |
-| 11 | 26. Nov. | Synthese · **Checkpoint C** | [Folien](weeks/week-11/slides.qmd) · [Notebook](weeks/week-11/notebook.qmd) |
+| 9 | 12. Nov. | Zufall · Etablierung | folgt |
+| 10 | 19. Nov. | Evolutionäre Rettung | folgt |
+| 11 | 26. Nov. | Synthese · **Checkpoint C** | folgt |
 
 ## Bogen (ganzes Semester)
 
@@ -96,19 +86,15 @@ Details: [Modul 3](docs/module-03-overview.qmd) · [Allgemeine Informationen](do
 | [2](weeks/week-02/slides.qmd) | 24. Sep | Ökologie | |
 | [3](weeks/week-03/slides.qmd) | 1. Okt | Stabilität / Food Web | |
 | [4](weeks/week-04/slides.qmd) | 8. Okt | Spieltheorie / RPS | **A** |
-| [5](weeks/week-05/slides.qmd) | 15. Okt | HWE · HapMap · Wahlund | |
-| [6](weeks/week-06/slides.qmd) | 22. Okt | Selektion · lokale Anpassung | |
-| [7](weeks/week-07/slides.qmd) | 29. Okt | Molekulare Diversität · Erhalt | |
-| [8](weeks/week-08/slides.qmd) | 5. Nov | Synthese | **B** |
-| [9](weeks/week-09/slides.qmd) | 12. Nov | Zufall · Etablierung | |
-| [10](weeks/week-10/slides.qmd) | 19. Nov | Evolutionäre Rettung | |
-| [11](weeks/week-11/slides.qmd) | 26. Nov | Synthese · Rettung | **C** |
-| [12](weeks/week-12/slides.qmd) | 3. Dez | Mikrobiom · komplexe Daten laden | |
-| [13](weeks/week-13/slides.qmd) | 10. Dez | Mikrobiom · visualisieren | |
-| [14](weeks/week-14/slides.qmd) | 17. Dez | Mikrobiom · visuelle Geschichte | **D** |
+| 5 | 15. Okt | HWE · HapMap · Wahlund | |
+| 6 | 22. Okt | Selektion · lokale Anpassung | |
+| 7 | 29. Okt | Molekulare Diversität · Erhalt | |
+| 8 | 5. Nov | Synthese | **B** |
+| 9 | 12. Nov | Zufall · Etablierung | |
+| 10 | 19. Nov | Evolutionäre Rettung | |
+| 11 | 26. Nov | Synthese · Rettung | **C** |
+| 12 | 3. Dez | Mikrobiom · komplexe Daten laden | |
+| 13 | 10. Dez | Mikrobiom · visualisieren | |
+| 14 | 17. Dez | Mikrobiom · visuelle Geschichte | **D** |
 
 Bewertung (Entwurf): [Allgemeine Informationen](docs/general-info.qmd).
-
-## Vorlagen
-
-- [Folien](templates/slides-template.qmd) · [Notebook](templates/notebook-template.qmd)
