@@ -5,7 +5,7 @@ format:
   html:
     toc: true
     toc-depth: 2
-    css: ../styles.scss
+    css: ../styles.css
 ---
 
 **Quantitative Biologie I** · HS 2026 · Stephan Peischl, Loraine Hablützel und Emma Ochsner

@@ -5,7 +5,7 @@ format:
   html:
     toc: true
     toc-depth: 2
-    css: ../styles.scss
+    css: ../styles.css
 ---
 
 Kurze Erklärungen in Alltagssprache. In den Folien tauchen die Begriffe auf — hier können Sie nachschlagen.

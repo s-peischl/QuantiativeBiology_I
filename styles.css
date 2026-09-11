@@ -1,0 +1,32 @@
+/* Student-facing HTML pages. Keep this as plain CSS (not SCSS):
+   GitHub Pages serves .scss as text/x-scss, which browsers refuse to apply. */
+
+body {
+  background-color: #ffffff;
+  color: #1f2937;
+}
+
+a {
+  color: #0f766e;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #0b3d2e;
+}
+
+main.content {
+  max-width: 920px;
+}
+
+div.callout-tip {
+  border-left-color: #0f766e !important;
+}
+
+div.callout-tip > .callout-header {
+  background-color: #ecfdf5;
+  color: #0b3d2e;
+}
+
+div.callout-tip > .callout-header .callout-icon::before {
+  color: #0f766e;
+}

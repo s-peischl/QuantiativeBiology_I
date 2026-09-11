@@ -5,7 +5,7 @@ author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:
     toc: false
-    css: ../../styles.scss
+    css: ../../styles.css
 ---
 
 Das Glossar liegt jetzt **kursweit** hier:

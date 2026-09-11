@@ -48,7 +48,7 @@ Never assume `_site/`, `.quarto/`, or uncommitted `_freeze/` from another machin
 |----------------|-------------------------|
 | `weeks/`, `docs/`, `pics/`, `templates/`, `scripts/` | `_site/` |
 | Selected `_freeze/weeks/week-XX/` (see `.gitignore`) | `.quarto/` |
-| `_quarto.yml`, `styles.scss`, workflows | `.Rhistory`, `.RData`, `.DS_Store` |
+| `_quarto.yml`, `styles.css`, workflows | `.Rhistory`, `.RData`, `.DS_Store` |
 
 After adding R figures that must appear on Pages, freeze locally and commit freeze output (see below). Updating `.gitignore` allowlists for new week freeze dirs may be required.
 

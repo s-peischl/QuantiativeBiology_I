@@ -4,7 +4,7 @@ lang: de
 format:
   html:
     toc: false
-    css: styles.scss
+    css: styles.css
 ---
 
 ## Hier starten

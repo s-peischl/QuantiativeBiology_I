@@ -7,7 +7,7 @@ format:
     toc: true
     toc-title: "Inhalt"
     code-fold: false
-    css: ../../styles.scss
+    css: ../../styles.css
 execute:
   echo: true
   warning: false

@@ -70,7 +70,7 @@ Den **Ordner** in RStudio / VS Code / Cursor öffnen (nicht nur eine einzelne Da
 ├── README.md                 ← dieser Leitfaden
 ├── index.qmd                 ← Startseite
 ├── _quarto.yml               ← Website-Konfiguration (Navigation, Renderumfang)
-├── styles.scss               ← gemeinsame HTML-Gestaltung
+├── styles.css                ← gemeinsame HTML-Gestaltung
 ├── docs/
 │   ├── course-outline.qmd    ← Semesterplan (Studierende)
 │   └── for-collaborators.qmd ← entsprechender Leitfaden auf der Live-Website

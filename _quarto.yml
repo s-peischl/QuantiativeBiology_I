@@ -1,6 +1,8 @@
 project:
   type: website
   output-dir: _site
+  resources:
+    - styles.css
   render:
     - index.qmd
     - docs/course-outline.qmd
