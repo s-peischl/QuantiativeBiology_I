@@ -39,7 +39,7 @@ list.files("data")
 # erwartet u. a.: paramecium_alone.csv, paramecium_with_didinium.csv, ...
 ```
 
-Wenn `read.csv("data/...")` mit «cannot open» scheitert: meist falsches Arbeitsverzeichnis oder fehlender `data/`-Ordner.
+Wenn `read.csv("data/...")` mit «cannot open» scheitert: meist falsches Arbeitsverzeichnis oder fehlender `data/`-Ordner. 
 
 ## Lernziele
 
@@ -47,6 +47,8 @@ Wenn `read.csv("data/...")` mit «cannot open» scheitert: meist falsches Arbeit
 - **Selbst** ausprobieren, wie Parameter und Anfangsbedingungen die Dynamik ändern
 - Dieselbe Modellierungslogik auf **eine** und dann auf **zwei** Populationen anwenden
 - Grenzen einfacher Modelle diskutieren
+
+Sehen Sie das Notebook als Möglichkeit, das in der Vorlesung gelernte, auszuprobieren. Falls Sie nicht genügend Zeit haben, den ganzen Code auszuführen, können Sie sich, die im Notebook generierten Graphen anschauen und so Intuition für die nächste Stunde mitnehmen.
 
 
 ------------------------------------------------------------------------
@@ -111,7 +113,7 @@ Führen Sie `next_N` **mehrmals selbst** aus und ändern Sie jeweils **nur eine*
 | d | Start über $K$ | z.B. $N = 250$ |
 | e | Wachstumsrate $r$ | z.B. kleiner / grösser als $0.5$ |
 
-Gehen Sie die verschiedenen Verusche durch und notieren Sie kurz: Wann wächst $N$? Wann schrumpft es? Was passiert bei $N = K$?
+Gehen Sie die verschiedenen Versuche (a-e) durch und notieren Sie kurz: Wann wächst $N$? Wann schrumpft es? Was passiert bei $N = K$?
 :::
 
 ## A3) Simulation — Sie experimentieren
@@ -252,11 +254,11 @@ Probieren Sie **einen** anderen Start oder Parameter und vergleichen Sie.
 T <- 400
 N <- numeric(T + 1)
 P <- numeric(T + 1)
-N[1] <- 40 # F7) Anfangsgrösse - später ändern!
-P[1] <- 2 # F7) Anfangsgrösse - später ändern!
+N[1] <- 40 # F7) Anfangsgrösse - ändern!
+P[1] <- 2 # F7) Anfangsgrösse - ändern!
 
 r <- 0.05
-a <- 0.005   # F6) Prädation — später ändern!
+a <- 0.005   # F6) Prädation — ändern!
 b <- 0.5
 m <- 0.03
 
@@ -293,9 +295,10 @@ Erhöhen Sie $a$ (stärkere Prädation) und führen Sie die Zelle erneut aus. Wa
 
 ------------------------------------------------------------------------
 
-# Teil C — Diskussion: Aussterben und Immigration
+# Teil C — Zusatz) Diskussion: Aussterben und Immigration
 
-Bisher haben wir den «schönen» Datensatz mit Räuber und Beute genutzt. Gause hat aber auch Experimente **ohne** weiteren Nachschub gemacht.
+Falls Ihnen noch extra Zeit bleibt, können Sie sich den Datensatz genauer anschauen.
+Bisher haben wir den «schönen» Datensatz mit Räuber und Beute genutzt. Gause hat aber auch Experimente **ohne** Immigration gemacht.
 
 ```{r aussterben-daten}
 # Daten laden
@@ -360,3 +363,5 @@ Diskutieren Sie:
 - Wichtigstes Ergebnis zu **zwei** Spezies:
 - Eine Grenze des Modells / der Daten (Teil C):
 :::
+
+**Fazit**: Wir können simple verbale Argumente mathematisch umwandeln, um Muster aus der Natur zu beschreiben. Solche Modelle können das Wachstum einer Art beschreiben.

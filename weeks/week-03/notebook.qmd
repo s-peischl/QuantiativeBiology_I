@@ -19,6 +19,8 @@ execute:
 - Ein Beispiel geben, wie es zu **Bistabilität** kommen kann
 - Die Logik eines komplizierteren **Food web** models nachvollziehen können
 
+Sehen Sie das Notebook als Möglichkeit, das in der Vorlesung gelernte, auszuprobieren. Falls Sie nicht genügend Zeit haben, den ganzen Code auszuführen, können Sie sich, die im Notebook generierten Graphen anschauen und so Intuition für die nächste Stunde mitnehmen.
+
 ---
 
 # Teil A - zwei Arten
@@ -62,7 +64,8 @@ lines(x = mix$day,
 ::: {.callout-tip}
 ## Frage F1 · Verhalten
 
-Was für ein Verhalten sehen Sie in den Daten? Was sagt das über die Konkurrenzfähigkeit der beiden Arten aus?
+- Was für ein Verhalten sehen Sie in den Daten? 
+- Was sagt das über die Konkurrenzfähigkeit der beiden Arten aus?
 
 :::
 
@@ -71,8 +74,8 @@ Was für ein Verhalten sehen Sie in den Daten? Was sagt das über die Konkurrenz
 
 $$
 \begin{align*}
-N_{1,t+1} &= N_{1,t} + r_1\, N_{1,t} \left(1 - \frac{N_{1,t} + \alpha_{12} N_{2,t}} {K_1}\right) \\
-N_{2,t+1} &= N_{2,t} + r_2\, N_{2,t} \left(1 - \frac{N_{2,t} + \alpha_{21} N_{1,t}} {K_2}\right)
+N_{1,t+1} &= N_{1,t} + r_1\, N_{1,t} \left(1 - \frac{N_{1,t} + \alpha_{12} N_{2,t}} {K_1} \right) \\
+N_{2,t+1} &= N_{2,t} + r_2\, N_{2,t} \left(1 - \frac{N_{2,t} + \alpha_{21} N_{1,t}} {K_2} \right)
 \end{align*}
 $$
 
@@ -89,8 +92,8 @@ Das Konkurrenzmodell verwendet $N_{t+1}=N_t+$ Wachstum und Konkurrenzwirkung.
 | Term | Abhängigkeit | Ereignis |
 |------|--------------|----------|
 | $+r_iN_i$ | nur Art $i$ | Nachwuchs |
-| $-r_iN_i^2/K_i$ | zwei Individuen von Art $i$ | Gedränge innerhalb der Art |
-| $-r_i\alpha_{ij}N_iN_j/K_i$ | Art $i$ und Art $j$ | Konkurrenz zwischen Arten |
+| $-r_iN_i \left(\frac{N_i}{K_i} \right)$ | zwei Individuen von Art $i$ | Gedränge innerhalb der Art |
+| $-r_i\alpha_{ij}N_i \left( \frac{N_j}{K_i} \right)$ | Art $i$ und Art $j$ | Konkurrenz zwischen Arten |
 
 ```{r next-comp}
 # Funktion um schrittweise die Populationsgrössen zu ermitteln 
@@ -147,7 +150,8 @@ legend("topleft", c("Art 1", "Art 2"), lty = 1:2, lwd = 2, bty = "y")
 ::: {.callout-tip}
 ## Frage F2 · $\alpha_{ij}$ ändern
 
-Was verändert sich, wenn Sie  $\alpha_{ij}$ ändern? Unter welchen Umständen erreicht eine Art ihren Tragfähigkeit $K$?
+- Was verändert sich, wenn Sie $\alpha_{ij}$ ändern? 
+- Unter welchen Umständen erreicht eine Art ihre Tragfähigkeit $K$?
 
 :::
 
@@ -155,14 +159,15 @@ Was verändert sich, wenn Sie  $\alpha_{ij}$ ändern? Unter welchen Umständen e
 ## Frage F3 · Anfangsgrössen ändern
 
 Behalten Sie nun $\alpha_{ij}$ konstant und ändern Sie die Anfangsgrössen `N1[1]` und `N2[1]`. Beeinflusst das den **Endpunkt** der Simulation?
-Mit welchen Werten von $\alpha_{ij}$ finden Sie einen, wann zwei Endpunkte?
+
+- Mit welchen Werten von $\alpha_{ij}$ finden Sie einen, wann zwei Endpunkte?
 
 :::
 
 ::: {.callout-note}
 ## Hinweis
 
-Wir erwarten Bistabilität, wenn beide Arten einander stark hemmen. Dann sollte die Art, die zuerst häufiger ist, einen Vorteil haben - "Priority effect".
+Wir erwarten Bistabilität, wenn beide Arten einander stark hemmen. Dann sollte die Art, die zuerst häufiger ist, einen Vorteil haben - das nennt sich "Priority effect".
 
 :::
 
@@ -264,7 +269,10 @@ legend("topright", c("Aspen", "Sage", "Elch", "Wolf"), lwd = 2, col = c("forestg
 ::: {.callout-tip}
 ## Frage F5 · Abwesenheit des Wolfs
 
-Beschrieben Sie, wie sich das Ökosystem in Abwesenheit des Wolfs verhält. Wie viele Arten bleiben bestehen? Was bedeutet das für die Artenvielfalt?
+Beschrieben Sie, wie sich das Ökosystem in Abwesenheit des Wolfs verhält. 
+
+- Wie viele Arten bleiben bestehen? 
+- Was bedeutet das für die Artenvielfalt?
 
 :::
 
@@ -272,7 +280,10 @@ Beschrieben Sie, wie sich das Ökosystem in Abwesenheit des Wolfs verhält. Wie 
 ::: {.callout-tip}
 ## Frage F6 · Einfluss des Wolfs
 
-Führen Sie nun den Wolf in das Ökosystem ein: `X[1, ] <- c(Aspen = 40, Sage = 50, Elch = 25, Wolf = ... )`. Was beobachten Sie? Wie viele Arten bleiben bestehen? Was bedeutet das für die Artenvielfalt?
+Führen Sie nun den Wolf in das Ökosystem ein: `X[1, ] <- c(Aspen = 40, Sage = 50, Elch = 25, Wolf = ... )`. Was beobachten Sie? 
+
+- Wie viele Arten bleiben bestehen? 
+- Was bedeutet das für die Artenvielfalt?
 
 :::
 
@@ -286,4 +297,4 @@ Führen Sie nun den Wolf in das Ökosystem ein: `X[1, ] <- c(Aspen = 40, Sage = 
 - Wichtigstes Ergebnis aus **Food web** Modellen:
 :::
 
-
+**Fazit**: Bereits simple Modelle können komplexe Resultate generieren (z.B. Bistabilität). Solche Modelle können die Artenvielfalt eines Ökosystems beschreiben (Ausschliessen/Aussterben/Bestehen einer Art).
