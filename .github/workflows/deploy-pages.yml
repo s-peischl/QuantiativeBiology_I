@@ -43,6 +43,15 @@ jobs:
       - name: Render Quarto Project
         run: quarto render --no-execute
 
+      - name: Export slide PDFs
+        continue-on-error: true
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -r scripts/requirements-pdf.txt
+          python3 -m playwright install --with-deps chromium
+          python3 scripts/export_slide_pdfs.py
+
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5
         with:
