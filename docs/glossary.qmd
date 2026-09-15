@@ -170,14 +170,23 @@ Zwei Arten, dieselbe Ressource: oft überlebt nur eine. Lehrbeispiel: *Parameciu
 **Bistabilität**  
 Zwei stabile Gleichgewichte. Der Start (oder eine grosse Störung) entscheidet, welches erreicht wird. Analogie: Grasland oder Wald.
 
+**Keystone**  
+Eine Art mit grosser Wirkung auf den Gemeinschaftszustand — oft ohne grossen Anteil an der Biomasse. Lehrbeispiel: Seestern *Pisaster* (Paine 1966); Toy: Präferenzfrass auf den stärksten Konkurrenten.
+
+**Kipppunkt / Hysterese**  
+Nach Überschreiten einer Schwelle wechselt der Zustand abrupt; der Rückweg braucht oft eine **andere** Schwelle (Vorwärts ≠ Rückwärts). Lehrbeispiele: skaliertes Fichtenwickler-Modell (Ludwig et al. 1978); Seeotter–Kelp (halten ≠ wiederherstellen).
+
+**Interaktionsstärke (Food Web)**  
+Geschätztes Mass, wie stark eine Art eine andere unterdrückt (oder fördert). Kann sich mit dem Zustand ändern; Keystone-Effekte sind deshalb kontextabhängig (z. B. Langendorf et al. 2025).
+
 **Heteroklin**  
 Eine Bahn, die sich den Rändern (fast nur eine Strategie) nähert und lange dort bleibt, bevor sie wechselt. Eine der drei RPS-Formen neben Punkt und Oszillation.
 
 **RPS (Rock–Paper–Scissors)**  
-Drei Typen, zyklische Überlegenheit: A schlägt B, B schlägt C, C schlägt A. Mit **zwei** Typen Exclusion; die dritte Strategie kann alle drei halten. Lehrbeispiel: *Uta*-Echsen.
+Drei Typen, zyklische Überlegenheit: A schlägt B, B schlägt C, C schlägt A. Mit **zwei** Typen Konkurrenzausschluss; die dritte Strategie kann alle drei halten. Lehrbeispiel: *Uta*-Echsen.
 
 **Interaktionsmatrix $A$**  
-Einträge $A_{ij}$: wie Typ $j$ das Wachstum von Typ $i$ beeinflusst. Diagonale oft $1$ (gleiche Typen). $A_{ij}>1$ Vorteil, $A_{ij}<1$ Nachteil.
+Einträge $A_{ij}$: wie stark Typ $j$ Typ $i$ unterdrückt (Konkurrenz). Diagonale oft $1$ (Selbstkonkurrenz). $A_{ij}>1$: $j$ unterdrückt $i$ **stärker** als Selbstkonkurrenz; $A_{ij}<1$: **schwächer**. Bei zwei Arten entsprechen die $\alpha_{ij}$ aus Woche 3 den Einträgen abseits der Diagonale.
 
 ---
 

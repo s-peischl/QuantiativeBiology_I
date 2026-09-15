@@ -19,7 +19,7 @@
   <text x="320" y="218" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#148f77">profitable Igel</text>
   <text x="320" y="248" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#148f77">-&gt; Rest-Kelp</text>
   <text x="320" y="266" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#148f77">bleibt erhalten</text>
-  <text x="250" y="330" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#196f3d">Resistance (halten)</text>
+  <text x="250" y="330" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#196f3d">halten (Resistance)</text>
 
   <!-- right: barren -->
   <rect x="520" y="75" width="420" height="280" rx="14" fill="#fdf2e9" stroke="#d68910" stroke-width="2"/>
@@ -29,7 +29,7 @@
   <rect x="600" y="230" width="160" height="48" rx="8" fill="#95a5a6"/>
   <text x="680" y="260" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="white">kaum Kelp</text>
   <text x="680" y="310" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#9a7b0a">Otter meidet unprofitable Beute</text>
-  <text x="730" y="330" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#9a7b0a">kein Recovery (Resilience fehlt)</text>
+  <text x="730" y="330" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#9a7b0a">kein Zurueck (Resilience fehlt)</text>
 
   <text x="490" y="390" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1a5276">Mosaik zweier Zustaende - Verhalten des Top-Praedators entscheidet, wo die Kaskade greift</text>
 </svg>

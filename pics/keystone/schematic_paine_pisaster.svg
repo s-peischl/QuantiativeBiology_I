@@ -22,8 +22,8 @@
   <text x="730" y="160" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#922b21">kein Top-Kontrolle</text>
   <rect x="580" y="185" width="300" height="70" rx="8" fill="#f5b041"/>
   <text x="730" y="215" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#1a252f">Mytilus dominiert</text>
-  <text x="730" y="238" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1a252f">Competitive Exclusion um Raum</text>
-  <text x="730" y="300" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#922b21">weniger Platzhalter-Arten</text>
+  <text x="730" y="238" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1a252f">Konkurrenzausschluss um Raum</text>
+  <text x="730" y="300" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#922b21">weniger andere Sessile</text>
 
-  <text x="490" y="370" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1a5276">Praedator verhindert Exclusion - gleiche Idee wie Wolf/Aspen, anderes System</text>
+  <text x="490" y="370" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1a5276">Praedator verhindert Ausschluss - Keystone haelt den Zustand offen</text>
 </svg>

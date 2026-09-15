@@ -15,11 +15,12 @@ execute:
 ---
 
 # Lernziele
-- Verstehen, wie man **Stabilität** testet
-- Ein Beispiel geben, wie es zu **Bistabilität** kommen kann
-- Die Logik eines komplizierteren **Food web** models nachvollziehen können
 
-Sehen Sie das Notebook als Möglichkeit, das in der Vorlesung gelernte, auszuprobieren. Falls Sie nicht genügend Zeit haben, den ganzen Code auszuführen, können Sie sich, die im Notebook generierten Graphen anschauen und so Intuition für die nächste Stunde mitnehmen.
+- **Stabilität** am Bild testen: verschiedene Starts → gleicher oder anderer Endpunkt?
+- **Bistabilität** erzeugen und die Beckengrenze sehen
+- Ein kleines **Food Web** lesen: wie eine Art den Endzustand verändert
+
+Nutzen Sie das Notebook, um die Vorlesung nachzuspielen. Wenn die Zeit knapp wird: Graphen anschauen reicht, um die Intuition für Woche 4 mitzunehmen.
 
 ---
 
@@ -171,9 +172,17 @@ Wir erwarten Bistabilität, wenn beide Arten einander stark hemmen. Dann sollte 
 
 :::
 
-# Teil B - Food Web
+# Teil B - Food Web (Yellowstone)
 
 ## B1) Food Web — Aspen, Sage, Elch, Wolf
+
+In der Vorlesung: Seestern (*Pisaster*) und Seeotter — eine Art hält oder öffnet den Zustand.  
+Hier rechnen Sie **dieselbe Idee** an einem kleinen Yellowstone-Netz.
+
+**Hypothese:** Wolf ↓ → Elch ↑ → Beweidung auf Aspen ↑ → Aspen geht gegen null.  
+Mit Wolf: Elchdruck sinkt → Aspen kann positiv bleiben.
+
+Reale Yellowstone-Effekte sind räumlich und zeitlich komplizierter — das Modell isoliert den Mechanismus.
 
 $$
 \begin{align*}

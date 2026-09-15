@@ -21,3 +21,8 @@ _freeze/weeks/*
 .DS_Store
 /.quarto/
 weeks/**/slides.pdf
+
+**/*.quarto_ipynb
+
+# Local-only materials (not for GitHub / Pages)
+private/

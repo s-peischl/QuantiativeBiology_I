@@ -49,7 +49,7 @@
   <circle cx="524.4" cy="148.6" r="2.0999999999999996" fill="#1a5276"/>
   <circle cx="534.2" cy="148.6" r="2.0999999999999996" fill="#1a5276"/>
 
-  <text x="480" y="210" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">voll · kaum Platz/Futter</text>
+  <text x="480" y="210" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">voll · kaum Futter</text>
   <rect x="560" y="220" width="120" height="45" rx="8" fill="white" stroke="#7e5109" stroke-width="2"/>
-  <text x="620" y="248" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="#7e5109">K = Deckel</text>
+  <text x="620" y="248" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#7e5109">K = Tragfähigkeit</text>
 </svg>

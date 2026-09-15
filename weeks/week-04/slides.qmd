@@ -68,7 +68,7 @@ Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 ## Heute in dieser Reihenfolge
 
 1. Warum Spieltheorie — *Uta*?
-2. Zwei Strategien: Exclusion
+2. Zwei Strategien: Konkurrenzausschluss
 3. Drei Strategien: RPS-Formen
 4. Notebook, dann 2–3 Minuten vortragen
 
@@ -76,7 +76,7 @@ Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 
 Nach heute können Sie …
 
-1. sagen, warum **zwei** Strategien Exclusion bedeuten,
+1. sagen, warum **zwei** Strategien zum **Konkurrenzausschluss** führen,
 2. die **dritte** Strategie als das, was alle drei hält, erkennen,
 3. RPS-Formen am Plot benennen: Punkt, Oszillation, Heteroklin.
 
@@ -94,12 +94,14 @@ Sie müssen **anwesend sein und vortragen**.
 :::
 :::::
 
-## Brücke von Woche 3
+## Von Woche 3 zu heute
 
-Woche 3: Stabilität — Gleichgewicht · Einzugsgebiet · Bistabilität · Food Web · Tipping.  
-Heute: **Strategien** statt trophischer Ebenen — und warum **drei** Strategien anders sind als zwei.
+Woche 3: zwei Konkurrenten — oft **ein** Gewinner, manchmal **zwei** Einzugsgebiete.  
+Die $\alpha_{ij}$ stecken schon in einer $2\times 2$-Matrix.
 
-![](../../pics/comics/comic_matrix_bridge.svg){fig-alt="Bruecke Food Web zu Spiel" width="88%"}
+Heute: **drei** Strategien, dieselbe Konkurrenzidee. Vielfalt kann halten — welche Form, hängt von der Stärke ab.
+
+![](../../pics/comics/comic_matrix_bridge.svg){fig-alt="Bruecke von Konkurrenz zu Strategien" width="88%"}
 
 # Spieltheorie & Echsen
 
@@ -113,6 +115,24 @@ Der Erfolg einer Strategie hängt davon ab, **was die anderen tun**
 ![](../../pics/comics/comic_uta_rps.svg){fig-alt="Drei Echsen-Strategien" width="90%"}
 
 Orange → Blau → Gelb → Orange. Sinervo & Lively (1996); Corl et al. (2026).
+
+## Von $\alpha$ zur Matrix $A$
+
+Zwei Konkurrenten wie bei Gause — dieselben $\alpha_{ij}$ als Matrix:
+
+$$
+A =
+\begin{pmatrix}
+1 & \alpha_{12} \\
+\alpha_{21} & 1
+\end{pmatrix}
+$$
+
+Diagonale $=1$: Selbstkonkurrenz (Normierung).  
+$A_{12}=\alpha_{12}$: wie stark Typ 2 Typ 1 unterdrückt — genau das $\alpha$ aus Woche 3.
+
+**Drei Strategien:** dieselbe Idee als $3\times 3$-Matrix.  
+Hier heisst «Spieltheorie» einfach: Konkurrenz-LV mit Strategien.
 
 ## Modell (vorgegeben)
 
@@ -128,38 +148,38 @@ $$
 
 Zuwachs von Typ $i$ pro Schritt: $r N_i\bigl(1-(AN)_i/K\bigr)$.
 
-$(AN)_i$: **Gesamtlast** auf Typ $i$.  
-$A_{ij}$: **Interaktionsstärke** — wie stark Typ $j$ Typ $i$ unterdrückt.
+$(AN)_i$: **effektive Konkurrenzdichte** auf Typ $i$.  
+$A_{ij}$: wie stark Typ $j$ Typ $i$ unterdrückt.
 
 | Symbol | Bedeutung | Wertebereich | Kursbeispiel |
 |--------|-----------|--------------|--------------|
 | $r$ | Wachstumsrate pro Schritt | $0 < r \le 0.2$ | oft $0.02$–$0.05$ |
 | $K$ | Tragfähigkeit | $K > 0$ | $100$ |
-| $A_{ij}$ | Last von Typ $j$ auf Typ $i$ | meist $\ge 0$ | Diagonale $=1$; RPS: eine Richtung $>1$, Gegenrichtung $<1$ |
+| $A_{ij}$ | Unterdrückung von Typ $j$ auf Typ $i$ | meist $\ge 0$ | Diagonale $=1$; RPS: eine Richtung $>1$, Gegenrichtung $<1$ |
 | $s,w$ | starke / schwache Interaktion | $s > 1 > w \ge 0$ | z. B. $s=1.5$, $w=0.5$ |
 
 **Kurzer Hinweis:** In der Literatur stehen oft Differentialgleichungen; wir verwenden additive diskrete Schritte.
 
 ## Warum Diagonale = 1 (nicht 0)?
 
-Das ist ein **Konkurrenz**-LV: alle Einträge von $A$ sind Unterdrückung (Last).  
-Keine «positiven Fitness-Payoffs» mit Vorzeichen ± — die Diagonale misst **Selbstkonkurrenz**.
+Alles in $A$ ist **Unterdrückung** — keine Fitness mit Vorzeichen ±.  
+Die Diagonale misst **Selbstkonkurrenz**.
 
-| Situation | Last $(AN)_i$ | Zuwachs pro Schritt |
-|-----------|-----------------|-------------------------|
+| Situation | $(AN)_i$ | Zuwachs pro Schritt |
+|-----------|----------|-------------------------|
 | allein, $N_i \lt K$ | $A_{ii} N_i = N_i \lt K$ | $\gt 0$ → **wächst** |
 | allein, $N_i = K$ | $= K$ | $= 0$ → **Gleichgewicht** |
 | allein, $N_i \gt K$ | $\gt K$ | $\lt 0$ → **schrumpft** |
 
-Diagonale $1$ = Normierung: «eine Einheit eigener Dichte zählt als eine Einheit Last».  
-(Andere Modelle — Payoff-Matrix / Replikator — setzen oft $0$ auf der Diagonale und arbeiten mit Vorzeichen. **Hier nicht.**)
+Diagonale $1$ = Normierung: eine Einheit eigener Dichte zählt wie eine Einheit Konkurrenzdichte.  
+(Andere Modelle setzen oft $0$ auf der Diagonale und arbeiten mit Vorzeichen. **Hier nicht.**)
 
 ## Wann schrumpft / wächst Typ $i$ mit Konkurrenten?
 
 Massstab ist immer die Diagonale $1$:
 
-- $A_{ij} \gt 1$: Typ $j$ belastet $i$ **stärker** als $i$ sich selbst → $i$ hat es schwerer  
-- $A_{ij} \lt 1$: Typ $j$ belastet $i$ **schwächer** als Selbstkonkurrenz → $i$ hat es leichter  
+- $A_{ij} \gt 1$: Typ $j$ unterdrückt $i$ **stärker** als $i$ sich selbst → $i$ hat es schwerer  
+- $A_{ij} \lt 1$: Typ $j$ unterdrückt $i$ **schwächer** als Selbstkonkurrenz → $i$ hat es leichter  
 - $A_{ij} = 1$: $j$ wirkt wie ein weiteres Individuum von $i$
 
 Also: **$\gt 1$ / $\lt 1$** heisst «stärker / schwächer als Selbstkonkurrenz» — nicht «positiv / negativ».
@@ -216,9 +236,7 @@ $$
 - Volle $s,w$-Symmetrie ist nur eine **bequeme** Spezialisierung.  
 - RPS braucht **nicht**, dass alle starken Einträge gleich $s$ und alle schwachen gleich $w$ sind — nur dass in jedem Paar die richtige Richtung $\gt 1$ bzw. $\lt 1$ ist.
 
-## Asymmetrisch, aber immer noch RPS $$
-SIM
-$$
+## Asymmetrisch, aber immer noch RPS
 
 ```{r}
 #| fig-height: 3.4
@@ -261,9 +279,7 @@ Die May–Leonard-Ergebnisse sind hier nur eine **qualitative Orientierung**; Pa
 
 # Warum drei? — das macht RPS aus
 
-## Zwei Strategien: immer Exclusion $$
-SIM
-$$
+## Zwei Strategien: immer Konkurrenzausschluss
 
 ```{r}
 #| fig-height: 3.5
@@ -299,9 +315,7 @@ legend("right", c("1", "3"), col = cols[c(1, 3)], lty = 1, lwd = 2.5, bty = "n",
 
 Bei **zwei** Strategien gewinnt immer eine — die andere → 0.
 
-## Dritte Strategie stabilisiert $$
-SIM
-$$
+## Dritte Strategie stabilisiert
 
 ```{r}
 #| fig-height: 3.5
@@ -322,7 +336,7 @@ Dieselbe zyklische Logik — aber **drei** Typen bleiben. Das ist der RPS-Kern.
 ## Merksatz
 
 > RPS heisst nicht zwingend «Schwingung».  
-> RPS heisst: zyklische Dominanz + die **dritte Strategie verhindert Exclusion**.  
+> RPS heisst: zyklische Dominanz + die **dritte Strategie verhindert den Ausschluss**.  
 > Ein **Punktgleichgewicht** kann also durchaus RPS sein.
 
 # Drei Stabilitätsformen (Beispiele)
@@ -335,11 +349,12 @@ Dieselbe zyklische Logik — aber **drei** Typen bleiben. Das ist der RPS-Kern.
 | **Stabile Oszillation** | $s+w \approx 2$ | dauerhafte Schwingung | **geschlossener Zyklus** |
 | **Heteroklinzyklus** | scharf ($s+w > 2$) | Minima → 0 | Drift zu den **Rändern** |
 
-## Phasenraum: das Simplex
+## Phasenraum: der Simplex
 
 Drei Typen → Zustände als **Häufigkeiten**
 $f_i = N_i / \sum_j N_j$ mit $f_1 + f_2 + f_3 = 1$.  
-Das ist ein **Dreieck** (2-Simplex): Ecken = eine Strategie allein.
+Das ist ein **Dreieck** (Simplex der Anteile): Ecken = eine Strategie allein.  
+Kurz: der Simplex ist der Phasenraum der **Anteile**.
 
 ```{r}
 #| fig-height: 3.6
@@ -392,12 +407,10 @@ points(mid[1], mid[2], pch = 16, cex = 1.2, col = "#8e44ad")
 text(mid[1], mid[2] - 0.08, "Mischung", col = "#8e44ad", cex = 0.85)
 ```
 
-Kanten = eine Strategie fehlt (Exclusion-Rand).  
+Kanten = eine Strategie fehlt (Ausschluss-Rand).  
 Innen = alle drei $\gt 0$.
 
-## 1 · Punktgleichgewicht (auch RPS!) $$
-SIM
-$$
+## 1 · Punktgleichgewicht (auch RPS!)
 
 $s=1.2$, $w=0.5$ → $s+w=1.7 < 2$
 
@@ -414,9 +427,10 @@ plot_simplex_traj(d3, main = "Simplex → Punkt")
 
 Dominanz-Logik zyklisch — Langzeit = **fester Punkt** im Inneren (alle ≈ gleich).
 
-## 2 · Stabile Oszillation $$
-SIM
-$$
+## 2 · Stabile Oszillation
+
+Nicht die *Didinium*-Schwingung aus Woche 2 (zwei trophische Ebenen).  
+Hier: drei Strategien, dasselbe $+/-$-Muster — **andere Stärke**.
 
 $s=1.35$, $w=0.65$ → $s+w=2$
 
@@ -435,11 +449,9 @@ legend("topright", c("1", "2", "3"), col = cols, lty = 1, lwd = 2.2, bty = "n", 
 plot_simplex_traj(d_osc, main = "Simplex: geschlossener Zyklus")
 ```
 
-Dominanz rotiert dauerhaft — auf dem Simplex ein **Orbit**, der nicht an den Rand driftet.
+Dominanz rotiert dauerhaft — auf dem Simplex eine **geschlossene Bahn**, die nicht an den Rand driftet.
 
-## 3 · Heteroklinzyklus $$
-SIM
-$$
+## 3 · Heteroklinzyklus
 
 $s=1.40$, $w=0.65$ → $s+w=2.05 > 2$
 
@@ -458,7 +470,7 @@ legend("topright", c("1", "2", "3"), col = cols, lty = 1, lwd = 1.8, bty = "n", 
 plot_simplex_traj(d_het, main = "Simplex → Kanten")
 ```
 
-Alle drei bleiben lange sichtbar — aber die Bahn wandert zu den **Kanten** (fast-Exclusion, dann Wechsel).  
+Alle drei bleiben lange sichtbar — aber die Bahn wandert zu den **Kanten** (fast Ausschluss, dann Wechsel).  
 Attraktor «lebt» am Rand des Simplex.
 
 ## Minima über die Zeit (Heteroklin)
@@ -492,15 +504,16 @@ plot_simplex_traj(d_osc, main = "Oszillation")
 plot_simplex_traj(d_het, main = "Heteroklin")
 ```
 
-Gleiche zyklische Interaktionslogik — **verschiedene Orbits** im Simplex.
+Gleiche zyklische Interaktionslogik — **verschiedene Bahnen** im Simplex.
 
 # Auftrag
 
 ## Notebook (~40 min)
 
-1. Zwei Strategien → Exclusion bestätigen  
+1. Zwei Strategien → Konkurrenzausschluss bestätigen  
 2. Mit drei Strategien RPS erzeugen  
-3. Mindestens **eine** Form klar hinbekommen (Punkt / Oszillation / Heteroklin)  
+3. Mindestens **eine** Form klar hinbekommen (Punkt / Oszillation / Heteroklin) — idealerweise **nicht** nur die Ausgangswerte  
+
 4. Optional: alle drei Formen ansteuern ($s+w$ drehen)  
 
 ## Präsentation (~2–3 Min.)
@@ -508,15 +521,15 @@ Gleiche zyklische Interaktionslogik — **verschiedene Orbits** im Simplex.
 1. Matrix $A$  
 2. Ein Plot (Zeitreihe **oder** Simplex)  
 3. **Welche Form?** Punkt · Oszillation · Heteroklin — Beleg in einem Satz  
-4. Warum wäre dasselbe mit nur zwei Strategien unmöglich?
+4. Warum wäre dasselbe mit nur zwei Strategien unmöglich? (ein Satz Biologie)
 
 **Anwesenheit Pflicht** — ohne Vortrag kein Checkpoint A.
 
 ## Take-home
 
-1. Zwei Strategien: Exclusion. Die dritte hält alle drei.
+1. Zwei Strategien: Konkurrenzausschluss. Die dritte hält alle drei.
 2. RPS kann Punkt, Oszillation oder Heteroklin sein — dasselbe $+/-$-Muster, andere Stärke.
-3. Die Matrix *ist* die Mathematik; heute lesen Sie die Form.
+3. Die Matrix $A$ baut auf denselben $\alpha$s aus Woche 3 auf — heute mit drei Strategien und dem Blick auf die Form.
 
 ## Abschlussfragen
 
@@ -533,7 +546,7 @@ Alles, was in dieser Einheit namentlich vorkommt:
 1. **Sinervo, B., & Lively, C. M. (1996).** The rock–paper–scissors game and the evolution of alternative male strategies. *Nature* 380: 240–243. [doi:10.1038/380240a0](https://doi.org/10.1038/380240a0) — *Uta*-RPS.
 2. **Corl, A., et al. (2026).** The genetics, evolution, and maintenance of a biological rock-paper-scissors game. *Science* 391: 69–74. [doi:10.1126/science.adw8265](https://doi.org/10.1126/science.adw8265).
 3. **May, R. M., & Leonard, W. J. (1975).** Nonlinear aspects of competition between three species. *SIAM Journal on Applied Mathematics* 29: 243–253. — $s,w$-Idee / Stabilitätsformen (Faustregel qualitativ).
-4. **Lotka, A. J. (1925)**; **Volterra, V. (1926)**; **Gause, G. F. (1934).** — Konkurrenz / Exclusion-Hintergrund (Wochen 2–3).
+4. **Lotka, A. J. (1925)**; **Volterra, V. (1926)**; **Gause, G. F. (1934).** — Konkurrenz / Ausschluss-Hintergrund (Wochen 2–3).
 5. Berkeley Understanding Evolution: [High-stakes rock-paper-scissors…](https://evolution.berkeley.edu/evo-news/high-stakes-rock-paper-scissors-these-lizards-are-all-in-on-an-evolutionary-game/) — populäre Zusammenfassung zu Corl et al.
 ::::
 

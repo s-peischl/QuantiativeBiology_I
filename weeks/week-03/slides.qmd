@@ -1,6 +1,6 @@
 ---
 title: "Woche 3 — Stabilität"
-subtitle: "Ein Endpunkt · zwei Endpunkte · Food Webs · Kipppunkte als Konzept"
+subtitle: "Ein Endpunkt · zwei Endpunkte · das System kippt"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:
@@ -28,48 +28,36 @@ execute:
   freeze: auto
 ---
 
-## Übersicht
+## Heute: eine Frage, vier Schritte
 
-**Woche 3** von 14 · **Do., 1. Okt. 2026, 08:15–10:00**
+**Woche 3** · Do., 1. Okt. 2026 · ~45 min Vorlesung + Notebook
 
-| Teil | Dauer | Was |
-|------|-------|-----|
-| Vorlesung | ~45 min | Stabilität → Bistabilität → Food Web → Kipppunkt |
-| Notebook | ~45 min | dieselben Modelle selbst verändern |
+> Wann nennen wir einen Zustand **stabil** — und was ändert sich, wenn es **mehrere** stabile Zustände gibt?
+
+1. Begriffe festnageln  
+2. **Drei** $\alpha$-Muster (*Paramecium* + Simulation)  
+3. **Zwei** Endpunkte (Gras / Wald)  
+4. Das **System** ändert den Endzustand (Keystone → Kipppunkt)
+
+Heute **lesen** wir Plots und Vorhersagen. Im Notebook **drehen** Sie $\alpha$ und das Yellowstone-Netz selbst — deshalb Mathematik, Code und Daten.
 
 ::: aside
 Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 :::
 
-## Lernziele
+# Brücke · Woche 2
 
-Nach heute können Sie …
+## Persistenz ist noch keine Stabilität
 
-1. **Gleichgewicht**, **Stabilität** und **Einzugsgebiet** unterscheiden,
-2. Konkurrenzausschluss und **Bistabilität** am Bild erkennen,
-3. ein Food Web als System lesen — nicht als Artenliste,
-4. einen **Kipppunkt** als Konzept benennen.
+Woche 2: Beute und Räuber bleiben auf der **beobachteten Zeitskala** sichtbar.
 
-## Heute in dieser Reihenfolge
+Das nennen wir **Persistenz** — nicht Rückkehr zu einem festen Gleichgewicht.
 
-1. Wann ist ein Zustand stabil?
-2. Ein Endpunkt: *Paramecium*
-3. Zwei Endpunkte: Bistabilität
-4. Food Web und Kipppunkt
+![](../../pics/comics/comic_stability.svg){fig-alt="Stabilitaet: nach kleinem Push kehrt das System zum Endzustand zurueck" width="72%"}
 
-## Räuber–Beute: Persistenz ohne Gleichgewicht
+**Heute:** Wann kehrt ein System nach einer Störung zurück — und wohin?
 
-Woche 2: Beute und Räuber schwingen auf der **beobachteten Zeitskala**; beide bleiben im System.
-
-Das nennen wir hier **Persistenz**, nicht Rückkehr zu einem stabilen Gleichgewicht.
-
-> Persistenz ist beobachtbar — aber wann nennen wir einen Zustand **stabil**?
-
-::: aside
-Das diskrete Lehrmodell aus Woche 2 wird heute nicht erneut simuliert. Klassische Lotka–Volterra-Orbits kehren nach einer Störung nicht zum selben Orbit zurück.
-:::
-
-## Was bedeutet stabil?
+## Drei Arbeitsbegriffe
 
 ::::: columns
 ::: {.column width="33%"}
@@ -85,20 +73,22 @@ Nach einer **kleinen Störung** kehrt das System zum Gleichgewicht zurück.
 ::: {.column width="33%"}
 ### Einzugsgebiet
 
-Alle Starts und Störungen, die zum selben Gleichgewicht führen.
+Alle Starts (und kleinen Störungen), die zum **selben** Gleichgewicht führen.
 :::
 :::::
 
-Ein System kann **ein** oder **mehrere** Einzugsgebiete besitzen.
+**Heute testen wir Stabilität am Bild:** verschiedene Starts → derselbe oder verschiedene Endpunkte?
 
-## 1 · Ein Endpunkt: *Paramecium*
+# 1 · Ein Endpunkt
 
-![](../../pics/comics/comic_exclusion.svg){fig-alt="Zwei Paramecium-Arten überleben allein; zusammen wird eine verdrängt" width="62%"}
+## Biologische Frage
 
-**Biologische Frage:** Beide Arten überleben allein. Warum wird eine Art zusammen verdrängt?
+![](../../pics/comics/comic_exclusion.svg){fig-alt="Zwei Paramecium-Arten ueberleben allein; zusammen wird eine verdraengt" width="58%"}
+
+Beide *Paramecium*-Arten überleben **allein**. Warum gewinnt zusammen **eine**?
 
 ::: aside
-*P. caudatum* vs. *P. aurelia* · gleiche Ressource. Quelle: Gause (1934).
+*P. caudatum* vs. *P. aurelia* · gleiche Ressource · Gause (1934)
 :::
 
 ## Allein: beide erreichen ein Plateau
@@ -106,7 +96,7 @@ Ein System kann **ein** oder **mehrere** Einzugsgebiete besitzen.
 ```{r}
 #| fig-height: 3.7
 #| fig-width: 8
-#| out-width: 62%
+#| out-width: 70%
 pc <- read.csv("data/paramecium_caudatum_alone.csv")
 pa <- read.csv("data/paramecium_aurelia_alone.csv")
 par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
@@ -116,14 +106,14 @@ plot(pa$day, pa$volume, type = "b", pch = 17, lwd = 2,
      xlab = "Tag", ylab = "Volumen", main = "P. aurelia allein")
 ```
 
-Die Ressource reicht für jede Art **allein**.
+Die Ressource reicht für jede Art **allein** → Tragfähigkeit $K_i$.
 
-## Zusammen: eine Art wird verdrängt
+## Zusammen: eine Art verschwindet
 
 ```{r}
 #| fig-height: 3.8
 #| fig-width: 7.5
-#| out-width: 58%
+#| out-width: 62%
 mix <- read.csv("data/paramecium_competition.csv")
 c_ok <- !is.na(mix$caudatum)
 a_ok <- !is.na(mix$aurelia)
@@ -136,39 +126,27 @@ legend("topright", c("P. caudatum", "P. aurelia"),
        pch = c(16, 17), lty = 1:2, bty = "n")
 ```
 
-**Konkurrenzausschluss** (*competitive exclusion*): eine Art verdrängt die andere.
+**Konkurrenzausschluss:** langfristig bleibt eine Art — die andere geht gegen null.
 
-## Allein: $K_i$ ist das Ressourcenbudget
+Die Daten zeigen Ausschluss; die $\alpha$ sagen, **wann** das so sein muss.
 
-![](../../pics/comics/comic_K_crowding.svg){fig-alt="Begrenzte Ressourcen setzen der Populationsgrösse einen Deckel K" width="52%"}
+## Was bedeutet $\alpha_{12}$?
 
-Art $i$ wächst allein, solange Futter und Platz reichen.
+![](../../pics/comics/comic_alpha_mech.svg){fig-alt="Alpha uebersetzt Art 2 in effektiven Ressourcenverbrauch aus Sicht von Art 1" width="58%"}
 
-Bei $N_i=K_i$ ist ihr Ressourcenbudget ausgeschöpft: weiteres Wachstum wird durch Gedränge ausgeglichen.
+Für Art 1 zählen **beide** gegen $K_1$:
 
-## Zusammen: beide nutzen dieselbe Ressource
+$$N_1 + \alpha_{12} N_2$$
 
-![](../../pics/comics/comic_alpha_mech.svg){fig-alt="Alpha übersetzt Art 2 in effektiven Ressourcenverbrauch aus Sicht von Art 1" width="62%"}
+Ein Individuum von Art 2 zählt wie $\alpha_{12}$ Individuen von Art 1.
 
-Für Art 1 zählen **beide Arten** gegen $K_1$:
+**Massstab = 1:** so stark wie **Selbstkonkurrenz**.
 
-$$N_1+\alpha_{12}N_2$$
+## Modell: dieselbe Logik wie Woche 2
 
-## $\alpha_{12}$ rechnet Ressourcenverbrauch um
+Dieselbe Idee wie Woche 2 — heute drehen wir nur $(\alpha_{12},\alpha_{21})$.
 
-Ein Individuum von Art 2 beansprucht $\alpha_{12}$ **Art-1-Plätze**.
-
-| Wert | aus Sicht von Art 1 |
-|------|---------------------|
-| $\alpha_{12}=0$ | Art 2 nutzt keine relevante Ressource |
-| $\alpha_{12}=1$ | Art 2 zählt wie 1 Art 1 |
-| $\alpha_{12}=1.5$ | Art 2 zählt wie 1.5 Art 1 |
-
-Umgekehrt: $\alpha_{21}$ = **Art-2-Plätze** pro Individuum von Art 1.
-
-## Modell: Konkurrenz
-
-::: {style="font-size: 0.52em;"}
+::: {style="font-size: 0.55em;"}
 $$
 \begin{aligned}
 N_{1,t+1}
@@ -181,16 +159,11 @@ N_{2,t+1}
 $$
 :::
 
-**Zuwachs = Nachwuchs − Gedränge − Konkurrenz**
-
-- Exclusion: $(\alpha_{12},\alpha_{21})=(1.4,0.5)$
-- Bistabilität: $(\alpha_{12},\alpha_{21})=(1.5,1.5)$
+**Zuwachs = Wachstum − Gedränge − Konkurrenz** · drei Muster relativ zu $1$.
 
 ::: aside
-Unterrichtswerte, keine Schätzungen aus den Gause-Daten.
+Kurswerte zur Illustration — keine Schätzungen aus den Gause-Daten.
 :::
-
-## Zwei Starts — derselbe Endpunkt [SIM]
 
 ```{r}
 #| include: false
@@ -211,10 +184,33 @@ sim_comp <- function(N10, N20, a12, a21, T = 800) {
 }
 ```
 
+## Drei Muster relativ zu $1$
+
+| Muster | Beispiel | Intuition |
+|--------|----------|-----------|
+| $\alpha_{12}>1>\alpha_{21}$ | $(1.4,\ 0.5)$ | eine Art hemmt die andere **stark**, umgekehrt **schwach** |
+| $\alpha_{12}<1$, $\alpha_{21}<1$ | $(0.5,\ 0.5)$ | jede hemmt die andere **schwächer** als sich selbst |
+| $\alpha_{12}>1$, $\alpha_{21}>1$ | $(1.5,\ 1.5)$ | gegenseitig **zu stark** — wer zuerst häufig ist, gewinnt |
+
+Gleichungen gleich — nur die $\alpha$ ändern den Charakter.  
+**Was Mathematik kauft:** Vorhersage, *welches* Muster — ohne jedes Paar neu zu messen.
+
+## Fall A · $\alpha_{12}>1>\alpha_{21}$ — Ausschluss
+
+**Intuition:** Art 2 ist für Art 1 «zu teuer» ($\alpha_{12}>1$),  
+Art 1 ist für Art 2 «billig» ($\alpha_{21}<1$).
+
+→ Art 2 unterdrückt Art 1 stärker als sich selbst; Art 1 unterdrückt Art 2 kaum.  
+Langfristig gewinnt **Art 2** — unabhängig vom positiven Start.
+
+Unterrichtsbeispiel: $(\alpha_{12},\alpha_{21})=(1.4,\ 0.5)$.
+
+## Fall A · Simulation
+
 ```{r}
-#| fig-height: 3.8
+#| fig-height: 3.6
 #| fig-width: 9
-#| out-width: 62%
+#| out-width: 72%
 A <- sim_comp(80, 10, 1.4, 0.5)
 B <- sim_comp(10, 80, 1.4, 0.5)
 par(mfrow = c(1, 2), mar = c(4, 4.2, 2.5, 1))
@@ -228,38 +224,79 @@ legend("right", c("N1", "N2"), col = c("#2980b9", "#27ae60"),
        lty = 1, lwd = 2.5, bty = "n")
 ```
 
-**Beide positiven Starts →** $N_1\to0$, $N_2\to K$.
+> Ändert der Start den Gewinner?
 
-## Warum nennen wir diesen Endpunkt stabil?
+Beide Starts → **derselbe** Endpunkt: $N_1\to 0$, $N_2\to K$.  
+**Ein** Gleichgewicht · **ein** Einzugsgebiet · *Paramecium*-Muster.
 
-1. Wir starten an verschiedenen positiven Punkten.
-2. Alle Trajektorien nähern sich demselben Gleichgewicht.
-3. Eine kleine Störung ändert den langfristigen Endpunkt nicht.
+## Fall B · beide $\alpha<1$ — Koexistenz
 
-**Ein Gleichgewicht · ein Einzugsgebiet.**
+**Intuition:** Fremdkonkurrenz schwächer als Selbstkonkurrenz.
+
+Jede Art «stört» die andere weniger als das eigene Gedränge.  
+Dann bleibt Platz für **beide** — ein gemeinsames Innen-Gleichgewicht.
+
+Unterrichtsbeispiel: $(\alpha_{12},\alpha_{21})=(0.5,\ 0.5)$.
+
+## Fall B · Simulation
+
+```{r}
+#| fig-height: 3.6
+#| fig-width: 9
+#| out-width: 72%
+C <- sim_comp(80, 10, 0.5, 0.5)
+D <- sim_comp(10, 80, 0.5, 0.5)
+par(mfrow = c(1, 2), mar = c(4, 4.2, 2.5, 1))
+matplot(C$time, cbind(C$N1, C$N2), type = "l", lty = 1, lwd = 2.5,
+        col = c("#2980b9", "#27ae60"), ylim = c(0, 110),
+        xlab = "Zeit", ylab = "N", main = "Start: viel N1")
+matplot(D$time, cbind(D$N1, D$N2), type = "l", lty = 1, lwd = 2.5,
+        col = c("#2980b9", "#27ae60"), ylim = c(0, 110),
+        xlab = "Zeit", ylab = "N", main = "Start: viel N2")
+legend("right", c("N1", "N2"), col = c("#2980b9", "#27ae60"),
+       lty = 1, lwd = 2.5, bty = "n")
+```
+
+> Bleiben beide positiv — und ist der Endpunkt derselbe?
+
+Beide Starts → **dieselbe** Koexistenz (beide $N_i>0$).  
+Wieder **ein** Endpunkt — diesmal im Inneren, nicht am Rand.
+
+## Fall C · beide $\alpha>1$ — Vorschau
+
+**Intuition:** jede Art ist für die andere «zu teuer».
+
+Wer zuerst häufig ist, erzeugt den stärkeren Druck und zieht den Zustand zu **sich**.  
+Dann gibt es **zwei** mögliche Gewinner — der Start entscheidet.
+
+Unterrichtsbeispiel: $(\alpha_{12},\alpha_{21})=(1.5,\ 1.5)$ → nächster Block.
+
+# 2 · Zwei Endpunkte
 
 ## Beobachtung: Grasland oder Wald
 
-![](../../pics/comics/comic_grass_forest.svg){fig-alt="Schematische Gegenüberstellung von Grasland und Wald" width="58%"}
+![](../../pics/comics/comic_grass_forest.svg){fig-alt="Schematische Gegenueberstellung von Grasland und Wald" width="56%"}
 
-Bei ähnlichem Niederschlag: **wenig** oder **viel** Baumbedeckung (Staver et al. 2011; kein experimenteller Beweis).
+Bei ähnlichem Niederschlag: **wenig** oder **viel** Baumbedeckung (Staver et al. 2011).
 
-> Kann dieselbe Umwelt zwei stabile Zustände haben?
+> Fall C biologisch: Kann dieselbe Umwelt **zwei** stabile Zustände haben?
 
-## 2 · Zwei Endpunkte: kleine Änderung, grosse Wirkung
+## Modellhypothese: starke gegenseitige Hemmung
 
-![](../../pics/comics/comic_bistability.svg){fig-alt="Bei starker gegenseitiger Konkurrenz gewinnt die anfangs häufigere Art" width="62%"}
+![](../../pics/comics/comic_bistability.svg){fig-alt="Bei starker gegenseitiger Konkurrenz gewinnt die anfangs haeufigere Art" width="58%"}
 
-**Modellhypothese:** Gras und Wald hemmen einander stark: $\alpha_{12}=\alpha_{21}=1.5$.
+$\alpha_{12}=\alpha_{21}=1.5$: jede Art beansprucht aus Sicht der anderen **mehr als eine Einheit** der Tragfähigkeit.
 
-Beide Arten verbrauchen aus Sicht der jeweils anderen mehr als einen „Platz“. Die anfangs häufigere Art erzeugt dadurch zuerst starken Konkurrenzdruck.
+Die anfangs häufigere Art erzeugt zuerst den stärkeren Druck — und zieht den Zustand in ihr Einzugsgebiet.
 
-## Zwei Starts — zwei Endpunkte [SIM]
+Gleiche Umwelt, zwei Endpunkte — das Modell sagt: **Start = Einzugsgebiet**.
+
+## Zwei Starts — zwei Endpunkte
 
 ```{r}
 #| fig-height: 3.8
 #| fig-width: 9
-#| out-width: 62%
+#| out-width: 70%
 G <- sim_comp(80, 15, 1.5, 1.5)
 W <- sim_comp(15, 80, 1.5, 1.5)
 par(mfrow = c(1, 2), mar = c(4, 4.2, 2.5, 1))
@@ -273,9 +310,11 @@ legend("right", c("Gras", "Wald"), col = c("#d68910", "#1e8449"),
        lty = 1, lwd = 2.5, bty = "n")
 ```
 
-**Bistabilität:** Der Start wählt das Gleichgewicht.
+> Wählt der Start das Gleichgewicht?
 
-## Zwei Einzugsgebiete
+**Bistabilität:** Derselbe Parameterraum — der **Start** wählt das Gleichgewicht.
+
+## Zwei Einzugsgebiete im Phasenraum
 
 ```{r}
 #| fig-height: 4.2
@@ -283,7 +322,7 @@ legend("right", c("Gras", "Wald"), col = c("#d68910", "#1e8449"),
 #| out-width: 68%
 plot(NA, xlim = c(0, 105), ylim = c(0, 105),
      xlab = "Art 1 / Gras", ylab = "Art 2 / Wald",
-     main = "Bistabilitaet im Phasenraum (schematisch)")
+     main = "Bistabilität (schematisch)")
 abline(a = 0, b = 1, lty = 2, lwd = 2, col = "#7f8c8d")
 points(c(100, 0), c(0, 100), pch = 16, cex = 1.8,
        col = c("#d68910", "#1e8449"))
@@ -292,338 +331,365 @@ arrows(70, 20, 96, 3, length = 0.1, lwd = 2, col = "#d68910")
 arrows(20, 70, 3, 96, length = 0.1, lwd = 2, col = "#1e8449")
 text(72, 9, "Gras gewinnt", col = "#d68910")
 text(10, 75, "Wald gewinnt", col = "#1e8449", srt = 90)
-text(47, 43, "instabiler Sattelpunkt", col = "#8e44ad", pos = 4)
+text(47, 43, "Grenze", col = "#8e44ad", pos = 4)
 ```
 
-**Beckengrenze:** Kleine Störung bleibt im Becken. Wechsel nur nach Überschreiten.
+Kleine Störung: bleibt im Einzugsgebiet. Wechsel: nur nach **Überschreiten** der Grenze.
 
-## Ein oder zwei Endpunkte?
+## Ein, zwei — oder Koexistenz?
 
-| | Ein stabiler Endpunkt | Bistabilität |
-|--|-----------------------|--------------|
-| Gleichgewichte | 1 | 2 |
-| Rolle des Starts | langfristig unwichtig | entscheidet das Becken |
-| kleine Störung | Rückkehr | Rückkehr im selben Becken |
-| grosse Störung | gleicher Endpunkt | Wechsel möglich, wenn Grenze überschritten |
+| | Ausschluss | Koexistenz | Bistabilität |
+|--|------------|------------|--------------|
+| $\alpha$-Muster | asymmetrisch $>1$ / $<1$ | beide $<1$ | beide $>1$ |
+| stabile Gleichgewichte | 1 (Rand) | 1 (innen) | 2 (Ränder) |
+| Rolle des Starts | langfristig egal | langfristig egal | entscheidet das Einzugsgebiet |
+| kleine Störung | Rückkehr | Rückkehr | Rückkehr im selben Einzugsgebiet |
+| grosse Störung | gleicher Endpunkt | gleicher Endpunkt | Wechsel möglich |
 
-## 3 · Food Web: Wolf und Yellowstone
+**Gleiche Modellform — andere $\alpha$ — andere Dynamik.**
+
+# 3 · Das System ändert den Endzustand
+
+## Keystone: eine Art hält den Zustand
+
+Bisher: Endzustand hängt von **Parametern** ($\alpha$) oder vom **Start** ab.
+
+Jetzt: eine Art kann den Endzustand über **Wirkungsketten** umschalten —  
+obwohl sie oft nur einen kleinen Teil der Biomasse ausmacht (**Keystone**).
+
+## Felsküste: Konkurrenz um Raum
 
 ::::: columns
 ::: {.column width="48%"}
-![](../../pics/yellowstone/wolf_yellowstone.jpg){fig-alt="Wolf im Yellowstone" width="94%"}
+![](../../pics/keystone/california_mussels.jpg){fig-alt="Miesmuscheln an der Felskueste" width="92%"}
 :::
 ::: {.column width="52%"}
-![](../../pics/yellowstone/elk_rmnp.jpg){fig-alt="Elch" width="94%"}
+An der Nordpazifik-Felsküste ist **Raum** die knappe Ressource.
+
+*Mytilus* (Miesmuschel) ist ein starker Konkurrent:  
+ohne Kontrolle überwächst sie Algen und andere Sessile.
 :::
 :::::
 
-**Hypothese:** Wolf ↓ → Elch ↑ → Beweidungsdruck auf Aspen ↑.
+## Paines Experiment (1966)
 
-Nach der Wolfsrückkehr können sich bevorzugte Gehölze lokal erholen. Reale Effekte sind räumlich und zeitlich variabel; unser Modell isoliert den Mechanismus.
-
-## Kaskade und Keystone
-
-![](../../pics/comics/comic_yellowstone_cascade.svg){fig-alt="Vereinfachte Yellowstone-Kaskade" width="88%"}
-
-- **Trophische Kaskade:** Wirkungskette über mehrere Nahrungsebenen.
-- **Keystone-Spezies:** überproportionaler Einfluss auf Struktur oder Vielfalt der Gemeinschaft.
-
-Die Begriffe beschreiben **Mechanismen**, keine eigene mathematische Stabilitätsform.
-
-## Vier-Knoten-Modell
-
-![](../../pics/foodweb/foodweb_aspen_elk_wolf.svg){fig-alt="Aspen Sage Elch Wolf" width="72%"}
-
-1. Aspen und Sage können koexistieren.
-2. Elch bevorzugt Aspen → Aspen geht gegen null.
-3. Wolf senkt Elch → Aspen bleibt positiv; Elch bleibt ebenfalls positiv.
-
-::: aside
-Aspen-Verlust entsteht hier top-down durch Beweidung, nicht durch Konkurrenz mit Sage.
+::::: columns
+::: {.column width="40%"}
+![](../../pics/keystone/pisaster_ochraceus.jpg){fig-alt="Pisaster ochraceus" width="92%"}
 :::
+::: {.column width="60%"}
+Paine entfernte den Seestern *Pisaster* von Versuchsflächen.
 
-## Vom Pfeil zum Term
-
-::: {style="font-size: 0.72em;"}
-| Ereignis | Term |
-|----------|------|
-| Aspen wächst | $+r_AA$ |
-| Pflanzen konkurrieren | $-A(A+\alpha_{AS}S)/K$ |
-| Elch frisst Aspen | $-a_{EA}AE$ |
-| Elch nutzt Nahrung | $+e_Ea_{EA}AE$ |
-| Wolf frisst Elch | $-a_{WE}EW$ |
-| Mortalität | $-m_EE$, $-m_WW$ |
+**Frage:** Ändert sich die Gemeinschaft — oder bleibt sie gleich?
 :::
+:::::
 
-**$AE$, $EW$: Beide Partner sind nötig.**
+## Mit und ohne *Pisaster*
 
-## Was bewirken die Parameter?
+![](../../pics/keystone/schematic_paine_pisaster.svg){fig-alt="Mit Pisaster geteilter Raum; ohne dominieren Miesmuscheln" width="88%"}
 
-::: {style="font-size: 0.74em;"}
-| Parameter ↑ | direkte Wirkung |
-|-------------|-----------------|
-| $r_A,r_S$ | Pflanzen wachsen schneller |
-| $\alpha_{AS},\alpha_{SA}$ | Pflanzen konkurrieren stärker |
-| $a_{EA},a_{ES}$ | mehr Verbiss: Pflanze $-$, Elch $+$ |
-| $e_E,e_W$ | mehr Konsument aus derselben Nahrung |
-| $m_E,m_W$ | jeweilige Tierart $-$ |
-| $a_{WE}$ | mehr Prädation: Elch $-$, Wolf $+$ |
-:::
+| | mit *Pisaster* | ohne *Pisaster* |
+|--|----------------|-----------------|
+| Miesmuscheln | begrenzt (gefressen) | dominieren den Raum |
+| andere Sessile | Platz bleibt | oft verdrängt |
+| Vielfalt | höher | sinkt |
 
-**Wichtig:** Ein Parameter wirkt oft in zwei Gleichungen mit entgegengesetztem Vorzeichen.
+## Mini-Modell: Raum + Präferenzfrass
 
-## Vollständiges Kursmodell
+Zwei Sessile teilen sich Raum $K$; der Seestern frisst **nur** die starke Konkurrentin $M$:
 
-::: {style="font-size: 0.50em;"}
 $$
 \begin{aligned}
-A^{+}&=A+r_AA\left(1-\frac{A+\alpha_{AS}S}{K}\right)-a_{EA}AE\\
-S^{+}&=S+r_SS\left(1-\frac{S+\alpha_{SA}A}{K}\right)-a_{ES}SE\\
-E^{+}&=E+e_E(a_{EA}A+a_{ES}S)E-m_EE-a_{WE}EW\\
-W^{+}&=W+e_Wa_{WE}EW-m_WW
+M_{t+1}
+  &= M_t + r_M M_t\Bigl(1-\frac{M_t+\alpha_{OM}O_t}{K}\Bigr)
+     - a\,P\,M_t\\
+O_{t+1}
+  &= O_t + r_O O_t\Bigl(1-\frac{O_t+\alpha_{MO}M_t}{K}\Bigr)
 \end{aligned}
 $$
-:::
 
-- $a_{EA}>a_{ES}$: Elch bevorzugt Aspen.
-- Dasselbe Fressen: Pflanze $-$ · Elch $+$.
+| Symbol | Rolle |
+|--------|--------|
+| $M$ | Miesmuschel (stark) |
+| $O$ | andere Sessile (schwächer) |
+| $P$ | Seestern-Dichte (hier konstant) |
+| $\alpha_{MO}>1$ | $M$ verdrängt $O$ um Raum |
+| $a\,P\,M$ | Präferenzfrass auf $M$ |
 
-## Pflanzen → Elch → Wolf [SIM]
+Kurswerte — qualitativ nach Paine, keine Feldschätzung.
+
+## Ohne / mit Seestern
 
 ```{r}
 #| include: false
-next_web <- function(x, p) {
-  A <- x["Aspen"]; S <- x["Sage"]; E <- x["Elch"]; W <- x["Wolf"]
-  dA <- p$rA * A * (1 - (A + p$aAS * S) / p$K) - p$aEA * A * E
-  dS <- p$rS * S * (1 - (S + p$aSA * A) / p$K) - p$aES * S * E
-  dE <- p$eE * (p$aEA * A + p$aES * S) * E - p$mE * E - p$aWE * E * W
-  dW <- p$eW * p$aWE * E * W - p$mW * W
-  c(Aspen = max(A + dA, 0), Sage = max(S + dS, 0),
-    Elch = max(E + dE, 0), Wolf = max(W + dW, 0))
+next_space <- function(M, O, P = 0,
+                       rM = 0.08, rO = 0.06, K = 100,
+                       aOM = 0.45, aMO = 1.55, a = 0.0045) {
+  dM <- rM * M * (1 - (M + aOM * O) / K) - a * P * M
+  dO <- rO * O * (1 - (O + aMO * M) / K)
+  c(M = max(M + dM, 0), O = max(O + dO, 0))
 }
-web_p <- list(rA = 0.024, rS = 0.020, K = 100,
-              aAS = 0.55, aSA = 0.70, aEA = 0.0007, aES = 0.0004,
-              eE = 0.45, mE = 0.002, aWE = 0.0008, eW = 0.40, mW = 0.006)
-sim_web <- function(Wolf0 = 0, T = 6000, p = web_p) {
-  X <- matrix(0, T + 1, 4,
-              dimnames = list(NULL, c("Aspen", "Sage", "Elch", "Wolf")))
-  X[1, ] <- c(Aspen = 40, Sage = 50, Elch = 25, Wolf = Wolf0)
-  for (t in 1:T) X[t + 1, ] <- next_web(X[t, ], p)
-  data.frame(time = 0:T, X)
+sim_space <- function(P, T = 600, M0 = 35, O0 = 35) {
+  M <- numeric(T + 1); O <- numeric(T + 1)
+  M[1] <- M0; O[1] <- O0
+  for (t in 1:T) {
+    out <- next_space(M[t], O[t], P = P)
+    M[t + 1] <- out["M"]; O[t + 1] <- out["O"]
+  }
+  data.frame(time = 0:T, M = M, O = O)
 }
 ```
 
 ```{r}
-#| fig-height: 3.8
+#| fig-height: 3.6
 #| fig-width: 9
-#| out-width: 62%
-plants <- sim_comp(40, 50, 0.55, 0.7)
-noW <- sim_web(0)
-withW <- sim_web(2)
-cols <- c(Aspen = "#27ae60", Sage = "#1abc9c",
-          Elch = "#d68910", Wolf = "#2c3e50")
-par(mfrow = c(1, 3), mar = c(4, 3.5, 2.5, 1))
-matplot(plants$time, cbind(plants$N1, plants$N2), type = "l",
-        lty = 1, lwd = 2, col = cols[1:2], ylim = c(0, 100),
-        xlab = "Zeit", ylab = "Dichte", main = "Nur Pflanzen")
-matplot(noW$time, noW[, names(cols)], type = "l", lty = 1, lwd = 2,
-        col = cols, xlab = "Zeit", ylab = "Dichte", main = "+ Elch")
-matplot(withW$time, withW[, names(cols)], type = "l", lty = 1, lwd = 2,
-        col = cols, xlab = "Zeit", ylab = "Dichte", main = "+ Wolf")
-legend("topright", names(cols), col = cols, lty = 1, lwd = 2,
-       bty = "n", cex = 0.65)
+#| out-width: 72%
+noP <- sim_space(0)
+withP <- sim_space(8)
+par(mfrow = c(1, 2), mar = c(4, 4.2, 2.5, 1))
+matplot(noP$time, cbind(noP$M, noP$O), type = "l", lty = 1, lwd = 2.5,
+        col = c("#f5b041", "#1abc9c"), ylim = c(0, 105),
+        xlab = "Zeit", ylab = "Bedeckung", main = "ohne Pisaster (P = 0)")
+matplot(withP$time, cbind(withP$M, withP$O), type = "l", lty = 1, lwd = 2.5,
+        col = c("#f5b041", "#1abc9c"), ylim = c(0, 105),
+        xlab = "Zeit", ylab = "Bedeckung", main = "mit Pisaster (P = 8)")
+legend("right", c("Miesmuschel M", "andere O"),
+       col = c("#f5b041", "#1abc9c"), lty = 1, lwd = 2.5, bty = "n", cex = 0.8)
 ```
 
-## Mechanismus
+> Was ändert $P$ am Endzustand?
 
-Wolf senkt Elch → Beweidungsdruck auf Aspen sinkt → Aspen **bleibt positiv**.
+Ohne Seestern: **Ausschluss** ($O\to 0$).  
+Mit Seestern: $M$ bleibt begrenzt → $O$ **persistiert** (Koexistenz).
 
-| langfristiger Mittelwert | Aspen | Elch |
-|--------------------------|------:|----:|
-| ohne Wolf | ≈ 0 | ≈ 44 |
-| mit Wolf | ≈ 18 | ≈ 19 |
+## Was das Mini-Modell zeigt
 
-Das Modell zeigt nicht allgemeine „Netzwerkstabilität“, sondern konkret: **Wolf verhindert hier den Verlust von Aspen.**
+Der Seestern muss **nicht** die häufigste Art sein.
 
-## Empirie 1: *Pisaster* als Keystone
+Er hält den Zustand «offen», weil er den **stärksten Konkurrenten** drosselt —  
+genau die Keystone-Idee von Paine (1966).
+
+**Parameter $P$ schaltet den Endzustand — nicht nur der Start.**
+
+::: aside
+Notebook: dieselbe Idee am Yellowstone-Food-Web (Aspen–Elch–Wolf) selbst rechnen.
+:::
+
+# 4 · Kipppunkte & Food-Web-Schätzungen
+
+## Die Grundidee
+
+Eine Umweltänderung verändert das System zunächst nur wenig.
+
+Wird eine **Schwelle** überschritten, wechselt der Zustand abrupt:
+
+**Umwelt** → **Schwelle** → **System kippt**
+
+Danach reicht oft **nicht**, die Umwelt einfach zurückzudrehen (**Hysterese**).
+
+## Mini-Beispiel: Fichtenwickler
+
+Klassiker für Hysterese (Ludwig, Jones & Holling 1978):
+
+- *Choristoneura* (Fichtenwickler) wächst logistisch  
+- Vögel fressen mit Sättigung  
+- Parameter $R$ wächst langsam mit dem Wald (mehr Blattfläche)
+
+Bei kleinem $R$: niedrige Dichte bleibt stabil.  
+$R$ steigt weiter → plötzliches **Massenauftreten**.  
+$R$ wieder senken → Rücksprung erst bei **deutlich kleinerem** $R$.
+
+## Eine Gleichung, ein Umweltknopf $R$
+
+$$
+\frac{du}{d\tau}
+  = u\left(
+      R\Bigl(1-\frac{u}{Q}\Bigr)
+      - \frac{u}{1+u^2}
+    \right)
+\qquad (Q=20\ \text{fest})
+$$
+
+$u$ = Wicklerdichte · $R$ = langsamer Umweltknopf · $\frac{u}{1+u^2}$ = sättigende Prädation.
+
+Im Fenster dazwischen: **zwei** stabile Zustände (niedrig / hoch).
+
+## Hysterese-Schleife
+
+```{r}
+#| fig-height: 3.7
+#| fig-width: 9.2
+#| out-width: 78%
+f_bud <- function(u, R, Q = 20) {
+  R * (1 - u / Q) - u / (1 + u^2)
+}
+relax <- function(u0, R, Q = 20, steps = 600, dt = 0.04) {
+  u <- u0
+  for (k in 1:steps) u <- max(u + dt * u * f_bud(u, R, Q), 1e-12)
+  u
+}
+Rgrid <- seq(0.12, 0.65, length.out = 140)
+low <- vapply(Rgrid, function(R) relax(0.2, R), numeric(1))
+high <- vapply(Rgrid, function(R) relax(18, R), numeric(1))
+mid <- rep(NA_real_, length(Rgrid))
+for (i in seq_along(Rgrid)) {
+  if (high[i] - low[i] < 1) next
+  a <- low[i] + 0.05; b <- high[i] - 0.05
+  fa <- f_bud(a, Rgrid[i]); fb <- f_bud(b, Rgrid[i])
+  if (fa * fb > 0) next
+  for (k in 1:40) {
+    m <- 0.5 * (a + b)
+    if (f_bud(a, Rgrid[i]) * f_bud(m, Rgrid[i]) <= 0) b <- m else a <- m
+  }
+  mid[i] <- 0.5 * (a + b)
+}
+track <- function(Rseq, u0, Q = 20) {
+  u <- u0
+  out <- numeric(length(Rseq))
+  for (i in seq_along(Rseq)) {
+    for (k in 1:350) u <- max(u + 0.03 * u * f_bud(u, Rseq[i], Q), 1e-12)
+    out[i] <- u
+  }
+  out
+}
+R_up <- seq(0.12, 0.65, length.out = 140)
+R_dn <- rev(R_up)
+u_up <- track(R_up, 0.25)
+u_dn <- track(R_dn, tail(u_up, 1))
+
+par(mfrow = c(1, 2), mar = c(4, 4.2, 2.5, 1))
+plot(Rgrid, low, type = "l", lwd = 2.5, col = "#27ae60",
+     ylim = c(0, 20), xlab = "R (Umwelt)", ylab = "u (Wickler)",
+     main = "Gleichgewichte")
+lines(Rgrid, high, lwd = 2.5, col = "#c0392b")
+lines(Rgrid, mid, lwd = 2, lty = 2, col = "#7f8c8d")
+legend("topleft", c("niedrig (stabil)", "hoch (stabil)", "Mitte (instabil)"),
+       col = c("#27ae60", "#c0392b", "#7f8c8d"),
+       lty = c(1, 1, 2), lwd = 2, bty = "n", cex = 0.7)
+
+plot(R_up, u_up, type = "l", lwd = 2.5, col = "#2980b9",
+     ylim = c(0, 20), xlab = "R (Umwelt)", ylab = "u (Wickler)",
+     main = "langsame Rampe")
+lines(R_dn, u_dn, lwd = 2.5, col = "#d68910")
+legend("topleft", c("R steigt", "R sinkt"),
+       col = c("#2980b9", "#d68910"), lty = 1, lwd = 2.5, bty = "n", cex = 0.75)
+```
+
+> Warum ist der Rückweg ≠ Hinweg?
+
+Links: zwei stabile Äste. Rechts: Vorwärts und Rückweg **nicht** gleich — das **ist** Hysterese.
+
+## Merksatz Hysterese
+
+Gleicher Parameter $R$ kann zwei Zustände tragen.
+
+Ob das System unten oder oben sitzt, hängt vom **Pfad** ab — nicht nur vom aktuellen $R$.
+
+> Zurückdrehen der Umwelt bis «vorher» reicht oft nicht.  
+> Man muss unter die **andere** Schwelle.
+
+Das ist die Mathematik hinter «halten ≠ wiederherstellen» bei Otter/Kelp.
+
+## Seeotter, Seeigel, Kelp
+
+![](../../pics/keystone/guardians_of_the_kelp.png){fig-alt="Mit Seeottern bleibt der Kelpwald; ohne nehmen Seeigel zu" width="58%"}
+
+**Kernkette:** Otter −→ Seeigel −→ Kelp  
+
+Zwei Minus → **positiver indirekter** Effekt auf Kelp.  
+Dieselbe Hysterese-Idee — jetzt in einem realen Küstennetz.
+
+## Was 2014 auslöste (Monterey)
+
+::: {style="text-align: center;"}
+![](../../pics/keystone/figure10_otter_urchin_kelp.jpg){fig-alt="Zeitreihen Otter Kelp Igel Pycnopodia und Mechanismus-Skizze" width="62%"}
+
+<span style="font-size: 0.40em;">Smith et al. (2021), Fig. 10 · Jessica Kendall-Bar · Planet-Vie/PNAS · Lehre / nicht-kommerziell</span>
+:::
+
+Ab ~2014: *Pycnopodia* (Sonnenblumenstern) bricht ein → Igel werden freigelegt/aktiv → Kelp bricht ein → **Mosaik** aus Restwald und Barren.  
+Otter nehmen zu — aber das reicht nicht automatisch, den Wald zurückzuholen.
+
+## Dichte ≠ Profitabilität
+
+Smith et al. (2021): Otter wählen Futterflecken **nicht** nach Igel-Dichte allein.
+
+Massstab ist der **Gonadenindex** (Energiegehalt der Beute):
+
+- Igel im **Kelpwald**: gut genährt → lohnende Beute  
+- Igel im **Barren**: ausgehungert → wenig Gonaden → Otter meiden
+
+Geschätzte Schwelle für Fleckenwahl: Gonadenindex $\approx 12\,\%/\mathrm{m}^2$.
+
+> Top-down greift, wo die Beute **profitabel** ist — nicht überall, wo sie zahlreich ist.
+
+## Zwei Zustände nebeneinander
 
 ::::: columns
 ::: {.column width="48%"}
-![](../../pics/keystone/pisaster_ochraceus.jpg){fig-alt="Pisaster" width="92%"}
+![](../../pics/keystone/kelp_forest.jpg){fig-alt="Kelpwald" width="92%"}
+
+**Kelpwald** — Igel fit → Otter fressen → Wald hält
 :::
 ::: {.column width="52%"}
-![](../../pics/keystone/schematic_paine_pisaster.svg){fig-alt="Paine Keystone Skizze" width="96%"}
+![](../../pics/keystone/purple_urchin.jpg){fig-alt="Seeigel" width="78%"}
+
+**Barren** — Igel mager → Otter weichen aus → keine Erholung
 :::
 :::::
 
-Paine (1966): *Pisaster* entfernen → Miesmuscheln dominieren den Raum → Vielfalt sinkt.
+> Warum reichen mehr Otter im Barren oft nicht?
 
-**Definitorisches Keystone-Beispiel:** relativ selten, aber überproportionaler Effekt auf Gemeinschaftsstruktur.
+Dieselbe Otterdichte: **halten** ja, **wiederherstellen** oft nein — Hysterese.
 
-## Kipppunkte — die Grundidee
+## Skizze: halten vs. Barren
 
-::: {style="font-size: 0.72em;"}
-Eine **Umweltveränderung** kann ein System zunächst nur wenig verändern.
+![](../../pics/keystone/schematic_otter_urchin_kelp.svg){fig-alt="Otter halten Kelp-Restbestand; im Barren greift die Kaskade nicht" width="84%"}
 
-Wird eine **Schwelle** überschritten, wechselt es abrupt in einen anderen Zustand:
+Verhalten + Profitabilität entscheiden, **wo** die Kaskade greift.
 
-**Umwelt ändert sich** → **Schwelle** → **System kippt**
+## Interaktionsstärken schätzen
 
-Danach genügt es oft **nicht**, die Umweltveränderung einfach rückgängig zu machen. Die Rückkehr kann zusätzliche Massnahmen erfordern.
-:::
+![](../../pics/keystone/langendorf_2025_fig3.jpg){fig-alt="Geschaetzte Interaktionsstaerken Otter-Igel und Igel-Kelp ueber Zeit" width="78%"}
 
-## Beispiele für ökologische Kipppunkte
+<span style="font-size: 0.42em;">Langendorf et al. (2025), Fig. 3 · CC BY-NC-ND 4.0</span>
 
-::: {style="font-size: 0.72em;"}
-| Umweltveränderung | möglicher Zustandswechsel |
-|---|---|
-| mehr Nährstoffe | klarer See → trüber, algenreicher See |
-| Dürre und Beweidung | Grasland → vegetationsarmer Zustand |
-| Erwärmung und Korallensterben | Korallenriff → algendominiertes Riff |
+Aus Langzeitdaten: Pfeile als **Interaktionsstärken** schätzen (nicht nur zeichnen).
 
-**Gemeinsame Idee:** Kleine weitere Änderungen können nahe der Schwelle grosse Folgen haben — und die Erholung ist nicht automatisch der umgekehrte Weg.
-:::
+- Stärken schwanken mit dem Zustand  
+- **WVI:** klassische Kaskade · **SNI:** Kaskade gedämpft  
 
-## Seeotter als Wächter des Kelpwaldes
+**Keystone ist messbar und kontextabhängig** — deshalb Statistik und Programmieren.
 
-![](../../pics/keystone/guardians_of_the_kelp.png){fig-alt="Mit Seeottern bleibt der Kelpwald erhalten; ohne Seeotter nehmen Seeigel zu und überweiden den Kelp" width="66%"}
-
-**Hypothese:** Viele Seeotter halten den Seeigeldruck niedrig und stabilisieren dadurch einen **bestehenden** Kelpwald.
-
-## Trophische Kaskade: Seeotter → Seeigel → Kelp
-
-::: {style="font-size: 0.78em;"}
-1. **Mehr Seeotter** → mehr Seeigel werden gefressen.
-2. **Weniger Seeigel** → weniger Kelp wird abgeweidet.
-3. **Mehr Kelp** → der Kelpwald kann sich erholen.
-
-**Indirekter Effekt:**
-
-**Seeotter** ─(−)→ **Seeigel** ─(−)→ **Kelp**
-
-Zwei negative Effekte ergeben einen **positiven indirekten Effekt** auf Kelp.
-
-> **Ohne Seeotter:** Seeigel ↑ → Kelp ↓ → Seeigel-Barren.
-:::
-
-## Aber: Erhalten ist leichter als Wiederherstellen
-
-::: {style="text-align: center;"}
-![](../../pics/keystone/figure10_otter_urchin_kelp.jpg){fig-alt="Seeotter, Seeigel und Kelp bilden eine trophische Kaskade; Kelpwald und Seeigel-Barren reagieren unterschiedlich" width="52%"}
-
-<span style="font-size: 0.40em;">Smith et al. (2021), Fig. 10 · Grafik: Jessica Kendall-Bar · Planet-Vie/PNAS<br>Reproduktion für Lehre und nicht-kommerzielle Nutzung erlaubt.</span>
-:::
-
-- **Kelpwald:** Gut ernährte Seeigel sind lohnende Beute; Otter begrenzen den Frassdruck.
-- **Seeigel-Barren:** Ausgehungerte Seeigel sind wenig lohnende Beute; Otter weichen eher auf andere Beute aus.
-- **Folge:** Die verbleibenden Seeigel verhindern die Erholung — mehr Otter allein reichen nicht unbedingt.
-
-> Dieselbe Otterdichte kann einen Kelpwald erhalten, aber einen Barren nicht automatisch zurückverwandeln.
-
-## Das ganze Food Web
-
-::: {style="text-align: center;"}
-![](../../pics/keystone/langendorf_2025_fig1.jpg){fig-alt="Food-Web-Modell zweier Kelpregionen mit vielen gerichteten Interaktionen sowie Fotos von Kelpwald und Seeigel-Barren" width="74%"}
-
-<span style="font-size: 0.40em;">Langendorf et al. (2025), Fig. 1 · PNAS · CC BY-NC-ND 4.0<br>Seeotter–Seeigel–Kelp ist die Kaskade; die Linien sind weitere gerichtete Interaktionen.</span>
-:::
-
-## Dieselben Interaktionen, wechselnde Stärke
-
-::: {style="text-align: center;"}
-![](../../pics/keystone/langendorf_2025_fig3.jpg){fig-alt="Geschätzte zeitabhängige Stärken der Interaktionen Seeotter zu Seeigel und Seeigel zu Kelp in zwei Regionen" width="70%"}
-
-<span style="font-size: 0.40em;">Langendorf et al. (2025), Fig. 3 · PNAS · CC BY-NC-ND 4.0</span>
-:::
-
-Otter → Igel und Igel → Kelp sind **nicht konstant**. Stärke ändert sich mit Ort, Zeit und Zustand der Gemeinschaft.
-
-## Lachs: wann wechselt man das Habitat?
-
-Junge wachsen im **Aufwuchsgewässer**. Ab einer Körpergrösse wechseln sie
-ins **Adult-Habitat**. Diese Wechselgrösse kann sich vererben.
-
-- Später wechseln: man kommt grösser an, bleibt aber länger im Aufwuchs.
-- Früher wechseln: der Aufwuchs wird früher frei, man kommt kleiner an.
-
-Wird das Adult-Habitat etwas **sicherer** (weniger Sterblichkeit), lohnt
-sich ein etwas früherer Wechsel. Die Bestände ändern sich zuerst kaum —
-es ändert sich die **Selektion**.
-
-Chaparro-Pedraza & de Roos (2020)
-
-## Die Umwelt jetzt — der Absturz später
-
-:::: {.columns}
-::: {.column width="48%"}
-::: {style="text-align: center;"}
-![](../../pics/papers/chaparro-fig2.png){fig-alt="Fuenf Zeitreihen: Futter und Biomasse in Aufwuchs und Adult-Habitat, unten die evolvierende Wechselgroesse; Sterblichkeit sinkt bei Zeit 100, Zustand kippt um Zeit 300" width="92%"}
-
-<span style="font-size: 0.38em;">Chaparro-Pedraza & de Roos (2020), Fig. 2</span>
-:::
-:::
-::: {.column width="52%"}
-::: {style="font-size: 0.62em;"}
-**Unten:** Wechselgrösse — das **Merkmal**. Es wird kleiner:
-früher / kleiner ins Adult-Habitat.
-
-**Oben, von oben nach unten:**
-Futter Aufwuchs · Futter Adult · Biomasse Aufwuchs · Biomasse Adult.
-
-- **Schwarz:** Merkmal evolviert
-- **Grau:** Merkmal fest (Kontrolle)
-- **Gepunktet** $t=100$: Adult-Sterblichkeit sinkt
-- **Gestrichelt** $\approx 300$: Zustand kippt
-
-Erst das Merkmal läuft nach. Dann springen Futter und Biomasse
-in **beiden** Habitaten — ohne neue Umweltänderung.
-:::
-:::
-::::
-
-## Was das bedeutet
-
-Ökologie und Evolution agieren oft auf **ähnlichen Zeitskalen**, aber oft
-**verschoben**.
-
-::: {style="font-size: 0.92em;"}
-**Umweltänderung** → **Merkmal läuft nach** → **Zustand kippt später**
-:::
-
-Nicht: Evolution sei immer viel langsamer. Hier bewegen sich Zahlen und
-Merkmal im selben Zeitfenster — nur die Wirkung liegt versetzt.
-
-Ohne die nachlaufende Evolution gäbe es den späten Sprung nicht.
+# Abschluss
 
 ## Take-home
 
-| Konzept | Kernaussage |
-|---------|-------------|
-| stabiles Gleichgewicht | Rückkehr nach kleiner Störung |
-| Einzugsgebiet | Starts, die zum selben Gleichgewicht führen |
-| Bistabilität | zwei stabile Gleichgewichte; Start/Störung entscheidet |
-| trophische Kaskade | eine Art verändert über Wirkungsketten den Endzustand |
-| Kipppunkt | Schwelle, nach der der Zustand abrupt wechselt |
-| eco-evo (Lachs) | ähnliche Zeitskalen, oft verschoben |
+1. **Stabilität** = Rückkehr nach kleiner Störung; **Einzugsgebiet** = welche Starts dorthin führen.  
+2. **$\alpha$-Muster** → Ausschluss · Koexistenz · Bistabilität (gleiche Gleichungen, andere Dynamik).  
+3. Das **System** kann den Zustand umschalten (**Keystone**); der **Pfad** zählt (**Hysterese**).
 
-**Stabilität ist keine Eigenschaft einzelner Arten — sie gehört zur Dynamik des Systems.**
+**Stabilität gehört zur Dynamik des Systems — nicht zur einzelnen Art.**
+
+**Weiter:** Woche 4 nimmt dieselbe Konkurrenz als Matrix $A$ — und fragt, was **drei** Strategien ändern.
 
 ## Notebook
 
-1. *Paramecium*: Daten und Konkurrenzausschluss  
-2. Ein Endpunkt: verschiedene positive Starts  
-3. Bistabilität: zwei Einzugsgebiete und Beckengrenze  
-4. Food Web: Pflanzen → +Elch → +Wolf  
-5. Vertiefung: reicheres Netz mit Kojote und Biber
+1. *Paramecium*: Daten und Ausschluss  
+2. Ein Endpunkt: Ausschluss **und** Koexistenz ($\alpha$ drehen)  
+3. Bistabilität: zwei Einzugsgebiete und die Grenze  
+4. Food Web (Yellowstone): Pflanzen → +Elch → +Wolf
 
 ## Abschlussfragen
 
 1. Was unterscheidet Persistenz von einem stabilen Gleichgewicht?  
-2. Warum ist der Gewinner bei Exclusion unabhängig vom positiven Start?  
-3. Was muss eine Störung tun, um bei Bistabilität den Zustand zu wechseln?  
-4. Was zeigt der Wolf im Kursmodell — und was zeigt er nicht?  
-5. Wie hilft die Seeottergeschichte, die Idee eines Kipppunkts zu verstehen?
-6. Warum kann ein Zustandswechsel lange *nach* der Umweltänderung kommen?
+2. Warum ist der Gewinner beim Ausschluss unabhängig vom positiven Start?  
+3. Was muss eine Störung bei Bistabilität tun, um den Zustand zu wechseln?  
+4. Warum reichen Otter oft, um einen Kelpwald zu **halten**, aber nicht, um einen Barren zu **erholen**?
+
+::: aside
+Optional: Was bedeuten geschätzte Interaktionsstärken für «Keystone» (WVI vs. SNI)?
+:::
 
 ## Literatur
 
@@ -632,13 +698,14 @@ Ohne die nachlaufende Evolution gäbe es den späten Sprung nicht.
 2. **Mühlbauer, L. K., et al. (2020).** gauseR. *Ecology and Evolution* 10: 13296–13306. [doi:10.1002/ece3.6926](https://doi.org/10.1002/ece3.6926).
 3. **Scheffer, M., et al. (2001).** Catastrophic shifts in ecosystems. *Nature* 413: 591–596. [doi:10.1038/35098000](https://doi.org/10.1038/35098000).
 4. **Staver, A. C., Archibald, S., & Levin, S. A. (2011).** Savanna and forest as alternative biome states. *Science* 334: 230–232. [doi:10.1126/science.1210465](https://doi.org/10.1126/science.1210465).
-5. **Ripple, W. J., & Beschta, R. L. (2012).** Trophic cascades in Yellowstone. *Biological Conservation* 145: 205–213.
-6. **Paine, R. T. (1966).** Food web complexity and species diversity. *The American Naturalist* 100: 65–75.
-7. **Smith, J. G., et al. (2021).** Sea otter–urchin trophic cascade. *PNAS* 118: e2012493118. [doi:10.1073/pnas.2012493118](https://doi.org/10.1073/pnas.2012493118).
-8. **Langendorf, R. E., et al. (2025).** Dynamic and context-dependent keystone species effects in kelp forests. *PNAS* 122: e2413360122. [doi:10.1073/pnas.2413360122](https://doi.org/10.1073/pnas.2413360122).
-9. **Chaparro-Pedraza, P. C., & de Roos, A. M. (2020).** Ecological changes with minor effect initiate evolution to delayed regime shifts. *Nature Ecology & Evolution* 4: 412–418. [doi:10.1038/s41559-020-1110-0](https://doi.org/10.1038/s41559-020-1110-0).
+5. **Paine, R. T. (1966).** Food web complexity and species diversity. *The American Naturalist* 100: 65–75.
+6. **Smith, J. G., et al. (2021).** Sea otter–urchin trophic cascade. *PNAS* 118: e2012493118. [doi:10.1073/pnas.2012493118](https://doi.org/10.1073/pnas.2012493118).
+7. **Langendorf, R. E., et al. (2025).** Dynamic and context-dependent keystone species effects in kelp forests. *PNAS* 122: e2413360122. [doi:10.1073/pnas.2413360122](https://doi.org/10.1073/pnas.2413360122).
+8. **Ludwig, D., Jones, D. D., & Holling, C. S. (1978).** Qualitative analysis of insect outbreak systems: the spruce budworm and forest. *Journal of Animal Ecology* 47: 315–332.
+9. **Ripple, W. J., & Beschta, R. L. (2012).** Trophic cascades in Yellowstone. *Biological Conservation* 145: 205–213.  
+   *(Notebook-Food-Web)*
 
-Bildnachweise: `pics/ecosystems/`, `pics/yellowstone/`, `pics/keystone/` (CREDITS).
+Bildnachweise: `pics/comics/`, `pics/keystone/` (CREDITS).
 ::::
 
 ## Navigation

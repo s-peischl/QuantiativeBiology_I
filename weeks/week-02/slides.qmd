@@ -79,9 +79,9 @@ Nach heute können Sie …
 ![](../../pics/icons/icon_code.svg){fig-alt="Code" width="75%"}
 :::
 ::: {.column width="78%"}
-Im Programmierkurs lernt ihr R systematisch.
+Im Programmierkurs lernen Sie R systematisch.
 
-**Hier:** nur so viel, dass ihr danach im Notebook spielen könnt:
+**Hier:** nur so viel, dass Sie danach im Notebook spielen können:
 
 Funktion (Input/Output) · Vektor · Schleife · `plot()`
 :::
@@ -182,9 +182,9 @@ Frage: Wie wird aus $N_t$ das nächste $N_{t+1}$?
 
 ![](../../pics/comics/comic_r_growth.svg){fig-alt="Comic Parameter r Nachwuchs" width="82%"}
 
-## Kapazität ($K$)
+## Tragfähigkeit ($K$)
 
-![](../../pics/comics/comic_K_crowding.svg){fig-alt="Comic Parameter K Gedraenge" width="82%"}
+![](../../pics/comics/comic_K_crowding.svg){fig-alt="Comic Parameter K Tragfaehigkeit" width="82%"}
 
 ## Ein Zeitschritt
 
@@ -210,7 +210,7 @@ $$
 |--------|-----------|---------------|--------------|
 | $N_t$ | Populationsgrösse jetzt | $N \ge 0$ | Start oft $20$ |
 | $r$ | Netto-Wachstum **pro Schritt** | $r > 0$ | $0.5$ |
-| $K$ | Deckel (Platz / Futter) | $K > 0$ | $200$ |
+| $K$ | Tragfähigkeit (Ressourcen) | $K > 0$ | $200$ |
 
 Nahe $K$: Faktor $\bigl(1-N/K\bigr)$ bremst das Wachstum (bei $N>K$ negativ).
 
@@ -494,7 +494,7 @@ Lehrbeispiel Lotka–Volterra (Idee) — Gause-Daten daneben
 
 ![](../../pics/comics/comic_a_predation.svg){fig-alt="Comic Praedation a" width="78%"}
 
-## Fressen → Räuber-Babys ($b$)
+## Fressen → Räuber-Nachwuchs ($b$)
 
 ![](../../pics/comics/comic_b_conversion.svg){fig-alt="Comic Umwandlung b" width="78%"}
 
@@ -697,9 +697,9 @@ Oben: Zeitreihen nebeneinander · unten: Phasenräume nebeneinander.
 ::: {.column width="78%"}
 Zuerst: Ordner `data/` mit den CSVs neben dem Notebook.
 
-**A** eine Spezies — `next_N`, $r$ und Start $\lessgtr K$ **selbst ändern**  
+**A** eine Art — `next_N`, $r$ und Start $\lessgtr K$ **selbst ändern**  
 
-**B** zwei Spezies — `next_state`, Parameter selbst ändern  
+**B** zwei Arten — `next_state`, Parameter selbst ändern  
 
 **C** Diskussion: Immigration vs. Aussterben; Modell und «fast null»
 :::

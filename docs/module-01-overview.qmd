@@ -18,7 +18,7 @@ Der erste Block des Kurses: von «warum quantitative Biologie?» zu **Population
 |------:|------|--------|--------|
 | **1** | 17. Sep. | Einstieg | 2 × 45 min Vorlesung · Bajau / Tibet |
 | **2** | 24. Sep. | Erstes Modell | *Paramecium* · Funktion → Vektor → Schleife → Plot |
-| **3** | 1. Okt. | Stabilität / Food Webs | Gleichgewicht · Einzugsgebiet · Bistabilität · Tipping |
+| **3** | 1. Okt. | Stabilität / Keystone | Gleichgewicht · Einzugsgebiet · Bistabilität · Kipppunkt |
 | **4** | 8. Okt. | Spieltheorie / RPS | *Uta* · 3-Spieler-LV · **Checkpoint A** |
 
 Details zu Inhalten stehen in den Folien der jeweiligen Woche.

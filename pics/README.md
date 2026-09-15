@@ -7,7 +7,7 @@ Privates Kursfoto (nicht von Commons):
 | Lokale Datei | Hinweis |
 |---|---|
 | `Andika.jpg` | Privates Kursfoto (Andika). Stephan Peischl; Andika Ramadhan. Nicht ohne Genehmigung weiterverbreiten. |
-| `manta.jpg` | Privates Kursfoto (Manta). Stephan Peischl; Andika Ramadhan ([Instagram](https://www.instagram.com/andikaramadhan__/)). Nicht ohne Genehmigung weiterverbreiten. |
+| `manta.jpg` | Privates Kursfoto (Manta über Riff). Stephan Peischl; Andika Ramadhan ([Instagram](https://www.instagram.com/andikaramadhan__/)). Nicht ohne Genehmigung weiterverbreiten. |
 | `komdo.jpg` | Privates Kursfoto (Komodo / Tauchreise). Stephan Peischl; Andika Ramadhan ([Instagram](https://www.instagram.com/andikaramadhan__/)). Nicht ohne Genehmigung weiterverbreiten. |
 | `clownfish.jpg` | Kursfoto (Clownfish). Siehe Folien-Fußzeile / Link zu [Marion Talbi](https://www.aqua.iee.unibe.ch/about_us/team/marion_talbi/talbi_marion/index_eng.html) (Uni Bern; percomorph fishes). |
 | `high-altitude/DSCF0622.jpg` | Privates Kursfoto (Spiti Valley). Stephan Peischl. Nicht ohne Genehmigung weiterverbreiten. |
