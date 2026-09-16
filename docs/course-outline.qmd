@@ -108,7 +108,7 @@ Fusszeile → Kursplan / Startseite · Links zur ersten und letzten Woche · **M
 - Das Beispiel zwingt zur Mathematik: *warum* die Zahlen; Ableiten in anderen Vorlesungen
 - **Bajau:** Milzdaten (Statistik) → Genome (Assembly) → Sweep-Scan; PDE10A, BDKRB2 — **ohne** Denisova
 - **Tibet:** EPAS1 Denisova-ähnlich; Alternativen (Konvergenz, ILS); Simulation & Modellvergleich
-- **Abschluss:** Glossar — *Population*, *Gen*, *Generation*, *Selektion*
+- **Abschluss:** [Glossar](glossary.qmd) (Methoden- und Fachbegriffe zum Nachschlagen)
 - Publikationen: Ilardo et al. 2018 *Cell*; Ilardo et al. 2021 *Front. Physiol.*; Huerta-Sánchez et al. 2014 *Nature*
 - Modul-Überblick: [Modul 1](module-01-overview.qmd) · [Modul 2](module-02-overview.qmd) · [Modul 3](module-03-overview.qmd) · [Glossar](glossary.qmd)
 

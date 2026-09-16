@@ -8,21 +8,10 @@ format:
     css: ../../styles.css
 ---
 
-Das Glossar liegt jetzt **kursweit** hier:
+Das Glossar liegt **kursweit** hier:
 
 **→ [Kursglossar](../../docs/glossary.qmd)**
 
 Dort: Einstieg (Woche 1), Ökologie (Wochen 2–4), Evolution (Wochen 5–8).
-
-## Vier Kursbegriffe (Abschluss Woche 1)
-
-| Begriff | Typische Härtefrage |
-|---|---|
-| Population | Wer gehört dazu? Wo sind die Grenzen? |
-| Gen | Codierende Sequenz, Regulator, Haplotyp oder nur ein Name? |
-| Generation | Diskrete Schritte? Überlappend? Wie viele Jahre? |
-| Selektion | $s$ wovon, auf wen, in welcher Umwelt? |
-
-Erst wenn verbale Modelle **konkret** werden (Gleichungen, Simulationen), werden versteckte Annahmen sichtbar.
 
 Zurück: [Folien Woche 1](slides.qmd) · [Start](../../index.qmd)

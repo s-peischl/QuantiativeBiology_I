@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="860" height="520" viewBox="0 0 860 520">
   <rect width="860" height="520" fill="white"/>
-  <text x="430" y="34" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="bold" fill="#222">Milzgrösse: zwei Vergleiche</text>
+  <text x="430" y="34" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="bold" fill="#222">Milzgrösse: drei Gruppen</text>
   <text x="430" y="58" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#555">Lehrschema nach Ilardo et al. 2018 (Cell) — Verhältnisse vereinfacht</text>
 
   <line x1="80" y1="400" x2="800" y2="400" stroke="#222" stroke-width="2"/>

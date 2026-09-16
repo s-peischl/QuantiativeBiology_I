@@ -35,15 +35,13 @@ execute:
 |------|-------|-----|
 | 1. Hälfte | ~45 min | Warum quantitative Biologie? · Beispiel 1: Bajau |
 | Pause | ~5 min | |
-| 2. Hälfte | ~45 min | Beispiel 2: Tibet · Diskussion |
-
-[Glossar](../../docs/glossary.html)
+| 2. Hälfte | ~45 min | Beispiel 2: Tibet · Abschluss |
 
 ::: aside
 Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 :::
 
-## Dieser Kurs
+## Kurs & heute
 
 ::::: columns
 ::: {.column width="22%"}
@@ -60,30 +58,9 @@ Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 :::
 :::::
 
--   Quantitative Biologie I — parallel zu **R-Programmier Kurs** (Anja Mühlemann)
--   Dort: lernen *wie* man code schreibt · Hier: *welche Fragen* Biologie stellt — und wo Mathematik, Statistik, Porgrammierung **natürlich** auftauchen
--   Do **08:15–10:00** · Kurzvorträge Wochen **4, 8, 11, 14** (Anwesenheitspflicht)
--   [KI-Richtlinie](../../docs/ai-policy.html)
-
-## Lernziele (Woche 1 = Einführung)
-
-![](../../pics/icons/lernziele_icons.svg){fig-alt="Drei Lernziele als Karten" width="95%"}
-
-Am Ende sollen Sie **gesehen haben** — nicht alles können:  
-eine biologische **Frage** → sinnvolle **Daten / Experimente** → wo quantitative Methoden ins Spiel kommen.  
-
-Heute kein Leistungsdruck: Orientierung und Neugier.
-
-## Das Programm
-
-1. Warum Mathematik / Statistik / Programmieren in der Biologie?
-2. Warum taucht Andika besser als ich?
-3. Warum wurde ich höhenkrank, während andere Fussball spielen?
-4. Und warum wollen uns Stephan, Loraine und Emma Mathe beibringen, wenn wir doch Bio studieren?
-
-::: aside
-[Modul 1](../../docs/module-01-overview.html) · [Glossar](../../docs/glossary.html)
-:::
+-   **QuBi I** parallel zum **R-Kurs** (Anja Mühlemann): dort *wie* man code schreibt — hier *welche Fragen* Biologie stellt
+-   Do **08:15–10:00** · Kurzvorträge Wochen **4, 8, 11, 14** · [KI-Richtlinie](../../docs/ai-policy.html)
+-   Heute: eine biologische **Frage** → sinnvolle **Daten** → wo quantitative Methoden auftauchen
 
 ## Umfrage
 
@@ -91,100 +68,73 @@ Heute kein Leistungsdruck: Orientierung und Neugier.
 
 # Einstieg · Warum quantitative Biologie?
 
-## Bio und Mathe lange getrennt, endlich vereint
+## Bio und Mathe
 
 ![](../../pics/icons/bio_vs_math.svg){fig-alt="Biologie und Mathematik lange getrennt" width="92%"}
 
-Historisch: Biologie und Mathematik waren lange **wenig verknüpft**.
+Historisch lange getrennt — spannende Naturforschung brauchte beides.
 
-Spannende Naturforschung brauchte beides — das wurde erst allmählich selbstverständlich.
-
-## Darwin — schon damals klar
+## Darwin
 
 Charles Darwin, *Autobiography* (1876):
 
 > … I have deeply regretted that I did not proceed far enough at least to understand something of the great leading principles of mathematics, for men thus endowed seem to have an extra sense.
 
+> … ich habe zutiefst bedauert, dass ich nicht wenigstens so weit gekommen bin, etwas von den grossen Leitprinzipien der Mathematik zu verstehen — denn Menschen, die damit ausgestattet sind, scheinen einen **zusätzlichen Sinn** zu haben.
+
+Punkt: Mathematik als **Hilfe für die Biologie** — nicht als Fremdkörper.
+
 ::: aside
 Darwin Online / *Life and Letters*; gemeinfrei
 :::
-
-## Auf Deutsch
-
-> … ich habe zutiefst bedauert, dass ich nicht wenigstens so weit gekommen bin, etwas von den grossen Leitprinzipien der Mathematik zu verstehen — denn Menschen, die damit ausgestattet sind, scheinen einen **zusätzlichen Sinn** zu haben.
-
-Punkt: Selbst Darwin sah Mathematik als **Hilfe für die Biologie** — nicht als Fremdkörper.
-
-In diesem Kurs: das **Beispiel** zwingt zur Mathematik. Heute sehen Sie
-*warum*. Ableiten kommt später — dort sitzen Sie nicht verloren.
 
 ## Zeitlinie (Überblick)
 
 ![](../../pics/biology/history_quant_bio_timeline.png){fig-alt="Zeitlinie quantitative Biologie" width="92%"}
 
-Drei Stränge, die heute selbstverständlich wirken — jeweils mit einem Beispiel:
-
-**Statistik** · **Ökologie / Evolution** · **Bioinformatik**
+Drei Stränge: **Statistik** · **Ökologie / Evolution** · **Bioinformatik**
 
 # Beispiel · Statistik
 
 ## Frage → Daten → Analyse
 
-**Frage:** Hängt Merkmal $Y$ mit einer Messgrösse $X$ zusammen?  
-**Daten:** Paare $(X_i, Y_i)$ aus einer Stichprobe.  
+**Frage:** Hängt Merkmal $Y$ mit Messgrösse $X$ zusammen?  
+**Daten:** Paare $(X_i, Y_i)$.  
 **Analyse:** Regression / Trend — und Vorsicht bei Struktur (Simpson).
 
 ## Regression
 
-![](../../pics/biology/regression_example.png){fig-alt="Regression Lehrbeispiel" width="88%"}
+![](../../pics/biology/regression_example.png){fig-alt="Galton Regression Eltern- und Kindeshöhe" width="72%"}
 
-Streuende Punkte + Ausgleichsgerade: Variation zählen und Zusammenhänge schätzen.
-
-Mit Evolution/Genetik wurde das zentral — u.a. **R. A. Fisher** (1930).
+**Galton:** mittlere Elternhöhe vs. Körperhöhe der Kinder.  
+Sehr grosse Eltern → Kinder im Schnitt etwas kleiner als sie selbst; sehr kleine → etwas grösser.  
+Die Gerade ist flacher als $1\!:\!1$: Extreme rücken zum Populationsmittel.
 
 ## Kritischer Einschub: Eugenik
 
-Dieselbe quantitative Tradition wurde auch für **Eugenik** missbraucht  
-(Bewertung / Steuerung menschlicher «Erbanlagen»).
+**Francis Galton** (Darwin-Cousin) entwickelte u. a. **Regression** und Korrelation — ursprünglich, um **Vererbung** quantitativ zu verstehen (genau solche Eltern–Kind-Vergleiche).
 
-Für uns heute:
+Aus derselben Tradition entstand die **Eugenik**: der Versuch, menschliche Fortpflanzung über «Erbanlagen» zu steuern. Das war keine Randnotiz — in vielen Ländern Programme mit Zwangssterilisation und Rassismus (u. a. **R. A. Fisher** war in dieser Bewegung aktiv).
 
--   Methoden sind mächtig — **Forschungsziele** und Ethik gehören dazu  
--   «Können wir messen?» ≠ «Sollen wir das so verwenden?»  
--   Im Kurs: quantitative Methoden verstehen **und** Ansprüche kritisch halten
-
-## «I am just following the data»
-
-![](../../pics/icons/tweet_race_realist.svg){fig-alt="Satirischer Tweet Race Realist" width="70%"}
-
+-   Eine Formel sagt nicht, *wozu* man sie einsetzt: dieselbe Statistik kann Vererbung beschreiben — oder politische Selektion rechtfertigen  
+-   Deshalb: Messbarkeit allein reicht nicht; Absicht, Anwendung und Folgen müssen mitbedacht werden
 
 ## Daten sprechen nicht
 
-![](../../pics/icons/data_dont_speak.svg){fig-alt="Daten sprechen nicht sie antworten" width="90%"}
+![](../../pics/icons/tweet_race_realist.svg){fig-alt="Satirischer Tweet Race Realist" width="55%"}
 
-Dazu gehören: Was messen wir? An wem? Welche Annahmen? Welcher **Kontext** fehlt?
+![](../../pics/icons/data_dont_speak.svg){fig-alt="Daten sprechen nicht sie antworten" width="85%"}
 
+Was messen wir? An wem? Welche Annahmen? Welcher **Kontext** fehlt?  
 Ohne das ist «die Daten sagen …» Theater — keine Wissenschaft.
 
-## Simpson-Paradoxon (Pinguin-Lehrbeispiel)
+## Simpson-Paradoxon
 
 Manchmal dreht sich ein Trend um, sobald man nach **Gruppe / Population** trennt.
 
-![](../../pics/biology/simpson_penguins.png){fig-alt="Simpson-Paradoxon: Trend insgesamt vs nach Population" width="95%"}
+![](../../pics/biology/simpson_penguins.png){fig-alt="Simpson-Paradoxon: Trend insgesamt vs nach Population" width="92%"}
 
-::: aside
-Lehrsimulation (Pinguin-Stil). Idee wie bei Art-/Populationsstruktur in echten Daten.
-:::
-
-## Was lernen wir daraus?
-
-Links: «Schnabel länger → tiefer» — sieht überzeugend aus.  
-Rechts: **innerhalb** jeder Population eher das Gegenteil.
-
-Beide Plots nutzen dieselben Punkte.  
-Unterschied: die **Frage** (ignorieren wir Struktur — oder nicht?).
-
-Deshalb: Kontext, Annahmen, Gruppierung — bevor man «den Daten folgt».
+Links: «Schnabel länger → tiefer». Rechts: **innerhalb** jeder Population eher das Gegenteil — dieselben Punkte, andere **Frage**.
 
 # Beispiel · Ökologie & Evolution
 
@@ -194,7 +144,7 @@ Deshalb: Kontext, Annahmen, Gruppierung — bevor man «den Daten folgt».
 **Daten / Idee:** Zählungen, Experimente — oder ein Modell der Regeln.  
 **Analyse:** Differenzen-/Differenzialgleichungen, Simulation.
 
-Ab **Woche 2** bauen wir genau diesen Strang weiter aus
+Ab **Woche 2** bauen wir genau diesen Strang weiter aus.
 
 ## Räuber–Beute: Lotka–Volterra
 
@@ -239,23 +189,6 @@ Bajau- und Tibet-Geschichten brauchen genau das.
 
 Punkt: Biologie erzeugt hier ein **Rechenproblem** — nicht nur eine Laborfrage.
 
-# Heute weiter: zwei Geschichten
-
-## Der grosse Bogen heute
-
-![](../../pics/biology/session_roadmap_week01.svg){fig-alt="Kreislauf Beobachtung Frage Analyse Biologie" width="82%"}
-
-**Beobachtung → Frage → Analyse / Modell → zurück zur Biologie**
-
-## Ablauf (A–D)
-
-| | |
-|---|---|
-| **A** Beobachtung | Andika / Bajau — Frage |
-| **B** Bajau | Messung → Statistik → Genome → Sweep |
-| **C** Tibet | EPAS1 / Denisova → rivalisierende Modelle |
-| **D** Abschluss | Interpretation, Begriffe, Annahmen |
-
 # A · Beobachtung
 
 ## Warum taucht Andika besser als ich?
@@ -290,7 +223,7 @@ Clownfish
 
 ::: aside
 Fotos: Stephan Peischl, Andika Ramadhan ([Instagram](https://www.instagram.com/andikaramadhan__/))  
-Link zu Uni Bern: [Marion Talbi](https://www.aqua.iee.unibe.ch/about_us/team/marion_talbi/talbi_marion/index_eng.html) forscht an percomorph fishes
+[Marion Talbi](https://www.aqua.iee.unibe.ch/about_us/team/marion_talbi/talbi_marion/index_eng.html) (Uni Bern) forscht an percomorph fishes
 :::
 
 ## Die Bajau («Seenomaden»)
@@ -309,7 +242,6 @@ Link zu Uni Bern: [Marion Talbi](https://www.aqua.iee.unibe.ch/about_us/team/mar
 ::: {.column width="45%"}
 -   Philippinen · Borneo · Sulawesi · Ostindonesien
 -   Studienort u.a. **Wakatobi** (Sulawesi)
--   Lehrkarte — ungefähre Region
 :::
 :::::
 
@@ -319,51 +251,36 @@ Commons CC BY-SA 3.0 + Kursmarkierung
 
 ## Leben auf dem Wasser
 
-::::: columns
-::: {.column width="50%"}
-![](../../pics/bajau/bajau_sampela_daily.jpg){fig-alt="Sampela" width="100%"}
+::: {.photo-grid-2x2}
+::: {.photo-tile}
+![](../../pics/bajau/bajau_sampela_daily.jpg){fig-alt="Sampela"}
 
-Sampela, Wakatobi
+Sampela
 :::
-
-::: {.column width="50%"}
-![](../../pics/bajau/bajau_sampela_houses.jpg){fig-alt="Pfahlbauten" width="100%"}
+::: {.photo-tile}
+![](../../pics/bajau/bajau_sampela_houses.jpg){fig-alt="Pfahlbauten"}
 
 Pfahlbauten
 :::
-:::::
-
-::: aside
-BastianKyle, CC BY-SA 4.0
-:::
-
-## Boote und Mobilität
-
-::::: columns
-::: {.column width="50%"}
-![](../../pics/bajau/bajau_vinta_boat.jpg){fig-alt="Vinta" width="100%"}
+::: {.photo-tile}
+![](../../pics/bajau/bajau_vinta_boat.jpg){fig-alt="Vinta"}
 
 Vinta
 :::
+::: {.photo-tile}
+![](../../pics/bajau/bajau_houseboat_sandakan.jpg){fig-alt="Hausboot"}
 
-::: {.column width="50%"}
-![](../../pics/bajau/bajau_houseboat_sandakan.jpg){fig-alt="Hausboot" width="100%"}
-
-Hausboot, Sabah
+Hausboot
 :::
-:::::
+:::
 
 ::: aside
-Venning CC BY 2.0 · Aranas CC BY-SA 3.0
+BastianKyle CC BY-SA 4.0 · Venning CC BY 2.0 · Aranas CC BY-SA 3.0
 :::
 
 ## Das biologische Rätsel
 
-Nur **Training und Kultur**?
-
-Oder auch **Physiologie** — evolutionär geprägt?
-
-## Umfrage 1
+Nur **Training und Kultur** — oder auch **Physiologie** (ggf. evolutionär)?
 
 ::::: columns
 ::: {.column width="50%"}
@@ -376,36 +293,27 @@ Oder auch **Physiologie** — evolutionär geprägt?
 :::::
 
 ::: notes
-Noch keine Auflösung.
+Umfrage 1 — noch keine Auflösung.
 :::
 
-# B · Bajau — eine Frage, mehrere Antwortenbenen
-
-## Leitfrage (Bajau)
-
-**Frage:** Ist extremes Apnoetauchen «nur» Training/Kultur — oder auch Physiologie (ggf. evolutionär)?
-
-**Idee für Daten:** etwas Messbares finden, das mit O₂-Vorrat beim Tauchen zu tun hat — z. B. **Milzgrösse**.
-
-Dann: Gruppen vergleichen → wenn Genetik plausibel wird: Genome → Signaturen.
+# B · Bajau — von der Milz zum Genom
 
 ## Anatomie: wo sitzt die Milz?
 
-Idee dahinter: Beim Tauchen kann die **Milz** O₂-reiche Blutkörperchen freisetzen.  
-Wenn das langfristig zählt, könnte sich die **Milzgrösse** zwischen Gruppen unterscheiden.
+Idee: Beim Tauchen kann die **Milz** O₂-reiche Blutkörperchen freisetzen.  
+Dann könnte sich die **Milzgrösse** zwischen Gruppen unterscheiden.
 
 ::::: columns
-::: {.column width="45%"}
+::: {.column width="48%"}
 ![](../../pics/biology/spleen_location.jpg){fig-alt="Lage der Milz im Körper" width="95%"}
 :::
-
-::: {.column width="55%"}
+::: {.column width="48%"}
 ![](../../pics/biology/spleen_gray1188.png){fig-alt="Klassische Anatomie der Milz (Gray)" width="90%"}
 :::
 :::::
 
 ::: aside
-Lage: gemeinfrei · Gray-Tafel (*Gray's Anatomy*): gemeinfrei
+Lage / Gray: gemeinfrei
 :::
 
 ## Wie liefert die Milz O₂?
@@ -416,33 +324,25 @@ Beim Apnoe-Tauchen: Kontraktion → Erythrozyten in den Kreislauf → mehr O₂-
 
 ## Was die Daten zeigen
 
-Zwei Vergleiche (Ilardo et al. 2018 *Cell*):
+Erster Vergleich (Ilardo et al. 2018 *Cell*): **Bajau** vs. **Saluan**.
 
-1.  **Nachbarpopulation:** Bajau vs. **Saluan** (nicht tauchend)  
-    → Bajau ≈ **50 % grössere** Milz  
-2.  **Innerhalb der Bajau:** tauchend vs. **nicht tauchend**  
-    → auch nicht-tauchende Bajau haben grosse Milzen
+![](../../pics/biology/spleen_size_two_groups.png){fig-alt="Milzgroesse Bajau vs Saluan" width="70%"}
 
-Ultraschall + Populationsvergleich.
+Bajau ≈ **50 %** grössere Milz.
 
-## Milzgrösse — die beiden Vergleiche
+## Drei Gruppen
 
-![](../../pics/biology/spleen_size_schematic.svg){fig-alt="Milzgroesse Saluan vs Bajau tauchend und nicht tauchend" width="88%"}
+Bajau nach **tauchend** / **nicht tauchend** trennen:
 
-::: aside
-Lehrschema; Original-Boxplots in *Cell* (Elsevier)
-:::
+![](../../pics/biology/spleen_size_schematic.png){fig-alt="Milzgroesse Saluan vs Bajau tauchend und nicht tauchend" width="72%"}
 
-## Warum Vergleich 2 zählt
+## Training allein reicht nicht
 
-Wenn nur **Training** die Milz vergrösserte, erwartete man:
+Wäre nur **Training** verantwortlich → nicht-tauchende Bajau ≈ Saluan.
 
-nicht-tauchende Bajau ≈ Saluan
+Stattdessen: nicht-tauchende ≈ tauchende Bajau ≫ Saluan.
 
-Stattdessen: nicht-tauchende Bajau ≈ tauchende Bajau ≫ Saluan.
-
-Training allein reicht als Erklärung nicht —  
-Population / Physiologie / Genetik kommen ins Spiel.
+→ Population / Physiologie / Genetik kommen ins Spiel.
 
 ## Umfrage 2
 
@@ -458,109 +358,85 @@ Physiologischer Unterschied → schon **evolutionäre Anpassung**?
 :::
 :::::
 
-## Schärfere Evidenz — kurz
+## Gruppen vergleichen: Statistik
 
-| Vergleich | Befund (vereinfacht) |
-|-----------|----------------------|
-| Bajau vs. Saluan (Nachbar) | Bajau grössere Milz |
-| Bajau tauchend vs. nicht tauchend | Unterschied bleibt klein; beide > Saluan |
+Die Messwerte **streuen**. Ob Bajau wirklich grössere Milzen haben, sieht man nicht «auf einen Blick» — man braucht statistische Methoden, um Gruppen unter Variation zu vergleichen (z. B. t-Test; Vertiefung in QuBi II).
 
-→ Nachbarpopulation **und** Nicht-Taucher innerhalb der Bajau sind der Schlüssel.
+![](../../pics/biology/spleen_scatter_groups.png){fig-alt="Streudiagramm Milzgroesse drei Gruppen" width="88%"}
 
-## Statistik kommt natürlich dazu
+## Vom Genom zum Scan
 
-**Frage:** Ist die Milz bei Bajau wirklich grösser als bei Saluan / Nicht-Tauchern?
+Physiologie erklärt einen Teil. **Nächste Frage:** Gibt es Spuren im Genom?
 
-**Daten:** Ultraschall-Messungen an Stichproben (Ilardo et al. 2018).
+Zuerst: Genome aus vielen kurzen **Reads** zusammensetzen (**Assembly** / Bioinformatik, z. B. de Bruijn-Graphen).  
+Erst mit einer brauchbaren genomischen Landkarte kann man sinnvoll scannen.
 
-**Analyse:** Gruppenunterschiede unter Variation und Unsicherheit beurteilen  
-(z. B. t-Test — Vertiefung in QuBi II).
+## Selective Sweep
 
-> Frage → Messung → Vergleich → vorsichtige Interpretation
+Ein vorteilhaftes **Allel** steigt in der Population. Weil DNA-Stücke gekoppelt vererbt werden, «fahren» benachbarte Varianten mit (**Hitchhiking**).
 
-## Weiter: Gene?
+Effekt im Genom: lokal weniger Variation → ein **Valley of Diversity** um das selektierte Allel.
 
-Physiologie erklärt einen Teil.  
-**Nächste Frage:** Warum ist sie anders — und wie sieht man das im Genom?
+::::: columns
+::: {.column width="50%"}
+![](../../pics/genetics/sweep_hitchhiking_schematic.svg){fig-alt="Hitchhiking" width="100%"}
 
-## Genome lesen braucht Algorithmen
+Hitchhiking
+:::
+::: {.column width="50%"}
+![](../../pics/genetics/diversity_valley.svg){fig-alt="Valley of Diversity" width="100%"}
 
-**Daten:** Sequenz-Reads (Rohstücke).
-
-**Problem:** daraus eine brauchbare genomische Landkarte machen (**Assembly**).
-
-Ohne diesen Schritt keine sauberen Scans  
-(de Bruijn-Idee: siehe Einstieg).
+Valley of Diversity
+:::
+:::::
 
 ::: aside
-Pevzner et al. 2001; Compeau et al. 2011
+Vertiefung: Populationsgenetik-Vorlesungen von Prof. Claudia Bank und Mado Kapopoulou
 :::
 
-## Selektion hinterlässt Spuren
+## Ein Genom-Scan
 
-**Frage:** Wo im Genom sieht man Hinweise auf Selektion (Anpassung)?
+Sobald das Genom zusammengesetzt ist, fragen wir:
 
-Idee eines **Selective Sweep**:
+Gibt es **Regionen mit weniger Diversität** als der Rest des Genoms?
 
--   vorteilhaftes **Allel** wird häufig
--   Nachbarn «fahren mit» (**Hitchhiking**)
--   lokal weniger Vielfalt → **Valley of Diversity**
+Solche «Täler» sind Kandidaten für Selektion — das ist die Idee eines **Genom-Scans** nach Sweeps.
 
-## Hitchhiking
+## Bajau: Scan-Treffer
 
-![](../../pics/genetics/sweep_hitchhiking_schematic.svg){fig-alt="Hitchhiking" width="88%"}
+![](../../pics/biology/scan_hit_bajau.png){fig-alt="Lehrschema Genomscan Bajau mit PDE10A und BDKRB2" width="88%"}
 
-## Valley of Diversity
-
-![](../../pics/genetics/diversity_valley.svg){fig-alt="Valley of Diversity" width="85%"}
-
-## Schlüsselreferenzen (Sweeps)
-
-| | |
-|---|---|
-| Maynard Smith & Haigh (1974) | Hitchhiking / selective sweep |
-| Kaplan, Hudson & Langley (1989) | Genetik des Sweeps |
-| Nielsen et al.; Sabeti et al. | Scan-Methoden / menschliche Beispiele |
-| Ilardo et al. (2018) | Bajau — Sweep-Signaturen im Genom |
-
-Heute reicht: **Idee + Scan → Treffer**. Details später.
-
-## Und jetzt der Scan
-
-Idee: Genome vergleichen → wo sind die **Sweep-Signale** am stärksten?
-
-![](../../pics/biology/scan_hit_bajau.png){fig-alt="Lehrschema Genomscan Bajau mit PDE10A und BDKRB2" width="92%"}
-
-## Bajau: was der Scan liefert
-
-Bei den Bajau stechen u. a. Regionen um **PDE10A** und **BDKRB2** heraus  
-(Ilardo et al. 2018 *Cell*) — Kandidaten im Zusammenhang mit der Physiologie.
-
-Heute reicht: **Scan → Treffer**.  
-Originalfiguren: im Paper (Elsevier; Campus-Zugang / DOI).
-
-::: aside
-DOI: [10.1016/j.cell.2018.03.054](https://doi.org/10.1016/j.cell.2018.03.054)
-:::
+Ausreisser u. a. **PDE10A** und **BDKRB2** (Ilardo et al. 2018 *Cell*).
 
 ## Bajau — Zwischenbilanz
 
-![](../../pics/icons/tools_trio.svg){fig-alt="Drei Ebenen Statistik Bioinformatik Sweep" width="92%"}
+**Was die beiden Gene erklären können:**
 
-Drei Ebenen derselben Geschichte 
-Je Stufe: Frage → Daten → Analyse.  
-Der Punkt ist die Argumentkette.
+::::: {.columns .compact-cols}
+::: {.column width="48%"}
+**PDE10A**  
+Schilddrüsenhormon-Haushalt → **Milzgrösse** → mehr O₂-Reserve.
+:::
+::: {.column width="48%"}
+**BDKRB2**  
+**Tauchreaktion** / Vasokonstriktion → O₂ eher zu Gehirn und Herz.
+:::
+:::::
+
+## Fazit Bajau
+
+Grössere Milz auch bei **nicht-tauchenden** Bajau → nicht nur Training.
+
+Messung und Scan zeigen dieselbe Richtung (O₂-Bewirtschaftung).  
+Das sind **Kandidaten** — noch keine fertige Beweiskette.
 
 ## Pause (~5 min)
 
-
-# C · Höhenanpasung in Tibet 
+# C · Höhenanpassung in Tibet
 
 ## Zweites Extrem
 
 ![](../../pics/icons/sea_vs_highland.svg){fig-alt="Meer vs Hochland" width="90%"}
-
-Wieder: Anpassung — und welche Geschichte erzählt die DNA?  
 
 ## High Altitude Adaptation
 
@@ -575,7 +451,7 @@ Yak, gut angepasst
 ::: {.photo-tile .photo-landscape}
 ![](../../pics/high-altitude/DSCF0622.jpg){fig-alt="Spiti Valley"}
 
-Spiti Valley, karg aber hübsch
+Spiti Valley
 :::
 
 ::: {.photo-tile .photo-landscape}
@@ -588,7 +464,7 @@ Pferde, auch gut angepasst
 ::: {.photo-tile .photo-portrait-crop}
 ![](../../pics/high-altitude/P1040210.jpg){fig-alt="Cotopaxi"}
 
-Ich vor Cotopaxi, kurzatmig und erschöpft
+Ich, nicht angepasst
 :::
 :::
 
@@ -596,68 +472,61 @@ Ich vor Cotopaxi, kurzatmig und erschöpft
 Fotos: Stephan Peischl (privat)
 :::
 
-## Hypoxie — die biologische Herausforderung
+## Hypoxie
 
--   Hochland: weniger O₂ verfügbar (**Hypoxie**)
--   Anpassung an Höhe ist ein klassisches Evolutionsbeispiel
--   Frage: welche Gene fallen im **Scan** auf?
+In grosser Höhe ist der **Luftdruck** niedriger — damit sinkt der Partialdruck von O₂.
 
-## Tibet: der Scan hebt EPAS1 heraus
+Folge für den Körper:
+
+-   weniger O₂ pro Atemzug im Blut verfügbar
+-   typische akute Reaktionen: schnellerer Puls, schnellere Atmung, Leistungsabfall  
+    (Höhenkrankheit möglich)
+-   langfristig: Anpassung der Physiologie / Genetik in Hochlandpopulationen
+
+Frage: welche Gene fallen im **Genom-Scan** auf?
+
+## Tibet: EPAS1
 
 Dieselbe Logik wie bei den Bajau: genomweiter Vergleich → Ausreisser.
 
-![](../../pics/biology/scan_hit_tibet.png){fig-alt="Lehrschema Genomscan Tibet EPAS1" width="90%"}
+![](../../pics/biology/scan_hit_tibet.png){fig-alt="Lehrschema Genomscan Tibet EPAS1" width="88%"}
 
 **EPAS1** (Hypoxie-Signalweg) ist der berühmteste Treffer.
 
 ## Original: EPAS1 als Ausreisser
 
-![](../../pics/papers/huerta2014_fig1_fst.jpg){fig-alt="Huerta-Sanchez 2014 Figure 1: EPAS1 outlier" width="78%"}
+![](../../pics/papers/huerta2014_fig1_fst.jpg){fig-alt="Huerta-Sanchez 2014 Figure 1: EPAS1 outlier" width="75%"}
+
+$x$: mittlere Distanz ($F_{ST}$); $y$: stärkster Allelfrequenz-Unterschied.  
+**EPAS1** (Stern): extrem differenziert — obwohl Han und Tibeter:innen insgesamt ähnlich sind.
 
 ::: aside
-Huerta-Sánchez et al. 2014 *Nature* · Author manuscript via PMC4134395
+Huerta-Sánchez et al. 2014 *Nature* · PMC4134395
 :::
 
-## Was die Figur sagt
-
--   x: durchschnittliche genetische Distanz zwischen Populationen ($F_{ST}$)  
--   y: stärkster Allelfrequenz-Unterschied irgendwo im Genom  
--   **EPAS1** (Stern): extrem differenziert — obwohl Han und Tibeter:innen  
-    insgesamt relativ ähnlich sind
-
-Kurz: der Scan / Vergleich **liefert EPAS1** als Ausnahme.
-
-## EPAS1 sieht bei Tibeter:innen anders aus
+## EPAS1-Haplotyp (Schema)
 
 ![](../../pics/biology/epas1_haplotype_schematic.svg){fig-alt="EPAS1 Haplotyp Tibet vs nahe Populationen vs Denisova" width="90%"}
+
+Der selektierte Tibeter-**Haplotyp** gleicht stark dem **Denisova**-Muster — «ähnlich» ist ein Befund, noch keine fertige Geschichte.
 
 ## Original: Haplotyp-Muster
 
 ![](../../pics/papers/huerta2014_fig2_haplotypes.jpg){fig-alt="Huerta-Sanchez 2014 Figure 2 haplotypes" width="72%"}
 
 ::: aside
-Huerta-Sánchez et al. 2014 · PMC author manuscript — Tibeter-Haplotyp vs Han
+Huerta-Sánchez et al. 2014 · PMC
 :::
 
-## Was bedeutet das Muster?
+## Nähe zu Denisova
 
--   Der selektierte Tibeter-**Haplotyp** ist unter **nahen** Populationen anders  
--   Er gleicht stark dem Muster aus dem **Denisova**-Genom  
--   «Ähnlich» ist ein Befund — noch keine fertige Geschichte
-
-## Original: Nähe zu Denisova
-
-![](../../pics/papers/huerta2014_fig3_network.jpg){fig-alt="Huerta-Sanchez 2014 Figure 3 haplotype network" width="70%"}
+![](../../pics/papers/huerta2014_fig3_network.jpg){fig-alt="Huerta-Sanchez 2014 Figure 3 haplotype network" width="68%"}
 
 ::: aside
-Huerta-Sánchez et al. 2014 Fig. 3 · Tibeter-Haplotyp nahe Denisova im Netzwerk
+Huerta-Sánchez et al. 2014 Fig. 3
 :::
 
-## Wer waren die Denisova-Menschen?
-
-![](../../pics/biology/denisova_where_schematic.png){fig-alt="Denisova-Hoehle Altai schematisch" width="92%"}
-
-## Die Denisova-Höhle
+## Denisova-Menschen
 
 ::::: columns
 ::: {.column width="55%"}
@@ -666,189 +535,103 @@ Huerta-Sánchez et al. 2014 Fig. 3 · Tibeter-Haplotyp nahe Denisova im Netzwerk
 
 ::: {.column width="45%"}
 -   Altai-Gebirge, Sibirien
--   Knochen / Zähne → DNA
--   Ausgestorbene Menschenlinie  
-    (Verwandte der Neandertaler)
--   Heute: vor allem über **Genome** bekannt
+-   Ausgestorbene Menschenlinie (Verwandte der Neandertaler)
+-   Heute vor allem über **Genome** bekannt
 :::
 :::::
 
 ::: aside
-Denisova cave 01 · CC BY-SA 3.0 (Wikimedia Commons)
+Denisova cave 01 · CC BY-SA 3.0
 :::
 
-## Gab es Mischung?
+## Admixture und Introgression
 
-Ja — archaische und moderne Menschen haben sich **vermischt**  
-(**Admixture**): Nachkommen mit DNA aus beiden Linien.
+Archaische und moderne Menschen haben sich **vermischt** (**Admixture**).
 
-Spuren davon finden sich in manchen heutigen Genomen  
-(Denisova-Anteile besonders in Teilen Asiens / Ozeaniens — grob).
+![](../../pics/biology/introgression_schematic.svg){fig-alt="Introgression Schema" width="88%"}
 
-Für uns heute zählt: einzelne DNA-Stücke können **wandern**.
-
-## Was ist Introgression?
-
-![](../../pics/biology/introgression_schematic.svg){fig-alt="Introgression Schema" width="90%"}
-
-## Introgression — in einem Satz
-
-**Introgression** = nach früherer Trennung wird DNA  
-durch eine **kurze Berührung** in eine andere Linie übernommen  
-— oft nur kurze Abschnitte (**Haplotypen**).  
-
-Denisova stirbt danach aus; die menschlichen Linien laufen weiter  
-und tragen Spuren der Begegnung mit.
-
-Lehrfrage bei EPAS1: Kam der Tibeter-Haplotyp so von Denisova?
+**Introgression** = nach früherer Trennung wird DNA durch kurze Berührung übernommen — oft kurze **Haplotypen**.  
+Lehrfrage: Kam der Tibeter-EPAS1-Haplotyp so von Denisova?
 
 ## Aber: «ähnlich» reicht nicht
 
-Denselbe Befund («Denisova-ähnlich») kann **verschiedene** Geschichten haben.
+Denselbe Befund kann **verschiedene** Geschichten haben.
 
-![](../../pics/biology/three_histories_compare.svg){fig-alt="Drei Erklaerungen Introgression ILS Konvergenz" width="92%"}
+![](../../pics/biology/three_histories_compare.svg){fig-alt="Drei Erklaerungen Introgression ILS Konvergenz" width="90%"}
 
-## Alternative 1: ILS
+## Drei rivalisierende Geschichten
 
-![](../../pics/biology/ils_schematic.svg){fig-alt="ILS: Genlinien wandern durch Populationsbaum" width="92%"}
+::::: columns
+::: {.column width="33%"}
+![](../../pics/biology/introgression_schematic.svg){fig-alt="Introgression" width="100%"}
 
-## ILS — in einem Satz
+**Introgression** — DNA übernommen, dann Selektion
+:::
+::: {.column width="33%"}
+![](../../pics/biology/ils_schematic.svg){fig-alt="ILS" width="100%"}
 
-**Incomplete lineage sorting:** DNA-Kopien «wandern» in den  
-Populations-Röhren rückwärts in der Zeit und treffen sich  
-manchmal **anders** als der Populationsbaum vorgibt —  
-ohne dass Gene zwischen Populationen fließen.
+**ILS** — Genbaum ≠ Populationsbaum, ohne Genfluss
+:::
+::: {.column width="33%"}
+![](../../pics/biology/convergence_schematic.svg){fig-alt="Konvergenz" width="100%"}
 
-Dann sieht ein Locus «archaisch / Denisova-ähnlich» aus,  
-obwohl keine Introgression stattfand.
+**Konvergenz** — unabhängig entstanden
+:::
+:::::
 
-## Alternative 2: Konvergenz
+Ohne systematischen Vergleich bleibt «Denisova-ähnlich» nur eine attraktive Erzählung.
 
-![](../../pics/biology/convergence_schematic.svg){fig-alt="Konvergente Evolution Schema" width="90%"}
+## Modelle zum Vergleich
 
-## Konvergenz — in einem Satz
+Wir errichten **explizite Modelle**, die vorhersagen, was jede Geschichte in den Daten erzeugen würde — und vergleichen sie:
 
-**Konvergente Evolution:** ähnliche Merkmale (oder Muster)  
-entstehen **unabhängig** — ohne dass dieselbe DNA übernommen wurde.
+| Werkzeug | Rolle |
+|----------|--------|
+| **Simulation** | Was erzeugt Geschichte X typischerweise? |
+| **Likelihood** | Wie gut passen die Daten zu X? |
+| **Model selection** | Welche Geschichte gewinnt den Vergleich? |
 
-## Mehrere Geschichten möglich
+![](../../pics/biology/denisova_model_comparison.svg){fig-alt="Modellvergleich" width="78%"}
 
-| Geschichte | Idee |
-|------------|------|
-| **Introgression** | Denisova-DNA übernommen, dann Selektion |
-| **ILS** | Alte Variation sieht nur *aus* wie Introgression |
-| **Konvergenz** | Ähnlichkeit ohne direkte Weitergabe |
+So lässt sich sagen, welche Erklärung **am wahrscheinlichsten** ist.
 
-Ohne systematischen Vergleich bleibt «Denisova-ähnlich» eine **attraktive Erzählung**.
+## Ergebnis — und seine Grenze
 
-## Modellvergleich
+Die Analyse zeigt **Introgression** als die **wahrscheinlichste** Erklärung für den Tibeter-EPAS1-Haplotyp.
 
-![](../../pics/biology/denisova_model_comparison.svg){fig-alt="Modellvergleich" width="88%"}
-
-## Was die Frage verlangt
-
-| Idee | Rolle |
-|------|--------|
-| Simulation | Was erzeugt Geschichte X typischerweise? |
-| Likelihood | Wie gut passen die Daten zu X? |
-| Model selection | Welche Geschichte gewinnt den Vergleich? |
-
-Bei Tibet reicht «Scan → Treffer» nicht: mehrere Erklärungen müssen **gegeneinander** getestet werden.
-
-Die Arbeit zeigte, dass Introgression die *wahrscheinlichste* Erklärung ist, basierend auf Modellsimuatlionene und statistischen Analysen. 
-
+Aber: die Vergangenheit lässt sich nicht beliebig detailliert rekonstruieren.  
+Modelle fassen Annahmen zusammen — sie liefern die beste verfügbare Geschichte unter diesen Annahmen, keine absolute Gewissheit.
 
 # D · Abschluss
 
-## Zusammenfassung
-
-Heute war eine **Einführung** — keine Werkzeugkiste zum Abhaken.
-
-Zwei Geschichten stehen für sich. Jeweils:
-
-**Frage → Experiment / Daten → Analyse** — und dort tauchen Mathematik, Statistik, Programmierung und Algorithmen ganz natürlich auf.
-
-**Daten sprechen nicht** — sie antworten auf unsere Fragen  
-(Kontext, Annahmen, Gruppierung: siehe Simpson).
-
-Können kommt über das Semester; heute reicht: **sehen und nachdenken**.
-
 ## Take-home
 
-1. Das Beispiel zwingt zur Mathematik — Bajau und Tibet zuerst, dann Zahlen.
-2. Dieselbe Frage auf mehreren Ebenen: Physiologie, Genetik, Geschichte.
-3. Modelle (verbal oder mathematisch) haben implizite Annahmen: Population, Gen, Generation, Selektion. Exakt formulieren bringt diese Annahmen oft erst zum Vorschein. 
+1. Zwei Geschichten, dieselbe Logik: **Frage → Daten → Analyse** — und dort tauchen Mathematik, Statistik und Algorithmen auf.
+2. **Daten sprechen nicht** — sie antworten auf unsere Fragen (Kontext, Annahmen, Gruppierung: Simpson).
+3. Dieselbe Frage auf mehreren Ebenen: Physiologie, Genetik, Geschichte — und rivalisierende Modelle müssen verglichen werden.
 
-## Beiläufige Begriffe
-
-*Population · Gen · Generation · Selektion* klangen heute selbstverständlich.
-
-Erst wenn wir verbale Modelle **konkret** machen, werden Ungenauigkeit und **versteckte Annahmen** sichtbar.
-
-## Fragen
-
-| Begriff | Frage |
-|---------|--------|
-| Population | Wer gehört dazu? |
-| Gen | Welches Objekt? |
-| Generation | Welche Uhr? |
-| Selektion | Effekt wovon, auf wen, wann, wie und wie stark? |
-
-## Literatur 1/2
+## Literatur
 
 :::: {.lit}
-**Fallstudien**
-
 1. Ilardo, M., et al. (2018). Physiological and genetic adaptations to diving in sea nomads. *Cell* 173: 569–580. [doi:10.1016/j.cell.2018.03.054](https://doi.org/10.1016/j.cell.2018.03.054)
-2. Ilardo, M. A., et al. (2021). An erythropoietin-independent mechanism of erythrocytic precursor proliferation underlies hypoxia tolerance in sea nomads. *Frontiers in Physiology* 12: 760851. [doi:10.3389/fphys.2021.760851](https://doi.org/10.3389/fphys.2021.760851)
-3. Huerta-Sánchez, E., et al. (2014). Altitude adaptation in Tibetans caused by introgression of Denisovan-like DNA. *Nature* 512: 194–197. [doi:10.1038/nature13408](https://doi.org/10.1038/nature13408)
-
-**Einstieg / Statistik / Modelle**
-
-4. Darwin, C. (1876/1958). *The Autobiography of Charles Darwin* (Auszug zu Mathematik). Darwin Online / gemeinfrei.
-5. Simpson, E. H. (1951). The interpretation of interaction in contingency tables. *Journal of the Royal Statistical Society B* 13: 238–241. *(Simpson-Paradoxon)*
+2. Huerta-Sánchez, E., et al. (2014). Altitude adaptation in Tibetans caused by introgression of Denisovan-like DNA. *Nature* 512: 194–197. [doi:10.1038/nature13408](https://doi.org/10.1038/nature13408)
+3. Darwin, C. (1876/1958). *The Autobiography of Charles Darwin* (Auszug zu Mathematik). Darwin Online / gemeinfrei.
+4. Simpson, E. H. (1951). The interpretation of interaction in contingency tables. *JRSS B* 13: 238–241.
+5. Galton, F. (1886). Regression towards mediocrity in hereditary stature. *J. Anthropol. Inst.* 15: 246–263.
 6. Lotka, A. J. (1925). *Elements of Physical Biology*. Williams & Wilkins.
 7. Volterra, V. (1926). Variazioni e fluttuazioni del numero d’individui in specie animali conviventi. *Mem. Accad. Lincei*.
-8. Gause, G. F. (1934). *The Struggle for Existence*. Williams & Wilkins.
-9. Fisher, R. A. (1930). *The Genetical Theory of Natural Selection*. Clarendon Press.
-10. Wright, S. (1931). Evolution in Mendelian populations. *Genetics* 16: 97–159.
+8. Maynard Smith, J., & Haigh, J. (1974). The hitch-hiking effect of a favourable gene. *Genet. Res.* 23: 23–35.
+9. Pevzner, P. A., Tang, H., & Waterman, M. S. (2001). An Eulerian path approach to DNA fragment assembly. *PNAS* 98: 9748–9753.
+10. Compeau, P. E. C., Pevzner, P. A., & Tesler, G. (2011). How to apply de Bruijn graphs to genome assembly. *Nat. Biotechnol.* 29: 987–991.
+11. Fisher, R. A. (1930). *The Genetical Theory of Natural Selection*. Clarendon Press.
+
+Abbildungsnachweise: `pics/README.md`
 ::::
 
-## Literatur 2/2
-
-:::: {.lit}
-**Sweeps / Assembly**
-
-11. Maynard Smith, J., & Haigh, J. (1974). The hitch-hiking effect of a favourable gene. *Genetical Research* 23: 23–35.
-12. Kaplan, N. L., Hudson, R. R., & Langley, C. H. (1989). The «hitchhiking effect» revisited. *Genetics* 123: 887–899.
-13. Sabeti, P. C., et al. (2002). Detecting recent positive selection in the human genome from haplotype structure. *Nature* 419: 832–837.
-14. Nielsen, R., et al. (2005). Genomic scans for selective sweeps using SNP data. *Genome Research* 15: 1566–1575.
-15. Idury, R. M., & Waterman, M. S. (1995). A new algorithm for DNA sequence assembly. *Journal of Computational Biology* 2: 291–306.
-16. Pevzner, P. A., Tang, H., & Waterman, M. S. (2001). An Eulerian path approach to DNA fragment assembly. *PNAS* 98: 9748–9753.
-17. Compeau, P. E. C., Pevzner, P. A., & Tesler, G. (2011). How to apply de Bruijn graphs to genome assembly. *Nature Biotechnology* 29: 987–991.
-
-Abbildungsnachweise: `pics/README.md` und Bildunterschriften.
-::::
-
-## Glossar
-
-Ausführlich: **[Kursglossar](../../docs/glossary.html)**
-
-| | |
-|---|---|
-| Allel, Haplotyp, Sweep, Valley | Genom-Spuren |
-| de Bruijn, Assembly | Bioinformatik |
-| Lotka–Volterra, Fisher, Wright | Modelle / Evolution |
-| Introgression, ILS, Konvergenz | rivalisierende Geschichten |
-| Likelihood, Model selection | Modellvergleich |
-| Plastizität, Hypoxie, Apnoe | Physiologie / Kontext |
-
-## Navigation
+## Weiter
 
 | | |
 |---|---|
 | Glossar | [Kursglossar](../../docs/glossary.html) |
 | PDF | Taste **E**, dann Drucken → Als PDF speichern |
 | Weiter | [Woche 2 →](../week-02/slides.html) |
-
-← → · **M** · **E** (PDF) · **Esc** · **F**
