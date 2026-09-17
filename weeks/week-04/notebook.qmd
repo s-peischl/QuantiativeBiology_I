@@ -28,18 +28,18 @@ Bei **drei** Strategien kann Vielfalt bestehen bleiben, wenn zyklische Dominanz 
 ::: {.callout-tip}
 ## Auftrag
 
-- Zwei Strategien → Konkurrenzausschluss bestätigen
-- Mit drei Strategien RPS erzeugen (selber $\alpha_{ij}$ in $A$ wählen)
-- Mindestens **eine** Stabilitätsform klar hinbekommen (Punkt/Oszillation/Heteroklin) - idealerweise **nicht** nur die Ausgangswerte
-- **Optional**: alle drei Formen ansteuern (an $s+x$ drehen)
+- A) Zwei Strategien → Konkurrenzausschluss bestätigen
+- B1) Mit drei Strategien RPS erzeugen (selber $\alpha_{ij}$ in $A$ wählen)
+- B2) Mindestens **eine** Stabilitätsform klar hinbekommen (Punkt/Oszillation/Heteroklin) - idealerweise **nicht** nur die Ausgangswerte
+- **Optional**: C) alle drei Formen ansteuern (an $s+x$ drehen)
 
 :::
 
 ---
 
-# 1. Setup
+# 0. Setup
 
-Kursstandard — additive Differenzengleichung (wie `next_3lv`):
+Kursstandard — additive Differenzengleichung:
 
 $$
 N_{i,t+1} = N_{i,t} + r\, N_{i,t} \left(1 - \frac{(AN)_i}{K}\right), \qquad (AN)_i = \sum_j A_{ij}\, N_j
@@ -48,24 +48,34 @@ $$
 | Symbol | Bedeutung | Wertebereich | Kursbeispiel |
 |--------|-----------|--------------|--------------|
 | $r$ | Wachstumsrate pro Schritt | $0 < r \le 0.2$ | oft $0.02$–$0.05$ |
-| $K$ | Tragfähigkeit | $K > 0$ | $100$ |
+| $K$ | Tragfähigkeit (Populationsdeckel) | $K > 0$ | $100$ |
 | $A_{ij}$ | Last von Typ $j$ auf Typ $i$ | meist $\ge 0$ | Diagonale $=1$; RPS: eine Richtung $>1$, Gegenrichtung $<1$ |
-| $s,w$ | starke / schwache Interaktion | $s > 1 > w \ge 0$ | z. B. $s=1.5$, $w=0.5$ |
+| $s,w$ | starke / schwache Interaktion | $s > 1 > w \ge 0$ | z.B. $s=1.5$, $w=0.5$ |
 
 ## Interaktionen $A_{ij}$
 
+$A$ ist die Interaktionsmatrix, die alle Konkurrenzstärken $\alpha_{ij}$ enthält.
 $A_{ij}$: **Interaktionsstärke** — wie stark Typ $j$ Typ $i$ unterdrückt (Last).
 
-**Warum Diagonale = 1?** Konkurrenz-LV: Selbstkonkurrenz als Massstab.  
-Allein: Gleichgewicht bei $N_i = K$ (Zuwachs $=0$). Keine ±-Payoffs — alles ist Unterdrückung.
+$$
+A =
+\begin{pmatrix}
+1 & \alpha_{12} \\
+\alpha_{21} & 1
+\end{pmatrix}
+$$
+**Warum Diagonale = 1?** Die Diagonale beschreibt die Interaktion von Typ $i$ mit sich selber = Selbstkonkurrenz (Normierung).  
+Ein Typ allein: Gleichgewicht bei $N_i = K$ (Zuwachs $=0$). Keine ±-Payoffs — alles ist Unterdrückung (siehe notebook Woche 2).
 
 - $A_{ij} \gt 1$: $j$ belastet $i$ **stärker** als Selbstkonkurrenz → $i$ schrumpft eher  
 - $A_{ij} \lt 1$: $j$ belastet $i$ **schwächer** → $i$ hat es leichter  
 
-## Warum nur $s$ und $w$?
+### RPS-Vereinfachung $s+w$
 
-Vollmatrix: 6 freie Interaktionen (Diagonale fix).  
-**Zyklische Symmetrie** → alle starken Einträge $= s$, alle schwachen $= w$:
+Für RPS erweitern wir die Matrix für $3 \times 3$ Interaktionen. Sprich, hier haben wir eine Vollmatrix mit 6 freien Interaktionen (Diagonale fix!).  
+Zyklus: **1 schlägt 2** · **2 schlägt 3** · **3 schlägt 1**.
+
+Vereinfacht können wir das reduzieren zu:
 
 $$
 A =
@@ -78,12 +88,10 @@ w & s & 1
 (s \gt 1 \gt w)
 $$
 
-- **$s$**: starke Interaktion (gewinnende Richtung im Paar)  
-- **$w$**: schwache Interaktion (verlierende Richtung)  
+- **$s > 1$**: starke Interaktion (gewinnende Richtung im Paar)  
+- **$w < 1$**: schwache Interaktion (verlierende Richtung)  
 
-Zyklus: **1 schlägt 2** · **2 schlägt 3** · **3 schlägt 1**.
-
-**Wichtig:** RPS braucht nur das Muster «in jedem Paar eine Seite $\gt 1$, die andere $\lt 1$» im Zyklus — **nicht** volle $s,w$-Gleichheit. Die Reduktion macht die Faustregel $s+w$ einfach.
+**Wichtig:** RPS braucht nur das Muster «in jedem Paar eine Seite $\gt 1$, die andere $\lt 1$» im Zyklus — es braucht **nicht** eine volle $s,w$-Gleichheit. Aber, die Reduktion macht die Faustregel $s+w$ einfach.
 
 | $s+w$ | Intuition | Form |
 |---------|-----------|------|
@@ -93,36 +101,61 @@ Zyklus: **1 schlägt 2** · **2 schlägt 3** · **3 schlägt 1**.
 
 Die May–Leonard-Ergebnisse dienen hier nur als **qualitative Orientierung**.
 
-```{r}
-next_3lv <- function(N, r, A, K) {
-  load <- as.numeric(A %*% N)
-  pmax(N + r * N * (1 - load / K), 0)
-}
+## Implementierung
+### Code für Interaktionsmatrix $A$
+```{r A_mat}
 
-simulate_3lv <- function(N0, r, A, K, T = 2000) {
-  n <- length(N0)
-  N <- matrix(0, T + 1, n)
-  N[1, ] <- N0
-  for (t in 1:T) N[t + 1, ] <- next_3lv(N[t, ], r, A, K)
-  out <- data.frame(time = 0:T)
-  for (j in seq_len(n)) out[[paste0("N", j)]] <- N[, j]
-  out
-}
-
-plot_3lv <- function(df, main = "") {
-  cols <- c("#e67e22", "#2980b9", "#f1c40f")
-  ys <- df[, grep("^N", names(df)), drop = FALSE]
-  matplot(df$time, ys, type = "l", lty = 1, lwd = 2.3, col = cols[seq_len(ncol(ys))],
-          xlab = "Zeit", ylab = "Haeufigkeit", main = main)
-  legend("topright", paste0("Typ ", seq_len(ncol(ys))),
-         col = cols[seq_len(ncol(ys))], lty = 1, lwd = 2.3, bty = "n", cex = 0.85)
-}
-
-make_rps_A <- function(s, w) {
+make_A <- function(s, w) {
   matrix(c(1, w, s,
            s, 1, w,
            w, s, 1), 3, 3, byrow = TRUE)
 }
+
+```
+
+
+### Code für Zeitreihen
+```{r Zeitreihe}
+# Funktion um schrittweise die Populationsgrössen zu ermitteln
+next_3LV <- function(N, r, A, K) {
+  
+  load <- as.numeric(A %*% N)
+  pmax(N + r * N * (1 - load / K), 0) # Populationen nie negativ
+  
+}
+
+# Funktion um Zeitschritte bequem zu wiederholen (automatisierte Schlaufe)
+simulate_3LV <- function(N0, r, A, K, T = 2000) {
+  
+  n <- length(N0)           # Anzahl Typen/Strategien; N0 ist ein Vektor mit Anfangspopulationsgrössen
+  N <- matrix(0, T + 1, n)  # Matrix, um den Populationsverlauf zu speichern
+  N[1, ] <- N0              # Initialisierung der Matrix mit Anfangsgrössen
+  
+  # Schlaufe um Populationen zu berechnen:
+  for (t in 1:T) {
+    
+    N[t + 1, ] <- next_3LV(N[t, ], r, A, K)
+    
+  }
+  
+  # Datenoutput vorbereiten mit Zeitachse:
+  out <- data.frame(time = 0:T) 
+  
+  # für jeden Typen eine neue Spalte mit dem Populationsverlauf hinzufügen:
+  for (j in 1:n){
+    
+    out[[paste0("N", j)]] <- N[, j] # paste0("N", j) gibt der neuen Spalte unserne gewünschten Namen (Kombination von "N" und der Zahl des Typs) 
+    
+  } 
+  
+  out
+  
+}
+
+```
+
+### Code für Simplex
+```{r}
 
 # Frequenzen auf dem 2-Simplex (Dreieck)
 to_simplex_xy <- function(N) {
@@ -182,13 +215,15 @@ K <- 100
 
 ---
 
-# 2. Zwei Strategien → immer Exclusion
+# A) Zwei Strategien → immer Exclusion
 
 ```{r}
-#| fig-height: 3.8
-#| fig-width: 9
-A_demo <- make_rps_A(s = 1.2, w = 0.5)
-par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
+A_exclusion <- make_A(s = 1.2, 
+                      w = 0.5)
+
+#
+par(mfrow = c(1, 2))
+
 plot_3lv(simulate_3lv(c(50, 40), r, A_demo[1:2, 1:2], K),
          main = "Nur Typ 1 & 2")
 plot_3lv(simulate_3lv(c(50, 40), r, A_demo[c(1, 3), c(1, 3)], K),
@@ -199,11 +234,12 @@ plot_3lv(simulate_3lv(c(50, 40), r, A_demo[c(1, 3), c(1, 3)], K),
 
 ---
 
-# 3. Drei Strategien → Stabilisierung möglich
+# B) Drei Strategien → Stabilisierung möglich
+## B1) RPS erzeugen ($A$)
+
+## B2) Eine Stabilitätsform erzeugen
 
 ```{r}
-#| fig-height: 3.8
-#| fig-width: 8
 df_point <- simulate_3lv(c(40, 35, 30), r, A_demo, K, T = 2500)
 plot_3lv(df_point, main = "Alle drei (Punkt-RPS-Beispiel)")
 A_demo
@@ -213,11 +249,11 @@ A_demo
 
 ---
 
-# 4. Alle drei Stabilitätsformen ansteuern
+# C) Alle drei Stabilitätsformen ansteuern
 
 Nutzen Sie `make_rps_A(s, w)` und die Faustregel $s+w$.
 
-## A · Punkt ($s+w < 2$)
+## Punkt ($s+w < 2$)
 
 ```{r}
 #| fig-height: 3.6
@@ -231,7 +267,7 @@ plot_simplex(df, main = "Simplex → Punkt?")
 cat("s+w =", 1.2 + 0.5, "\n")
 ```
 
-## B · Stabile Oszillation ($s+w \approx 2$)
+## Stabile Oszillation ($s+w \approx 2$)
 
 ```{r}
 #| fig-height: 3.6
@@ -244,7 +280,7 @@ plot_simplex(df, main = "Simplex: Zyklus?")
 cat("s+w =", 1.35 + 0.65, "\n")
 ```
 
-## C · Heteroklinzyklus ($s+w > 2$)
+## Heteroklinzyklus ($s+w > 2$)
 
 ```{r}
 #| fig-height: 3.8
@@ -268,26 +304,6 @@ matplot(seq_len(nrow(bm)), bm, type = "b", pch = 16, lwd = 2,
 ```
 
 **F3.** Simplex: Punkt vs. geschlossener Orbit vs. Drift zum Rand — in 2 Sätzen.
-
----
-
-# 4b · Optional: asymmetrisches RPS-Muster
-
-Die Faustregel $s+w$ gilt für die **symmetrische** Reduktion.  
-RPS braucht nur das qualitative Muster (Zyklus von $\gt 1$ / $\lt 1$):
-
-```{r}
-#| fig-height: 3.6
-#| fig-width: 8
-A_asym <- matrix(c(1, 0.4, 1.5,
-                   1.15, 1, 0.55,
-                   0.7, 1.35, 1), 3, 3, byrow = TRUE)
-plot_3lv(simulate_3lv(c(40, 35, 30), r, A_asym, K, T = 4000),
-         main = "Asymmetrisch, gleiches +/- Muster")
-A_asym
-```
-
-**F3b.** Bleibt Vielfalt? Warum reicht das Muster ohne volle $s,w$-Symmetrie?
 
 ---
 
@@ -330,9 +346,3 @@ cat("s+w =", s + w, "\n")
 
 :::
 
----
-
-# Literatur
-
-1. May, R. M., & Leonard, W. J. (1975). Nonlinear aspects of competition between three species. *SIAM Journal on Applied Mathematics* 29: 243–253.
-2. Berkeley Understanding Evolution: [High-stakes rock-paper-scissors…](https://evolution.berkeley.edu/evo-news/high-stakes-rock-paper-scissors-these-lizards-are-all-in-on-an-evolutionary-game/)
