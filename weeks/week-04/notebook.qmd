@@ -102,18 +102,6 @@ $$
 Die May–Leonard-Ergebnisse dienen hier nur als **qualitative Orientierung**.
 
 ## Implementierung
-### Code für Interaktionsmatrix $A$
-```{r A_mat}
-
-make_A <- function(s, w) {
-  matrix(c(1, w, s,
-           s, 1, w,
-           w, s, 1), 3, 3, byrow = TRUE)
-}
-
-```
-
-
 ### Code für Zeitreihen
 ```{r Zeitreihe}
 # Funktion um schrittweise die Populationsgrössen zu ermitteln
@@ -125,7 +113,7 @@ next_3LV <- function(N, r, A, K) {
 }
 
 # Funktion um Zeitschritte bequem zu wiederholen (automatisierte Schlaufe)
-simulate_3LV <- function(N0, r, A, K, T = 2000) {
+simulate_3LV <- function(N0, r, A, K, T = 2000) { # T muss später nicht mehr definiert werden, weil immer T = 2000 angenommen wird
   
   n <- length(N0)           # Anzahl Typen/Strategien; N0 ist ein Vektor mit Anfangspopulationsgrössen
   N <- matrix(0, T + 1, n)  # Matrix, um den Populationsverlauf zu speichern
@@ -159,15 +147,18 @@ simulate_3LV <- function(N0, r, A, K, T = 2000) {
 
 # Frequenzen auf dem 2-Simplex (Dreieck)
 to_simplex_xy <- function(N) {
+  
   N <- as.matrix(N)
   s <- pmax(rowSums(N), 1e-12)
   f <- N / s
   v1 <- c(0.5, sqrt(3) / 2); v2 <- c(0, 0); v3 <- c(1, 0)
   cbind(x = f[, 1] * v1[1] + f[, 2] * v2[1] + f[, 3] * v3[1],
         y = f[, 1] * v1[2] + f[, 2] * v2[2] + f[, 3] * v3[2])
+  
 }
 
 plot_simplex <- function(df, main = "", fade = TRUE) {
+  
   cols_s <- c("#e67e22", "#2980b9", "#f1c40f")
   N <- df[, grep("^N", names(df)), drop = FALSE]
   if (ncol(N) != 3) stop("Simplex-Plot braucht genau 3 Typen")
@@ -194,48 +185,93 @@ plot_simplex <- function(df, main = "", fade = TRUE) {
   points(xy[n, 1], xy[n, 2], pch = 16, col = "#c0392b", cex = 1.0)
 }
 
-# Minima in aufeinanderfolgenden Bloecken (Heteroklin-Diagnose)
-block_mins <- function(df, nblock = 5) {
-  ys <- as.matrix(df[, grep("^N", names(df)), drop = FALSE])
-  blen <- floor(nrow(ys) / nblock)
-  out <- sapply(seq_len(ncol(ys)), function(j) {
-    sapply(0:(nblock - 1), function(b) {
-      i1 <- b * blen + 1
-      i2 <- min((b + 1) * blen, nrow(ys))
-      min(ys[i1:i2, j])
-    })
-  })
-  colnames(out) <- paste0("N", seq_len(ncol(ys)))
-  out
-}
 
-r <- 0.05
-K <- 100
 ```
 
 ---
 
 # A) Zwei Strategien → immer Exclusion
-
+Was passiert, wenn jeweils nur zwei Typen verteten sind?
 ```{r}
-A_exclusion <- make_A(s = 1.2, 
-                      w = 0.5)
+# Parameter und Variablen
+N0_1 <- 20   # Anfangsgrösse von Typ 1
+N0_2 <- 20   # Anfangsgrösse von Typ 2
+N0_3 <- 20   # Anfangsgrösse von Typ 3
 
-#
-par(mfrow = c(1, 2))
+N0_nur1_2 <- c(N0_1, N0_2, 0) # Vektor aller Anfangsgrössen
+# ...
 
-plot_3lv(simulate_3lv(c(50, 40), r, A_demo[1:2, 1:2], K),
-         main = "Nur Typ 1 & 2")
-plot_3lv(simulate_3lv(c(50, 40), r, A_demo[c(1, 3), c(1, 3)], K),
-         main = "Nur Typ 1 & 3")
+r <- 0.05 # Wachstumsrate
+K <- 100  # Tragfähigkeit (Populationsdeckel)
+
+A <- matrix(c(1, , ,
+          , 1, ,
+           , , 1), 3, 3, byrow = TRUE) # Diagonale = 1; Wählen Sie den Rest!
+
+# Simulationen
+nurTyp1_2 <- simulate_3LV(N0_nur1_2, r, A, K)
+# ...
+
+# Resultate
+par(mfrow = c(1, 3))
+
+plot(nurTyp1_2$time, 
+     nurTyp1_2$N1,
+  type = "l", lwd = 2,
+  xlab = "Zeit", ylab = "N",
+  col = "#e67e22", 
+  ylim = c(0, 120))
+lines(nurTyp1_2$time, 
+     nurTyp1_2$N2, 
+      type = "l", lwd = 2, col = "#2980b9")
+lines(nurTyp1_2$time, 
+     nurTyp1_2$N3, 
+      type = "l", lwd = 2, col = "#f1c40f")
+legend("topright", c("1", "2", "3"), lwd = 2, col = c("#e67e22", "#2980b9", "#f1c40f"))
+
+# ...
 ```
 
-**F1.** Wer gewinnt jeweils? Bleibt Vielfalt erhalten?
+::: {.callout-tip}
+
+## F1 · Zwei Strategien
+
+Wer gewinnt jeweils? Bleibt Vielfalt erhalten?
+
+:::
 
 ---
 
 # B) Drei Strategien → Stabilisierung möglich
 ## B1) RPS erzeugen ($A$)
+
+```{r A_mat}
+
+# Funktion um Interaktionsmatrix zu erstellen
+make_A <- function(s, w) {
+  matrix(c(1, , ,
+           , 1, ,
+           , , 1), 3, 3, byrow = TRUE) # Diagonale = 1; setzen Sie s und w ein!
+}
+
+s <- 0
+w <- 0
+
+A_RPS <- make_A(s, w)
+
+A_RPS
+```
+
+
+::: {.callout-tip}
+## F2 · Interaktionsmatrix
+
+Setzen Sie $s$ und $w$ in die Funktion `make_A` ein, damit Sie Interaktionsmatrizen für RPS generieren können.
+
+- Wie sieht $A$ aus?
+- Was haben Sie für $s+w$ gewählt?
+
+:::
 
 ## B2) Eine Stabilitätsform erzeugen
 
@@ -301,6 +337,22 @@ matplot(seq_len(nrow(bm)), bm, type = "b", pch = 16, lwd = 2,
         col = c("#e67e22", "#2980b9", "#f1c40f"),
         xlab = "Zeitblock", ylab = "Minimum",
         main = "Sinken die Minima?")
+
+
+# Minima in aufeinanderfolgenden Bloecken (Heteroklin-Diagnose)
+block_mins <- function(df, nblock = 5) {
+  ys <- as.matrix(df[, grep("^N", names(df)), drop = FALSE])
+  blen <- floor(nrow(ys) / nblock)
+  out <- sapply(seq_len(ncol(ys)), function(j) {
+    sapply(0:(nblock - 1), function(b) {
+      i1 <- b * blen + 1
+      i2 <- min((b + 1) * blen, nrow(ys))
+      min(ys[i1:i2, j])
+    })
+  })
+  colnames(out) <- paste0("N", seq_len(ncol(ys)))
+  out
+}
 ```
 
 **F3.** Simplex: Punkt vs. geschlossener Orbit vs. Drift zum Rand — in 2 Sätzen.
