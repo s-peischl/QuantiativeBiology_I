@@ -52,7 +52,7 @@ format:
 |---|---|---|---|---|
 | **Einstieg** | 1 | Anpassung beim Menschen: Tauchen der Bajau → Höhenlage in Tibet | Frage → Daten → Analyse; Vielfalt quantitativer Methoden in der Biologie | — |
 | **Ökologie** | 2–4 | Populationen und Interaktionen | Deterministische Simulation (Funktion → Vektor → Schleife) | **A · Woche 4** |
-| **Evolution (deterministisch)** | 5–8 | HWE, Selektion, lokale Anpassung, Variation | Rekursionsgleichungen; dieselbe Programmierlogik | **B · Woche 8** |
+| **Evolution (deterministisch)** | 5–8 | Vererbung, Selektion, Raum (Farbmorphen → Stichling) | Rekursionsgleichungen; Datentabellen, `sapply()`, Filtern | **B · Woche 8** |
 | **Evolution (zufällig)** | 9–11 | Etablierung → evolutionäre Rettung | Stochastische Schicksale; im Labor geprüfte Theorie der evolutionären Rettung | **C · Woche 11** |
 | **Mikrobiom** | 12–14 | Komplexe Datensätze von Gemeinschaften | Hochdimensionale Tabellen einlesen → aufbereiten → visualisieren | **D · Woche 14** |
 
@@ -68,7 +68,7 @@ Anstelle einer einzigen grossen Abschlusspräsentation: **vier Checkpoints** (A�
 | Checkpoint | Zeitpunkt | Thema | Praktische Arbeit | Präsentation (kurz) |
 |---|---|---|---|---|
 | **A** | Woche **4** · **8. Okt. 2026** | Ökologie / Spieltheorie | 3-Spieler-RPS; Punkt / Oszillation / Heteroklin | ~2–3 Min.: Matrix → Plot → Form → warum 3 Strategien |
-| **B** | Woche **8** · **5. Nov. 2026** | Evolution (deterministisch) | Eine Frage zu Sweep, lokaler Anpassung oder Variationserhalt | Gleiches Format; Schwerpunkt auf Rekursion / Gleichgewichten |
+| **B** | Woche **8** · **5. Nov. 2026** | Evolution (deterministisch) | Eine Frage zu häufigkeitsabhängiger Fitness, Überdominanz oder Stichling und $F_{ST}$ | Gleiches Format; Schwerpunkt auf Rekursion / Gleichgewichten |
 | **C** | Woche **11** · **26. Nov. 2026** | Evolutionäre Rettung | Simulation von Rettung / Etablierung + Bezug zu einem Laborergebnis | Wann passt sich eine schrumpfende Population rechtzeitig an? |
 | **D** | Woche **14** · **17. Dez. 2026** | Visualisierung von Mikrobiomdaten | Eine reale Gemeinschaftstabelle einlesen und visualisieren; eine klare visuelle Geschichte | Was das Diagramm zeigt — und was **nicht** |
 
@@ -159,48 +159,47 @@ Grundprinzip: biologische Regel → **additive Differenzengleichung** $X_{t+1}=X
 
 ## Evolution — deterministisch (Wochen 5–8) → Checkpoint B
 
-**[Modul 2](module-02-overview.qmd)** — Allelfrequenz und Selektion.
+**[Modul 2](module-02-overview.qmd)** — Vererbung, Selektion, Raum.
 
-Untersuchungsobjekt wechselt von Populationsgrösse zu **Allelfrequenz** $p$
-und Genotypzahlen. Das **Beispiel** zuerst; Mathematik erklärt, *warum* die
-Kurven so aussehen. Ableiten und Tests: andere Vorlesungen.
+Untersuchungsobjekt wechselt von Populationsgrösse / Strategien zu **Allelfrequenz** $p$
+und Genotypen. Einstieg aus Woche 4 (*Uta*: dieselbe Art → Vererbung). Ableiten und Tests: andere Vorlesungen.
 
-### Woche 5 — Hardy–Weinberg und Wahlund
+### Woche 5 — Von Strategien zu Genen
 **Wann:** Do., 15. Okt. 2026, 08:15–10:00 Uhr  
-**Materialien:** folgt
+**Materialien:** [Folien](../weeks/week-05/slides.qmd) · [Notebook](../weeks/week-05/notebook.qmd)
 
-- **Sitzung:** ~45 min Vorlesung + ~45 min Notebook (Spielraum)
-- SNP, Locus, Allel, Genotyp; HapMap-Muster; HWE als Nullbild ($\chi^2$ → Statistik)
-- CEU+YRI gepoolt: Ausreisser, Diskussion, was ist eine Population?
-- Getrennt: HWE passt wieder (Wahlund); Duffy $p\approx 0$ vs. $p\approx 1$ als Teaser für Woche 6
+- **Sitzung:** ~45 min Vorlesung + ~45 min Notebook
+- Farbmorphen sind Varianten einer Art: zwei Haplotypen plus Plastizität statt drei Allele (Corl et al. 2026)
+- Locus, Allel, Genotyp; Hardy–Weinberg als Nullbild ohne Selektion, geprüft an echten HapMap-Genotypzählungen
+- **Neu im Code:** Datentabellen und vektorisiertes Rechnen über alle Zeilen
 
-### Woche 6 — Selektion und lokale Anpassung
+### Woche 6 — Wann Selektion Vielfalt erhält
 **Wann:** Do., 22. Okt. 2026, 08:15–10:00 Uhr  
-**Materialien:** folgt
+**Materialien:** [Folien](../weeks/week-06/slides.qmd) · [Notebook](../weeks/week-06/notebook.qmd)
 
-- **Sitzung:** ~45 min Vorlesung + ~45 min Notebook (Spielraum)
-- Empirie: genetische Unterschiede beim Stichling (Meer/See) trotz Verbindung
-- $F_{ST}$-Scan nur als **Motiv**; Schätzer und Tests → Statistikvorlesung (das Bild brauchen Sie dort)
-- Zentral: **stabile** $p_1\neq p_2$ sind möglich; sonst Gene swamping
+- **Sitzung:** ~45 min Vorlesung + ~45 min Notebook
+- Sichelzellanämie und Malaria als gemessener Heterozygotenvorteil; daraus der Fitnessvektor
+- Gerichtete Selektion, Unterdominanz, Überdominanz; geschützter Polymorphismus nur im dritten Fall
+- Häufigkeitsabhängige Fitness als eigener Mechanismus — die Voraussetzung der klassischen Aussage ist bei den Eidechsen verletzt
+- **Neu im Code:** Default-Argumente und `sapply()` für Parameter-Sweeps
 
-### Woche 7 — Wie bleibt Variation erhalten?
+### Woche 7 — Anpassung im Raum
 **Wann:** Do., 29. Okt. 2026, 08:15–10:00 Uhr  
-**Materialien:** folgt
+**Materialien:** [Folien](../weeks/week-07/slides.qmd) · [Notebook](../weeks/week-07/notebook.qmd)
 
-- **Sitzung:** ~45 min Vorlesung + ~45 min Notebook (Spielraum)
-- Diversitätsparadoxon (1966); Kimura und Gillespie; Neutralisten vs. Selektionisten
-- Selektion als Ursache: Überdominanz hält, Unterdominanz nicht
-- Isolation und räumliche Selektion (Woche 6) halten Diversität zwischen Orten
-- Zeitlich fluktuierende Selektion (eine Population, nacheinander): *Drosophila*-Saisons (Bergland, Wittmann, Rudman)
-- Parameter $L$ (Saisonlänge): wann bleibt Polymorphismus, wann Rand?
+- **Sitzung:** ~45 min Vorlesung + ~45 min Notebook
+- Stichlinge in Meer und Süsswasser: Kreuzungen, *Eda*, parallele Genome — Unterschiede trotz Genfluss
+- Zwei-Demen-Modell: Selektion lokal, danach Mischung; wann $p_1\neq p_2$ stabil bleibt
+- $F_{ST}$ und Outlier-Scans; Rückgriff auf Tibet und EPAS1 (Woche 1)
+- **Neu im Code:** Zeilen filtern und Schwellen mit `quantile()` setzen
 
-### Woche 8 — Synthese und **Checkpoint B**
+### Woche 8 — Ideen, Grenzen und **Checkpoint B**
 **Wann:** Do., 5. Nov. 2026, 08:15–10:00 Uhr  
-**Materialien:** folgt
+**Materialien:** [Folien](../weeks/week-08/slides.qmd) · [Notebook](../weeks/week-08/notebook.qmd)
 
-- Foto-Landkarte der Fragen aus Wochen 5–7; was Mathe/Statistik/Code geleistet hat
-- **Checkpoint B:** eine biologische Frage (Resistenz, Habitate, Variation/$L$); eine Abbildung + 3–5-Min-Vortrag
-- Brücke: eine neue Mutation beginnt mit einer Kopie — Zufall ab Woche 9
+- Kurz: Neutralisten und Selektionisten; Spandrels (Gould & Lewontin 1979) als Warnung vor vorschnellen Anpassungsgeschichten
+- **Checkpoint B:** eine biologische Frage (häufigkeitsabhängige Fitness, Überdominanz oder Stichling und $F_{ST}$); eine Abbildung + 3–5-Min-Vortrag
+- Rückblick auf den Werkzeugkasten der Wochen 2–8; Brücke: eine neue Mutation beginnt mit einer Kopie — Zufall ab Woche 9
 
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: "Woche 5 — Notebook"
-subtitle: "HapMap-Muster, Hardy–Weinberg und Wahlund"
+subtitle: "Allelfrequenzen, Hardy–Weinberg und echte Genotypdaten"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:
@@ -17,268 +17,252 @@ execute:
   freeze: false
 ---
 
-::: {.callout-warning}
-## Entwurf
-
-Dieses Notebook ist noch nicht in der Sitzungsfassung. Die Folien tragen
-die biologische Frage; Übungen kommen später.
-:::
-
 # Ziel und Zeitplan
 
 In ungefähr **45 Minuten**:
 
 | Teil | ca. | Ziel |
 |---|---:|---|
-| A | 8 min | Allel- vs. Genotypfrequenzen |
-| B | 12 min | HapMap-Muster mit HWE-Kurven erklären |
-| C | 10 min | Struktur ignorieren: derselbe HWE-Plot |
-| D | 15 min | Populationen trennen; Abweichungen diskutieren |
+| A | 10 min | Von Genotypzählungen zur Allelfrequenz |
+| B | 12 min | Die Rechnung auf 225 SNPs gleichzeitig anwenden |
+| C | 13 min | Daten gegen die Hardy–Weinberg-Erwartung legen |
+| D | 10 min | Zwei Populationen in einer Probe: der Wahlund-Effekt |
 
-Das Notebook läuft mit **base R**.
+Alles läuft mit **base R**. Es muss kein Paket installiert werden.  
+Der Ordner `data/` muss neben dem Notebook liegen.
 
-## Daten
+## Die Grössen
 
-- `data/hapmap_chb_chr1.csv`: 225 SNPs, 84 CHB-Personen (HapMap).
-- `data/famous_snps.csv`: Duffy, Laktase, *SLC24A5* in CEU und YRI
-  (1000 Genomes Phase 3).
-- `data/panel_ceu_yri.csv`: 50 SNPs in CEU und YRI; innerhalb jeder
-  Population unter HWE simuliert.
+Ein Locus, zwei Allele $A$ und $B$, diploide Individuen.
 
-Details: `data/README.md`.
+- **Genotypzählungen** `AA`, `AB`, `BB`: wie viele Individuen welchen Genotyp tragen.
+- **Allelfrequenz** $p = f(A)$, gezählt über **Kopien**: $p = (2 n_{AA} + n_{AB}) / (2n)$.
+- **Erwartung unter Hardy–Weinberg:** $p^2$, $2pq$, $q^2$ mit $q = 1 - p$.
 
-```{r check-data}
-stopifnot(
-  file.exists("data/hapmap_chb_chr1.csv"),
-  file.exists("data/famous_snps.csv"),
-  file.exists("data/panel_ceu_yri.csv")
-)
-hapmap <- read.csv("data/hapmap_chb_chr1.csv")
-famous <- read.csv("data/famous_snps.csv")
-panel <- read.csv("data/panel_ceu_yri.csv")
-head(hapmap)
-```
+---
 
-------------------------------------------------------------------------
+# A · Von Zählungen zur Frequenz
 
-# A — Allele und Genotypen
+Wir schreiben die Rechnung einmal als Funktion, damit wir sie später wiederverwenden können.
 
-Ein diploider Locus, Allele A und B, Genotypen $AA$, $AB$, $BB$.
-Das sind **keine Haplotypen**.
-
-$$
-p=f(A)=\frac{2n_{AA}+n_{AB}}{2N},\qquad q=1-p.
-$$
-
-```{r allele-frequency-function}
-allele_frequency <- function(AA, AB, BB) {
+```{r}
+allelfrequenz <- function(AA, AB, BB) {
   n <- AA + AB + BB
-  p <- (2 * AA + AB) / (2 * n)
-  c(n = n, p = p, q = 1 - p)
+  (2 * AA + AB) / (2 * n)
 }
 
-allele_frequency(AA = 25, AB = 50, BB = 25)
+allelfrequenz(AA = 36, AB = 48, BB = 16)
 ```
+
+Die Funktion kennt die Biologie: Homozygote steuern zwei Kopien bei, Heterozygote eine.
 
 ::: {.callout-tip}
-## Aufgabe A1
+## F1 · Kopien zählen
 
-Vergleichen Sie `AA=25, AB=50, BB=25` mit `AA=50, AB=0, BB=50`.
-Gleiche Allelfrequenzen? Gleiche Genotypfrequenzen?
+1. Rechnen Sie das Beispiel von Hand nach. Wie viele $A$-Kopien gibt es insgesamt?
+2. Welchen Wert hat $p$, wenn **alle** 100 Individuen heterozygot sind?
+3. Kann $p = 0.5$ sein, ohne dass ein einziges Individuum heterozygot ist?
 :::
 
-```{r exercise-a1}
-rbind(
-  Population_1 = allele_frequency(25, 50, 25),
-  Population_2 = allele_frequency(50, 0, 50)
-)
+---
+
+# B · Dieselbe Rechnung für 225 SNPs
+
+Jetzt die echten Daten: 225 SNPs auf Chromosom 1, je 84 Personen aus Peking (HapMap-Projekt).
+
+```{r}
+snps <- read.csv("data/hapmap_chb_chr1.csv")
+nrow(snps)
+head(snps, 4)
 ```
 
-------------------------------------------------------------------------
+Jede Zeile ist ein SNP. Die Zeilen sind **unabhängig** voneinander — kein SNP wartet auf einen anderen.
 
-# B — Kann HWE das HapMap-Muster erklären?
+## Die ganze Spalte auf einmal
 
-Unter zufälliger Paarung:
+```{r}
+snps$n <- snps$AA + snps$AB + snps$BB
+snps$p <- (2 * snps$AA + snps$AB) / (2 * snps$n)
 
-$$f(AA)=p^2,\quad f(AB)=2pq,\quad f(BB)=q^2.$$
+head(snps, 4)
+```
 
-```{r hwe-curves}
-pgrid <- seq(0, 1, length.out = 301)
-cols <- c(AA = "#2166ac", AB = "#1b9e77", BB = "#b2182b")
+`snps$AA` ist ein Vektor mit 225 Zahlen. R rechnet elementweise und legt 225 Ergebnisse in der neuen Spalte ab. Das ist **vektorisiertes Rechnen**.
 
-plot_hwe <- function(dat, main, cex = 0.7) {
-  plot(pgrid, pgrid^2, type = "l", lwd = 2.5, col = cols["AA"],
-       ylim = c(0, 1), xlab = "p = f(A)", ylab = "Genotypfrequenz",
-       main = main)
-  lines(pgrid, 2 * pgrid * (1 - pgrid), lwd = 2.5, col = cols["AB"])
-  lines(pgrid, (1 - pgrid)^2, lwd = 2.5, col = cols["BB"])
-  points(dat$p, dat$f_AA, pch = 16, cex = cex,
-         col = adjustcolor(cols["AA"], 0.5))
-  points(dat$p, dat$f_AB, pch = 16, cex = cex,
-         col = adjustcolor(cols["AB"], 0.5))
-  points(dat$p, dat$f_BB, pch = 16, cex = cex,
-         col = adjustcolor(cols["BB"], 0.5))
-  legend("top", names(cols), col = cols, pch = 16, lwd = 2.5,
-         bty = "n", ncol = 3)
+## Zum Vergleich: dieselbe Arbeit als Schleife
+
+```{r}
+p_schleife <- numeric(nrow(snps))
+for (i in seq_len(nrow(snps))) {
+  p_schleife[i] <- allelfrequenz(snps$AA[i], snps$AB[i], snps$BB[i])
 }
 
-plot(pgrid, pgrid^2, type = "l", lwd = 3, col = cols["AA"],
-     ylim = c(0, 1), xlab = "p = f(A)", ylab = "Genotypfrequenz",
-     main = "Hardy-Weinberg-Erwartung")
-lines(pgrid, 2 * pgrid * (1 - pgrid), lwd = 3, col = cols["AB"])
-lines(pgrid, (1 - pgrid)^2, lwd = 3, col = cols["BB"])
-legend("top", c("AA: p²", "AB: 2pq", "BB: q²"),
-       col = cols, lwd = 3, bty = "n", ncol = 3)
+all.equal(p_schleife, snps$p)
 ```
 
-```{r prepare-hapmap}
-hapmap$n <- rowSums(hapmap[c("AA", "AB", "BB")])
-hapmap$p <- (2 * hapmap$AA + hapmap$AB) / (2 * hapmap$n)
-hapmap$f_AA <- hapmap$AA / hapmap$n
-hapmap$f_AB <- hapmap$AB / hapmap$n
-hapmap$f_BB <- hapmap$BB / hapmap$n
-```
+Gleiches Ergebnis, mehr Zeilen Code. Für unabhängige Beobachtungen ist die Spaltenrechnung die passende Form; Zeitreihen wie in Woche 2 brauchen weiterhin die Schleife.
 
-```{r observed-over-theory}
-plot_hwe(hapmap, "225 CHB-SNPs und HWE-Kurven", cex = 0.55)
+## Wie sind die Frequenzen verteilt?
+
+```{r}
+#| fig-height: 4
+#| fig-width: 7
+hist(snps$p, breaks = 20, col = "#d6e6f5", border = "white",
+     xlab = "Allelfrequenz p", ylab = "Anzahl SNPs",
+     main = "225 SNPs auf Chromosom 1")
+summary(snps$p)
 ```
 
 ::: {.callout-tip}
-## Aufgabe B1
+## F2 · Die Verteilung lesen
 
-Erklärt das Modell das Muster? Warum erwarten Sie bei $N=84$ Streuung
-um die Kurven, selbst wenn HWE gilt?
+1. Warum liegen viele SNPs nahe bei $0$ oder $1$?
+2. Was würde sich ändern, wenn wir für jeden SNP das **seltenere** Allel als $A$ definieren würden?
 :::
 
-------------------------------------------------------------------------
+---
 
-# C — Struktur ignorieren
+# C · Daten gegen die Erwartung
 
-Jetzt 50 SNPs aus **CEU** und **YRI**. Zuerst behandeln wir alle Personen
-als **eine** Stichprobe — Herkunft ignoriert.
+Die Erwartung hängt nur von $p$ ab. Wir zeichnen sie als Kurven und legen die beobachteten Anteile als Punkte darüber.
 
-```{r pool-panel}
-ceu <- panel[panel$pop == "CEU", ]
-yri <- panel[panel$pop == "YRI", ]
-stopifnot(identical(ceu$snp, yri$snp))
+```{r}
+snps$f_AA <- snps$AA / snps$n
+snps$f_AB <- snps$AB / snps$n
+snps$f_BB <- snps$BB / snps$n
+```
 
-pooled <- data.frame(
-  snp = ceu$snp,
-  AA = ceu$AA + yri$AA,
-  AB = ceu$AB + yri$AB,
-  BB = ceu$BB + yri$BB
+```{r}
+#| fig-height: 4.6
+#| fig-width: 8
+raster <- seq(0, 1, length.out = 301)
+
+plot(raster, raster^2, type = "l", lwd = 2.5, col = "#2166ac", ylim = c(0, 1),
+     xlab = "Allelfrequenz p", ylab = "Genotypfrequenz",
+     main = "Beobachtung (Punkte) und HWE-Erwartung (Linien)")
+lines(raster, 2 * raster * (1 - raster), lwd = 2.5, col = "#1b9e77")
+lines(raster, (1 - raster)^2, lwd = 2.5, col = "#b2182b")
+
+points(snps$p, snps$f_AA, pch = 16, cex = 0.8, col = "#2166ac")
+points(snps$p, snps$f_AB, pch = 16, cex = 0.8, col = "#1b9e77")
+points(snps$p, snps$f_BB, pch = 16, cex = 0.8, col = "#b2182b")
+
+legend("top", c("AA", "AB", "BB"), col = c("#2166ac", "#1b9e77", "#b2182b"),
+       lwd = 2.5, pch = 16, bty = "n", ncol = 3)
+```
+
+## Wie gut passt das Nullmodell?
+
+```{r}
+snps$erwartet_AB <- 2 * snps$p * (1 - snps$p)
+
+c(beobachtet = mean(snps$f_AB),
+  erwartet   = mean(snps$erwartet_AB))
+```
+
+Über alle 225 SNPs stimmen beobachtete und erwartete Heterozygotie praktisch überein. Ein Modell mit **einer** Zahl pro SNP beschreibt die Daten gut.
+
+## Der grösste Ausreisser
+
+```{r}
+snps$abweichung <- snps$f_AB - snps$erwartet_AB
+schlimmster <- snps[which.max(abs(snps$abweichung)), ]
+schlimmster[, c("snp", "AA", "AB", "BB", "p", "f_AB", "erwartet_AB")]
+```
+
+`which.max()` gibt die **Position** des grössten Werts zurück; damit greifen wir die passende Zeile heraus.
+
+::: {.callout-tip}
+## F3 · Abweichungen deuten
+
+1. Hat dieser SNP mehr oder weniger Heterozygote als erwartet?
+2. Nennen Sie zwei biologische Gründe für zu wenige Heterozygote.
+3. Warum ist eine einzelne Abweichung unter 225 SNPs noch kein Befund? (Stichwort Zufall — die Statistikvorlesung macht daraus einen Test.)
+:::
+
+---
+
+# D · Zwei Populationen in einer Probe
+
+Bis jetzt war die Stichprobe **eine** Population. Was passiert, wenn wir zwei Gruppen mit unterschiedlichen Allelfrequenzen zusammenwerfen?
+
+Der Datensatz enthält 50 SNPs für zwei Populationen (CEU und YRI), davon 10 stark differenzierte.
+
+```{r}
+panel <- read.csv("data/panel_ceu_yri.csv")
+head(panel, 4)
+table(panel$class, panel$pop)
+```
+
+## Ein stark differenzierter SNP
+
+```{r}
+eins <- subset(panel, snp == "SIM_diff_01")
+eins$p <- (2 * eins$AA + eins$AB) / (2 * eins$n)
+eins[, c("snp", "pop", "n", "AA", "AB", "BB", "p")]
+```
+
+In jeder Population getrennt betrachtet ist alles unauffällig. Jetzt werfen wir beide in einen Topf:
+
+```{r}
+pool <- data.frame(
+  AA = sum(eins$AA),
+  AB = sum(eins$AB),
+  BB = sum(eins$BB)
 )
-pooled$n <- rowSums(pooled[c("AA", "AB", "BB")])
-pooled$p <- (2 * pooled$AA + pooled$AB) / (2 * pooled$n)
-pooled$f_AA <- pooled$AA / pooled$n
-pooled$f_AB <- pooled$AB / pooled$n
-pooled$f_BB <- pooled$BB / pooled$n
+pool$n <- pool$AA + pool$AB + pool$BB
+pool$p <- (2 * pool$AA + pool$AB) / (2 * pool$n)
+
+c(beobachtet = pool$AB / pool$n,
+  erwartet   = 2 * pool$p * (1 - pool$p))
 ```
 
-```{r pooled-hwe-plot}
-plot_hwe(pooled, "CEU + YRI als eine Stichprobe")
+Die gepoolte Probe hat deutlich **zu wenige** Heterozygote. Das ist der **Wahlund-Effekt**: nicht die Paarung ist schuld, sondern die Stichprobe — sie war keine einzelne Population.
+
+## Alle SNPs, gepoolt gegen getrennt
+
+```{r}
+#| fig-height: 4.6
+#| fig-width: 8
+gepoolt <- aggregate(cbind(AA, AB, BB, n) ~ snp + class, data = panel, FUN = sum)
+gepoolt$p <- (2 * gepoolt$AA + gepoolt$AB) / (2 * gepoolt$n)
+gepoolt$f_AB <- gepoolt$AB / gepoolt$n
+
+farbe <- ifelse(gepoolt$class == "differenziert", "#b2182b", "#7f8c8d")
+
+plot(raster, 2 * raster * (1 - raster), type = "l", lwd = 2.5, col = "#1b9e77",
+     ylim = c(0, 0.6), xlab = "Allelfrequenz p (gepoolt)",
+     ylab = "Heterozygotenanteil",
+     main = "Gepoolte Probe: differenzierte SNPs fallen ab")
+points(gepoolt$p, gepoolt$f_AB, pch = 16, col = farbe)
+legend("topright", c("HWE-Erwartung", "aehnlich", "differenziert"),
+       col = c("#1b9e77", "#7f8c8d", "#b2182b"),
+       lwd = c(2.5, NA, NA), pch = c(NA, 16, 16), bty = "n")
 ```
+
+Die 40 ähnlichen SNPs liegen auf der Kurve, die 10 differenzierten darunter — obwohl in **jeder** Population für sich zufällig gepaart wurde.
 
 ::: {.callout-tip}
-## Aufgabe C1
+## F4 · Struktur erkennen
 
-Vergleichen Sie mit dem CHB-Plot. Liegen **alle** grünen Punkte unter
-$2pq$, oder nur ein Teil? Was könnte der Unterschied zwischen diesen
-SNPs sein?
+1. Warum betrifft der Effekt nur die differenzierten SNPs?
+2. Sie finden in einer Stichprobe systematisch zu wenige Heterozygote. Welche zwei Erklärungen müssen Sie auseinanderhalten?
+3. Woche 7 misst genau diesen Unterschied zwischen Gruppen mit einer eigenen Grösse. Welche?
 :::
 
-::: {.callout-tip}
-## Aufgabe C2 — Diskussion
+---
 
-Welche Faktoren könnten zu einer Abweichung von HWE führen?
-Nennen Sie mindestens drei, nicht nur Selektion.
-:::
+# Zum Mitnehmen
 
-> Ob ein Punkt «weit weg» ist, quantifiziert später die Statistikvorlesung
-> (z. B. mit einem $\chi^2$-Vergleich). Heute reicht der Plot.
+- $p$ zählt **Kopien**, nicht Individuen.
+- Unabhängige Zeilen einer Tabelle rechnet man spaltenweise; Zeitreihen brauchen die Schleife.
+- Hardy–Weinberg ist die Erwartung ohne Selektion — 225 reale SNPs folgen ihr gut.
+- Zu wenige Heterozygote können bedeuten: falsche Stichprobe, nicht falsche Biologie.
 
-------------------------------------------------------------------------
+Nächste Woche: Genotypen überleben unterschiedlich gut. Dann bewegt sich $p$.
 
-# D — Dieselben SNPs, Populationen getrennt
+## Quellen
 
-```{r split-panel}
-ceu$n <- rowSums(ceu[c("AA", "AB", "BB")])
-ceu$p <- (2 * ceu$AA + ceu$AB) / (2 * ceu$n)
-ceu$f_AA <- ceu$AA / ceu$n
-ceu$f_AB <- ceu$AB / ceu$n
-ceu$f_BB <- ceu$BB / ceu$n
-
-yri$n <- rowSums(yri[c("AA", "AB", "BB")])
-yri$p <- (2 * yri$AA + yri$AB) / (2 * yri$n)
-yri$f_AA <- yri$AA / yri$n
-yri$f_AB <- yri$AB / yri$n
-yri$f_BB <- yri$BB / yri$n
-```
-
-```{r split-hwe-plot}
-par(mfrow = c(1, 2), mar = c(4, 4, 2.2, 0.6))
-plot_hwe(ceu, "nur CEU", cex = 0.65)
-plot_hwe(yri, "nur YRI", cex = 0.65)
-```
-
-::: {.callout-tip}
-## Aufgabe D1
-
-Was ändert sich am Plot, wenn man die Herkunft **nicht** ignoriert?
-Welche der Ursachen aus C2 erklärt das am direktesten?
-:::
-
-Das ist der **Wahlund-Effekt**: zwei Populationen mit verschiedenem $p$,
-jede für sich in HWE, ergeben im **Pool** zu wenige Heterozygote.
-
-$$
-\overline{2pq} < 2\bar p\,\bar q
-$$
-
-## Duffy macht denselben Punkt extrem
-
-C = Duffy-Null (`rs2814778`): Resistenz gegen *P. vivax*. In YRI fast
-fixiert, in CEU praktisch abwesend.
-
-```{r duffy}
-duffy <- famous[famous$snp == "rs2814778", ]
-ceu_d <- duffy[duffy$pop == "CEU", ]
-yri_d <- duffy[duffy$pop == "YRI", ]
-pool_d <- data.frame(
-  AA = ceu_d$AA + yri_d$AA,
-  AB = ceu_d$AB + yri_d$AB,
-  BB = ceu_d$BB + yri_d$BB
-)
-n_pool <- sum(pool_d)
-p_pool <- (2 * pool_d$AA + pool_d$AB) / (2 * n_pool)
-
-rbind(
-  CEU = c(TT = ceu_d$AA, TC = ceu_d$AB, CC = ceu_d$BB),
-  YRI = c(TT = yri_d$AA, TC = yri_d$AB, CC = yri_d$BB),
-  gepoolt = c(TT = pool_d$AA, TC = pool_d$AB, CC = pool_d$BB)
-)
-c(
-  p_gepoolt = p_pool,
-  erwartet_2pq = 2 * p_pool * (1 - p_pool),
-  beobachtet_f_AB = pool_d$AB / n_pool
-)
-```
-
-::: {.callout-tip}
-## Aufgabe D2
-
-1. Formulieren Sie Wahlund in einem Satz.
-2. Warum erwartet HWE im Duffy-Pool viele Heterozygote, obwohl fast
-   niemand heterozygot ist?
-3. Warum bleibt Duffy biologisch spannend — obwohl die Abweichung im
-   Pool von der **Mischung** kommt?
-:::
-
-------------------------------------------------------------------------
-
-# Zusammenfassung
-
-- HapMap-Punkte folgen $p^2,2pq,q^2$, wenn eine Population zufällig paart.
-- Abweichungen vom HWE-Plot haben mehrere mögliche Ursachen.
-- Zwei Populationen poolen kann Heterozygote unter $2pq$ drücken (**Wahlund**).
-- Nach Population trennen: dieselben SNPs liegen wieder auf den Kurven.
+- The International HapMap Consortium (2007). *Nature* 449: 851–861. [doi:10.1038/nature06258](https://doi.org/10.1038/nature06258) — `hapmap_chb_chr1.csv`
+- Wahlund, S. (1928). Zusammensetzung von Populationen und Korrelationserscheinungen vom Standpunkt der Vererbungslehre aus betrachtet. *Hereditas* 11: 65–106.
+- Details zu den Kursdaten: `data/README.md`

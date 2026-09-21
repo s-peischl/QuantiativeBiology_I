@@ -170,39 +170,56 @@ Anteil von Allel A unter **allen** Kopien in der Stichprobe. Nicht dasselbe wie 
 
 **Hardy–Weinberg (HWE)**  
 Bei zufälliger Paarung in **einer** Population: Genotypfrequenzen $p^2$, $2pq$, $q^2$.  
-Nullbild: liegen die Punkte auf den drei Kurven? Tests und Algebra: Statistik- bzw. Modellierungsvorlesung — das Bild brauchen Sie dort.
+Nullbild ohne Selektion: liegen die Punkte auf den drei Kurven? Tests und Algebra: Statistik- bzw. Modellierungsvorlesung.
 
 **Wahlund-Effekt**  
 Zwei Gruppen mit verschiedenem $p$ in **einer** Probe: zu wenige Heterozygote.  
-Nicht weil niemand paart — die Mischung war keine Population (Wahlund 1928).
+Nicht weil niemand paart — die Mischung war keine Population (Wahlund 1928). Optionaler Nebenpfad in Woche 5.
 
-**Duffy-Null**  
-Promotor-SNP (`rs2814778`) von *ACKR1*: auf Erythrozyten kein Duffy-Protein. *Plasmodium vivax* kommt nicht rein. In Westafrika fast fixiert, in Europa fast abwesend.
+**Farbmorphen der Seitenfleckeneidechse**  
+Orange und Blau gehen auf zwei stark verschiedene Haplotypen in der Regulatorregion von *SPR* zurück; gelbe Männchen entstehen überwiegend **plastisch** aus dem blauen genetischen Hintergrund. Es sind also nicht drei Allele an einem Locus, wie lange angenommen (Corl et al. 2026). Mit zwei Allelen plus Plastizität bleibt der Polymorphismus in Modellen eher erhalten als mit drei Allelen.
+
+**Plastizität**  
+Derselbe Genotyp bringt je nach Bedingungen verschiedene Phänotypen hervor. Ein Unterschied zwischen Individuen ist deshalb nicht automatisch ein genetischer Unterschied.
+
+**Haplotyp**  
+Eine Kombination von Varianten, die gemeinsam auf einem Chromosomenabschnitt vererbt wird.
 
 **Überdominanz**  
-Heterozygote am fittesten. $p$ kann **innen** gehalten werden (Lehrbeispiel Sichelzelle / Malaria). Erklärt nicht alle häufigen Polymorphismen von 1966.
+Heterozygote am fittesten. Unter **konstanter** Viabilitätsselektion in **einer** Population: geschützter Polymorphismus. Lehrbeispiel Sichelzelle / Malaria. Erklärt nicht frequenzabhängige Spiele (*Uta*) und nicht räumliche Selektion.
 
 **Unterdominanz**  
 Heterozygote im Nachteil (z. B. Chromosomeninversionen). In einer Population gewinnt, was schon häufig ist. Diversität wird hier nicht gehalten.
 
-**Fluktuierende Selektion**  
-Fitness wechselt **in der Zeit** (z. B. Sommer/Winter). Eine Population, zwei Welten nacheinander. Isolation und räumliche Selektion halten Diversität **zwischen** Orten (Woche 6); hier sitzt sie in einer gemischten Population. Kurze Zyklen: $p$ oszilliert innen. Lange Zyklen: $p$ an den Rand. *Drosophila*: Bergland et al. (2014); Wittmann et al. (2017); Rudman et al. (2022).
-
 **Neutralität**  
-Viele molekulare Unterschiede sind selektiv fast gleich (Kimura 1968). Dann *kann* Diversität hoch sein, ohne dass jeder Locus «gehalten» wird. Braucht Zufall und endliche $N$ — ab Woche 9. Die Gegenseite: Selektion kann dieselben Muster tragen (Gillespie 1991). Die Debatte ist nicht geschlossen.
+Viele molekulare Unterschiede sind selektiv fast gleich (Kimura 1968). Dann *kann* Diversität hoch sein, ohne dass jeder Locus «gehalten» wird. Braucht Zufall und endliche $N$ — ab Woche 9. Die Gegenseite: Selektion kann dieselben Muster tragen. Die Debatte ist nicht geschlossen (Woche 8).
 
-**Mutation–Selektions-Gleichgewicht**  
-Mutation speist schädliche Allele nach, Selektion räumt auf. $p$ bleibt **selten, aber nicht null**.
-
-**Mutationslast**  
-Fitnessabstand zu einer hypothetischen Population ohne schädliche Allele (Muller 1950; Haldane 1937). Zählen «schädlicher SNPs» $\neq$ Last messen.
+**Spandrels**  
+Gould & Lewontin (1979): nicht jedes Merkmal ist adaptive «Lösung» — manche sind Nebenprodukte (wie Zwickel einer Kuppel). Kritik am naiven Adaptationismus; Vorsicht vor Modul 3 (Zufall).
 
 **$F_{ST}$**  
 Fasst zusammen, wie weit Allelfrequenzen **zwischen** Gruppen auseinanderliegen.  
-Scans suchen ungewöhnlich grosse Abstände. Die **Zahl schätzen und testen**: Statistikvorlesung. Heute reicht: Unterschiede können existieren.
+Scans suchen ungewöhnlich grosse Abstände (Woche 1 Tibet; Woche 7 Modell). Die **Zahl schätzen und testen**: Statistikvorlesung.
 
 **Gene swamping**  
 Zu viel Genfluss: lokale Anpassung wird von eingewanderten Allelen überschwemmt, $p_1$ und $p_2$ fallen zusammen.
+
+### Werkzeuge im Code (Wochen 5–8)
+
+**Datentabelle (`data.frame`)**  
+Eine Tabelle mit benannten Spalten, wie sie `read.csv()` liefert. Eine Zeile ist eine Beobachtung (z. B. ein SNP), eine Spalte eine Grösse (z. B. Anzahl Heterozygoter). Zugriff mit `d$spalte`.
+
+**Vektorisiertes Rechnen**  
+Eine Rechnung auf einer **ganzen Spalte** statt in einer Schleife: `p <- (2 * d$AA + d$AB) / (2 * d$n)` liefert die Allelfrequenz für alle Zeilen gleichzeitig. Kürzer, schneller und näher an der Frage «welchen Wert hat jeder SNP?» (Woche 5).
+
+**`sapply()` / Parameter-Sweep**  
+Dieselbe Funktion für viele Parameterwerte laufen lassen und die Ergebnisse einsammeln, statt den Code zu kopieren: `sapply(s_werte, function(s) ...)` (Woche 6).
+
+**Default-Argument**  
+Ein Funktionsargument mit Vorgabewert: `function(p0, w, gen = 200)`. Der Aufruf bleibt kurz, der Wert lässt sich bei Bedarf überschreiben (Woche 6).
+
+**Logisches Indizieren / `quantile()`**  
+Zeilen einer Tabelle über eine Bedingung auswählen: `d[d$fst > schwelle, ]`. Die Schwelle kommt oft aus der Verteilung selbst, z. B. `quantile(d$fst, 0.99)` — so entsteht aus einem Scan eine Liste auffälliger Loci (Woche 7).
 
 **Wright–Fisher-Modell**  
 Einfaches populationsgenetisches Modell für Allelfrequenzen über Generationen bei endlicher $N$. Haploid im Kurs: erst Selektion $p'$, dann $X\sim\mathrm{Binomial}(N,p')$, $p\leftarrow X/N$. Ab Woche 9.

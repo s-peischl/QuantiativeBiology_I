@@ -1,6 +1,6 @@
 ---
 title: "Woche 7 — Notebook"
-subtitle: "Zykluslänge und stehende Variation"
+subtitle: "Selektion gegen Genfluss, $F_{ST}$ und ein Scan"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:
@@ -17,212 +17,239 @@ execute:
   freeze: false
 ---
 
-::: {.callout-warning}
-## Entwurf
-
-Dieses Notebook ist noch nicht in der Sitzungsfassung. Die Folien tragen
-die biologische Frage; Übungen kommen später.
-:::
-
 # Ziel und Zeitplan
 
 In ungefähr **45 Minuten**:
 
 | Teil | ca. | Ziel |
 |---|---:|---|
-| Muster | 8 min | Diversitätsparadoxon 1966 |
-| A | 8 min | Überdominanz hält |
-| B | 7 min | Unterdominanz hält nicht |
-| C | 15 min | fluktuierende Selektion: Parameter $L$ |
-| D | 7 min | eine Frage für Checkpoint B |
+| A | 12 min | Zwei Habitate simulieren: wann bleiben Unterschiede? |
+| B | 13 min | Vom Gleichgewicht zur Messgrösse $F_{ST}$ |
+| C | 20 min | Einen Scan filtern und die Ausreisser benennen |
 
-Frage in C: bei welcher Zykluslänge $L$ bleibt Polymorphismus — und wann nicht?
+Alles mit **base R**. Der Ordner `data/` muss neben dem Notebook liegen.
 
-## Grössen, bevor der Code sie braucht
+## Die Grössen
 
-Ein Locus, zwei Allele A und B.
+- $p_1$: Frequenz des Allels $A$ im See, $p_2$: im Meer.
+- $s$: Stärke der lokalen Selektion (in jedem Habitat für das dort bessere Allel).
+- $m$: Anteil der Individuen, der pro Generation das Habitat wechselt.
+- $F_{ST}$: Abstand zwischen den beiden Frequenzen, zwischen 0 und 1.
 
-- **Allelfrequenz** $p = f(A)$: Anteil der A-Kopien. $q = 1-p$.
-- **Genotypfrequenzen** (HWE, Woche 5): $p^2$ (AA), $2pq$ (AB), $q^2$ (BB).
-- **Fitness** `fitness = (wAA, wAB, wBB)`: eine Zahl pro Genotyp.
-- **$L$**: Generationen pro Saison (Teil C).
-
-Selektion wirkt auf Genotypen; danach ist der Zustand wieder $p$.
-
-```{r functions}
-selection_step_general <- function(p, fitness) {
+```{r}
+selektionsschritt <- function(p, w) {
   q <- 1 - p
-  names(fitness) <- c("AA", "AB", "BB")
-  wbar <- p^2 * fitness["AA"] +
-    2 * p * q * fitness["AB"] +
-    q^2 * fitness["BB"]
-  (p^2 * fitness["AA"] + p * q * fitness["AB"]) / wbar
+  w_quer <- p^2 * w[1] + 2 * p * q * w[2] + q^2 * w[3]
+  (p^2 * w[1] + p * q * w[2]) / w_quer
 }
 
-simulate_p <- function(p0, fitness, generations = 200) {
-  p <- numeric(generations + 1)
-  p[1] <- p0
-  for (t in seq_len(generations)) {
-    p[t + 1] <- selection_step_general(p[t], fitness)
-  }
-  data.frame(generation = 0:generations, p = p)
+eine_generation <- function(p1, p2, s = 0.15, m = 0.02) {
+  p1_s <- selektionsschritt(p1, c(1 + s, 1 + s / 2, 1))   # See: A besser
+  p2_s <- selektionsschritt(p2, c(1, 1 + s / 2, 1 + s))   # Meer: B besser
+  c((1 - m) * p1_s + m * p2_s,
+    (1 - m) * p2_s + m * p1_s)
 }
 
-simulate_fluct <- function(p0, w1, w2, L, generations = 400) {
-  p <- numeric(generations + 1)
-  p[1] <- p0
-  for (t in seq_len(generations)) {
-    env1 <- ((t - 1) %/% L) %% 2 == 0
-    p[t + 1] <- selection_step_general(p[t], if (env1) w1 else w2)
+zwei_demen <- function(p1 = 0.5, p2 = 0.5, s = 0.15, m = 0.02,
+                       generationen = 250) {
+  bahn <- matrix(NA_real_, generationen + 1, 2)
+  bahn[1, ] <- c(p1, p2)
+  for (t in seq_len(generationen)) {
+    bahn[t + 1, ] <- eine_generation(bahn[t, 1], bahn[t, 2], s = s, m = m)
   }
-  data.frame(generation = 0:generations, p = p)
+  data.frame(generation = 0:generationen, p1 = bahn[, 1], p2 = bahn[, 2])
 }
 
-plot_starts <- function(starts, fitness, generations = 150, main = "") {
-  plot(NA, xlim = c(0, generations), ylim = c(0, 1),
-       xlab = "Generation", ylab = "p = f(A)", main = main)
-  cols <- c("#2166ac", "#1b9e77", "#d95f02", "#762a83")
-  for (i in seq_along(starts)) {
-    sim <- simulate_p(starts[i], fitness, generations)
-    lines(sim$generation, sim$p, lwd = 2, col = cols[i])
-  }
-  legend("right", paste("p0 =", starts), col = cols[seq_along(starts)],
-         lwd = 2, bty = "n")
-}
-
-draw_loci <- function(poly, main) {
-  n <- length(poly)
-  plot(NA, xlim = c(0.4, n + 0.6), ylim = c(0, 1.15), axes = FALSE,
-       xlab = "", ylab = "", main = main)
-  for (i in seq_len(n)) {
-    rect(i - 0.4, 0.18, i + 0.4, 0.95,
-         col = if (poly[i] == 1) "#2166ac" else "#d9d9d9",
-         border = "#4d4d4d", lwd = 1.4)
-  }
+fst <- function(p1, p2) {
+  p_quer <- (p1 + p2) / 2
+  if (p_quer <= 0 || p_quer >= 1) return(0)
+  (((p1 - p_quer)^2 + (p2 - p_quer)^2) / 2) / (p_quer * (1 - p_quer))
 }
 ```
 
-Die Funktionen oben machen einen Generationsschritt.
+Der Zustand ist hier **eine Zeile mit zwei Zahlen**. Die Schleife bleibt, weil Generation $t+1$ auf $t$ wartet.
 
-------------------------------------------------------------------------
+---
 
-# Muster — 1966
+# A · Selektion gegen Genfluss
 
-Klassische Erwartung: fast alle Loci homozygot Wildtyp. Elektrophorese
-von Enzymen zeigte viele polymorphe Loci (Hubby & Lewontin 1966;
-Lewontin & Hubby 1966). **Diversitätsparadoxon:** zu viel stehende
-Variation, als dass gerichtete Selektion an jedem Locus sie erklären könnte.
-Kimura (1968): viele Unterschiede können **neutral** sein. Gillespie (1991):
-Selektion kann molekulare Variation halten, vor allem wenn die Fitness
-**schwankt**. Die Debatte läuft weiter (Kern & Hahn 2018; Jensen et al. 2019).
-Lehrschema: 18 Loci, 7 polymorph.
+```{r}
+#| fig-height: 4.2
+#| fig-width: 9
+zeige <- function(sim, main) {
+  plot(sim$generation, sim$p1, type = "l", lwd = 2.5, col = "#2166ac",
+       ylim = c(0, 1), xlab = "Generation", ylab = "Frequenz von A", main = main)
+  lines(sim$generation, sim$p2, lwd = 2.5, col = "#b2182b")
+  legend("right", c("See", "Meer"), col = c("#2166ac", "#b2182b"),
+         lwd = 2.5, bty = "n", cex = 0.85)
+}
 
-```{r loci-1966}
-klassik <- c(1, rep(0, 17))
-elektrophorese <- c(1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1)
-par(mfrow = c(1, 2), mar = c(2.2, 0.6, 2.4, 0.4))
-draw_loci(klassik, "Klassik: fast monomorph")
-draw_loci(elektrophorese, "Elektrophorese 1966")
+par(mfrow = c(1, 2))
+zeige(zwei_demen(m = 0.02), "wenig Genfluss (m = 0.02)")
+zeige(zwei_demen(m = 0.30), "viel Genfluss (m = 0.30)")
 ```
 
 ::: {.callout-tip}
-## Aufgabe Muster
+## F1 · Das Verhältnis zählt
 
-1. Was bestimmt, wie viel Diversität eine Population — oder eine Art — hat?
-2. Isolation, räumliche Selektion, Überdominanz, zeitliche Fluktuation:
-   wo sitzt die Diversität jeweils?
-3. Welcher Mechanismus braucht **zwei Habitate gleichzeitig**
-   — und welcher nur eine Population nacheinander?
+1. Erhöhen Sie `m` schrittweise bei festem `s = 0.15`. Ab welchem Wert bricht der Unterschied zusammen?
+2. Stellen Sie danach `s = 0.5` ein und wiederholen Sie den Versuch. Was ändert sich?
+3. Setzen Sie `m = 0`. Was passiert, und welchem biologischen Fall entspricht das?
 :::
 
-Gerichtete Selektion in **einer** gut gemischten Population treibt $p$
-oft an den Rand. Isolation und räumliche Selektion (Woche 6) können
-Diversität **zwischen** Orten halten. Die Modelle unten fragen: wann
-bleibt Variation **in** einer Population?
+## Der Unterschied als eigene Kurve
 
-------------------------------------------------------------------------
+```{r}
+#| fig-height: 4
+#| fig-width: 7
+sim_wenig <- zwei_demen(m = 0.02)
+sim_viel  <- zwei_demen(m = 0.30)
 
-# A — Überdominanz
-
-```{r overdominance}
-overdom <- c(wAA = 0.80, wAB = 1.00, wBB = 0.70)
-plot_starts(c(0.05, 0.3, 0.7, 0.95), overdom, main = "Ueberdominanz")
+plot(sim_wenig$generation, abs(sim_wenig$p1 - sim_wenig$p2), type = "l",
+     lwd = 2.5, col = "#2166ac", ylim = c(0, 1),
+     xlab = "Generation", ylab = "Abstand |p1 - p2|",
+     main = "Wie weit liegen die Habitate auseinander?")
+lines(sim_viel$generation, abs(sim_viel$p1 - sim_viel$p2),
+      lwd = 2.5, col = "#d95f02")
+legend("right", c("m = 0.02", "m = 0.30"),
+       col = c("#2166ac", "#d95f02"), lwd = 2.5, bty = "n")
 ```
 
-::: {.callout-tip}
-## Aufgabe A1
+---
 
-Lesen Sie das ungefähre Gleichgewicht ab. Ändern Sie `wAA` und `wBB`
-leicht: wandert $\hat p$? Reicht dieses Modell, um *alle* Enzym-Polymorphismen
-von 1966 zu erklären?
-:::
+# B · Vom Gleichgewicht zu $F_{ST}$
 
-------------------------------------------------------------------------
-
-# B — Unterdominanz
-
-```{r underdominance}
-underdom <- c(wAA = 1.00, wAB = 0.70, wBB = 1.00)
-plot_starts(c(0.2, 0.45, 0.55, 0.8), underdom, generations = 80,
-            main = "Unterdominanz")
-```
-
-::: {.callout-tip}
-## Aufgabe B1
-
-Welche Starts gehen nach 0, welche nach 1? Wird Diversität **in einer**
-Population gehalten — oder geht sie verloren?
-:::
-
-------------------------------------------------------------------------
-
-# C — Fluktuierende Selektion (Zykluslänge $L$)
-
-Eine Population, zwei Saisons **nacheinander**. Sommer: Allel A im
-Vorteil. Winter: Allel B. Dasselbe Bild wie bei *Drosophila*
-(Bergland et al. 2014; Rudman et al. 2022): stehende Variation, die
-mit den Jahreszeiten mitschwingt.
-
-Zustand bleibt die Allelfrequenz $p = f(A)$. Die Genotypfrequenzen
-kommen aus HWE. Neu ist nur der Parameter **$L$**: Generationen
-pro Saison, danach wechselt der Fitnessvektor.
-
-```{r fluct-L}
-w_sommer <- c(AA = 1.30, AB = 1.00, BB = 0.75)
-w_winter <- c(AA = 0.75, AB = 1.00, BB = 1.30)
-L_values <- c(5, 40)   # Parameter aendern, z.B. 2, 10, 80
-par(mfrow = c(1, 2), mar = c(4, 4, 2.2, 1))
-for (L in L_values) {
-  sim <- simulate_fluct(0.5, w_sommer, w_winter, L, generations = 300)
-  plot(sim$generation, sim$p, type = "l", lwd = 2, col = "#2166ac",
-       ylim = c(0, 1), xlab = "Generation", ylab = "p = f(A)",
-       main = paste("L =", L))
-  abline(h = c(0, 1), col = "grey80")
+```{r}
+ende <- function(m, s = 0.15) {
+  letzte <- tail(zwei_demen(s = s, m = m, generationen = 400), 1)
+  c(p1 = letzte$p1, p2 = letzte$p2, fst = fst(letzte$p1, letzte$p2))
 }
+
+ende(m = 0.02)
+ende(m = 0.30)
+```
+
+## Ein Sweep über den Genfluss
+
+Wie in Woche 6 lassen wir dieselbe Funktion für viele Parameterwerte laufen.
+
+```{r}
+#| fig-height: 4.2
+#| fig-width: 7
+m_werte <- seq(0.01, 0.40, by = 0.01)
+fst_werte <- sapply(m_werte, function(m) ende(m)["fst"])
+
+plot(m_werte, fst_werte, type = "b", pch = 16, lwd = 2, col = "#2166ac",
+     ylim = c(0, 1), xlab = "Migrationsrate m", ylab = expression(F[ST]),
+     main = "Differenzierung faellt mit dem Genfluss (s = 0.15)")
+abline(h = 0.05, lty = 2, col = "grey40")
 ```
 
 ::: {.callout-tip}
-## Aufgabe C1
+## F2 · Die Kurve lesen
 
-1. Bei welchem $L$ bleibt $p$ **innen** — wann läuft es an den Rand?
-2. Ändern Sie `L_values <- c(2, 10, 80)`. Ab wann würden Sie noch von
-   stabilem Polymorphismus sprechen?
-3. Lassen Sie `w_winter <- w_sommer` (keine Umkehr). Was bleibt von der
-   Oszillation?
-4. Woche 6 hatte zwei Habitate **gleichzeitig**. Was ist hier anders?
-5. Nahe $0$ wäre das seltene Allel mit Drift verloren. Was fehlt dem
-   deterministischen Modell (Woche 9)?
+1. Bei welcher Migrationsrate fällt $F_{ST}$ unter 0.05?
+2. Wiederholen Sie den Sweep mit `s = 0.4` (Argument an `ende()` übergeben). Wie verschiebt sich die Kurve?
+3. Zwei Loci im selben Genom erleben dasselbe $m$, aber verschiedene $s$. Was folgt daraus für einen Scan?
 :::
 
-------------------------------------------------------------------------
+---
 
-# D — Vorbereitung auf Checkpoint B
+# C · Einen Scan filtern
 
-Wählen Sie **eines**: Überdominanz, Unterdominanz, oder Zykluslänge $L$.
+700 Fenster auf drei Chromosomen, Meer gegen Süsswasser.
 
-1. biologische Frage (1966 / Saisons / wann bleibt Variation?)
-2. Parameter, die Sie ändern
-3. welche Abbildung Sie in Woche 8 zeigen
-4. eine Modellgrenze (unendlich grosse Population, ein Locus, …)
+```{r}
+scan <- read.csv("data/fst_scan.csv")
+str(scan)
+summary(scan$fst)
+```
 
-Nächste Woche: kurze Synthese, Notebook, 3–5-Minuten-Präsentation.
+## Das Bild
+
+```{r}
+#| fig-height: 4.2
+#| fig-width: 9
+farben <- ifelse(scan$chr %% 2 == 0, "#7f8c8d", "#34495e")
+plot(scan$x, scan$fst, pch = 16, cex = 0.7, col = farben, ylim = c(0, 1),
+     xlab = "Position entlang der Chromosomen 1-3", ylab = expression(F[ST]),
+     main = "Genomscan")
+```
+
+## Auffällige Fenster auswählen
+
+Eine Bedingung liefert Wahrheitswerte, mit denen sich Zeilen auswählen lassen.
+
+```{r}
+sum(scan$fst > 0.5)          # wie viele Fenster liegen ueber 0.5?
+scan[scan$fst > 0.7, ]       # welche sind es?
+```
+
+## Die Schwelle aus der Verteilung
+
+```{r}
+schwelle <- quantile(scan$fst, 0.99)
+schwelle
+
+ausreisser <- scan[scan$fst > schwelle, ]
+ausreisser[order(-ausreisser$fst), c("chr", "pos", "fst", "label")]
+```
+
+## Ausreisser im Bild markieren
+
+```{r}
+#| fig-height: 4.2
+#| fig-width: 9
+plot(scan$x, scan$fst, pch = 16, cex = 0.7, col = "#bdc3c7", ylim = c(0, 1),
+     xlab = "Position entlang der Chromosomen 1-3", ylab = expression(F[ST]),
+     main = "Hintergrund und Ausreisser")
+abline(h = schwelle, lty = 2, col = "grey30")
+points(ausreisser$x, ausreisser$fst, pch = 16, cex = 1.2, col = "#b2182b")
+
+benannt <- scan[scan$label != "", ]
+text(benannt$x, benannt$fst + 0.06, benannt$label, col = "#b2182b", cex = 0.9)
+```
+
+::: {.callout-tip}
+## F3 · Schwellen hinterfragen
+
+1. Wie viele Fenster erklären Sie mit `0.99` zu Ausreissern — und wie viele wären es bei `0.95`?
+2. Warum liefert dieses Vorgehen **immer** eine Liste, auch wenn gar keine Selektion wirkt?
+3. Vergleichen Sie den Median des Hintergrunds mit den beiden Spitzen. Warum ist dieser Kontrast das eigentliche Argument?
+:::
+
+## Vergleich mit dem Modell
+
+```{r}
+c(hintergrund_median = median(scan$fst),
+  spitze = max(scan$fst),
+  modell_wenig_m = unname(ende(m = 0.02)["fst"]),
+  modell_viel_m = unname(ende(m = 0.30)["fst"]))
+```
+
+Der Hintergrund passt zu starkem Genfluss ohne lokale Selektion, die Spitzen zu Loci mit starker entgegengesetzter Selektion — beides im selben Genom, weil $m$ geteilt wird und $s$ nicht.
+
+::: {.callout-important}
+## Für Checkpoint B
+
+Eine gute Abbildung für den Vortrag: der Scan mit eingezeichneter Schwelle, oder $F_{ST}$ gegen $m$ aus Teil B. Dazu ein Satz, was das Modell erklärt — und einer, was es offenlässt.
+:::
+
+---
+
+# Zum Mitnehmen
+
+- Zwei Habitate bleiben verschieden, solange lokale Selektion den Genfluss überwiegt.
+- Der Zustand ist jetzt ein Paar $(p_1, p_2)$; die Generation besteht aus Selektion und Mischung.
+- $F_{ST}$ macht aus diesem Paar eine Zahl — und damit aus dem Modell etwas Messbares.
+- Ein Scan zeigt Hintergrund plus wenige Spitzen; Filtern mit einer Schwelle liefert Kandidaten, keine Beweise.
+
+Nächste Woche: Wie viel von all dem muss überhaupt Selektion sein? Und Checkpoint B.
+
+## Quellen
+
+- Peichel, C. L., et al. (2001). *Nature* 414: 901–905. [doi:10.1038/414901a](https://doi.org/10.1038/414901a)
+- Colosimo, P. F., et al. (2005). *Science* 307: 1928–1933. [doi:10.1126/science.1107239](https://doi.org/10.1126/science.1107239)
+- Jones, F. C., et al. (2012). *Nature* 484: 55–61. [doi:10.1038/nature10944](https://doi.org/10.1038/nature10944)
+- Huerta-Sánchez, E., et al. (2014). *Nature* 512: 194–197. [doi:10.1038/nature13408](https://doi.org/10.1038/nature13408)
+- Kursdaten: `data/README.md`

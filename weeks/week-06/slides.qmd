@@ -1,12 +1,12 @@
 ---
-title: "Woche 6 — Selektion und Migration"
-subtitle: "Zwei Habitate · stabile Unterschiede · ein Modell wie Lotka–Volterra"
+title: "Woche 6 — Wann Selektion Vielfalt erhält"
+subtitle: "Sichelzelle, Malaria und drei Regime der Selektion"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:
     html-math-method: katex
     theme: simple
-    css: slides.css
+    css: [slides.css, ../print.css]
     slide-number: true
     incremental: false
     embed-resources: true
@@ -30,61 +30,79 @@ execute:
 
 ```{r}
 #| include: false
-selection_step_general <- function(p, fitness) {
+sichel <- read.csv("data/sickle_nigeria.csv")
+sichel$n <- sichel$AA + sichel$AS + sichel$SS
+sichel$p <- (2 * sichel$AA + sichel$AS) / (2 * sichel$n)
+
+erwartet <- function(zeile) {
+  p <- zeile$p
+  c(AA = p^2, AS = 2 * p * (1 - p), SS = (1 - p)^2) * zeile$n
+}
+
+selektionsschritt <- function(p, w) {
   q <- 1 - p
-  wbar <- p^2 * fitness[1] + 2 * p * q * fitness[2] +
-    q^2 * fitness[3]
-  (p^2 * fitness[1] + p * q * fitness[2]) / wbar
+  w_quer <- p^2 * w[1] + 2 * p * q * w[2] + q^2 * w[3]
+  (p^2 * w[1] + p * q * w[2]) / w_quer
 }
 
-two_deme_step <- function(p1, p2, s = 0.1, m = 0.02, s1 = s, s2 = s) {
-  p1s <- selection_step_general(p1, c(1 + s1, 1 + s1 / 2, 1))
-  p2s <- selection_step_general(p2, c(1, 1 + s2 / 2, 1 + s2))
-  c(p1 = (1 - m) * p1s + m * p2s,
-    p2 = (1 - m) * p2s + m * p1s)
+simuliere <- function(p0, w, generationen = 150) {
+  p <- numeric(generationen + 1)
+  p[1] <- p0
+  for (t in seq_len(generationen)) p[t + 1] <- selektionsschritt(p[t], w)
+  p
 }
 
-simulate_two_demes <- function(p1_0, p2_0, s = 0.1, m = 0.02,
-                               generations = 200, s1 = s, s2 = s) {
-  out <- matrix(NA_real_, generations + 1, 2,
-                dimnames = list(NULL, c("p1", "p2")))
-  out[1, ] <- c(p1_0, p2_0)
-  for (t in seq_len(generations)) {
-    out[t + 1, ] <- two_deme_step(out[t, 1], out[t, 2], m = m,
-                                 s1 = s1, s2 = s2)
+trajektorien <- function(w, starts = c(0.05, 0.3, 0.7, 0.95),
+                         generationen = 150, main = "") {
+  farben <- c("#2166ac", "#1b9e77", "#d95f02", "#7570b3")
+  plot(NA, xlim = c(0, generationen), ylim = c(0, 1),
+       xlab = "Generation", ylab = "Frequenz p von A", main = main)
+  abline(h = c(0, 1), col = "grey85")
+  for (i in seq_along(starts)) {
+    lines(0:generationen, simuliere(starts[i], w, generationen),
+          lwd = 2.5, col = farben[i])
   }
-  data.frame(generation = 0:generations, out,
-             p_global = rowMeans(out),
-             differentiation = abs(out[, 1] - out[, 2]))
 }
 
-# Protected polymorphism: both alleles increase when rare.
-# Linearisation after selection-then-migration, additive, HWE.
-leading_growth <- function(alpha, beta, m) {
-  tau <- (1 - m) * (alpha + beta)
-  disc <- tau * tau - 4 * (1 - 2 * m) * alpha * beta
-  0.5 * (tau + sqrt(pmax(disc, 0)))
+## Teil 4: Kehlfarben-Modell
+make_rps_A <- function(s, w) {           # aus Woche 4
+  matrix(c(1, w, s,
+           s, 1, w,
+           w, s, 1), nrow = 3, byrow = TRUE)
 }
 
-protected_both_alleles <- function(s1, s2, m) {
-  a1 <- 1 + s1 / 2
-  a2 <- (1 + s2 / 2) / (1 + s2)
-  b1 <- (1 + s1 / 2) / (1 + s1)
-  b2 <- 1 + s2 / 2
-  leading_growth(a1, a2, m) > 1 && leading_growth(b1, b2, m) > 1
+morphen <- function(p, theta) {
+  q <- 1 - p
+  c(orange = p^2 + 2 * p * q, blau = (1 - theta) * q^2, gelb = theta * q^2)
 }
 
-poly_map <- local({
-  m <- 0.10
-  s <- seq(0.005, 0.50, length.out = 101)
-  z <- matrix(NA_real_, length(s), length(s))
-  for (i in seq_along(s)) {
-    for (j in seq_along(s)) {
-      z[i, j] <- as.numeric(protected_both_alleles(s[i], s[j], m))
-    }
+corl_schritt <- function(p, theta, s = 1.2, w = 0.5, C = 2) {
+  f   <- morphen(p, theta)
+  W   <- C - as.vector(make_rps_A(s, w) %*% f)
+  w_O <- W[1]
+  w_B <- (1 - theta) * W[2] + theta * W[3]
+  w_quer <- f[["orange"]] * w_O + (1 - p)^2 * w_B
+  p * w_O / w_quer
+}
+
+corl <- function(p0, theta, generationen = 300, ...) {
+  p <- numeric(generationen + 1)
+  p[1] <- p0
+  for (t in seq_len(generationen)) p[t + 1] <- corl_schritt(p[t], theta, ...)
+  p
+}
+
+kehlfarben_bahnen <- function(theta, main = "", generationen = 300,
+                              starts = c(0.10, 0.35, 0.65, 0.90)) {
+  farben <- c("#2166ac", "#1b9e77", "#d95f02", "#7570b3")
+  plot(NA, xlim = c(0, generationen), ylim = c(0, 1), xlab = "Generation",
+       ylab = "Frequenz p des O-Haplotyps", main = main)
+  abline(h = c(0, 1), col = "grey85")
+  for (i in seq_along(starts)) {
+    lines(0:generationen, corl(starts[i], theta, generationen),
+          lwd = 2.5, col = farben[i])
   }
-  list(s = s, z = z, m = m)
-})
+}
 ```
 
 ## Übersicht
@@ -92,394 +110,583 @@ poly_map <- local({
 **Woche 6** von 14 · **Do., 22. Okt. 2026, 08:15–10:00**
 
 | Teil | Dauer | Was |
-|---|---:|---|
-| Vorlesung | ~45 min | Genetische Unterschiede → Modell → stabile Differenzen |
-| Notebook | ~45 min | Trajektorien: wann bleiben Populationen verschieden? |
+|------|-------|-----|
+| Vorlesung | ~45 min | Sichelzelle → Fitness → drei Regime |
+| Notebook | ~45 min | Parameter drehen, Gleichgewichte finden |
 
 ::: aside
-Pfeiltasten · **M** Menü · **Esc** Übersicht
+Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 :::
 
 ## Lernziele
 
 Nach heute können Sie …
 
-1. an Beispielen sehen, dass es **genetische Unterschiede** zwischen Habitaten gibt,
-2. die Frage stellen: können sie **bleiben**, obwohl jemand wandert?
-3. dasselbe Denkschema wie Lotka–Volterra erkennen — Extra: Vererbung,
-4. an Trajektorien sehen, wann $p_1\neq p_2$ **stabil** ist — und wann nicht.
+1. aus Genotypzählungen ablesen, dass Selektion gewirkt hat,
+2. relative Fitness in die Rekursion für $p$ übersetzen,
+3. gerichtete Selektion, Unterdominanz und Überdominanz an Trajektorien erkennen,
+4. sagen, unter welchen Annahmen nur Überdominanz Vielfalt erhält,
+5. dieselbe Simulation mit **einem** Aufruf für viele Parameterwerte laufen lassen.
 
 ## Heute in dieser Reihenfolge
 
-1. Stichling: Unterschiede trotz Verbindung?
-2. Dasselbe Schema wie Lotka–Volterra — Extra: Vererbung
-3. Wann bleibt $p_1\neq p_2$ stabil?
-4. Was übernimmt die Statistik von $F_{ST}$?
-
-# Teil 1 · Zwei Habitate
-
-## Letzte Woche: Mischung in der Stichprobe
-
-Wahlund: zwei Gruppen in **einer** Probe → zu wenige Heterozygote.
-Die Struktur war ein Artefakt des Poolens.
-
-Heute ist die Struktur **real**: Meer und See.
-Fische wechseln wirklich die Seite.
-
-> Können genetische Unterschiede **bleiben**, obwohl Genfluss sie mischt?
-
-## Dieselbe Art, zwei Welten
-
-::::::: columns
-::::: {.column width="48%"}
-![](../../pics/keystone/kelp_forest.jpg){fig-alt="Kelpwald" width="100%"}
-
-**Meer:** voller Knochenpanzer, Stacheln
-:::::
-::::: {.column width="48%"}
-![](../../pics/organisms/stickleback.jpg){fig-alt="Stichlinge im Suesswasser" width="100%"}
-
-**See / Bach:** oft wenige Platten, reduzierte Stacheln, andere Form
-:::::
-:::::::
-
-Dreistachlige Stichlinge (*Gasterosteus aculeatus*): dieselbe Art, zwei Habitate.
+1. Ein Befund: fehlende Genotypen bei Erwachsenen
+2. Von der Abweichung zur Fitness
+3. Die Gleichung für eine Generation
+4. Drei Regime — und was sie mit Vielfalt machen
+5. Warum die Eidechsen aus Woche 4 nicht dazugehören
 
 ::: aside
-Kelpwald · Stichlinge. Wikimedia Commons
+[Modul 2](../../docs/module-02-overview.html) · [Glossar](../../docs/glossary.html)
 :::
 
-## Kreuzungen: die Unterschiede sind genetisch
+# Teil 1 · Ein Befund
 
-Peichel et al. (2001): Kreuzungen zwischen divergenten Ökotypen,
-genetische Karte, QTL für Stacheln, Körperform und andere Merkmale.
+## Sichelzellanämie
 
-Die Unterschiede sind **erblich** — nicht nur Plastizität.
-Oft wenige Loci mit grossem Effekt plus weitere mit kleinerem
-(Peichel & Marques 2017).
-
-## Platten: ein Locus mit grossem Effekt
-
-Colosimo et al. (2005): der Locus *Eda* erklärt einen grossen Teil der
-Variation in den Knochenplatten.
-
-Im Meer meist voller Panzer. In vielen Süsswasserpopulationen das
-niedrig-gepanzerte Allel — und oft **dasselbe** Allel in unabhängigen Seen.
-
-Ein Merkmal, ein Hauptlocus, parallele Wiederverwendung.
-
-## Genome: dieselben Stellen, mehrmals
-
-Jones et al. (2012): Genome aus mehreren Meer–Süsswasser-Paaren.
-
-Der **Grossteil** des Genoms ist ähnlich (gemeinsame Herkunft, Genfluss).
-Eine **Minderheit** der Loci ist stark differenziert — und in unabhängigen
-Paaren oft dieselben Regionen.
-
-*Eda* ist eines davon. Die meisten anderen haben kleineren Effekt.
-
-## Trotzdem nicht isoliert
-
-![](../../pics/popgen/rocky_shore.jpg){fig-alt="Felskueste" width="52%"}
-
-Fische und Larven wandern. Nach den Eiszeiten haben marine Fische
-wiederholt Seen und Bäche besiedelt — Genfluss ist nicht null.
-
-Trotzdem bleiben Platten und viele andere Merkmale lokal verschieden.
-
-> Reicht die lokale Selektion, damit der Unterschied nicht wegmischt?
-
-::: aside
-Felsküste. Wikimedia Commons: *Rocky shore.jpg*
+::::: columns
+::: {.column width="46%"}
+![](../../pics/popgen/sickle_cells.jpg){fig-alt="Sichelzellen im Blutausstrich" width="94%"}
 :::
+::: {.column width="54%"}
+Eine Punktmutation im $\beta$-Globin-Gen (**HbS**) verändert das Hämoglobin. Unter Sauerstoffmangel verformen sich die roten Blutkörperchen.
 
-## Die Intuition
-
-Zwei Kräfte:
-
-1. **Selektion** zieht jede Seite zu ihrem lokalen Optimum
-   (voller Panzer im Meer, weniger Platten im See).
-2. **Migration** mischt — wandernde Fische, Kolonisten.
-
-Wann gewinnt welche Kraft? Können Unterschiede **bleiben**, obwohl Genfluss
-sie ständig mischt?
-
-## Genetische Unterschiede — und ein Scan nur als Motiv
-
-Platten, parallele Seen: das ist nicht nur Phänotyp.
-Jones et al. (2012): die meisten Loci ähnlich, ein paar stark verschieden —
-dasselbe Muster, das man später als **$F_{ST}$-Scan** liest.
-
-Heute modellieren wir nicht den Scan. Wir fragen zuerst:
-
-> Können Unterschiede zwischen Populationen **stabil** sein,
-> obwohl Individuen wandern?
-
-## Die Frage an das Modell
-
-Alle Loci teilen ungefähr dieselbe Migration.  
-Nur manche spüren **entgegengesetzte Selektion**.
-
-Dann kann $p_1\neq p_2$ ein Gleichgewicht sein — nicht nur ein Zufallsbild.
-
-# Teil 2 · Dasselbe Denkschema wie Lotka–Volterra
-
-## Woche 2: zwei Dichten
-
-![](../../pics/biology/lotka_volterra_cycles.png){fig-alt="Lotka-Volterra Zyklen" width="70%"}
-
-Zustand: $(N,P)$ — Beute und Räuber.  
-Jede Generation: wachsen, fressen, sterben → neuer Zustand.
-
-Zwei Zahlen, eine Schleife.
-
-## Heute: zwei Allele, nicht zwei Arten
-
-Dieselbe Schleife — anderer Zustand.
-
-| Lotka–Volterra | hier |
-|---|---|
-| zwei **Arten** $N$, $P$ | zwei **Allele** A, B |
-| Dichten können unabhängig wachsen | Frequenzen: $p+q=1$ |
-| fressen, sterben | überleben, **vererben** |
-| keine Mendel-Genetik | Allele sitzen in Diploiden |
-
-Wir brauchen eine Extra-Zutat, die LV nicht hatte: **Vererbung**.
-
-## Vererbung: HWE in jeder Population
-
-Woche 5: bei zufälliger Paarung folgen die Genotypen aus $p$
-
-$$
-AA,\;AB,\;BB \quad\text{wie}\quad p^2,\;2pq,\;q^2.
-$$
-
-Das nehmen wir **in jeder Deme getrennt** an.
-
-Dann reicht eine Zahl pro Habitat: $p_1$ und $p_2$.
-HWE in **jeder** Population — nicht im Pool (Woche 5).
-
-## Zwei Habitate = zwei lokale $p$
-
-::::::: columns
-::::: {.column width="50%"}
-### Habitat 1
-
-See / Bach
-
-**A** lokal besser (z. B. niedrig-gepanzerte *Eda*-Variante)  
-Selektion schiebt $p_1$ nach oben
+Zwei Kopien (**SS**) bedeuten eine schwere Erkrankung — historisch mit sehr geringer Überlebenschance bis ins Erwachsenenalter.
+:::
 :::::
-::::: {.column width="50%"}
-### Habitat 2
 
-Meer
+## Das Rätsel
 
-**B** lokal besser (voller Panzer)  
-Selektion schiebt $p_2$ nach unten
+Eine Variante, die homozygot oft tödlich ist, sollte selten sein.
+
+In Teilen Afrikas, Indiens und des Mittelmeerraums ist sie **häufig**: bis zu jede vierte Person trägt eine Kopie.
+
+Warum verschwindet sie nicht?
+
+## Der Verdacht: Malaria
+
+::::: columns
+::: {.column width="46%"}
+![](../../pics/popgen/anopheles.jpg){fig-alt="Anopheles-Muecke" width="94%"}
+:::
+::: {.column width="54%"}
+Die Verbreitung von HbS deckt sich mit der Verbreitung von *Plasmodium falciparum*.
+
+Allison (1954) zeigte: **Heterozygote** (AS) haben bei Infektion weniger Parasiten im Blut und seltener schwere Verläufe.
+:::
 :::::
-:::::::
 
-Danach **Mischung**: ein Anteil $m$ wechselt die Seite
-(wandernde Fische, Kolonisten).
+## Die entscheidende Beobachtung
 
-## Eine Generation — nur das Gerüst
+Vergleichen wir dieselbe Population in **zwei Lebensstadien**:
+
+```{r}
+#| echo: true
+sichel <- read.csv("data/sickle_nigeria.csv")
+sichel$n <- sichel$AA + sichel$AS + sichel$SS
+sichel$p <- (2 * sichel$AA + sichel$AS) / (2 * sichel$n)
+
+sichel[, c("stadium", "AA", "AS", "SS", "n")]
+```
+
+Beide Zeilen beschreiben dieselbe Bevölkerung — einmal bei der Geburt, einmal im Erwachsenenalter. Die Allelfrequenz rechnen wir wie in Woche 5, spaltenweise.
+
+## Neugeborene: alles wie erwartet
+
+```{r}
+#| echo: true
+neu <- sichel[sichel$stadium == "Neugeborene", ]
+round(erwartet(neu), 1)      # Hardy-Weinberg-Erwartung
+c(AA = neu$AA, AS = neu$AS, SS = neu$SS)
+```
+
+Bei der Geburt liegen die Genotypen fast genau auf der Erwartung aus Woche 5. Die Paarung ist zufällig, Selektion hat noch nicht gewirkt.
+
+## Erwachsene: eine Lücke
+
+```{r}
+#| echo: true
+erw <- sichel[sichel$stadium == "Erwachsene", ]
+round(erwartet(erw), 1)
+c(AA = erw$AA, AS = erw$AS, SS = erw$SS)
+```
+
+Erwartet wären rund **188** SS-Individuen, beobachtet sind **29**. Gleichzeitig gibt es mehr Heterozygote als erwartet.
+
+## Was hier sichtbar wird
+
+Zwischen Geburt und Erwachsenenalter überleben die Genotypen **unterschiedlich gut**.
+
+Das ist keine Statistik-Spitzfindigkeit, sondern der direkte Blick auf Selektion: Die Abweichung von der Erwartung ist ihre Signatur.
+
+# Teil 2 · Von der Abweichung zur Fitness
+
+## Fitness als Überlebensanteil
+
+Wir teilen beobachtet durch erwartet und setzen den besten Genotyp auf $1$:
+
+```{r}
+#| echo: true
+anteil <- c(AA = erw$AA, AS = erw$AS, SS = erw$SS) / erwartet(erw)
+w <- round(anteil / max(anteil), 3)
+w
+```
+
+Diese drei Zahlen heissen **relative Fitness**. Sie sind keine Erfindung des Modells — sie kommen aus der Auszählung.
+
+## Der Fitnessvektor
 
 $$
-(p_1,p_2)
-\;\xrightarrow{\text{HWE + Selektion lokal}}\;
-(p_1^S,p_2^S)
-\;\xrightarrow{\text{Migration}}\;
-(p_1',p_2').
+\mathbf{w} = (w_{AA},\; w_{AS},\; w_{SS}) \approx (0.88,\; 1,\; 0.14)
 $$
 
-Intuition, grosse Sprünge:
+Lesart: Von 100 Heterozygoten, die es ins Erwachsenenalter schaffen, schaffen es nur etwa 88 der AA und 14 der SS.
 
-- Selektion **trennt** die zwei Seiten
-- Migration **zieht sie zusammen** (Anteil $m$ der Nachbarn einrühren)
-- $m=0$: Isolation. $m$ gross: eine gemischte Population
+Der **Heterozygote** ist am besten dran. Dafür gibt es einen Namen: **Überdominanz**.
 
-Die genaue Fitnessformel lässt der Code rechnen. Das Konzept zählt.
+## Eine Generation als Gleichung
 
-## Was «einrühren» heisst
-
-Nach der lokalen Selektion mischt Migration die zwei Frequenzen:
+Vor der Selektion: $p^2$, $2pq$, $q^2$ (Woche 5).  
+Jeder Genotyp überlebt mit seiner Fitness. Die mittlere Fitness ist
 
 $$
-p_1' = (1-m)\, p_1^S + m\, p_2^S,
+\bar w = p^2 w_{AA} + 2pq\, w_{AS} + q^2 w_{SS}
+$$
+
+und danach gilt
+
+$$
+p' = \frac{p^2 w_{AA} + pq\, w_{AS}}{\bar w}.
+$$
+
+## Was in dieser Formel steckt
+
+| Teil | Bedeutung |
+|------|-----------|
+| $p^2 w_{AA}$ | überlebende AA, jede mit zwei $A$-Kopien |
+| $pq\, w_{AS}$ | überlebende Heterozygote, je eine $A$-Kopie |
+| $\bar w$ | Normierung: Anteile müssen sich zu 1 addieren |
+
+Dieselbe Bauweise wie in Woche 4: **Anteil × relativer Erfolg, geteilt durch den Durchschnitt.**
+
+## Im Code
+
+```{r}
+#| echo: true
+selektionsschritt <- function(p, w) {
+  q <- 1 - p
+  w_quer <- p^2 * w[1] + 2 * p * q * w[2] + q^2 * w[3]
+  (p^2 * w[1] + p * q * w[2]) / w_quer
+}
+
+selektionsschritt(p = 0.5, w = c(0.88, 1, 0.14))
+```
+
+Bei $p = 0.5$ steigt $p$ — das seltene, tödliche Allel wird verdrängt, aber nicht beliebig weit.
+
+## Vorhersage und Wirklichkeit
+
+```{r}
+#| echo: true
+#| fig-height: 3.3
+#| fig-width: 7.6
+w_sichel <- c(0.88, 1, 0.14)
+bahn <- simuliere(p0 = 0.5, w = w_sichel, generationen = 120)
+
+plot(0:120, bahn, type = "l", lwd = 2.5, col = "#2166ac", ylim = c(0, 1),
+     xlab = "Generation", ylab = "Frequenz p von A",
+     main = "Vorhersage des Modells")
+abline(h = erw$p, lty = 2, col = "#b2182b", lwd = 2)
+```
+
+Gestrichelt: die **beobachtete** Frequenz bei den Erwachsenen.
+
+## Die Pointe
+
+```{r}
+#| echo: true
+c(modell = round(tail(bahn, 1), 3),
+  beobachtet = round(erw$p, 3))
+```
+
+Aus den Überlebensanteilen berechnet das Modell ein Gleichgewicht — und es liegt dort, wo die Population tatsächlich ist.
+
+Etwa 12 % der Kopien sind HbS, in jeder Generation neu hergestellt aus dem Vorteil der Heterozygoten.
+
+# Teil 3 · Drei Regime
+
+## Was bestimmt den Ausgang?
+
+Nicht die absoluten Zahlen, sondern die **Reihenfolge** der drei Fitnesswerte. Es gibt drei Möglichkeiten — und jede hat eine andere Folge für die Vielfalt.
+
+## Gerichtete Selektion
+
+$w_{AA} > w_{AB} > w_{BB}$: das bessere Allel setzt sich durch.
+
+```{r}
+#| fig-height: 3.4
+#| fig-width: 7.6
+trajektorien(c(1.1, 1.05, 1), main = "Gerichtet: A verdraengt B")
+```
+
+Am Ende ist die Population **einheitlich**. Vielfalt verschwindet.
+
+## Unterdominanz
+
+$w_{AB}$ ist kleiner als beide Homozygoten — Mischformen sind im Nachteil.
+
+```{r}
+#| fig-height: 3.4
+#| fig-width: 7.6
+trajektorien(c(1.1, 0.9, 1.1), main = "Unterdominanz: der Start entscheidet")
+```
+
+Wer schon häufig ist, gewinnt. Auch hier bleibt am Ende **ein** Allel übrig.
+
+## Überdominanz
+
+$w_{AB}$ ist grösser als beide Homozygoten — wie bei der Sichelzelle.
+
+```{r}
+#| fig-height: 3.4
+#| fig-width: 7.6
+trajektorien(c(0.88, 1, 0.14), main = "Ueberdominanz: alle Wege enden innen")
+```
+
+Egal wo wir starten: $p$ landet **im Inneren**. Beide Allele bleiben erhalten.
+
+## Warum das so ist
+
+Ist $A$ selten, sitzen fast alle $A$-Kopien in Heterozygoten — also im fittesten Genotyp. $A$ nimmt zu.
+
+Ist $A$ häufig, gilt dasselbe für $B$. $A$ nimmt ab.
+
+Jedes Allel wächst, **wenn es selten ist**. Das nennt man einen **geschützten Polymorphismus**.
+
+## Das Gleichgewicht
+
+Schreibt man $w_{AA} = 1-s$, $w_{AB} = 1$, $w_{BB} = 1-t$, liegt es bei
+
+$$
+\hat p = \frac{t}{s+t}.
+$$
+
+Für die Sichelzelle: $s = 0.12$, $t = 0.86$, also $\hat p = 0.86/0.98 \approx 0.88$ — die 12 % HbS von vorhin.
+
+## Die Regel — und ihre Voraussetzungen
+
+> In **einer** Population, bei **zufälliger Paarung**, an **einem** Locus, mit **konstanter** Fitness gilt: Vielfalt bleibt nur bei Überdominanz erhalten.
+
+Jedes fettgedruckte Wort ist eine Bedingung. Fällt eine weg, ändert sich die Aussage.
+
+# Teil 4 · Zurück zu den Eidechsen
+
+## Warum die Regel dort nicht greift
+
+In Woche 4 hing der Erfolg einer Strategie davon ab, **wie häufig** die anderen waren. Eine seltene Strategie war im Vorteil, eine häufige im Nachteil.
+
+Genau das verbietet die Voraussetzung «konstante Fitness»: Dort ist $w$ keine feste Zahl, sondern eine **Funktion der Häufigkeiten**.
+
+## Zwei Hälften, die zusammengehören
+
+Bisher hatten wir von den Kehlfarben immer nur eine Hälfte:
+
+| | Was wir hatten | Was fehlte |
+|---|---|---|
+| Woche 4 | das Spiel: drei Morphen, zyklisch geschlagen | die Vererbung — wir zählten Strategien, keine Allele |
+| Woche 5 | die Genetik: zwei Haplotypen plus Plastizität | die Selektion — nichts trieb die Frequenzen |
+
+Heute ist das dritte Stück da: die Rekursion für $p$. Damit lassen sich beide Hälften zusammensetzen.
+
+## Die Frage, die dann entsteht
+
+Der Zyklus braucht **drei** Morphen. Die Genetik liefert nur **zwei** Allele — die dritte Farbe entsteht erst in der Entwicklung.
+
+> Kann ein Zyklus einen Polymorphismus tragen, wenn eine der drei Morphen gar nicht vererbt wird?
+
+Das ist die Frage von Corl et al. (2026). Wir bauen eine Kursfassung ihres Modells — aus Teilen, die Sie alle schon kennen.
+
+## Das Modell in vier Schritten
+
+![](../../pics/comics/comic_corl_loop.svg){fig-alt="Kreislauf von Allelfrequenz ueber Genotyp und Phaenotyp zur Fitness" width="96%"}
+
+Ein Durchlauf ist eine Generation. Jeder Schritt stammt aus einer anderen Woche.
+
+## Schritt 1 · Vom Genotyp zur Kehlfarbe
+
+Zwei Haplotypen $O$ und $B$ mit Frequenzen $p$ und $q$. Hardy-Weinberg liefert $p^2$, $2pq$, $q^2$ — und dann kommt die Zuordnung zur Farbe:
+
+- $OO$ und $OB$ werden **orange**
+- $BB$ wird **blau** — ausser einem Anteil $\theta$, der plastisch **gelb** wird
+
+$$
+f_o = p^2 + 2pq, \qquad
+f_b = (1-\theta)\,q^2, \qquad
+f_y = \theta\, q^2
+$$
+
+Der Parameter $\theta$ ist das ganze Zugeständnis an die Plastizität: **wie oft die Entwicklung den anderen Weg nimmt.**
+
+## Schritt 2 · Die Fitness kommt aus Woche 4
+
+Die drei Farben spielen dasselbe Spiel wie damals:
+
+$$
+A =
+\begin{pmatrix}
+1 & w & s \\
+s & 1 & w \\
+w & s & 1
+\end{pmatrix}
 \qquad
-p_2' = (1-m)\, p_2^S + m\, p_1^S.
+\mathbf{W} = C - A\,\mathbf{f}
 $$
 
-$m$ = Anteil, der die Seite wechselt (Fische, Kolonisten).
+Unverändert seit Woche 4. Neu ist nur, **woher $\mathbf f$ kommt**: nicht mehr frei gewählt, sondern von der Genetik geliefert.
 
-Zahlen: $p_1^S=0.9$, $p_2^S=0.1$, $m=0.05$
-$\rightarrow$ $p_1'=0.86$, $p_2'=0.14$.
-Ein Schritt tilgt den Unterschied nicht.
+## Schritt 3 · Zurück zur Allelfrequenz
 
-$m=0$: Isolation. $m$ gross: die zwei Seiten fallen zusammen.
+Ein Genotyp hat jetzt keine eigene Fitness mehr — er hat eine **erwartete**:
 
-## Drei Lesarten desselben Paars $(p_1,p_2)$
+$$
+w_{OO} = w_{OB} = W_o,
+\qquad
+w_{BB} = (1-\theta)\,W_b + \theta\, W_y
+$$
 
-| | Frage |
+$BB$ trägt beide Möglichkeiten anteilig. Damit greift die Rekursion von vorhin:
+
+$$
+p' = \frac{p^2 w_{OO} + pq\, w_{OB}}{\bar w} = \frac{p\, W_o}{\bar w}
+$$
+
+::: aside
+Die Vereinfachung rechts gilt, weil $OO$ und $OB$ dieselbe Farbe tragen.
+:::
+
+## Im Code
+
+```{r}
+#| echo: true
+morphen <- function(p, theta) {
+  q <- 1 - p
+  c(orange = p^2 + 2 * p * q, blau = (1 - theta) * q^2, gelb = theta * q^2)
+}
+
+corl_schritt <- function(p, theta, s = 1.2, w = 0.5, C = 2) {
+  f   <- morphen(p, theta)                       # 1 · Genetik zu Farben
+  W   <- C - as.vector(make_rps_A(s, w) %*% f)   # 2 · Spiel aus Woche 4
+  w_O <- W[1]
+  w_B <- (1 - theta) * W[2] + theta * W[3]       # 3 · BB mittelt beide Wege
+  p * w_O / (f[["orange"]] * w_O + (1 - p)^2 * w_B)
+}
+```
+
+Vier Zeilen Biologie, eine Zeile Rekursion.
+
+## Ohne Plastizität
+
+```{r}
+#| echo: true
+#| fig-height: 3.3
+#| fig-width: 7.6
+kehlfarben_bahnen(theta = 0, main = "theta = 0: nur orange und blau")
+```
+
+Zwei Morphen, und Orange schlägt Blau. Das $B$-Allel verschwindet — langsam, weil es sich in orangen Heterozygoten versteckt, aber unaufhaltsam.
+
+## Mit Plastizität
+
+```{r}
+#| echo: true
+#| fig-height: 3.3
+#| fig-width: 7.6
+kehlfarben_bahnen(theta = 0.5, main = "theta = 0.5: die dritte Farbe ist da")
+abline(h = 1 - sqrt(2/3), lty = 2, col = "#b2182b", lwd = 2)
+```
+
+Von überall her läuft $p$ auf denselben Wert. Beide Haplotypen bleiben erhalten — **ohne dass ein Heterozygoter im Vorteil wäre**.
+
+## Wie viel Plastizität braucht es?
+
+```{r}
+#| echo: true
+#| fig-height: 3.2
+#| fig-width: 7.6
+theta_werte <- seq(0, 0.75, by = 0.01)
+p_eq <- sapply(theta_werte, function(th) tail(corl(0.5, th, 3000), 1))
+
+plot(theta_werte, p_eq, type = "l", lwd = 2.5, col = "#2166ac", ylim = c(0, 1),
+     xlab = expression(theta), ylab = "p im Gleichgewicht")
+abline(v = c(0.286, 0.613), lty = 2, col = "#b2182b", lwd = 2)
+```
+
+::: aside
+Kein neues Werkzeug: `sapply()` und die Vorgabewerte sind die von vorhin.
+:::
+
+## Ein Fenster, kein Schalter
+
+Links im Bild fixiert Orange, rechts verschwindet es. Die linke Kante lässt sich hinschreiben:
+
+$$
+\theta^* = \frac{s-1}{s-w} = \frac{0.2}{0.7} \approx 0.29
+$$
+
+Unterhalb davon ist Gelb zu selten, um Orange zu bremsen. Oberhalb von $\theta \approx 0.61$ ist es so häufig, dass Orange selbst untergeht.
+
+**Plastizität erhält die Vielfalt nur in einem Bereich — zu wenig und zu viel wirken gleich.**
+
+## Wo die zwei Wochen zusammenfallen
+
+Bei genau $\theta = 0.5$ gilt im Gleichgewicht $q^2 = 2/3$, und damit
+
+$$
+f_o = f_b = f_y = \tfrac{1}{3}
+$$
+
+Das ist exakt der symmetrische Punkt des Spiels aus Woche 4 — diesmal nicht gesetzt, sondern **aus der Vererbung hergeleitet**. Die drei gleich häufigen Morphen brauchen keine drei Allele.
+
+## Zwei Mechanismen nebeneinander
+
+| | Überdominanz | Häufigkeitsabhängige Fitness |
+|---|---|---|
+| Fitness | feste Zahlen | hängt von den Häufigkeiten ab |
+| Wer ist im Vorteil? | immer die Heterozygoten | wer gerade selten ist |
+| Beispiel | Sichelzelle, Malaria | Kehlfarben, Wirt–Parasit |
+| Ergebnis | Vielfalt bleibt | Vielfalt kann bleiben |
+
+Beide erhalten Polymorphismus — aus verschiedenen Gründen. Wer die Kehlfarben mit Überdominanz erklärt, nennt den falschen Mechanismus.
+
+## Was diese Kursfassung weglässt
+
+Unser Modell ist eine **vereinfachte Fassung** nach Corl et al. (2026):
+
+- ein Locus, zufällige Paarung, unendlich grosse Population
+- $\theta$ als feste Zahl, nicht als Antwort der Entwicklung auf die Umgebung
+- keine Weibchen, kein Raum, keine Dichte
+
+Was übrig bleibt, ist trotzdem die Aussage des Papers: **Plastizität kann die dritte Morphe liefern, die der Zyklus braucht.** Zwei Allele genügen.
+
+# Neu im Code · Eine Funktion, viele Parameter
+
+## Das Problem
+
+Wir wollen dieselbe Simulation für vier Startwerte, dann für fünf Fitnesswerte, dann für ein ganzes Raster. Kopieren wäre fehleranfällig und unleserlich.
+
+## Erst: Vorgabewerte
+
+```{r}
+#| echo: true
+simuliere <- function(p0, w, generationen = 150) {
+  p <- numeric(generationen + 1)
+  p[1] <- p0
+  for (t in seq_len(generationen)) p[t + 1] <- selektionsschritt(p[t], w)
+  p
+}
+```
+
+`generationen = 150` ist ein **Default-Argument**: Wer nichts angibt, bekommt 150. Wer will, schreibt `generationen = 500`.
+
+## Dann: `sapply()` statt Kopieren
+
+```{r}
+#| echo: true
+staerken <- c(0.1, 0.3, 0.5, 0.9)
+
+endwerte <- sapply(staerken, function(t) {
+  w <- c(1 - 0.12, 1, 1 - t)
+  tail(simuliere(p0 = 0.5, w = w, generationen = 300), 1)
+})
+
+round(endwerte, 3)
+```
+
+Ein Aufruf, vier Ergebnisse: Je tödlicher der Homozygote SS, desto weiter rückt das Gleichgewicht nach oben.
+
+## Was `sapply()` macht
+
+`sapply(werte, funktion)` wendet dieselbe Funktion auf jeden Eintrag an und gibt die Ergebnisse als Vektor zurück.
+
+| | |
 |---|---|
-| lokale Anpassung | Ist das lokal passende Allel **hier** häufiger? |
-| Polymorphismus vor Ort | Gibt es an einem Ort beide Allele? |
-| Differenzierung | Bleibt $p_1\neq p_2$ — auch auf lange Sicht? |
+| Eingabe | ein Vektor von Parameterwerten |
+| Arbeit | pro Wert ein Funktionsaufruf |
+| Ausgabe | ein Vektor von Ergebnissen |
 
-$\bar p=0.5$ kann beides sein: maximal verschieden **oder** überall gemischt.
+Das ist der Unterschied zwischen «einmal rechnen» und «systematisch untersuchen».
 
-# Teil 3 · Stabile Unterschiede
+## Drei Werkzeuge, drei Aufgaben
 
-## Darum simulieren
+| Aufgabe | Werkzeug |
+|---------|----------|
+| Schritt $t+1$ aus Schritt $t$ | `for`-Schleife (Woche 2) |
+| dieselbe Rechnung für jede Tabellenzeile | Spaltenrechnung (Woche 5) |
+| dieselbe Simulation für viele Parameter | `sapply()` (heute) |
 
-Selektion gegen Genfluss sieht man dem Stichling nicht an der Flosse ab.
-Zwei Zahlen, viele Generationen — das ist eine **Schleife**, wie Woche 2.
+## Mini-Glossar R (heute)
 
-> Trennen sich $p_1$ und $p_2$, und **bleiben** sie getrennt?
+| Konzept | Merksatz |
+|---------|----------|
+| `function(x, y = 10)` | Default-Argument: Vorgabe, überschreibbar |
+| `sapply(v, f)` | `f` auf jeden Eintrag von `v`, Ergebnis als Vektor |
+| `function(t) { ... }` | namenlose Funktion, direkt übergeben |
+| `tail(x, 1)` | letzter Eintrag (hier: das Gleichgewicht) |
 
-**Nicht heute:** $F_{ST}$ schätzen, Fenster, $p$-Werte. Dasselbe Bild ist
-später die Grundlage dafür — **Statistikvorlesung**.
+## Programmierung ↔ Biologie
 
-## Wenig Genfluss: $p_1\neq p_2$ bleibt
+| Programmierung | Biologie |
+|----------------|----------|
+| Argument `w` | wie gut ein Genotyp überlebt |
+| eine Funktion, viele Aufrufe | dieselbe Population unter anderen Bedingungen |
+| Vektor von Endwerten | Gleichgewicht als Funktion der Selektionsstärke |
 
-```{r}
-#| fig-height: 3.9
-#| fig-width: 7.6
-#| out-width: 66%
-sim_low <- simulate_two_demes(0.5, 0.5, s = 0.1, m = 0.01, generations = 200)
-plot(sim_low$generation, sim_low$p1, type = "l", lwd = 3,
-     col = "#d95f02", ylim = c(0, 1), xlab = "Generation",
-     ylab = "Frequenz von A", main = "Gleiche Selektion, wenig Migration")
-lines(sim_low$generation, sim_low$p2, lwd = 3, col = "#3182bd")
-lines(sim_low$generation, sim_low$p_global, lwd = 2, lty = 2)
-legend("right", c("p1  Habitat 1", "p2  Habitat 2", "Mittel"),
-       col = c("#d95f02", "#3182bd", "black"),
-       lwd = c(3, 3, 2), lty = c(1, 1, 2), bty = "n")
-```
-
-Die Kurven trennen sich und **bleiben** getrennt.
-Das ist ein Gleichgewicht: Selektion und Migration halten sich die Waage.
-
-## Viel Genfluss: die Unterschiede kippen
-
-```{r}
-#| fig-height: 3.9
-#| fig-width: 7.6
-#| out-width: 66%
-sim_high <- simulate_two_demes(0.5, 0.5, s = 0.1, m = 0.3, generations = 200)
-plot(sim_high$generation, sim_high$p1, type = "l", lwd = 3,
-     col = "#d95f02", ylim = c(0, 1), xlab = "Generation",
-     ylab = "Frequenz von A", main = "Dieselbe Selektion, viel Migration")
-lines(sim_high$generation, sim_high$p2, lwd = 3, col = "#3182bd")
-lines(sim_high$generation, sim_high$p_global, lwd = 2, lty = 2)
-legend("right", c("p1  Habitat 1", "p2  Habitat 2", "Mittel"),
-       col = c("#d95f02", "#3182bd", "black"),
-       lwd = c(3, 3, 2), lty = c(1, 1, 2), bty = "n")
-```
-
-$\bar p$ bleibt in der Mitte — die zwei Habitate werden genomisch fast gleich.
-
-**Gene swamping:** der Genfluss überschwemmt die lokale Anpassung.
-Stabil ist dann *keine* Differenzierung.
-
-## Der zentrale Punkt
-
-Gerichtete Selektion in *einer* Population treibt $p$ oft an den Rand.
-
-Zwei Habitate mit entgegengesetzter Selektion können etwas anderes:
-einen **stabilen Unterschied** $p_1^*\neq p_2^*$, trotz ständigem Austausch.
-
-Ob das eintritt, hängt von der Stärke der lokalen Selektion gegen $m$ ab —
-nicht von einem universellen Slogan «$m>s$».
-
-## Wann bleiben beide Allele?
-
-$s_1$ Vorteil von A in Habitat 1, $s_2$ von B in Habitat 2. **$m$ fest**
-($m=0.10$). Beide Allele bleiben, wenn jedes zunimmt, sobald es selten ist.
-
-```{r}
-#| fig-height: 3.6
-#| fig-width: 4.8
-#| out-width: 42%
-par(mar = c(4.2, 4.2, 2.2, 0.8), pty = "s")
-image(
-  x = poly_map$s, y = poly_map$s, z = poly_map$z,
-  col = c("#f4a582", "#2166ac"),
-  xlab = "s1  (A in Habitat 1)",
-  ylab = "s2  (B in Habitat 2)",
-  main = "m = 0.10 fest",
-  useRaster = TRUE
-)
-abline(0, 1, lwd = 2, col = "#111111")
-legend(
-  "topleft",
-  c("beide Allele bleiben", "ein Allel geht verloren"),
-  fill = c("#2166ac", "#f4a582"),
-  bty = "n", cex = 0.85
-)
-```
-
-Diagonale $s_1=s_2>0$: **immer** Polymorphismus. Weit davon: das stärkere
-Allel kann das andere **global** verdrängen.
-
-## Zurück zum Stichling
-
-> Reicht die lokale Selektion, damit der Unterschied nicht wegmischt?
-
-*Eda*-Platten: starker Unterschied Meer/See, oft dasselbe Allel parallel.
-Jones et al. (2012): der Rest des Genoms oft gemischt.
-
-Das Modell sagt, *wann* stabile Differenzen möglich sind.
-Ob ein konkreter Locus dazugehört, ist eine andere Frage.
-
-## Und $F_{ST}$?
-
-$F_{ST}$ fasst zusammen, wie weit $p$ zwischen Populationen auseinanderliegt.
-Scans suchen Stellen, an denen dieser Abstand ungewöhnlich gross ist.
-
-Dieselbe Grösse und dasselbe Zwei-Demen-Bild sind später die **Grundlage**
-für Schätzer und Tests. Das üben Sie in der **Statistikvorlesung** —
-ohne das Bild sitzen Sie dort vor einer Formel ohne Bedeutung.
-
-Heute reicht: wir können beschreiben, dass stabile Unterschiede
-zwischen Populationen *existieren können*.
-
-Nächste Woche: Diversität **in einer** Population — auch wenn die
-Fitness in der Zeit wechselt.
+# Abschluss
 
 ## Take-home
 
-1. Stichling Meer/See: parallele, genetische Unterschiede trotz Genfluss.
-2. Modell wie Lotka–Volterra — Extra: HWE **in jeder** Population.
-3. Selektion trennt, Migration mischt.
-4. Es kann ein **stabiles** $p_1\neq p_2$ geben.
-5. $s_1=s_2$: Polymorphismus bleibt; ungleich stark kann ein Allel verloren gehen.
-6. Zu viel Genfluss: Gene swamping — Unterschiede kippen, Allele nicht zwingend.
-7. $F_{ST}$-Scans nutzen genau diese Idee — Statistikvorlesung.
+1. Fehlende Genotypen bei Erwachsenen sind die sichtbare Spur der Selektion.
+2. Relative Fitness kommt aus dem Vergleich beobachtet/erwartet — und geht in $p' = (p^2 w_{AA} + pq\,w_{AB})/\bar w$ ein.
+3. Gerichtete Selektion und Unterdominanz beenden die Vielfalt, Überdominanz erhält sie.
+4. Diese Regel gilt für **eine** Population mit **konstanter** Fitness; häufigkeitsabhängige Fitness ist ein eigener Mechanismus.
+5. Mit `sapply()` untersucht man Parameter systematisch statt per Copy-Paste.
 
 ## Notebook (~45 min)
 
-**→ [Notebook Woche 6 öffnen](notebook.html)** · Entwurf
+**→ [Notebook Woche 6 öffnen](notebook.html)**
 
-$m$ fest, $s_1$ und $s_2$ ändern: wann bleiben beide Allele?
+::::: columns
+::: {.column width="20%"}
+![](../../pics/icons/icon_code.svg){fig-alt="Notebook" width="70%"}
+:::
+::: {.column width="80%"}
+**A** Sichelzell-Fitness aus den Zählungen rekonstruieren  
+
+**B** drei Regime als Trajektorien  
+
+**C** Gleichgewicht gegen Selektionsstärke — mit `sapply()`  
+
+**D** konstante gegen häufigkeitsabhängige Fitness
+:::
+:::::
 
 ## Abschlussfragen
 
-1. Welche zwei Kräfte stehen hinter einem stabilen Unterschied $p_1\neq p_2$?
-2. Was ist analog zu Lotka–Volterra — und was muss extra rein (HWE)?
-3. Warum HWE *in jeder* Population, nicht im Pool?
-4. Kann $\bar p=0.5$ gelten, obwohl es kaum lokale Anpassung gibt?
-5. Was übernimmt die Statistikvorlesung von $F_{ST}$ — und was nicht heute?
+1. Warum passen die Neugeborenen zur HWE-Erwartung, die Erwachsenen aber nicht?
+2. Welche drei Fitnesswerte führen dazu, dass Vielfalt erhalten bleibt?
+3. Was bedeutet «geschützter Polymorphismus» in einem Satz?
+4. Warum lässt sich die Erhaltung der Kehlfarben nicht mit Überdominanz erklären?
+5. Wann ist `sapply()` das richtige Werkzeug, wann eine Schleife?
 
 ## Literatur
 
 :::: {.lit}
-1. **Peichel, C. L. et al. (2001).** The genetic architecture of divergence between threespine stickleback species. *Nature* 414: 901–905. [doi:10.1038/414901a](https://doi.org/10.1038/414901a)
-2. **Colosimo, P. F. et al. (2005).** Widespread parallel evolution in sticklebacks by repeated fixation of Ectodysplasin alleles. *Science* 307: 1928–1933. [doi:10.1126/science.1107239](https://doi.org/10.1126/science.1107239)
-3. **Jones, F. C. et al. (2012).** The genomic basis of adaptive evolution in threespine sticklebacks. *Nature* 484: 55–61. [doi:10.1038/nature10944](https://doi.org/10.1038/nature10944)
-4. **Peichel, C. L. & Marques, D. A. (2017).** The genetic and molecular architecture of phenotypic diversity in sticklebacks. *Phil. Trans. R. Soc. B* 372: 20150486. [doi:10.1098/rstb.2015.0486](https://doi.org/10.1098/rstb.2015.0486)
-5. **Lenormand, T. (2002).** Gene flow and the limits to natural selection. *Trends in Ecology & Evolution* 17: 183–189. [doi:10.1016/S0169-5347(02)02497-7](https://doi.org/10.1016/S0169-5347(02)02497-7)
+1. **Allison, A. C. (1954).** Protection afforded by sickle-cell trait against subtertian malarial infection. *BMJ* 1: 290–294. [doi:10.1136/bmj.1.4857.290](https://doi.org/10.1136/bmj.1.4857.290)
+2. **Allison, A. C. (1964).** Polymorphism and natural selection in human populations. *Cold Spring Harb. Symp. Quant. Biol.* 29: 137–149.
+3. **Corl, A., et al. (2026).** The genetics, evolution, and maintenance of a biological rock-paper-scissors game. *Science* 391: 69–74. [doi:10.1126/science.adw8265](https://doi.org/10.1126/science.adw8265)
+4. **Sinervo, B., & Lively, C. M. (1996).** The rock–paper–scissors game and the evolution of alternative male strategies. *Nature* 380: 240–243.
+
+Kursdaten `sickle_nigeria.csv`: Lehrzahlen aus der populationsgenetischen Lehrbuchliteratur, siehe `data/README.md`.
 ::::
 
 ## Navigation
@@ -489,3 +696,5 @@ $m$ fest, $s_1$ und $s_2$ ändern: wann bleiben beide Allele?
 | Notebook | [Notebook Woche 6](notebook.html) |
 | Zurück | [← Woche 5](../week-05/slides.html) |
 | Weiter | [Woche 7 →](../week-07/slides.html) |
+| Modul | [Modul 2](../../docs/module-02-overview.html) |
+| PDF | Taste **E**, dann Drucken → Als PDF speichern |

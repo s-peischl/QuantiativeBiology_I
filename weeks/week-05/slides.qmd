@@ -1,12 +1,12 @@
 ---
-title: "Woche 5 — Ein Locus, eine Population?"
-subtitle: "HapMap-Muster · Hardy–Weinberg · Wahlund-Effekt"
+title: "Woche 5 — Von Strategien zu Genen"
+subtitle: "Farbmorphen, Vererbung und ein Nullmodell"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:
     html-math-method: katex
     theme: simple
-    css: slides.css
+    css: [slides.css, ../print.css]
     slide-number: true
     incremental: false
     embed-resources: true
@@ -30,47 +30,22 @@ execute:
 
 ```{r}
 #| include: false
-freqs <- function(AA, AB, BB) {
-  n <- AA + AB + BB
-  p <- (2 * AA + AB) / (2 * n)
-  data.frame(n = n, p = p, f_AA = AA / n, f_AB = AB / n, f_BB = BB / n)
+snps <- read.csv("data/hapmap_chb_chr1.csv")
+snps$n <- snps$AA + snps$AB + snps$BB
+snps$p <- (2 * snps$AA + snps$AB) / (2 * snps$n)
+
+col_AA <- "#2166ac"
+col_AB <- "#1b9e77"
+col_BB <- "#b2182b"
+
+hwe_kurven <- function(main = "") {
+  raster <- seq(0, 1, length.out = 301)
+  plot(raster, raster^2, type = "l", lwd = 2.5, col = col_AA,
+       ylim = c(0, 1), xlab = "Allelfrequenz p", ylab = "Genotypfrequenz",
+       main = main)
+  lines(raster, 2 * raster * (1 - raster), lwd = 2.5, col = col_AB)
+  lines(raster, (1 - raster)^2, lwd = 2.5, col = col_BB)
 }
-
-plot_hwe <- function(dat, main, cex = 0.7) {
-  pgrid <- seq(0, 1, length.out = 301)
-  cols <- c(AA = "#2166ac", AB = "#1b9e77", BB = "#b2182b")
-  plot(pgrid, pgrid^2, type = "l", lwd = 2.5, col = cols[1],
-       ylim = c(0, 1), xlab = "Allelfrequenz p = f(A)",
-       ylab = "Genotypfrequenz", main = main)
-  lines(pgrid, 2 * pgrid * (1 - pgrid), lwd = 2.5, col = cols[2])
-  lines(pgrid, (1 - pgrid)^2, lwd = 2.5, col = cols[3])
-  points(dat$p, dat$f_AA, pch = 16, cex = cex, col = adjustcolor(cols[1], 0.5))
-  points(dat$p, dat$f_AB, pch = 16, cex = cex, col = adjustcolor(cols[2], 0.5))
-  points(dat$p, dat$f_BB, pch = 16, cex = cex, col = adjustcolor(cols[3], 0.5))
-  legend("top", c("AA", "AB", "BB"), col = cols, pch = 16, lwd = 2.5,
-         bty = "n", ncol = 3)
-}
-
-hapmap <- read.csv("data/hapmap_chb_chr1.csv")
-hapmap <- cbind(hapmap, freqs(hapmap$AA, hapmap$AB, hapmap$BB))
-
-panel <- read.csv("data/panel_ceu_yri.csv")
-ceu_p <- panel[panel$pop == "CEU", ]
-yri_p <- panel[panel$pop == "YRI", ]
-stopifnot(identical(ceu_p$snp, yri_p$snp))
-pooled <- cbind(
-  data.frame(
-    AA = ceu_p$AA + yri_p$AA,
-    AB = ceu_p$AB + yri_p$AB,
-    BB = ceu_p$BB + yri_p$BB
-  ),
-  freqs(ceu_p$AA + yri_p$AA, ceu_p$AB + yri_p$AB, ceu_p$BB + yri_p$BB)
-)
-ceu_f <- cbind(ceu_p, freqs(ceu_p$AA, ceu_p$AB, ceu_p$BB))
-yri_f <- cbind(yri_p, freqs(yri_p$AA, yri_p$AB, yri_p$BB))
-
-pgrid <- seq(0, 1, length.out = 301)
-cols <- c(AA = "#2166ac", AB = "#1b9e77", BB = "#b2182b")
 ```
 
 ## Übersicht
@@ -79,321 +54,401 @@ cols <- c(AA = "#2166ac", AB = "#1b9e77", BB = "#b2182b")
 
 | Teil | Dauer | Was |
 |------|-------|-----|
-| Vorlesung | ~45 min | Muster → HWE → Wahlund → Duffy |
-| Notebook | ~45 min | Draft: dieselben Plots selbst |
+| Vorlesung | ~45 min | Farbmorphen → Vererbung → Hardy–Weinberg |
+| Notebook | ~45 min | 225 echte SNPs gegen das Nullmodell halten |
 
 ::: aside
-Pfeiltasten · **M** Menü · **Esc** Übersicht
+Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 :::
 
 ## Lernziele
 
 Nach heute können Sie …
 
-1. sagen, was **Locus, Allel, Genotyp, SNP** meint,
-2. ein Genotypmuster in echten Daten **lesen**,
-3. Hardy–Weinberg als **Nullbild** erkennen — und wann es *nicht* passt,
-4. den **Wahlund-Effekt** erklären,
-5. fragen: **was ist eine Population?**
+1. erklären, warum drei Farbmorphen **einer** Art die Vererbung ins Spiel bringen,
+2. beschreiben, welche genetische Grundlage hinter den Kehlfarben steckt,
+3. Locus, Allel, Genotyp und Allelfrequenz auseinanderhalten,
+4. Hardy–Weinberg als **Erwartung ohne Selektion** lesen und echte Genotypdaten daran halten,
+5. eine Rechnung auf eine **ganze Datenspalte** anwenden statt auf eine Schleife.
+
+## Heute in einem Blick
+
+::::: columns
+::: {.column width="22%"}
+![](../../pics/icons/icon_biology.svg){fig-alt="Biologie" width="70%"}
+:::
+::: {.column width="22%"}
+![](../../pics/icons/icon_dna.svg){fig-alt="Genetik" width="70%"}
+:::
+::: {.column width="22%"}
+![](../../pics/icons/icon_math.svg){fig-alt="Modell" width="70%"}
+:::
+::: {.column width="22%"}
+![](../../pics/icons/icon_code.svg){fig-alt="Code" width="70%"}
+:::
+:::::
+
+**Beobachtung** (drei Morphen) → **Genetik** (welche Allele?) → **Nullmodell** (was ohne Selektion zu erwarten wäre) → **Daten** (225 SNPs).
 
 ## Heute in dieser Reihenfolge
 
-1. Was zählen wir an einem Locus?
-2. Liegen echte SNPs auf den HWE-Kurven?
-3. Was passiert, wenn zwei Gruppen in einer Probe sind?
-4. Duffy: $p\approx 0$ gegen $p\approx 1$ — warum?
-
-# Teil 1 · Was wir zählen
-
-## Eine Stelle, zwei Varianten
-
-DNA ist ein Text. Wir schauen **eine Stelle** an — einen **Locus**.
-
-Zwei mögliche Buchstaben: die **Allele** A und B.  
-Diploid: zwei Kopien → **Genotyp** $AA$, $AB$, $BB$.
-
-$p$ = Anteil von A unter allen Kopien. Nicht dasselbe wie der Genotyp.
-
-## SNP
-
-**SNP** (*single nucleotide polymorphism*): eine Stelle mit zwei Nukleotiden
-in der Population — oft A/G oder C/T.
-
-Heute: viele SNPs, jeweils $n_{AA}$, $n_{AB}$, $n_{BB}$.  
-Ein Locus zur Zeit — kein Haplotyp, kein ganzes Genom.
-
-## Genotypen werden sichtbar
-
-::::::: columns
-::::: {.column width="48%"}
-![](../../pics/popgen/electrophoresis.jpg){fig-alt="Gel-Elektrophorese" width="100%"}
-:::::
-::::: {.column width="50%"}
-Banden auf einem Gel: so werden Genotypen **gezählt**, bevor ein Modell
-die Zahlen erklärt.
-:::::
-:::::::
+1. Warum aus Strategien Gene werden müssen
+2. Was hinter den Kehlfarben steckt
+3. Vererbung in drei Begriffen
+4. Hardy–Weinberg: die Erwartung ohne Selektion
+5. Echte Genotypdaten gegen diese Erwartung
 
 ::: aside
-Wikimedia Commons: *Gel electrophoresis 2.jpg*
+[Modul 2](../../docs/module-02-overview.html) · [Glossar](../../docs/glossary.html)
 :::
 
-## Die Daten: 225 menschliche SNPs
+# Teil 1 · Von Strategien zu Genen
 
-HapMap, Han-Chines:innen in Beijing (CHB), Chromosom 1:
+## Woche 4: drei Strategien
 
-- 84 Personen
-- 225 polymorphe SNPs
-- gezählt: $n_{AA}$, $n_{AB}$, $n_{BB}$
+![](../../pics/Emma/Grafik_lizard_RPS.jpg){fig-alt="Seitenfleckeneidechse drei Maennchen-Strategien" width="66%"}
 
-International HapMap Consortium (2007).
-
-## Was sehen wir?
-
-```{r}
-#| fig-height: 3.7
-#| fig-width: 7.6
-#| out-width: 62%
-plot(hapmap$p, hapmap$f_AA, pch = 16, cex = 0.7, col = adjustcolor(cols[1], 0.55),
-     ylim = c(0, 1), xlab = "Allelfrequenz p = f(A)",
-     ylab = "Genotypfrequenz", main = "225 CHB-SNPs")
-points(hapmap$p, hapmap$f_AB, pch = 16, cex = 0.7, col = adjustcolor(cols[2], 0.55))
-points(hapmap$p, hapmap$f_BB, pch = 16, cex = 0.7, col = adjustcolor(cols[3], 0.55))
-legend("top", c("AA", "AB", "BB"), col = cols, pch = 16, bty = "n", ncol = 3)
-```
-
-## Das Muster
-
-Drei Farben, eine Achse $p$ — und die Punkte liegen auf **drei Bögen**.
-Heterozygote (grün) sind in der Mitte am häufigsten.
-
-> Können wir dieses Muster erklären?
-
-# Teil 2 · Hardy–Weinberg: es passt
-
-## Die drei Kurven
-
-```{r}
-#| fig-height: 3.2
-#| fig-width: 7.2
-#| out-width: 52%
-plot(pgrid, pgrid^2, type = "l", lwd = 3, col = cols[1],
-     ylim = c(0, 1), xlab = "Allelfrequenz p = f(A)",
-     ylab = "Genotypfrequenz", main = "Hardy-Weinberg-Erwartung")
-lines(pgrid, 2 * pgrid * (1 - pgrid), lwd = 3, col = cols[2])
-lines(pgrid, (1 - pgrid)^2, lwd = 3, col = cols[3])
-legend("top", c("AA: p²", "AB: 2pq", "BB: q²"),
-       col = cols, lwd = 3, bty = "n", ncol = 3)
-```
-
-Zufällige Paarung in **einer** Population: zwei Allele unabhängig mit
-Wahrscheinlichkeit $p$ bzw. $q=1-p$. Dann sind die Kurven $p^2$, $2pq$, $q^2$
-genau die erwarteten Genotypanteile. Ableiten üben Sie in der
-Modellierungsvorlesung — heute: liegen die Punkte darauf?
-
-## Liegt das Muster auf den Kurven?
-
-```{r}
-#| fig-height: 3.6
-#| fig-width: 7.6
-#| out-width: 60%
-plot_hwe(hapmap, "CHB-Daten und HWE-Modell", cex = 0.55)
-```
-
-**Ja.** Nullbild für zufällige Paarung. Ob die Abweichung «signifikant» ist:
-Statistikvorlesung — das Bild brauchen Sie dort.
-
-# Teil 3 · Zwei Gruppen in einer Probe
-
-## Dieselben SNPs, zwei Stichproben
-
-1000 Genomes: **CEU** (Utah, europäische Abstammung) und **YRI**
-(Yoruba, Ibadan).
-
-Was passiert, wenn wir so tun, als wären alle Personen **eine**
-Population — und denselben HWE-Plot zeichnen?
-
-## Ausreisser
-
-```{r}
-#| fig-height: 3.6
-#| fig-width: 7.6
-#| out-width: 60%
-plot_hwe(pooled, "CEU + YRI als eine Stichprobe")
-```
-
-Grün (Heterozygote) oft **unter** der Kurve. CHB sah anders aus.
-
-## Diskussion
-
-> Was könnte zu diesem Muster führen?
-
-Inzucht? Fehler? Kleine Stichprobe? **Mischung?**
-
-## Populationsstruktur
-
-Die Probe war vielleicht **keine** paarende Einheit:
-zwei Gruppen, verschiedenes $p$, zusammengeschüttet.
-
-> Was *ist* eine Population?
-
-Heute reicht: der Plot prüft die **Stichprobe** — nicht automatisch ein Gen.
-
-## Getrennt: HWE passt wieder
-
-```{r}
-#| fig-height: 3.4
-#| fig-width: 8.4
-#| out-width: 78%
-par(mfrow = c(1, 2), mar = c(4, 4, 2.2, 0.6))
-plot_hwe(ceu_f, "nur CEU", cex = 0.65)
-plot_hwe(yri_f, "nur YRI", cex = 0.65)
-```
-
-Jede Gruppe für sich: wieder auf den Kurven.
-
-## Wahlund-Effekt
-
-Zwei Dörfer, jedes für sich im HWE — aber **verschiedenes** $p$:
-
-| | $AA$ | $AB$ | $BB$ | $p$ |
-|---|---:|---:|---:|---:|
-| Dorf 1 | 50 | 0 | 0 | 1 |
-| Dorf 2 | 0 | 0 | 50 | 0 |
-| **Mischung** | 50 | 0 | 50 | 0.5 |
-
-Jedes Dorf ist extrem: **keine** Heterozygoten.
-Die Mischung hat $p=0.5$ — HWE würde **50 Heterozygote** erwarten. Beobachtet: **null**.
-
-**Wahlund-Effekt** (Wahlund 1928): Mischen zählt Allele, erzeugt aber keine Heterozygoten.
-
-## Auch ohne Extreme
-
-Dieselben Dörfer, diesmal jedes *im* HWE — nur $p$ verschieden:
-
-| | $AA$ | $AB$ | $BB$ | $p$ | $2p(1-p)$ |
-|---|---:|---:|---:|---:|---:|
-| Dorf 1 ($n=50$) | 32 | 16 | 2 | 0.8 | 0.32 |
-| Dorf 2 ($n=50$) | 2 | 16 | 32 | 0.2 | 0.32 |
-| **Mischung** | 34 | 32 | 34 | 0.5 | |
-
-HWE der Mischung erwartet **50** Heterozygote ($2\cdot 0.5\cdot 0.5 \cdot 100$).
-Beobachtet: **32** — genau der Mittelwert der Dörfer.
-
-Jedes Dorf war in Ordnung. Die Mischung **erbt** deren Heterozygoten —
-sie erzeugt keine neuen Paarungen.
-
-## Warum die Kurve zu hoch liegt
-
-```{r}
-#| fig-height: 3.5
-#| fig-width: 7.4
-#| out-width: 62%
-p <- seq(0, 1, length.out = 300)
-het <- 2 * p * (1 - p)
-plot(p, het, type = "l", lwd = 3, col = "#1b9e77",
-     xlab = "p in einer Gruppe", ylab = "Heterozygote  2p(1-p)",
-     main = "Mittel der Doerfer vs. HWE der Mischung",
-     ylim = c(0, 0.55))
-points(c(0.2, 0.8), c(0.32, 0.32), pch = 19, cex = 1.7, col = "#d95f02")
-segments(0.2, 0.32, 0.8, 0.32, lwd = 2, col = "#d95f02")
-points(0.5, 0.32, pch = 15, cex = 1.6, col = "#d95f02")
-points(0.5, 0.50, pch = 17, cex = 1.8, col = "#1a5276")
-legend("topleft",
-       c("jedes Dorf", "Mittel der Doerfer (beobachtet)", "HWE der Mischung"),
-       col = c("#d95f02", "#d95f02", "#1a5276"),
-       pch = c(19, 15, 17), bty = "n")
-```
-
-$2p(1-p)$ ist in der **Mitte** am grössten. Zwei Gruppen links und rechts
-auf der Kurve: ihr Mittel liegt **unter** der Spitze.
-
-Die Differenz ist die Streuung von $p$ zwischen den Gruppen —
-nicht fehlende Paarung in der Mischung.
-
-# Teil 4 · Ein Locus ganz am Rand: Duffy
-
-## Der Parasit braucht einen Empfänger
-
-::::::: columns
-::::: {.column width="42%"}
-![](../../pics/popgen/anopheles.jpg){fig-alt="Anopheles bei der Blutmahlzeit" width="100%"}
-:::::
-::::: {.column width="56%"}
-Die Mücke *Anopheles* überträgt *Plasmodium vivax* (Malaria).
-
-Der Parasit braucht das **Duffy-Protein** (ACKR1) auf roten
-Blutkörperchen, um einzudringen.
-:::::
-:::::::
+Orange schlägt Blau, Blau schlägt Gelb, Gelb schlägt Orange.  
+Der Erfolg hing davon ab, **wie häufig** die anderen Morphen gerade sind.
 
 ::: aside
-Wikimedia Commons: *Anopheles stephensi.jpeg*
+Illustration: Emma Ochsner · Sinervo & Lively (1996)
 :::
 
-## Duffy-Null: kein Empfänger
+## Was wir bisher beschrieben haben
 
-SNP **rs2814778** im Promotor von *ACKR1*: auf Erythrozyten wird das
-Protein **nicht gebaut** — in anderen Zellen kann ACKR1 weiter vorkommen.
+Im Modell waren die Morphen **Anteile** einer Population: drei Zahlen, die sich gegenseitig hoch- und runterschieben.
 
-Kein Duffy auf der Zelloberfläche → *P. vivax* kommt nicht rein
-(Miller et al. 1976).
+Das genügt, um den Zyklus zu erzeugen. Es sagt aber nichts darüber, **wie** eine Eidechse orange wird.
 
-In Westafrika fast alle Menschen; in Europa fast niemand.
+## Der entscheidende Punkt
 
-## Duffy: Frequenzen an zwei Orten
+Die drei Morphen sind **keine drei Arten**. Sie gehören zu *Uta stansburiana*, leben nebeneinander und paaren sich miteinander.
 
-| | TT | TC | CC | $p$ (C) |
-|---|---:|---:|---:|---:|
-| CEU (Utah) | 99 | 0 | 0 | $\approx 0$ |
-| YRI (Ibadan) | 0 | 1 | 107 | $\approx 1$ |
+Ein oranges Männchen hat also nicht zwingend orange Söhne. Was weitergegeben wird, sind **Gene** — und die mischen sich bei jeder Paarung neu.
 
-C = Duffy-Null. In der einen Gruppe praktisch **0**, in der anderen fast **1**.
+## Die Frage dieser Woche
 
-Das ist nicht Wahlund: das Allel ist wirklich fast verschwunden — oder
-fast fixiert.
+> Wenn die Strategien vererbt werden: Wie sieht eine Population ohne Selektion überhaupt aus?
 
-## Warum so verschieden?
+Bevor wir sagen können, was Selektion tut (Woche 6), brauchen wir ein Bild davon, was **ohne** sie passiert. Genau das ist ein Nullmodell.
 
-Zwei echte Populationen, zwei Frequenzen — und der Unterschied **bleibt**.
+# Teil 2 · Was hinter den Kehlfarben steckt
 
-> Warum kann $p$ zwischen Populationen so weit auseinanderliegen?
+## Die naheliegende Annahme
 
-Nächste Woche: zwei Habitate, Selektion und Genfluss.
+Drei Farben, also drei Allele an einem Locus — so wurde das System jahrzehntelang beschrieben, und so steht es in vielen Lehrbüchern.
+
+Die Annahme ist sparsam und passt zur Intuition: eine Farbe, ein Allel.
+
+## Was die Genome zeigen
+
+Corl et al. (2026) haben Genome vieler Männchen sequenziert und gefragt, welche Regionen mit der Kehlfarbe zusammenhängen.
+
+Gefunden wurde **eine** Region: die Regulatorregion von *SPR* (Sepiapterin-Reduktase), ein Enzym im Stoffwechsel gelber und roter Pigmente.
+
+## Zwei Haplotypen statt drei Allele
+
+Dort liegen **zwei** stark verschiedene Haplotypen — Varianten, die als Block vererbt werden.
+
+| Träger | Kehlfarbe |
+|--------|-----------|
+| ein Haplotyp | orange |
+| der andere | blau |
+
+Für eine dritte, gelbe Variante ist in den Daten kein Platz.
+
+## Woher kommt dann Gelb?
+
+Gelbe Männchen tragen überwiegend **denselben** genetischen Hintergrund wie blaue. Die gelbe Kehle entsteht nicht aus einem eigenen Allel, sondern aus der Entwicklung: derselbe Genotyp, ein anderer Phänotyp.
+
+Dafür gibt es einen Begriff: **Plastizität**.
+
+## Warum dieser Befund zählt
+
+1. Ein sichtbarer Unterschied ist **nicht automatisch** ein genetischer Unterschied.
+2. Die Zahl der Morphen ist nicht die Zahl der Allele.
+3. In den Modellen von Corl et al. bleibt der Polymorphismus mit «zwei Allele plus Plastizität» eher erhalten als mit drei Allelen.
+
+Punkt 3 nehmen wir in Woche 6 wieder auf.
+
+## Was das für heute heisst
+
+Wir rechnen ab jetzt mit dem einfachsten Fall, der Vererbung wirklich abbildet:
+
+**ein Locus, zwei Allele, diploide Individuen.**
+
+Dieses Gerüst trägt die nächsten drei Wochen — von den Eidechsen über die Sichelzellanämie bis zum Stichling.
+
+# Teil 3 · Vererbung in drei Begriffen
+
+## Locus, Allel, Genotyp
+
+| Begriff | Bedeutung | Beispiel |
+|---------|-----------|----------|
+| **Locus** | eine Stelle oder Region im Genom | die Regulatorregion von *SPR* |
+| **Allel** | eine Variante an dieser Stelle | $A$ oder $B$ |
+| **Genotyp** | die **beiden** Kopien eines Individuums | $AA$, $AB$, $BB$ |
+
+Diploid heisst: jedes Individuum trägt zwei Kopien, eine von jedem Elternteil.
+
+## Allelfrequenz zählt Kopien
+
+Die Allelfrequenz $p$ ist der Anteil von $A$ unter **allen** Kopien in der Population — nicht der Anteil der Individuen mit $AA$.
+
+$$
+p = \frac{2\,n_{AA} + n_{AB}}{2n}
+$$
+
+Jedes $AA$-Individuum steuert zwei $A$-Kopien bei, jedes $AB$ eine, jedes $BB$ keine. Im Nenner steht $2n$, weil $n$ Individuen zusammen $2n$ Kopien tragen.
+
+## Ein Zahlenbeispiel
+
+100 Individuen: 36 $AA$, 48 $AB$, 16 $BB$.
+
+$$
+p = \frac{2\cdot 36 + 48}{200} = \frac{120}{200} = 0.6
+$$
+
+60 % der Kopien sind $A$, aber nur 36 % der Individuen sind $AA$. Die beiden Zahlen dürfen nie verwechselt werden.
+
+## Zufällige Paarung
+
+Für heute nehmen wir an: Partner finden sich **unabhängig** von ihrem Genotyp an diesem Locus.
+
+Dann ist jede Befruchtung so, als würden zwei Kopien zufällig aus einem grossen Gametenpool gezogen.
+
+# Teil 4 · Hardy–Weinberg
+
+## Vom Gametenpool zum Genotyp
+
+![](../../pics/comics/comic_hwe_gametes.svg){fig-alt="Gametenpool Punnett Quadrat Hardy-Weinberg" width="92%"}
+
+## Die drei Erwartungswerte
+
+Mit $q = 1 - p$:
+
+$$
+f(AA) = p^2, \qquad f(AB) = 2pq, \qquad f(BB) = q^2
+$$
+
+Der Faktor $2$ bei den Heterozygoten steht für die zwei Wege, sie zu bekommen: $A$ von der Mutter und $B$ vom Vater — oder umgekehrt.
+
+## Die Erwartung als Kurve
+
+```{r}
+#| fig-height: 3.9
+#| fig-width: 8
+hwe_kurven(main = "Erwartete Genotypfrequenzen")
+legend("top", c("AA", "AB", "BB"), col = c(col_AA, col_AB, col_BB),
+       lwd = 2.5, bty = "n", ncol = 3, cex = 0.9)
+```
+
+Heterozygote sind **nie** häufiger als die Hälfte: $2pq$ erreicht bei $p = 0.5$ sein Maximum von $0.5$.
+
+## Wozu ein Nullmodell gut ist
+
+Hardy–Weinberg sagt nicht: «hier passiert nichts». Es sagt:
+
+> So sähe die Population aus, wenn nur zufällige Paarung wirkt — ohne Selektion, ohne Zuwanderung, ohne Vermischung zweier Gruppen, in einer grossen Population.
+
+Erst mit dieser Referenz ist eine Abweichung überhaupt interessant.
+
+## Fünf Annahmen
+
+| Annahme | Verletzt, wenn … |
+|---------|------------------|
+| zufällige Paarung | Partnerwahl nach Merkmal (Woche 6) |
+| keine Selektion | Genotypen unterschiedlich überleben (Woche 6) |
+| keine Migration | Zuwanderung aus anderem Habitat (Woche 7) |
+| eine Population | zwei Gruppen in einer Probe (Notebook) |
+| sehr gross | Zufall in kleinen Populationen (Woche 9) |
+
+Jede verletzte Annahme ist ein Thema der nächsten Wochen.
+
+# Teil 5 · Die Erwartung an Daten halten
+
+## Woher die Zahlen kommen
+
+Das HapMap-Projekt hat für Tausende von SNPs ausgezählt, wie viele Menschen $AA$, $AB$ oder $BB$ tragen.
+
+Unser Ausschnitt: **225 SNPs** auf Chromosom 1, je **84 Personen** aus Peking.
+
+Ein SNP ist eine Stelle, an der in der Population zwei Nukleotide vorkommen — der einfachste denkbare Locus mit zwei Allelen.
+
+## So sieht die Tabelle aus
+
+```{r}
+#| echo: true
+snps <- read.csv("data/hapmap_chb_chr1.csv")
+head(snps, 4)
+```
+
+Eine Zeile ist ein SNP, die Spalten sind Genotypzählungen. Keine Zeitreihe — eine Tabelle von Beobachtungen.
+
+## 225 SNPs gegen die Erwartung
+
+```{r}
+#| fig-height: 4.1
+#| fig-width: 8.6
+hwe_kurven(main = "225 SNPs (Punkte) und die HWE-Erwartung (Linien)")
+points(snps$p, snps$AA / snps$n, pch = 16, cex = 0.8, col = col_AA)
+points(snps$p, snps$AB / snps$n, pch = 16, cex = 0.8, col = col_AB)
+points(snps$p, snps$BB / snps$n, pch = 16, cex = 0.8, col = col_BB)
+legend("top", c("AA", "AB", "BB"), col = c(col_AA, col_AB, col_BB),
+       pch = 16, bty = "n", ncol = 3, cex = 0.9)
+```
+
+## Was wir sehen
+
+Die Punkte streuen um die Kurven, aber sie folgen ihnen.
+
+```{r}
+#| echo: true
+mean(snps$AB / snps$n)              # beobachtete Heterozygotie
+mean(2 * snps$p * (1 - snps$p))     # vom Nullmodell erwartet
+```
+
+Ein Modell mit einer einzigen Zahl pro SNP trifft 225 reale Beobachtungen im Mittel auf drei Nachkommastellen.
+
+## Vorsicht mit dem Umkehrschluss
+
+Gute Übereinstimmung heisst **nicht**, dass keine Evolution stattfindet.
+
+Hardy–Weinberg stellt sich nach **einer** Generation zufälliger Paarung wieder ein. Selektion verschiebt $p$ zwischen den Generationen — die Genotypen können trotzdem in jeder Generation nahe an der Erwartung liegen.
+
+Deshalb sehen wir uns ab Woche 6 die **Veränderung von $p$** an, nicht die Genotypanteile einer Momentaufnahme.
+
+# Neu im Code · Rechnen auf ganzen Spalten
+
+## Was wir bisher programmiert haben
+
+In den Wochen 2 bis 4 hatten wir immer eine **Zeitreihe**: ein Zustand, der aus dem vorigen folgt.
+
+```r
+for (t in 1:T) {
+  N[t + 1] <- next_N(N[t], r, K)
+}
+```
+
+Die Schleife war nötig, weil Schritt $t+1$ auf Schritt $t$ **wartet**.
+
+## Heute ist die Lage anders
+
+Die 225 SNPs wissen nichts voneinander. Kein SNP wartet auf einen anderen — es ist 225 Mal **dieselbe Rechnung** auf verschiedenen Zahlen.
+
+Dafür gibt es in R den kürzeren Weg: die Rechnung auf die **ganze Spalte** anwenden.
+
+## Eine Zeile statt einer Schleife
+
+```{r}
+#| echo: true
+snps$n <- snps$AA + snps$AB + snps$BB
+snps$p <- (2 * snps$AA + snps$AB) / (2 * snps$n)
+head(snps$p, 6)
+```
+
+`snps$AA` ist keine einzelne Zahl, sondern ein Vektor mit 225 Einträgen. R rechnet elementweise und gibt 225 Ergebnisse zurück.
+
+## Dieselbe Rechnung, zwei Schreibweisen
+
+::::: columns
+::: {.column width="50%"}
+**Schleife**
+
+```r
+p <- numeric(nrow(snps))
+for (i in 1:nrow(snps)) {
+  p[i] <- (2 * snps$AA[i] +
+           snps$AB[i]) /
+          (2 * snps$n[i])
+}
+```
+:::
+::: {.column width="50%"}
+**Vektorisiert**
+
+```r
+p <- (2 * snps$AA +
+      snps$AB) /
+     (2 * snps$n)
+```
+:::
+:::::
+
+Beide liefern dasselbe. Die rechte Variante ist kürzer, schneller — und sie sagt, was gemeint ist: «für jeden SNP».
+
+## Wann welche Form?
+
+| Situation | Werkzeug |
+|-----------|----------|
+| Schritt $t+1$ braucht Schritt $t$ | `for`-Schleife |
+| jede Zeile ist unabhängig | ganze Spalte auf einmal |
+
+Zeitreihen bleiben Schleifen. Tabellen mit unabhängigen Beobachtungen nicht.
+
+## Mini-Glossar R (heute)
+
+| Konzept | Merksatz |
+|---------|----------|
+| `read.csv("data/...")` | Tabelle einlesen |
+| `d$spalte` | eine Spalte herausgreifen |
+| `d$neu <- ...` | neue Spalte anlegen |
+| `head(d, 4)` | erste Zeilen ansehen |
+| `nrow(d)` | Anzahl Zeilen |
+| Spalte $\pm\,\times\,\div$ Spalte | elementweise für alle Zeilen |
+
+## Programmierung ↔ Biologie
+
+| Programmierung | Biologie |
+|----------------|----------|
+| Zeile einer Tabelle | ein SNP, eine Beobachtung |
+| Spalte | eine gemessene Grösse über alle SNPs |
+| Rechnung auf der Spalte | dieselbe Frage an jeden Locus |
+| Punkte über einer Kurve | Daten gegen Modellerwartung |
+
+# Abschluss
 
 ## Take-home
 
-1. Locus, Allel, Genotyp, SNP: das zählen wir.
-2. In einer gut gemischten Stichprobe liegen die Punkte auf drei Bögen (HWE).
-3. Ausreisser zuerst biologisch diskutieren — nicht nur Selektion.
-4. Wahlund: zwei Gruppen mischen → zu wenige Heterozygote.
-5. Duffy: $p\approx 0$ vs. $p\approx 1$ — Teaser für Woche 6.
+1. Farbmorphen sind Varianten **einer** Art — damit zählt Vererbung, nicht nur Häufigkeit.
+2. Hinter den Kehlfarben stehen zwei Haplotypen und Plastizität, nicht drei Allele (Corl et al. 2026).
+3. $p$ zählt **Allelkopien**; $p^2$, $2pq$, $q^2$ sind die Genotypen, die daraus ohne Selektion folgen.
+4. 225 reale SNPs liegen nahe an dieser Erwartung — ein Nullmodell, das trägt.
+5. Unabhängige Zeilen rechnet man **spaltenweise**, nicht in einer Schleife.
 
 ## Notebook (~45 min)
 
-**→ [Notebook Woche 5 öffnen](notebook.html)** · Entwurf
+**→ [Notebook Woche 5 öffnen](notebook.html)**
 
-Dieselben Plots: Kurven, HapMap, CEU+YRI gepoolt und getrennt.
+::::: columns
+::: {.column width="20%"}
+![](../../pics/icons/icon_code.svg){fig-alt="Notebook" width="70%"}
+:::
+::: {.column width="80%"}
+**A** Genotypzählungen → $p$ → Genotypfrequenzen  
+
+**B** die 225 SNPs gegen die HWE-Kurven legen  
+
+**C** zwei Populationen in einen Topf werfen — was passiert mit den Heterozygoten?
+:::
+:::::
 
 ## Abschlussfragen
 
-1. Was ist ein SNP — und was ist der Unterschied Allel / Genotyp?
-2. Was sagt es, wenn Punkte auf den drei Kurven liegen?
-3. Welche Ursachen für Ausreisser im Pool sind denkbar?
-4. Wahlund in einem Satz: warum fehlen Heterozygote in der Mischung?
-5. Duffy: $p\approx 0$ und $p\approx 1$. Was fragen wir nächste Woche?
+1. Warum steht im Nenner von $p$ die Zahl $2n$ und nicht $n$?
+2. Eine Population hat 100 % Heterozygote. Ist das mit Hardy–Weinberg vereinbar?
+3. Warum ist ein sichtbarer Unterschied zwischen Individuen nicht automatisch ein genetischer?
+4. Wann brauchen Sie eine Schleife — und wann genügt eine Spaltenrechnung?
 
 ## Literatur
 
 :::: {.lit}
-1. **The International HapMap Consortium (2007).** A second generation human haplotype map of over 3.1 million SNPs. *Nature* 449: 851–861. [doi:10.1038/nature06258](https://doi.org/10.1038/nature06258).
-2. **1000 Genomes Project Consortium (2015).** A global reference for human genetic variation. *Nature* 526: 68–74. [doi:10.1038/nature15393](https://doi.org/10.1038/nature15393). Allelezahlen: Ensembl REST, Phase 3, Populationen CEU und YRI.
+1. **Corl, A., et al. (2026).** The genetics, evolution, and maintenance of a biological rock-paper-scissors game. *Science* 391: 69–74. [doi:10.1126/science.adw8265](https://doi.org/10.1126/science.adw8265) — genetische Grundlage der Kehlfarben.
+2. **Sinervo, B., & Lively, C. M. (1996).** The rock–paper–scissors game and the evolution of alternative male strategies. *Nature* 380: 240–243. [doi:10.1038/380240a0](https://doi.org/10.1038/380240a0)
 3. **Hardy, G. H. (1908).** Mendelian proportions in a mixed population. *Science* 28: 49–50.
-4. **Weinberg, W. (1908).** Über den Nachweis der Vererbung beim Menschen. *Jahreshefte des Vereins für vaterländische Naturkunde in Württemberg* 64: 368–382.
-5. **Wahlund, S. (1928).** Zusammensetzung von Populationen und Korrelationserscheinungen vom Standpunkt der Vererbungslehre aus betrachtet. *Hereditas* 11: 65–106.
-6. **Miller, L. H. et al. (1976).** The resistance factor to *Plasmodium vivax* in Blacks. The Duffy-blood-group genotype, FyFy. *New England Journal of Medicine* 295: 302–304.
-
-Daten: `data/README.md`. LCT-CEU-Genotypen sind ganzzahlige HWE-Werte zu den 1000G-Allelezahlen; Duffy- und SLC24A5-Zahlen folgen eindeutig aus den Allelezahlen.
+4. **Weinberg, W. (1908).** Über den Nachweis der Vererbung beim Menschen. *Jahreshefte des Vereins für vaterländische Naturkunde in Württemberg* 64: 369–382.
+5. **The International HapMap Consortium (2007).** A second generation human haplotype map of over 3.1 million SNPs. *Nature* 449: 851–861. [doi:10.1038/nature06258](https://doi.org/10.1038/nature06258) — Kursdaten `hapmap_chb_chr1.csv`.
 ::::
 
 ## Navigation
@@ -403,3 +458,5 @@ Daten: `data/README.md`. LCT-CEU-Genotypen sind ganzzahlige HWE-Werte zu den 100
 | Notebook | [Notebook Woche 5](notebook.html) |
 | Zurück | [← Woche 4](../week-04/slides.html) |
 | Weiter | [Woche 6 →](../week-06/slides.html) |
+| Modul | [Modul 2](../../docs/module-02-overview.html) |
+| PDF | Taste **E**, dann Drucken → Als PDF speichern |

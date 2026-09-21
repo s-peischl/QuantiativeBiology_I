@@ -1,12 +1,12 @@
 ---
-title: "Woche 8 — Checkpoint B"
-subtitle: "Eine biologische Frage, eine Abbildung"
+title: "Woche 8 — Ideen, Grenzen und Checkpoint B"
+subtitle: "Wie viel davon ist wirklich Anpassung?"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:
     html-math-method: katex
     theme: simple
-    css: slides.css
+    css: [slides.css, ../print.css]
     slide-number: true
     incremental: false
     embed-resources: true
@@ -25,6 +25,7 @@ execute:
   echo: false
   warning: false
   message: false
+  freeze: auto
 ---
 
 ## Übersicht
@@ -33,143 +34,284 @@ execute:
 
 | Teil | Dauer | Was |
 |------|-------|-----|
-| Intro | ~20 min | Landkarte der Wochen 5–7 |
-| Notebook | ~40 min | eine Frage, eine Abbildung · Entwurf |
-| Präsentationen | ~30 min | 3–5 Minuten, Anwesenheit Pflicht |
+| Kurzvorlesung | ~20 min | Neutralität, Spandrels, Landkarte Modul 2 |
+| Notebook | ~35 min | eine Frage, eine Abbildung |
+| Präsentationen | ~35 min | 3–5 Minuten, **Anwesenheitspflicht** |
 
 ::: aside
-Pfeiltasten · **M** Menü · **Esc** Übersicht
+Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 :::
+
+## Lernziele
+
+Nach heute können Sie …
+
+1. erklären, warum viel genetische Variation allein noch kein Beweis für Selektion ist,
+2. die neutrale Theorie in einem Satz wiedergeben,
+3. die Spandrels-Kritik auf ein eigenes Beispiel anwenden,
+4. eine biologische Frage in **eine** Abbildung übersetzen und vortragen.
 
 ## Heute in dieser Reihenfolge
 
-1. Landkarte: was die Wochen 5–7 gefragt haben
-2. Eine Frage wählen, **eine** Abbildung
-3. 3–5 Minuten vortragen
+1. Eine Messung, die alles durcheinanderbrachte
+2. Die neutrale Antwort
+3. Spandrels: die Kritik an zu schnellen Anpassungsgeschichten
+4. Landkarte Modul 2 und Werkzeugkasten
+5. Checkpoint B
 
-## Heute in einem Blick
+# Teil 1 · Eine Messung von 1966
+
+## Wie viel Variation gibt es?
 
 ::::: columns
-::: {.column width="22%"}
-![](../../pics/icons/icon_biology.svg){fig-alt="Biologie" width="70%"}
+::: {.column width="46%"}
+![](../../pics/popgen/electrophoresis.jpg){fig-alt="Gelelektrophorese" width="94%"}
 :::
-::: {.column width="22%"}
-![](../../pics/icons/icon_math.svg){fig-alt="Modell" width="70%"}
-:::
-::: {.column width="22%"}
-![](../../pics/icons/icon_code.svg){fig-alt="Code" width="70%"}
-:::
-::: {.column width="22%"}
-![](../../pics/icons/icon_speak.svg){fig-alt="Praesentation" width="70%"}
+::: {.column width="54%"}
+Bis in die 1960er war unklar, wie viel genetische Variation eine Population überhaupt trägt.
+
+Die Elektrophorese machte Proteinvarianten sichtbar: Unterschiedlich geladene Enzymvarianten wandern verschieden weit im Gel.
 :::
 :::::
 
-**Frage** → leichtes Modell → **eine** Abbildung → biologische Pointe.
-Die Mathematik ist das Gerüst der Abbildung. Ableiten und Tests:
-andere Vorlesungen — das Bild nehmen Sie mit.
+## Der Befund
 
-## Landkarte — die Fragen
+Lewontin & Hubby (1966) an *Drosophila pseudoobscura*, Harris (1966) am Menschen:
+
+- Ein **grosser Anteil** der untersuchten Loci war polymorph.
+- Ein typisches Individuum war an vielen Loci heterozygot.
+
+Das war weit mehr Variation als erwartet.
+
+## Warum das ein Problem war
+
+Nehmen wir an, all diese Polymorphismen würden durch Überdominanz erhalten (Woche 6).
+
+Dann müsste in **jeder** Generation an **jedem** dieser Loci ein Teil der Nachkommen wegselektiert werden. Aufsummiert über Tausende von Loci verlangt das mehr Nachwuchs, als eine Population produzieren kann.
+
+Diese Rechnung nennt man das **Kostenargument** (Haldane 1957).
+
+## Die Streitfrage
+
+> Wird diese Vielfalt von Selektion **erhalten** — oder ist sie einfach da?
+
+Genau darum drehte sich die Debatte zwischen **Selektionisten** und **Neutralisten**.
+
+# Teil 2 · Die neutrale Antwort
+
+## Kimuras Vorschlag
+
+::::: columns
+::: {.column width="34%"}
+![](../../pics/popgen/kimura.png){fig-alt="Motoo Kimura" width="88%"}
+:::
+::: {.column width="66%"}
+Kimura (1968), kurz darauf King & Jukes (1969):
+
+Die **meisten** molekularen Unterschiede sind für die Fitness fast **belanglos**. Ihre Häufigkeit schwankt, weil in endlichen Populationen zufällig entschieden wird, wer sich fortpflanzt.
+
+Dann braucht hohe Diversität keine Erklärung durch Selektion — nur Mutation und Zufall.
+:::
+:::::
+
+## Was die neutrale Theorie nicht sagt
+
+Sie behauptet **nicht**, dass es keine Selektion gibt.
+
+| Sie sagt | Sie sagt nicht |
+|---|---|
+| die meisten *molekularen* Varianten sind fast neutral | Anpassung existiert nicht |
+| Zufall erklärt viel Diversität | Selektion erklärt nichts |
+| schädliche Varianten werden entfernt | alle Varianten sind gleichwertig |
+
+Sie ist vor allem ein **Nullmodell** — dasselbe Prinzip wie Hardy–Weinberg, eine Ebene höher.
+
+## Warum wir sie noch nicht rechnen können
+
+Zufall im Fortpflanzungserfolg wirkt nur in **endlichen** Populationen.
+
+Unsere Modelle der Wochen 5 bis 7 waren deterministisch: $p$ folgte einer festen Regel, ohne Rauschen.
+
+Ab Woche 9 kommt genau diese Zutat dazu — dann lässt sich die neutrale Erwartung selbst simulieren.
+
+## Wie der Streit ausging
+
+Er wurde nicht entschieden, sondern präzisiert.
+
+Heute fragt man nicht «Selektion oder Zufall?», sondern: **An welchen Stellen des Genoms, mit welcher Stärke?** Genau dafür braucht man Scans — und einen Hintergrund, gegen den man vergleicht (Woche 7).
+
+# Teil 3 · Spandrels
+
+## Die Kuppel von San Marco
+
+Gould & Lewontin (1979) beschreiben die dreieckigen Zwickel (*spandrels*) unter einer Kuppel: kunstvoll bemalt, perfekt in die Fläche gefügt.
+
+Man könnte meinen, die Kuppel sei gebaut worden, um diese Flächen zu schaffen.
+
+Tatsächlich ist es umgekehrt: Die Zwickel sind ein **Nebenprodukt** — wer vier Bögen mit einer Kuppel überspannt, bekommt sie automatisch.
+
+## Die Kritik
+
+Der Vorwurf an die Biologie: Zu oft wird ein Merkmal zerlegt und für jeden Teil eine Anpassungsgeschichte erzählt, ohne Alternativen zu prüfen.
+
+Gould und Lewontin nannten das den **Panglossschen** Denkstil — alles ist am Ende zum Besten eingerichtet.
+
+## Die Alternativen, die man prüfen muss
+
+| Alternative | Beispiel |
+|---|---|
+| Nebenprodukt eines anderen Merkmals | Zwickel unter der Kuppel |
+| Zufall in endlichen Populationen | neutrale Varianten (ab Woche 9) |
+| Entwicklungs- oder Bauzwang | was anatomisch möglich ist |
+| Geschichte statt Funktion | von den Vorfahren geerbt |
+| aus einer anderen Population übernommen | EPAS1-Haplotyp (Woche 1) |
+
+## Angewandt auf unsere eigenen Beispiele
+
+| Woche | Was wir gezeigt haben | Was offen bleibt |
+|---|---|---|
+| 5 | Gelb entsteht plastisch, nicht aus einem dritten Allel | warum diese Plastizität besteht |
+| 6 | Erwachsene zeigen eine SS-Lücke, das Gleichgewicht passt | ob wirklich nur Malaria wirkt |
+| 7 | einzelne Fenster ragen aus dem Hintergrund | welches Gen, welcher Druck |
+
+Ein Modell, das zu den Daten passt, ist noch nicht der Beweis, dass es der richtige Mechanismus ist.
+
+## Die nützliche Haltung
+
+Nicht: «Selektion erklärt nichts.»  
+Sondern: **Was wäre ohne Selektion zu erwarten — und geht der Befund darüber hinaus?**
+
+Dieselbe Denkbewegung wie bei Hardy–Weinberg in Woche 5. Ein Nullmodell ist kein Pessimismus, sondern die Voraussetzung dafür, überhaupt etwas behaupten zu können.
+
+# Teil 4 · Landkarte Modul 2
+
+## Vier Wochen, vier Fragen
 
 ::::::: columns
-::::: {.column width="24%"}
-![](../../pics/popgen/electrophoresis.jpg){fig-alt="Elektrophorese" width="100%"}
+::::: {.column width="32%"}
+![](../../pics/Emma/Grafik_lizard_RPS.jpg){fig-alt="Farbmorphen" width="100%"}
 
-**5** · Eine Population?
+**5** · Wie sieht eine Population ohne Selektion aus?
 :::::
-::::: {.column width="24%"}
+::::: {.column width="32%"}
+![](../../pics/popgen/sickle_cells.jpg){fig-alt="Sichelzellen" width="100%"}
+
+**6** · Wann erhält Selektion Vielfalt?
+:::::
+::::: {.column width="32%"}
 ![](../../pics/organisms/stickleback.jpg){fig-alt="Stichling" width="100%"}
 
-**6** · Unterschiede bleiben?
-:::::
-::::: {.column width="24%"}
-![](../../pics/popgen/kimura.png){fig-alt="Motoo Kimura" width="100%"}
-
-**7** · Warum so viel Variation?
-:::::
-::::: {.column width="24%"}
-![](../../pics/popgen/drosophila.jpg){fig-alt="Drosophila" width="100%"}
-
-**7** · Halten Saisons die Variation?
+**7** · Wann bleiben Habitate verschieden?
 :::::
 :::::::
 
-Immer dieselbe Schleife: Frage → Bild → was das Modell *nicht* kann.
+Immer dieselbe Bewegung: Beobachtung → Nullmodell → Abweichung → Mechanismus.
 
-## Was wir gebraucht haben
+## Was jede Woche beigetragen hat
 
-| | Wozu | Nicht heute |
+| Woche | Biologie | Modell |
 |---|---|---|
-| **Plot** (W5) | Nullbild vs. Genotypen | $\chi^2$, $F_{IS}$ |
-| **zwei $p$ iterieren** (W6) | Selektion gegen Genfluss | $F_{ST}$-Schätzer |
-| **Zykluslänge $L$** (W7) | wann Oszillation innen bleibt | Drift, wenn $p$ nahe $0$ |
+| 5 | Farbmorphen einer Art, zwei Haplotypen | $p^2$, $2pq$, $q^2$ |
+| 6 | Sichelzelle und Malaria | $p' = (p^2 w_{AA} + pq\,w_{AB})/\bar w$ |
+| 7 | Stichlinge, Meer und Süsswasser | $p_1$, $p_2$, Migration, $F_{ST}$ |
+| 8 | Neutralität, Spandrels | Grenzen aller obigen |
 
-Mathematik, Statistik und Code tauchen auf, weil die Biologie sie **braucht** —
-nicht als eigenes Kapitel.
+## Der Werkzeugkasten
 
-## Drei Fragen — eine wählen
+| Woche | Neu im Code | Wofür |
+|---|---|---|
+| 2 | Funktion, Vektor, `for` | ein Zeitschritt, viele Schritte |
+| 3 | zwei Zustandsgrössen | zwei Arten gleichzeitig |
+| 4 | Matrix | wer wen beeinflusst |
+| 5 | Datentabelle, Spaltenrechnung | 225 SNPs auf einmal |
+| 6 | Default-Argumente, `sapply()` | Parameter systematisch drehen |
+| 7 | Bedingungen, `quantile()` | Zeilen auswählen, Schwellen setzen |
 
-1. **Resistenz in einer Population.** Kann ein Vorteil-Allel häufig werden
-   — Sichelzelle, Duffy, ein Sweep? (Parameter $s$, $h$)
-2. **See und Meer.** Bleiben zwei Habitate verschieden, obwohl jemand
-   wandert? (Stichling; Parameter $m$)
-3. **1966 und Saisons.** Wie bleibt Variation in einer Population?
-   (Überdominanz, Schwelle, oder Zykluslänge $L$; *Drosophila*)
+Heute kommt nichts Neues dazu — heute benutzen Sie es.
 
-Eine Frage, **eine** Abbildung, eine Modellgrenze.
+## Was eine gute Abbildung ausmacht
 
-## Gemeinsame Annahmen
+1. **Eine** Aussage, nicht drei.
+2. Achsen beschriftet, Einheiten klar.
+3. Legende, wenn mehr als eine Linie im Bild ist.
+4. Die Parameter, die Sie gedreht haben, stehen im Titel oder in der Legende.
+5. Man versteht sie ohne den Code.
 
-Deterministisch heisst hier:
+# Checkpoint B
 
-- unendlich grosse Population (keine Drift)
-- $p$ ist ein Mittelwert, kein Schicksal einer Kopie
-- ein Locus, zwei Allele
-
-Das reicht für die drei Fragen. Eine **neue** Mutation beginnt mit einer
-Kopie — das ist Woche 9, nicht die heutige Note.
-
-## Brücke zur nächsten Einheit
-
-Sobald ein vorteilhaftes Allel **häufig** ist, beschreibt der Mittelwert
-$p$ die Dynamik gut.
-
-Eine neue Mutation beginnt mit **einer** Kopie. Dann entscheidet Zufall
-über frühes Aussterben — auch bei $s>0$.
-
-Wochen 9–11: Etablierung, Rettung, Checkpoint C.
-
-## Checkpoint B · heute
+## Heute wird benotet
 
 ::::: columns
 ::: {.column width="18%"}
 ![](../../pics/icons/icon_warning.svg){fig-alt="Wichtig" width="80%"}
 :::
 ::: {.column width="82%"}
-Heute wird **präsentiert und benotet**.
-Sie müssen **anwesend sein und vortragen**.
+Für die Bewertung müssen Sie **anwesend sein und vortragen**.
+
+Wer heute fehlt, kann Checkpoint B nicht ablegen (siehe Kursinfo · ILIAS).
 :::
 :::::
 
-Vortrag (3–5 Min.):
+Arbeit zu zweit ist möglich. Es gibt keine schriftliche Abgabe.
 
-1. biologische Frage
-2. welchen Parameter Sie geändert haben (einer reicht)
+## Ablauf des Vortrags (3–5 Min.)
+
+1. die biologische Frage
+2. welchen Parameter Sie verändert haben — einer genügt
 3. **eine** Abbildung
-4. biologisches Ergebnis
-5. eine Modellgrenze
+4. was biologisch herauskommt
+5. eine Grenze des Modells
 
-## Notebook
+Punkt 5 ist nach heute Vormittag keine Formalität mehr.
 
-**→ [Notebook Woche 8 öffnen](notebook.html)** · Entwurf
+## Drei Themen zur Auswahl
 
-Nur **eine** der drei Fragen. Fertige Hilfsfunktionen dürfen bleiben;
-die Note gilt der Frage und der Abbildung, nicht dem Code-Umfang.
+| | Frage | Werkzeug |
+|---|---|---|
+| **1** | Warum erklärt Überdominanz die Kehlfarben nicht? | konstante gegen häufigkeitsabhängige Fitness |
+| **2** | Was heisst «geschützter Polymorphismus»? | Trajektorien von verschiedenen Startwerten |
+| **3** | Wann bleiben zwei Habitate verschieden? | $p_1$, $p_2$ und $F_{ST}$ gegen $m$ |
+
+Alle drei sind im Notebook vorbereitet.
+
+## Häufige Stolpersteine
+
+- Drei Abbildungen statt einer — die Zeit reicht nicht.
+- Den Code erklären statt die Biologie.
+- «Das Modell beweist, dass …» — es zeigt, was unter Annahmen folgt.
+- Achsen ohne Beschriftung.
+
+## Ausblick · Modul 3
+
+Alle Modelle dieses Moduls waren **deterministisch**: $p$ folgte einer festen Regel.
+
+Das ist eine gute Beschreibung, solange ein Allel **häufig** ist. Eine neue Mutation beginnt jedoch mit **einer einzigen Kopie** — dann entscheidet der Zufall, ob sie überhaupt je häufig wird.
+
+Wochen 9–11: Etablierung, evolutionäre Rettung, Checkpoint C.
 
 ## Take-home
 
-1. Eine biologische Frage, **eine** Abbildung, eine Pointe.
-2. Die Kurve ist die Mathematik — Ableiten kommt später.
-3. Anwesenheit: ohne Vortrag kein Checkpoint B.
+1. Viel Variation allein beweist keine Selektion — 1966 brachte genau diese Frage ins Rollen.
+2. Die neutrale Theorie ist ein Nullmodell für molekulare Vielfalt, kein Gegenbeweis zur Anpassung.
+3. Spandrels erinnern daran, Alternativen zu prüfen, bevor man eine Anpassungsgeschichte erzählt.
+4. Modul 2 war eine einzige Bewegung: Erwartung ohne Selektion, dann Abweichung, dann Mechanismus.
+
+## Notebook
+
+**→ [Notebook Woche 8 öffnen](notebook.html)**
+
+Wählen Sie **eine** der drei Fragen. Die Hilfsfunktionen aus den Wochen 5–7 sind vorbereitet; bewertet werden die Frage und die Abbildung, nicht der Umfang des Codes.
+
+## Literatur
+
+:::: {.lit}
+1. **Lewontin, R. C., & Hubby, J. L. (1966).** A molecular approach to the study of genic heterozygosity in natural populations. II. *Genetics* 54: 595–609.
+2. **Harris, H. (1966).** Enzyme polymorphisms in man. *Proc. R. Soc. Lond. B* 164: 298–310.
+3. **Haldane, J. B. S. (1957).** The cost of natural selection. *Journal of Genetics* 55: 511–524.
+4. **Kimura, M. (1968).** Evolutionary rate at the molecular level. *Nature* 217: 624–626. [doi:10.1038/217624a0](https://doi.org/10.1038/217624a0)
+5. **King, J. L., & Jukes, T. H. (1969).** Non-Darwinian evolution. *Science* 164: 788–798.
+6. **Gould, S. J., & Lewontin, R. C. (1979).** The spandrels of San Marco and the Panglossian paradigm. *Proc. R. Soc. Lond. B* 205: 581–598. [doi:10.1098/rspb.1979.0086](https://doi.org/10.1098/rspb.1979.0086)
+::::
 
 ## Navigation
 
@@ -178,3 +320,5 @@ die Note gilt der Frage und der Abbildung, nicht dem Code-Umfang.
 | Notebook | [Notebook Woche 8](notebook.html) |
 | Zurück | [← Woche 7](../week-07/slides.html) |
 | Weiter | [Woche 9 →](../week-09/slides.html) |
+| Modul | [Modul 2](../../docs/module-02-overview.html) |
+| PDF | Taste **E**, dann Drucken → Als PDF speichern |

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="380" viewBox="0 0 960 380">
+  <rect width="960" height="380" fill="#fbfcfd"/>
+  <text x="480" y="34" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="#1a5276">Zufaellige Paarung: aus Gameten werden Genotypen</text>
+
+  <rect x="40" y="70" width="300" height="230" rx="12" fill="#eaf2fb" stroke="#2980b9" stroke-width="2"/>
+  <text x="190" y="102" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#1a5276">1 &#183; Gametenpool</text>
+
+  <circle cx="110" cy="150" r="17" fill="#2166ac"/>
+  <circle cx="152" cy="150" r="17" fill="#2166ac"/>
+  <circle cx="194" cy="150" r="17" fill="#2166ac"/>
+  <circle cx="236" cy="150" r="17" fill="#2166ac"/>
+  <circle cx="278" cy="150" r="17" fill="#2166ac"/>
+  <circle cx="110" cy="196" r="17" fill="#2166ac"/>
+  <circle cx="152" cy="196" r="17" fill="#b2182b"/>
+  <circle cx="194" cy="196" r="17" fill="#b2182b"/>
+  <circle cx="236" cy="196" r="17" fill="#b2182b"/>
+  <circle cx="278" cy="196" r="17" fill="#b2182b"/>
+
+  <text x="190" y="243" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Anteil A = p (blau), Anteil a = q (rot)</text>
+  <text x="190" y="270" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">jede Eizelle trifft ein zufaelliges Spermium</text>
+
+  <text x="366" y="190" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="26" fill="#7f8c8d">&gt;</text>
+
+  <rect x="392" y="70" width="270" height="230" rx="12" fill="#ffffff" stroke="#7f8c8d" stroke-width="2"/>
+  <text x="527" y="102" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#1a5276">2 &#183; Zwei Kopien treffen sich</text>
+
+  <text x="486" y="140" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#2166ac">A (p)</text>
+  <text x="586" y="140" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#b2182b">a (q)</text>
+  <text x="424" y="187" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#2166ac">A (p)</text>
+  <text x="424" y="247" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#b2182b">a (q)</text>
+
+  <rect x="446" y="156" width="80" height="50" fill="#d6e6f5" stroke="#7f8c8d"/>
+  <rect x="546" y="156" width="80" height="50" fill="#e3efe6" stroke="#7f8c8d"/>
+  <rect x="446" y="216" width="80" height="50" fill="#e3efe6" stroke="#7f8c8d"/>
+  <rect x="546" y="216" width="80" height="50" fill="#f6dcdc" stroke="#7f8c8d"/>
+
+  <text x="486" y="187" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">AA = p2</text>
+  <text x="586" y="187" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">Aa = pq</text>
+  <text x="486" y="247" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">Aa = pq</text>
+  <text x="586" y="247" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">aa = q2</text>
+
+  <text x="688" y="190" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="26" fill="#7f8c8d">&gt;</text>
+
+  <rect x="712" y="70" width="208" height="230" rx="12" fill="#eafaf1" stroke="#27ae60" stroke-width="2"/>
+  <text x="816" y="102" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#196f3d">3 &#183; Erwartung</text>
+  <text x="816" y="152" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#333">AA : p2</text>
+  <text x="816" y="187" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#333">Aa : 2pq</text>
+  <text x="816" y="222" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#333">aa : q2</text>
+  <text x="816" y="266" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#196f3d">beide Aa-Felder zaehlen zusammen</text>
+
+  <text x="480" y="345" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5d6d7e">Keine Selektion, keine Zuwanderung, keine Vorliebe bei der Partnerwahl: nur Zufall beim Zusammentreffen</text>
+</svg>

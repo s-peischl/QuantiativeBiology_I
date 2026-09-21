@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="420" viewBox="0 0 960 420">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#7f8c8d"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="420" fill="#fbfcfd"/>
+  <text x="480" y="34" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="#1a5276">Vom Allel zur Fitness und zurueck: eine Generation in vier Schritten</text>
+
+  <!-- 1 Allelfrequenz -->
+  <rect x="26" y="70" width="168" height="232" rx="12" fill="#eaf2fb" stroke="#2980b9" stroke-width="2"/>
+  <text x="110" y="102" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#1a5276">1 &#183; Allelfrequenz</text>
+  <circle cx="72" cy="148" r="14" fill="#e67e22"/>
+  <text x="132" y="153" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">O : p</text>
+  <circle cx="72" cy="194" r="14" fill="#2166ac"/>
+  <text x="132" y="199" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">B : q</text>
+  <text x="110" y="248" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#5d6d7e">zwei Haplotypen</text>
+  <text x="110" y="266" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#5d6d7e">am SPR-Locus</text>
+
+  <text x="208" y="198" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="26" fill="#7f8c8d">&gt;</text>
+
+  <!-- 2 Genotypen -->
+  <rect x="222" y="70" width="178" height="232" rx="12" fill="#ffffff" stroke="#7f8c8d" stroke-width="2"/>
+  <text x="311" y="102" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#1a5276">2 &#183; Genotypen</text>
+  <text x="311" y="152" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#333">OO : p2</text>
+  <text x="311" y="190" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#333">OB : 2pq</text>
+  <text x="311" y="228" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#333">BB : q2</text>
+  <text x="311" y="272" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#5d6d7e">Hardy-Weinberg (Woche 5)</text>
+
+  <text x="414" y="198" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="26" fill="#7f8c8d">&gt;</text>
+
+  <!-- 3 Phaenotypen -->
+  <rect x="428" y="70" width="268" height="232" rx="12" fill="#fef9e7" stroke="#d4ac0d" stroke-width="2"/>
+  <text x="562" y="102" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#9a7d0a">3 &#183; Phaenotypen</text>
+
+  <text x="470" y="146" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">OO, OB</text>
+  <line x1="508" y1="141" x2="534" y2="141" stroke="#7f8c8d" stroke-width="1.6" marker-end="url(#ah)"/>
+  <circle cx="556" cy="141" r="13" fill="#e67e22"/>
+  <text x="608" y="146" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">orange</text>
+
+  <text x="470" y="210" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">BB</text>
+  <line x1="492" y1="204" x2="530" y2="187" stroke="#7f8c8d" stroke-width="1.6" marker-end="url(#ah)"/>
+  <line x1="492" y1="214" x2="530" y2="235" stroke="#7f8c8d" stroke-width="1.6" marker-end="url(#ah)"/>
+  <text x="504" y="181" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#9a7d0a">1 - &#952;</text>
+  <text x="506" y="250" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#9a7d0a">&#952;</text>
+  <circle cx="552" cy="185" r="13" fill="#2166ac"/>
+  <text x="596" y="190" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">blau</text>
+  <circle cx="552" cy="238" r="13" fill="#f1c40f"/>
+  <text x="596" y="243" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">gelb</text>
+
+  <text x="562" y="272" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#9a7d0a">derselbe Genotyp, zwei Wege:</text>
+  <text x="562" y="288" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#9a7d0a">Anteil &#952; wird plastisch gelb</text>
+
+  <text x="710" y="198" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="26" fill="#7f8c8d">&gt;</text>
+
+  <!-- 4 Fitness -->
+  <rect x="724" y="70" width="210" height="232" rx="12" fill="#eafaf1" stroke="#27ae60" stroke-width="2"/>
+  <text x="829" y="102" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#196f3d">4 &#183; Fitness</text>
+
+  <circle cx="829" cy="146" r="13" fill="#e67e22"/>
+  <circle cx="774" cy="226" r="13" fill="#2166ac"/>
+  <circle cx="884" cy="226" r="13" fill="#f1c40f"/>
+  <line x1="818" y1="164" x2="788" y2="208" stroke="#7f8c8d" stroke-width="1.6" marker-end="url(#ah)"/>
+  <line x1="791" y1="232" x2="863" y2="232" stroke="#7f8c8d" stroke-width="1.6" marker-end="url(#ah)"/>
+  <line x1="872" y1="208" x2="842" y2="164" stroke="#7f8c8d" stroke-width="1.6" marker-end="url(#ah)"/>
+
+  <text x="829" y="272" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#196f3d">W = C - A f (Woche 4)</text>
+
+  <!-- Rueckweg -->
+  <path d="M 829 302 L 829 352 L 110 352 L 110 312" fill="none" stroke="#7f8c8d" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+  <text x="470" y="344" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5d6d7e">Selektion mittelt die Fitness auf die Genotypen zurueck und liefert p&apos; (Woche 6)</text>
+
+  <text x="480" y="392" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5d6d7e">Kursfassung nach Corl et al. (2026): ein Locus, zufaellige Paarung, Plastizitaet als fester Anteil &#952;</text>
+</svg>

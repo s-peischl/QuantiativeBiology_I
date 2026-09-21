@@ -122,4 +122,6 @@ Woche 2: `w2_lernziele.svg`, `w2_pipeline.svg`, `w2_function_io.svg`, `w2_one_vs
 
 Lehrskizzen Woche 2: Parameter als Ereignisse (`comic_r_growth`, `comic_K_crowding`, `comic_logistic_strip`, `comic_pp_params`, `comic_a_predation`, `comic_b_conversion`, `comic_m_death`).
 
+Lehrskizzen Wochen 5–7: Gametenpool und Hardy–Weinberg (`comic_hwe_gametes`), zwei Demen (`comic_selection_migration`), Kreis Allelfrequenz–Phänotyp–Fitness (`comic_corl_loop`). Alle Kursmaterial.
+
 Skripte zum Regenerieren der Lehrschemata: `scripts/make_week01_schematics.R`, `scripts/make_week01_schematics_core.R`, `scripts/make_genome_scan_schematic.R`, `scripts/make_simpson_penguins.R`.
