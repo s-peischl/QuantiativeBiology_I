@@ -1,6 +1,6 @@
 ---
 title: "Woche 4 — Notebook · Checkpoint A"
-subtitle: "2 vs. 3 · RPS · Punkt / Oszillation / Heteroklin"
+subtitle: "2 vs. 3 · RPS · drei Endzustände selbst finden"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:
@@ -16,22 +16,16 @@ execute:
 
 # Auftrag (40 min)
 
-**Kernidee:** Bei **zwei** Strategien schliesst eine Strategie immer die andere aus.  
-Bei **drei** Strategien kann Vielfalt bestehen bleiben, wenn zyklische Dominanz herrscht (Rock-Paper-Scissors, RPS). In so einem Szenario hängt der Erfolg einer Strategie davon ab, was andere tun (**frequenzabhängige Fitness**). Dabei gibt es drei verschiedene Stabilitätsformen:
-
-| Form | Bild |
-|------|------|
-| **Punkt** | alle drei → (fast) konstante Dichten > 0 |
-| **Stabile Oszillation** | dauerhafte Schwingungen; Minima bleiben weg von 0 |
-| **Heteroklinzyklus** | alle drei lange sichtbar, aber Minima immer näher an 0 |
+Zwei Strategien → Ausschluss. Drei mit zyklischer Dominanz (RPS, *Uta*) → Vielfalt möglich.  
+Drehen Sie $s$ und $w$, bis Sie **drei** qualitativ verschiedene Langzeitverläufe gefunden haben.
 
 ::: {.callout-tip}
 ## Auftrag
 
-- A) Zwei Strategien → Konkurrenzausschluss bestätigen
-- B1) Mit drei Strategien RPS erzeugen (selber $\alpha_{ij}$ in $A$ wählen)
-- B2) Mindestens **eine** Stabilitätsform klar hinbekommen (Punkt/Oszillation/Heteroklin) - idealerweise **nicht** nur die Ausgangswerte
-- **Optional**: C) alle drei Formen ansteuern (an $s+x$ drehen)
+- A) Zwei Strategien → Ausschluss bestätigen
+- B1) RPS-Matrix erzeugen ($s$, $w$ in $A$)
+- B2) Alle drei Endzustände finden und beschreiben
+- Präsentation: einen Endzustand klar zeigen (Zeitreihe oder Simplex)
 
 :::
 
@@ -39,43 +33,20 @@ Bei **drei** Strategien kann Vielfalt bestehen bleiben, wenn zyklische Dominanz 
 
 # 0. Setup
 
-Kursstandard — additive Differenzengleichung:
+Anteile $p_j = N_j/\sum_k N_k$, Fitness $W_i = C - (Ap)_i$:
 
 $$
-N_{i,t+1} = N_{i,t} + r\, N_{i,t} \left(1 - \frac{(AN)_i}{K}\right), \qquad (AN)_i = \sum_j A_{ij}\, N_j
+N_{i,t+1} = N_{i,t} + r\, N_{i,t}\,(W_i - \bar W),
+\qquad
+\bar W = \sum_j p_j\, W_j
 $$
 
-| Symbol | Bedeutung | Wertebereich | Kursbeispiel |
-|--------|-----------|--------------|--------------|
-| $r$ | Wachstumsrate pro Schritt | $0 < r \le 0.2$ | oft $0.02$–$0.05$ |
-| $K$ | Tragfähigkeit (Populationsdeckel) | $K > 0$ | $100$ |
-| $A_{ij}$ | Last von Typ $j$ auf Typ $i$ | meist $\ge 0$ | Diagonale $=1$; RPS: eine Richtung $>1$, Gegenrichtung $<1$ |
-| $s,w$ | starke / schwache Interaktion | $s > 1 > w \ge 0$ | z.B. $s=1.5$, $w=0.5$ |
-
-## Interaktionen $A_{ij}$
-
-$A$ ist die Interaktionsmatrix, die alle Konkurrenzstärken $\alpha_{ij}$ enthält.
-$A_{ij}$: **Interaktionsstärke** — wie stark Typ $j$ Typ $i$ unterdrückt (Last).
-
-$$
-A =
-\begin{pmatrix}
-1 & \alpha_{12} \\
-\alpha_{21} & 1
-\end{pmatrix}
-$$
-**Warum Diagonale = 1?** Die Diagonale beschreibt die Interaktion von Typ $i$ mit sich selber = Selbstkonkurrenz (Normierung).  
-Ein Typ allein: Gleichgewicht bei $N_i = K$ (Zuwachs $=0$). Keine ±-Payoffs — alles ist Unterdrückung (siehe notebook Woche 2).
-
-- $A_{ij} \gt 1$: $j$ belastet $i$ **stärker** als Selbstkonkurrenz → $i$ schrumpft eher  
-- $A_{ij} \lt 1$: $j$ belastet $i$ **schwächer** → $i$ hat es leichter  
-
-### RPS-Vereinfachung $s+w$
-
-Für RPS erweitern wir die Matrix für $3 \times 3$ Interaktionen. Sprich, hier haben wir eine Vollmatrix mit 6 freien Interaktionen (Diagonale fix!).  
-Zyklus: **1 schlägt 2** · **2 schlägt 3** · **3 schlägt 1**.
-
-Vereinfacht können wir das reduzieren zu:
+| Symbol | Bedeutung | Kursbeispiel |
+|--------|-----------|--------------|
+| $r$ | Schrittweite | $0.02$–$0.05$ |
+| $C$ | Fitness-Baseline | $2$ |
+| $A_{ij}$ | Kosten für $i$ gegen $j$ | Diagonale $=1$; $s>1>w$ |
+| $s,w$ | starke / schwache Kosten | z.B. $1.5$, $0.5$ |
 
 $$
 A =
@@ -88,58 +59,35 @@ w & s & 1
 (s \gt 1 \gt w)
 $$
 
-- **$s > 1$**: starke Interaktion (gewinnende Richtung im Paar)  
-- **$w < 1$**: schwache Interaktion (verlierende Richtung)  
-
-**Wichtig:** RPS braucht nur das Muster «in jedem Paar eine Seite $\gt 1$, die andere $\lt 1$» im Zyklus — es braucht **nicht** eine volle $s,w$-Gleichheit. Aber, die Reduktion macht die Faustregel $s+w$ einfach.
-
-| $s+w$ | Intuition | Form |
-|---------|-----------|------|
-| $\lt 2$ | mildes RPS | **Punkt** |
-| $\approx 2$ | Grenze | **stabile Oszillation** |
-| $\gt 2$ | scharfes RPS | **Heteroklin** |
-
-Die May–Leonard-Ergebnisse dienen hier nur als **qualitative Orientierung**.
+Zyklus: **1 schlägt 2** · **2 schlägt 3** · **3 schlägt 1**.
 
 ## Implementierung
 ### Code für Zeitreihen
 ```{r Zeitreihe}
-# Funktion um schrittweise die Populationsgrössen zu ermitteln
-next_3LV <- function(N, r, A, K) {
-  
-  load <- as.numeric(A %*% N)
-  pmax(N + r * N * (1 - load / K), 0) # Populationen nie negativ
-  
+# Ein Schritt: frequenzabhängige Fitness (diskreter Replikator)
+next_rps <- function(N, r, A, C = 2) {
+  sN <- sum(N)
+  if (sN <= 0) return(N)
+  p <- N / sN
+  W <- C - as.numeric(A %*% p)
+  Wbar <- sum(p * W)
+  pmax(N + r * N * (W - Wbar), 0) # nie negativ
 }
 
-# Funktion um Zeitschritte bequem zu wiederholen (automatisierte Schlaufe)
-simulate_3LV <- function(N0, r, A, K, T = 2000) { # T muss später nicht mehr definiert werden, weil immer T = 2000 angenommen wird
-  
-  n <- length(N0)           # Anzahl Typen/Strategien; N0 ist ein Vektor mit Anfangspopulationsgrössen
-  N <- matrix(0, T + 1, n)  # Matrix, um den Populationsverlauf zu speichern
-  N[1, ] <- N0              # Initialisierung der Matrix mit Anfangsgrössen
-  
-  # Schlaufe um Populationen zu berechnen:
+# Zeitschritte wiederholen
+simulate_rps <- function(N0, r, A, T = 2000, C = 2) {
+  n <- length(N0)
+  N <- matrix(0, T + 1, n)
+  N[1, ] <- N0
   for (t in 1:T) {
-    
-    N[t + 1, ] <- next_3LV(N[t, ], r, A, K)
-    
+    N[t + 1, ] <- next_rps(N[t, ], r, A, C)
   }
-  
-  # Datenoutput vorbereiten mit Zeitachse:
-  out <- data.frame(time = 0:T) 
-  
-  # für jeden Typen eine neue Spalte mit dem Populationsverlauf hinzufügen:
-  for (j in 1:n){
-    
-    out[[paste0("N", j)]] <- N[, j] # paste0("N", j) gibt der neuen Spalte unserne gewünschten Namen (Kombination von "N" und der Zahl des Typs) 
-    
-  } 
-  
+  out <- data.frame(time = 0:T)
+  for (j in 1:n) {
+    out[[paste0("N", j)]] <- N[, j]
+  }
   out
-  
 }
-
 ```
 
 ### Code für Simplex
@@ -188,11 +136,41 @@ plot_simplex <- function(df, main = "", fade = TRUE) {
 
 ```
 
+### Kurs-Helfer
+
+```{r helpers}
+# Aliase
+next_3lv <- next_rps
+simulate_3lv <- simulate_rps
+simulate_3LV <- simulate_rps
+
+plot_3lv <- function(df, main = "") {
+  cols <- c("#e67e22", "#2980b9", "#f1c40f")
+  ys <- df[, grep("^N", names(df)), drop = FALSE]
+  matplot(df$time, ys, type = "l", lty = 1, lwd = 2.3, col = cols[seq_len(ncol(ys))],
+          xlab = "Zeit", ylab = "Haeufigkeit", main = main)
+  legend("topright", paste0("Typ ", seq_len(ncol(ys))),
+         col = cols[seq_len(ncol(ys))], lty = 1, lwd = 2.3, bty = "n", cex = 0.85)
+}
+
+# Fertige RPS-Matrix (Symmetrie)
+make_rps_A <- function(s, w) {
+  matrix(c(1, w, s,
+           s, 1, w,
+           w, s, 1), 3, 3, byrow = TRUE)
+}
+
+r <- 0.05
+C <- 2
+A_demo <- make_rps_A(s = 1.2, w = 0.5)
+```
+
 ---
 
 # A) Zwei Strategien → immer Exclusion
-Was passiert, wenn jeweils nur zwei Typen verteten sind?
+Was passiert, wenn jeweils nur zwei Typen vertreten sind?
 ```{r}
+#| eval: false
 # Parameter und Variablen
 N0_1 <- 20   # Anfangsgrösse von Typ 1
 N0_2 <- 20   # Anfangsgrösse von Typ 2
@@ -201,15 +179,15 @@ N0_3 <- 20   # Anfangsgrösse von Typ 3
 N0_nur1_2 <- c(N0_1, N0_2, 0) # Vektor aller Anfangsgrössen
 # ...
 
-r <- 0.05 # Wachstumsrate
-K <- 100  # Tragfähigkeit (Populationsdeckel)
+r <- 0.05 # Schrittweite der Selektion
+C <- 2    # Fitness-Baseline
 
 A <- matrix(c(1, , ,
           , 1, ,
            , , 1), 3, 3, byrow = TRUE) # Diagonale = 1; Wählen Sie den Rest!
 
 # Simulationen
-nurTyp1_2 <- simulate_3LV(N0_nur1_2, r, A, K)
+nurTyp1_2 <- simulate_rps(N0_nur1_2, r, A)
 # ...
 
 # Resultate
@@ -246,6 +224,7 @@ Wer gewinnt jeweils? Bleibt Vielfalt erhalten?
 ## B1) RPS erzeugen ($A$)
 
 ```{r A_mat}
+#| eval: false
 
 # Funktion um Interaktionsmatrix zu erstellen
 make_A <- function(s, w) {
@@ -273,11 +252,11 @@ Setzen Sie $s$ und $w$ in die Funktion `make_A` ein, damit Sie Interaktionsmatri
 
 :::
 
-## B2) Eine Stabilitätsform erzeugen
+## B2) Endzustände erzeugen
 
 ```{r}
-df_point <- simulate_3lv(c(40, 35, 30), r, A_demo, K, T = 2500)
-plot_3lv(df_point, main = "Alle drei (Punkt-RPS-Beispiel)")
+df_point <- simulate_3lv(c(40, 35, 30), r, A_demo, T = 2500)
+plot_3lv(df_point, main = "Alle drei Strategien — was passiert langfristig?")
 A_demo
 ```
 
@@ -285,61 +264,26 @@ A_demo
 
 ---
 
-# C) Alle drei Stabilitätsformen ansteuern
+# C) Alle drei Endzustände ansteuern
 
-Nutzen Sie `make_rps_A(s, w)` und die Faustregel $s+w$.
-
-## Punkt ($s+w < 2$)
+Variieren Sie $s$ und $w$. Nutzen Sie `make_rps_A(s, w)`. Beschreiben Sie, was langfristig passiert.
 
 ```{r}
 #| fig-height: 3.6
 #| fig-width: 9
-# Beispiel Folien: s=1.2, w=0.5 — Sie duerfen aendern
-A_point <- make_rps_A(s = 1.2, w = 0.5)
-df <- simulate_3lv(c(40, 35, 30), r, A_point, K, T = 2500)
+# Startbeispiel — aendern Sie s und w!
+s <- 1.2
+w <- 0.5
+A_try <- make_rps_A(s = s, w = w)
+df <- simulate_3lv(c(40, 35, 30), r, A_try, T = 2500)
 par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
-plot_3lv(df, main = "Zeitreihe")
-plot_simplex(df, main = "Simplex → Punkt?")
-cat("s+w =", 1.2 + 0.5, "\n")
-```
-
-## Stabile Oszillation ($s+w \approx 2$)
-
-```{r}
-#| fig-height: 3.6
-#| fig-width: 9
-A_osc <- make_rps_A(s = 1.35, w = 0.65)
-df <- simulate_3lv(c(45, 30, 25), r = 0.02, A = A_osc, K = K, T = 4000)
-par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
-plot_3lv(df, main = "Zeitreihe")
-plot_simplex(df, main = "Simplex: Zyklus?")
-cat("s+w =", 1.35 + 0.65, "\n")
-```
-
-## Heteroklinzyklus ($s+w > 2$)
-
-```{r}
-#| fig-height: 3.8
-#| fig-width: 9
-A_het <- make_rps_A(s = 1.40, w = 0.65)
-df_het <- simulate_3lv(c(45, 30, 25), r = 0.015, A = A_het, K = K, T = 10000)
-par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
-plot_3lv(df_het, main = "Zeitreihe")
-plot_simplex(df_het, main = "Simplex → Kanten?")
-bm <- block_mins(df_het, nblock = 5)
-bm
+plot_3lv(df, main = paste0("s=", s, ", w=", w))
+plot_simplex(df, main = "Simplex")
+cat("s+w =", s + w, "\n")
 ```
 
 ```{r}
-#| fig-height: 3.4
-#| fig-width: 7
-matplot(seq_len(nrow(bm)), bm, type = "b", pch = 16, lwd = 2,
-        col = c("#e67e22", "#2980b9", "#f1c40f"),
-        xlab = "Zeitblock", ylab = "Minimum",
-        main = "Sinken die Minima?")
-
-
-# Minima in aufeinanderfolgenden Bloecken (Heteroklin-Diagnose)
+# Minima in aufeinanderfolgenden Bloecken (Diagnose-Hilfe)
 block_mins <- function(df, nblock = 5) {
   ys <- as.matrix(df[, grep("^N", names(df)), drop = FALSE])
   blen <- floor(nrow(ys) / nblock)
@@ -355,7 +299,7 @@ block_mins <- function(df, nblock = 5) {
 }
 ```
 
-**F3.** Simplex: Punkt vs. geschlossener Orbit vs. Drift zum Rand — in 2 Sätzen.
+**F3.** Welche drei Langzeitverläufe haben Sie gesehen? Je ein Satz.
 
 ---
 
@@ -368,21 +312,22 @@ w <- 0.5
 A_final <- make_rps_A(s, w)
 N0 <- c(40, 35, 30)
 
-df_final <- simulate_3lv(N0, r = 0.02, A = A_final, K = K, T = 5000)
+df_final <- simulate_3lv(N0, r = 0.02, A = A_final, T = 5000)
 par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
 plot_3lv(df_final, main = "Mein RPS")
 plot_simplex(df_final, main = "Mein Simplex")
 A_final
 cat("s+w =", s + w, "\n")
-# bei Verdacht auf Heteroklin:
+# optional:
 # block_mins(df_final, 5)
 ```
 
-**F4.** Welche Form haben Sie? (Punkt / Oszillation / Heteroklin) — Beleg?
+**F4.** Welchen Endzustand zeigen Sie? Beschreiben Sie ihn in einem Satz.
 
 **F5.** Warum wäre dasselbe Muster mit nur zwei Strategien unmöglich?
 
 ```{r}
+#| eval: false
 # YOUR CODE — weitere (s,w) ausprobieren
 ```
 
@@ -393,8 +338,71 @@ cat("s+w =", s + w, "\n")
 
 - Matrix $A$
 - Ein Plot (Zeitreihe **oder** Simplex)
-- **Welche Form?** Punkt · Oszillation · Heteroklin - Belegen Sie in einem Satz 
+- **Welchen Endzustand?** Beschreiben
 - Warum wäre dasselbe mit nur zwei Strategien unmöglich? (ein Satz Biologie)
 
 :::
+
+---
+
+# Lösung
+
+## Faustregel $s+w$
+
+| $s+w$ | Intuition | Form |
+|---------|-----------|------|
+| $\lt 2$ | mildes RPS | **Punkt** |
+| $\approx 2$ | Grenze | **stabile Oszillation** |
+| $\gt 2$ | scharfes RPS | **Heteroklin** |
+
+## Referenz-Beispiele
+
+### Punkt ($s+w < 2$)
+
+```{r}
+#| fig-height: 3.6
+#| fig-width: 9
+A_point <- make_rps_A(s = 1.2, w = 0.5)
+df <- simulate_3lv(c(40, 35, 30), r, A_point, T = 2500)
+par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
+plot_3lv(df, main = "Punkt")
+plot_simplex(df, main = "Simplex → Punkt")
+```
+
+### Stabile Oszillation ($s+w \approx 2$)
+
+```{r}
+#| fig-height: 3.6
+#| fig-width: 9
+A_osc <- make_rps_A(s = 1.35, w = 0.65)
+df <- simulate_3lv(c(45, 30, 25), r = 0.02, A = A_osc, T = 4000)
+par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
+plot_3lv(df, main = "Oszillation")
+plot_simplex(df, main = "geschlossener Zyklus")
+```
+
+### Heteroklinzyklus ($s+w > 2$)
+
+```{r}
+#| fig-height: 3.8
+#| fig-width: 9
+A_het <- make_rps_A(s = 1.40, w = 0.65)
+df_het <- simulate_3lv(c(45, 30, 25), r = 0.015, A = A_het, T = 10000)
+par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
+plot_3lv(df_het, main = "Heteroklin")
+plot_simplex(df_het, main = "Drift zu den Kanten")
+bm <- block_mins(df_het, nblock = 5)
+matplot(seq_len(nrow(bm)), bm, type = "b", pch = 16, lwd = 2,
+        col = c("#e67e22", "#2980b9", "#f1c40f"),
+        xlab = "Zeitblock", ylab = "Minimum",
+        main = "Minima sinken")
+```
+
+---
+
+# Ausblick · Modul 2
+
+Morphen einer Art brauchen **Vererbung**. Nächste Woche: die genetische Grundlage der Kehlfarben und Hardy–Weinberg; danach Selektion, Erhaltung und der Raum ($F_{ST}$).
+
+→ [Woche 5](../week-05/notebook.html) · [Modul 2](../../docs/module-02-overview.html)
 

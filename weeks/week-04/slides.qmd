@@ -30,164 +30,186 @@ execute:
 
 ## Übersicht
 
-**Woche 4** von 14 · **Do., 8. Okt. 2026, 08:15–10:00**
+**Woche 4** · Do., 8. Okt. 2026, 08:15–10:00
 
-[Start](../../index.html)
+| Teil | Dauer | Was |
+|------|-------|-----|
+| Intro | ~20 min | Spieltheorie · *Uta* · Modell · 2 vs. 3 |
+| Notebook | ~40 min | drei Endzustände finden |
+| Präsentationen | ~30 min | Matrix · Plot · Langzeitverlauf |
+| Lösung | kurz | Namen der drei Formen |
 
 ::: aside
 Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 :::
 
-## Sitzungsablauf (~90 min)
-
-| Teil | Dauer | Was |
-|------|-------|-----|
-| **Intro** | **~20 min** | Spieltheorie · Echsen · 2 vs. 3 · Stabilitätsformen |
-| **Notebook** | **~40 min** | $A$ drehen → RPS; Form diagnostizieren |
-| **Präsentationen** | **~30 min** | Matrix · Plot · welche Stabilitätsform? |
-
-## Heute in einem Blick
-
-::::: columns
-::: {.column width="22%"}
-![](../../pics/icons/icon_biology.svg){fig-alt="Biologie" width="70%"}
-:::
-::: {.column width="22%"}
-![](../../pics/icons/icon_math.svg){fig-alt="Matrix" width="70%"}
-:::
-::: {.column width="22%"}
-![](../../pics/icons/icon_code.svg){fig-alt="Code" width="70%"}
-:::
-::: {.column width="22%"}
-![](../../pics/icons/icon_speak.svg){fig-alt="Praesentation" width="70%"}
-:::
-:::::
-
-**Frage** (frequenzabhängige Fitness / RPS) → **Modell** $A$ → **Simulation** → **Kurzpräsentation**.
-
-## Heute in dieser Reihenfolge
-
-1. Warum Spieltheorie — *Uta*?
-2. Zwei Strategien: Konkurrenzausschluss
-3. Drei Strategien: RPS-Formen
-4. Notebook, dann 2–3 Minuten vortragen
-
 ## Lernziele
 
 Nach heute können Sie …
 
-1. sagen, warum **zwei** Strategien zum **Konkurrenzausschluss** führen,
-2. die **dritte** Strategie als das, was alle drei hält, erkennen,
-3. RPS-Formen am Plot benennen: Punkt, Oszillation, Heteroklin.
+1. erklären, warum der Erfolg einer **Strategie** von den Häufigkeiten der anderen abhängt,
+2. die Interaktionsmatrix $A$ und das Fitness-Update lesen,
+3. zeigen, warum **zwei** Strategien zum Ausschluss führen und **drei** Vielfalt halten können,
+4. drei verschiedene Langzeitverläufe erzeugen und beschreiben.
 
 ## Checkpoint A — Anwesenheit Pflicht
 
 ::::: columns
 ::: {.column width="18%"}
-![](../../pics/icons/icon_warning.svg){fig-alt="Wichtig" width="80%"}
+![](../../pics/icons/icon_warning.svg){fig-alt="Wichtig" width="75%"}
 :::
 ::: {.column width="82%"}
 Heute wird **präsentiert und benotet**.  
 Sie müssen **anwesend sein und vortragen**.
 
+Es gibt **drei** qualitativ verschiedene Langzeitverläufe.  
+Auftrag: Parameter drehen, bis Sie alle drei gefunden und beschrieben haben.
+
 [Modul 1](../../docs/module-01-overview.html)
 :::
 :::::
 
-## Von Woche 3 zu heute
+# Spieltheorie
 
-Woche 3: zwei Konkurrenten — oft **ein** Gewinner, manchmal **zwei** Einzugsgebiete.  
-Die $\alpha_{ij}$ stecken schon in einer $2\times 2$-Matrix.
+## Heute: Strategien statt Arten um Futter
 
-Heute: **drei** Strategien, dieselbe Konkurrenzidee. Vielfalt kann halten — welche Form, hängt von der Stärke ab.
+Bisher: Wachstum, Räuber–Beute, Konkurrenz um Ressourcen.  
+Heute: **Strategien**, deren Erfolg davon abhängt, was die anderen tun.
 
-![](../../pics/comics/comic_matrix_bridge.svg){fig-alt="Bruecke von Konkurrenz zu Strategien" width="88%"}
+Das ist **Spieltheorie** — Mathematik von Entscheidungen und Interaktionen.
 
-# Spieltheorie & Echsen
+## Drei Namen
 
-## Idee in einem Satz
+| | Beitrag |
+|---|---|
+| **John von Neumann** | begründet die Spieltheorie (mit Morgenstern, 1944) |
+| **John Nash** | Gleichgewicht: niemand will einseitig abweichen |
+| **John Maynard Smith** | bringt Spieltheorie in die Evolutionsbiologie |
 
-Der Erfolg einer Strategie hängt davon ab, **was die anderen tun**  
-(frequenzabhängige Fitness).
+Bei uns: evolutionäre / populationsdynamische Spieltheorie — Häufigkeiten von Strategien.
 
-## *Uta* — Rock–Paper–Scissors
+## Was heisst «Strategie»?
 
-![](../../pics/comics/comic_uta_rps.svg){fig-alt="Drei Echsen-Strategien" width="90%"}
+Wir beschreiben **Verhaltens- oder Morph-Typen** (z. B. Orange / Blau / Gelb).
 
-Orange → Blau → Gelb → Orange. Sinervo & Lively (1996); Corl et al. (2026).
+Zwei Lesarten — dieselbe Mathematik:
 
-## Von $\alpha$ zur Matrix $A$
+- **Genetik:** jedes Individuum hat eine (nahezu) fixe Strategie; erfolgreiche Typen pflanzen sich stärker fort  
+- **Lernen / Kultur:** Strategien verbreiten sich in der Bevölkerung, weil andere sie übernehmen  
 
-Zwei Konkurrenten wie bei Gause — dieselben $\alpha_{ij}$ als Matrix:
+Ob Gene oder Lernen: entscheidend ist die **Häufigkeit** der Strategien und wer wen trifft.
+
+# Biologie
+
+## *Uta stansburiana*
+
+Die **Seitenfleckeneidechse** hat drei Männchen-Strategien (Kehlfarben).  
+Erfolg hängt davon ab, **wie häufig die anderen Morphen** sind — frequenzabhängige Fitness.
+
+![](../../pics/Emma/Grafik_lizard_RPS.jpg){fig-alt="Uta stansburiana drei Maennchen-Strategien RPS" width="78%"}
+
+::: aside
+Illustration: Emma Ochsner · Sinervo & Lively (1996); Corl et al. (2026)
+:::
+
+## Rock–Paper–Scissors
+
+Zyklische Dominanz:
+
+| | schlägt |
+|---|---|
+| Orange | Blau |
+| Blau | Gelb |
+| Gelb | Orange |
+
+Welche Strategie gerade im Vorteil ist, hängt von der **Häufigkeit** der anderen ab.  
+Klassisches evolutionsbiologisches Spiel — wie bei Maynard Smith.
+
+# Modell
+
+## Frequenzabhängige Fitness
+
+Anteile $p$ bestimmen die Fitness. Wer besser abschneidet als der Durchschnitt, nimmt zu.
 
 $$
-A =
-\begin{pmatrix}
-1 & \alpha_{12} \\
-\alpha_{21} & 1
-\end{pmatrix}
+p_j = \frac{N_j}{\sum_k N_k},
+\qquad
+W_i = C - (Ap)_i,
+\qquad
+\bar W = \sum_j p_j\, W_j
 $$
-
-Diagonale $=1$: Selbstkonkurrenz (Normierung).  
-$A_{12}=\alpha_{12}$: wie stark Typ 2 Typ 1 unterdrückt — genau das $\alpha$ aus Woche 3.
-
-**Drei Strategien:** dieselbe Idee als $3\times 3$-Matrix.  
-Hier heisst «Spieltheorie» einfach: Konkurrenz-LV mit Strategien.
-
-## Modell (vorgegeben)
-
-Kursstandard — additive Differenzengleichung (wie im R-Code):
 
 $$
 N_{i,t+1}
   = N_{i,t}
-    + r\, N_{i,t}\left(1 - \frac{(AN)_i}{K}\right),
-\qquad
-(AN)_i = \sum_j A_{ij}\, N_j
+    + r\, N_{i,t}\,(W_i - \bar W)
 $$
 
-Zuwachs von Typ $i$ pro Schritt: $r N_i\bigl(1-(AN)_i/K\bigr)$.
+Diskreter Replikator: relative Fitness steuert die Anteile.
 
-$(AN)_i$: **effektive Konkurrenzdichte** auf Typ $i$.  
-$A_{ij}$: wie stark Typ $j$ Typ $i$ unterdrückt.
+## Was bedeutet jeder Term?
 
-| Symbol | Bedeutung | Wertebereich | Kursbeispiel |
-|--------|-----------|--------------|--------------|
-| $r$ | Wachstumsrate pro Schritt | $0 < r \le 0.2$ | oft $0.02$–$0.05$ |
-| $K$ | Tragfähigkeit | $K > 0$ | $100$ |
-| $A_{ij}$ | Unterdrückung von Typ $j$ auf Typ $i$ | meist $\ge 0$ | Diagonale $=1$; RPS: eine Richtung $>1$, Gegenrichtung $<1$ |
-| $s,w$ | starke / schwache Interaktion | $s > 1 > w \ge 0$ | z. B. $s=1.5$, $w=0.5$ |
+::: {style="font-size: 0.88em;"}
+| Term | Bedeutung |
+|------|-----------|
+| $N_i$ | Anzahl von Strategie $i$ |
+| $p$ | Häufigkeiten (Anteile) — biologische Währung bei *Uta* |
+| $A_{ij}$ | Kosten für $i$, wenn sie auf $j$ trifft |
+| $(Ap)_i$ | mittlere Kosten für $i$ in der aktuellen Mischung |
+| $W_i$ | Fitness von $i$: Baseline $C$ minus Kosten |
+| $\bar W$ | mittlere Fitness in der Population |
+| $W_i - \bar W$ | relativer Vorteil: $>0$ wächst, $<0$ schrumpft |
+| $r$ | Schrittweite der Selektion |
+| $C$ | Baseline (Kurs: $C=2$), hält $W$ positiv |
+:::
 
-**Kurzer Hinweis:** In der Literatur stehen oft Differentialgleichungen; wir verwenden additive diskrete Schritte.
+## Intuition
 
-## Warum Diagonale = 1 (nicht 0)?
+- Viele Gegner, gegen die Sie **schlecht** abschneiden → $W_i < \bar W$ → Anteil sinkt  
+- Viele Gegner, gegen die Sie **gut** abschneiden → $W_i > \bar W$ → Anteil steigt  
+- Nur eine Strategie übrig → $W_i = \bar W$ → Anteile bleiben  
 
-Alles in $A$ ist **Unterdrückung** — keine Fitness mit Vorzeichen ±.  
-Die Diagonale misst **Selbstkonkurrenz**.
+Selektion braucht **Kontrast** zwischen Strategien.  
+Allein gibt es keinen Frequenzvorteil — und das soll so sein.
 
-| Situation | $(AN)_i$ | Zuwachs pro Schritt |
-|-----------|----------|-------------------------|
-| allein, $N_i \lt K$ | $A_{ii} N_i = N_i \lt K$ | $\gt 0$ → **wächst** |
-| allein, $N_i = K$ | $= K$ | $= 0$ → **Gleichgewicht** |
-| allein, $N_i \gt K$ | $\gt K$ | $\lt 0$ → **schrumpft** |
+## Die Matrix $A$
 
-Diagonale $1$ = Normierung: eine Einheit eigener Dichte zählt wie eine Einheit Konkurrenzdichte.  
-(Andere Modelle setzen oft $0$ auf der Diagonale und arbeiten mit Vorzeichen. **Hier nicht.**)
+$$
+A =
+\begin{pmatrix}
+1 & A_{12} & A_{13} \\
+A_{21} & 1 & A_{23} \\
+A_{31} & A_{32} & 1
+\end{pmatrix}
+$$
 
-## Wann schrumpft / wächst Typ $i$ mit Konkurrenten?
+- Zeile $i$ = wer betroffen ist · Spalte $j$ = wer wirkt  
+- Diagonale $=1$: Baseline «Treffen der eigenen Strategie»  
+- $A_{ij} > 1$: $j$ kostet $i$ **mehr** → $i$ leidet, wenn $j$ häufig ist  
+- $A_{ij} < 1$: $j$ kostet $i$ **weniger** → $i$ profitiert relativ  
 
-Massstab ist immer die Diagonale $1$:
+## Beispiel: zyklische Dominanz
 
-- $A_{ij} \gt 1$: Typ $j$ unterdrückt $i$ **stärker** als $i$ sich selbst → $i$ hat es schwerer  
-- $A_{ij} \lt 1$: Typ $j$ unterdrückt $i$ **schwächer** als Selbstkonkurrenz → $i$ hat es leichter  
-- $A_{ij} = 1$: $j$ wirkt wie ein weiteres Individuum von $i$
+$$
+A =
+\begin{pmatrix}
+1 & 0.5 & 1.5 \\
+1.5 & 1 & 0.5 \\
+0.5 & 1.5 & 1
+\end{pmatrix}
+$$
 
-Also: **$\gt 1$ / $\lt 1$** heisst «stärker / schwächer als Selbstkonkurrenz» — nicht «positiv / negativ».
+| Paar | Einträge | Ergebnis |
+|------|----------|----------|
+| 1 vs 2 | $A_{21}=1.5$, $A_{12}=0.5$ | **1 schlägt 2** |
+| 2 vs 3 | $A_{32}=1.5$, $A_{23}=0.5$ | **2 schlägt 3** |
+| 3 vs 1 | $A_{13}=1.5$, $A_{31}=0.5$ | **3 schlägt 1** |
 
-## RPS mit zwei Interaktionsparametern
+→ Zyklus **1 ≻ 2 ≻ 3 ≻ 1**
 
-Vollständige $3\times 3$-Matrix: **9** Einträge. Diagonale fix $=1$ → noch **6** Interaktionen.  
-Wir reduzieren auf **zwei** Parameter $s$ und $w$:
+## Zwei Knöpfe: $s$ und $w$
+
+Volle Matrix: 6 freie Einträge. Mit zyklischer Symmetrie reichen **zwei**:
 
 $$
 A =
@@ -200,102 +222,33 @@ w & s & 1
 (s \gt 1 \gt w)
 $$
 
-- $s$: **starke** Interaktion ($s \gt 1$)  
-- $w$: **schwache** Interaktion ($w \lt 1$)
+- $s > 1$: **starke** Kosten (Gewinner-Richtung)  
+- $w < 1$: **schwache** Kosten (Verlierer-Richtung)  
 
-**Warum reduzieren?** Annahme der **zyklischen Symmetrie**: jedes Paar sieht denselben Kontrast «stark vs. schwach», nur rotiert.  
-Dann reichen $s,w$ — und die Faustregel $s+w$ vs. $2$ wird lesbar.
+Im Notebook drehen Sie $s$ und $w$ — die Stärke entscheidet den Langzeitverlauf.
 
-## $s$ und $w$ sind Interaktionen
+# Warum drei?
 
-Merksatz: **$s$ = starke Interaktion**, **$w$ = schwache Interaktion** (Unterdrückung $j \to i$).
-
-In jedem Paar eine Richtung stark, die Gegenrichtung schwach:
-
-| Paar | starke Interaktion $s$ | schwache Interaktion $w$ | Gewinner |
-|------|--------------------------|----------------------------|----------|
-| 1 vs 2 | $A_{21}=s$: 1 drückt 2 stark | $A_{12}=w$: 2 drückt 1 schwach | **1 schlägt 2** |
-| 2 vs 3 | $A_{32}=s$ | $A_{23}=w$ | **2 schlägt 3** |
-| 3 vs 1 | $A_{13}=s$ | $A_{31}=w$ | **3 schlägt 1** |
-
-→ Zyklus **1 → 2 → 3 → 1** (Schere–Stein–Papier / *Uta*).
-
-## Was braucht RPS wirklich? (Muster, nicht volle Symmetrie)
-
-Das **qualitative** Muster ist ein Zyklus von «stärker / schwächer»:
-
-$$
-A_{\mathrm{Muster}} =
-\begin{pmatrix}
-1 & \lt 1 & \gt 1 \\
-\gt 1 & 1 & \lt 1 \\
-\lt 1 & \gt 1 & 1
-\end{pmatrix}
-$$
-
-- Volle $s,w$-Symmetrie ist nur eine **bequeme** Spezialisierung.  
-- RPS braucht **nicht**, dass alle starken Einträge gleich $s$ und alle schwachen gleich $w$ sind — nur dass in jedem Paar die richtige Richtung $\gt 1$ bzw. $\lt 1$ ist.
-
-## Asymmetrisch, aber immer noch RPS
-
-```{r}
-#| fig-height: 3.4
-#| fig-width: 8
-# Unterschiedliche starke/schwache Werte — gleiches +/- Muster
-A_asym <- matrix(c(1, 0.4, 1.5,
-                   1.15, 1, 0.55,
-                   0.7, 1.35, 1), 3, 3, byrow = TRUE)
-next_3lv <- function(N, r, A, K) {
-  load <- as.numeric(A %*% N)
-  pmax(N + r * N * (1 - load / K), 0)
-}
-sim_n <- function(A, N0, T = 2000, r = 0.05, K = 100) {
-  n <- length(N0)
-  N <- matrix(0, T + 1, n)
-  N[1, ] <- N0
-  for (t in 1:T) N[t + 1, ] <- next_3lv(N[t, ], r, A, K)
-  data.frame(time = 0:T, N)
-}
-cols <- c("#e67e22", "#2980b9", "#f1c40f")
-d_asym <- sim_n(A_asym, c(40, 35, 30), T = 3000)
-matplot(d_asym$time, d_asym[, -1], type = "l", lty = 1, lwd = 2.5, col = cols,
-        xlab = "Zeit", ylab = "N",
-        main = "Asymmetrische Interaktionen, gleiches RPS-Muster [SIM]")
-legend("right", c("1", "2", "3"), col = cols, lty = 1, lwd = 2.5, bty = "n", cex = 0.8)
-```
-
-Drei Typen bleiben — ohne dass $A$ nur aus zwei Zahlen $s,w$ gebaut ist.  
-Im Notebook nutzen wir trotzdem $s,w$: **weniger Drehknöpfe**, gleiche Idee.
-
-## Faustregel $s+w$ (bei Symmetrie)
-
-Nur wenn wir auf $s,w$ reduzieren, gilt die einfache Orientierung:
-
-- mild ($s,w$ näher an 1, $s+w \lt 2$) → eher **Punkt**  
-- Grenze $s+w \approx 2$ → **stabile Oszillation**  
-- scharf ($s+w \gt 2$) → **Heteroklin**
-
-Die May–Leonard-Ergebnisse sind hier nur eine **qualitative Orientierung**; Parameter nicht 1:1 aus Papers kopieren.
-
-# Warum drei? — das macht RPS aus
-
-## Zwei Strategien: immer Konkurrenzausschluss
+## Zwei Strategien: Ausschluss
 
 ```{r}
 #| fig-height: 3.5
 #| fig-width: 8.5
-next_3lv <- function(N, r, A, K) {
-  load <- as.numeric(A %*% N)
-  pmax(N + r * N * (1 - load / K), 0)
+next_rps <- function(N, r, A, C = 2) {
+  sN <- sum(N)
+  if (sN <= 0) return(N)
+  p <- N / sN
+  W <- C - as.numeric(A %*% p)
+  Wbar <- sum(p * W)
+  pmax(N + r * N * (W - Wbar), 0)
 }
-sim_n <- function(A, N0, T = 2000, r = 0.05, K = 100) {
+sim_n <- function(A, N0, T = 2000, r = 0.05) {
   n <- length(N0)
   N <- matrix(0, T + 1, n)
   N[1, ] <- N0
-  for (t in 1:T) N[t + 1, ] <- next_3lv(N[t, ], r, A, K)
+  for (t in 1:T) N[t + 1, ] <- next_rps(N[t, ], r, A)
   data.frame(time = 0:T, N)
 }
-# RPS-Matrix, aber nur zwei Typen vorhanden
 A_rps <- matrix(c(1, 0.5, 1.2,
                   1.2, 1, 0.5,
                   0.5, 1.2, 1), 3, 3, byrow = TRUE)
@@ -303,62 +256,100 @@ cols <- c("#e67e22", "#2980b9", "#f1c40f")
 par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
 d1 <- sim_n(A_rps[1:2, 1:2], c(50, 40))
 matplot(d1$time, d1[, -1], type = "l", lty = 1, lwd = 2.5,
-        col = cols[1:2], ylim = c(0, 110), xlab = "Zeit", ylab = "N",
+        col = cols[1:2], ylim = c(0, 100), xlab = "Zeit", ylab = "N",
         main = "Nur Typ 1 & 2")
 legend("right", c("1", "2"), col = cols[1:2], lty = 1, lwd = 2.5, bty = "n", cex = 0.8)
 d2 <- sim_n(A_rps[c(1, 3), c(1, 3)], c(50, 40))
 matplot(d2$time, d2[, -1], type = "l", lty = 1, lwd = 2.5,
-        col = cols[c(1, 3)], ylim = c(0, 110), xlab = "Zeit", ylab = "N",
+        col = cols[c(1, 3)], ylim = c(0, 100), xlab = "Zeit", ylab = "N",
         main = "Nur Typ 1 & 3")
 legend("right", c("1", "3"), col = cols[c(1, 3)], lty = 1, lwd = 2.5, bty = "n", cex = 0.8)
 ```
 
 Bei **zwei** Strategien gewinnt immer eine — die andere → 0.
 
-## Dritte Strategie stabilisiert
+## Drei Strategien: Vielfalt möglich
 
 ```{r}
-#| fig-height: 3.5
+#| fig-height: 3.4
 #| fig-width: 8
-# Punkt-RPS: s+w < 2
-A_point <- matrix(c(1, 0.5, 1.2,
-                    1.2, 1, 0.5,
-                    0.5, 1.2, 1), 3, 3, byrow = TRUE)
-d3 <- sim_n(A_point, c(40, 35, 30), T = 2500)
+d3 <- sim_n(A_rps, c(40, 35, 30), T = 2500)
 matplot(d3$time, d3[, -1], type = "l", lty = 1, lwd = 2.5, col = cols,
-        xlab = "Zeit", ylab = "N",
-        main = "Alle drei: Koexistenz (Punkt) [SIM]")
+        ylim = c(0, 100), xlab = "Zeit", ylab = "N",
+        main = "Alle drei Strategien")
 legend("right", c("1", "2", "3"), col = cols, lty = 1, lwd = 2.5, bty = "n", cex = 0.8)
 ```
 
-Dieselbe zyklische Logik — aber **drei** Typen bleiben. Das ist der RPS-Kern.
+Dieselbe zyklische Logik — die dritte Strategie verhindert den einfachen Ausschluss.  
+**Welcher** Langzeitverlauf entsteht, hängt von $s$ und $w$ ab.
 
 ## Merksatz
 
-> RPS heisst nicht zwingend «Schwingung».  
-> RPS heisst: zyklische Dominanz + die **dritte Strategie verhindert den Ausschluss**.  
-> Ein **Punktgleichgewicht** kann also durchaus RPS sein.
+> RPS = zyklische Dominanz.  
+> Die **dritte Strategie** macht Vielfalt möglich.  
+> Die **Stärke** der Interaktionen ($s$, $w$) bestimmt die Form — das erkunden Sie jetzt.
 
-# Drei Stabilitätsformen (Beispiele)
+# Auftrag
 
-## Übersicht
+## Notebook (~40 min)
 
-| Form | $s,w$-Intuition | Zeitreihe | Simplex |
-|------|-------------------|-----------|---------|
-| **Punkt** | mild ($s+w < 2$) | → konstante Dichten | Spirale **ins Innere** |
-| **Stabile Oszillation** | $s+w \approx 2$ | dauerhafte Schwingung | **geschlossener Zyklus** |
-| **Heteroklinzyklus** | scharf ($s+w > 2$) | Minima → 0 | Drift zu den **Rändern** |
+1. Zwei Strategien → Ausschluss bestätigen  
+2. Drei Strategien → RPS erzeugen ($s$, $w$ bzw. $A$)  
+3. Parameter drehen, bis Sie **alle drei** Endzustände haben  
+4. Je einen Satz: was passiert langfristig?  
+   (Zeitreihe **oder** Simplex)
 
-## Phasenraum: der Simplex
+## Präsentation (~2–3 min)
 
-Drei Typen → Zustände als **Häufigkeiten**
-$f_i = N_i / \sum_j N_j$ mit $f_1 + f_2 + f_3 = 1$.  
-Das ist ein **Dreieck** (Simplex der Anteile): Ecken = eine Strategie allein.  
-Kurz: der Simplex ist der Phasenraum der **Anteile**.
+1. Ihre Matrix $A$ (oder $s,w$)  
+2. Ein Plot  
+3. Welchen Endzustand zeigen Sie?  
+4. Warum wäre dasselbe mit nur zwei Strategien unmöglich?
+
+**Anwesenheit Pflicht** — ohne Vortrag kein Checkpoint A.
+
+# Lösung · Drei Formen
+
+## Der Simplex
+
+Drei Strategien → Zustände als Anteile  
+$f_i = N_i / \sum_j N_j$ mit $f_1+f_2+f_3=1$.
 
 ```{r}
-#| fig-height: 3.6
-#| fig-width: 7
+#| fig-height: 3.2
+#| fig-width: 5.5
+cols <- c("#e67e22", "#2980b9", "#f1c40f")
+v1 <- c(0.5, sqrt(3) / 2); v2 <- c(0, 0); v3 <- c(1, 0)
+plot(NA, xlim = c(-0.08, 1.08), ylim = c(-0.12, sqrt(3) / 2 + 0.1),
+     asp = 1, axes = FALSE, xlab = "", ylab = "",
+     main = "")
+polygon(c(v1[1], v2[1], v3[1]), c(v1[2], v2[2], v3[2]),
+        border = "#2c3e50", lwd = 2, col = "#f4f6f7")
+text(v1[1], v1[2] + 0.07, "nur 1", col = cols[1], font = 2)
+text(v2[1] - 0.02, v2[2] - 0.05, "nur 2", col = cols[2], font = 2, adj = 1)
+text(v3[1] + 0.02, v3[2] - 0.05, "nur 3", col = cols[3], font = 2, adj = 0)
+mid <- c(0.5, sqrt(3) / 6)
+points(mid[1], mid[2], pch = 16, cex = 1.2, col = "#8e44ad")
+text(mid[1], mid[2] - 0.08, "Mischung", col = "#8e44ad", cex = 0.85)
+```
+
+Ecken = eine allein · Kanten = eine fehlt · Innen = alle drei $> 0$.
+
+## Übersicht der drei Formen
+
+| Form | $s+w$ | Zeitreihe | Simplex |
+|------|-------|-----------|---------|
+| **Punkt** | $< 2$ | → konstante Anteile | Spirale **ins Innere** |
+| **Oszillation** | $\approx 2$ | dauerhafte Schwingung | **geschlossener Zyklus** |
+| **Heteroklin** | $> 2$ | Minima → 0 | Drift zu den **Rändern** |
+
+## 1 · Punktgleichgewicht
+
+$s=1.2$, $w=0.5$ → $s+w=1.7 < 2$
+
+```{r}
+#| fig-height: 3.3
+#| fig-width: 9
 to_simplex_xy <- function(N) {
   N <- as.matrix(N)
   s <- pmax(rowSums(N), 1e-12)
@@ -374,68 +365,37 @@ plot_simplex_traj <- function(df, main = "", fade = TRUE) {
        asp = 1, axes = FALSE, xlab = "", ylab = "", main = main)
   polygon(c(v1[1], v2[1], v3[1]), c(v1[2], v2[2], v3[2]),
           border = "#2c3e50", lwd = 2, col = "#f4f6f7")
-  text(v1[1], v1[2] + 0.07, "1", col = cols[1], font = 2, cex = 1.15)
-  text(v2[1] - 0.06, v2[2] - 0.05, "2", col = cols[2], font = 2, cex = 1.15)
-  text(v3[1] + 0.06, v3[2] - 0.05, "3", col = cols[3], font = 2, cex = 1.15)
+  text(v1[1], v1[2] + 0.07, "1", col = cols[1], font = 2, cex = 1.1)
+  text(v2[1] - 0.06, v2[2] - 0.05, "2", col = cols[2], font = 2, cex = 1.1)
+  text(v3[1] + 0.06, v3[2] - 0.05, "3", col = cols[3], font = 2, cex = 1.1)
   n <- nrow(xy)
   if (fade && n > 40) {
     for (i in seq_len(n - 1)) {
       a <- 0.12 + 0.78 * (i / n)
       segments(xy[i, 1], xy[i, 2], xy[i + 1, 1], xy[i + 1, 2],
-               col = rgb(0.12, 0.15, 0.22, a), lwd = 1.6)
+               col = rgb(0.12, 0.15, 0.22, a), lwd = 1.5)
     }
   } else {
     lines(xy[, 1], xy[, 2], lwd = 2, col = "#2c3e50")
   }
-  points(xy[1, 1], xy[1, 2], pch = 16, col = "#27ae60", cex = 1.25)
-  points(xy[n, 1], xy[n, 2], pch = 16, col = "#c0392b", cex = 1.05)
-  legend("topleft", c("Start", "Ende"), pch = 16, col = c("#27ae60", "#c0392b"),
-         bty = "n", cex = 0.75)
+  points(xy[1, 1], xy[1, 2], pch = 16, col = "#27ae60", cex = 1.2)
+  points(xy[n, 1], xy[n, 2], pch = 16, col = "#c0392b", cex = 1.0)
 }
-# Schema: Ecken + Mitte
-plot(NA, xlim = c(-0.08, 1.08), ylim = c(-0.12, sqrt(3) / 2 + 0.1),
-     asp = 1, axes = FALSE, xlab = "", ylab = "",
-     main = "Simplex: wo der Zyklus lebt")
-v1 <- c(0.5, sqrt(3) / 2); v2 <- c(0, 0); v3 <- c(1, 0)
-polygon(c(v1[1], v2[1], v3[1]), c(v1[2], v2[2], v3[2]),
-        border = "#2c3e50", lwd = 2, col = "#f4f6f7")
-text(v1[1], v1[2] + 0.07, "nur 1", col = cols[1], font = 2)
-text(v2[1] - 0.02, v2[2] - 0.05, "nur 2", col = cols[2], font = 2, adj = 1)
-text(v3[1] + 0.02, v3[2] - 0.05, "nur 3", col = cols[3], font = 2, adj = 0)
-mid <- to_simplex_xy(matrix(c(1, 1, 1), 1))
-points(mid[1], mid[2], pch = 16, cex = 1.2, col = "#8e44ad")
-text(mid[1], mid[2] - 0.08, "Mischung", col = "#8e44ad", cex = 0.85)
-```
-
-Kanten = eine Strategie fehlt (Ausschluss-Rand).  
-Innen = alle drei $\gt 0$.
-
-## 1 · Punktgleichgewicht (auch RPS!)
-
-$s=1.2$, $w=0.5$ → $s+w=1.7 < 2$
-
-```{r}
-#| fig-height: 3.5
-#| fig-width: 9
 par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
 matplot(d3$time, d3[, -1], type = "l", lty = 1, lwd = 2.5, col = cols,
-        xlab = "Zeit", ylab = "N",
-        main = "Zeitreihe")
+        xlab = "Zeit", ylab = "N", main = "Zeitreihe")
 legend("right", c("1", "2", "3"), col = cols, lty = 1, lwd = 2.5, bty = "n", cex = 0.75)
 plot_simplex_traj(d3, main = "Simplex → Punkt")
 ```
 
-Dominanz-Logik zyklisch — Langzeit = **fester Punkt** im Inneren (alle ≈ gleich).
+Alle drei bleiben — Langzeit = fester Punkt im Inneren.
 
 ## 2 · Stabile Oszillation
-
-Nicht die *Didinium*-Schwingung aus Woche 2 (zwei trophische Ebenen).  
-Hier: drei Strategien, dasselbe $+/-$-Muster — **andere Stärke**.
 
 $s=1.35$, $w=0.65$ → $s+w=2$
 
 ```{r}
-#| fig-height: 3.5
+#| fig-height: 3.3
 #| fig-width: 9
 A_osc <- matrix(c(1, 0.65, 1.35,
                   1.35, 1, 0.65,
@@ -443,20 +403,19 @@ A_osc <- matrix(c(1, 0.65, 1.35,
 d_osc <- sim_n(A_osc, c(45, 30, 25), T = 4000, r = 0.02)
 par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
 matplot(d_osc$time, d_osc[, -1], type = "l", lty = 1, lwd = 2.2, col = cols,
-        xlab = "Zeit", ylab = "N",
-        main = "Zeitreihe")
+        xlab = "Zeit", ylab = "N", main = "Zeitreihe")
 legend("topright", c("1", "2", "3"), col = cols, lty = 1, lwd = 2.2, bty = "n", cex = 0.7)
-plot_simplex_traj(d_osc, main = "Simplex: geschlossener Zyklus")
+plot_simplex_traj(d_osc, main = "geschlossener Zyklus")
 ```
 
-Dominanz rotiert dauerhaft — auf dem Simplex eine **geschlossene Bahn**, die nicht an den Rand driftet.
+Dominanz rotiert dauerhaft — Bahn bleibt weg vom Rand.
 
 ## 3 · Heteroklinzyklus
 
 $s=1.40$, $w=0.65$ → $s+w=2.05 > 2$
 
 ```{r}
-#| fig-height: 3.5
+#| fig-height: 3.3
 #| fig-width: 9
 A_het <- matrix(c(1, 0.65, 1.40,
                   1.40, 1, 0.65,
@@ -464,39 +423,17 @@ A_het <- matrix(c(1, 0.65, 1.40,
 d_het <- sim_n(A_het, c(45, 30, 25), T = 12000, r = 0.015)
 par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
 matplot(d_het$time, d_het[, -1], type = "l", lty = 1, lwd = 1.8, col = cols,
-        xlab = "Zeit", ylab = "N",
-        main = "Zeitreihe")
+        xlab = "Zeit", ylab = "N", main = "Zeitreihe")
 legend("topright", c("1", "2", "3"), col = cols, lty = 1, lwd = 1.8, bty = "n", cex = 0.7)
-plot_simplex_traj(d_het, main = "Simplex → Kanten")
+plot_simplex_traj(d_het, main = "Drift zu den Kanten")
 ```
 
-Alle drei bleiben lange sichtbar — aber die Bahn wandert zu den **Kanten** (fast Ausschluss, dann Wechsel).  
-Attraktor «lebt» am Rand des Simplex.
+Alle drei lange sichtbar — die Bahn wandert zu den **Kanten**.
 
-## Minima über die Zeit (Heteroklin)
-
-```{r}
-#| fig-height: 3.3
-#| fig-width: 7.5
-z <- d_het[, -1]
-nblock <- 5
-blen <- floor(nrow(z) / nblock)
-mins <- sapply(1:3, function(j) {
-  sapply(0:(nblock - 1), function(b) {
-    i1 <- b * blen + 1; i2 <- min((b + 1) * blen, nrow(z))
-    min(z[i1:i2, j])
-  })
-})
-matplot(1:nblock, mins, type = "b", pch = 16, lwd = 2.5, col = cols,
-        xlab = "Zeitblock", ylab = "Minimum in Block",
-        main = "Heteroklin: Minima sinken", ylim = c(0, max(mins) * 1.1))
-legend("topright", c("1", "2", "3"), col = cols, lty = 1, lwd = 2.5, bty = "n", cex = 0.8)
-```
-
-## Vergleich: drei Formen auf dem Simplex
+## Vergleich auf dem Simplex
 
 ```{r}
-#| fig-height: 3.7
+#| fig-height: 3.4
 #| fig-width: 9.5
 par(mfrow = c(1, 3), mar = c(1, 1, 2.5, 1))
 plot_simplex_traj(d3, main = "Punkt")
@@ -504,50 +441,43 @@ plot_simplex_traj(d_osc, main = "Oszillation")
 plot_simplex_traj(d_het, main = "Heteroklin")
 ```
 
-Gleiche zyklische Interaktionslogik — **verschiedene Bahnen** im Simplex.
+Gleiche zyklische Logik — **andere Stärke** → andere Bahn.
 
-# Auftrag
+## Faustregel $s+w$
 
-## Notebook (~40 min)
+Bei symmetrischem $s,w$:
 
-1. Zwei Strategien → Konkurrenzausschluss bestätigen  
-2. Mit drei Strategien RPS erzeugen  
-3. Mindestens **eine** Form klar hinbekommen (Punkt / Oszillation / Heteroklin) — idealerweise **nicht** nur die Ausgangswerte  
+- $s+w < 2$ → eher **Punkt**  
+- $s+w \approx 2$ → **Oszillation**  
+- $s+w > 2$ → **Heteroklin**
 
-4. Optional: alle drei Formen ansteuern ($s+w$ drehen)  
-
-## Präsentation (~2–3 Min.)
-
-1. Matrix $A$  
-2. Ein Plot (Zeitreihe **oder** Simplex)  
-3. **Welche Form?** Punkt · Oszillation · Heteroklin — Beleg in einem Satz  
-4. Warum wäre dasselbe mit nur zwei Strategien unmöglich? (ein Satz Biologie)
-
-**Anwesenheit Pflicht** — ohne Vortrag kein Checkpoint A.
+Qualitative Orientierung (May–Leonard).
 
 ## Take-home
 
-1. Zwei Strategien: Konkurrenzausschluss. Die dritte hält alle drei.
-2. RPS kann Punkt, Oszillation oder Heteroklin sein — dasselbe $+/-$-Muster, andere Stärke.
-3. Die Matrix $A$ baut auf denselben $\alpha$s aus Woche 3 auf — heute mit drei Strategien und dem Blick auf die Form.
+1. Wir beschreiben **Strategien** (Genetik oder Lernen) — Spieltheorie nach von Neumann, Nash, Maynard Smith.  
+2. Zwei Strategien: Ausschluss. Die dritte kann alle drei halten.  
+3. RPS zeigt drei Endzustände — Muster gleich, Stärke anders.  
+4. Fitness aus Treffenskosten $A$; relativ zu $\bar W$ wächst oder schrumpft der Anteil.
 
-## Abschlussfragen
+## Ausblick · Modul 2
 
-1. Warum Diagonale $=1$ — und was heisst $A_{ij}\gt 1$ vs. $A_{ij}\lt 1$?  
-2. Warum reduzieren wir auf $s,w$ — und was braucht RPS *ohne* volle Symmetrie?  
-3. Was sehen Sie auf dem **Simplex** bei Punkt vs. Oszillation vs. Heteroklin?  
-4. Woran erkennen Sie einen Heteroklinzyklus (Zeitreihe *und* Simplex)?
+Morphen sind Varianten **derselben** Art — sie paaren sich und vererben.  
+Nächste Woche: welche Gene hinter den Kehlfarben stecken, und wie Genotypfrequenzen ohne Selektion aussehen (Hardy–Weinberg).  
+Danach: wann Selektion den Polymorphismus erhält — und was häufigkeitsabhängige Fitness zusätzlich leistet.
+
+→ [Woche 5](../week-05/slides.html) · [Modul 2](../../docs/module-02-overview.html)
 
 ## Literatur
 
 :::: {.lit}
-Alles, was in dieser Einheit namentlich vorkommt:
-
-1. **Sinervo, B., & Lively, C. M. (1996).** The rock–paper–scissors game and the evolution of alternative male strategies. *Nature* 380: 240–243. [doi:10.1038/380240a0](https://doi.org/10.1038/380240a0) — *Uta*-RPS.
-2. **Corl, A., et al. (2026).** The genetics, evolution, and maintenance of a biological rock-paper-scissors game. *Science* 391: 69–74. [doi:10.1126/science.adw8265](https://doi.org/10.1126/science.adw8265).
-3. **May, R. M., & Leonard, W. J. (1975).** Nonlinear aspects of competition between three species. *SIAM Journal on Applied Mathematics* 29: 243–253. — $s,w$-Idee / Stabilitätsformen (Faustregel qualitativ).
-4. **Lotka, A. J. (1925)**; **Volterra, V. (1926)**; **Gause, G. F. (1934).** — Konkurrenz / Ausschluss-Hintergrund (Wochen 2–3).
-5. Berkeley Understanding Evolution: [High-stakes rock-paper-scissors…](https://evolution.berkeley.edu/evo-news/high-stakes-rock-paper-scissors-these-lizards-are-all-in-on-an-evolutionary-game/) — populäre Zusammenfassung zu Corl et al.
+1. **von Neumann, J., & Morgenstern, O. (1944).** *Theory of Games and Economic Behavior*. Princeton. — Begründung der Spieltheorie.
+2. **Nash, J. (1950).** Equilibrium points in *n*-person games. *PNAS* 36: 48–49. — Nash-Gleichgewicht.
+3. **Maynard Smith, J. (1982).** *Evolution and the Theory of Games*. Cambridge University Press. — evolutionäre Spieltheorie.
+4. **Sinervo, B., & Lively, C. M. (1996).** The rock–paper–scissors game and the evolution of alternative male strategies. *Nature* 380: 240–243. [doi:10.1038/380240a0](https://doi.org/10.1038/380240a0)
+5. **Corl, A., et al. (2026).** The genetics, evolution, and maintenance of a biological rock-paper-scissors game. *Science* 391: 69–74. [doi:10.1126/science.adw8265](https://doi.org/10.1126/science.adw8265)
+6. **May, R. M., & Leonard, W. J. (1975).** Nonlinear aspects of competition between three species. *SIAM J. Appl. Math.* 29: 243–253.
+7. **Hofbauer, J., & Sigmund, K. (1998).** *Evolutionary Games and Population Dynamics*. CUP.
 ::::
 
 ## Navigation

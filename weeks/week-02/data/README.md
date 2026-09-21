@@ -5,8 +5,9 @@ Aus **Gause (1934)** mithilfe des R-Pakets [`gauseR`](https://cran.r-project.org
 | Datei | Inhalt | Quelle in `gauseR` |
 |---|---|---|
 | `paramecium_alone.csv` | Wachstum einer Monokultur von *Paramecium caudatum* | `gause_1934_book_f21` (nur vollständige Individuen) |
-| `paramecium_with_didinium.csv` | *Paramecium* + *Didinium* (Immigrationsereignisse markiert) | `gause_1934_book_f32` |
-| `paramecium_didinium_extinction.csv` | Zusammenbruch von *Paramecium* + *Didinium* (Osterhout-Medium) | `gause_1934_book_f30` |
+| `paramecium_with_didinium.csv` | *Paramecium* + *Didinium* | `gause_1934_book_f32` |
+
+(Weitere Gause-Dateien wie Immigrations-/Aussterbe-Serien können im Repo liegen, werden in Woche 2 aber **nicht** behandelt.)
 
 ## Literaturangaben
 

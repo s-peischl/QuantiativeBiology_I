@@ -28,34 +28,134 @@ execute:
   freeze: auto
 ---
 
-## Heute: eine Frage, vier Schritte
+## Heute: eine Frage
 
 **Woche 3** · Do., 1. Okt. 2026 · ~45 min Vorlesung + Notebook
 
-> Wann nennen wir einen Zustand **stabil** — und was ändert sich, wenn es **mehrere** stabile Zustände gibt?
+> Kann **eine einzelne Art** (Ein- / Wiederansiedlung oder Entfernung) ein ganzes System **stabilisieren** — oder kippen?
 
-1. Begriffe festnageln  
-2. **Drei** $\alpha$-Muster (*Paramecium* + Simulation)  
-3. **Zwei** Endpunkte (Gras / Wald)  
-4. Das **System** ändert den Endzustand (Keystone → Kipppunkt)
+Heute: **Beobachtung zuerst**, dann Begriffe und Modelle.
 
-Heute **lesen** wir Plots und Vorhersagen. Im Notebook **drehen** Sie $\alpha$ und das Yellowstone-Netz selbst — deshalb Mathematik, Code und Daten.
+1. Einstieg: Yellowstone / Wiederansiedlung → **Störung** als Stabilitätstest  
+2. Zwei *Paramecium*, eine Ressource — wer bleibt?  
+3. Gras oder Wald — welcher Zustand hält?  
+4. Keystone (Paine) → Kipppunkt (Fichtenwickler-Konzept → Seeotter)
 
 ::: aside
 Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 :::
 
-# Brücke · Woche 2
+# Einstieg · Eine Art ändert das System
 
-## Persistenz ist noch keine Stabilität
+## Yellowstone — die Bühne
 
-Woche 2: Beute und Räuber bleiben auf der **beobachteten Zeitskala** sichtbar.
+::::: columns
+::: {.column width="48%"}
+![](../../pics/yellowstone/yellowstone_landscape.jpg){fig-alt="Grand Canyon of the Yellowstone" width="100%"}
+:::
+::: {.column width="52%"}
+Yellowstone ist ein grosses Ökosystem mit vielen Arten und Wechselwirkungen.
 
-Das nennen wir **Persistenz** — nicht Rückkehr zu einem festen Gleichgewicht.
+**Frage für heute:** Kann die Rückkehr **einer** Art den Zustand des ganzen Systems verändern — und was bedeutet dann «stabil»?
+:::
+:::::
 
-![](../../pics/comics/comic_stability.svg){fig-alt="Stabilitaet: nach kleinem Push kehrt das System zum Endzustand zurueck" width="72%"}
+::: aside
+Yellowstone National Park · Landschaft als Einstieg, nicht als Beleg
+:::
 
-**Heute:** Wann kehrt ein System nach einer Störung zurück — und wohin?
+## Ohne Wolf (1926–1995)
+
+1926 wird der letzte Wolf im Park getötet. Danach folgen Jahrzehnte **ohne** Top-Prädator.
+
+::::: columns
+::: {.column width="42%"}
+![](../../pics/yellowstone/elk_rmnp.jpg){fig-alt="Wapiti Elch" width="92%"}
+:::
+::: {.column width="58%"}
+**Elche (Wapiti)** bleiben als wichtige Herbivoren.
+
+In der klassischen Erzählung der Folgezeit:
+
+- starke Beweidung an Flussufern  
+- Weiden und Aspen kommen kaum nach  
+- weniger Lebensraum für Biber und andere Uferarten  
+
+Ohne den Top-Prädator steigt der Verbissdruck auf die Vegetation.
+:::
+:::::
+
+::: aside
+Elch: Rocky Mountain · stellvertretend für Yellowstones Herbivoren
+:::
+
+## Wiederansiedlung 1995/96
+
+::::: columns
+::: {.column width="45%"}
+![](../../pics/yellowstone/wolf_yellowstone.jpg){fig-alt="Wolf Canis lupus" width="100%"}
+:::
+::: {.column width="55%"}
+1995/96 werden **Grauwölfe** wiederangesiedelt. Das ist mehr als «ein Räuber mehr»: es ist eine **Störung** am System.
+
+Beobachtete und diskutierte Folgen:
+
+- Elche werden seltener **oder** meiden riskante Orte  
+- Verbiss an Ufern nimmt ab  
+- Vegetation kann nachwachsen  
+
+Eine zurückkehrende Art verändert damit die Dynamik im Nahrungsnetz.
+:::
+:::::
+
+::: aside
+Wiederansiedlung 1995/96 · *Canis lupus*
+:::
+
+## Trophische Kaskade
+
+![](../../pics/comics/comic_yellowstone_cascade.svg){fig-alt="Yellowstone Kaskade ohne und mit Wolf" width="96%"}
+
+Die Wirkung läuft von oben nach unten: eine *trophische Kaskade*.  
+Dafür brauchen wir die Begriffe Gleichgewicht, Stabilität und Einzugsgebiet.
+
+## Was die Literatur dazu sagt
+
+| | |
+|---|---|
+| **Kernbehauptung** | Wolf → Elchdruck ↓ → Ufervegetation ↑ (und Folgeeffekte) |
+| **Mechanismus** | weniger Elche **und/oder** geändertes Verhalten (Landschaft der Angst) |
+| **Vorsicht** | räumlich und zeitlich komplizierter als die Comics-Version |
+
+Wir wollen Yellowstone hier nicht im Detail belegen, sondern die **Frage** schärfen: Was tut eine Störung mit dem Systemzustand?
+
+::: aside
+Ripple & Beschta (2012); Fortin et al. (2005); Überblick z. B. in Biological Conservation / Ecology Letters
+:::
+
+## Leitfrage
+
+Was bedeutet es, dass ein System nach so einer Änderung **zurückkehrt**, einen **anderen Zustand** findet — oder **kippt**?
+
+Wir brauchen Begriffe für:
+
+- was ein **Gleichgewicht** ist,
+- wann es **stabil** ist,
+- und was eine **Störung** (Perturbation) damit zu tun hat.
+
+## Stabilität = Reaktion auf Störung
+
+Woche 2: Beute und Räuber bleiben oft **sichtbar** (Persistenz) — das ist noch kein Stabilitätsbegriff.
+
+**Stabilität testen wir mit Störungen:**
+
+| Störung (Beispiele) | Frage |
+|---------------------|--------|
+| kleiner Push im Zustand | Kehrt das System zurück? |
+| anderer Start | Derselbe oder anderer Endpunkt? |
+| Art hinzu / weg | Ändert sich der Endzustand des ganzen Netzes? |
+
+![](../../pics/comics/comic_stability.svg){fig-alt="Stabilitaet: nach kleinem Push kehrt das System zum Endzustand zurueck" width="62%"}
 
 ## Drei Arbeitsbegriffe
 
@@ -77,9 +177,9 @@ Alle Starts (und kleinen Störungen), die zum **selben** Gleichgewicht führen.
 :::
 :::::
 
-**Heute testen wir Stabilität am Bild:** verschiedene Starts → derselbe oder verschiedene Endpunkte?
+**Heute:** Beobachtung → Muster → Modell. Im Notebook drehen Sie $\alpha$ und das Yellowstone-Netz selbst.
 
-# 1 · Ein Endpunkt
+# 1 · Zwei Arten, eine Ressource — wer bleibt?
 
 ## Biologische Frage
 
@@ -159,7 +259,7 @@ N_{2,t+1}
 $$
 :::
 
-**Zuwachs = Wachstum − Gedränge − Konkurrenz** · drei Muster relativ zu $1$.
+**Zuwachs = Wachstum − Gedränge − Konkurrenz.**
 
 ::: aside
 Kurswerte zur Illustration — keine Schätzungen aus den Gause-Daten.
@@ -224,7 +324,9 @@ legend("right", c("N1", "N2"), col = c("#2980b9", "#27ae60"),
        lty = 1, lwd = 2.5, bty = "n")
 ```
 
-> Ändert der Start den Gewinner?
+## Fall A · Ergebnis
+
+Ändert der Start den Gewinner?
 
 Beide Starts → **derselbe** Endpunkt: $N_1\to 0$, $N_2\to K$.  
 **Ein** Gleichgewicht · **ein** Einzugsgebiet · *Paramecium*-Muster.
@@ -257,7 +359,9 @@ legend("right", c("N1", "N2"), col = c("#2980b9", "#27ae60"),
        lty = 1, lwd = 2.5, bty = "n")
 ```
 
-> Bleiben beide positiv — und ist der Endpunkt derselbe?
+## Fall B · Ergebnis
+
+Bleiben beide positiv — und ist der Endpunkt derselbe?
 
 Beide Starts → **dieselbe** Koexistenz (beide $N_i>0$).  
 Wieder **ein** Endpunkt — diesmal im Inneren, nicht am Rand.
@@ -271,25 +375,32 @@ Dann gibt es **zwei** mögliche Gewinner — der Start entscheidet.
 
 Unterrichtsbeispiel: $(\alpha_{12},\alpha_{21})=(1.5,\ 1.5)$ → nächster Block.
 
-# 2 · Zwei Endpunkte
+# 2 · Zwei Endpunkte — Störung entscheidet
 
 ## Beobachtung: Grasland oder Wald
 
-![](../../pics/comics/comic_grass_forest.svg){fig-alt="Schematische Gegenueberstellung von Grasland und Wald" width="56%"}
+![](../../pics/comics/comic_grass_forest.svg){fig-alt="Schematische Gegenueberstellung von Grasland und Wald" width="62%"}
 
-Bei ähnlichem Niederschlag: **wenig** oder **viel** Baumbedeckung (Staver et al. 2011).
+In vielen Savannenregionen findet man bei **ähnlichem Niederschlag** entweder offenes Grasland oder dichten Wald (Staver et al. 2011).
 
-> Fall C biologisch: Kann dieselbe Umwelt **zwei** stabile Zustände haben?
+## Selbstverstärkung der beiden Zustände
+
+Beide Zustände können sich selbst verstärken:
+
+- viel Gras → häufigere Feuer → Bäume bleiben selten  
+- viel Baumbedeckung → weniger Feuer / anderer Verbiss → Wald hält sich  
+
+Dieselbe Umwelt kann also **zwei** langfristige Zustände tragen.
 
 ## Modellhypothese: starke gegenseitige Hemmung
 
-![](../../pics/comics/comic_bistability.svg){fig-alt="Bei starker gegenseitiger Konkurrenz gewinnt die anfangs haeufigere Art" width="58%"}
+![](../../pics/comics/comic_bistability.svg){fig-alt="Bei starker gegenseitiger Konkurrenz gewinnt die anfangs haeufigere Art" width="70%"}
 
-$\alpha_{12}=\alpha_{21}=1.5$: jede Art beansprucht aus Sicht der anderen **mehr als eine Einheit** der Tragfähigkeit.
+## Was $\alpha_{12}=\alpha_{21}=1.5$ bedeutet
 
-Die anfangs häufigere Art erzeugt zuerst den stärkeren Druck — und zieht den Zustand in ihr Einzugsgebiet.
+Im Kursmodell beansprucht jede Form aus Sicht der anderen **mehr als eine Einheit** der Tragfähigkeit.
 
-Gleiche Umwelt, zwei Endpunkte — das Modell sagt: **Start = Einzugsgebiet**.
+Die anfangs häufigere Form erzeugt zuerst den stärkeren Druck und zieht den Zustand in **ihr** Einzugsgebiet. Gleiche Parameter, aber zwei mögliche Endpunkte — der Start entscheidet.
 
 ## Zwei Starts — zwei Endpunkte
 
@@ -310,9 +421,10 @@ legend("right", c("Gras", "Wald"), col = c("#d68910", "#1e8449"),
        lty = 1, lwd = 2.5, bty = "n")
 ```
 
-> Wählt der Start das Gleichgewicht?
+## Bistabilität: der Start entscheidet
 
-**Bistabilität:** Derselbe Parameterraum — der **Start** wählt das Gleichgewicht.
+Links startet Gras häufig und bleibt dominant; rechts startet Wald häufig und bleibt dominant.  
+**Bistabilität:** Derselbe Parameterraum, aber der Start wählt das Gleichgewicht.
 
 ## Zwei Einzugsgebiete im Phasenraum
 
@@ -334,10 +446,11 @@ text(10, 75, "Wald gewinnt", col = "#1e8449", srt = 90)
 text(47, 43, "Grenze", col = "#8e44ad", pos = 4)
 ```
 
-Kleine Störung: bleibt im Einzugsgebiet. Wechsel: nur nach **Überschreiten** der Grenze.
+Eine kleine Störung bleibt im selben Einzugsgebiet. Ein Wechsel der Vegetation erfordert, dass die Störung die Grenze zwischen den beiden Becken **überschreitet**.
 
 ## Ein, zwei — oder Koexistenz?
 
+::: {style="font-size: 0.78em;"}
 | | Ausschluss | Koexistenz | Bistabilität |
 |--|------------|------------|--------------|
 | $\alpha$-Muster | asymmetrisch $>1$ / $<1$ | beide $<1$ | beide $>1$ |
@@ -345,17 +458,17 @@ Kleine Störung: bleibt im Einzugsgebiet. Wechsel: nur nach **Überschreiten** d
 | Rolle des Starts | langfristig egal | langfristig egal | entscheidet das Einzugsgebiet |
 | kleine Störung | Rückkehr | Rückkehr | Rückkehr im selben Einzugsgebiet |
 | grosse Störung | gleicher Endpunkt | gleicher Endpunkt | Wechsel möglich |
+:::
 
-**Gleiche Modellform — andere $\alpha$ — andere Dynamik.**
+Dieselbe Modellform, andere $\alpha$: andere Dynamik.
 
-# 3 · Das System ändert den Endzustand
+# 3 · Keystone: eine Art hält den Zustand
 
-## Keystone: eine Art hält den Zustand
+## Von Parametern und Starts zu Wirkungsketten
 
-Bisher: Endzustand hängt von **Parametern** ($\alpha$) oder vom **Start** ab.
+Bisher hing der Endzustand von den **Parametern** ($\alpha$) oder vom **Start** ab.
 
-Jetzt: eine Art kann den Endzustand über **Wirkungsketten** umschalten —  
-obwohl sie oft nur einen kleinen Teil der Biomasse ausmacht (**Keystone**).
+Jetzt kommt eine dritte Möglichkeit: Eine Art kann den Endzustand über **Wirkungsketten** umschalten, obwohl sie oft nur einen kleinen Teil der Biomasse ausmacht. Solche Arten nennt man **Keystone**-Arten.
 
 ## Felsküste: Konkurrenz um Raum
 
@@ -408,6 +521,8 @@ O_{t+1}
 \end{aligned}
 $$
 
+## Symbole im Mini-Modell
+
 | Symbol | Rolle |
 |--------|--------|
 | $M$ | Miesmuschel (stark) |
@@ -457,49 +572,106 @@ legend("right", c("Miesmuschel M", "andere O"),
        col = c("#f5b041", "#1abc9c"), lty = 1, lwd = 2.5, bty = "n", cex = 0.8)
 ```
 
-> Was ändert $P$ am Endzustand?
+## Was ändert $P$ am Endzustand?
 
 Ohne Seestern: **Ausschluss** ($O\to 0$).  
 Mit Seestern: $M$ bleibt begrenzt → $O$ **persistiert** (Koexistenz).
 
 ## Was das Mini-Modell zeigt
 
-Der Seestern muss **nicht** die häufigste Art sein.
+Der Seestern muss **nicht** die häufigste Art sein. Er hält den Zustand «offen», weil er den **stärksten Konkurrenten** drosselt — genau die Keystone-Idee von Paine (1966).
 
-Er hält den Zustand «offen», weil er den **stärksten Konkurrenten** drosselt —  
-genau die Keystone-Idee von Paine (1966).
-
-**Parameter $P$ schaltet den Endzustand — nicht nur der Start.**
+Hier schaltet der Parameter $P$ den Endzustand; nicht nur der Start.
 
 ::: aside
 Notebook: dieselbe Idee am Yellowstone-Food-Web (Aspen–Elch–Wolf) selbst rechnen.
 :::
 
-# 4 · Kipppunkte & Food-Web-Schätzungen
+# 4 · Kipppunkte: Konzept, dann Realität
 
-## Die Grundidee
+## Was hier neu ist
 
-Eine Umweltänderung verändert das System zunächst nur wenig.
+Bisher:
 
-Wird eine **Schwelle** überschritten, wechselt der Zustand abrupt:
+| Situation | Was entscheidet den Endzustand? |
+|-----------|----------------------------------|
+| Ausschluss / Koexistenz | Parameter $\alpha$ |
+| Gras / Wald | Start (Einzugsgebiet) |
+| Keystone (*Pisaster*) | ob die Keystone-Art da ist |
 
-**Umwelt** → **Schwelle** → **System kippt**
+Jetzt: Der Zustand kann **kippen**, wenn ein Umweltparameter eine Schwelle überschreitet — und der Rückweg ist oft **nicht** derselbe. Das heisst **Hysterese**.
 
-Danach reicht oft **nicht**, die Umwelt einfach zurückzudrehen (**Hysterese**).
+## Hysterese in einem Bild
 
-## Mini-Beispiel: Fichtenwickler
+![](../../pics/comics/comic_hysteresis_ramp.svg){fig-alt="Hysterese: Sprung nach oben und Ruecksprung bei anderem Parameterwert" width="92%"}
 
-Klassiker für Hysterese (Ludwig, Jones & Holling 1978):
+Eine langsame Umweltänderung ändert den Zustand zunächst wenig. An einer Schwelle springt er. Will man zurück, reicht oft nicht derselbe Parameterwert wie zuvor: Man braucht eine **andere** Schwelle.
 
-- *Choristoneura* (Fichtenwickler) wächst logistisch  
-- Vögel fressen mit Sättigung  
-- Parameter $R$ wächst langsam mit dem Wald (mehr Blattfläche)
+## Teil A · Fichtenwickler: Biologie
 
-Bei kleinem $R$: niedrige Dichte bleibt stabil.  
-$R$ steigt weiter → plötzliches **Massenauftreten**.  
-$R$ wieder senken → Rücksprung erst bei **deutlich kleinerem** $R$.
+In den borealen Wäldern Kanadas und des nordöstlichen Nordamerikas tritt der **Fichtenwickler** (*Choristoneura fumiferana*) in langen Zyklen auf: Jahrzehnte niedriger Dichte, dann schwere Ausbrüche (Morris 1963; Royama 1984).
 
-## Eine Gleichung, ein Umweltknopf $R$
+::: aside
+Empirie: Morris (1963), Royama (1984) · Konzeptmodell: Ludwig, Jones & Holling (1978)
+:::
+
+## Was die Larven tun
+
+- fressen Nadeln und junge Triebe von Tanne und Fichte  
+- bei Massenauftreten entlauben sie Bäume über grosse Flächen  
+- wiederholte starke Defoliation kann Bestände absterben lassen  
+
+Gleichzeitig ändert sich die Blattfläche / der Kronenzustand über Jahre und setzt die «Tragfähigkeit» der Landschaft für den Wickler.
+
+## Was die Räuber tun
+
+- Vögel und andere Prädatoren halten niedrige Dichten oft in Schach  
+- bei hohen Dichten **sättigen** sie: jeder Räuber kann nur begrenzt fressen  
+- dann wächst der Wickler fast ungebremst weiter  
+
+## Zwei Zustände im selben Wald
+
+Bei mittleren Umweltbedingungen können zwei langfristige Regime möglich sein:
+
+| Zustand | Wicklerdichte | Typische Dynamik |
+|---------|---------------|------------------|
+| **endemisch / niedrig** | klein | Prädation hält die Population unten |
+| **Ausbruch / hoch** | gross | Sättigung der Räuber, starke Defoliation |
+
+Der Wechsel zwischen beiden ist oft abrupt. Zurück in den niedrigen Zustand braucht häufig stärkere Veränderung (weniger Blattfläche, härtere Bedingungen) als der Auslöser des Ausbruchs.
+
+## Was bedeutet $R$ (Blattfläche)?
+
+Im Modell ist $R$ **kein** freier Drehknopf ohne Bedeutung. $R$ steht für die **effektive Blattfläche / den Kronenzustand** des Waldes — also dafür, wie gut der Wald den Wickler ernähren kann.
+
+## Warum steigt $R$ (Blattfläche)?
+
+- Jungbestände und erholende Kronen bauen über Jahre mehr Nadelfläche auf  
+- bei niedriger Wicklerdichte frisst der Wickler den Wald kaum zurück  
+- damit wächst die Ressource «Nadeln» mit der Zeit  
+
+## Warum sinkt $R$ (Blattfläche)?
+
+- schwere Ausbrüche entlauben Bestände  
+- geschädigte oder abgestorbene Bäume reduzieren die Blattfläche  
+- das dämpft später das Wachstum des Wicklers  
+
+Kurz: $R$ (Blattfläche) ändert sich **langsamer** als die Wicklerdichte $u$. Genau diese Trennung der Zeitskalen erzeugt die Hysterese.
+
+## Vom Wald zum Kursmodell
+
+Ludwig et al. (1978) verdichten die Biologie zu wenigen Teilen:
+
+| Biologie | Im Modell |
+|----------|-----------|
+| Wicklerdichte | Variable $u$ |
+| Blattfläche / Kronenzustand (langsam) | Parameter $R$ (Blattfläche) |
+| innerartliche Konkurrenz um Nadeln | Term $(1-u/Q)$ |
+| sättigende Prädation durch Vögel | Term $u/(1+u^2)$ |
+
+Wir ändern $R$ (Blattfläche) **langsam** und schauen, wohin $u$ geht. Das ist ein Konzeptmodell — die Empirie liefert die Motivation, nicht die Zahlenwerte.
+
+## Eine Gleichung
 
 $$
 \frac{du}{d\tau}
@@ -510,38 +682,25 @@ $$
 \qquad (Q=20\ \text{fest})
 $$
 
-$u$ = Wicklerdichte · $R$ = langsamer Umweltknopf · $\frac{u}{1+u^2}$ = sättigende Prädation.
+## Symbole in der Gleichung
 
-Im Fenster dazwischen: **zwei** stabile Zustände (niedrig / hoch).
+| Symbol | Bedeutung |
+|--------|-----------|
+| $u$ | Wicklerdichte |
+| $R$ | Blattfläche / Kronenzustand (langsamer Umweltparameter) |
+| $Q$ | Skala der Selbstbegrenzung (hier fest) |
+| $u/(1+u^2)$ | sättigende Prädation |
 
-## Hysterese-Schleife
+Im mittleren Bereich von $R$ (Blattfläche) gibt es zwei stabile Zustände (niedrig / hoch). Deshalb kann eine langsame Rampe von $R$ Hysterese erzeugen.
+
+## Langsame Rampe: Hysterese sehen
 
 ```{r}
 #| fig-height: 3.7
-#| fig-width: 9.2
-#| out-width: 78%
+#| fig-width: 8.0
+#| out-width: 74%
 f_bud <- function(u, R, Q = 20) {
   R * (1 - u / Q) - u / (1 + u^2)
-}
-relax <- function(u0, R, Q = 20, steps = 600, dt = 0.04) {
-  u <- u0
-  for (k in 1:steps) u <- max(u + dt * u * f_bud(u, R, Q), 1e-12)
-  u
-}
-Rgrid <- seq(0.12, 0.65, length.out = 140)
-low <- vapply(Rgrid, function(R) relax(0.2, R), numeric(1))
-high <- vapply(Rgrid, function(R) relax(18, R), numeric(1))
-mid <- rep(NA_real_, length(Rgrid))
-for (i in seq_along(Rgrid)) {
-  if (high[i] - low[i] < 1) next
-  a <- low[i] + 0.05; b <- high[i] - 0.05
-  fa <- f_bud(a, Rgrid[i]); fb <- f_bud(b, Rgrid[i])
-  if (fa * fb > 0) next
-  for (k in 1:40) {
-    m <- 0.5 * (a + b)
-    if (f_bud(a, Rgrid[i]) * f_bud(m, Rgrid[i]) <= 0) b <- m else a <- m
-  }
-  mid[i] <- 0.5 * (a + b)
 }
 track <- function(Rseq, u0, Q = 20) {
   u <- u0
@@ -557,128 +716,197 @@ R_dn <- rev(R_up)
 u_up <- track(R_up, 0.25)
 u_dn <- track(R_dn, tail(u_up, 1))
 
-par(mfrow = c(1, 2), mar = c(4, 4.2, 2.5, 1))
-plot(Rgrid, low, type = "l", lwd = 2.5, col = "#27ae60",
-     ylim = c(0, 20), xlab = "R (Umwelt)", ylab = "u (Wickler)",
-     main = "Gleichgewichte")
-lines(Rgrid, high, lwd = 2.5, col = "#c0392b")
-lines(Rgrid, mid, lwd = 2, lty = 2, col = "#7f8c8d")
-legend("topleft", c("niedrig (stabil)", "hoch (stabil)", "Mitte (instabil)"),
-       col = c("#27ae60", "#c0392b", "#7f8c8d"),
-       lty = c(1, 1, 2), lwd = 2, bty = "n", cex = 0.7)
-
-plot(R_up, u_up, type = "l", lwd = 2.5, col = "#2980b9",
-     ylim = c(0, 20), xlab = "R (Umwelt)", ylab = "u (Wickler)",
-     main = "langsame Rampe")
-lines(R_dn, u_dn, lwd = 2.5, col = "#d68910")
-legend("topleft", c("R steigt", "R sinkt"),
-       col = c("#2980b9", "#d68910"), lty = 1, lwd = 2.5, bty = "n", cex = 0.75)
+par(mar = c(4.2, 4.2, 2.2, 1))
+plot(R_up, u_up, type = "l", lwd = 2.8, col = "#2980b9",
+     ylim = c(0, 20),
+     xlab = "R = Blattflaeche / Kronenzustand",
+     ylab = "u = Wicklerdichte",
+     main = "Langsame Rampe von R (Blattflaeche)")
+lines(R_dn, u_dn, lwd = 2.8, col = "#d68910")
+legend("topleft",
+       c("R (Blattflaeche) steigt", "R (Blattflaeche) sinkt"),
+       col = c("#2980b9", "#d68910"), lty = 1, lwd = 2.8, bty = "n")
 ```
 
-> Warum ist der Rückweg ≠ Hinweg?
+## Die Rampe lesen
 
-Links: zwei stabile Äste. Rechts: Vorwärts und Rückweg **nicht** gleich — das **ist** Hysterese.
+1. Blau: $R$ (Blattfläche) steigt langsam — die Dichte $u$ bleibt lange niedrig, dann springt sie hoch.  
+2. Orange: $R$ (Blattfläche) sinkt wieder — der hohe Zustand hält länger als man erwartet.  
+3. Derselbe Wert von $R$ (Blattfläche) kann zwei Zustände tragen; der Pfad entscheidet.
 
-## Merksatz Hysterese
+## Merksatz aus dem Wickler
 
-Gleicher Parameter $R$ kann zwei Zustände tragen.
+Gleicher Wert von $R$ (Blattfläche), zwei Zustände. Zurückdrehen bis «vorher» reicht oft nicht — man muss unter die **andere** Schwelle. Genau diese Logik brauchen wir jetzt an der Küste.
 
-Ob das System unten oder oben sitzt, hängt vom **Pfad** ab — nicht nur vom aktuellen $R$.
+## Teil B · Seeotter, Seeigel, Kelp
 
-> Zurückdrehen der Umwelt bis «vorher» reicht oft nicht.  
-> Man muss unter die **andere** Schwelle.
+Dieselbe Frage in einem realen Food-Web: Kann ein Top-Prädator einen Zustand **halten**, und reicht dieselbe Dichte auch, um ihn **wiederherzustellen**?
 
-Das ist die Mathematik hinter «halten ≠ wiederherstellen» bei Otter/Kelp.
+## Die Akteure
 
-## Seeotter, Seeigel, Kelp
+::::: columns
+::: {.column width="33%"}
+![](../../pics/keystone/sea_otter.jpg){fig-alt="Seeotter Enhydra lutris" width="88%"}
 
-![](../../pics/keystone/guardians_of_the_kelp.png){fig-alt="Mit Seeottern bleibt der Kelpwald; ohne nehmen Seeigel zu" width="58%"}
+**Seeotter** · Top-Prädator
+:::
+::: {.column width="33%"}
+![](../../pics/keystone/purple_urchin.jpg){fig-alt="Lila Seeigel" width="78%"}
 
-**Kernkette:** Otter −→ Seeigel −→ Kelp  
+**Seeigel** · Herbivor
+:::
+::: {.column width="33%"}
+![](../../pics/keystone/kelp_forest.jpg){fig-alt="Kelpwald" width="88%"}
 
-Zwei Minus → **positiver indirekter** Effekt auf Kelp.  
-Dieselbe Hysterese-Idee — jetzt in einem realen Küstennetz.
+**Kelp** · Primärproduzent
+:::
+:::::
 
-## Was 2014 auslöste (Monterey)
+::: aside
+Fotos: siehe `pics/keystone/CREDITS.md`
+:::
+
+## Das qualitative Food-Web
+
+![](../../pics/keystone/guardians_of_the_kelp.png){fig-alt="Mit Seeottern bleibt der Kelpwald; ohne nehmen Seeigel zu und fressen Kelp weg" width="88%"}
+
+::: aside
+«Guardians of the Kelp» · BioRender.com · qualitative trophische Kaskade
+:::
+
+## Zwei Zustände im Food-Web
+
+**Links (Otter anwesend):** Otter regulieren Seeigel → Kelp bleibt.  
+**Rechts (Otter fehlend):** Seeigel vermehren sich → Kelp verschwindet → **Seeigel-Barren**.
+
+## Die Kette genau lesen
+
+Otter $\xrightarrow{\text{fressen}}$ Seeigel $\xrightarrow{\text{weiden}}$ Kelp.
+
+| Direkte Wirkung | Indirekte Wirkung |
+|-----------------|-------------------|
+| Otter ↓ Seeigel | Otter ↑ Kelp (über weniger Verbiss) |
+| Seeigel ↓ Kelp | — |
+
+Zwei Minuszeichen hintereinander ergeben einen **positiven indirekten** Effekt des Otters auf Kelp.
+
+## Was ist passiert? (Monterey Bay, ab ~2014)
+
+Smith et al. (2021) beschreiben eine klare Abfolge:
+
+1. Der Sonnenblumenstern *Pycnopodia* bricht ein (Krankheit).  
+2. Seeigel, die zuvor mitkontrolliert wurden, werden freier und aktiver.  
+3. Kelp bricht lokal ein.  
+4. Es entsteht ein **räumliches Mosaik**: nebeneinander Restwälder und Barren.  
+5. Otter nehmen später wieder zu — aber der Wald kommt **nicht überall** zurück.
+
+## Zeitreihen aus dem Paper
 
 ::: {style="text-align: center;"}
-![](../../pics/keystone/figure10_otter_urchin_kelp.jpg){fig-alt="Zeitreihen Otter Kelp Igel Pycnopodia und Mechanismus-Skizze" width="62%"}
+![](../../pics/keystone/figure10_otter_urchin_kelp.jpg){fig-alt="Zeitreihen Otter Kelp Igel Pycnopodia und Mechanismus-Skizze" width="78%"}
 
 <span style="font-size: 0.40em;">Smith et al. (2021), Fig. 10 · Jessica Kendall-Bar · Planet-Vie/PNAS · Lehre / nicht-kommerziell</span>
 :::
 
-Ab ~2014: *Pycnopodia* (Sonnenblumenstern) bricht ein → Igel werden freigelegt/aktiv → Kelp bricht ein → **Mosaik** aus Restwald und Barren.  
-Otter nehmen zu — aber das reicht nicht automatisch, den Wald zurückzuholen.
+## Was das Paper zeigt — genauer
 
-## Dichte ≠ Profitabilität
+1. Otter können Kelp schützen, **wo** die Beute lohnend ist.  
+2. Kelp-Restflecken und Barren liegen **nebeneinander**; der lokale Zustand entscheidet.  
+3. Otter fressen nicht «irgendwo mit vielen Igeln», sondern dort, wo die Beute **profitabel** ist.
 
-Smith et al. (2021): Otter wählen Futterflecken **nicht** nach Igel-Dichte allein.
+Das ist die Hysterese-Idee aus dem Wickler — jetzt mit Raum und Verhalten.
 
-Massstab ist der **Gonadenindex** (Energiegehalt der Beute):
+## Raum: warum das Mosaik stabil bleiben kann
 
-- Igel im **Kelpwald**: gut genährt → lohnende Beute  
-- Igel im **Barren**: ausgehungert → wenig Gonaden → Otter meiden
+Wenn Restwald und Barren **räumlich getrennt** sind, wirken zwei Rückkopplungen:
 
-Geschätzte Schwelle für Fleckenwahl: Gonadenindex $\approx 12\,\%/\mathrm{m}^2$.
+| Fleck | Zustand der Igel | Otterverhalten | Folge |
+|-------|------------------|----------------|-------|
+| Kelp-Rest | fit, lohnend | Otter fressen hier | Restwald **hält** |
+| Barren | mager, unprofitabel | Otter meiden | Barren **bleibt** |
 
-> Top-down greift, wo die Beute **profitabel** ist — nicht überall, wo sie zahlreich ist.
+Dieselbe regionale Otterdichte kann also lokal ganz unterschiedliche Effekte haben. Der Systemzustand ist nicht nur «eine Zahl», sondern ein **Muster im Raum**.
 
-## Zwei Zustände nebeneinander
+## Verhalten: Profitabilität statt blosse Dichte
 
-::::: columns
-::: {.column width="48%"}
-![](../../pics/keystone/kelp_forest.jpg){fig-alt="Kelpwald" width="92%"}
+Massstab bei Smith et al. (2021) ist der **Gonadenindex** (Energiegehalt der Beute), nicht die Igelzahl allein.
 
-**Kelpwald** — Igel fit → Otter fressen → Wald hält
-:::
-::: {.column width="52%"}
-![](../../pics/keystone/purple_urchin.jpg){fig-alt="Seeigel" width="78%"}
+| Ort | Seeigel | Für Otter | Folge für Kelp |
+|-----|---------|-----------|----------------|
+| Kelp-Restbestand | weniger, aber gut genährt | lohnende Beute | Otter fressen → Wald **hält** |
+| Barren | sehr viele, aber mager | unprofitabel | Otter meiden → keine Erholung |
 
-**Barren** — Igel mager → Otter weichen aus → keine Erholung
-:::
-:::::
+Geschätzte Schwelle für Fleckenwahl: Gonadenindex $\approx 12\,\%/\mathrm{m}^2$.  
+Top-down greift dort, wo die Beute **lohnend** ist.
 
-> Warum reichen mehr Otter im Barren oft nicht?
+## Halten vs. wiederherstellen
 
-Dieselbe Otterdichte: **halten** ja, **wiederherstellen** oft nein — Hysterese.
+![](../../pics/keystone/schematic_otter_urchin_kelp.svg){fig-alt="Otter halten Kelp-Restbestand; im Barren greift die Kaskade nicht" width="88%"}
 
-## Skizze: halten vs. Barren
+## Hysterese im Food-Web
 
-![](../../pics/keystone/schematic_otter_urchin_kelp.svg){fig-alt="Otter halten Kelp-Restbestand; im Barren greift die Kaskade nicht" width="84%"}
+Dieselbe Otterdichte kann einen Restwald **stabilisieren**, einen Barren aber oft nicht **rückgängig machen**.  
+Raum und Verhalten machen Vorwärts- und Rückweg ungleich.
 
-Verhalten + Profitabilität entscheiden, **wo** die Kaskade greift.
+## Vom einfachen Schema zum echten Netz
 
-## Interaktionsstärken schätzen
+Bisher haben wir Otter–Igel–Kelp als **Dreierkette** gelesen. In den Daten steckt ein viel reicheres Netz.
 
-![](../../pics/keystone/langendorf_2025_fig3.jpg){fig-alt="Geschaetzte Interaktionsstaerken Otter-Igel und Igel-Kelp ueber Zeit" width="78%"}
+## Food-Web aus Langendorf et al. (2025)
 
-<span style="font-size: 0.42em;">Langendorf et al. (2025), Fig. 3 · CC BY-NC-ND 4.0</span>
+![](../../pics/keystone/langendorf_2025_fig1.jpg){fig-alt="Food-Web Kelp WVI und SNI mit Ottern und vielen Interaktionen" width="86%"}
 
-Aus Langzeitdaten: Pfeile als **Interaktionsstärken** schätzen (nicht nur zeichnen).
+<span style="font-size: 0.42em;">Langendorf et al. (2025), Fig. 1 · CC BY-NC-ND 4.0</span>
 
-- Stärken schwanken mit dem Zustand  
-- **WVI:** klassische Kaskade · **SNI:** Kaskade gedämpft  
+## Was das Netz zeigt
 
-**Keystone ist messbar und kontextabhängig** — deshalb Statistik und Programmieren.
+Viele Arten, viele Pfeile, zwei Regionen (WVI / SNI), zwei Zustände (Kelpwald / Barren).  
+Solche Netze lassen sich mit Modellen **ordnen**: Welche Interaktionen sind stark? Welche hängen vom Zustand ab?
+
+## Brücke: Wickler ↔ Otter/Kelp
+
+| Konzept | Fichtenwickler | Seeotter–Kelp |
+|---------|----------------|---------------|
+| langsamer Parameter | $R$ = Blattfläche | lokaler Zustand / Profitabilität der Beute |
+| niedriger Zustand | endemische Dichte | Kelpwald (gehalten) |
+| alternativer Zustand | Ausbruch | Seeigel-Barren |
+| Hysterese | Rücksprung braucht kleineres $R$ | mehr Otter reichen im Barren oft nicht |
+| Extra-Zutat in der Realität | — | **Raum** (Mosaik) und **Verhalten** (Fleckenwahl) |
+
+## Ausblick auf Woche 4
+
+Bei Ottern entscheidet nicht nur «wer ist da», sondern **wo** und **welche Strategie** sich lohnt: Fressen im Restwald vs. Meiden des Barrens.
+
+Das ist frequenz- und kontextabhängiges Verhalten.
+
+## Woche 4: Spieltheorie
+
+Denselben Schritt formal:
+
+- Strategien statt nur Arten  
+- der Erfolg einer Strategie hängt davon ab, was die anderen tun  
+- Beispiel *Uta stansburiana*: Rock–Paper–Scissors  
+
+Food-Webs und Spieltheorie treffen sich dort: Interaktionsstärken und Strategien bestimmen gemeinsam, welche Muster stabil bleiben.
 
 # Abschluss
 
 ## Take-home
 
-1. **Stabilität** = Rückkehr nach kleiner Störung; **Einzugsgebiet** = welche Starts dorthin führen.  
-2. **$\alpha$-Muster** → Ausschluss · Koexistenz · Bistabilität (gleiche Gleichungen, andere Dynamik).  
-3. Das **System** kann den Zustand umschalten (**Keystone**); der **Pfad** zählt (**Hysterese**).
+1. Leitfrage: Kann **eine Art** (hinzu / weg) das System halten oder kippen?  
+2. **Stabilität** = Reaktion auf **Störung**; **Einzugsgebiet** = welche Starts wohin führen.  
+3. Muster: Ausschluss · Bistabilität · **Keystone** · Kipppunkt (Wickler: $R$ = Blattfläche · Otter: Raum + Verhalten).
 
 **Stabilität gehört zur Dynamik des Systems — nicht zur einzelnen Art.**
 
-**Weiter:** Woche 4 nimmt dieselbe Konkurrenz als Matrix $A$ — und fragt, was **drei** Strategien ändern.
+**Weiter:** Woche 4 nimmt Verhalten und Strategien formal — Spieltheorie (*Uta*, frequenzabhängige Fitness).
 
 ## Notebook
 
 1. *Paramecium*: Daten und Ausschluss  
 2. Ein Endpunkt: Ausschluss **und** Koexistenz ($\alpha$ drehen)  
 3. Bistabilität: zwei Einzugsgebiete und die Grenze  
-4. Food Web (Yellowstone): Pflanzen → +Elch → +Wolf
+4. Food Web (Yellowstone): **Wiederansiedlung Wolf** — kann eine Art das Netz halten?
 
 ## Abschlussfragen
 
@@ -691,7 +919,7 @@ Aus Langzeitdaten: Pfeile als **Interaktionsstärken** schätzen (nicht nur zeic
 Optional: Was bedeuten geschätzte Interaktionsstärken für «Keystone» (WVI vs. SNI)?
 :::
 
-## Literatur
+## Literatur (1)
 
 :::: {.lit}
 1. **Gause, G. F. (1934).** *The Struggle for Existence*. Williams & Wilkins.
@@ -700,12 +928,19 @@ Optional: Was bedeuten geschätzte Interaktionsstärken für «Keystone» (WVI v
 4. **Staver, A. C., Archibald, S., & Levin, S. A. (2011).** Savanna and forest as alternative biome states. *Science* 334: 230–232. [doi:10.1126/science.1210465](https://doi.org/10.1126/science.1210465).
 5. **Paine, R. T. (1966).** Food web complexity and species diversity. *The American Naturalist* 100: 65–75.
 6. **Smith, J. G., et al. (2021).** Sea otter–urchin trophic cascade. *PNAS* 118: e2012493118. [doi:10.1073/pnas.2012493118](https://doi.org/10.1073/pnas.2012493118).
+::::
+
+## Literatur (2)
+
+:::: {.lit}
 7. **Langendorf, R. E., et al. (2025).** Dynamic and context-dependent keystone species effects in kelp forests. *PNAS* 122: e2413360122. [doi:10.1073/pnas.2413360122](https://doi.org/10.1073/pnas.2413360122).
 8. **Ludwig, D., Jones, D. D., & Holling, C. S. (1978).** Qualitative analysis of insect outbreak systems: the spruce budworm and forest. *Journal of Animal Ecology* 47: 315–332.
-9. **Ripple, W. J., & Beschta, R. L. (2012).** Trophic cascades in Yellowstone. *Biological Conservation* 145: 205–213.  
-   *(Notebook-Food-Web)*
+9. **Morris, R. F. (Ed.). (1963).** The dynamics of epidemic spruce budworm populations. *Memoirs of the Entomological Society of Canada* 31: 1–332.
+10. **Royama, T. (1984).** Population dynamics of the spruce budworm *Choristoneura fumiferana*. *Ecological Monographs* 54: 429–462. [doi:10.2307/1942595](https://doi.org/10.2307/1942595)
+11. **Ripple, W. J., & Beschta, R. L. (2012).** Trophic cascades in Yellowstone. *Biological Conservation* 145: 205–213. [doi:10.1016/j.biocon.2011.11.005](https://doi.org/10.1016/j.biocon.2011.11.005)
+12. **Fortin, D., et al. (2005).** Wolves influence elk movements. *Ecology* 86: 1320–1330. [doi:10.1890/04-0953](https://doi.org/10.1890/04-0953)
 
-Bildnachweise: `pics/comics/`, `pics/keystone/` (CREDITS).
+Bildnachweise: `pics/comics/`, `pics/keystone/`, `pics/yellowstone/` (CREDITS).
 ::::
 
 ## Navigation

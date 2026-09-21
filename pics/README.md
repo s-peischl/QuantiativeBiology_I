@@ -15,6 +15,7 @@ Privates Kursfoto (nicht von Commons):
 | `high-altitude/P1040203.jpg` | Privates Kursfoto (Hochland / Pferde). Stephan Peischl. Nicht ohne Genehmigung weiterverbreiten. |
 | `high-altitude/P1040210.jpg` | Privates Kursfoto (Cotopaxi). Stephan Peischl. Nicht ohne Genehmigung weiterverbreiten. |
 | `umfrage/qr-fragebogen.png` | QR-Code zum Studierenden-Fragebogen (Woche 1). |
+| `Emma/Grafik_lizard_RPS.jpg` | Kursillustration (*Uta* RPS). Emma Ochsner. Nicht ohne Genehmigung weiterverbreiten. |
 
 ## Bajau (`pics/bajau/`)
 
@@ -92,6 +93,14 @@ Mine, Agrostis, Inselfuchs, Kākāpō, Kimura, Québec): siehe `pics/popgen/CRED
 | `didinium_schewiakoff_plate.png` | [Schewiakoff2.PNG](https://commons.wikimedia.org/wiki/File:Schewiakoff2.PNG) | W. T. Schewiakoff (1889) | gemeinfrei |
 
 CC-lizenzierte Bilder erfordern die oben angegebene Namensnennung (und, wo vermerkt, die Weitergabe unter gleichen Bedingungen).
+
+## Yellowstone (`pics/yellowstone/`)
+
+| Lokale Datei | Hinweis |
+|---|---|
+| `yellowstone_landscape.jpg` | Park-Landschaft (Commons) — siehe `yellowstone/CREDITS.md` |
+| `wolf_yellowstone.jpg` | Wolf — siehe CREDITS |
+| `elk_rmnp.jpg` | Elch / Wapiti — siehe CREDITS |
 
 ## Originalfiguren aus Papers (`pics/papers/`)
 

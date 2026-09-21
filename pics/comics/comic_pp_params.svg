@@ -62,7 +62,23 @@
 
   <!-- equation legend -->
   <rect x="20" y="240" width="960" height="150" rx="12" fill="#f8f9f9" stroke="#bdc3c7"/>
-  <text x="500" y="280" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#222">In der Formel</text>
-  <text x="500" y="315" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">Beute:  + r N   minus   a N P     |     Räuber:  + b (a N P)   minus   m P</text>
-  <text x="500" y="350" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#555">Nachwuchs    gefressen              aus Fressen geboren         Sterberate</text>
+  <text x="500" y="272" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#222">In der Formel</text>
+
+  <!-- prey line -->
+  <text x="70" y="312" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#1a5276">Beute</text>
+  <text x="160" y="312" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#222">+ rN</text>
+  <text x="160" y="334" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">Nachwuchs</text>
+  <text x="250" y="312" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#222">−</text>
+  <text x="340" y="312" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#222">aNP</text>
+  <text x="340" y="334" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">gefressen</text>
+
+  <!-- predator line -->
+  <text x="520" y="312" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#922b21">Räuber</text>
+  <text x="650" y="312" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#222">+ baNP</text>
+  <text x="650" y="334" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">aus Fressen</text>
+  <text x="760" y="312" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#222">−</text>
+  <text x="850" y="312" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#222">mP</text>
+  <text x="850" y="334" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#555">Sterberate</text>
+
+  <text x="500" y="370" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#777">Änderung = Summe der Terme</text>
 </svg>

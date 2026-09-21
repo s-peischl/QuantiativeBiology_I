@@ -16,9 +16,10 @@ execute:
 
 # Lernziele
 
+- Leitfrage: Kann **eine Art** (Ein-/Wiederansiedlung oder Entfernung) ein System halten oder kippen?
 - **Stabilität** am Bild testen: verschiedene Starts → gleicher oder anderer Endpunkt?
 - **Bistabilität** erzeugen und die Beckengrenze sehen
-- Ein kleines **Food Web** lesen: wie eine Art den Endzustand verändert
+- Ein kleines **Food Web** (Yellowstone) lesen: wie eine Art den Endzustand verändert
 
 Nutzen Sie das Notebook, um die Vorlesung nachzuspielen. Wenn die Zeit knapp wird: Graphen anschauen reicht, um die Intuition für Woche 4 mitzunehmen.
 
@@ -176,8 +177,10 @@ Wir erwarten Bistabilität, wenn beide Arten einander stark hemmen. Dann sollte 
 
 ## B1) Food Web — Aspen, Sage, Elch, Wolf
 
-In der Vorlesung: Seestern (*Pisaster*) und Seeotter — eine Art hält oder öffnet den Zustand.  
-Hier rechnen Sie **dieselbe Idee** an einem kleinen Yellowstone-Netz.
+In der Vorlesung: Leitfrage — kann **eine Art** das System halten oder kippen?  
+(Seestern / Seeotter in der Vorlesung; hier **Yellowstone / Wolf**.)
+
+Hier rechnen Sie dieselbe Idee an einem kleinen Yellowstone-Netz.
 
 **Hypothese:** Wolf ↓ → Elch ↑ → Beweidung auf Aspen ↑ → Aspen geht gegen null.  
 Mit Wolf: Elchdruck sinkt → Aspen kann positiv bleiben.
