@@ -25,14 +25,18 @@ Parallel: Kurs «R-Programmierung» (dort systematisch R; hier Modelle und Biolo
 
 ## Bewertung
 
-**Bestanden / nicht bestanden**, über **Mitarbeit** (keine Abschlussprüfung, **keine Hausaufgaben**).
+**Bestanden / nicht bestanden**, über **Mitarbeit**. Es gibt keine Abschlussprüfung und **keine Hausaufgaben**.
 
-Die Mitarbeit besteht aus kurzen **Präsentationen** an vier **Checkpoints** (A–D), jeweils am Ende eines Themenblocks (ca. **3–5 Minuten**; Arbeit zu zweit möglich). Vorbereitung in der Sitzung bzw. im Notebook.
+Vier **Checkpoints** (A–D) schliessen jeweils einen Themenblock ab. Jeder stellt **eine biologische Frage**, die Sie mit den **R-Notebooks** angehen.
 
-**Anwesenheitspflicht** an den Checkpoint-Terminen (Wochen **4, 8, 11 und 14**): der Checkpoint zählt nur, wenn Sie **anwesend sind und präsentieren**. Wer fehlt, kann den Termin in der Regel nicht nachholen (Ausnahmen nach Absprache / gemäss Fakultätsregeln, siehe ILIAS).
+**Team:** allein oder zu zweit, zu dritt oder zu viert — **höchstens vier** Personen.
 
-**Bestanden**, wenn Sie **mindestens 3 von 4** Checkpoints gemacht haben (Anwesenheit **und** Präsentation).
+**Wie das läuft:** nicht an der Tafel vor allen. Die Teaching Assistants kommen zu Ihnen. Sie zeigen, wo Sie stehen, und wie Sie die Frage angehen (Notebook, Abbildung, kurze Erklärung).
 
-**Vorgaben für die Präsentationen:** biologische Frage · was berechnet wurde · eine Abbildung · wichtigste Annahme oder nächster Schritt. Bewertet werden Klarheit, biologischer Gehalt und ehrliche Einschränkungen — nicht aufwendige Grafiken.
+**Anwesenheit** an den Checkpoint-Terminen (Wochen **4, 8, 11 und 14**): der Checkpoint zählt, wenn Sie **da sind und in der Gruppe erzählen**. Wer fehlt, kann den Termin in der Regel nicht nachholen — Ausnahmen nach Absprache bzw. nach den Fakultätsregeln (siehe ILIAS).
 
-Fragen zur Organisation und Bewertung über die Kanäle auf **ILIAS**.
+**Bestanden** im Kurs, wenn Sie **mindestens 3 von 4** Checkpoints gemacht haben (Anwesenheit **und** Gespräch in der Gruppe).
+
+Ein Checkpoint gilt als **bestanden**, wenn Sie erklären können, was Sie in dieser Übungseinheit gemacht haben und wie Sie versucht haben, die Frage zu beantworten, die am Anfang steht. Es geht weniger darum, alles richtig zu machen, als zu zeigen, dass Sie sich mit dem Problem auseinandergesetzt haben.
+
+Fragen zur Organisation und Bewertung gerne über die Kanäle auf **ILIAS**.

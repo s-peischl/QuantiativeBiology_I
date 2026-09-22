@@ -1,6 +1,6 @@
 ---
 title: "Woche 11 — Notebook · Checkpoint C"
-subtitle: "Eine Frage, eine Abbildung"
+subtitle: "Frage und Abbildung"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:

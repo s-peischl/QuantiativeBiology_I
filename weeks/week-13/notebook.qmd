@@ -1,6 +1,6 @@
 ---
 title: "Woche 13 — Notebook · Mikrobiomdaten visualisieren"
-subtitle: "Zusammensetzung, Heatmap, Facetten"
+subtitle: "Tabelle und Bild"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:

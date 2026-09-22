@@ -1,6 +1,6 @@
 ---
 title: "Woche 9 — Notebook"
-subtitle: "Zufallszahlen · eine Trajektorie · Etablierungswahrscheinlichkeit"
+subtitle: "Zufall und Etablierung"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:

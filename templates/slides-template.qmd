@@ -1,6 +1,6 @@
 ---
 title: "Woche XX — Titel des Foliensatzes"
-subtitle: "Quantitative Biologie I"
+subtitle: "Thema und Gegenstück"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:

@@ -1,6 +1,6 @@
 ---
 title: "Woche 13 — Mikrobiomdaten visualisieren"
-subtitle: "Von Tabellen zu verständlichen Abbildungen"
+subtitle: "Tabelle und Bild"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:

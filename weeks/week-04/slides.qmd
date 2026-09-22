@@ -1,6 +1,6 @@
 ---
 title: "Woche 4 — Spieltheorie & Checkpoint A"
-subtitle: "20′ Intro · 40′ Notebook · 30′ Kurzpräsentationen"
+subtitle: "Strategie und Fitness"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:
@@ -28,6 +28,11 @@ execute:
   freeze: auto
 ---
 
+```{r}
+#| include: false
+source("../slides-ggplot.R")
+```
+
 ## Übersicht
 
 **Woche 4** · Do., 8. Okt. 2026, 08:15–10:00
@@ -36,7 +41,7 @@ execute:
 |------|-------|-----|
 | Intro | ~20 min | Spieltheorie · *Uta* · Modell · 2 vs. 3 |
 | Notebook | ~40 min | drei Endzustände finden |
-| Präsentationen | ~30 min | Matrix · Plot · Langzeitverlauf |
+| Gruppen | ~30 min | Assistenz geht durch · Notebook-Frage |
 | Lösung | kurz | Namen der drei Formen |
 
 ::: aside
@@ -59,8 +64,8 @@ Nach heute können Sie …
 ![](../../pics/icons/icon_warning.svg){fig-alt="Wichtig" width="75%"}
 :::
 ::: {.column width="82%"}
-Heute wird **präsentiert und benotet**.  
-Sie müssen **anwesend sein und vortragen**.
+Heute wird **Checkpoint A** benotet.  
+Sie müssen **anwesend sein** und in der Gruppe den Fortschritt zeigen (nicht an der Tafel).
 
 Es gibt **drei** qualitativ verschiedene Langzeitverläufe.  
 Auftrag: Parameter drehen, bis Sie alle drei gefunden und beschrieben haben.
@@ -253,17 +258,12 @@ A_rps <- matrix(c(1, 0.5, 1.2,
                   1.2, 1, 0.5,
                   0.5, 1.2, 1), 3, 3, byrow = TRUE)
 cols <- c("#e67e22", "#2980b9", "#f1c40f")
-par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
 d1 <- sim_n(A_rps[1:2, 1:2], c(50, 40))
-matplot(d1$time, d1[, -1], type = "l", lty = 1, lwd = 2.5,
-        col = cols[1:2], ylim = c(0, 100), xlab = "Zeit", ylab = "N",
-        main = "Nur Typ 1 & 2")
-legend("right", c("1", "2"), col = cols[1:2], lty = 1, lwd = 2.5, bty = "n", cex = 0.8)
+names(d1) <- c("time", "1", "2")
 d2 <- sim_n(A_rps[c(1, 3), c(1, 3)], c(50, 40))
-matplot(d2$time, d2[, -1], type = "l", lty = 1, lwd = 2.5,
-        col = cols[c(1, 3)], ylim = c(0, 100), xlab = "Zeit", ylab = "N",
-        main = "Nur Typ 1 & 3")
-legend("right", c("1", "3"), col = cols[c(1, 3)], lty = 1, lwd = 2.5, bty = "n", cex = 0.8)
+names(d2) <- c("time", "1", "3")
+plot_n_ts(d1, cols[1:2], "Nur Typ 1 & 2") +
+  plot_n_ts(d2, cols[c(1, 3)], "Nur Typ 1 & 3")
 ```
 
 Bei **zwei** Strategien gewinnt immer eine — die andere → 0.
@@ -274,10 +274,8 @@ Bei **zwei** Strategien gewinnt immer eine — die andere → 0.
 #| fig-height: 3.4
 #| fig-width: 8
 d3 <- sim_n(A_rps, c(40, 35, 30), T = 2500)
-matplot(d3$time, d3[, -1], type = "l", lty = 1, lwd = 2.5, col = cols,
-        ylim = c(0, 100), xlab = "Zeit", ylab = "N",
-        main = "Alle drei Strategien")
-legend("right", c("1", "2", "3"), col = cols, lty = 1, lwd = 2.5, bty = "n", cex = 0.8)
+names(d3) <- c("time", "1", "2", "3")
+plot_n_ts(d3, cols, "Alle drei Strategien")
 ```
 
 Dieselbe zyklische Logik — die dritte Strategie verhindert den einfachen Ausschluss.  
@@ -299,14 +297,16 @@ Dieselbe zyklische Logik — die dritte Strategie verhindert den einfachen Aussc
 4. Je einen Satz: was passiert langfristig?  
    (Zeitreihe **oder** Simplex)
 
-## Präsentation (~2–3 min)
+## Wenn die Assistenz kommt
+
+Teams **bis zu vier**. Zeigen Sie am **Notebook** die Antwort auf die Checkpoint-Frage:
 
 1. Ihre Matrix $A$ (oder $s,w$)  
 2. Ein Plot  
 3. Welchen Endzustand zeigen Sie?  
 4. Warum wäre dasselbe mit nur zwei Strategien unmöglich?
 
-**Anwesenheit Pflicht** — ohne Vortrag kein Checkpoint A.
+**Anwesenheit Pflicht** — ohne Gruppenpräsentation kein Checkpoint A.
 
 # Lösung · Drei Formen
 
@@ -318,19 +318,10 @@ $f_i = N_i / \sum_j N_j$ mit $f_1+f_2+f_3=1$.
 ```{r}
 #| fig-height: 3.2
 #| fig-width: 5.5
-cols <- c("#e67e22", "#2980b9", "#f1c40f")
-v1 <- c(0.5, sqrt(3) / 2); v2 <- c(0, 0); v3 <- c(1, 0)
-plot(NA, xlim = c(-0.08, 1.08), ylim = c(-0.12, sqrt(3) / 2 + 0.1),
-     asp = 1, axes = FALSE, xlab = "", ylab = "",
-     main = "")
-polygon(c(v1[1], v2[1], v3[1]), c(v1[2], v2[2], v3[2]),
-        border = "#2c3e50", lwd = 2, col = "#f4f6f7")
-text(v1[1], v1[2] + 0.07, "nur 1", col = cols[1], font = 2)
-text(v2[1] - 0.02, v2[2] - 0.05, "nur 2", col = cols[2], font = 2, adj = 1)
-text(v3[1] + 0.02, v3[2] - 0.05, "nur 3", col = cols[3], font = 2, adj = 0)
-mid <- c(0.5, sqrt(3) / 6)
-points(mid[1], mid[2], pch = 16, cex = 1.2, col = "#8e44ad")
-text(mid[1], mid[2] - 0.08, "Mischung", col = "#8e44ad", cex = 0.85)
+plot_simplex(NULL, labels = c("nur 1", "nur 2", "nur 3")) +
+  annotate("point", x = 0.5, y = sqrt(3) / 6, colour = "#8e44ad", size = 2.4) +
+  annotate("text", x = 0.5, y = sqrt(3) / 6 - 0.08,
+           label = "Mischung", colour = "#8e44ad", size = 3.3)
 ```
 
 Ecken = eine allein · Kanten = eine fehlt · Innen = alle drei $> 0$.
@@ -350,42 +341,8 @@ $s=1.2$, $w=0.5$ → $s+w=1.7 < 2$
 ```{r}
 #| fig-height: 3.3
 #| fig-width: 9
-to_simplex_xy <- function(N) {
-  N <- as.matrix(N)
-  s <- pmax(rowSums(N), 1e-12)
-  f <- N / s
-  v1 <- c(0.5, sqrt(3) / 2); v2 <- c(0, 0); v3 <- c(1, 0)
-  cbind(x = f[, 1] * v1[1] + f[, 2] * v2[1] + f[, 3] * v3[1],
-        y = f[, 1] * v1[2] + f[, 2] * v2[2] + f[, 3] * v3[2])
-}
-plot_simplex_traj <- function(df, main = "", fade = TRUE) {
-  xy <- to_simplex_xy(df[, -1, drop = FALSE])
-  v1 <- c(0.5, sqrt(3) / 2); v2 <- c(0, 0); v3 <- c(1, 0)
-  plot(NA, xlim = c(-0.08, 1.08), ylim = c(-0.12, sqrt(3) / 2 + 0.1),
-       asp = 1, axes = FALSE, xlab = "", ylab = "", main = main)
-  polygon(c(v1[1], v2[1], v3[1]), c(v1[2], v2[2], v3[2]),
-          border = "#2c3e50", lwd = 2, col = "#f4f6f7")
-  text(v1[1], v1[2] + 0.07, "1", col = cols[1], font = 2, cex = 1.1)
-  text(v2[1] - 0.06, v2[2] - 0.05, "2", col = cols[2], font = 2, cex = 1.1)
-  text(v3[1] + 0.06, v3[2] - 0.05, "3", col = cols[3], font = 2, cex = 1.1)
-  n <- nrow(xy)
-  if (fade && n > 40) {
-    for (i in seq_len(n - 1)) {
-      a <- 0.12 + 0.78 * (i / n)
-      segments(xy[i, 1], xy[i, 2], xy[i + 1, 1], xy[i + 1, 2],
-               col = rgb(0.12, 0.15, 0.22, a), lwd = 1.5)
-    }
-  } else {
-    lines(xy[, 1], xy[, 2], lwd = 2, col = "#2c3e50")
-  }
-  points(xy[1, 1], xy[1, 2], pch = 16, col = "#27ae60", cex = 1.2)
-  points(xy[n, 1], xy[n, 2], pch = 16, col = "#c0392b", cex = 1.0)
-}
-par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
-matplot(d3$time, d3[, -1], type = "l", lty = 1, lwd = 2.5, col = cols,
-        xlab = "Zeit", ylab = "N", main = "Zeitreihe")
-legend("right", c("1", "2", "3"), col = cols, lty = 1, lwd = 2.5, bty = "n", cex = 0.75)
-plot_simplex_traj(d3, main = "Simplex → Punkt")
+plot_n_ts(d3, cols, "Zeitreihe") +
+  plot_simplex(d3[, -1], "Simplex → Punkt")
 ```
 
 Alle drei bleiben — Langzeit = fester Punkt im Inneren.
@@ -401,11 +358,9 @@ A_osc <- matrix(c(1, 0.65, 1.35,
                   1.35, 1, 0.65,
                   0.65, 1.35, 1), 3, 3, byrow = TRUE)
 d_osc <- sim_n(A_osc, c(45, 30, 25), T = 4000, r = 0.02)
-par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
-matplot(d_osc$time, d_osc[, -1], type = "l", lty = 1, lwd = 2.2, col = cols,
-        xlab = "Zeit", ylab = "N", main = "Zeitreihe")
-legend("topright", c("1", "2", "3"), col = cols, lty = 1, lwd = 2.2, bty = "n", cex = 0.7)
-plot_simplex_traj(d_osc, main = "geschlossener Zyklus")
+names(d_osc) <- c("time", "1", "2", "3")
+plot_n_ts(d_osc, cols, "Zeitreihe") +
+  plot_simplex(d_osc[, -1], "geschlossener Zyklus")
 ```
 
 Dominanz rotiert dauerhaft — Bahn bleibt weg vom Rand.
@@ -421,11 +376,9 @@ A_het <- matrix(c(1, 0.65, 1.40,
                   1.40, 1, 0.65,
                   0.65, 1.40, 1), 3, 3, byrow = TRUE)
 d_het <- sim_n(A_het, c(45, 30, 25), T = 12000, r = 0.015)
-par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
-matplot(d_het$time, d_het[, -1], type = "l", lty = 1, lwd = 1.8, col = cols,
-        xlab = "Zeit", ylab = "N", main = "Zeitreihe")
-legend("topright", c("1", "2", "3"), col = cols, lty = 1, lwd = 1.8, bty = "n", cex = 0.7)
-plot_simplex_traj(d_het, main = "Drift zu den Kanten")
+names(d_het) <- c("time", "1", "2", "3")
+plot_n_ts(d_het, cols, "Zeitreihe") +
+  plot_simplex(d_het[, -1], "Drift zu den Kanten")
 ```
 
 Alle drei lange sichtbar — die Bahn wandert zu den **Kanten**.
@@ -435,10 +388,9 @@ Alle drei lange sichtbar — die Bahn wandert zu den **Kanten**.
 ```{r}
 #| fig-height: 3.4
 #| fig-width: 9.5
-par(mfrow = c(1, 3), mar = c(1, 1, 2.5, 1))
-plot_simplex_traj(d3, main = "Punkt")
-plot_simplex_traj(d_osc, main = "Oszillation")
-plot_simplex_traj(d_het, main = "Heteroklin")
+plot_simplex(d3[, -1], "Punkt") +
+  plot_simplex(d_osc[, -1], "Oszillation") +
+  plot_simplex(d_het[, -1], "Heteroklin")
 ```
 
 Gleiche zyklische Logik — **andere Stärke** → andere Bahn.

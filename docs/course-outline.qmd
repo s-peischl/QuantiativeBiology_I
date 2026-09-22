@@ -29,7 +29,7 @@ format:
 |-----:|------|---|
 | 1 | Do., **17. Sept. 2026**, 08:15–10:00 Uhr | Einstieg — Bajau → Tibeter:innen |
 | 2 | Do., **24. Sept. 2026**, 08:15–10:00 Uhr | Ökologie |
-| 3 | Do., **1. Okt. 2026**, 08:15–10:00 Uhr | Stabilität · Keystone · Kipppunkt |
+| 3 | Do., **1. Okt. 2026**, 08:15–10:00 Uhr | Stabilität · Keystone |
 | 4 | Do., **8. Okt. 2026**, 08:15–10:00 Uhr | Spieltheorie / RPS · **Checkpoint A** |
 | 5 | Do., **15. Okt. 2026**, 08:15–10:00 Uhr | HWE · HapMap · Wahlund |
 | 6 | Do., **22. Okt. 2026**, 08:15–10:00 Uhr | Selektion · lokale Anpassung |
@@ -60,8 +60,8 @@ format:
 
 ### Prüfungsrhythmus (Präsentationen über das Semester verteilt) {#assessment-rhythm-presentations-throughout}
 
-**Bewertung:** bestanden / nicht bestanden über **Mitarbeit** (Kurzpräsentationen an den Checkpoints). **Anwesenheitspflicht** an den Checkpoint-Terminen; **mindestens 3 von 4** müssen gemacht werden. Details: **[Kursinfo (PDF)](kursinfo.pdf)** (auch auf ILIAS).  
-Kurz: bestanden bei **Anwesenheit + Präsentation an mindestens 3 von 4** Checkpoints; **keine Hausaufgaben**; Gruppenarbeit möglich; ca. 3–5 Min. Kurzvortrag.
+**Bewertung:** bestanden / nicht bestanden über **Mitarbeit** (Checkpoints). **Anwesenheit** an den Checkpoint-Terminen; **mindestens 3 von 4** müssen gemacht werden. Details: **[Kursinfo (PDF)](kursinfo.pdf)** (auch auf ILIAS).  
+Kurz: bestanden bei **Anwesenheit und Gespräch in der Gruppe an mindestens 3 von 4** Checkpoints; **keine Hausaufgaben**; Teams **bis zu vier** Personen. Jeder Checkpoint ist **eine Frage**, die Sie mit den **R-Notebooks** angehen. Die Teaching Assistants kommen zu Ihnen — nicht an die Tafel.
 
 Anstelle einer einzigen grossen Abschlusspräsentation: **vier Checkpoints** (A–D) am Ende jedes Themenblocks.
 
@@ -72,14 +72,14 @@ Anstelle einer einzigen grossen Abschlusspräsentation: **vier Checkpoints** (A�
 | **C** | Woche **11** · **26. Nov. 2026** | Evolutionäre Rettung | Simulation von Rettung / Etablierung + Bezug zu einem Laborergebnis | Wann passt sich eine schrumpfende Population rechtzeitig an? |
 | **D** | Woche **14** · **17. Dez. 2026** | Visualisierung von Mikrobiomdaten | Eine reale Gemeinschaftstabelle einlesen und visualisieren; eine klare visuelle Geschichte | Was das Diagramm zeigt — und was **nicht** |
 
-**Präsenz:** An Checkpoint-Terminen (**Wochen 4, 8, 11, 14**) müssen Studierende **anwesend sein und präsentieren**. Modul 1: [Überblick Wochen 1–4](module-01-overview.qmd). Modul 2: [Überblick Wochen 5–8](module-02-overview.qmd). Modul 3: [Überblick Wochen 9–11](module-03-overview.qmd). [Glossar](glossary.qmd).
+**Präsenz:** An Checkpoint-Terminen (**Wochen 4, 8, 11, 14**) müssen Studierende **anwesend sein** und in der Gruppe den Fortschritt zeigen. Modul 1: [Überblick Wochen 1–4](module-01-overview.qmd). Modul 2: [Überblick Wochen 5–8](module-02-overview.qmd). Modul 3: [Überblick Wochen 9–11](module-03-overview.qmd). [Glossar](glossary.qmd).
 
-**Vorgaben für Präsentationen (alle Checkpoints):**
+**Vorgaben (alle Checkpoints):**
 
-- Vorzugsweise zu zweit oder in kleinen Gruppen
-- Striktes Zeitlimit (ca. 3–5 Min.) + 1–2 Fragen
-- Erforderliche Elemente: (1) biologische Frage, (2) was Sie berechnet haben, (3) eine Abbildung, (4) wichtigste Annahme / nächster Schritt
-- Benotet werden Klarheit + biologischer Gehalt + ehrliche Darstellung der Einschränkungen — nicht aufwendige Grafiken
+- Teams von **einer bis vier** Personen
+- **Keine Tafelpräsentation:** Teaching Assistants kommen von Gruppe zu Gruppe
+- Jeder Checkpoint stellt **eine Frage**, die Sie mit den **R-Notebooks** angehen
+- Ein Checkpoint gilt als **bestanden**, wenn Sie erklären können, was Sie gemacht haben und wie Sie versucht haben, die Frage zu beantworten. Es geht weniger darum, alles richtig zu machen, als zu zeigen, dass Sie sich mit dem Problem auseinandergesetzt haben.
 
 ### Brücke zur Programmierung
 
@@ -131,19 +131,18 @@ Grundprinzip: biologische Regel → **additive Differenzengleichung** $X_{t+1}=X
 - Daten in `weeks/week-02/data/`
 - Notebook: Übungsblöcke (Pipeline üben)
 
-### Woche 3 — Stabilität: ein Endpunkt, zwei Endpunkte, Keystone / Kipppunkt
+### Woche 3 — Stabilität: ein Endpunkt, zwei Endpunkte, Keystone
 **Wann:** Do., 1. Okt. 2026, 08:15–10:00 Uhr  
 **Materialien:** [Folien](../weeks/week-03/slides.qmd) · [PDF](../weeks/week-03/slides.pdf) · [Notebook](../weeks/week-03/notebook.qmd)
 
 - **Sitzung:** ~45 min Vorlesung + ~45 min Notebook (Spielraum)
-- **Arc:** Begriffe → **ein** Endpunkt (Ausschluss) → **zwei** Endpunkte (Bistabilität) → Keystone (*Pisaster*) → Kipppunkt / Hysterese (Seeotter)
-- **Brücke Woche 2:** Persistenz auf der beobachteten Zeitskala ≠ stabiles Gleichgewicht
-- Arbeitsbegriffe: **Gleichgewicht**, Rückkehr nach kleiner Störung, **Einzugsgebiet**
-- **Konkurrenzausschluss:** Gause-*Paramecium* + LV; für positive Starts derselbe stabile Endpunkt
-- **Bistabilität:** dieselben Gleichungen, andere $\alpha$; zwei Einzugsgebiete; Grasland/Wald als Analogie
-- **Keystone (Vorlesung):** Paine 1966 + Toy-Modell (Raumkonkurrenz + Präferenzfrass); Seestern hält Zustand «offen»
-- **Notebook:** Yellowstone-Food-Web (Aspen–Sage–Elch–Wolf) — dieselbe Idee rechnen
-- **Otter / Kipppunkt:** Smith 2021 (Gonadenindex, halten ≠ wiederherstellen); Langendorf 2025 (geschätzte, zustandsabhängige Interaktionsstärken; WVI vs. SNI)
+- **Yellowstone** als Motivation in der Vorlesung (Biologie, trophische Kaskade); das Netz rechnen die Studierenden **im Notebook**
+- **Schritt zurück:** Gleichgewicht, Stabilität nach Störung, Einzugsgebiet
+- **Ein Endpunkt:** Gause-*Paramecium* + LV; Ausschluss oder Koexistenz, Start langfristig egal
+- **Zwei Endpunkte:** dieselben Gleichungen, andere $\alpha$; Grasland/Wald als Analogie (Staver)
+- **Keystone:** *Pisaster* (Paine 1966) — Food-Web, ein Räuber kann den Zustand halten; kein Mini-Modell
+- **Vorbehalt:** Seeotter — halten $\neq$ wiederherstellen; Hysterese nur als Konzept (Smith 2021)
+- **Notebook:** Yellowstone-Food-Web (Aspen–Sage–Elch–Wolf) — Wolf ein- und ausschalten
 ### Woche 4 — Spieltheorie, RPS & **Checkpoint A**
 **Wann:** Do., 8. Okt. 2026, 08:15–10:00 Uhr  
 **Materialien:** [Folien](../weeks/week-04/slides.qmd) · [PDF](../weeks/week-04/slides.pdf) · [Notebook](../weeks/week-04/notebook.qmd)

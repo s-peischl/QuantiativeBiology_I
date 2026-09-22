@@ -1,6 +1,6 @@
 ---
 title: "Woche 5 — Notebook"
-subtitle: "Allelfrequenzen, Hardy–Weinberg und echte Genotypdaten"
+subtitle: "Allel und Genotyp"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:

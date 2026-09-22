@@ -1,6 +1,6 @@
 ---
 title: "Woche 8 — Notebook · Checkpoint B"
-subtitle: "Eine Frage, eine Abbildung"
+subtitle: "Neutralität und Anpassung"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:

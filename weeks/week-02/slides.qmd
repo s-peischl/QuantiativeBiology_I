@@ -1,6 +1,6 @@
 ---
 title: "Woche 2 — Unser erstes Modell"
-subtitle: "Eine Population → Räuber und Beute"
+subtitle: "Beute und Räuber"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:
@@ -27,6 +27,11 @@ execute:
   message: false
   freeze: false
 ---
+
+```{r}
+#| include: false
+source("../slides-ggplot.R")
+```
 
 ## Übersicht
 
@@ -155,24 +160,31 @@ Gause, *The Struggle for Existence* (1934), Kap. V — Technik der Protozoen-K
 
 ```{r}
 #| echo: false
-#| fig-height: 4.2
+#| freeze: true
+#| fig-height: 4.0
 #| fig-width: 9.5
 #| out-width: 95%
 alone <- read.csv("data/paramecium_alone.csv")
 both <- read.csv("data/paramecium_with_didinium.csv")
-par(mfrow = c(1, 2), mar = c(4, 4, 2.5, 1))
-plot(alone$day, alone$paramecium,
-     type = "b", pch = 16, lwd = 2,
-     xlab = "Tag",
-     ylab = "Haeufigkeit",
-     main = "Eine Art: Paramecium allein")
-plot(both$day, both$paramecium, type = "b", pch = 16, lwd = 2,
-     xlab = "Tag", ylab = "Haeufigkeit",
-     main = "Zwei Arten: + Didinium",
-     ylim = c(0, max(both$paramecium, both$didinium) * 1.05))
-lines(both$day, both$didinium, type = "b", pch = 17, lwd = 2, lty = 2)
-legend("topright", c("Paramecium", "Didinium"),
-       pch = c(16, 17), lty = 1:2, bty = "n", cex = 0.85)
+p_alone <- ggplot(alone, aes(day, paramecium)) +
+  geom_line(colour = col_blue, linewidth = 0.9) +
+  geom_point(colour = col_blue, size = 1.8) +
+  labs(x = "Tag", y = "Haeufigkeit", title = "Eine Art: Paramecium allein") +
+  theme_slide()
+mix <- data.frame(
+  day = c(both$day, both$day),
+  N = c(both$paramecium, both$didinium),
+  art = factor(rep(c("Paramecium", "Didinium"), each = nrow(both)),
+               levels = c("Paramecium", "Didinium"))
+)
+p_both <- ggplot(mix, aes(day, N, colour = art, shape = art)) +
+  geom_line(linewidth = 0.9) +
+  geom_point(size = 1.8) +
+  scale_colour_manual(values = c(col_blue, col_orange)) +
+  scale_shape_manual(values = c(16, 17)) +
+  labs(x = "Tag", y = "Haeufigkeit", title = "Zwei Arten: + Didinium") +
+  theme_slide()
+p_alone + p_both
 ```
 
 ## Was sehen wir?
@@ -194,9 +206,9 @@ legend("topright", c("Paramecium", "Didinium"),
 :::
 :::::
 
-Dasselbe Glas, andere Dynamik — weil eine Interaktion dazukommt.
+Beide Kulturen stehen im selben Medium. Neu ist nur *Didinium*: eine Art, die die andere frisst.
 
-Frage: Wie modellieren wir zuerst das Plateau — und danach die Oszillation?
+Frage: Welche Kräfte erzeugen zuerst das Plateau — und danach die Oszillation?
 
 # Teil 2 · Eine Population modellieren
 
@@ -491,40 +503,33 @@ Beute ↑ → Räuber ↑ (verzögert) → Beute ↓ → Räuber ↓
 
 ```{r}
 #| echo: false
-#| fig-height: 3.9
+#| freeze: true
+#| fig-height: 3.8
 #| fig-width: 9.6
 #| out-width: 96%
-prey <- both$paramecium
-pred <- both$didinium
-day <- both$day
-n <- length(day)
-time_cols <- colorRampPalette(c("#1a5276", "#1abc9c", "#f4d03f", "#e67e22", "#922b21"))(n)
-
-par(mfrow = c(1, 2), mar = c(4.2, 4.2, 2.4, 1.2))
-
-plot(day, prey, type = "n",
-     xlab = "day", ylab = "abundance",
-     main = "Time series",
-     ylim = c(0, max(prey, pred) * 1.1))
-lines(day, prey, lwd = 2.4, col = "#2e86ab")
-lines(day, pred, lwd = 2.4, col = "#e67e22")
-points(day, prey, pch = 16, col = "#2e86ab", cex = 0.75)
-points(day, pred, pch = 17, col = "#e67e22", cex = 0.8)
-legend("topright", c("prey", "predator"),
-       col = c("#2e86ab", "#e67e22"), lty = 1, lwd = 2.4,
-       pch = c(16, 17), bty = "n", cex = 0.9)
-
-plot(prey, pred, type = "n",
-     xlab = "prey", ylab = "predator",
-     main = "Phase plane (color = time)")
-segments(prey[-n], pred[-n], prey[-1], pred[-1],
-         col = time_cols[-1], lwd = 2.6)
-points(prey, pred, pch = 16, col = time_cols, cex = 0.85)
-points(prey[1], pred[1], pch = 21, bg = "white", col = time_cols[1],
-       cex = 1.35, lwd = 1.6)
-legend("topright", c("early", "late"),
-       fill = c(time_cols[1], time_cols[n]), border = NA,
-       bty = "n", cex = 0.85)
+ts <- data.frame(
+  day = c(both$day, both$day),
+  N = c(both$paramecium, both$didinium),
+  art = factor(rep(c("Beute", "Raeuber"), each = nrow(both)),
+               levels = c("Beute", "Raeuber"))
+)
+p_ts <- ggplot(ts, aes(day, N, colour = art)) +
+  geom_line(linewidth = 1.05) +
+  geom_point(size = 1.5) +
+  scale_colour_manual(values = c(col_blue, col_orange)) +
+  labs(x = "Tag", y = "Haeufigkeit", title = "Zeitreihe") +
+  theme_slide()
+p_ph <- ggplot(both, aes(paramecium, didinium, colour = day)) +
+  geom_path(linewidth = 1.05) +
+  geom_point(size = 1.7) +
+  scale_colour_gradientn(
+    colours = c("#1a5276", "#1abc9c", "#f4d03f", "#e67e22", "#922b21"),
+    name = "Tag"
+  ) +
+  labs(x = "Beute", y = "Raeuber", title = "Phasenraum") +
+  theme_slide() +
+  theme(legend.title = element_text(size = 11))
+p_ts + p_ph
 ```
 
 ::: aside
@@ -677,31 +682,30 @@ legend("topright", c("prey", "predator"),
 
 ```{r}
 #| echo: false
-#| fig-height: 4.0
+#| freeze: true
+#| fig-height: 3.8
 #| fig-width: 9.5
 #| out-width: 96%
-prey_d <- both$paramecium
-pred_d <- both$didinium
-day_d <- both$day
-ylim_cmp <- c(0, max(prey_d, pred_d, N, P) * 1.05)
-
-par(mfrow = c(1, 2), mar = c(4.2, 4.2, 2.4, 1.2))
-
-plot(day_d, prey_d, type = "l", lwd = 2.2, col = "#2e86ab",
-     xlab = "day", ylab = "abundance",
-     main = "Data", ylim = ylim_cmp)
-lines(day_d, pred_d, lwd = 2.2, col = "#e67e22")
-legend("topright", c("prey", "predator"),
-       col = c("#2e86ab", "#e67e22"), lty = 1, lwd = 2.2,
-       bty = "n", cex = 0.9)
-
-plot(0:T, N, type = "l", lwd = 2.2, col = "#2e86ab",
-     xlab = "step", ylab = "abundance",
-     main = "Simulation", ylim = ylim_cmp)
-lines(0:T, P, lwd = 2.2, col = "#e67e22")
-legend("topright", c("prey", "predator"),
-       col = c("#2e86ab", "#e67e22"), lty = 1, lwd = 2.2,
-       bty = "n", cex = 0.9)
+ymax <- max(both$paramecium, both$didinium, N, P) * 1.05
+dat <- data.frame(
+  t = c(both$day, both$day),
+  N = c(both$paramecium, both$didinium),
+  art = factor(rep(c("Beute", "Raeuber"), each = nrow(both))),
+  panel = "Daten"
+)
+sim <- data.frame(
+  t = c(0:T, 0:T),
+  N = c(N, P),
+  art = factor(rep(c("Beute", "Raeuber"), each = length(N))),
+  panel = "Simulation"
+)
+ggplot(rbind(dat, sim), aes(t, N, colour = art)) +
+  geom_line(linewidth = 1.05) +
+  scale_colour_manual(values = c(col_blue, col_orange)) +
+  coord_cartesian(ylim = c(0, ymax)) +
+  facet_wrap(~ panel, scales = "free_x", ncol = 2) +
+  labs(x = "Tag / Schritt", y = "Haeufigkeit") +
+  theme_slide()
 ```
 
 Gleiche y-Skala · Start niedrig ($N=5$, $P=1$) · Qualitativ: Oszillation mit Verzoegerung.
@@ -730,9 +734,17 @@ Gleiche y-Skala · Start niedrig ($N=5$, $P=1$) · Qualitativ: Oszillation mit V
 
 ## Take-home
 
-1. Erst das **Experiment** (*Paramecium*), dann die Gleichung $N_{t+1}=N_t+f(N_t)$.
-2. Ein Zeitschritt als Funktion; viele Schritte als Schleife — **Werkzeug** für die Beobachtung.
-3. Zwei Arten: dieselbe Idee, zwei Variablen.
+*Paramecium* allein: Nachwuchs, dann Bremse durch knappe Ressourcen. Die Kurve geht gegen $K$ und bleibt dort — ein **Plateau**.
+
+*Paramecium* plus *Didinium*: der Räuber frisst. Steigt die Beute, folgt der Räuber **später**; fällt die Beute, folgt er wieder. Die beiden Kurven **oszillieren**.
+
+Diese Kräfte schreiben wir als Update
+
+$$
+N_{t+1}=N_t+f(N_t).
+$$
+
+$f$ ist in R eine Funktion: ein Schritt. Die `for`-Schleife wiederholt ihn. Wenn die simulierte Kurve das Muster der Daten hat, stehen die richtigen Kräfte in $f$.
 
 ## Notebook (~45 min)
 

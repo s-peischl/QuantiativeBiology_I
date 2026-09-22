@@ -1,6 +1,6 @@
 ---
 title: "Woche 10 — Notebook"
-subtitle: "Demografie + Etablierung → Rettungswahrscheinlichkeit"
+subtitle: "Demografie und Rettung"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:

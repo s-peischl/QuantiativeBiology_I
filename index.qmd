@@ -41,9 +41,9 @@ Aktuell veröffentlicht: **Wochen 1–4**. Spätere Wochen erscheinen hier, soba
 Einstieg → Ökologie → Spieltheorie · endet mit **Checkpoint A in Woche 4**.
 
 ::: {.callout-important}
-## Woche 4: Präsentationen — Anwesenheit Pflicht
+## Woche 4: Checkpoint A — Anwesenheit Pflicht
 
-Für die Bewertung müssen Sie **anwesend sein und präsentieren**.  
+Teams **bis zu vier**. Die Assistenz geht durch die Gruppen; Sie zeigen den Fortschritt am Notebook — nicht an der Tafel.  
 Details: [Modul 1](docs/module-01-overview.qmd) · [Kursinfo (PDF)](docs/kursinfo.pdf) · ILIAS.
 :::
 
@@ -100,4 +100,4 @@ Folien und Notebooks erscheinen hier, sobald der Block frei gegeben ist. Überbl
 | 13 | 10. Dez | Mikrobiom · visualisieren | |
 | 14 | 17. Dez | Mikrobiom · visuelle Geschichte | **D** |
 
-Bewertung: Mitarbeit an den Checkpoints (Anwesenheit + Präsentation; **mindestens 3 von 4**). [Kursinfo (PDF)](docs/kursinfo.pdf) · ILIAS.
+Bewertung: Mitarbeit an den Checkpoints (Anwesenheit + Gruppenpräsentation; Teams **bis zu vier**; **mindestens 3 von 4**). [Kursinfo (PDF)](docs/kursinfo.pdf) · ILIAS.

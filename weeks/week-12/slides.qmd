@@ -1,6 +1,6 @@
 ---
 title: "Woche 12 — Komplexe Mikrobiomdaten einlesen"
-subtitle: "Tabellen, Metadaten und Plausibilitätsprüfungen"
+subtitle: "Tabelle und Metadaten"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:

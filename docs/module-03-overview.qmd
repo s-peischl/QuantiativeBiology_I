@@ -44,17 +44,17 @@ Details: [Glossar](glossary.qmd).
 
 ## Checkpoint C (Woche 11) — Präsenzpflicht
 
-In **Woche 11** finden die **Kurzpräsentationen** statt (Intro → Notebook → Vorträge).
+In **Woche 11** beantwortet das Notebook **eine Frage**. Die Teaching Assistants gehen durch die Gruppen; Sie zeigen den Fortschritt — nicht an der Tafel.
 
 ::: {.callout-important}
 ## Anwesenheit erforderlich
 
-Für die **Benotung von Checkpoint C** müssen Sie **anwesend sein und präsentieren**.  
+Für die **Benotung von Checkpoint C** müssen Sie **anwesend sein** und in der Gruppe vorstellen.  
 Wer fehlt, kann diesen Checkpoint nicht ablegen (siehe [Kursinfo (PDF)](kursinfo.pdf) · ILIAS).
 :::
 
-**Format (kurz):** ca. 3–5 Min. · biologische Frage · eine Abbildung · Pointe.  
-Arbeit zu zweit möglich. Keine separate Hausarbeit — die Notebook-Arbeit ist die Vorbereitung.
+**Format:** Teams **bis zu vier** · die Checkpoint-Frage mit dem **R-Notebook** beantworten · eine Abbildung.  
+Keine separate Hausarbeit — die Notebook-Arbeit ist die Vorbereitung.
 
 Themen: Rettung gegen $r$; gegen $s$; gegen $N_0$ (Bell & Gonzalez).
 

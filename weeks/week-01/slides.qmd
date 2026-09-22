@@ -1,6 +1,6 @@
 ---
 title: "Woche 1 — Warum quantitative Biologie?"
-subtitle: ""
+subtitle: "Meer und Hochland"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:

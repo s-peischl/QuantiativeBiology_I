@@ -103,8 +103,8 @@ Jeder Foliensatz beginnt mit YAML, das Reveal.js **deklarieren muss**:
 
 ```yaml
 ---
-title: "Week X — Title"
-subtitle: "…"
+title: "Woche X — Titel"
+subtitle: "Thema und Gegenstück"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:
@@ -348,6 +348,7 @@ Alternativ eine betreuende Person bitten, die Ausführung in CI zu aktivieren (d
 ## Stilkonventionen (einheitliche Foliensätze)
 
 - YAML / Fusszeile / Navigationsblock der bestehenden Wochen 1–2 übernehmen
+- Untertitel (`subtitle:`): zwei Substantive mit **und** (*Krieg und Frieden*): *Störung und Gleichgewicht*, *Beute und Räuber*. Keine Themenliste, keine Frage, kein Sitzungsplan.
 - Kurze Folien bevorzugen (eine Idee pro `##`)
 - Zuerst Biologie, danach Modell / Code
 - **Startseite** in der Fusszeile verlinken

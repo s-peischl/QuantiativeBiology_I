@@ -1,6 +1,6 @@
 ---
 title: "Woche 14 — Notebook · Visuelle Geschichte · Checkpoint D"
-subtitle: "Eine Abbildung, ehrliche Einschränkungen · kurze Synthese"
+subtitle: "Abbildung und Aussage"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:

@@ -18,7 +18,7 @@ Der erste Block des Kurses: von «warum quantitative Biologie?» zu **Population
 |------:|------|--------|--------|
 | **1** | 17. Sep. | Einstieg | 2 × 45 min Vorlesung · Bajau / Tibet |
 | **2** | 24. Sep. | Erstes Modell | Gause: beide Experimente nebeneinander → Modell → Code |
-| **3** | 1. Okt. | Stabilität / Keystone | Eine Art ändert das System · Störung · Ausschluss / Bistabilität / Keystone / Kipppunkt |
+| **3** | 1. Okt. | Stabilität / Keystone | Yellowstone als Frage · Ausschluss / Bistabilität · *Pisaster* · Otter als Vorbehalt |
 | **4** | 8. Okt. | Spieltheorie / RPS | *Uta* · 3-Spieler-LV · **Checkpoint A** |
 
 Details zu Inhalten stehen in den Folien der jeweiligen Woche.
@@ -32,17 +32,17 @@ Details zu Inhalten stehen in den Folien der jeweiligen Woche.
 
 ## Checkpoint A (Woche 4) — Präsenzpflicht
 
-In **Woche 4** finden die **Kurzpräsentationen** statt (Teil der Sitzung: Intro → Notebook → Präsentationen).
+In **Woche 4** beantwortet das Notebook **eine Frage**. Die Teaching Assistants gehen durch die Gruppen; Sie zeigen den Fortschritt — nicht an der Tafel.
 
 ::: {.callout-important}
 ## Anwesenheit erforderlich
 
-Für die **Benotung von Checkpoint A** müssen Sie **anwesend sein und präsentieren**.  
+Für die **Benotung von Checkpoint A** müssen Sie **anwesend sein** und in der Gruppe vorstellen.  
 Wer fehlt, kann diesen Checkpoint nicht ablegen (siehe [Kursinfo (PDF)](kursinfo.pdf) · ILIAS).
 :::
 
-**Format (kurz):** ca. 2–3 Min. · Matrix $A$ · ein Plot · Stabilitätsform · ein Satz Biologie.  
-Arbeit zu zweit möglich. Keine separate Hausarbeit — die Notebook-Arbeit ist die Vorbereitung.
+**Format:** Teams **bis zu vier** · die Checkpoint-Frage mit dem **R-Notebook** beantworten · eine Abbildung · kurzer Kommentar, wenn die Assistenz kommt.  
+Keine separate Hausarbeit — die Notebook-Arbeit ist die Vorbereitung.
 
 ## Materialien
 

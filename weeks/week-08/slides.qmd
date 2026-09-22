@@ -1,6 +1,6 @@
 ---
 title: "Woche 8 — Ideen, Grenzen und Checkpoint B"
-subtitle: "Wie viel davon ist wirklich Anpassung?"
+subtitle: "Neutralität und Anpassung"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:

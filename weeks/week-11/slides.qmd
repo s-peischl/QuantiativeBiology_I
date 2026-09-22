@@ -1,6 +1,6 @@
 ---
 title: "Woche 11 — Checkpoint C"
-subtitle: "Eine biologische Frage, eine Abbildung"
+subtitle: "Frage und Abbildung"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:

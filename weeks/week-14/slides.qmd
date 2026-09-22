@@ -1,6 +1,6 @@
 ---
 title: "Woche 14 — Eine visuelle Mikrobiom-Geschichte"
-subtitle: "Checkpoint D · einlesen → visualisieren → Aussage · kurze Synthese"
+subtitle: "Abbildung und Aussage"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:

@@ -49,6 +49,7 @@ Never assume `_site/`, `.quarto/`, or uncommitted `_freeze/` from another machin
 | `weeks/`, `docs/`, `pics/`, `templates/`, `scripts/` | `_site/` |
 | Selected `_freeze/weeks/week-XX/` (see `.gitignore`) | `.quarto/` |
 | `_quarto.yml`, `styles.css`, workflows | `.Rhistory`, `.RData`, `.DS_Store` |
+| | `private/skript/` (local lecture notes; do not push to `origin`) |
 
 After adding R figures that must appear on Pages, freeze locally and commit freeze output (see below). Updating `.gitignore` allowlists for new week freeze dirs may be required.
 
@@ -120,6 +121,7 @@ Paths in chunks are relative to the `.qmd` directory (`data/...` → `weeks/week
 
 - Student-facing materials are primarily **German**; match the surrounding week’s language and tone.
 - Prefer short slides (one idea per `##`), biology before model/code.
+- Slide (and notebook) YAML `subtitle:` is **two nouns joined by *und*** — the *Krieg und Frieden* cadence. Examples: *Störung und Gleichgewicht*, *Beute und Räuber*. Not a topic list, not a question, not a timetable. Session timing belongs on the Übersicht slide.
 - Reuse YAML, footer, and nav patterns from existing polished weeks (e.g. 1–2).
 - Prefer real data/citations for empirical claims; document image licenses.
 - Course author credit on slides / notebooks (YAML `author:`):

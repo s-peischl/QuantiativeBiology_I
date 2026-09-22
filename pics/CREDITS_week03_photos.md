@@ -8,8 +8,10 @@ Teaching copies from Wikimedia Commons. Always verify author and license on the 
 | `yellowstone/elk_rmnp.jpg` | Elk in Rocky Mountain National Park.jpg | Herbivore |
 | `yellowstone/yellowstone_landscape.jpg` | Yellowstone Lower Falls.jpg | Landscape |
 | `ecosystems/beech_forest.jpg` | Buchenwald.jpg | Forest state |
-| `ecosystems/savanna.jpg` | Savanna.jpg | Grassland / savanna mosaic |
+| `ecosystems/savanna.jpg` | Savanna.jpg | Grassland / savanna mosaic (older stand-in) |
 | `ecosystems/tallgrass.jpg` | Badlands National Park.jpg | Grassland stand-in |
+| `ecosystems/serengeti_acacia.jpg` | Acacia Tree in the Serengeti, Tanzania - panoramio.jpg | Savanna (Staver contrast); Michelle Maria · CC BY 3.0 |
+| `ecosystems/gabon_rainforest.jpg` | Rainforest Gabon.jpg | Closed forest (Staver contrast); Axel Rouvin · CC BY 2.0 |
 | `organisms/stickleback.jpg` | Gasterosteus aculeatus.jpg | Stickleback mesocosm |
 
 Course diagrams (not photos): `pics/foodweb/*.svg`, `pics/comics/comic_stability_types.svg`, `comic_grass_forest.svg`, `comic_egt_hofbauer.svg`.

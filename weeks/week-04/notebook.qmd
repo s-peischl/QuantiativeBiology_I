@@ -1,6 +1,6 @@
 ---
 title: "Woche 4 — Notebook · Checkpoint A"
-subtitle: "2 vs. 3 · RPS · drei Endzustände selbst finden"
+subtitle: "Strategie und Fitness"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:
@@ -25,7 +25,7 @@ Drehen Sie $s$ und $w$, bis Sie **drei** qualitativ verschiedene Langzeitverläu
 - A) Zwei Strategien → Ausschluss bestätigen
 - B1) RPS-Matrix erzeugen ($s$, $w$ in $A$)
 - B2) Alle drei Endzustände finden und beschreiben
-- Präsentation: einen Endzustand klar zeigen (Zeitreihe oder Simplex)
+- Der Assistenz einen Endzustand klar zeigen (Zeitreihe oder Simplex)
 
 :::
 
@@ -303,7 +303,7 @@ block_mins <- function(df, nblock = 5) {
 
 ---
 
-# 5. Ihr Experiment für die Präsentation
+# 5. Ihr Experiment für die Checkpoint-Frage
 
 ```{r}
 # === IHR FINAL ===
@@ -334,7 +334,7 @@ cat("s+w =", s + w, "\n")
 ---
 
 ::: {.callout-tip}
-## Präsentation
+## Wenn die Assistenz kommt
 
 - Matrix $A$
 - Ein Plot (Zeitreihe **oder** Simplex)

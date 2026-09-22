@@ -1,6 +1,6 @@
 ---
 title: "Woche 3 — Notebook"
-subtitle: "Ein Endpunkt · zwei Endpunkte · Food Web"
+subtitle: "Störung und Gleichgewicht"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:
@@ -16,12 +16,13 @@ execute:
 
 # Lernziele
 
-- Leitfrage: Kann **eine Art** (Ein-/Wiederansiedlung oder Entfernung) ein System halten oder kippen?
 - **Stabilität** am Bild testen: verschiedene Starts → gleicher oder anderer Endpunkt?
 - **Bistabilität** erzeugen und die Beckengrenze sehen
-- Ein kleines **Food Web** (Yellowstone) lesen: wie eine Art den Endzustand verändert
+- Das **Yellowstone-Food-Web** selbst rechnen: wie der Wolf den Endzustand verändert
 
-Nutzen Sie das Notebook, um die Vorlesung nachzuspielen. Wenn die Zeit knapp wird: Graphen anschauen reicht, um die Intuition für Woche 4 mitzunehmen.
+In der Vorlesung war Yellowstone die Frage, *Pisaster* das Keystone-Beispiel, Seeotter der Vorbehalt. Hier kommt Yellowstone als Modell zurück — Sie drehen am Wolf.
+
+Wenn die Zeit knapp wird: Graphen anschauen reicht, um die Intuition für Woche 4 mitzunehmen.
 
 ---
 
@@ -177,9 +178,7 @@ Wir erwarten Bistabilität, wenn beide Arten einander stark hemmen. Dann sollte 
 
 ## B1) Food Web — Aspen, Sage, Elch, Wolf
 
-In der Vorlesung: Leitfrage — kann **eine Art** das System halten oder kippen?  
-(Seestern / Seeotter in der Vorlesung; hier **Yellowstone / Wolf**.)
-
+In der Vorlesung: ein Räuber **kann** den Zustand halten (*Pisaster*) — und tut es nicht immer (Seeotter).  
 Hier rechnen Sie dieselbe Idee an einem kleinen Yellowstone-Netz.
 
 **Hypothese:** Wolf ↓ → Elch ↑ → Beweidung auf Aspen ↑ → Aspen geht gegen null.  

@@ -88,6 +88,8 @@ Commit the updated `docs/kursinfo.pdf` and `docs/kursplan.pdf`.
 
 Edit `weeks/week-XX/slides.qmd`.
 
+YAML `subtitle:` is two German nouns joined by *und* (e.g. *Störung und Gleichgewicht*). Not a list, question, or timetable.
+
 ### Keep Reveal.js in YAML
 
 ```yaml

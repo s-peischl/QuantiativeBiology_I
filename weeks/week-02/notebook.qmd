@@ -1,6 +1,6 @@
 ---
 title: "Woche 2 — Notebook"
-subtitle: "Quantitative Biologie I · Eine Population, dann Räuber–Beute"
+subtitle: "Beute und Räuber"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:
@@ -291,11 +291,8 @@ Erhöhen Sie $a$ (stärkere Prädation) und führen Sie die Zelle erneut aus. Wa
 
 ## Zusammenfassung
 
-::: {.callout-note}
-## Zum Mitnehmen
+*Paramecium* allein: Nachwuchs plus Bremse durch knappe Ressourcen. Die Kurve geht gegen $K$ — ein Plateau.
 
-- Wichtigstes Ergebnis zu **einer** Spezies:
-- Wichtigstes Ergebnis zu **zwei** Spezies:
-:::
+*Paramecium* plus *Didinium*: Fressen koppelt $N$ und $P$. Der Räuber folgt der Beute mit Verzögerung; beide Kurven oszillieren.
 
-**Fazit**: Wir können einfache verbale Argumente mathematisch fassen, um Muster aus Experimenten zu beschreiben — und mit Code prüfen.
+$N_{t+1}=N_t+f(N_t)$ ist ein Schritt. `next_N` bzw. `next_state` ist diese $f$. Die Schleife macht daraus eine Zeitreihe. Stimmen Plateau bzw. Oszillation mit den Daten überein, tragen die Kräfte, die in $f$ stehen.

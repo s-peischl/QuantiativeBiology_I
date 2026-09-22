@@ -1,6 +1,6 @@
 ---
 title: "Woche 7 — Anpassung im Raum"
-subtitle: "Stichlinge, Genfluss und die Suche nach Ausreissern"
+subtitle: "Migration und Selektion"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:
@@ -30,6 +30,7 @@ execute:
 
 ```{r}
 #| include: false
+source("../slides-ggplot.R")
 scan <- read.csv("data/fst_scan.csv")
 
 selektionsschritt <- function(p, w) {
@@ -62,12 +63,16 @@ fst <- function(p1, p2) {
 }
 
 zeige_demen <- function(sim, main) {
-  plot(sim$generation, sim$p1, type = "l", lwd = 2.5, col = "#2166ac",
-       ylim = c(0, 1), xlab = "Generation", ylab = "Frequenz von A",
-       main = main)
-  lines(sim$generation, sim$p2, lwd = 2.5, col = "#b2182b")
-  legend("right", c("See", "Meer"), col = c("#2166ac", "#b2182b"),
-         lwd = 2.5, bty = "n", cex = 0.9)
+  long <- rbind(
+    data.frame(generation = sim$generation, p = sim$p1, pop = "See"),
+    data.frame(generation = sim$generation, p = sim$p2, pop = "Meer")
+  )
+  ggplot(long, aes(generation, p, colour = pop)) +
+    geom_line(linewidth = 1.05) +
+    scale_colour_manual(values = c(See = "#2166ac", Meer = "#b2182b")) +
+    coord_cartesian(ylim = c(0, 1)) +
+    labs(x = "Generation", y = "Frequenz von A", title = main) +
+    theme_slide()
 }
 ```
 
@@ -310,13 +315,23 @@ head(scan, 3)
 ```{r}
 #| fig-height: 4
 #| fig-width: 9
-farben <- ifelse(scan$chr %% 2 == 0, "#7f8c8d", "#34495e")
-plot(scan$x, scan$fst, pch = 16, cex = 0.7, col = farben,
-     xlab = "Position entlang der Chromosomen 1-3", ylab = expression(F[ST]),
-     main = "Differenzierung Meer gegen Suesswasser", ylim = c(0, 1))
+scan$band <- factor(scan$chr %% 2)
 treffer <- scan[scan$label != "", ]
-points(treffer$x, treffer$fst, pch = 16, cex = 1.3, col = "#b2182b")
-text(treffer$x, treffer$fst + 0.07, treffer$label, col = "#b2182b", cex = 0.9)
+ggplot(scan, aes(x, fst, colour = band)) +
+  geom_point(size = 1.35) +
+  geom_point(data = treffer, colour = "#b2182b", size = 2.3) +
+  geom_text(
+    data = treffer, aes(label = label),
+    colour = "#b2182b", vjust = -0.9, size = 3.2
+  ) +
+  scale_colour_manual(values = c("#34495e", "#7f8c8d"), guide = "none") +
+  coord_cartesian(ylim = c(0, 1.05)) +
+  labs(
+    x = "Position entlang der Chromosomen 1-3",
+    y = expression(F[ST]),
+    title = "Differenzierung Meer gegen Suesswasser"
+  ) +
+  theme_slide()
 ```
 
 ## Was dieses Bild sagt

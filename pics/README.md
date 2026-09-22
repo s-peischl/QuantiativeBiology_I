@@ -102,6 +102,15 @@ CC-lizenzierte Bilder erfordern die oben angegebene Namensnennung (und, wo verme
 | `wolf_yellowstone.jpg` | Wolf — siehe CREDITS |
 | `elk_rmnp.jpg` | Elch / Wapiti — siehe CREDITS |
 
+## Ökosysteme (`pics/ecosystems/`)
+
+Savanne vs. geschlossener Wald (Woche 3, Staver): siehe `ecosystems/CREDITS.md`.
+
+| Lokale Datei | Hinweis |
+|---|---|
+| `serengeti_acacia.jpg` | Serengeti · Michelle Maria · CC BY 3.0 |
+| `gabon_rainforest.jpg` | Gabun · Axel Rouvin · CC BY 2.0 |
+
 ## Originalfiguren aus Papers (`pics/papers/`)
 
 | Lokale Datei | Paper | Hinweis |

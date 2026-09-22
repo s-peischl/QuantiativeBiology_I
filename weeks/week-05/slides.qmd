@@ -1,6 +1,6 @@
 ---
 title: "Woche 5 — Von Strategien zu Genen"
-subtitle: "Farbmorphen, Vererbung und ein Nullmodell"
+subtitle: "Allel und Genotyp"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:
@@ -30,21 +30,32 @@ execute:
 
 ```{r}
 #| include: false
+source("../slides-ggplot.R")
 snps <- read.csv("data/hapmap_chb_chr1.csv")
 snps$n <- snps$AA + snps$AB + snps$BB
 snps$p <- (2 * snps$AA + snps$AB) / (2 * snps$n)
 
-col_AA <- "#2166ac"
-col_AB <- "#1b9e77"
-col_BB <- "#b2182b"
-
-hwe_kurven <- function(main = "") {
-  raster <- seq(0, 1, length.out = 301)
-  plot(raster, raster^2, type = "l", lwd = 2.5, col = col_AA,
-       ylim = c(0, 1), xlab = "Allelfrequenz p", ylab = "Genotypfrequenz",
-       main = main)
-  lines(raster, 2 * raster * (1 - raster), lwd = 2.5, col = col_AB)
-  lines(raster, (1 - raster)^2, lwd = 2.5, col = col_BB)
+hwe_cols <- c(AA = "#2166ac", AB = "#1b9e77", BB = "#b2182b")
+hwe_df <- function() {
+  p <- seq(0, 1, length.out = 301)
+  rbind(
+    data.frame(p, f = p^2, gt = "AA"),
+    data.frame(p, f = 2 * p * (1 - p), gt = "AB"),
+    data.frame(p, f = (1 - p)^2, gt = "BB")
+  )
+}
+hwe_kurven <- function(punkte = NULL, main = "") {
+  p <- ggplot(hwe_df(), aes(p, f, colour = gt)) +
+    geom_line(linewidth = 1.05) +
+    scale_colour_manual(values = hwe_cols) +
+    coord_cartesian(ylim = c(0, 1)) +
+    labs(x = "Allelfrequenz p", y = "Genotypfrequenz", title = main) +
+    theme_slide()
+  if (is.null(punkte)) return(p)
+  p + geom_point(
+    data = punkte, aes(p, f, colour = gt),
+    size = 1.35, inherit.aes = FALSE
+  )
 }
 ```
 
@@ -240,8 +251,6 @@ Der Faktor $2$ bei den Heterozygoten steht für die zwei Wege, sie zu bekommen: 
 #| fig-height: 3.9
 #| fig-width: 8
 hwe_kurven(main = "Erwartete Genotypfrequenzen")
-legend("top", c("AA", "AB", "BB"), col = c(col_AA, col_AB, col_BB),
-       lwd = 2.5, bty = "n", ncol = 3, cex = 0.9)
 ```
 
 Heterozygote sind **nie** häufiger als die Hälfte: $2pq$ erreicht bei $p = 0.5$ sein Maximum von $0.5$.
@@ -291,12 +300,14 @@ Eine Zeile ist ein SNP, die Spalten sind Genotypzählungen. Keine Zeitreihe — 
 ```{r}
 #| fig-height: 4.1
 #| fig-width: 8.6
-hwe_kurven(main = "225 SNPs (Punkte) und die HWE-Erwartung (Linien)")
-points(snps$p, snps$AA / snps$n, pch = 16, cex = 0.8, col = col_AA)
-points(snps$p, snps$AB / snps$n, pch = 16, cex = 0.8, col = col_AB)
-points(snps$p, snps$BB / snps$n, pch = 16, cex = 0.8, col = col_BB)
-legend("top", c("AA", "AB", "BB"), col = c(col_AA, col_AB, col_BB),
-       pch = 16, bty = "n", ncol = 3, cex = 0.9)
+snps$n <- snps$AA + snps$AB + snps$BB
+snps$p <- (2 * snps$AA + snps$AB) / (2 * snps$n)
+punkte <- rbind(
+  data.frame(p = snps$p, f = snps$AA / snps$n, gt = "AA"),
+  data.frame(p = snps$p, f = snps$AB / snps$n, gt = "AB"),
+  data.frame(p = snps$p, f = snps$BB / snps$n, gt = "BB")
+)
+hwe_kurven(punkte, main = "225 SNPs (Punkte) und die HWE-Erwartung (Linien)")
 ```
 
 ## Was wir sehen

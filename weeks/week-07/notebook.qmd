@@ -1,6 +1,6 @@
 ---
 title: "Woche 7 — Notebook"
-subtitle: "Selektion gegen Genfluss, $F_{ST}$ und ein Scan"
+subtitle: "Migration und Selektion"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:

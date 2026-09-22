@@ -1,6 +1,6 @@
 ---
 title: "Woche 6 — Wann Selektion Vielfalt erhält"
-subtitle: "Sichelzelle, Malaria und drei Regime der Selektion"
+subtitle: "Fitness und Vielfalt"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:
@@ -30,6 +30,7 @@ execute:
 
 ```{r}
 #| include: false
+source("../slides-ggplot.R")
 sichel <- read.csv("data/sickle_nigeria.csv")
 sichel$n <- sichel$AA + sichel$AS + sichel$SS
 sichel$p <- (2 * sichel$AA + sichel$AS) / (2 * sichel$n)
@@ -53,15 +54,23 @@ simuliere <- function(p0, w, generationen = 150) {
 }
 
 trajektorien <- function(w, starts = c(0.05, 0.3, 0.7, 0.95),
-                         generationen = 150, main = "") {
+                         generationen = 150, main = "",
+                         ylab = "Frequenz p von A") {
   farben <- c("#2166ac", "#1b9e77", "#d95f02", "#7570b3")
-  plot(NA, xlim = c(0, generationen), ylim = c(0, 1),
-       xlab = "Generation", ylab = "Frequenz p von A", main = main)
-  abline(h = c(0, 1), col = "grey85")
-  for (i in seq_along(starts)) {
-    lines(0:generationen, simuliere(starts[i], w, generationen),
-          lwd = 2.5, col = farben[i])
-  }
+  df <- do.call(rbind, lapply(seq_along(starts), function(i) {
+    data.frame(
+      t = 0:generationen,
+      p = simuliere(starts[i], w, generationen),
+      start = paste0("p0 = ", starts[i])
+    )
+  }))
+  ggplot(df, aes(t, p, colour = start)) +
+    geom_hline(yintercept = c(0, 1), colour = "grey90", linewidth = 0.4) +
+    geom_line(linewidth = 1.0) +
+    scale_colour_manual(values = farben) +
+    coord_cartesian(ylim = c(0, 1)) +
+    labs(x = "Generation", y = ylab, title = main) +
+    theme_slide()
 }
 
 ## Teil 4: Kehlfarben-Modell
@@ -95,13 +104,20 @@ corl <- function(p0, theta, generationen = 300, ...) {
 kehlfarben_bahnen <- function(theta, main = "", generationen = 300,
                               starts = c(0.10, 0.35, 0.65, 0.90)) {
   farben <- c("#2166ac", "#1b9e77", "#d95f02", "#7570b3")
-  plot(NA, xlim = c(0, generationen), ylim = c(0, 1), xlab = "Generation",
-       ylab = "Frequenz p des O-Haplotyps", main = main)
-  abline(h = c(0, 1), col = "grey85")
-  for (i in seq_along(starts)) {
-    lines(0:generationen, corl(starts[i], theta, generationen),
-          lwd = 2.5, col = farben[i])
-  }
+  df <- do.call(rbind, lapply(seq_along(starts), function(i) {
+    data.frame(
+      t = 0:generationen,
+      p = corl(starts[i], theta, generationen),
+      start = paste0("p0 = ", starts[i])
+    )
+  }))
+  ggplot(df, aes(t, p, colour = start)) +
+    geom_hline(yintercept = c(0, 1), colour = "grey90", linewidth = 0.4) +
+    geom_line(linewidth = 1.0) +
+    scale_colour_manual(values = farben) +
+    coord_cartesian(ylim = c(0, 1)) +
+    labs(x = "Generation", y = "Frequenz p des O-Haplotyps", title = main) +
+    theme_slide()
 }
 ```
 
@@ -501,8 +517,9 @@ Zwei Morphen, und Orange schlägt Blau. Das $B$-Allel verschwindet — langsam, 
 #| echo: true
 #| fig-height: 3.3
 #| fig-width: 7.6
-kehlfarben_bahnen(theta = 0.5, main = "theta = 0.5: die dritte Farbe ist da")
-abline(h = 1 - sqrt(2/3), lty = 2, col = "#b2182b", lwd = 2)
+kehlfarben_bahnen(theta = 0.5, main = "theta = 0.5: die dritte Farbe ist da") +
+  geom_hline(yintercept = 1 - sqrt(2 / 3), linetype = "dashed",
+             colour = "#b2182b", linewidth = 0.8)
 ```
 
 Von überall her läuft $p$ auf denselben Wert. Beide Haplotypen bleiben erhalten — **ohne dass ein Heterozygoter im Vorteil wäre**.

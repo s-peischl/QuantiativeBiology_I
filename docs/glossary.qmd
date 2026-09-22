@@ -135,10 +135,10 @@ Zwei Arten, dieselbe Ressource: oft überlebt nur eine. Lehrbeispiel: *Parameciu
 Zwei stabile Gleichgewichte. Der Start (oder eine grosse Störung) entscheidet, welches erreicht wird. Analogie: Grasland oder Wald.
 
 **Keystone**  
-Eine Art mit grosser Wirkung auf den Gemeinschaftszustand — oft ohne grossen Anteil an der Biomasse. Lehrbeispiel: Seestern *Pisaster* (Paine 1966); Toy: Präferenzfrass auf den stärksten Konkurrenten.
+Eine Art mit grosser Wirkung auf den Gemeinschaftszustand — oft ohne grossen Anteil an der Biomasse. Lehrbeispiel: Seestern *Pisaster* (Paine 1966): der Räuber drosselt den stärksten Konkurrenten und hält so Vielfalt.
 
 **Kipppunkt / Hysterese**  
-Nach Überschreiten einer Schwelle wechselt der Zustand abrupt; der Rückweg braucht oft eine **andere** Schwelle (Vorwärts ≠ Rückwärts). Lehrbeispiele: skaliertes Fichtenwickler-Modell (Ludwig et al. 1978); Seeotter–Kelp (halten ≠ wiederherstellen).
+Nach Überschreiten einer Schwelle wechselt der Zustand abrupt; der Rückweg braucht oft eine **andere** Schwelle (Vorwärts ≠ Rückwärts). Lehrbeispiel Woche 3: Seeotter–Kelp — halten $\neq$ wiederherstellen (Smith et al. 2021).
 
 **Interaktionsstärke (Food Web)**  
 Geschätztes Mass, wie stark eine Art eine andere unterdrückt (oder fördert). Kann sich mit dem Zustand ändern; Keystone-Effekte sind deshalb kontextabhängig (z. B. Langendorf et al. 2025).
