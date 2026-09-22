@@ -52,7 +52,7 @@ Details: [Modul 1](docs/module-01-overview.qmd) · [Kursinfo (PDF)](docs/kursinf
 | 1 | 17. Sep | Einstieg — Bajau → Tibet | [Folien](weeks/week-01/slides.qmd) · [PDF](weeks/week-01/slides.pdf) |
 | 2 | 24. Sep | Erstes Modell | [Folien](weeks/week-02/slides.qmd) · [PDF](weeks/week-02/slides.pdf) · [**Notebook**](weeks/week-02/notebook.qmd) |
 | 3 | 1. Okt | Stabilität / Food Web | [Folien](weeks/week-03/slides.qmd) · [PDF](weeks/week-03/slides.pdf) · [Notebook](weeks/week-03/notebook.qmd) |
-| 4 | 8. Okt | RPS · **Checkpoint A** | [Folien](weeks/week-04/slides.qmd) · [PDF](weeks/week-04/slides.pdf) · [Notebook](weeks/week-04/notebook.qmd) |
+| 4 | 8. Okt | RPS · **Checkpoint A** | [Folien](weeks/week-04/slides.qmd) · [PDF](weeks/week-04/slides.pdf) · Notebook in der Sitzung |
 
 ## Modul 2 · folgt
 

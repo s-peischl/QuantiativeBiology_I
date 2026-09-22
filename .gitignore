@@ -7,6 +7,9 @@ _freeze/weeks/*
 !_freeze/weeks/week-02/
 !_freeze/weeks/week-03/
 !_freeze/weeks/week-04/
+_freeze/weeks/week-04/notebook/
+# Checkpoint A notebook is local until the session.
+weeks/week-04/notebook.qmd
 !_freeze/weeks/week-05/
 !_freeze/weeks/week-06/
 !_freeze/weeks/week-07/

@@ -20,7 +20,7 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Start](../../index.html) · [Notebook](notebook.html)"
+    footer: "[Start](../../index.html)"
 execute:
   echo: false
   warning: false
@@ -438,5 +438,5 @@ Danach: wann Selektion den Polymorphismus erhält — und was häufigkeitsabhän
 |---|---|
 | Zurück | [← Woche 3](../week-03/slides.html) |
 | Weiter | [Woche 5 →](../week-05/slides.html) |
-| Notebook | [Notebook](notebook.html) |
+| Notebook | in der Sitzung |
 | PDF | Taste **E**, dann Drucken → Als PDF speichern |

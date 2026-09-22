@@ -20,7 +20,8 @@ project:
     - weeks/week-01/glossary.qmd
     - weeks/week-02/*.qmd
     - weeks/week-03/*.qmd
-    - weeks/week-04/*.qmd
+    # Week 4 notebook stays off the public repo until the checkpoint session.
+    - weeks/week-04/slides.qmd
 
 lang: de
 
@@ -50,8 +51,6 @@ website:
             text: "Woche 2"
           - href: weeks/week-03/notebook.qmd
             text: "Woche 3"
-          - href: weeks/week-04/notebook.qmd
-            text: "Woche 4"
 
 # Do NOT set project-level format: html here.
 # That overrides slide decks. HTML pages declare format in their own YAML;
