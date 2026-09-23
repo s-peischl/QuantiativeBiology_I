@@ -1,6 +1,6 @@
 ---
 title: "Modul 3 — Wochen 9–11"
-subtitle: "Zufall · Etablierung · evolutionäre Rettung · Checkpoint C"
+subtitle: "Evolution und Zufall · Checkpoint C"
 format:
   html:
     toc: true
@@ -18,26 +18,37 @@ Der Block ist geplant; Folien und Notebooks erscheinen hier, sobald sie frei geg
 
 ## Was ist Modul 3?
 
-Der dritte Block: Zufall kommt ins Allelfrequenz-Modell. Eine neue
-Mutante beginnt mit **einer** Kopie. Dann koppeln wir das mit
-schrumpfender Demografie — **evolutionäre Rettung**.
+**Evolution und Zufall.** Der dritte Block beginnt mit einem Experiment: marine Stichlinge in
+Süsswasserteichen, eine Inversion auf Chromosom XI, drei Teiche, vier
+Jahre. Alle Bahnen steigen — und trennen sich trotzdem.
 
-Das **Beispiel** kommt zuerst (Hefe unter Salz; Antibiotika).
-Mathematik erklärt, *warum* dieselben Parameter Aussterben *oder*
-Überleben bedeuten. Ableiten und Tests: andere Vorlesungen.
+Dann kommt Zufall ins Allelfrequenz-Modell. Eine **neutrale Wolke**
+sagt, wie weit $p$ ohne Selektion laufen darf. Die Teiche liegen
+ausserhalb. Eine Wolke mit $s>0$ kann sie tragen — konsistent, kein
+Beweis.
+
+Woche 10: warum der Start bei $p=0.5$ (Heterozygote, viele Kopien)?
+Eine seltene vorteilhafte Variante stirbt oft. Das ist $u$, oft
+$u\approx 2s$. Schrumpft danach $N$, muss sich die Variante
+**etablieren, bevor** $N=0$ ist — **evolutionäre Rettung**.
+
+Das **Beispiel** kommt zuerst. Mathematik erklärt, *warum* dieselben
+Parameter verschiedene Bahnen oder Aussterben *oder* Überleben bedeuten.
+Ableiten und Tests: andere Vorlesungen.
 
 | Woche | Datum | Thema | Fokus |
 |------:|------|--------|--------|
-| **9** | 12. Nov. | Zufall · Etablierung | Zufallszahlen · $p$ mit Drift · $\hat u(s)$ |
-| **10** | 19. Nov. | Evolutionäre Rettung | Demografie deterministisch + de novo · Orr vs. Simulation |
-| **11** | 26. Nov. | Synthese | **Checkpoint C** |
+| **9** | 12. Nov. | Stichlinge · Zufall | Teich · `rbinom` · neutrale Wolke · $s$ plus Rauschen |
+| **10** | 19. Nov. | Resistenz · Rettung | $p=1/N$ · $\hat u\approx 2s$ · Orr–Unckless |
+| **11** | 26. Nov. | Wolke · Fortbestand | **Checkpoint C** |
 
 Details: [Glossar](glossary.qmd).
 
 ## Was Sie können sollen (am Ende von Woche 11)
 
-- Sagen, warum das deterministische $p$ für *eine* neue Mutation nicht reicht
+- Drei Teichbahnen lesen: alle steigen, und trotzdem verschieden
 - Zufallszahlen ziehen (`set.seed`, `rbinom`) und in den Generationsschritt einbauen
+- Sagen, ob Daten in eine neutrale Wolke passen
 - Die Etablierungswahrscheinlichkeit $\hat u$ aus Replikaten schätzen
 - Rettung als Etablierung **vor** $N=0$ erkennen
 - Eine biologische Frage in **eine** Abbildung übersetzen (Checkpoint C)
@@ -56,7 +67,7 @@ Wer fehlt, kann diesen Checkpoint nicht ablegen (siehe [Kursinfo (PDF)](kursinfo
 **Format:** Teams **bis zu vier** · die Checkpoint-Frage mit dem **R-Notebook** beantworten · eine Abbildung.  
 Keine separate Hausarbeit — die Notebook-Arbeit ist die Vorbereitung.
 
-Themen: Rettung gegen $r$; gegen $s$; gegen $N_0$ (Bell & Gonzalez).
+Themen: Teiche gegen die neutrale Wolke; welche $s$-Wolke die Teiche trägt; Rettung gegen $r$ oder $N_0$.
 
 ## Materialien
 
@@ -66,4 +77,4 @@ Themen: Rettung gegen $r$; gegen $s$; gegen $N_0$ (Bell & Gonzalez).
 | 10 | folgt | folgt |
 | 11 | folgt | folgt |
 
-Zurück: [Start](../index.qmd) · [Modul 2](module-02-overview.qmd) · [Kursinfo (PDF)](kursinfo.pdf)
+Zurück: [Start](../index.qmd) · [Modul 2](module-02-overview.qmd) · [Modul 4](module-04-overview.qmd) · [Kursinfo (PDF)](kursinfo.pdf)

@@ -272,7 +272,8 @@ Punkt 5 ist nach heute Vormittag keine Formalität mehr.
 | **2** | Was heisst «geschützter Polymorphismus»? | Trajektorien von verschiedenen Startwerten |
 | **3** | Wann bleiben zwei Habitate verschieden? | $p_1$, $p_2$ und $F_{ST}$ gegen $m$ |
 
-Alle drei sind im Notebook vorbereitet.
+Das Notebook ist noch offen (eventuell Clines). Die drei Fragen
+nutzen die Werkzeuge aus den Wochen 5–7.
 
 ## Häufige Stolpersteine
 
@@ -300,7 +301,9 @@ Wochen 9–11: Etablierung, evolutionäre Rettung, Checkpoint C.
 
 **→ [Notebook Woche 8 öffnen](notebook.html)**
 
-Wählen Sie **eine** der drei Fragen. Die Hilfsfunktionen aus den Wochen 5–7 sind vorbereitet; bewertet werden die Frage und die Abbildung, nicht der Umfang des Codes.
+Wählen Sie **eine** der drei Fragen. Hilfsfunktionen stehen in den
+Notebooks 5–7; bewertet werden die Frage und die Abbildung, nicht
+der Umfang des Codes.
 
 ## Literatur
 

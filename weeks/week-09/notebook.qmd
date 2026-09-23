@@ -1,6 +1,6 @@
 ---
 title: "Woche 9 — Notebook"
-subtitle: "Zufall und Etablierung"
+subtitle: "Stichlinge und Zufall"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:
@@ -31,13 +31,13 @@ In ungefähr **45 Minuten**:
 | Teil | ca. | Ziel |
 |---|---:|---|
 | A | 10 min | Zufallszahlen: `set.seed`, `rbinom` |
-| B | 12 min | Selektion, dann Ziehung: eine Trajektorie |
-| C | 18 min | $\hat u$ gegen $s$, Linie $2s$ |
-| D | 5 min | Startkopien $k$ (optional) |
+| B | 12 min | Eine Bahn: ohne und mit Ziehung |
+| C | 12 min | Neutrale Wolke und die drei Teiche |
+| D | 11 min | Dieselbe Wolke mit $s>0$ |
 
-**Allelfrequenz** $p = f(A)$: Anteil der A-Kopien. Haploid: $N$ Individuen
-= $N$ Kopien. $s$: Fitnessvorteil von A. **Etablierungswahrscheinlichkeit**
-$u$: Anteil der Linien, die von einer Kopie nicht bei $p=0$ enden.
+**Allelfrequenz** $p$: Anteil der Süsswasser-Orientierung (Chr XI).
+Haploid: $N$ Individuen = $N$ Kopien. Kurswert $N=250$. $s$: Fitnessvorteil.
+Die Teiche starten bei $p=0.5$.
 
 ```{r functions}
 selection_step_haploid <- function(p, s) {
@@ -51,7 +51,7 @@ wf_step <- function(p, s, N) {
   rbinom(1, N, p_sel) / N
 }
 
-simulate_det <- function(p0, s, generations = 200) {
+simulate_det <- function(p0, s, generations = 4) {
   p <- numeric(generations + 1)
   p[1] <- p0
   for (t in seq_len(generations)) {
@@ -60,7 +60,7 @@ simulate_det <- function(p0, s, generations = 200) {
   data.frame(generation = 0:generations, p = p)
 }
 
-simulate_wf <- function(p0, s, N, generations = 200) {
+simulate_wf <- function(p0, s, N, generations = 4) {
   p <- numeric(generations + 1)
   p[1] <- p0
   for (t in seq_len(generations)) {
@@ -69,19 +69,11 @@ simulate_wf <- function(p0, s, N, generations = 200) {
   data.frame(generation = 0:generations, p = p)
 }
 
-lineage_fate <- function(s, N, k = 1, max_gen = 400) {
-  p <- k / N
-  for (t in seq_len(max_gen)) {
-    p <- wf_step(p, s, N)
-    if (p <= 0) return(0)
-    if (p >= 1) return(1)
-  }
-  as.numeric(p >= 0.5)
-}
+ponds <- read.csv("data/pond-chrxi.csv")
 ```
 
-Die Funktionen oben machen einen Generationsschritt: erst $p'$, dann
-eine Binomialziehung.
+`wf_step`: erst $p'$, dann eine Binomialziehung. Ohne Ziehung
+(`simulate_det`, $s=0$) bleibt $p$ stehen.
 
 ------------------------------------------------------------------------
 
@@ -102,99 +94,116 @@ hist(x, breaks = 0:21 - 0.5, col = "#9ecae1", border = "white",
 
 1. Lassen Sie denselben Block **ohne** `set.seed` zweimal laufen.
    Ändert sich das Histogramm?
-2. Setzen Sie `prob = 0.1` (seltenes Allel). Wohin wandert der Haufen?
+2. Setzen Sie `prob = 0.1`. Wohin wandert der Haufen?
 3. Was entspricht `size` im Populationsmodell — und was `prob`?
 :::
 
 ------------------------------------------------------------------------
 
-# B — Eine Trajektorie neben dem Mittelwert
+# B — Eine Bahn
 
 Nach Selektion ist $p'$ der erwartete Anteil. `wf_step` zieht daraus
 $X\sim\mathrm{Binomial}(N,p')$ und setzt $p\leftarrow X/N$.
 
 ```{r one-traj}
 set.seed(9)
-N <- 2000
-s <- 0.05
-det <- simulate_det(0.20, s, 150)
-stoch <- simulate_wf(0.20, s, N, 150)
+N <- 250
+det <- simulate_det(0.5, s = 0, 4)
+stoch <- simulate_wf(0.5, s = 0, N, 4)
 plot(det$generation, det$p, type = "l", lwd = 3, col = "#2166ac",
-     ylim = c(0, 1), xlab = "Generation", ylab = "p = f(A)",
-     main = "Start p = 0.20")
+     ylim = c(0, 1), xlab = "Jahr", ylab = "Frequenz",
+     main = "Start p = 0.5, s = 0")
 lines(stoch$generation, stoch$p, lwd = 2, col = "#d95f02")
-legend("bottomright", c("deterministisch", "mit Zufall"),
+points(stoch$generation, stoch$p, pch = 16, col = "#d95f02")
+legend("bottomright", c("ohne Ziehung", "mit Zufall"),
        col = c("#2166ac", "#d95f02"), lwd = c(3, 2), bty = "n")
 ```
 
 ::: {.callout-tip}
 ## Aufgabe B1
 
-1. Ändern Sie den Start auf `p0 = 1/N` (eine Kopie). Was passiert oft?
-2. Lassen Sie `s = 0`. Bleibt $p$ stehen — oder irrt es?
+1. Die blaue Linie bleibt bei $0.5$. Warum — welcher Schritt fehlt?
+2. Lassen Sie `s = 0.2` (ohne den Rest zu ändern). Wohin geht die
+   blaue Linie, und was macht die orange?
 3. Wo im Code sitzt der Zufall, wo sitzt $s$?
 :::
 
 ------------------------------------------------------------------------
 
-# C — Etablierungswahrscheinlichkeit $\hat u(s)$
+# C — Neutrale Wolke und die Teiche
 
-Eine Linie startet mit **einer** Kopie. `lineage_fate` gibt 1 zurück,
-wenn $p$ nach 1 läuft, sonst 0. $\hat u$ ist der Mittelwert über Replikate.
+Viele neutrale Replikate: die Wolke, die Neutralität in vier Jahren
+erlaubt. Darüber die drei Teiche.
 
-```{r u-hat}
+```{r cloud-neutral}
 set.seed(9)
-s_grid <- c(0.02, 0.05, 0.08, 0.12)
-n_reps <- 120
-N <- 800
-u_est <- numeric(length(s_grid))
-for (i in seq_along(s_grid)) {
-  u_est[i] <- mean(replicate(n_reps, lineage_fate(s_grid[i], N)))
+N <- 250
+n_sims <- 80
+plot(NA, xlim = c(0, 4), ylim = c(0, 1),
+     xlab = "Jahr", ylab = "Frequenz",
+     main = "Neutral, N = 250")
+for (i in seq_len(n_sims)) {
+  sim <- simulate_wf(0.5, s = 0, N, 4)
+  lines(sim$generation, sim$p, col = adjustcolor("grey60", 0.35))
 }
-plot(s_grid, u_est, type = "b", pch = 19, lwd = 2, col = "#2166ac",
-     xlim = c(0, 0.14), ylim = c(0, 0.30),
-     xlab = "s", ylab = "u hat",
-     main = "Etablierung, k = 1")
-curve(2 * x, from = 0, to = 0.14, add = TRUE, lwd = 2, lty = 2,
-      col = "#d95f02")
-legend("topleft", c("Simulation", "u = 2s"),
-       col = c("#2166ac", "#d95f02"), lwd = 2, lty = c(1, 2), bty = "n")
+pond_col <- c("2" = "#e67e22", "7" = "#2980b9", "14" = "#1e8449")
+for (id in unique(ponds$pond)) {
+  d <- ponds[ponds$pond == id, ]
+  lines(d$year, d$p, lwd = 2.5, col = pond_col[as.character(id)])
+  points(d$year, d$p, pch = 16, col = pond_col[as.character(id)])
+}
+legend("bottomright", c("Teich 2", "Teich 7", "Teich 14", "neutral"),
+       col = c("#e67e22", "#2980b9", "#1e8449", "grey60"),
+       lwd = 2, bty = "n")
 ```
 
 ::: {.callout-tip}
 ## Aufgabe C1
 
-1. Steigt $\hat u$ mit $s$? Liegt es nahe bei $2s$?
-2. Erhöhen Sie `n_reps` (z. B. 300). Was wird glatter — die biologische
-   Aussage oder nur das Rauschen von $\hat u$?
-3. Setzen Sie `s_grid` bis `0.40`. Wo bricht $2s$ sichtbar?
-4. Nächste Woche schrumpft $N$. Warum reicht $u\approx 2s$ dann nicht
-   mehr als ganze Geschichte?
+1. Liegen die drei Teiche in der grauen Wolke — oder ausserhalb?
+2. Teich 7 hat sehr kleine $n$. Warum ist seine Bahn am steilsten
+   *und* am unsichersten zu lesen?
+3. Warum reicht *eine* graue Linie nicht als Vergleich?
 :::
 
 ------------------------------------------------------------------------
 
-# D — Mehr als eine Startkopie (optional)
+# D — Selektion plus Rauschen
 
-Stehende Variation heisst: nicht $k=1$, sondern ein paar Kopien sind
-schon da. Dann ist Verlust weniger wahrscheinlich.
+Dieselbe Wolke, jetzt mit $s>0$. Kein Beweis — ein Bild, das zu den
+Teichen **passen kann**.
 
-```{r k-copies}
-set.seed(9)
-k_grid <- c(1, 2, 5)
-s <- 0.05
-u_k <- numeric(length(k_grid))
-for (i in seq_along(k_grid)) {
-  u_k[i] <- mean(replicate(80, lineage_fate(s, N = 800, k = k_grid[i])))
+```{r cloud-sel}
+set.seed(11)
+N <- 250
+s <- 0.2
+n_sims <- 80
+det <- simulate_det(0.5, s, 4)
+plot(NA, xlim = c(0, 4), ylim = c(0, 1),
+     xlab = "Jahr", ylab = "Frequenz",
+     main = "s = 0.2, N = 250")
+for (i in seq_len(n_sims)) {
+  sim <- simulate_wf(0.5, s, N, 4)
+  lines(sim$generation, sim$p, col = adjustcolor("grey60", 0.35))
 }
-plot(k_grid, u_k, type = "b", pch = 19, lwd = 2, col = "#2166ac",
-     ylim = c(0, 1), xlab = "Startkopien k", ylab = "u hat",
-     main = "s = 0.05")
+lines(det$generation, det$p, lwd = 3, col = "#c0392b")
+for (id in unique(ponds$pond)) {
+  d <- ponds[ponds$pond == id, ]
+  lines(d$year, d$p, lwd = 2.5, col = pond_col[as.character(id)])
+  points(d$year, d$p, pch = 16, col = pond_col[as.character(id)])
+}
+legend("bottomright",
+       c("Teich 2", "Teich 7", "Teich 14", "ohne Zufall", "mit s"),
+       col = c("#e67e22", "#2980b9", "#1e8449", "#c0392b", "grey60"),
+       lwd = 2, bty = "n")
 ```
 
 ::: {.callout-tip}
 ## Aufgabe D1
 
-Warum steigt $\hat u$ mit $k$? Welcher der drei Wege zur Resistenz
-(stehende Variation, HGT, de novo) entspricht $k=1$?
+1. Liegen die Teiche jetzt in der Wolke?
+2. Ändern Sie `s` auf `0.05` und auf `0.40`. Welche Wolke trägt die
+   Teiche besser?
+3. Nächste Woche: wäre ein Start bei sehr kleinem $p$ ein klarerer
+   Nachweis — oder riskanter?
 :::

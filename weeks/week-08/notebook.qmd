@@ -2,6 +2,7 @@
 title: "Woche 8 — Notebook · Checkpoint B"
 subtitle: "Neutralität und Anpassung"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
+lang: de
 format:
   html:
     toc: true
@@ -17,205 +18,17 @@ execute:
   freeze: false
 ---
 
-# Auftrag
+::: {.callout-note}
+## Offen
 
-Wählen Sie **genau eine** der drei Fragen, erzeugen Sie **eine** beschriftete Abbildung und beantworten Sie die Fragen darunter. Danach tragen Sie 3–5 Minuten vor.
+Dieses Notebook ist noch nicht festgelegt. Mögliche Ergänzung:
+**Clines** — Frequenz entlang einer räumlichen Achse, nicht nur
+zwei Demen.
 
-::: {.callout-important}
-## Bewertung
-
-Anwesenheit und Vortrag sind Pflicht. Bewertet werden die biologische Frage und die Abbildung — nicht der Umfang des Codes. Die Hilfsfunktionen unten dürfen Sie unverändert übernehmen.
+Checkpoint B bleibt: **eine** Frage, **eine** Abbildung, 3–5 Minuten.
+Werkzeuge aus den Wochen 5–7 (HWE / Wahlund, Kehlfarben-Schleife,
+$F_{ST}$ aus $H_T$ und $H_S$).
 :::
 
-## Aufbau eines Vortrags
-
-1. die biologische Frage
-2. der veränderte Parameter (einer genügt)
-3. die Abbildung
-4. das biologische Ergebnis
-5. eine Grenze des Modells
-
----
-
-# Werkzeuge aus den Wochen 5–7
-
-```{r}
-# Eine Generation Selektion in einer Population (Woche 6)
-selektionsschritt <- function(p, w) {
-  q <- 1 - p
-  w_quer <- p^2 * w[1] + 2 * p * q * w[2] + q^2 * w[3]
-  (p^2 * w[1] + p * q * w[2]) / w_quer
-}
-
-simuliere <- function(p0, w, generationen = 150) {
-  p <- numeric(generationen + 1)
-  p[1] <- p0
-  for (t in seq_len(generationen)) p[t + 1] <- selektionsschritt(p[t], w)
-  p
-}
-
-# Haeufigkeitsabhaengige Fitness: selten sein lohnt sich (Woche 4 und 6)
-haeufigkeitsabhaengig <- function(p0, s = 0.3, generationen = 150) {
-  p <- numeric(generationen + 1)
-  p[1] <- p0
-  for (t in seq_len(generationen)) {
-    w_A <- 1 + s * (1 - p[t])
-    w_B <- 1 + s * p[t]
-    p[t + 1] <- p[t] * w_A / (p[t] * w_A + (1 - p[t]) * w_B)
-  }
-  p
-}
-
-# Zwei Habitate: Selektion lokal, dann Mischung (Woche 7)
-eine_generation <- function(p1, p2, s = 0.15, m = 0.02) {
-  p1_s <- selektionsschritt(p1, c(1 + s, 1 + s / 2, 1))
-  p2_s <- selektionsschritt(p2, c(1, 1 + s / 2, 1 + s))
-  c((1 - m) * p1_s + m * p2_s, (1 - m) * p2_s + m * p1_s)
-}
-
-zwei_demen <- function(p1 = 0.5, p2 = 0.5, s = 0.15, m = 0.02,
-                       generationen = 300) {
-  bahn <- matrix(NA_real_, generationen + 1, 2)
-  bahn[1, ] <- c(p1, p2)
-  for (t in seq_len(generationen)) {
-    bahn[t + 1, ] <- eine_generation(bahn[t, 1], bahn[t, 2], s = s, m = m)
-  }
-  data.frame(generation = 0:generationen, p1 = bahn[, 1], p2 = bahn[, 2])
-}
-
-fst <- function(p1, p2) {
-  p_quer <- (p1 + p2) / 2
-  if (p_quer <= 0 || p_quer >= 1) return(0)
-  (((p1 - p_quer)^2 + (p2 - p_quer)^2) / 2) / (p_quer * (1 - p_quer))
-}
-```
-
----
-
-# Frage 1 · Warum erklärt Überdominanz die Kehlfarben nicht?
-
-Beide Mechanismen erhalten Vielfalt — aber aus verschiedenen Gründen. Zeigen Sie den Unterschied.
-
-```{r}
-#| fig-height: 4.4
-#| fig-width: 9
-par(mfrow = c(1, 2))
-
-plot(NA, xlim = c(0, 150), ylim = c(0, 1), xlab = "Generation", ylab = "p",
-     main = "Konstante Fitness: w = (0.88, 1, 0.14)")
-for (p0 in c(0.05, 0.4, 0.95)) {
-  lines(0:150, simuliere(p0, c(0.88, 1, 0.14)), lwd = 2.2, col = "#2166ac")
-}
-
-plot(NA, xlim = c(0, 150), ylim = c(0, 1), xlab = "Generation", ylab = "p",
-     main = "Selten sein lohnt sich: s = 0.3")
-for (p0 in c(0.05, 0.4, 0.95)) {
-  lines(0:150, haeufigkeitsabhaengig(p0, s = 0.3), lwd = 2.2, col = "#d95f02")
-}
-```
-
-::: {.callout-tip}
-## Zu beantworten
-
-1. Welche Voraussetzung der Regel «Vielfalt nur bei Überdominanz» ist rechts verletzt?
-2. Was passiert rechts, wenn Sie `s = 0` setzen?
-3. Welche Rolle spielt die Plastizität der gelben Morphe (Woche 5) in dieser Geschichte?
-4. Eine Grenze: Was bildet das rechte Modell **nicht** ab, was bei drei Morphen wichtig wäre?
-:::
-
----
-
-# Frage 2 · Was heisst «geschützter Polymorphismus»?
-
-Zeigen Sie, dass bei Überdominanz jeder Startwert im selben inneren Punkt endet — und dass das bei gerichteter Selektion nicht so ist.
-
-```{r}
-#| fig-height: 4.4
-#| fig-width: 9
-starts <- c(0.02, 0.2, 0.5, 0.8, 0.98)
-farben <- c("#2166ac", "#1b9e77", "#d95f02", "#7570b3", "#b2182b")
-
-par(mfrow = c(1, 2))
-
-plot(NA, xlim = c(0, 200), ylim = c(0, 1), xlab = "Generation", ylab = "p",
-     main = "Ueberdominanz: w = (0.9, 1, 0.8)")
-for (i in seq_along(starts)) {
-  lines(0:200, simuliere(starts[i], c(0.9, 1, 0.8), 200), lwd = 2.2,
-        col = farben[i])
-}
-abline(h = 0.2 / (0.1 + 0.2), lty = 2)
-
-plot(NA, xlim = c(0, 200), ylim = c(0, 1), xlab = "Generation", ylab = "p",
-     main = "Gerichtet: w = (1.1, 1.05, 1)")
-for (i in seq_along(starts)) {
-  lines(0:200, simuliere(starts[i], c(1.1, 1.05, 1), 200), lwd = 2.2,
-        col = farben[i])
-}
-```
-
-Die gestrichelte Linie links ist die Vorhersage $\hat p = t/(s+t)$ mit $s = 0.1$ und $t = 0.2$.
-
-::: {.callout-tip}
-## Zu beantworten
-
-1. Warum steigt $p$ links auch dann, wenn $A$ sehr selten ist?
-2. Verändern Sie $s$ und $t$ und prüfen Sie die Formel $\hat p = t/(s+t)$.
-3. Was passiert, wenn Sie den Heterozygoten benachteiligen, also `w = c(1, 0.9, 1)`?
-4. Eine Grenze: Was fehlt in diesem Modell, wenn die Population nur aus 50 Individuen besteht?
-:::
-
----
-
-# Frage 3 · Wann bleiben zwei Habitate verschieden?
-
-Zeigen Sie, wie die Differenzierung mit dem Genfluss verschwindet.
-
-```{r}
-#| fig-height: 4.4
-#| fig-width: 9
-par(mfrow = c(1, 2))
-
-sim <- zwei_demen(m = 0.02, s = 0.15)
-plot(sim$generation, sim$p1, type = "l", lwd = 2.5, col = "#2166ac",
-     ylim = c(0, 1), xlab = "Generation", ylab = "Frequenz von A",
-     main = "s = 0.15, m = 0.02")
-lines(sim$generation, sim$p2, lwd = 2.5, col = "#b2182b")
-legend("right", c("See", "Meer"), col = c("#2166ac", "#b2182b"),
-       lwd = 2.5, bty = "n", cex = 0.85)
-
-m_werte <- seq(0.01, 0.40, by = 0.01)
-fst_werte <- sapply(m_werte, function(m) {
-  letzte <- tail(zwei_demen(s = 0.15, m = m, generationen = 400), 1)
-  fst(letzte$p1, letzte$p2)
-})
-
-plot(m_werte, fst_werte, type = "b", pch = 16, lwd = 2, col = "#2166ac",
-     ylim = c(0, 1), xlab = "Migrationsrate m", ylab = expression(F[ST]),
-     main = "Differenzierung gegen Genfluss")
-```
-
-::: {.callout-tip}
-## Zu beantworten
-
-1. Ab welcher Migrationsrate ist die Differenzierung praktisch verschwunden?
-2. Wiederholen Sie den rechten Teil mit `s = 0.4`. Was verschiebt sich?
-3. Alle Loci eines Genoms teilen dasselbe $m$. Warum ist trotzdem nur ein kleiner Teil stark differenziert?
-4. Eine Grenze: Welche biologischen Details der Stichlinge lässt dieses Modell weg?
-:::
-
----
-
-# Checkliste vor dem Vortrag
-
-- [ ] Die Abbildung hat beschriftete Achsen und, wo nötig, eine Legende.
-- [ ] Der veränderte Parameter steht im Titel oder in der Legende.
-- [ ] Ich kann die biologische Frage in einem Satz sagen.
-- [ ] Ich kann eine Grenze des Modells benennen.
-- [ ] Ich erkläre die Biologie, nicht den Code.
-
-## Quellen
-
-- Corl, A., et al. (2026). *Science* 391: 69–74. [doi:10.1126/science.adw8265](https://doi.org/10.1126/science.adw8265)
-- Allison, A. C. (1954). *BMJ* 1: 290–294. [doi:10.1136/bmj.1.4857.290](https://doi.org/10.1136/bmj.1.4857.290)
-- Jones, F. C., et al. (2012). *Nature* 484: 55–61. [doi:10.1038/nature10944](https://doi.org/10.1038/nature10944)
-- Gould, S. J., & Lewontin, R. C. (1979). *Proc. R. Soc. Lond. B* 205: 581–598.
+Anwesenheit und Vortrag sind Pflicht. Bewertet werden die Frage
+und die Abbildung, nicht der Code-Umfang.

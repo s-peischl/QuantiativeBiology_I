@@ -1,12 +1,12 @@
 ---
-title: "Woche 11 — Checkpoint C"
-subtitle: "Frage und Abbildung"
+title: "Woche 11 — Wolke und Fortbestand"
+subtitle: "Wolke und Fortbestand"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:
     html-math-method: katex
     theme: simple
-    css: slides.css
+    css: [slides.css, ../print.css]
     slide-number: true
     incremental: false
     embed-resources: true
@@ -84,7 +84,7 @@ Pfeiltasten · **M** Menü · **Esc** Übersicht
 
 ## Heute in dieser Reihenfolge
 
-1. Landkarte: was die Wochen 9–10 gefragt haben
+1. Landkarte: Teich → Wolke → $2s$ → Rettung
 2. Eine Frage wählen, **eine** Abbildung
 3. 3–5 Minuten vortragen
 
@@ -112,13 +112,16 @@ andere Vorlesungen — das Bild nehmen Sie mit.
 ## Landkarte — die Fragen
 
 ::::::: columns
-::::: {.column width="32%"}
-**9** · Eine neue Mutante beginnt mit einer Kopie. Reicht $s>0$?
+::::: {.column width="24%"}
+**9** · Drei Teiche, Chr XI: alle steigen, Bahnen trennen sich.
 :::::
-::::: {.column width="32%"}
-**9** · Was ist $u$ — und wann ist $u\approx 2s$ brauchbar?
+::::: {.column width="24%"}
+**9** · Liegen sie in der **neutralen** Wolke?
 :::::
-::::: {.column width="32%"}
+::::: {.column width="24%"}
+**10** · Eine Kopie: $u$, und wann $u\approx 2s$?
+:::::
+::::: {.column width="24%"}
 **10** · Schrumpft $N$, muss $u$ **vor** dem Kollaps greifen.
 :::::
 :::::::
@@ -129,9 +132,9 @@ Immer dieselbe Schleife: Frage → Bild → was das Modell *nicht* kann.
 
 | | Wozu | Nicht heute |
 |---|---|---|
-| **Zufallszahlen** (W9) | $X\sim\mathrm{Binomial}$, Replikate | PRNG-Theorie |
-| **$\hat u(s)$** (W9) | Schicksal einer Kopie | Kimura-Formel ableiten |
-| **$N_{\mathrm{wt}}(t)$** (W10) | Demografie zuerst deterministisch | stochastische $N$ |
+| **Zufallszahlen** (W9) | $X\sim\mathrm{Binomial}$, Wolke | PRNG-Theorie |
+| **Teiche vs. Wolke** (W9) | Neutralität reicht nicht | LRT, $p$-Wert |
+| **$\hat u(s)$** (W10) | Schicksal einer Kopie | Kimura-Formel ableiten |
 | **$\Pr(R)$** (W10) | Population gerettet oder nicht | Raum, Interaktionen |
 
 Mathematik, Statistik und Code tauchen auf, weil die Biologie sie **braucht** —
@@ -139,25 +142,24 @@ nicht als eigenes Kapitel.
 
 ## Drei Fragen — eine wählen
 
-1. **Rückgang $r$.** Wie schnell darf der Wildtyp schrumpfen, damit
-   Rettung noch häufig ist? (Antibiotikum, Salz, Klima)
-2. **Vorteil $s$.** Reicht ein schwacher Resistenzvorteil — oder nur
-   ein grosses $s$?
-3. **Startgrösse $N_0$.** Gibt es eine Schwelle, wie bei Bell & Gonzalez
-   (2009)? Mutationsangebot $N_0 U$.
+1. **Neutrale Wolke.** Liegen die Teichbahnen in dem, was Drift bei
+   $p_0=0.5$ erwartet — oder ausserhalb?
+2. **Selektion plus Rauschen.** Welche $s$-Wolke trägt die Teiche?
+   Kein Beweis — ein konsistentes Bild.
+3. **Rettung.** Wie ändert $\Pr(R)$ mit $r$ oder $N_0$?
+   Formel $\Pr(R)\approx 1-\exp(-2 N_0 U s/r)$ darf daneben liegen.
 
 Eine Frage, **eine** Abbildung, eine Modellgrenze.
-Formel $\Pr(R)\approx 1-\exp(-2 N_0 U s/r)$ darf daneben liegen.
 
 ## Gemeinsame Annahmen
 
-- haploid, ein Locus, de-novo-Mutation
-- Wildtyp-Demografie **deterministisch**
-- Etablierung mit $u\approx 2s$
+- haploid, ein Locus
+- Teiche: $N$ fest, Start $p=0.5$, Kurs-$N=250$
+- Rettung: Wildtyp-Demografie **deterministisch**, $u\approx 2s$
 - keine stehende Variation, kein HGT, kein Raum
 
-Das reicht für die drei Fragen. Bell & Gonzalez lassen in den Kulturen
-mehr zu als unser Simulator.
+Das reicht für die drei Fragen. Die echten Teiche sind diploid,
+und $N$ ist nicht wirklich fest.
 
 ## Checkpoint C · heute
 
@@ -177,7 +179,7 @@ Vortrag (3–5 Min.):
 2. welchen Parameter Sie geändert haben (einer reicht)
 3. **eine** Abbildung
 4. biologisches Ergebnis
-5. eine Modellgrenze · was ein Laborversuch messen würde
+5. eine Modellgrenze · was ein Experiment messen würde
 
 ## Notebook
 
@@ -189,7 +191,7 @@ die Note gilt der Frage und der Abbildung, nicht dem Code-Umfang.
 ## Take-home
 
 1. Eine biologische Frage, **eine** Abbildung, eine Pointe.
-2. Rettung ist Etablierung mit Ablaufdatum.
+2. Teich → Wolke → $2s$ → Rettung: dieselbe Ziehung, andere Frage.
 3. Anwesenheit: ohne Vortrag kein Checkpoint C.
 
 ## Navigation

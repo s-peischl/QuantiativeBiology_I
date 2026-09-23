@@ -42,20 +42,16 @@ Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 
 | Teil | Dauer | Was |
 |------|-------|-----|
-| Vorlesung | ~45–60 min | Störung → ein oder zwei Endpunkte → Keystone → Hysterese |
+| Vorlesung | ~45–60 min | Störung → Bistabilität → Keystone → Hysterese |
 | Notebook | ~45 min | Yellowstone-Netz selbst rechnen |
 
 ## Lernziele
 
 Nach heute **kennen** Sie …
 
-1. **Gleichgewicht**, **Stabilität** und **Einzugsgebiet**: stabil heisst, das System kehrt nach einer kleinen Störung zurück,
-2. dass Konkurrenz **einen** oder **zwei** Endpunkte haben kann, und welche Rolle $\alpha$ und der Start dabei spielen,
+1. **Gleichgewicht**, **Stabilität** und **Einzugsgebiet**: stabil heisst, das System kehrt nach einer kleinen Umweltänderung zurück,
+2. dass Konkurrenz **einen** Endpunkt oder **Bistabilität** haben kann, und welche Rolle $\alpha$ und der Start dabei spielen,
 3. **Keystone** (starke Wirkung einer Art auf die Gemeinschaft) und **Hysterese** (Hinweg und Rückweg sind nicht gleich).
-
-## Leitfrage
-
-Kann **eine Art** — entfernt oder wiederangesiedelt — den Zustand eines ganzen Systems ändern?
 
 # Einstieg · Eine Art ändert das System
 
@@ -84,21 +80,21 @@ Yellowstone National Park
 
 ::::: columns
 ::: {.column width="42%"}
-![](../../pics/yellowstone/elk_rmnp.jpg){fig-alt="Wapiti Elch" width="92%"}
+![](../../pics/yellowstone/elk_rmnp.jpg){fig-alt="Wapiti-Hirsch Cervus canadensis" width="92%"}
 :::
 ::: {.column width="58%"}
-**Elche (Wapiti)** bleiben die wichtigen Herbivoren.
+**Wapiti-Hirsche** (*Cervus canadensis*) — nicht Elche (*Alces*).
 
 Danach beobachtet und diskutiert:
 
 - starke Beweidung an Flussufern  
-- Weiden und Aspen kommen kaum nach  
+- Weiden und Pappeln kommen kaum nach  
 - weniger Lebensraum für Biber und andere Uferarten  
 :::
 :::::
 
 ::: aside
-Elch: Rocky Mountain · stellvertretend für Yellowstones Herbivoren
+Wapiti: Rocky Mountain · stellvertretend für Yellowstones Herbivoren
 :::
 
 ## Wiederansiedlung 1995/96
@@ -112,7 +108,7 @@ Grauwölfe werden wiederangesiedelt. Das ist eine **Störung** des Systems.
 
 Diskutierte Folgen:
 
-- Elche werden seltener oder meiden riskante Orte  
+- Wapiti werden seltener oder meiden riskante Orte  
 - Verbiss an Ufern nimmt ab  
 - Vegetation kann nachwachsen  
 :::
@@ -141,7 +137,7 @@ Der Zustand ändert sich nicht mehr.
 ::: {.column width="33%"}
 ### Stabil
 
-Nach einer **kleinen Störung** kehrt das System zum Gleichgewicht zurück.
+Nach einer **kleinen Umweltänderung** kehrt das System zum Ausgangszustand zurück.
 :::
 ::: {.column width="33%"}
 ### Einzugsgebiet
@@ -156,7 +152,9 @@ Woche 2: Beute und Räuber bleiben oft **sichtbar**. Das ist Persistenz, noch ni
 
 ![](../../pics/comics/comic_stability.svg){fig-alt="Stabilitaet: nach kleinem Push kehrt das System zum Endzustand zurueck" width="70%"}
 
-Stabilität prüft man mit einer Störung: kleinem Push, anderem Start, oder einer Art hinzu oder weg.
+**Stabilität** heisst hier: nach einer kleinen Veränderung der Umwelt kehrt das System in den ursprünglichen Zustand zurück.
+
+Zum Beispiel ein trockener Sommer, ein paar zusätzliche Wapiti, oder eine Art, die kurz auftaucht und wieder verschwindet. Bleibt danach derselbe Zustand, war das Gleichgewicht stabil.
 
 # 1 · Zwei Arten, eine Ressource
 
@@ -243,17 +241,30 @@ $$
 
 Ein Individuum von Art 2 zählt wie $\alpha_{12}$ Individuen von Art 1. Analog Art 2 mit $\alpha_{21}$.
 
+## Die Interaktionsmatrix
+
+$$
+A = \begin{pmatrix}
+1 & \alpha_{12} \\
+\alpha_{21} & 1
+\end{pmatrix}
+$$
+
+**Lesen:** Zeile $i$ ist die Art, die gehemmt wird. Spalte $j$ ist die Art, die hemmt. $A_{12}=\alpha_{12}$: ein Individuum von Art 2 zählt in der Tragfähigkeit von Art 1 wie $\alpha_{12}$ eigene.
+
+**Warum $1$ auf der Diagonale?** Die eigene Dichte ist der Massstab. $\alpha=1$ heisst: ein Fremdes hemmt genau so stark wie ein Eigenes. Alles andere ist relativ zu dieser $1$.
+
 ## $\alpha$ wählen
 
 Massstab **1** = so stark wie die eigene Selbstkonkurrenz.
 
-| $\alpha_{12}$ | Bedeutung für Art 1 |
-|---------------|---------------------|
-| $< 1$ | Art 2 hemmt **schwächer** als ein eigenes Individuum |
-| $= 1$ | ein Fremdes = ein Eigenes |
-| $> 1$ | Art 2 hemmt **stärker** als die Selbstkonkurrenz |
+**$\alpha_{12}<1$.** Art 2 hemmt schwächer als ein eigenes Individuum. Zwei Gräser auf leicht verschiedenen Stellen: jede leidet vor allem unter der eigenen Dichte. Beide können bleiben.
 
-Man vergleicht beide $\alpha$ mit 1. Davon hängt ab, ob am Ende eine Art, beide Arten oder — je nach Start — die eine oder die andere übrig bleibt.
+**$\alpha_{12}=1$.** Ein Fremdes zählt wie ein Eigenes. Zwei Sorten desselben Getreides, dieselbe Nische — austauschbar.
+
+**$\alpha_{12}>1$.** Art 2 hemmt stärker. *P. aurelia* gegen *P. caudatum*: die stärkere Art verdrängt. Oder Wald gegen Gras: die Krone beschattet stärker, als Gras den Wald bremst.
+
+Man vergleicht **beide** $\alpha$ mit $1$. Davon hängt ab, ob eine Art bleibt, beide, oder — je nach Start — die eine oder die andere.
 
 ::: aside
 Kurswerte zur Illustration — keine Schätzungen aus den Gause-Daten.
@@ -348,7 +359,7 @@ Jede Art hemmt die andere stärker als sich selbst.
 Wer zuerst häufig ist, zieht den Zustand zu sich.  
 Dann gibt es **zwei** mögliche Gewinner — der Start entscheidet.
 
-# 2 · Zwei Endpunkte
+# 2 · Bistabilität
 
 ## Grasland oder Wald
 
@@ -478,13 +489,19 @@ An der Nordpazifik-Felsküste ist **Raum** knapp. Viele sessile Arten sitzen auf
 ## Paines Experiment (1966)
 
 ::::: columns
-::: {.column width="40%"}
+::: {.column width="28%"}
 ![](../../pics/keystone/pisaster_ochraceus.jpg){fig-alt="Pisaster ochraceus" width="92%"}
 :::
-::: {.column width="60%"}
-Paine entfernte den Seestern *Pisaster* von Versuchsflächen.
+::: {.column width="72%"}
+Paine entfernte *Pisaster*. Im Modell ist das $P=0$ — der Frassterm fällt weg.
 
-Wenn die naive Erwartung stimmt, sollte ohne Räuber die sessile Vielfalt **steigen**: weniger Frass, mehr Überlebende.
+$$
+M_{t+1}=M_t+r_M M_t\left(1-\frac{M_t+\alpha_{MO}O_t}{K}\right)\mathbf{-a\,P\,M_t}
+$$
+
+$M$ = Muschel (starke Konkurrentin), $O$ = die anderen. Nur $M$ wird gefressen. $O$ bleibt die Gleichung aus Teil 2.
+
+Ohne Seestern: $-aPM$ ist null. Dieselbe Konkurrenz, keine zusätzliche Sterblichkeit.
 :::
 :::::
 
@@ -531,7 +548,7 @@ Eine Art mit grosser Wirkung auf die Gemeinschaft, oft ohne grossen Anteil an de
 
 *Pisaster* verhindert den Ausschluss. Dieselbe Frage wie in Yellowstone: ändert eine Art, welche anderen bestehen bleiben?
 
-Im **[Notebook](notebook.html)** sehen Sie so ein Modell genauer: Wolf, Elch, Vegetation. Sie setzen den Wolf und lesen, welche anderen bleiben.
+Im **[Notebook](notebook.html)** sehen Sie so ein Modell genauer: Wolf, Wapiti, Vegetation. Sie setzen den Wolf und lesen, welche anderen bleiben.
 
 # 4 · Seeotter und Kelp
 
@@ -555,7 +572,7 @@ Im **[Notebook](notebook.html)** sehen Sie so ein Modell genauer: Wolf, Elch, Ve
 :::
 :::::
 
-Otter fressen Seeigel, Seeigel fressen Kelp. Die Kette läuft in dieselbe Richtung wie Wolf, Elch und Ufervegetation, hier aus dem Freiland.
+Otter fressen Seeigel, Seeigel fressen Kelp.
 
 ::: aside
 *Pycnopodia* (Sonnenblumenstern) frisst ebenfalls Igel; das kommt gleich.
@@ -563,25 +580,40 @@ Otter fressen Seeigel, Seeigel fressen Kelp. Die Kette läuft in dieselbe Richtu
 
 ## Das geschätzte Netz
 
-Langendorf et al. (2025), aus Zeitreihen von etwa 30 Jahren. Westküste von Vancouver Island und San Nicolas Island.
+::::: columns
+::: {.column width="34%"}
+Langendorf et al. (2025), etwa 30 Jahre. Vancouver Island und San Nicolas Island.
 
-![](../../pics/keystone/langendorf_2025_fig1.jpg){fig-alt="Geschaetztes Kelp-Food-Web mit Ottern, Raeubern, Herbivoren und Algen an zwei Kueste" height="300px"}
+Otter–Igel–Kelp ist **eine** Kante unter vielen.
+
+- violett: nur Norden  
+- grün: nur Süden  
+- durchgezogen: wirkt nach unten  
+- gestrichelt: wirkt nach oben  
+:::
+::: {.column width="66%"}
+![](../../pics/keystone/langendorf_2025_fig1.jpg){fig-alt="Geschaetztes Kelp-Food-Web mit Ottern, Raeubern, Herbivoren und Algen an zwei Kueste" width="100%"}
+:::
+:::::
 
 ::: aside
 Langendorf et al. (2025), Fig. 1 · unverändert · CC BY-NC-ND 4.0
 :::
 
-## Das Netz lesen
-
-Die Kette Otter–Igel–Kelp ist darin eine Kante unter vielen.
-
-Violett gibt es nur im Norden, grün nur im Süden. Durchgezogen wirkt nach unten, gestrichelt nach oben.
-
 ## Die erwartete Kaskade
 
-An der kalifornischen Küste regulieren Seeotter Seeigel. Ohne Otter entsteht oft eine Seeigelwüste.
+::::: columns
+::: {.column width="32%"}
+An der kalifornischen Küste regulieren Seeotter Seeigel.
 
-![](../../pics/keystone/guardians_of_the_kelp.png){fig-alt="Mit Seeottern bleibt der Kelpwald; ohne nehmen Seeigel zu und fressen Kelp weg" height="300px"}
+**Mit Otter:** Kelpwald.
+
+**Ohne Otter:** Seeigelwüste.
+:::
+::: {.column width="68%"}
+![](../../pics/keystone/guardians_of_the_kelp.png){fig-alt="Mit Seeottern bleibt der Kelpwald; ohne nehmen Seeigel zu und fressen Kelp weg" width="100%"}
+:::
+:::::
 
 ::: aside
 «Guardians of the Kelp» · BioRender.com
@@ -602,93 +634,56 @@ Die erwartete Folge wäre: mehr Otter → weniger Igel → Kelp erholt sich.
 
 ## Was die Daten zeigen
 
-![](../../pics/keystone/figure10_otter_urchin_kelp.jpg){fig-alt="Zeitreihen Otter, Kelp, Seeigel, Pycnopodia und Mechanismus-Skizze" height="340px"}
+::::: columns
+::: {.column width="30%"}
+Otter oben (A), Kelp (B), Seeigel (C), *Pycnopodia* weg (D).
+
+Die Otterdichte steigt wieder. Der Kelpwald kommt **nicht** überall zurück.
+:::
+::: {.column width="70%"}
+![](../../pics/keystone/figure10_otter_urchin_kelp.jpg){fig-alt="Zeitreihen Otter, Kelp, Seeigel, Pycnopodia und Mechanismus-Skizze" width="100%"}
+:::
+:::::
 
 ::: aside
 Smith et al. (2021), Fig. 10 · Jessica Kendall-Bar · Planet-Vie/PNAS · Lehre / nicht-kommerziell
 :::
 
-Otter oben (A), Kelp unten (B), Seeigel oben (C), *Pycnopodia* weg (D). Die Otterdichte steigt wieder, der Kelpwald aber nicht überall.
+## Wo Otter jagen — und wo nicht
+
+Smith et al. (2021): Otter **stärken die bestehenden** Kelpwälder. Die Wiederbesiedlung von Seeigelwüsten fördern sie nicht.
+
+Sie jagen nicht dort, wo die Igel am dichtesten sind. Sie jagen dort, wo der Fang sich **lohnt**.
+
+Die profitabelsten Seeigel leben im Kelpwald. In der Wüste sind sie mager — viele, aber kein guter Tauchgang.
+
+Deshalb kein starker Effekt, der das System zurück zum Wald bringt.
 
 ## Hysterese
 
-Ist der Zustand gekippt, reicht oft **nicht** dieselbe Otterdichte wie zuvor, um zurückzukommen.
+Halten $\neq$ wiederherstellen. Ist der Zustand gekippt, reicht oft **nicht** dieselbe Otterdichte wie zuvor.
 
 ![](../../pics/comics/comic_hysteresis_ramp.svg){fig-alt="Hysterese: Kelp gegen Otteranzahl, Kippen und Rueckkehr bei verschiedener Dichte" height="280px"}
 
 Dieselbe Otterdichte, zwei Zustände. Der Rückweg braucht eine **andere** Schwelle.
 
-## Restwald und Seeigelwüste
-
-Start im Kelpwald. Die Otterdichte sinkt, bis der Wald in die Seeigelwüste kippt. Steigt sie wieder, bleibt die Wüste, bis eine höhere Dichte erreicht ist. Auf der Skizze liegen die beiden Sprünge nicht übereinander.
-
-Otter können vorhandenen Kelp schützen. Eine Seeigelwüste mit derselben Dichte wieder in Wald zu verwandeln gelingt oft nicht.
-
-Einen bestehenden Wald zu halten und eine Seeigelwüste wiederherzustellen sind zwei verschiedene Aufgaben.
-
-::: aside
-Dieselbe Kurvenform kommt aus einem Insektenmodell. Bonus am Ende der Folien: der Fichtenwickler.
-:::
-
-## Wie der Otter jagt
-
-Der Unterschied ist **wie** der Otter wirkt — nicht wie viele Seeigel es gibt.
-
-**Nicht:** je mehr Beute, desto mehr Frass.
-
-**Sondern:** nur wenn die Beute gut genug ist, jagt er.
-
-Ein Tauchgang kostet. In der Seeigelwüste sind die Igel mager — der Otter lässt sie, obwohl es viele gibt.
-
-Im Kelpwald sind sie fett. Dort lohnt sich der Tauchgang.
-
-## Holling Typ III {#holling-typ-iii}
-
-Der Verlust der Seeigel $U$ durch Otter $P$ ist dann
-
-$$
-P\cdot f(U),\qquad f(U)=\frac{a U^{2}}{1+ah U^{2}}
-$$
-
-```{r}
-#| fig-height: 2.15
-#| fig-width: 7.2
-#| out-width: 56%
-source("../slides-ggplot.R")
-U <- seq(0, 12, length.out = 250)
-a <- 0.08
-h <- 0.5
-holling <- data.frame(U = U, f = a * U^2 / (1 + a * h * U^2))
-ggplot(holling, aes(U, f)) +
-  geom_line(colour = col_navy, linewidth = 1.15) +
-  geom_hline(yintercept = 1 / h, linetype = "dashed", colour = "#7f8c8d") +
-  annotate("text", x = 2.1, y = 0.22, label = "kein Jagen",
-           colour = "#7f8c8d", size = 3.2) +
-  annotate("text", x = 10.2, y = 1 / h + 0.16, label = "Saettigung",
-           colour = "#7f8c8d", size = 3.2) +
-  labs(x = "Seeigel-Biomasse", y = "Frass pro Otter") +
-  theme_slide()
-```
-
-Links bleibt $f$ fast null: kein Jagen. Rechts sättigt $f$ bei $1/h$: volle Mahlzeit. Dieselbe Form steht im Bonus.
+Siehe auch Bonus-Anhang am Ende der Folien.
 
 # Abschluss
 
 ## Take-home
 
-Eine Störung zeigt, ob das System ein Gleichgewicht hat oder zwei.
-
-*Pisaster* erhält die Vielfalt, weil er die starke Konkurrentin frisst. Otter halten den Wald, weil sie nur jagen, wo die Igel sich lohnen. Nach dem Zusammenbruch reicht dieselbe Otterdichte oft nicht: der Rückweg hat eine andere Schwelle.
-
-Ob ein Zustand hält, sieht man daran, wie das System auf die Störung reagiert.
+- Ein System kann **mehrere Gleichgewichte** haben.
+- Prädatoren können Ökosysteme **stabilisieren** (Keystone).
+- Manchmal ist es schwer, ein System wieder in den Ursprungszustand zu bringen (Kipppunkt / Hysterese).
 
 ## Notebook
 
-Yellowstone als Modell: Aspen, Sage, Elch, Wolf. Sie setzen den Wolf und lesen den Endzustand.
+Yellowstone als Modell: Pappel, Steppen-Beifuss, Wapiti, Wolf. Sie setzen den Wolf und lesen den Endzustand.
 
 1. *Paramecium*: Daten und Ausschluss  
-2. $\alpha$ drehen: ein Endpunkt oder zwei  
-3. Food-Web: hält der Wolf das Netz?
+2. $\alpha$ verändern: ein Endpunkt oder Bistabilität  
+3. Food-Web: Kann ein Wolf unser Modell-System stabilisieren?
 
 ## Abschlussfragen
 
@@ -718,7 +713,7 @@ Yellowstone als Modell: Aspen, Sage, Elch, Wolf. Sie setzen den Wolf und lesen d
 :::: {.lit}
 **Fotos** (Wikimedia Commons):
 
-- Yellowstone: Eric Kilby (CC BY-SA 4.0) · Elch: Andrew Russell (CC BY 2.0) · Wolf: John und Karen Hollingsworth (gemeinfrei, USFWS)
+- Yellowstone: Eric Kilby (CC BY-SA 4.0) · Wapiti: Andrew Russell (CC BY 2.0) · Wolf: John und Karen Hollingsworth (gemeinfrei, USFWS)
 - Savanne, Serengeti: Michelle Maria (CC BY 3.0) · Wald, Gabun: Axel Rouvin (CC BY 2.0)
 - Miesmuscheln: Sharon Mollerus (CC BY 2.0) · *Pisaster*: D. Gordon E. Robertson (CC BY-SA 3.0)
 - Seeotter: Marshal Hedin (CC BY-SA 2.0) · Seeigel: Jerry Kirkhart (CC BY 2.0) · Kelpwald: Eric T. Gunther (CC BY-SA 3.0)

@@ -80,6 +80,19 @@ Privates Kursfoto (nicht von Commons):
 Fotos für Wochen 5–7 (Elektrophorese, Drosophila, Anopheles, Sichelzellen,
 Mine, Agrostis, Inselfuchs, Kākāpō, Kimura, Québec): siehe `pics/popgen/CREDITS.md`.
 
+## Teichexperiment (`pics/pond-experiment/`)
+
+Unveröffentlichte Kursfotos aus dem UBC-Teichexperiment (Peichel- und
+Schluter-Labore). **Nicht ohne Genehmigung** weiterverbreiten oder auf
+den öffentlichen Kurs-Hub legen.
+
+| Lokale Datei | Hinweis |
+|---|---|
+| `pond_panorama.jpg` | Teichlandschaft. Foto: Marius Roesti. |
+| `pond_facility_aerial.jpg` | UBC experimental pond facility (20 Teiche). Folien Katie Peichel; Satellitenbild-Hintergrund Google. |
+| `marine_sticklebacks.jpg` | Marine Stichlinge, Oyster Lagoon. Peichel- / Schluter-Labore. |
+| `pond2_chrxi_sign.jpg` | Teich 2, Inversion Chr XI. Peichel- / Schluter-Labore. |
+
 ## Organismen (`pics/organisms/`)
 
 | Lokale Datei | Commons-Datei | Urheber:in | Lizenz |
@@ -100,7 +113,7 @@ CC-lizenzierte Bilder erfordern die oben angegebene Namensnennung (und, wo verme
 |---|---|
 | `yellowstone_landscape.jpg` | Park-Landschaft (Commons) — siehe `yellowstone/CREDITS.md` |
 | `wolf_yellowstone.jpg` | Wolf — siehe CREDITS |
-| `elk_rmnp.jpg` | Elch / Wapiti — siehe CREDITS |
+| `elk_rmnp.jpg` | Wapiti (*Cervus canadensis*), nicht Elch — siehe CREDITS |
 
 ## Ökosysteme (`pics/ecosystems/`)
 

@@ -18,10 +18,10 @@ Parallel: Kurs «R-Programmierung» (dort systematisch R; hier Modelle und Biolo
 
 | Block | Wochen | Checkpoint |
 |-------|--------|------------|
-| Einstieg + Ökologie | 1–4 | **A** · 8. Oktober 2026 |
-| Allelfrequenz und Selektion | 5–8 | **B** · 5. November 2026 |
-| Evolution (zufällig) / Rettung | 9–11 | **C** · 26. November 2026 |
-| Mikrobiom | 12–14 | **D** · 17. Dezember 2026 |
+| Ökologie und Dynamik | 1–4 | **A** · 8. Oktober 2026 |
+| Vererbung und Vektoren | 5–8 | **B** · 5. November 2026 |
+| Evolution und Zufall | 9–11 | **C** · 26. November 2026 |
+| Mikrobiom und Reproduzierbarkeit | 12–14 | **D** · 17. Dezember 2026 |
 
 ## Bewertung
 

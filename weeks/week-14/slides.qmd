@@ -1,14 +1,16 @@
 ---
-title: "Woche 14 — Eine visuelle Mikrobiom-Geschichte"
-subtitle: "Abbildung und Aussage"
+title: "Woche 14 — Geschichte und Grenze"
+subtitle: "Geschichte und Grenze"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:
     html-math-method: katex
     theme: simple
+    css: ../print.css
     slide-number: true
     incremental: false
     embed-resources: true
+    auto-stretch: false
     transition: none
     controls: true
     controls-layout: edges
@@ -18,40 +20,47 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Start](../../index.html)"
+    footer: "[Start](../../index.html) · [Notebook](notebook.html)"
 execute:
   echo: false
   warning: false
   message: false
+  freeze: auto
 ---
 
-## In diesem Foliensatz
+## Übersicht
 
-**Woche 14** von 14 · **Checkpoint D**  
-**Do., 17. Dez. 2026, 08:15–10:00**
-
-- [Start](../../index.html)
-- Pfeiltasten / Steuerelemente · **M** Menü · **Esc** Übersicht
-
-## Sitzungsablauf (~90 min)
+**Woche 14** von 14 · **Checkpoint D** · **Do., 17. Dez. 2026, 08:15–10:00**
 
 | Teil | Dauer | Was |
 |------|-------|-----|
-| Intro | ~15 min | Mikrobiom-Block + Semesterbogen |
-| Notebook | ~40 min | eine visuelle Geschichte · Entwurf |
+| Intro | ~15 min | Modul 4 + Semesterbogen |
+| Notebook | ~40 min | eine Geschichte · Entwurf |
 | Präsentationen | ~30 min | Checkpoint D, Anwesenheit Pflicht |
 
-## Rückblick auf den Block
+::: aside
+Pfeiltasten · **M** Menü · **Esc** Übersicht
+:::
+
+## Heute in dieser Reihenfolge
+
+1. Landkarte: Tabelle → Abbildung → Geschichte
+2. Eine Frage, **eine** Abbildung
+3. 3–5 Minuten vortragen
+
+::: aside
+[Modul 4](../../docs/module-04-overview.html) · [Glossar](../../docs/glossary.html)
+:::
+
+## Der Block in drei Zeilen
 
 | Woche | Fähigkeit |
 |---|---|
-| 12 | Komplexe Tabellen + Metadaten einlesen |
-| 13 | Ohne Chaos visualisieren |
-| **14** | Eine ehrliche Datengeschichte erzählen · **Checkpoint D** |
+| 12 | Drei Dateien, ein Schlüssel, ein Projekt |
+| 13 | Auswählen, eine Aussage färben |
+| **14** | Die Geschichte und ihre Grenze · **Checkpoint D** |
 
-## Checkpoint D (heute)
-
-**Praktische Arbeit + Kurzpräsentation (ca. 3–5 Min.)**
+## Checkpoint D · heute
 
 Keine Methodenolympiade — ein Checkpoint zur **Kommunikation**.
 
@@ -65,42 +74,42 @@ Sie müssen **anwesend sein und vortragen**.
 :::
 :::::
 
-## Erforderliche Bestandteile
+## Was Sie zeigen
 
-1. Biologische / ökologische Fragestellung
-2. Was Sie eingelesen und wie Sie es bereinigt/verknüpft haben
-3. **Eine Hauptabbildung** (+ optionale kleine Grafik zur Qualitätskontrolle)
+1. Biologische Frage
+2. Was Sie eingelesen und wie Sie IDs geprüft haben
+3. **Eine** Hauptabbildung (+ optionale QC)
 4. Was die Abbildung **nicht** zeigt
 
-## Praktischer Arbeitsablauf (verwenden Sie diese Checkliste)
+Das abgegebene Ding ist das **Dokument** (Projekt + Daten + Notebook),
+nicht ein Screenshot.
 
-1. Daten mit Ihren Prüfungen aus Woche 12 erneut einlesen
-2. Aggregation wählen (häufigste Taxa / taxonomische Ebene)
-3. 1–2 mögliche Abbildungen erstellen; die klarste auswählen
-4. Eine Bildlegende mit 2–3 Sätzen verfassen
-5. Annahmen auflisten (relativ vs. absolut, Filter, Batch, …)
+## Drei Fragen — eine wählen
 
-## Geeignete Themen für Checkpoint D (Beispiele)
+1. **Zusammensetzung.** Unterscheidet sich die Gemeinschaft nach
+   Ort, Wirt oder Zeitpunkt?
+2. **Bibliotheksgrösse.** Ändert die QC, was Sie behaupten dürfen?
+3. **Ein Taxon.** Hängt ein Taxon an einem Metadatum — und was
+   fehlt für einen kausalen Satz?
 
-- Veränderung der Zusammensetzung zwischen Standorten / Wirten / Zeitpunkten
-- Ein auf Stammebene sichtbarer Unterschied zwischen Behandlungen
-- Dominante Taxa gegenüber dem seltenen Anteil «Andere»
-- Qualitätskontrolle der Bibliotheksgrösse, welche die Interpretation verändert
-
-## Schwerpunkt der Bewertung
+## Bewertung
 
 | Höhere Gewichtung | Niedrigere Gewichtung |
 |---|---|
 | Klare Frage + verständliche Abbildung | Exotische Ordinationen |
-| Korrekte Verknüpfungen / beschriftete Achsen | Dutzende Panels |
-| Ehrliche Einschränkungen | Dekorative Farben |
+| Geprüfter Join, beschriftete Achsen | Dutzende Panels |
+| Ehrliche Grenze | Dekorative Farben |
 
-## Der Semesterbogen (kurz)
+## Semesterbogen
 
-Ökologie → Evolution (zuerst deterministisch, dann Zufall und Rettung)
-→ Mikrobiom als **komplexe ökologische Tabellen**.
+| Modul | Paar | Was blieb |
+|---|---|---|
+| 1 | Ökologie und Dynamik | ein Modell, das sich in der Zeit ändert |
+| 2 | Vererbung und Vektoren | viele Zeilen auf einmal |
+| 3 | Evolution und Zufall | eine Ziehung, eine Wolke |
+| 4 | Mikrobiom und Reproduzierbarkeit | eine Abbildung, die jemand wiederholt |
 
-Checkpoints **A–D** sind die benoteten Vorträge. Keine fünfte Präsentation.
+Checkpoints **A–D**. Keine fünfte Präsentation.
 
 ## Notebook
 
@@ -108,26 +117,16 @@ Checkpoints **A–D** sind die benoteten Vorträge. Keine fünfte Präsentation.
 
 Eine Fragestellung, eine Hauptabbildung, Einschränkungen.
 
-## Abschlussfragen
+## Take-home
 
-1. Wie lautet Ihre Aussage in einem Satz?
-2. Was würde Sie an Ihrer eigenen Abbildung zweifeln lassen?
-3. Welche Fähigkeit aus einem früheren Checkpoint haben Sie erneut eingesetzt (Schleife? Denken in Replikaten? ehrlicher Umgang mit Modell und Daten?)?
-
----
-
-## Literatur
-
-In diesem Foliensatz-Entwurf noch keine Fallstudien zitiert.  
-Sobald Inhalte ausgearbeitet sind, erscheint hier die vollständige Liste aller genannten Quellen.
+1. Eine Frage, eine Abbildung, eine Grenze.
+2. Nachweis = Dokument, nicht Screenshot.
+3. Anwesenheit: ohne Vortrag kein Checkpoint D.
 
 ## Navigation
 
 | | |
 |---|---|
-| Übersicht | [Start](../../index.html) |
-| Startseite | [Kursstartseite](../../index.html) |
+| Notebook | [Notebook Woche 14](notebook.html) |
 | Zurück | [← Woche 13](../week-13/slides.html) |
 | Weiter | *Kursende* |
-
-Tastatur: ← → · **M** Menü · **Esc** Übersicht · **F** Vollbild

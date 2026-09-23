@@ -475,11 +475,11 @@ Mit `0.99` erklären wir 1 % aller Fenster zu Ausreissern — auch dann, wenn ga
 ![](../../pics/icons/icon_code.svg){fig-alt="Notebook" width="70%"}
 :::
 ::: {.column width="80%"}
-**A** $m$ und $s$ drehen: wann bleiben Unterschiede?  
+**A** $F_{ST}$ aus $H_T$ und $H_S$  
 
-**B** vom Gleichgewicht zu $F_{ST}$  
+**B** $F_{ST}$ vektorwertig aus der Trajektorie  
 
-**C** den echten Scan filtern und die Ausreisser benennen
+**C** wie $m/s$ die Differenzierung setzt
 :::
 :::::
 

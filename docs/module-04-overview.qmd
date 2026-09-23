@@ -1,0 +1,71 @@
+---
+title: "Modul 4 — Wochen 12–14"
+subtitle: "Mikrobiom und Reproduzierbarkeit · Checkpoint D"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    css: ../styles.css
+---
+
+**Eine Seite Überblick** · Quantitative Biologie I · HS 2026
+
+::: {.callout-note}
+## Materialien folgen
+
+Der Block ist geplant; Folien und Notebooks erscheinen hier, sobald sie frei gegeben sind.
+:::
+
+## Was ist Modul 4?
+
+**Mikrobiom und Reproduzierbarkeit.** Rückkehr zur Ökologie, jetzt als
+Gemeinschaftstabelle: viele Taxa, viele Proben, eine Metadatendatei.
+
+Der Engpass ist nicht das Modell. Zwei Dateien, eine Frage, eine
+Abbildung — und jemand anderes soll dieselbe Abbildung **noch einmal
+erzeugen** können.
+
+Excel *kann* plotten. Es speichert den Klickpfad nicht. Ein R-Projekt
+(oder dasselbe in Python) speichert die Schritte. Notebooks bleiben
+base R.
+
+| Woche | Datum | Thema | Fokus |
+|------:|------|--------|--------|
+| **12** | 3. Dez. | Tabelle · Schlüssel | Projekt · Join · Excel vs Skript |
+| **13** | 10. Dez. | Abbildung · Auswahl | Top-$k$ · Zusammensetzung · eine Aussage |
+| **14** | 17. Dez. | Geschichte · Grenze | **Checkpoint D** · das Dokument, nicht der Screenshot |
+
+Details: [Glossar](glossary.qmd).
+
+## Was Sie können sollen (am Ende von Woche 14)
+
+- Sagen, was Abundanz, Taxonomie und Metadaten je beitragen
+- Proben-IDs prüfen, bevor Sie plotten
+- Eine Abbildung aus einem Dokument erzeugen, nicht aus Copy-Paste
+- Eine biologische Frage in **eine** Abbildung übersetzen — und sagen, was sie nicht zeigt (Checkpoint D)
+
+## Checkpoint D (Woche 14) — Präsenzpflicht
+
+In **Woche 14** beantwortet das Notebook **eine Frage**. Die Teaching Assistants gehen durch die Gruppen; Sie zeigen den Fortschritt — nicht an der Tafel.
+
+::: {.callout-important}
+## Anwesenheit erforderlich
+
+Für die **Benotung von Checkpoint D** müssen Sie **anwesend sein** und in der Gruppe vorstellen.  
+Wer fehlt, kann diesen Checkpoint nicht ablegen (siehe [Kursinfo (PDF)](kursinfo.pdf) · ILIAS).
+:::
+
+**Format:** Teams **bis zu vier** · die Checkpoint-Frage mit dem **R-Notebook** beantworten · eine Hauptabbildung.  
+Keine separate Hausarbeit — die Notebook-Arbeit ist die Vorbereitung.
+
+Themen: Zusammensetzung nach Gruppe/Ort; Bibliotheksgrösse als QC-Geschichte; ein Taxon über Metadaten.
+
+## Materialien
+
+| Woche | Folien | Notebook |
+|------:|--------|----------|
+| 12 | folgt | folgt |
+| 13 | folgt | folgt |
+| 14 | folgt | folgt |
+
+Zurück: [Start](../index.qmd) · [Modul 3](module-03-overview.qmd) · [Kursinfo (PDF)](kursinfo.pdf)

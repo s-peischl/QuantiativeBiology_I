@@ -11,9 +11,10 @@ format:
 
 - **[Kursinfo (PDF)](docs/kursinfo.pdf)** — Termine, Bewertung, Checkpoints (auch auf ILIAS)
 - **[Kursplan (PDF)](docs/kursplan.pdf)** — Kalender und Wocheninhalte
-- **[Modul 1 · Wochen 1–4](docs/module-01-overview.qmd)** — Einstieg · Ökologie · **Checkpoint A**
-- **[Modul 2 · Wochen 5–8](docs/module-02-overview.qmd)** — Allelfrequenz und Selektion · **Checkpoint B** · folgt
-- **[Modul 3 · Wochen 9–11](docs/module-03-overview.qmd)** — Zufall · Etablierung · Rettung · **Checkpoint C** · folgt
+- **[Modul 1 · Wochen 1–4](docs/module-01-overview.qmd)** — Ökologie und Dynamik · **Checkpoint A**
+- **[Modul 2 · Wochen 5–8](docs/module-02-overview.qmd)** — Vererbung und Vektoren · **Checkpoint B** · folgt
+- **[Modul 3 · Wochen 9–11](docs/module-03-overview.qmd)** — Evolution und Zufall · **Checkpoint C** · folgt
+- **[Modul 4 · Wochen 12–14](docs/module-04-overview.qmd)** — Mikrobiom und Reproduzierbarkeit · **Checkpoint D** · folgt
 - **[Glossar](docs/glossary.qmd)** — Fachbegriffe (Gymnasium → Uni)
 - **[KI-Richtlinie](docs/ai-policy.qmd)** — erlaubte Nutzung, Verbote und Offenlegung
 
@@ -38,7 +39,7 @@ Aktuell veröffentlicht: **Wochen 1–4**. Spätere Wochen erscheinen hier, soba
 
 ## Modul 1 (jetzt)
 
-Einstieg → Ökologie → Spieltheorie · endet mit **Checkpoint A in Woche 4**.
+**Ökologie und Dynamik** · endet mit **Checkpoint A in Woche 4**.
 
 ::: {.callout-important}
 ## Woche 4: Checkpoint A — Anwesenheit Pflicht
@@ -56,7 +57,7 @@ Details: [Modul 1](docs/module-01-overview.qmd) · [Kursinfo (PDF)](docs/kursinf
 
 ## Modul 2 · folgt
 
-Hardy–Weinberg → lokale Anpassung → Erhalt von Variation · endet mit **Checkpoint B in Woche 8**.
+**Vererbung und Vektoren** · Hardy–Weinberg → lokale Anpassung → Raum · endet mit **Checkpoint B in Woche 8**.
 
 Folien und Notebooks erscheinen hier, sobald der Block frei gegeben ist. Überblick: [Modul 2](docs/module-02-overview.qmd).
 
@@ -69,19 +70,31 @@ Folien und Notebooks erscheinen hier, sobald der Block frei gegeben ist. Überbl
 
 ## Modul 3 · folgt
 
-Zufall in $p$ → Etablierung → evolutionäre Rettung · endet mit **Checkpoint C in Woche 11**.
+**Evolution und Zufall** · Teich-Inversion → neutrale Wolke → $2s$ → Rettung · endet mit **Checkpoint C in Woche 11**.
 
 Folien und Notebooks erscheinen hier, sobald der Block frei gegeben ist. Überblick: [Modul 3](docs/module-03-overview.qmd).
 
 | Woche | Datum | Thema | Materialien |
 |------:|------|--------|-------------|
-| 9 | 12. Nov. | Zufall · Etablierung | folgt |
-| 10 | 19. Nov. | Evolutionäre Rettung | folgt |
-| 11 | 26. Nov. | Synthese · **Checkpoint C** | folgt |
+| 9 | 12. Nov. | Stichlinge · Zufall | folgt |
+| 10 | 19. Nov. | Resistenz · Rettung | folgt |
+| 11 | 26. Nov. | Wolke · Fortbestand · **Checkpoint C** | folgt |
+
+## Modul 4 · folgt
+
+**Mikrobiom und Reproduzierbarkeit** · Tabelle und Schlüssel → Abbildung → Geschichte · endet mit **Checkpoint D in Woche 14**.
+
+Folien und Notebooks erscheinen hier, sobald der Block frei gegeben ist. Überblick: [Modul 4](docs/module-04-overview.qmd).
+
+| Woche | Datum | Thema | Materialien |
+|------:|------|--------|-------------|
+| 12 | 3. Dez. | Tabelle · Schlüssel | folgt |
+| 13 | 10. Dez. | Abbildung · Auswahl | folgt |
+| 14 | 17. Dez. | Geschichte · **Checkpoint D** | folgt |
 
 ## Bogen (ganzes Semester)
 
-**Ökologie → Evolution (deterministisch → zufällig) → Mikrobiom**
+**Dynamik → Vektoren → Zufall → Reproduzierbarkeit**
 
 | Woche | Datum | Biologie | Checkpoint |
 |-----:|------|---|---|
@@ -93,11 +106,11 @@ Folien und Notebooks erscheinen hier, sobald der Block frei gegeben ist. Überbl
 | 6 | 22. Okt | Selektion · lokale Anpassung | |
 | 7 | 29. Okt | Molekulare Diversität · Erhalt | |
 | 8 | 5. Nov | Synthese | **B** |
-| 9 | 12. Nov | Zufall · Etablierung | |
-| 10 | 19. Nov | Evolutionäre Rettung | |
-| 11 | 26. Nov | Synthese · Rettung | **C** |
-| 12 | 3. Dez | Mikrobiom · komplexe Daten laden | |
-| 13 | 10. Dez | Mikrobiom · visualisieren | |
-| 14 | 17. Dez | Mikrobiom · visuelle Geschichte | **D** |
+| 9 | 12. Nov | Stichlinge · Zufall | |
+| 10 | 19. Nov | Resistenz · Rettung | |
+| 11 | 26. Nov | Wolke · Fortbestand | **C** |
+| 12 | 3. Dez | Tabelle · Schlüssel | |
+| 13 | 10. Dez | Abbildung · Auswahl | |
+| 14 | 17. Dez | Geschichte · Grenze | **D** |
 
 Bewertung: Mitarbeit an den Checkpoints (Anwesenheit + Gruppenpräsentation; Teams **bis zu vier**; **mindestens 3 von 4**). [Kursinfo (PDF)](docs/kursinfo.pdf) · ILIAS.

@@ -1,6 +1,6 @@
 ---
-title: "Woche 9 — Zufall und Etablierung"
-subtitle: "Zufall und Etablierung"
+title: "Woche 9 — Stichlinge und Zufall"
+subtitle: "Stichlinge und Zufall"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:
@@ -31,6 +31,7 @@ execute:
 ```{r}
 #| include: false
 source("../slides-ggplot.R")
+
 selection_step_haploid <- function(p, s) {
   p * (1 + s) / (1 + p * s)
 }
@@ -42,47 +43,76 @@ wf_step <- function(p, s, N) {
   rbinom(1, N, p_sel) / N
 }
 
-simulate_det <- function(p0, s, generations = 200) {
+simulate_det <- function(p0, s, generations = 4) {
   p <- numeric(generations + 1)
   p[1] <- p0
   for (t in seq_len(generations)) p[t + 1] <- selection_step_haploid(p[t], s)
   data.frame(generation = 0:generations, p = p)
 }
 
-simulate_wf <- function(p0, s, N, generations = 200) {
+simulate_wf <- function(p0, s, N, generations = 4) {
   p <- numeric(generations + 1)
   p[1] <- p0
   for (t in seq_len(generations)) p[t + 1] <- wf_step(p[t], s, N)
   data.frame(generation = 0:generations, p = p)
 }
 
-lineage_fate <- function(s, N, k = 1, max_gen = 400) {
-  p <- k / N
-  for (t in seq_len(max_gen)) {
-    p <- wf_step(p, s, N)
-    if (p <= 0) return(0)
-    if (p >= 1) return(1)
-  }
-  as.numeric(p >= 0.5)
+ponds <- read.csv("data/pond-chrxi.csv")
+ponds$teich <- paste("Teich", ponds$pond)
+pond_cols <- c("Teich 2" = "#e67e22", "Teich 7" = "#2980b9", "Teich 14" = "#1e8449")
+
+wf_cloud <- function(p0, s, N, generations = 4, n_sims = 80, seed = 9) {
+  set.seed(seed)
+  do.call(rbind, lapply(seq_len(n_sims), function(i) {
+    sim <- simulate_wf(p0, s, N, generations)
+    data.frame(generation = sim$generation, p = sim$p, id = i)
+  }))
 }
 
-u_hat <- function(s, N, n_reps = 250, k = 1) {
-  mean(replicate(n_reps, lineage_fate(s, N, k = k)))
+wf_band <- function(cloud) {
+  qs <- do.call(rbind, lapply(split(cloud$p, cloud$generation), function(x) {
+    q <- quantile(x, c(0.05, 0.50, 0.95), names = FALSE)
+    data.frame(lo = q[1], mid = q[2], hi = q[3])
+  }))
+  qs$generation <- as.numeric(names(split(cloud$p, cloud$generation)))
+  qs
 }
 
-schematic_rescue <- function(generations = 80, N0 = 1e6, r = 0.12, s = 0.18,
-                             establish_at = 28) {
-  t <- 0:generations
-  n_wt <- N0 * (1 - r)^t
-  n_mut <- numeric(length(t))
-  if (establish_at <= generations) {
-    n_mut[(establish_at + 1):length(t)] <-
-      20 * (1 + s)^(t[(establish_at + 1):length(t)] - establish_at)
+plot_cloud <- function(cloud, title, s_line = NULL) {
+  band <- wf_band(cloud)
+  p <- ggplot() +
+    geom_ribbon(
+      data = band, aes(generation, ymin = lo, ymax = hi),
+      fill = "#d5d8dc", alpha = 0.85
+    ) +
+    geom_line(
+      data = cloud, aes(generation, p, group = id),
+      colour = "#bdc3c7", linewidth = 0.25, alpha = 0.45
+    ) +
+    geom_line(
+      data = band, aes(generation, mid),
+      colour = "#7f8c8d", linewidth = 0.8, linetype = "dashed"
+    )
+  if (!is.null(s_line)) {
+    p <- p + geom_line(
+      data = s_line, aes(generation, p),
+      colour = "#c0392b", linewidth = 1.15
+    )
   }
-  n_tot <- n_wt + n_mut
-  n_tot[n_tot < 1] <- 1
-  data.frame(generation = t, N = n_tot, n_wt = pmax(n_wt, 1),
-             n_ext = pmax(N0 * (1 - r)^t, 1))
+  p +
+    geom_line(
+      data = ponds, aes(year, p, colour = teich, group = teich),
+      linewidth = 1.05
+    ) +
+    geom_point(
+      data = ponds, aes(year, p, colour = teich, shape = teich),
+      size = 2.4
+    ) +
+    scale_colour_manual(values = pond_cols) +
+    scale_shape_manual(values = c(16, 17, 15)) +
+    coord_cartesian(xlim = c(0, 4), ylim = c(0, 1)) +
+    labs(x = "Jahr", y = "Frequenz", title = title) +
+    theme_slide()
 }
 ```
 
@@ -92,8 +122,8 @@ schematic_rescue <- function(generations = 80, N0 = 1e6, r = 0.12, s = 0.18,
 
 | Teil | Dauer | Was |
 |------|-------|-----|
-| Vorlesung | ~45 min | Zufall · Modell · Etablierung |
-| Notebook | ~45 min | Draft: Zufallszahlen und $\hat u(s)$ |
+| Vorlesung | ~45 min | Teich · neutrale Wolke · Selektion plus Rauschen |
+| Notebook | ~45 min | Draft: Zufallszahlen und Trajektorien |
 
 ::: aside
 Pfeiltasten · **M** Menü · **Esc** Übersicht
@@ -103,124 +133,167 @@ Pfeiltasten · **M** Menü · **Esc** Übersicht
 
 Nach heute können Sie …
 
-1. sagen, warum **dieselben Parameter** Aussterben *oder* Überleben bedeuten können,
+1. drei Teichbahnen **lesen**: alle steigen, und trotzdem verschieden,
 2. Zufallszahlen in R **ziehen** (`set.seed`, `rbinom`),
-3. Zufall in das Allelfrequenz-Modell mit Selektion **einbauen**,
-4. die **Etablierungswahrscheinlichkeit** $\hat u$ aus Replikaten schätzen
-   und mit $u\approx 2s$ vergleichen.
+3. Zufall in das Allelfrequenz-Modell **einbauen**,
+4. sagen, ob die Teiche in eine **neutrale Wolke** passen — und was eine Wolke mit $s>0$ dazu sagt.
 
 ## Heute in dieser Reihenfolge
 
-1. Bis hier: Zufall ignoriert. Jetzt dazu.
-2. Zwei Ausgänge — evolutionäre Rettung als Aufhänger.
+1. Derselbe Fisch wie Woche 7 — jetzt ein Experiment.
+2. Drei Beobachtungen, noch keine Formel.
 3. Was Zufallszahlen sind, und wie wir sie ziehen.
-4. Dieselbe Rekursion wie Woche 6, plus eine Ziehung.
-5. Ziel: Etablierung einer neuen Mutante.
+4. Neutrale Wright–Fisher-Wolke; Daten darüber.
+5. Dieselbe Ziehung mit Selektion.
 
-# Teil 1 · Zwei Ausgänge
+::: aside
+[Modul 3](../../docs/module-03-overview.html) · [Glossar](../../docs/glossary.html)
+:::
 
-## Bis hier: Zufall ignoriert
+# Teil 1 · Drei Teiche
 
-Wochen 5–8: die Allelfrequenz $p$ ist ein **Mittelwert**.
-Dieselben Parameter $\to$ dieselbe Kurve.
+## Derselbe Fisch, ein Experiment
 
-Das reicht, wenn schon **viele** Kopien segregieren.
-Eine neue Mutation beginnt mit **einer** Kopie.
+Woche 7: marine Stichlinge besiedeln Süsswasser — parallele Genome, *Eda*, Genfluss.
 
-Heute: Zufall ins Modell. Und Ökologie und Evolution in einem
-einfachen Setting — **evolutionäre Rettung**.
+Heute: **dieselbe Art**, jetzt in Teichen. Eine **Inversion** auf Chromosom XI — die Süsswasser-Orientierung — wird über vier Jahre gezählt.
 
-## Zwei Zustände
+Frage: nimmt sie zu, weil sie unter **Selektion** steht — oder reicht Zufall?
 
-Eine Population unter Stress: **aussterben** oder **überleben**.
+## Ein Teich
 
-Deterministisch sagen die Parameter den Endpunkt.
-Entweder die Fitness reicht — oder nicht.
-Kein Dazwischen, kein Timing.
+![](../../pics/pond-experiment/pond_panorama.jpg){fig-alt="Süsswasserteich" width="100%"}
 
-Das ist nicht, was man in Kulturen sieht.
+::: aside
+Foto: Marius Roesti
+:::
 
-## Wo das vorkommt
+## Zwanzig Teiche in Vancouver
 
-Derselbe Gegensatz, verschiedene Systeme:
+::::: columns
+::: {.column width="52%"}
+![](../../pics/pond-experiment/pond_facility_aerial.jpg){fig-alt="UBC-Teichanlage von oben" width="100%"}
+:::
+::: {.column width="48%"}
+UBC experimental pond facility (Schluter-Labor):
 
-- **Klima:** eine lokale Population, die Umwelt wird ungünstig
-- **Pestizid:** Insekten oder Unkraut unter neuem Wirkstoff
-- **Behandlung:** Bakterien, Viren, Krebszellen unter Antibiotikum
-  oder Therapie
+- 20 Süsswasserteiche, 25 m × 15 m
+- flache Zone und 6 m Tiefe
+- natürliches Futter
+- Wirbellose und Vögel, **keine Fischräuber**
+:::
+:::::
 
-Gemeinsam: die Zeit bis zum demografischen Kollaps ist oft **nicht null**.
+::: aside
+Satellitenbild: Folien Katie Peichel / Google
+:::
 
-## Ein Laborbild: Hefe unter Salz
+## Die Frage
 
-Bell & Gonzalez (2009): Hunderte Hefekulturen, Salz in einer
-Konzentration, die den Vorfahren tötet.
+Marine Stichlinge tragen Süsswasser-Inversionen **selten**.
 
-Manche Replikate sterben aus. Manche erholen sich —
-charakteristische **U-Kurve** der Dichte, oft innerhalb von
-etwa 25 Generationen.
+Peichel und Schluter setzen heterozygote Träger in Süsswasserteiche.
 
-Grössere Startpopulationen werden häufiger gerettet.
+Steht die Süsswasser-Orientierung der Inversion auf **Chromosom XI** im Süsswasser unter Selektion?
 
-Bell & Gonzalez (2009) *Ecology Letters*.
+## Warum $p=0.5$?
 
-## Schema: ausgestorben oder gerettet
+2022: marine Fische auf Heterozygote für drei Süsswasser-Inversionen gescreent.
+
+In drei Teiche: je etwa **25 Heterozygote** (Chr XI).
+
+Ein Heterozygot trägt **eine** Kopie der Süsswasser-Orientierung — Startfrequenz
+
+$$
+p_0 = 0.5.
+$$
+
+Nicht willkürlich: so ist jede Orientierung einmal da.
+
+## Besatz und Schild
+
+::::: columns
+::: {.column width="50%"}
+![](../../pics/pond-experiment/marine_sticklebacks.jpg){fig-alt="Marine Stichlinge im Kescher" width="100%"}
+:::
+::: {.column width="50%"}
+![](../../pics/pond-experiment/pond2_chrxi_sign.jpg){fig-alt="Schild Teich 2 Chromosom XI" width="100%"}
+:::
+:::::
+
+Links: marine Fische. Rechts: Teich 2, Inversion Chr XI.
+
+::: aside
+Fotos: Peichel- und Schluter-Labore
+:::
+
+## Was gezählt wird
+
+Jedes Jahr (F1 2023 bis F4 2026) PCR an jedem gefangenen Fisch.
+
+$p$: Anteil der **Süsswasser-Orientierung** (Allel-Kopien).
+
+Drei Teiche: 2, 7, 14. Teich 7 hat kein Jahr 4.
+
+Die Inversion ist diploid. Unser Kursmodell bleibt **haploid** — $p$ ist dieselbe Frequenz, der Schritt ist die Näherung aus Woche 6.
+
+## Drei Bahnen
 
 ```{r}
-#| fig-height: 3.45
+#| fig-height: 3.55
 #| fig-width: 8.4
 #| out-width: 90%
-set.seed(9)
-bg <- do.call(rbind, lapply(1:12, function(i) {
-  r_i <- 0.11 + runif(1, -0.01, 0.01)
-  t <- 0:80
-  n <- 1e6 * (1 - r_i)^t * exp(rnorm(length(t), 0, 0.04))
-  n[n < 1] <- 1
-  data.frame(generation = t, y = log10(n), id = i)
-}))
-sch <- schematic_rescue()
-fg <- rbind(
-  data.frame(generation = sch$generation, y = log10(sch$n_ext), weg = "ausgestorben"),
-  data.frame(generation = sch$generation, y = log10(sch$N), weg = "gerettet")
-)
-ggplot() +
-  geom_line(
-    data = bg, aes(generation, y, group = id),
-    colour = "#d5d5d5", linewidth = 0.5
-  ) +
-  geom_line(data = fg, aes(generation, y, colour = weg), linewidth = 1.15) +
-  scale_colour_manual(values = c(gerettet = "#2166ac", ausgestorben = "#636363")) +
-  coord_cartesian(xlim = c(0, 80), ylim = c(0, 6.2)) +
-  labs(
-    x = "Generation", y = "log10 N",
-    title = "Zwei Ausgaenge, gleiche Stressstaerke"
-  ) +
+ggplot(ponds, aes(year, p, colour = teich, shape = teich, group = teich)) +
+  geom_hline(yintercept = 0.5, colour = "#bdc3c7", linetype = "dashed",
+             linewidth = 0.6) +
+  geom_line(linewidth = 1.1) +
+  geom_point(size = 2.6) +
+  scale_colour_manual(values = pond_cols) +
+  scale_shape_manual(values = c(16, 17, 15)) +
+  coord_cartesian(xlim = c(0, 4), ylim = c(0, 1)) +
+  labs(x = "Jahr", y = "Frequenz", title = "Chr XI, Suesswasser-Orientierung") +
   theme_slide()
 ```
 
-Dieselben Bedingungen, verschiedene Schicksale. Das deterministische
-Modell kennt nur **eine** der beiden Linien.
+Drei Teiche, gleicher Start. Unveröffentlichtes Experiment (Peichel / Schluter).
 
-## Warum «entweder oder» nicht reicht
+## Beobachtung 1: alle steigen
 
-Bakterien unter einem Antibiotikum: oft **etwa 50 Generationen**,
-bis die empfindliche Population demografisch verschwunden ist.
+In **jedem** Teich liegt $p$ am Ende über $0.5$.
 
-In der Zeit kann eine resistente Variante entstehen.
-Der Endpunkt ist dann nicht mehr der, den die Startfitness verspricht.
+Die Süsswasser-Orientierung wird häufiger — in dieselbe Richtung.
 
-## Drei Wege zur Resistenz
+Das ist das Muster, das man bei positiver Selektion erwartet.
 
-Eine resistente Variante kann kommen über:
+## Beobachtung 2: trotzdem verschieden
 
-1. **stehende Variation** — das Allel war schon selten da
-2. **horizontalen Gentransfer (HGT)** — das Allel kommt von aussen
-3. **de-novo-Mutation** — eine neue Kopie entsteht jetzt
+Trotz gleichem Start:
 
-Wir nehmen **de novo**: eine Mutante, Start mit einer Kopie.
-Am einfachsten, und der direkte Anschluss an das $p$-Modell.
+- Teich 7 steigt steil (kleine Stichprobe).
+- Teiche 2 und 14 steigen langsamer, mit einem leichten Rückgang.
 
-# Teil 2 · Zufallszahlen
+Dieselben Anfangsbedingungen, **drei Bahnen**.
+
+## Beobachtung 3: warum verschieden?
+
+Noch keine Formel. Kandidaten:
+
+- wenige Teiche
+- Zufall in einer endlichen Population
+- unterschiedlich grosse Stichproben (Teich 7: sehr kleine $n$)
+
+Woche 6: ohne Rauschen bleibt $p$ bei $s=0$ stehen. Heute kommt der Zufall dazu.
+
+# Teil 2 · Neutrales Rauschen
+
+## Reicht Zufall für die Zunahme?
+
+Wenn alles **neutral** ist ($s=0$): wie weit darf $p$ in vier Jahren laufen?
+
+Wenn die Teiche in dieser Wolke liegen: Zufall reicht.
+Wenn sie **ausserhalb** liegen: Neutralität erklärt das Muster nicht.
+
+Formeller Test und $p$-Wert: Statistikvorlesung. Heute reicht das Bild.
 
 ## Was der Computer zieht
 
@@ -261,7 +334,7 @@ Mit Seed ist die Simulation **wiederholbar**.
 
 ## Was `rbinom` mit einer Generation zu tun hat
 
-$N$ haploide Individuen. Nach Selektion ist der Anteil von Allel A
+$N$ haploide Individuen. Nach Selektion ist der Anteil von A
 gleich $p'$.
 
 Die nächste Generation: $X$ Kopien von A, gezogen mit
@@ -272,12 +345,10 @@ $$
 
 Dann $p_{t+1}=X/N$. Eine Zahl, kein Mittelwert.
 
-# Teil 3 · Zufall in $p$
-
 ## Haploid, ein Locus, zwei Allele
 
-**Allelfrequenz** $p = f(A)$: Anteil der A-Kopien.
-Haploid: $N$ Individuen = $N$ Kopien. Passt zu Bakterien und Hefe.
+**Allelfrequenz** $p$: Anteil der Süsswasser-Orientierung.
+Haploid: $N$ Individuen = $N$ Kopien. Kurswert: $N=250$.
 
 Selektion zuerst — der haploide Verwandte von `selection_step`
 aus Woche 6 — danach die Ziehung:
@@ -288,189 +359,134 @@ X\sim\mathrm{Binomial}(N,\,p'), \qquad
 p_{t+1}=X/N.
 $$
 
-$s$: Fitnessvorteil von A gegenüber B. $s=0.05$ heisst: A hat
-5% mehr Nachkommen im Mittel.
+$s=0$: keine Selektion. $s=0.2$: 20% mehr Nachkommen im Mittel.
 
-## Wenn A schon häufig ist
+## Ohne Ziehung bleibt $p=0.5$
 
 ```{r}
-#| fig-height: 3.45
+#| fig-height: 3.4
 #| fig-width: 8.2
 #| out-width: 88%
-set.seed(9)
-det <- simulate_det(0.20, s = 0.05, 150)
-stoch <- do.call(rbind, lapply(1:8, function(i) {
-  sim <- simulate_wf(0.20, 0.05, N = 2000, 150)
-  data.frame(generation = sim$generation, p = sim$p, id = i)
-}))
-ggplot() +
-  geom_line(
-    data = stoch, aes(generation, p, group = id),
-    colour = "#e67e22", alpha = 0.45, linewidth = 0.65
-  ) +
-  geom_line(
-    data = det, aes(generation, p),
-    colour = "#2166ac", linewidth = 1.15
-  ) +
-  coord_cartesian(ylim = c(0, 1)) +
+det0 <- simulate_det(0.5, s = 0, 4)
+ggplot(det0, aes(generation, p)) +
+  geom_hline(yintercept = 0.5, colour = "#bdc3c7", linewidth = 0.5) +
+  geom_line(colour = "#2166ac", linewidth = 1.2) +
+  geom_point(colour = "#2166ac", size = 2.4) +
+  coord_cartesian(ylim = c(0, 1), xlim = c(0, 4)) +
   labs(
-    x = "Generation", y = "p = f(A)",
-    title = "Start p = 0.20, N = 2000, s = 0.05"
+    x = "Jahr", y = "Frequenz",
+    title = "s = 0, keine Ziehung: p bleibt 0.5"
   ) +
   theme_slide()
 ```
 
-Die orangen Linien zittern. Der Trend ist derselbe wie die blaue Kurve.
-Deshalb hat das deterministische Modell bisher gereicht.
+Das ist Woche 6: der Mittelwert bewegt sich nicht. Zufall braucht eine Ziehung.
 
-## Eine Kopie: $p=1/N$
+## Mit Ziehung, $s=0$: eine Bahn
 
 ```{r}
-#| fig-height: 3.45
+#| fig-height: 3.4
 #| fig-width: 8.2
 #| out-width: 88%
-set.seed(11)
-N <- 500
-rep_df <- do.call(rbind, lapply(1:40, function(i) {
-  sim <- simulate_wf(1 / N, 0.05, N, 200)
-  lost <- min(sim$p) == 0 && sim$p[length(sim$p)] == 0
-  data.frame(
-    generation = sim$generation, p = sim$p, id = i,
-    weg = if (lost) "verloren" else "nicht verloren"
-  )
-}))
-ggplot(rep_df, aes(generation, p, group = id, colour = weg)) +
-  geom_line(
-    data = subset(rep_df, weg == "verloren"),
-    alpha = 0.55, linewidth = 0.45
-  ) +
-  geom_line(
-    data = subset(rep_df, weg == "nicht verloren"),
-    linewidth = 0.85
-  ) +
-  scale_colour_manual(values = c("verloren" = "#bdbdbd", "nicht verloren" = "#d95f02")) +
-  coord_cartesian(xlim = c(0, 200), ylim = c(0, 1)) +
+set.seed(3)
+one <- simulate_wf(0.5, s = 0, N = 250, 4)
+ggplot(one, aes(generation, p)) +
+  geom_hline(yintercept = 0.5, colour = "#bdc3c7", linetype = "dashed",
+             linewidth = 0.6) +
+  geom_line(colour = "#7f8c8d", linewidth = 1.15) +
+  geom_point(colour = "#7f8c8d", size = 2.4) +
+  coord_cartesian(ylim = c(0, 1), xlim = c(0, 4)) +
   labs(
-    x = "Generation", y = "p = f(A)",
-    title = "Start: eine Kopie, N = 500, s = 0.05"
+    x = "Jahr", y = "Frequenz",
+    title = "Eine neutrale Bahn, N = 250"
   ) +
   theme_slide()
 ```
 
-$s>0$, und trotzdem gehen die meisten Linien nach $0$.
-Selektion hilft im Mittel — der Zufall entscheidet früh.
+Jetzt irrt $p$. Eine Bahn sagt wenig — wir brauchen **viele**.
 
-# Teil 4 · Etablierungswahrscheinlichkeit
-
-## Was «etabliert» heisst
-
-Eine Linie startet mit **einer** Kopie ($k=1$).
-
-Im Code: Generation für Generation `wf_step`, bis
-
-- $p=0$ — verloren, oder
-- $p=1$ — fixiert / etabliert.
-
-Die **Etablierungswahrscheinlichkeit** $u$ ist der Anteil der
-Replikate, die nicht bei $0$ enden.
-
-$\hat u$ ist dieser Anteil in einer endlichen Zahl von Versuchen.
-
-## $u$ hängt von $s$ ab
+## Viele Replikate: die neutrale Wolke
 
 ```{r}
-#| fig-height: 3.5
-#| fig-width: 8.2
-#| out-width: 88%
-set.seed(9)
-s_grid <- c(0.02, 0.04, 0.06, 0.08, 0.10, 0.12)
-u_est <- vapply(s_grid, function(s) u_hat(s, N = 800, n_reps = 180), 0.0)
-approx <- data.frame(s = seq(0, 0.13, length.out = 80), u = 2 * seq(0, 0.13, length.out = 80))
-ggplot() +
-  geom_line(data = approx, aes(s, u), colour = "#d95f02",
-            linetype = "dashed", linewidth = 0.9) +
-  geom_line(data = data.frame(s = s_grid, u = u_est), aes(s, u),
-            colour = "#2166ac", linewidth = 0.9) +
-  geom_point(data = data.frame(s = s_grid, u = u_est), aes(s, u),
-             colour = "#2166ac", size = 2.2) +
-  coord_cartesian(xlim = c(0, 0.13), ylim = c(0, 0.28)) +
-  labs(x = "s", y = "u hat", title = "Etablierung, Start k = 1, N = 800") +
-  theme_slide()
+#| fig-height: 3.55
+#| fig-width: 8.4
+#| out-width: 90%
+cloud0 <- wf_cloud(0.5, s = 0, N = 250, generations = 4, n_sims = 80, seed = 9)
+plot_cloud(cloud0, "Neutral, N = 250; Daten darueber")
 ```
 
-Grösseres $s$ $\to$ höheres $u$. Die gestrichelte Linie ist die
-klassische Näherung $u\approx 2s$ (Haldane 1927), für kleine $s$
-und grosse $N$.
+Grau: was Neutralität in vier Jahren erwarten lässt.
+Farbe: die drei Teiche. Sie liegen **ausserhalb** der Wolke.
 
-## Wo $2s$ herkommt — und wo sie bricht
+## Was das Bild sagt — und was nicht
 
-Poisson-Nachkommen, schwache Selektion, $N$ gross:
-eine neue vorteilhafte Mutante etabliert sich mit $u\approx 2s$.
+Die Teiche steigen stärker, als es Drift bei $N=250$ und $p_0=0.5$ hergibt.
 
-Die Formel ist keine Identität.
+Das ist **kein** $p$-Wert. Ein formeller Test kommt in der Statistikvorlesung.
 
-- $s$ nicht klein: $2s$ wird zu grob (kann über 1 laufen)
-- $N$ klein: Fixierung $\neq$ Etablierung; Kimuras $2s/(1-e^{-2Ns})$
-- $N$ ändert sich in der Zeit: $u$ folgt nicht dem $s$ von heute allein
+Heute: Neutralität als Erklärung für *alle drei* Bahnen passt nicht.
 
-Ableitung: Modellierungsvorlesung. Heute der Vergleich auf dem Plot.
+# Teil 3 · Selektion plus Rauschen
 
-## Etablierung, wenn sich die Welt ändert
+## Dieselbe Ziehung, $s>0$
 
-Otto & Whitlock (1997): $N$ wächst oder schrumpft — dann ist $u$
-nicht $2s$, sondern hängt von der **aktuellen** Wachstumsrate ab.
+$p'$ ist jetzt nicht mehr $p$. Die Ziehung bleibt.
 
-Peischl & Kirkpatrick (2012): Selektion wechselt in der Zeit.
-Dann $u\approx 2s_e$, und $s_e$ gewichtet die **ersten** Generationen
-nach dem Auftreten am stärksten.
+Kurswert $s=0.2$ — nicht geschätzt, ein Wert der Grössenordnung, die die Teiche tragen kann.
 
-Kirkpatrick & Peischl (2013): dasselbe in Raum und Zeit — relevant
-für Rettung, wenn der günstige Patch wandert.
+Kein Beweis. Die Frage: liegt das Muster **in** der Wolke?
 
-## Was die Anpassungsrate trägt
+## Wolke mit Selektion
 
-Anpassung aus **neuen** Mutationen:
+```{r}
+#| fig-height: 3.55
+#| fig-width: 8.4
+#| out-width: 90%
+cloud_s <- wf_cloud(0.5, s = 0.2, N = 250, generations = 4, n_sims = 80, seed = 11)
+det_s <- simulate_det(0.5, s = 0.2, 4)
+plot_cloud(cloud_s, "s = 0.2, N = 250; rote Linie: ohne Zufall", s_line = det_s)
+```
 
-$$
-\text{Mutationsangebot}\ \times\ \text{Etablierungswahrscheinlichkeit}.
-$$
+Die Teiche liegen in der Wolke. Teich 7 am Rand — kleine $n$, steile Bahn.
 
-Nicht nur «wie stark $s$ im deterministischen $p$-Modell ist».
+## Konsistent, nicht bewiesen
 
-Nächste Woche: die Population **schrumpft**, während diese Rechnung
-läuft. Dann hat $u$ ein Ablaufdatum.
+Positive Selektion **kann** die Trajektorien erklären.
+
+Andere $s$, andere $N$, andere Details (diploid, wechselnde Grösse) würden die Wolke verschieben.
+
+Nächste Woche: warum der Start bei $p=0.5$ sinnvoll war — und was passiert, wenn eine vorteilhafte Variante **selten** beginnt.
 
 ## Take-home
 
-1. Bisher: Zufall ignoriert. Eine neue Mutante beginnt mit einer Kopie.
-2. Zwei Ausgänge unter Stress: aussterben oder überleben — Rettung.
-3. Fokus de novo, weil der einfachste Weg.
-4. `rbinom` nach dem Selektionsschritt: $p$ wird eine Ziehung.
-5. $u$ aus Replikaten; $u\approx 2s$ ist die Referenz, keine Identität.
+1. Drei Teiche, Chr XI: alle steigen, die Bahnen trennen sich.
+2. Ohne Ziehung bleibt $p=0.5$. Mit `rbinom` entsteht Drift.
+3. Die Teiche liegen ausserhalb der **neutralen** Wolke.
+4. Eine Wolke mit $s>0$ trägt sie — konsistent, kein Beweis.
 
 ## Notebook (~45 min)
 
 **→ [Notebook Woche 9 öffnen](notebook.html)** · Entwurf
 
-Zufallszahlen $\to$ eine Trajektorie $\to$ $\hat u(s)$ gegen $2s$.
+Zufallszahlen $\to$ eine neutrale Bahn $\to$ Wolke plus Daten $\to$ Wolke mit $s>0$.
 
 ## Abschlussfragen
 
-1. Warum reicht das deterministische $p$-Modell nicht für *eine* neue Mutation?
+1. Warum startet das Experiment bei $p=0.5$?
 2. Was ändert `set.seed` an einer Abbildung — und was nicht?
 3. Wo sitzt der Zufall im Generationsschritt, und wo sitzt $s$?
-4. Wie ist «etabliert» im Code definiert?
-5. Wann erwarten Sie $\hat u \approx 2s$, wann nicht?
+4. Warum reicht *eine* neutrale Bahn nicht, um die Teiche zu beurteilen?
+5. Was unterscheidet «liegt ausserhalb der Wolke» von einem statistischen Test?
 
 ## Literatur
 
 :::: {.lit}
-1. **Haldane, J. B. S. (1927).** A mathematical theory of natural and artificial selection, Part V. *Proc. Camb. Philos. Soc.* 23: 838–844.
-2. **Otto, S. P. & Whitlock, M. C. (1997).** The probability of fixation in populations of changing size. *Genetics* 146: 723–733. [doi:10.1093/genetics/146.2.723](https://doi.org/10.1093/genetics/146.2.723)
-3. **Peischl, S. & Kirkpatrick, M. (2012).** Establishment of new mutations in changing environments. *Genetics* 191: 895–906. [doi:10.1534/genetics.112.140756](https://doi.org/10.1534/genetics.112.140756)
-4. **Kirkpatrick, M. & Peischl, S. (2013).** Evolutionary rescue by beneficial mutations in environments that change in space and time. *Phil. Trans. R. Soc. B* 368: 20120082. [doi:10.1098/rstb.2012.0082](https://doi.org/10.1098/rstb.2012.0082)
-5. **Bell, G. & Gonzalez, A. (2009).** Evolutionary rescue can prevent extinction following environmental change. *Ecology Letters* 12: 942–948. [doi:10.1111/j.1461-0248.2009.01350.x](https://doi.org/10.1111/j.1461-0248.2009.01350.x)
+1. **Peichel, C. L., et al. (2001).** The genetic architecture of divergence between threespine stickleback species. *Nature* 414: 901–905. [doi:10.1038/414901a](https://doi.org/10.1038/414901a)
+2. **Jones, F. C., et al. (2012).** The genomic basis of adaptive evolution in threespine sticklebacks. *Nature* 484: 55–61. [doi:10.1038/nature10944](https://doi.org/10.1038/nature10944)
+3. **Peichel, C. L., & Marques, D. A. (2017).** The genetic and molecular architecture of phenotypic diversity in sticklebacks. *Phil. Trans. R. Soc. B* 372: 20150486. [doi:10.1098/rstb.2015.0486](https://doi.org/10.1098/rstb.2015.0486)
 ::::
+
+Teichdaten: Peichel- und Schluter-Labore, unveröffentlicht. Fotos: Marius Roesti; Peichel- und Schluter-Labore.
 
 ## Navigation
 

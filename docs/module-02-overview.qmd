@@ -1,6 +1,6 @@
 ---
 title: "Modul 2 — Wochen 5–8"
-subtitle: "Vererbung · Selektion · Raum · Checkpoint B"
+subtitle: "Vererbung und Vektoren · Checkpoint B"
 format:
   html:
     toc: true
@@ -12,7 +12,7 @@ format:
 
 ## Was ist Modul 2?
 
-Der zweite Block: von **Woche-4-Strategien** (*Uta*, dieselbe Art) zu **Vererbung, Allelfrequenz, Selektion und Raum** — und zum zweiten benoteten Checkpoint.
+**Vererbung und Vektoren.** Der zweite Block: von **Woche-4-Strategien** (*Uta*, dieselbe Art) zu **Vererbung, Allelfrequenz, Selektion und Raum**. Viele Loci oder Zeilen auf einmal — Tabellen, `sapply()`, Filtern. Endet mit Checkpoint B.
 
 **Modulfrage:** Wenn Strategien Varianten *derselben* Art sind — wann halten Gene und Paarung den Polymorphismus, in einer Population und zwischen Habitaten?
 
@@ -65,4 +65,4 @@ Themen: häufigkeitsabhängige Fitness gegen klassische Überdominanz; die Über
 | 7 | [Folien](../weeks/week-07/slides.qmd) | [Notebook](../weeks/week-07/notebook.qmd) |
 | 8 | [Folien](../weeks/week-08/slides.qmd) | [Notebook](../weeks/week-08/notebook.qmd) |
 
-Zurück: [Start](../index.qmd) · [Modul 1](module-01-overview.qmd) · [Modul 3](module-03-overview.qmd) · [Kursinfo (PDF)](kursinfo.pdf)
+Zurück: [Start](../index.qmd) · [Modul 1](module-01-overview.qmd) · [Modul 3](module-03-overview.qmd) · [Modul 4](module-04-overview.qmd) · [Kursinfo (PDF)](kursinfo.pdf)

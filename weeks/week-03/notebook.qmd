@@ -109,7 +109,7 @@ next_comp <- function(N1, N2, r1, r2, K1, K2, a12, a21) { # Argumente, die die F
 }
 ```
 
-## A2) Simulation — Wann einen, wann zwei Endpunkte?
+## A2) Simulation — ein Endpunkt oder Bistabilität?
 
 Gerüst (Basis einmal laufen lassen, dann **Zahlen ändern** und Zelle erneut ausführen):
 
@@ -163,7 +163,7 @@ legend("topleft", c("Art 1", "Art 2"), lty = 1:2, lwd = 2, bty = "y")
 
 Behalten Sie nun $\alpha_{ij}$ konstant und ändern Sie die Anfangsgrössen `N1[1]` und `N2[1]`. Beeinflusst das den **Endpunkt** der Simulation?
 
-- Mit welchen Werten von $\alpha_{ij}$ finden Sie einen, wann zwei Endpunkte?
+- Mit welchen Werten von $\alpha_{ij}$ finden Sie einen Endpunkt, wann **Bistabilität**?
 
 :::
 
@@ -176,13 +176,15 @@ Wir erwarten Bistabilität, wenn beide Arten einander stark hemmen. Dann sollte 
 
 # Teil B - Food Web (Yellowstone)
 
-## B1) Food Web — Aspen, Sage, Elch, Wolf
+## B1) Food Web — Pappel, Steppen-Beifuss, Wapiti, Wolf
 
 In der Vorlesung: ein Räuber **kann** den Zustand halten (*Pisaster*) — und tut es nicht immer (Seeotter).  
 Hier rechnen Sie dieselbe Idee an einem kleinen Yellowstone-Netz.
 
-**Hypothese:** Wolf ↓ → Elch ↑ → Beweidung auf Aspen ↑ → Aspen geht gegen null.  
-Mit Wolf: Elchdruck sinkt → Aspen kann positiv bleiben.
+Englisch *elk* ist nicht der Elch (*Alces*). In Yellowstone sind es **Wapiti-Hirsche** (*Cervus canadensis*). *Aspen* ist die **Pappel**, *sagebrush* der **Steppen-Beifuss**.
+
+**Hypothese:** Wolf ↓ → Wapiti ↑ → Beweidung auf Pappel ↑ → Pappel geht gegen null.  
+Mit Wolf: Wapiti-Druck sinkt → Pappel kann positiv bleiben.
 
 Reale Yellowstone-Effekte sind räumlich und zeitlich komplizierter — das Modell isoliert den Mechanismus.
 
@@ -208,9 +210,9 @@ Alle vier Bestände werden additiv aktualisiert: $X_{t+1}=X_t+$ Wachstum − Ver
 
 | Term | Ereignis | Wirkung |
 |------|----------|---------|
-| $-a_{EA}AE$ | Elch frisst Aspen | Aspen verliert Bestand |
-| $+e_Ea_{EA}AE$ | dieselbe Nahrung wird umgewandelt | Elch gewinnt Bestand |
-| $-a_{WE}EW$ | Wolf frisst Elch | Elch verliert Bestand |
+| $-a_{EA}AE$ | Wapiti frisst Pappel | Pappel verliert Bestand |
+| $+e_Ea_{EA}AE$ | dieselbe Nahrung wird umgewandelt | Wapiti gewinnt Bestand |
+| $-a_{WE}EW$ | Wolf frisst Wapiti | Wapiti verliert Bestand |
 | $+e_Wa_{WE}EW$ | Beute wird in Wolf-Nachwuchs umgewandelt | Wolf gewinnt Bestand |
 | $-m_EE$, $-m_WW$ | natürliche Mortalität | hängt nur von der jeweiligen Tierart ab |
 
@@ -225,55 +227,56 @@ Schauen Sie sich die Gleichungen an; können Sie die Beziehungen zwischen den ei
 
 ```{r next-web}
 # Funktion um schrittweise die Populationsgrössen zu ermitteln
-next_web <- function(X, rA, rS, K, aAS, aSA, a_elk_aspen, a_elk_sage, eE, mE, a_wolf_elk, eW, mW) {
-  A <- X["Aspen"]; S <- X["Sage"]; E <- X["Elch"]; W <- X["Wolf"] # hier speichern wir alle Populationsgrössen in einer Matrix (x) ab; sehen Sie unten, wie diese konstruiert wird
-  dA <- rA * A * (1 - (A + aAS * S) / K) - a_elk_aspen * A * E
-  dS <- rS * S * (1 - (S + aSA * A) / K) - a_elk_sage * S * E
-  dE <- (eE * (a_elk_aspen * A + a_elk_sage * S) * E - mE * E - a_wolf_elk * E * W)
-  dW <- eW * a_wolf_elk * E * W - mW * W
-  c(Aspen = max(A + dA, 0), Sage = max(S + dS, 0),
-    Elch = max(E + dE, 0), Wolf = max(W + dW, 0))
+next_web <- function(X, rA, rS, K, aAS, aSA, a_wapiti_pappel, a_wapiti_beifuss, eE, mE, a_wolf_wapiti, eW, mW) {
+  A <- X["Pappel"]; S <- X["Beifuss"]; E <- X["Wapiti"]; W <- X["Wolf"]
+  dA <- rA * A * (1 - (A + aAS * S) / K) - a_wapiti_pappel * A * E
+  dS <- rS * S * (1 - (S + aSA * A) / K) - a_wapiti_beifuss * S * E
+  dE <- (eE * (a_wapiti_pappel * A + a_wapiti_beifuss * S) * E - mE * E - a_wolf_wapiti * E * W)
+  dW <- eW * a_wolf_wapiti * E * W - mW * W
+  c(Pappel = max(A + dA, 0), Beifuss = max(S + dS, 0),
+    Wapiti = max(E + dE, 0), Wolf = max(W + dW, 0))
 }
 
 # Variabeln und Parameter
 T = 6000
-X <- matrix(0, T + 1, 4, dimnames = list(NULL, c("Aspen", "Sage", "Elch", "Wolf")))
-X[1, ] <- c(Aspen = 40, Sage = 50, Elch = 25, Wolf = 0) # F6) Anfangsgrössen - ändern!
+X <- matrix(0, T + 1, 4, dimnames = list(NULL, c("Pappel", "Beifuss", "Wapiti", "Wolf")))
+X[1, ] <- c(Pappel = 40, Beifuss = 50, Wapiti = 25, Wolf = 0) # F6) Anfangsgrössen - aendern!
 rA = 0.024
 rS = 0.020
 K = 100
 aAS = 0.55
 aSA = 0.70
-a_elk_aspen = 0.0007
-a_elk_sage = 0.0004
+a_wapiti_pappel = 0.0007
+a_wapiti_beifuss = 0.0004
 eE = 0.45
 mE = 0.002
-a_wolf_elk = 0.0008
+a_wolf_wapiti = 0.0008
 eW = 0.40
 mW = 0.006
 
 # Schlaufe, um Zeitschritte zu wiederholen
 for (t in 1:T){
     
-    X[t + 1, ] <- next_web(X[t, ], rA, rS, K, aAS, aSA, a_elk_aspen, a_elk_sage, eE, mE, a_wolf_elk, eW, mW)
+    X[t + 1, ] <- next_web(X[t, ], rA, rS, K, aAS, aSA, a_wapiti_pappel, a_wapiti_beifuss, eE, mE, a_wolf_wapiti, eW, mW)
     
 } 
 
-# Graph für die Simulationsresultate
+# Graph fuer die Simulationsresultate
 plot(
-  0:T, X[,"Aspen"],
+  0:T, X[,"Pappel"],
   type = "l", lwd = 2,
   xlab = "Schritt", ylab = "N",
   col = "forestgreen", 
   ylim = c(0, max(X))
 )
-lines(0:T, X[,"Sage"], 
+lines(0:T, X[,"Beifuss"], 
       type = "l", lwd = 2, col = "palegreen2")
-lines(0:T, X[,"Elch"], 
+lines(0:T, X[,"Wapiti"], 
       type = "l", lwd = 2, col = "sienna")
 lines(0:T, X[,"Wolf"], 
       type = "l", lwd = 2, col = "grey")
-legend("topright", c("Aspen", "Sage", "Elch", "Wolf"), lwd = 2, col = c("forestgreen", "palegreen2","sienna", "grey" ))
+legend("topright", c("Pappel", "Steppen-Beifuss", "Wapiti", "Wolf"),
+       lwd = 2, col = c("forestgreen", "palegreen2","sienna", "grey" ))
 
 ```
 
@@ -291,7 +294,7 @@ Beschrieben Sie, wie sich das Ökosystem in Abwesenheit des Wolfs verhält.
 ::: {.callout-tip}
 ## Frage F6 · Einfluss des Wolfs
 
-Führen Sie nun den Wolf in das Ökosystem ein: `X[1, ] <- c(Aspen = 40, Sage = 50, Elch = 25, Wolf = ... )`. Was beobachten Sie? 
+Führen Sie nun den Wolf in das Ökosystem ein: `X[1, ] <- c(Pappel = 40, Beifuss = 50, Wapiti = 25, Wolf = ... )`. Was beobachten Sie? 
 
 - Wie viele Arten bleiben bestehen? 
 - Was bedeutet das für die Artenvielfalt?

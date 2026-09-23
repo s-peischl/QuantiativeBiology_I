@@ -6,11 +6,11 @@
   <!-- left: without wolf -->
   <rect x="30" y="55" width="290" height="290" rx="14" fill="#fdf2e9" stroke="#d68910" stroke-width="2"/>
   <text x="175" y="88" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#9a7b0a">ohne Wolf (1926–1995)</text>
-  <text x="175" y="125" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">viele Elche</text>
+  <text x="175" y="125" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">viele Wapiti</text>
   <text x="175" y="152" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#b9770e">↓</text>
   <text x="175" y="180" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">starker Verbiss</text>
   <text x="175" y="207" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#b9770e">↓</text>
-  <text x="175" y="235" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">Weiden / Aspen unterdrueckt</text>
+  <text x="175" y="235" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">Weiden / Pappeln unterdrueckt</text>
   <text x="175" y="270" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#b9770e">↓</text>
   <text x="175" y="300" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">kaum Biber, flache Ufer</text>
   <text x="175" y="330" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#9a7b0a">Bottom-up Druck der Herbivoren</text>
@@ -23,22 +23,22 @@
   <text x="500" y="162" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" fill="#7f8c8d">↓ frisst / scheucht</text>
 
   <rect x="360" y="175" width="280" height="68" rx="12" fill="#d68910" stroke="#9a7b0a" stroke-width="2.5"/>
-  <text x="500" y="205" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="17" font-weight="bold" fill="white">Elch (Wapiti)</text>
+  <text x="500" y="205" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="17" font-weight="bold" fill="white">Wapiti</text>
   <text x="500" y="227" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#fdebd0">Herbivor</text>
 
   <text x="500" y="267" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" fill="#7f8c8d">↓ beweidet</text>
 
   <rect x="360" y="280" width="280" height="60" rx="12" fill="#27ae60" stroke="#1e8449" stroke-width="2.5"/>
-  <text x="500" y="316" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="17" font-weight="bold" fill="white">Weide / Aspen</text>
+  <text x="500" y="316" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="17" font-weight="bold" fill="white">Weide / Pappel</text>
 
   <!-- right: with wolf -->
   <rect x="680" y="55" width="290" height="290" rx="14" fill="#eaf2fb" stroke="#2980b9" stroke-width="2"/>
   <text x="825" y="88" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#1a5276">mit Wolf (ab 1995)</text>
-  <text x="825" y="125" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">Elche sinken / weichen aus</text>
+  <text x="825" y="125" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">Wapiti sinken / weichen aus</text>
   <text x="825" y="152" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#2980b9">↓</text>
   <text x="825" y="180" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">weniger Verbiss</text>
   <text x="825" y="207" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#2980b9">↓</text>
-  <text x="825" y="235" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">Weiden / Aspen erholen sich</text>
+  <text x="825" y="235" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">Weiden / Pappeln erholen sich</text>
   <text x="825" y="270" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#2980b9">↓</text>
   <text x="825" y="300" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">Biber und Uferstrukturen</text>
   <text x="825" y="330" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1a5276">Top-down: eine Art, viele Effekte</text>

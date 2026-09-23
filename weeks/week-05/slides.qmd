@@ -437,11 +437,11 @@ Zeitreihen bleiben Schleifen. Tabellen mit unabhängigen Beobachtungen nicht.
 ![](../../pics/icons/icon_code.svg){fig-alt="Notebook" width="70%"}
 :::
 ::: {.column width="80%"}
-**A** Genotypzählungen → $p$ → Genotypfrequenzen  
+**A** Genotypzählungen → relative Häufigkeiten → $p$  
 
-**B** die 225 SNPs gegen die HWE-Kurven legen  
+**B** jede Population gegen HWE, dann derselbe Topf  
 
-**C** zwei Populationen in einen Topf werfen — was passiert mit den Heterozygoten?
+**C** der Punkt unter der Kurve — Wahlund, kurz
 :::
 :::::
 

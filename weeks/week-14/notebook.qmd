@@ -1,32 +1,62 @@
 ---
-title: "Woche 14 — Notebook · Visuelle Geschichte · Checkpoint D"
-subtitle: "Abbildung und Aussage"
+title: "Woche 14 — Notebook · Checkpoint D"
+subtitle: "Geschichte und Grenze"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:
     toc: true
+    toc-title: "Inhalt"
+    toc-depth: 2
+    code-fold: false
+    embed-resources: true
     css: ../../styles.css
 execute:
   echo: true
   warning: false
   message: false
+  freeze: false
 ---
 
-## Praktische Arbeit zu Checkpoint D
+::: {.callout-warning}
+## Entwurf
 
-1. Daten erneut einlesen + Plausibilität prüfen (Woche 12).
-2. Eine Fragestellung auswählen.
-3. Eine Hauptabbildung erstellen (optionale kleine Grafik zur Qualitätskontrolle).
-4. Bildlegende (2–3 Sätze) + Stichpunktliste «Was wir nicht behaupten».
+Hilfsfunktionen und Dateien aus Wochen 12–13 dürfen stehen bleiben.
+Die Note gilt der **Frage** und **einer** Abbildung, nicht dem
+Code-Umfang.
+:::
 
-## Notizen zur Präsentation (vor dem Unterricht ausfüllen)
+# Anweisung
+
+Wählen Sie **genau eine** der drei Fragen. Das Notebook *ist* der
+Nachweis: wer den Ordner öffnet, erzeugt dieselbe Abbildung.
+
+1. Daten erneut einlesen + IDs prüfen (Woche 12).
+2. Eine Fragestellung.
+3. Eine Hauptabbildung (optionale QC daneben).
+4. Bildlegende (2–3 Sätze) + «Was wir nicht behaupten».
+
+## Option 1 — Zusammensetzung
+
+Unterscheidet sich die Gemeinschaft nach Ort, Wirt oder Zeitpunkt?
+
+## Option 2 — Bibliotheksgrösse
+
+Ändert die QC, was Sie behaupten dürfen?
+
+## Option 3 — Ein Taxon
+
+Hängt ein Taxon an einem Metadatum — und was fehlt für einen
+kausalen Satz?
+
+# Notizen zur Präsentation
 
 - Fragestellung:
-- Schritte zum Einlesen/Bereinigen (30 Sek.):
+- Join / Bereinigung (30 Sek.):
 - Aussage der Abbildung:
-- Einschränkungen:
+- Grenze:
+- Würde jemand anderes dieselbe Abbildung erzeugen?
 
-## Optional: Semesterbogen
+# Semesterbogen (optional)
 
-Ein Absatz: welcher Checkpoint (A–D) die eigene Arbeit heute am meisten trägt
-(Schleife? Replikate? ehrliche Modellgrenze?).
+Ein Absatz: welcher Checkpoint (A–D) trägt die Arbeit heute
+(Dynamik, Vektoren, Zufall, Nachweis)?

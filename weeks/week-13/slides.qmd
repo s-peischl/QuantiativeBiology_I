@@ -1,14 +1,16 @@
 ---
-title: "Woche 13 — Mikrobiomdaten visualisieren"
-subtitle: "Tabelle und Bild"
+title: "Woche 13 — Abbildung und Auswahl"
+subtitle: "Abbildung und Auswahl"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:
     html-math-method: katex
     theme: simple
+    css: ../print.css
     slide-number: true
     incremental: false
     embed-resources: true
+    auto-stretch: false
     transition: none
     controls: true
     controls-layout: edges
@@ -18,101 +20,122 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Start](../../index.html)"
+    footer: "[Start](../../index.html) · [Notebook](notebook.html)"
 execute:
   echo: false
   warning: false
   message: false
+  freeze: auto
 ---
 
-## In diesem Foliensatz
+## Übersicht
 
-**Woche 13** von 14 · Mikrobiom-Block  
-**Do., 10. Dez. 2026, 08:15–10:00**
+**Woche 13** von 14 · **Do., 10. Dez. 2026, 08:15–10:00**
 
-- [Start](../../index.html)
-- Pfeiltasten / Steuerelemente · **M** Menü · **Esc** Übersicht
+| Teil | Dauer | Was |
+|------|-------|-----|
+| Vorlesung | ~45 min | Auswahl · Typen · eine Aussage |
+| Notebook | ~45 min | Draft: Zusammensetzung + eine zweite Abbildung |
 
-## Rückblick
+::: aside
+Pfeiltasten · **M** Menü · **Esc** Übersicht
+:::
 
-Woche 12: einlesen → verknüpfen → Plausibilität prüfen.
+## Lernziele
 
-Heute: die Gemeinschaft **erkennen**, ohne in 500 Farben zu versinken.
+Nach heute können Sie …
 
-## Das Visualisierungsproblem
+1. Taxa **aggregieren**, bevor Sie Farben vergeben,
+2. eine Abbildung wählen, die **eine** Aussage trägt,
+3. sagen, wo Komposition und Bibliotheksgrösse täuschen,
+4. die Abbildung aus dem **Dokument** erzeugen, nicht aus Copy-Paste.
 
-Hunderte/Tausende Taxa ≠ Hunderte Legendeneinträge.
+## Heute in dieser Reihenfolge
 
-Sie müssen **aggregieren oder auswählen**:
+1. Woche 12: Join sitzt. Heute: sichtbar machen.
+2. Hunderte Taxa ≠ hunderte Farben.
+3. Drei Typen. Eine Regel.
+4. Die Funktion speichert die Wahl.
+
+::: aside
+[Modul 4](../../docs/module-04-overview.html) · [Glossar](../../docs/glossary.html)
+:::
+
+# Teil 1 · Auswählen
+
+## Das Problem
+
+Hunderte Taxa. Eine Legende mit 400 Einträgen ist keine Abbildung.
+
+Aggregieren oder auswählen:
 
 - häufigste $k$ Taxa + «Andere»
-- auf Stamm- / Familienebene zusammenfassen
-- auf eine biologisch begründete Auswahl von Taxa fokussieren
+- auf Phylum- / Familienebene
+- eine biologisch begründete Liste
 
-## Zentrale Grafiktypen (diese sollten Sie beherrschen)
+## Eine Aussage pro Abbildung
 
-1. Balkendiagramm/Histogramm der **Bibliotheksgrösse** (Qualitätskontrolle)
-2. **Gestapelte Zusammensetzung** nach Probe (oder Gruppenmittelwert)
+Nicht: «hier sind die Daten.»
+
+Sondern: «an Ort A ist Phylum X häufiger» — oder «die Bibliotheken
+sind ungleich, der Vergleich hinkt.»
+
+Zwei Aussagen: zwei Abbildungen.
+
+# Teil 2 · Typen
+
+## Was Sie beherrschen sollen
+
+1. Bibliotheksgrösse (QC, aus Woche 12)
+2. **Gestapelte Zusammensetzung** nach Probe oder Gruppe
 3. **Heatmap** (Proben × ausgewählte Taxa)
-4. **Facetten** nach Metadaten (Standort, Behandlung, Zeitpunkt)
-5. Optional: einfache Balkendiagramme für Artenreichtum / Shannon-Index — nur wenn sie zur Aussage beitragen
+4. **Facetten** nach Metadaten
 
-## Gestaltungsregeln
-
-- Proben/Taxa bewusst anordnen (nicht nach zufälligen IDs)
-- Kategorische Farben begrenzen (maximal ca. 8–12 in einem Panel)
-- Kleine Teilgrafiken gegenüber einem überladenen Panel bevorzugen
-- Achsen biologisch verständlich beschriften (relative Abundanz, Zählwerte, …)
-- In der Bildlegende angeben: Was wurde gefiltert / aggregiert?
+Optional: Artenreichtum — nur wenn es die Aussage trägt.
 
 ## Fallstricke
 
-- Kompositionsdaten wie unabhängige Zählwerte behandeln
-- Rohzählwerte bei ungleichen Bibliotheksgrössen unkritisch vergleichen
-- Regenbogen-Heatmaps, die Strukturen verdecken
+- Rohzählwerte bei ungleichen Bibliotheken vergleichen
+- Komposition wie unabhängige Zählwerte lesen
+- Regenbogen-Heatmaps
 - Alle Taxa plotten, «weil wir es können»
 
-## Brücke zur Programmierung
+## Reproduzierbar
 
-- Wiederverwendbare Funktionen wie `plot_composition(df, group)`
-- Daten im langen Format eignen sich gut für Grafikgrammatiken
-- Dieselben Schleifen-/Vektorgewohnheiten: Zusammenfassungen berechnen, dann plotten
+`plot_composition(df, group)` — dieselbe Wahl, nächste Woche.
 
-## Ziele der Live-Demonstration
+Feste Dateinamen. Achsen ohne Umlaute (`Abundanz`, `Probe`).
 
-1. Qualitätskontrolle der Bibliotheksgrössen
-2. Zusammensetzung der häufigsten Taxa nach Gruppe
-3. Eine Heatmap einer gezielt ausgewählten Taxa-Gruppe
-4. Diskussion: Welche Aussage wird visuell gestützt?
+Die Abbildung kommt aus dem Notebook. Ein Screenshot in der Folie
+ohne Code ist kein Nachweis.
 
-## Vorschau auf das Notebook
+Python: dasselbe Prinzip (Skript + Daten + Dokument). Hier bleibt
+base R.
 
-Erstellen Sie mit dem Datensatz aus Woche 12 ein kleines «Visualisierungs-Kochbuch»: mindestens eine Darstellung der Zusammensetzung + eine Heatmap/Facette.
+# Teil 3 · Ausblick
+
+## Take-home
+
+1. Erst auswählen, dann färben.
+2. Eine Abbildung, eine Aussage.
+3. Die Funktion ist der Nachweis der Wahl.
+
+## Notebook (~45 min)
+
+**→ [Notebook Woche 13 öffnen](notebook.html)** · Entwurf
+
+Top-$k$ → Zusammensetzung → Heatmap oder Facette.
 
 ## Abschlussfragen
 
-1. Welche Aggregation haben Sie gewählt — und warum?
-2. Nennen Sie eine visuelle Täuschung, die bei Mikrobiomgrafiken zu vermeiden ist.
-3. Welche Abbildung möchten Sie für Checkpoint D perfektionieren?
-
-## Nächste Woche
-
-**Visuelle Geschichte + Checkpoint D** — eine klare Aussage mit Einschränkungen präsentieren; kurze Synthese des Semesters.
-
----
-
-## Literatur
-
-In diesem Foliensatz-Entwurf noch keine Fallstudien zitiert.  
-Sobald Inhalte ausgearbeitet sind, erscheint hier die vollständige Liste aller genannten Quellen.
+1. Welche Aggregation — und warum?
+2. Eine visuelle Täuschung, die Sie vermeiden.
+3. Welche Abbildung wollen Sie in Woche 14 zeigen?
 
 ## Navigation
 
 | | |
 |---|---|
-| Übersicht | [Start](../../index.html) |
-| Startseite | [Kursstartseite](../../index.html) |
+| Notebook | [Notebook Woche 13](notebook.html) |
 | Zurück | [← Woche 12](../week-12/slides.html) |
 | Weiter | [Woche 14 →](../week-14/slides.html) |
-
-Tastatur: ← → · **M** Menü · **Esc** Übersicht · **F** Vollbild

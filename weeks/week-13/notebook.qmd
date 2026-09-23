@@ -1,27 +1,65 @@
 ---
-title: "Woche 13 — Notebook · Mikrobiomdaten visualisieren"
-subtitle: "Tabelle und Bild"
+title: "Woche 13 — Notebook"
+subtitle: "Abbildung und Auswahl"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:
     toc: true
+    toc-title: "Inhalt"
+    toc-depth: 2
+    code-fold: false
+    embed-resources: true
     css: ../../styles.css
 execute:
   echo: true
   warning: false
   message: false
+  freeze: false
 ---
 
-## Lernziele
+::: {.callout-warning}
+## Entwurf
 
-1. Taxa für verständliche Grafiken aggregieren
-2. Eine Grafik zur Zusammensetzung und eine Heatmap oder ein Facetten-Panel erstellen
-3. Bildlegenden verfassen, die Filter/Aggregationen angeben
+Dieselben Dateien wie Woche 12, sobald sie liegen. Heute: auswählen
+und eine Abbildung aus dem Dokument erzeugen.
+:::
 
-## Aufgaben
+# Ziel
 
-1. Beginnen Sie mit den bereinigten Objekten aus Woche 12.
-2. Erstellen Sie eine Tabelle der häufigsten $k$ Taxa + Andere (oder eine Zusammenfassung auf Stammebene).
-3. Plotten Sie die Zusammensetzung nach Probe oder Gruppe.
-4. Erstellen Sie eine Heatmap **oder** einen Vergleich mit Facetten.
-5. **F:** Welche visuelle Aussage wird gestützt? Welche nicht?
+In ungefähr **45 Minuten**: aggregieren, eine Zusammensetzung, eine
+zweite Abbildung. Eine Aussage.
+
+```{r}
+# Start: bereinigte Objekte aus Woche 12
+# abund, meta bereits geprueft
+# k <- 8
+# TODO: haeufigste k Taxa + "Andere"
+```
+
+::: {.callout-tip}
+## Aufgabe A — Auswahl
+
+1. Top-$k$ oder Phylum — was trägt Ihre Frage besser?
+2. Schreiben Sie in einem Satz, **was weggefallen** ist.
+:::
+
+```{r}
+# barplot(...)  # Zusammensetzung; Achsen: Probe, Rel. Abundanz
+# image(...)    # oder eine einfache Heatmap
+```
+
+::: {.callout-tip}
+## Aufgabe B — Zwei Abbildungen, eine behalten
+
+1. Zusammensetzung nach Probe oder Gruppe.
+2. Heatmap **oder** Facette nach einem Metadatum.
+3. Welche der beiden trägt die Aussage — und welche ist Dekor?
+:::
+
+::: {.callout-tip}
+## Aufgabe C — Nachweis
+
+1. Könnte jemand anderes dieselbe Abbildung erzeugen, wenn er nur
+   diesen Notebook-Ordner hat?
+2. Was fehlt noch (feste `k`, Seed, gefilterte Proben)?
+:::

@@ -1,10 +1,14 @@
 ---
-title: "Woche 12 — Notebook · Komplexe Mikrobiomdaten einlesen"
-subtitle: "Tabelle und Metadaten"
+title: "Woche 12 — Notebook"
+subtitle: "Tabelle und Schlüssel"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:
     toc: true
+    toc-title: "Inhalt"
+    toc-depth: 2
+    code-fold: false
+    embed-resources: true
     css: ../../styles.css
 execute:
   echo: true
@@ -13,23 +17,58 @@ execute:
   freeze: false
 ---
 
-## Lernziele
+::: {.callout-warning}
+## Entwurf
 
-1. Abundanz- und Metadatendateien einlesen
-2. Nicht übereinstimmende IDs diagnostizieren
-3. Bibliotheksgrössen und einen kurzen Datenpass berechnen
+Daten-CSV folgen. Bis dahin: Schema und die Prüfungen, die immer gelten.
+:::
 
-## Aufgaben
+# Ziel
+
+In ungefähr **45 Minuten**: einlesen, IDs prüfen, Bibliotheksgrösse.
+Keine schöne Abbildung — eine ehrliche.
 
 ```{r}
+# Projektordner: data/ liegt neben dieser Datei.
 # abund <- read.csv("data/abundance.csv", row.names = 1)
 # meta  <- read.csv("data/metadata.csv")
-# TODO: check setdiff(rownames(abund), meta$sample_id)
-# TODO: library sizes <- rowSums(abund)
 ```
 
-**F1.** Breit oder lang? Woran erkennen Sie das?
+::: {.callout-tip}
+## Aufgabe A — Einlesen
 
-**F2.** Listen Sie Abweichungen zwischen den Abundanzzeilen und den Metadaten auf.
+1. Welche Spalte ist der **Schlüssel** (Proben-ID)?
+2. Ist die Abundanztabelle breit oder lang?
+3. Warum öffnen Sie das als **Projekt**, nicht als einzelne Datei
+   irgendwo auf dem Desktop?
+:::
 
-**F3.** Fassen Sie die Bibliotheksgrössen zusammen (Minimum, Median, Maximum). Gibt es auffällige Proben?
+```{r}
+# setdiff(rownames(abund), meta$sample_id)
+# setdiff(meta$sample_id, rownames(abund))
+```
+
+::: {.callout-tip}
+## Aufgabe B — Join
+
+1. Listen Sie IDs, die nur in einer der beiden Tabellen vorkommen.
+2. Was würde `merge` tun, wenn Sie das ignorieren?
+3. Eine Probe ohne Metadaten: plotten Sie sie — oder legen Sie sie
+   beiseite und schreiben das auf?
+:::
+
+```{r}
+# lib <- rowSums(abund)
+# summary(lib)
+# hist(lib, xlab = "Bibliotheksgroesse", ylab = "Anzahl",
+#      main = "QC")
+```
+
+::: {.callout-tip}
+## Aufgabe C — Bibliotheksgrösse
+
+1. Minimum, Median, Maximum.
+2. Gibt es Ausreisser, die Sie vor Woche 13 klären müssen?
+3. Warum ist *diese* Abbildung ein Nachweis — und ein Excel-Screenshot
+   keiner?
+:::

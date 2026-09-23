@@ -13,7 +13,7 @@
 | `paramecium_*.csv` | Competitive exclusion (Daten) |
 | `yellowstone_wolves.csv`, `yellowstone_elk.csv` | optional Motivation Food Web |
 
-Unterrichtsmodell: **Aspen, Sage, Elk, Wolf** (Simulation). Grasland/Wald: **keine** Kursdaten — Literaturidee.
+Unterrichtsmodell: **Pappel, Steppen-Beifuss, Wapiti, Wolf** (Simulation). Grasland/Wald: **keine** Kursdaten — Literaturidee.
 
 ## Archiv
 

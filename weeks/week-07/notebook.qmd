@@ -2,6 +2,7 @@
 title: "Woche 7 — Notebook"
 subtitle: "Migration und Selektion"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
+lang: de
 format:
   html:
     toc: true
@@ -17,24 +18,74 @@ execute:
   freeze: false
 ---
 
-# Ziel und Zeitplan
+# Ziel
 
-In ungefähr **45 Minuten**:
+$F_{ST}$ aus Heterozygotie **zwischen** und **innerhalb**.
+Dann das Migrations–Selektions-Modell lösen und $F_{ST}$ aus der
+ganzen Trajektorie **vektorwertig** rechnen — nicht in einer
+zweiten Schleife. Zum Schluss: wie $m/s$ die Differenzierung ändert.
 
-| Teil | ca. | Ziel |
-|---|---:|---|
-| A | 12 min | Zwei Habitate simulieren: wann bleiben Unterschiede? |
-| B | 13 min | Vom Gleichgewicht zur Messgrösse $F_{ST}$ |
-| C | 20 min | Einen Scan filtern und die Ausreisser benennen |
+Alles **base R**.
 
-Alles mit **base R**. Der Ordner `data/` muss neben dem Notebook liegen.
+---
 
-## Die Grössen
+# A · Die Formel
 
-- $p_1$: Frequenz des Allels $A$ im See, $p_2$: im Meer.
-- $s$: Stärke der lokalen Selektion (in jedem Habitat für das dort bessere Allel).
-- $m$: Anteil der Individuen, der pro Generation das Habitat wechselt.
-- $F_{ST}$: Abstand zwischen den beiden Frequenzen, zwischen 0 und 1.
+Zwei gleich grosse Populationen, Frequenzen $p_1$ und $p_2$.
+
+**Gesamt** $\bar p = (p_1+p_2)/2$.
+
+Wenn alle zufällig im Gesamttopf paaren würden:
+
+$$
+H_T = 2\,\bar p\,(1-\bar p)
+$$
+
+Mittel der Heterozygotie **in** den Populationen (je HWE):
+
+$$
+H_S = \tfrac{1}{2}\bigl(2p_1(1-p_1) + 2p_2(1-p_2)\bigr)
+$$
+
+Der Anteil der Heterozygotie, der **zwischen** den Populationen sitzt:
+
+$$
+F_{ST} = \frac{H_T - H_S}{H_T}.
+$$
+
+$H_T - H_S$ ist der Wahlund-Defizit. $F_{ST}=0$: dieselben $p$.
+$F_{ST}$ nahe 1: die Populationen sind fast fixiert auf
+verschiedene Allele.
+
+```{r}
+fst <- function(p1, p2) {
+  p_quer <- (p1 + p2) / 2
+  H_T <- 2 * p_quer * (1 - p_quer)
+  H_S <- (2 * p1 * (1 - p1) + 2 * p2 * (1 - p2)) / 2
+  out <- (H_T - H_S) / H_T
+  out[H_T == 0] <- 0
+  out
+}
+
+fst(0.9, 0.1)
+fst(0.5, 0.5)
+```
+
+`fst` arbeitet auf **Vektoren**: zwei Trajektorien hinein, eine
+$F_{ST}$-Zeitreihe hinaus.
+
+::: {.callout-tip}
+## F1
+
+1. Warum ist $F_{ST}(0.5, 0.5) = 0$?
+2. Rechnen Sie $H_T$, $H_S$ und $F_{ST}$ für $p_1=1$, $p_2=0$ von Hand.
+:::
+
+---
+
+# B · Modell, dann $F_{ST}$ aus der Bahn
+
+Selektion lokal (See: $A$ besser; Meer: $B$ besser), danach Mischung.
 
 ```{r}
 selektionsschritt <- function(p, w) {
@@ -43,213 +94,87 @@ selektionsschritt <- function(p, w) {
   (p^2 * w[1] + p * q * w[2]) / w_quer
 }
 
-eine_generation <- function(p1, p2, s = 0.15, m = 0.02) {
-  p1_s <- selektionsschritt(p1, c(1 + s, 1 + s / 2, 1))   # See: A besser
-  p2_s <- selektionsschritt(p2, c(1, 1 + s / 2, 1 + s))   # Meer: B besser
+eine_generation <- function(p1, p2, s, m) {
+  p1_s <- selektionsschritt(p1, c(1 + s, 1 + s / 2, 1))
+  p2_s <- selektionsschritt(p2, c(1, 1 + s / 2, 1 + s))
   c((1 - m) * p1_s + m * p2_s,
     (1 - m) * p2_s + m * p1_s)
 }
 
-zwei_demen <- function(p1 = 0.5, p2 = 0.5, s = 0.15, m = 0.02,
-                       generationen = 250) {
-  bahn <- matrix(NA_real_, generationen + 1, 2)
-  bahn[1, ] <- c(p1, p2)
+zwei_demen <- function(s, m, generationen = 250) {
+  p1 <- p2 <- numeric(generationen + 1)
+  p1[1] <- p2[1] <- 0.5
   for (t in seq_len(generationen)) {
-    bahn[t + 1, ] <- eine_generation(bahn[t, 1], bahn[t, 2], s = s, m = m)
+    nxt <- eine_generation(p1[t], p2[t], s, m)
+    p1[t + 1] <- nxt[1]
+    p2[t + 1] <- nxt[2]
   }
-  data.frame(generation = 0:generationen, p1 = bahn[, 1], p2 = bahn[, 2])
+  data.frame(generation = 0:generationen, p1 = p1, p2 = p2)
 }
 
-fst <- function(p1, p2) {
-  p_quer <- (p1 + p2) / 2
-  if (p_quer <= 0 || p_quer >= 1) return(0)
-  (((p1 - p_quer)^2 + (p2 - p_quer)^2) / 2) / (p_quer * (1 - p_quer))
-}
+sim <- zwei_demen(s = 0.15, m = 0.02)
+sim$fst <- fst(sim$p1, sim$p2)   # kein zweites for
 ```
-
-Der Zustand ist hier **eine Zeile mit zwei Zahlen**. Die Schleife bleibt, weil Generation $t+1$ auf $t$ wartet.
-
----
-
-# A · Selektion gegen Genfluss
 
 ```{r}
 #| fig-height: 4.2
-#| fig-width: 9
-zeige <- function(sim, main) {
-  plot(sim$generation, sim$p1, type = "l", lwd = 2.5, col = "#2166ac",
-       ylim = c(0, 1), xlab = "Generation", ylab = "Frequenz von A", main = main)
-  lines(sim$generation, sim$p2, lwd = 2.5, col = "#b2182b")
-  legend("right", c("See", "Meer"), col = c("#2166ac", "#b2182b"),
-         lwd = 2.5, bty = "n", cex = 0.85)
-}
-
-par(mfrow = c(1, 2))
-zeige(zwei_demen(m = 0.02), "wenig Genfluss (m = 0.02)")
-zeige(zwei_demen(m = 0.30), "viel Genfluss (m = 0.30)")
+#| fig-width: 8
+plot(sim$generation, sim$p1, type = "l", lwd = 2.2, col = "#2166ac",
+     ylim = c(0, 1), xlab = "Generation", ylab = "p / FST",
+     main = "s = 0.15, m = 0.02")
+lines(sim$generation, sim$p2, lwd = 2.2, col = "#b2182b")
+lines(sim$generation, sim$fst, lwd = 2.2, lty = 2, col = "#7f8c8d")
+legend("right", c("See p1", "Meer p2", "FST"),
+       col = c("#2166ac", "#b2182b", "#7f8c8d"),
+       lwd = 2.2, lty = c(1, 1, 2), bty = "n")
 ```
 
 ::: {.callout-tip}
-## F1 · Das Verhältnis zählt
+## F2
 
-1. Erhöhen Sie `m` schrittweise bei festem `s = 0.15`. Ab welchem Wert bricht der Unterschied zusammen?
-2. Stellen Sie danach `s = 0.5` ein und wiederholen Sie den Versuch. Was ändert sich?
-3. Setzen Sie `m = 0`. Was passiert, und welchem biologischen Fall entspricht das?
+1. Steigt $F_{ST}$ mit dem Abstand der beiden $p$?
+2. Die Schleife steckt nur in `zwei_demen`. Wo sitzt $F_{ST}$ — und
+   warum braucht es dafür kein `for`?
 :::
 
-## Der Unterschied als eigene Kurve
+---
+
+# C · Wie $m/s$ die Differenzierung setzt
+
+Dasselbe Modell, viele Paare $(m,s)$. $F_{ST}$ am **Ende** der Bahn.
+Die $x$-Achse ist das Verhältnis $m/s$.
 
 ```{r}
-#| fig-height: 4
+#| fig-height: 4.4
 #| fig-width: 7
-sim_wenig <- zwei_demen(m = 0.02)
-sim_viel  <- zwei_demen(m = 0.30)
+s_grid <- c(0.08, 0.15, 0.30)
+m_grid <- seq(0.005, 0.25, length.out = 18)
 
-plot(sim_wenig$generation, abs(sim_wenig$p1 - sim_wenig$p2), type = "l",
-     lwd = 2.5, col = "#2166ac", ylim = c(0, 1),
-     xlab = "Generation", ylab = "Abstand |p1 - p2|",
-     main = "Wie weit liegen die Habitate auseinander?")
-lines(sim_viel$generation, abs(sim_viel$p1 - sim_viel$p2),
-      lwd = 2.5, col = "#d95f02")
-legend("right", c("m = 0.02", "m = 0.30"),
-       col = c("#2166ac", "#d95f02"), lwd = 2.5, bty = "n")
-```
+erg <- do.call(rbind, lapply(s_grid, function(s) {
+  ende <- sapply(m_grid, function(m) {
+    bahn <- zwei_demen(s = s, m = m, generationen = 400)
+    fst(tail(bahn$p1, 1), tail(bahn$p2, 1))
+  })
+  data.frame(s = s, m = m_grid, ratio = m_grid / s, fst = ende)
+}))
 
----
-
-# B · Vom Gleichgewicht zu $F_{ST}$
-
-```{r}
-ende <- function(m, s = 0.15) {
-  letzte <- tail(zwei_demen(s = s, m = m, generationen = 400), 1)
-  c(p1 = letzte$p1, p2 = letzte$p2, fst = fst(letzte$p1, letzte$p2))
+plot(NA, xlim = range(erg$ratio), ylim = c(0, 1),
+     xlab = "m / s", ylab = "FST am Ende",
+     main = "Genfluss relativ zur lokalen Selektion")
+farben <- c("#2166ac", "#1b9e77", "#d95f02")
+for (i in seq_along(s_grid)) {
+  d <- erg[erg$s == s_grid[i], ]
+  lines(d$ratio, d$fst, lwd = 2.2, col = farben[i])
+  points(d$ratio, d$fst, pch = 16, col = farben[i])
 }
-
-ende(m = 0.02)
-ende(m = 0.30)
-```
-
-## Ein Sweep über den Genfluss
-
-Wie in Woche 6 lassen wir dieselbe Funktion für viele Parameterwerte laufen.
-
-```{r}
-#| fig-height: 4.2
-#| fig-width: 7
-m_werte <- seq(0.01, 0.40, by = 0.01)
-fst_werte <- sapply(m_werte, function(m) ende(m)["fst"])
-
-plot(m_werte, fst_werte, type = "b", pch = 16, lwd = 2, col = "#2166ac",
-     ylim = c(0, 1), xlab = "Migrationsrate m", ylab = expression(F[ST]),
-     main = "Differenzierung faellt mit dem Genfluss (s = 0.15)")
-abline(h = 0.05, lty = 2, col = "grey40")
+legend("topright", paste("s =", s_grid), col = farben, lwd = 2.2, bty = "n")
 ```
 
 ::: {.callout-tip}
-## F2 · Die Kurve lesen
+## F3
 
-1. Bei welcher Migrationsrate fällt $F_{ST}$ unter 0.05?
-2. Wiederholen Sie den Sweep mit `s = 0.4` (Argument an `ende()` übergeben). Wie verschiebt sich die Kurve?
-3. Zwei Loci im selben Genom erleben dasselbe $m$, aber verschiedene $s$. Was folgt daraus für einen Scan?
+1. Fallen die drei Kurven ungefähr aufeinander — zählt also $m/s$?
+2. Was bedeutet ein grosses $m/s$ biologisch (gene swamping)?
+3. Alle Loci teilen dasselbe $m$, aber nicht dasselbe $s$. Warum ist
+   dann nur ein Teil des Genoms stark differenziert?
 :::
-
----
-
-# C · Einen Scan filtern
-
-700 Fenster auf drei Chromosomen, Meer gegen Süsswasser.
-
-```{r}
-scan <- read.csv("data/fst_scan.csv")
-str(scan)
-summary(scan$fst)
-```
-
-## Das Bild
-
-```{r}
-#| fig-height: 4.2
-#| fig-width: 9
-farben <- ifelse(scan$chr %% 2 == 0, "#7f8c8d", "#34495e")
-plot(scan$x, scan$fst, pch = 16, cex = 0.7, col = farben, ylim = c(0, 1),
-     xlab = "Position entlang der Chromosomen 1-3", ylab = expression(F[ST]),
-     main = "Genomscan")
-```
-
-## Auffällige Fenster auswählen
-
-Eine Bedingung liefert Wahrheitswerte, mit denen sich Zeilen auswählen lassen.
-
-```{r}
-sum(scan$fst > 0.5)          # wie viele Fenster liegen ueber 0.5?
-scan[scan$fst > 0.7, ]       # welche sind es?
-```
-
-## Die Schwelle aus der Verteilung
-
-```{r}
-schwelle <- quantile(scan$fst, 0.99)
-schwelle
-
-ausreisser <- scan[scan$fst > schwelle, ]
-ausreisser[order(-ausreisser$fst), c("chr", "pos", "fst", "label")]
-```
-
-## Ausreisser im Bild markieren
-
-```{r}
-#| fig-height: 4.2
-#| fig-width: 9
-plot(scan$x, scan$fst, pch = 16, cex = 0.7, col = "#bdc3c7", ylim = c(0, 1),
-     xlab = "Position entlang der Chromosomen 1-3", ylab = expression(F[ST]),
-     main = "Hintergrund und Ausreisser")
-abline(h = schwelle, lty = 2, col = "grey30")
-points(ausreisser$x, ausreisser$fst, pch = 16, cex = 1.2, col = "#b2182b")
-
-benannt <- scan[scan$label != "", ]
-text(benannt$x, benannt$fst + 0.06, benannt$label, col = "#b2182b", cex = 0.9)
-```
-
-::: {.callout-tip}
-## F3 · Schwellen hinterfragen
-
-1. Wie viele Fenster erklären Sie mit `0.99` zu Ausreissern — und wie viele wären es bei `0.95`?
-2. Warum liefert dieses Vorgehen **immer** eine Liste, auch wenn gar keine Selektion wirkt?
-3. Vergleichen Sie den Median des Hintergrunds mit den beiden Spitzen. Warum ist dieser Kontrast das eigentliche Argument?
-:::
-
-## Vergleich mit dem Modell
-
-```{r}
-c(hintergrund_median = median(scan$fst),
-  spitze = max(scan$fst),
-  modell_wenig_m = unname(ende(m = 0.02)["fst"]),
-  modell_viel_m = unname(ende(m = 0.30)["fst"]))
-```
-
-Der Hintergrund passt zu starkem Genfluss ohne lokale Selektion, die Spitzen zu Loci mit starker entgegengesetzter Selektion — beides im selben Genom, weil $m$ geteilt wird und $s$ nicht.
-
-::: {.callout-important}
-## Für Checkpoint B
-
-Eine gute Abbildung für den Vortrag: der Scan mit eingezeichneter Schwelle, oder $F_{ST}$ gegen $m$ aus Teil B. Dazu ein Satz, was das Modell erklärt — und einer, was es offenlässt.
-:::
-
----
-
-# Zum Mitnehmen
-
-- Zwei Habitate bleiben verschieden, solange lokale Selektion den Genfluss überwiegt.
-- Der Zustand ist jetzt ein Paar $(p_1, p_2)$; die Generation besteht aus Selektion und Mischung.
-- $F_{ST}$ macht aus diesem Paar eine Zahl — und damit aus dem Modell etwas Messbares.
-- Ein Scan zeigt Hintergrund plus wenige Spitzen; Filtern mit einer Schwelle liefert Kandidaten, keine Beweise.
-
-Nächste Woche: Wie viel von all dem muss überhaupt Selektion sein? Und Checkpoint B.
-
-## Quellen
-
-- Peichel, C. L., et al. (2001). *Nature* 414: 901–905. [doi:10.1038/414901a](https://doi.org/10.1038/414901a)
-- Colosimo, P. F., et al. (2005). *Science* 307: 1928–1933. [doi:10.1126/science.1107239](https://doi.org/10.1126/science.1107239)
-- Jones, F. C., et al. (2012). *Nature* 484: 55–61. [doi:10.1038/nature10944](https://doi.org/10.1038/nature10944)
-- Huerta-Sánchez, E., et al. (2014). *Nature* 512: 194–197. [doi:10.1038/nature13408](https://doi.org/10.1038/nature13408)
-- Kursdaten: `data/README.md`

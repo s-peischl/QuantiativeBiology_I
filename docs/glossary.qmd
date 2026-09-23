@@ -10,7 +10,7 @@ format:
 
 Kurze Erklärungen in Alltagssprache. In den Folien tauchen die Begriffe auf — hier können Sie nachschlagen.
 
-[Start](../index.qmd) · [Modul 1](module-01-overview.qmd) · [Modul 2](module-02-overview.qmd) · [Modul 3](module-03-overview.qmd)
+[Start](../index.qmd) · [Modul 1](module-01-overview.qmd) · [Modul 2](module-02-overview.qmd) · [Modul 3](module-03-overview.qmd) · [Modul 4](module-04-overview.qmd)
 
 ---
 
@@ -120,7 +120,7 @@ In QuBi als additive Differenzengleichung $N_{t+1}=N_t+f(N_t,P_t)$.
 Ein Zustand, der sich ohne Störung nicht mehr ändert.
 
 **Stabilität**  
-Nach einer **kleinen** Störung kehrt das System zum Gleichgewicht zurück.
+Nach einer **kleinen Veränderung der Umwelt** kehrt das System in den ursprünglichen Zustand zurück.
 
 **Persistenz**  
 Arten bleiben im System auf der beobachteten Zeitskala — nicht dasselbe wie ein stabiles Gleichgewicht (Räuber–Beute kann schwingen und trotzdem persistieren).
@@ -222,7 +222,7 @@ Ein Funktionsargument mit Vorgabewert: `function(p0, w, gen = 200)`. Der Aufruf 
 Zeilen einer Tabelle über eine Bedingung auswählen: `d[d$fst > schwelle, ]`. Die Schwelle kommt oft aus der Verteilung selbst, z. B. `quantile(d$fst, 0.99)` — so entsteht aus einem Scan eine Liste auffälliger Loci (Woche 7).
 
 **Wright–Fisher-Modell**  
-Einfaches populationsgenetisches Modell für Allelfrequenzen über Generationen bei endlicher $N$. Haploid im Kurs: erst Selektion $p'$, dann $X\sim\mathrm{Binomial}(N,p')$, $p\leftarrow X/N$. Ab Woche 9.
+Einfaches populationsgenetisches Modell für Allelfrequenzen über Generationen bei endlicher $N$. Haploid im Kurs: erst Selektion $p'$, dann $X\sim\mathrm{Binomial}(N,p')$, $p\leftarrow X/N$. Viele Replikate ergeben eine **Wolke**. Ab Woche 9 (Teich-Inversion).
 
 **Zufallszahl / Pseudozufall**  
 Der Computer würfelt nicht. `rbinom` zieht aus einer Folge, die sich wie Zufall benimmt. `set.seed` macht dieselbe Folge — und dieselbe Abbildung — wiederholbar.

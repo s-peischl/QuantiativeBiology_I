@@ -2,6 +2,7 @@
 title: "Woche 6 — Notebook"
 subtitle: "Fitness und Vielfalt"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
+lang: de
 format:
   html:
     toc: true
@@ -17,215 +18,126 @@ execute:
   freeze: false
 ---
 
-# Ziel und Zeitplan
+# Ziel
 
-In ungefähr **45 Minuten**:
+Das Kehlfarben-Modell aus der Vorlesung, Schritt für Schritt.
+Jeder Kasten in der schematischen Abbildung wird **eine Funktion**.
+Am Ende koppeln wir sie in einer Schleife.
 
-| Teil | ca. | Ziel |
-|---|---:|---|
-| A | 10 min | Relative Fitness aus echten Genotypzählungen |
-| B | 10 min | Drei Regime als Trajektorien |
-| C | 15 min | Gleichgewicht gegen Selektionsstärke — mit `sapply()` |
-| D | 10 min | Konstante gegen häufigkeitsabhängige Fitness |
-
-Alles mit **base R**. Der Ordner `data/` muss neben dem Notebook liegen.
-
-## Die Grössen
-
-- **Fitnessvektor** `w = c(w_AA, w_AB, w_BB)`: relativer Überlebenserfolg je Genotyp.
-- **Mittlere Fitness** $\bar w = p^2 w_{AA} + 2pq\,w_{AB} + q^2 w_{BB}$.
-- **Eine Generation:** $p' = (p^2 w_{AA} + pq\,w_{AB}) / \bar w$.
+Alles **base R**. Die Matrix $A$ ist dieselbe wie in Woche 4.
 
 ```{r}
-selektionsschritt <- function(p, w) {
+make_rps_A <- function(s, w) {
+  matrix(c(1, w, s,
+           s, 1, w,
+           w, s, 1), nrow = 3, byrow = TRUE)
+}
+```
+
+---
+
+# A · Schritt 1: vom Allel zur Farbe
+
+Zwei Haplotypen, Frequenz $p$ von $O$. Hardy–Weinberg, dann Plastizität:
+ein Anteil $\theta$ der $BB$ wird gelb statt blau.
+
+```{r}
+farben <- function(p, theta) {
   q <- 1 - p
-  w_quer <- p^2 * w[1] + 2 * p * q * w[2] + q^2 * w[3]
-  (p^2 * w[1] + p * q * w[2]) / w_quer
+  c(
+    orange = p^2 + 2 * p * q,
+    blau   = (1 - theta) * q^2,
+    gelb   = theta * q^2
+  )
 }
 
-simuliere <- function(p0, w, generationen = 150) {
-  p <- numeric(generationen + 1)
-  p[1] <- p0
-  for (t in seq_len(generationen)) p[t + 1] <- selektionsschritt(p[t], w)
-  p
-}
-```
-
-`generationen = 150` ist ein **Default-Argument**: Der Wert gilt, solange wir nichts anderes angeben.
-
----
-
-# A · Fitness aus Daten
-
-Genotypzählungen am $\beta$-Globin-Locus in einem Malariagebiet, getrennt nach Lebensstadium.
-
-```{r}
-sichel <- read.csv("data/sickle_nigeria.csv")
-sichel$n <- sichel$AA + sichel$AS + sichel$SS
-sichel$p <- (2 * sichel$AA + sichel$AS) / (2 * sichel$n)
-sichel[, c("stadium", "AA", "AS", "SS", "n", "p")]
-```
-
-## Beobachtet gegen erwartet
-
-```{r}
-erwartet <- function(zeile) {
-  p <- zeile$p
-  c(AA = p^2, AS = 2 * p * (1 - p), SS = (1 - p)^2) * zeile$n
-}
-
-neu <- sichel[sichel$stadium == "Neugeborene", ]
-erw <- sichel[sichel$stadium == "Erwachsene", ]
-
-rbind(
-  beobachtet = c(neu$AA, neu$AS, neu$SS),
-  erwartet   = round(erwartet(neu), 1)
-)
-```
-
-Bei den Neugeborenen passt die Erwartung aus Woche 5. Und bei den Erwachsenen?
-
-```{r}
-rbind(
-  beobachtet = c(erw$AA, erw$AS, erw$SS),
-  erwartet   = round(erwartet(erw), 1)
-)
-```
-
-## Die Fitness rekonstruieren
-
-```{r}
-anteil <- c(AA = erw$AA, AS = erw$AS, SS = erw$SS) / erwartet(erw)
-w_sichel <- anteil / max(anteil)
-round(w_sichel, 3)
+farben(0.5, theta = 0)
+farben(0.5, theta = 0.5)
 ```
 
 ::: {.callout-tip}
-## F1 · Zahlen lesen
+## F1
 
-1. Wie viele SS-Individuen fehlen gegenüber der Erwartung?
-2. Warum normieren wir auf den grössten Wert — ändert das etwas an der Dynamik?
-3. Welcher Genotyp ist am besten dran, und was bedeutet das für die beiden Allele?
-:::
-
-## Was das Modell daraus macht
-
-```{r}
-#| fig-height: 4
-#| fig-width: 7
-bahn <- simuliere(p0 = 0.5, w = as.numeric(w_sichel), generationen = 200)
-
-plot(0:200, bahn, type = "l", lwd = 2.5, col = "#2166ac", ylim = c(0, 1),
-     xlab = "Generation", ylab = "Frequenz p von A",
-     main = "Aus den Zaehlungen vorhergesagte Dynamik")
-abline(h = erw$p, lty = 2, lwd = 2, col = "#b2182b")
-legend("bottomright", c("Modell", "beobachtet (Erwachsene)"),
-       col = c("#2166ac", "#b2182b"), lty = c(1, 2), lwd = 2, bty = "n")
-
-c(modell = round(tail(bahn, 1), 3), beobachtet = round(erw$p, 3))
-```
-
----
-
-# B · Drei Regime
-
-Nur die Reihenfolge der drei Fitnesswerte entscheidet über den Ausgang.
-
-```{r}
-trajektorien <- function(w, starts = c(0.05, 0.3, 0.7, 0.95),
-                         generationen = 150, main = "") {
-  farben <- c("#2166ac", "#1b9e77", "#d95f02", "#7570b3")
-  plot(NA, xlim = c(0, generationen), ylim = c(0, 1),
-       xlab = "Generation", ylab = "p", main = main)
-  abline(h = c(0, 1), col = "grey85")
-  for (i in seq_along(starts)) {
-    lines(0:generationen, simuliere(starts[i], w, generationen),
-          lwd = 2.2, col = farben[i])
-  }
-}
-```
-
-```{r}
-#| fig-height: 3.6
-#| fig-width: 10
-par(mfrow = c(1, 3))
-trajektorien(c(1.1, 1.05, 1.0), main = "Gerichtet")
-trajektorien(c(1.1, 0.9, 1.1), main = "Unterdominanz")
-trajektorien(c(0.88, 1, 0.14), main = "Ueberdominanz")
-```
-
-::: {.callout-tip}
-## F2 · Regime unterscheiden
-
-1. Welches Bild gehört zur Sichelzelle?
-2. Bei welchem Regime hängt das Ergebnis vom Startwert ab — und warum ist das biologisch interessant?
-3. Setzen Sie `w = c(1, 1, 1)`. Was passiert, und was bedeutet das?
+1. Warum ist `orange` bei $p = 0.5$ gleich $0.75$, unabhängig von $\theta$?
+2. Setzen Sie `theta = 1`. Welche Farbe fehlt dann?
 :::
 
 ---
 
-# C · Gleichgewicht gegen Selektionsstärke
+# B · Schritt 2: Fitness aus dem Spiel
 
-Schreibt man $w_{AA} = 1-s$, $w_{AB} = 1$, $w_{BB} = 1-t$, sagt die Theorie ein Gleichgewicht bei $\hat p = t/(s+t)$ voraus. Prüfen wir das.
-
-## Einmal rechnen
+Dieselbe Rechnung wie Woche 4: $\mathbf{W} = C - A\mathbf{f}$.
 
 ```{r}
-gleichgewicht <- function(s, t, p0 = 0.5, generationen = 500) {
-  tail(simuliere(p0, c(1 - s, 1, 1 - t), generationen), 1)
+fitness_farben <- function(f, s = 1.2, w = 0.5, C = 2) {
+  A <- make_rps_A(s, w)
+  C - as.vector(A %*% f)
 }
 
-gleichgewicht(s = 0.12, t = 0.86)
+fitness_farben(farben(0.5, 0.5))
 ```
 
-## Viele Male rechnen — ohne Copy-Paste
-
-```{r}
-t_werte <- seq(0.05, 0.95, by = 0.05)
-
-simuliert <- sapply(t_werte, function(t) gleichgewicht(s = 0.12, t = t))
-theorie   <- t_werte / (0.12 + t_werte)
-
-head(data.frame(t = t_werte, simuliert = round(simuliert, 3),
-                theorie = round(theorie, 3)), 5)
-```
-
-`sapply()` ruft dieselbe Funktion für jeden Wert in `t_werte` auf und sammelt die Ergebnisse ein.
-
-```{r}
-#| fig-height: 4.2
-#| fig-width: 7
-plot(t_werte, simuliert, pch = 16, col = "#2166ac", ylim = c(0, 1),
-     xlab = "Nachteil t des BB-Genotyps", ylab = "Gleichgewicht p",
-     main = "Simulation (Punkte) und Formel (Linie)")
-lines(t_werte, theorie, lwd = 2.5, col = "#b2182b")
-legend("bottomright", c("simuliert", "t / (s + t)"),
-       col = c("#2166ac", "#b2182b"), pch = c(16, NA), lty = c(NA, 1),
-       lwd = 2, bty = "n")
-```
+Die drei Zahlen sind die Fitness von Orange, Blau, Gelb — **jetzt**,
+bei diesem $\mathbf{f}$.
 
 ::: {.callout-tip}
-## F3 · Parameter verstehen
+## F2
 
-1. Was passiert mit dem Gleichgewicht, wenn $s$ und $t$ gleich gross sind?
-2. Drehen Sie `s` auf `0.5` und wiederholen Sie den Sweep. Wohin wandert die Kurve?
-3. Ersetzen Sie in `gleichgewicht()` den Startwert durch `p0 = 0.05`. Ändert sich das Ergebnis — und warum ist die Antwort für Überdominanz besonders?
+1. Welche Farbe hat hier den höchsten Erfolg — und warum, wenn alle
+   drei gleich häufig wären?
+2. Vergleichen Sie mit `fitness_farben(farben(0.9, 0.5))`. Wer gewinnt,
+   wenn Orange häufig ist?
 :::
 
 ---
 
-# D · Konstante gegen häufigkeitsabhängige Fitness
+# C · Schritt 3: zurück zum Haplotyp
 
-Bei den Kehlfarben aus Woche 4 hing der Erfolg davon ab, wie häufig eine Variante gerade war. Das lässt sich in einem Satz Code ausdrücken: Die Fitness ist dann keine Zahl mehr, sondern eine **Funktion von $p$**.
+$OO$ und $OB$ sind orange. $BB$ ist blau oder gelb, je nach $\theta$.
 
 ```{r}
-haeufigkeitsabhaengig <- function(p0, s = 0.3, generationen = 150) {
+fitness_haplotyp <- function(W, theta) {
+  c(O = W[1], B = (1 - theta) * W[2] + theta * W[3])
+}
+
+fitness_haplotyp(fitness_farben(farben(0.5, 0.5)), theta = 0.5)
+```
+
+::: {.callout-tip}
+## F3
+
+Warum mittelt $w_B$ die beiden Farben — und $w_O$ nicht?
+:::
+
+---
+
+# D · Schritt 4: eine Generation, dann die Schleife
+
+```{r}
+naechstes_p <- function(p, w_O, w_B) {
+  q <- 1 - p
+  w_quer <- (p^2 + 2 * p * q) * w_O + q^2 * w_B
+  p * w_O / w_quer
+}
+
+eine_generation <- function(p, theta, s = 1.2, w = 0.5, C = 2) {
+  f   <- farben(p, theta)
+  W   <- fitness_farben(f, s, w, C)
+  hap <- fitness_haplotyp(W, theta)
+  naechstes_p(p, hap["O"], hap["B"])
+}
+
+eine_generation(0.5, theta = 0.5)
+```
+
+Vier Funktionen, eine Generation. Jetzt die Zeit:
+
+```{r}
+simuliere <- function(p0, theta, generationen = 300, ...) {
   p <- numeric(generationen + 1)
   p[1] <- p0
   for (t in seq_len(generationen)) {
-    w_A <- 1 + s * (1 - p[t])   # selten sein lohnt sich
-    w_B <- 1 + s * p[t]
-    p[t + 1] <- p[t] * w_A / (p[t] * w_A + (1 - p[t]) * w_B)
+    p[t + 1] <- eine_generation(p[t], theta, ...)
   }
   p
 }
@@ -233,58 +145,24 @@ haeufigkeitsabhaengig <- function(p0, s = 0.3, generationen = 150) {
 
 ```{r}
 #| fig-height: 4.2
-#| fig-width: 9
-par(mfrow = c(1, 2))
-
-plot(NA, xlim = c(0, 150), ylim = c(0, 1), xlab = "Generation", ylab = "p",
-     main = "Konstante Fitness (Ueberdominanz)")
-for (p0 in c(0.05, 0.5, 0.95)) {
-  lines(0:150, simuliere(p0, c(0.88, 1, 0.14)), lwd = 2.2, col = "#2166ac")
+#| fig-width: 8
+plot(NA, xlim = c(0, 300), ylim = c(0, 1),
+     xlab = "Generation", ylab = "p (Haplotyp O)",
+     main = "Ohne und mit Plastizitaet")
+for (p0 in c(0.2, 0.5, 0.8)) {
+  lines(0:300, simuliere(p0, theta = 0),   lwd = 2, col = "#bdc3c7")
+  lines(0:300, simuliere(p0, theta = 0.5), lwd = 2, col = "#2166ac")
 }
-
-plot(NA, xlim = c(0, 150), ylim = c(0, 1), xlab = "Generation", ylab = "p",
-     main = "Haeufigkeitsabhaengige Fitness")
-for (p0 in c(0.05, 0.5, 0.95)) {
-  lines(0:150, haeufigkeitsabhaengig(p0), lwd = 2.2, col = "#d95f02")
-}
+legend("right", c("theta = 0", "theta = 0.5"),
+       col = c("#bdc3c7", "#2166ac"), lwd = 2, bty = "n")
 ```
 
-Beide Male bleiben beide Varianten erhalten — aus verschiedenen Gründen:
-
-| | Überdominanz | Häufigkeitsabhängigkeit |
-|---|---|---|
-| Vorteil hat … | immer der Heterozygote | wer gerade selten ist |
-| Fitness | drei feste Zahlen | hängt von $p$ ab |
-| Beispiel | Sichelzelle | Kehlfarben, Wirt–Parasit |
-
-::: {.callout-important}
-## Für Checkpoint B
-
-Wer die Erhaltung der Kehlfarben mit Überdominanz erklärt, benutzt den falschen Mechanismus. Die beiden Bilder oben sind ein guter Kandidat für Ihre eine Abbildung.
-:::
-
 ::: {.callout-tip}
-## F4 · Mechanismen trennen
+## F4
 
-1. Setzen Sie in `haeufigkeitsabhaengig()` den Vorteil auf `s = 0`. Was passiert?
-2. Welche Voraussetzung der Regel «Vielfalt nur bei Überdominanz» ist im rechten Bild verletzt?
-3. Nennen Sie ein weiteres biologisches System, in dem Seltenheit einen Vorteil bringt.
+1. Was passiert ohne Plastizität (`theta = 0`)?
+2. Bleiben bei `theta = 0.5` beide Haplotypen — obwohl kein
+   Heterozygoter im Vorteil ist?
+3. Drehen Sie `theta` auf `0.1` und auf `0.7`. In welchem Fenster
+   bleibt die Vielfalt?
 :::
-
----
-
-# Zum Mitnehmen
-
-- Selektion wird sichtbar, wenn beobachtete Genotypen von der Erwartung abweichen.
-- Aus diesem Vergleich lässt sich die relative Fitness rekonstruieren — und sie sagt das beobachtete Gleichgewicht voraus.
-- Gerichtete Selektion und Unterdominanz beenden die Vielfalt, Überdominanz erhält sie.
-- Häufigkeitsabhängige Fitness erhält Vielfalt ebenfalls, aber aus einem anderen Grund.
-- `sapply()` ersetzt Copy-Paste, sobald man einen Parameter systematisch durchfährt.
-
-Nächste Woche: zwei Habitate statt einem — Selektion gegen Genfluss.
-
-## Quellen
-
-- Allison, A. C. (1954). *BMJ* 1: 290–294. [doi:10.1136/bmj.1.4857.290](https://doi.org/10.1136/bmj.1.4857.290)
-- Corl, A., et al. (2026). *Science* 391: 69–74. [doi:10.1126/science.adw8265](https://doi.org/10.1126/science.adw8265)
-- Kursdaten: `data/README.md`

@@ -1,14 +1,16 @@
 ---
-title: "Woche 12 — Komplexe Mikrobiomdaten einlesen"
-subtitle: "Tabelle und Metadaten"
+title: "Woche 12 — Tabelle und Schlüssel"
+subtitle: "Tabelle und Schlüssel"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:
     html-math-method: katex
     theme: simple
+    css: ../print.css
     slide-number: true
     incremental: false
     embed-resources: true
+    auto-stretch: false
     transition: none
     controls: true
     controls-layout: edges
@@ -18,108 +20,136 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Start](../../index.html)"
+    footer: "[Start](../../index.html) · [Notebook](notebook.html)"
 execute:
   echo: false
   warning: false
   message: false
+  freeze: auto
 ---
 
-## In diesem Foliensatz
+## Übersicht
 
-**Woche 12** von 14 · Mikrobiom-Block  
-**Do., 3. Dez. 2026, 08:15–10:00**
+**Woche 12** von 14 · **Do., 3. Dez. 2026, 08:15–10:00**
 
-- [Start](../../index.html)
-- Pfeiltasten / Steuerelemente · **M** Menü · **Esc** Übersicht
+| Teil | Dauer | Was |
+|------|-------|-----|
+| Vorlesung | ~45 min | Gemeinschaft · Join · Projekt statt Klick |
+| Notebook | ~45 min | Draft: einlesen und IDs prüfen |
 
-## Verlauf des Blocks (Wochen 12–14)
+::: aside
+Pfeiltasten · **M** Menü · **Esc** Übersicht
+:::
 
-1. **Heute:** komplexe Gemeinschaftstabellen einlesen und aufbereiten
-2. **Woche 13:** hochdimensionale Daten visualisieren
-3. **Woche 14:** eine visuelle Geschichte entwickeln · **Checkpoint D**
+## Lernziele
 
-## Warum es diesen Block gibt
+Nach heute können Sie …
 
-Frühere Wochen: Modelle aus **kleinen** Zeitreihen.
+1. sagen, was Abundanz, Taxonomie und Metadaten je beitragen,
+2. Proben-IDs **prüfen**, bevor Sie plotten,
+3. ein RStudio-**Projekt** als Ordner beschreiben,
+4. den Unterschied zwischen Excel-Klickpfad und Skript in einem Satz sagen.
 
-Mikrobiome: wieder Ökologie, doch die erste wichtige Fähigkeit ist der Umgang mit **realen Datenobjekten**.
+## Heute in dieser Reihenfolge
 
-## Was «ein Mikrobiomdatensatz» normalerweise umfasst
+1. Wieder Ökologie — jetzt als Gemeinschaft.
+2. Drei Dateien, ein Schlüssel.
+3. Excel kann plotten. Es speichert den Weg nicht.
+4. Projekt, `read.csv`, Join.
 
-Drei miteinander verknüpfte Bestandteile:
+::: aside
+[Modul 4](../../docs/module-04-overview.html) · [Glossar](../../docs/glossary.html)
+:::
 
-1. **Abundanztabelle** — Proben × Taxa (Zählwerte oder relative Abundanzen)
-2. **Taxonomie** — Bedeutung der einzelnen Taxon-IDs
-3. **Metadaten** — Wirt, Standort, Zeitpunkt, Behandlung, …
+# Teil 1 · Eine Gemeinschaft
 
-Fehler bei der Verknüpfung → nächste Woche unbemerkt unsinnige Grafiken.
+## Nicht eine Art
 
-## Datenformen, die Ihnen begegnen werden
+Wochen 2–4: eine oder wenige Populationen, eine Kurve.
+
+Ein Mikrobiom: **viele** Taxa in **vielen** Proben. Metagenomik liefert
+Zählungen — nicht schon eine Geschichte.
+
+## Drei Dateien
+
+1. **Abundanz** — Proben × Taxa (Zählwerte)
+2. **Taxonomie** — was eine Taxon-ID bedeuten soll
+3. **Metadaten** — Ort, Wirt, Zeitpunkt, Behandlung
+
+Fehler beim Join → nächste Woche falsche Bilder.
+
+## Breite und lange Tabelle
 
 | Form | Typische Verwendung |
 |---|---|
 | Breite Matrix | Zeilen = Proben, Spalten = Taxa |
-| Lange (tidy) Tabelle | Spalten: Probe, Taxon, Abundanz |
-| Metadatentabelle | eine Zeile pro Probe |
+| Lange Tabelle | Spalten: Probe, Taxon, Abundanz |
+| Metadaten | eine Zeile pro Probe |
 
-Grundregel: Klären Sie vor dem Plotten, welche Datenform vorliegt.
+Vor dem Plotten: welche Form liegt vor?
 
-## Arbeitsablauf beim Einlesen (praktisch)
+# Teil 2 · Nachweis statt Klick
 
-1. Abundanzdatei einlesen (`read.csv` / `read.table`)
-2. Metadaten einlesen
-3. Übereinstimmung der Proben-IDs prüfen (Diagnose mit setdiff / merge)
-4. Dimensionen, Sparsität und Bibliotheksgrössen untersuchen
-5. Entscheiden: Zählwerte oder relative Abundanzen für spätere Visualisierungen
+## Excel gegen Skript
 
-## Plausibilitätsprüfungen (jedes Mal durchführen)
+Excel *kann* plotten.
 
-- Sind `#samples` und `#taxa` plausibel?
-- Gibt es doppelte Probennamen?
-- Wie viele Nullen gibt es? (Sparsität ist normal)
-- Bibliotheksgrösse = Zeilensummen — gibt es sehr kleine / grosse Ausreisser?
-- Fehlen für einige Proben Metadaten?
+Es speichert den **Klickpfad** nicht: Filter, Sortierung, welche
+Spalte zu welcher Probe gehört.
 
-## Brücke zur Programmierung
+R (oder Python) speichert die Schritte. Das ist der Unterschied,
+nicht «R ist schöner».
 
-| Konzept | Hier |
-|---|---|
-| Vektoren | Bibliotheksgrössen; ein Taxon über mehrere Proben |
-| Matrizen / Data Frames | Abundanztabellen |
-| Schleifen / apply | optionale Zusammenfassungen über Taxa |
-| Funktionen | `load_abundances()`, `check_ids()` |
+## Was ein Projekt ist
 
-## Vorschau auf das Notebook
+Ein Ordner, den RStudio kennt:
 
-- Ein für die Lehre aufbereitetes Mikrobiom-CSV-Paket aus `data/` einlesen (Kooperationen: einen offenen Datensatz auswählen)
-- Metadaten verknüpfen
-- Einen kurzen «Datenpass» erstellen (Dimensionen, Zusammenfassung der Bibliotheksgrössen, nicht übereinstimmende IDs)
+- `datenanalyse.Rproj`
+- `data/` — die drei Tabellen
+- eine `.qmd` oder `.R` — die Schritte
+
+Wer den Ordner öffnet, kann dieselbe Abbildung erzeugen.
+
+## Arbeitsablauf
+
+1. Projekt öffnen, Arbeitsverzeichnis ist der Ordner
+2. `read.csv` für Abundanz und Metadaten
+3. Proben-IDs: `setdiff`, `%in%`, `merge`
+4. Bibliotheksgrösse = Zeilensummen
+5. Eine QC-Abbildung. Schönheit: nächste Woche
+
+## Plausibilität — jedes Mal
+
+- Stimmen `#Proben` und `#Taxa`?
+- Doppelte IDs?
+- Viele Nullen: normal
+- Sehr kleine oder grosse Bibliotheken?
+- Proben ohne Metadaten?
+
+# Teil 3 · Ausblick
+
+## Take-home
+
+1. Drei Dateien, ein Schlüssel: die Proben-ID.
+2. Ohne geprüften Join keine Abbildung.
+3. Das Dokument ist der Nachweis, nicht der Screenshot.
+
+## Notebook (~45 min)
+
+**→ [Notebook Woche 12 öffnen](notebook.html)** · Entwurf
+
+Einlesen → IDs vergleichen → Bibliotheksgrösse.
 
 ## Abschlussfragen
 
-1. Breite und lange Abundanztabelle — je ein Satz.
-2. Nennen Sie zwei Plausibilitätsprüfungen, die Sie immer durchführen werden.
-3. Was geht schief, wenn die Proben-IDs nicht mit den Metadaten übereinstimmen?
-
-## Nächste Woche
-
-Gemeinschaftsdaten **visualisieren** — Zusammensetzung, Heatmaps, Facetten; Farbchaos vermeiden.
-
----
-
-## Literatur
-
-In diesem Foliensatz-Entwurf noch keine Fallstudien zitiert.  
-Sobald Inhalte ausgearbeitet sind, erscheint hier die vollständige Liste aller genannten Quellen.
+1. Breite und lange Tabelle — je ein Satz.
+2. Was geht schief, wenn die IDs nicht passen?
+3. Warum reicht «die Abbildung sitzt in Excel» nicht als Nachweis?
 
 ## Navigation
 
 | | |
 |---|---|
-| Übersicht | [Start](../../index.html) |
-| Startseite | [Kursstartseite](../../index.html) |
+| Notebook | [Notebook Woche 12](notebook.html) |
 | Zurück | [← Woche 11](../week-11/slides.html) |
 | Weiter | [Woche 13 →](../week-13/slides.html) |
-
-Tastatur: ← → · **M** Menü · **Esc** Übersicht · **F** Vollbild

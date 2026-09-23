@@ -677,13 +677,11 @@ Das ist der Unterschied zwischen «einmal rechnen» und «systematisch untersuch
 ![](../../pics/icons/icon_code.svg){fig-alt="Notebook" width="70%"}
 :::
 ::: {.column width="80%"}
-**A** Sichelzell-Fitness aus den Zählungen rekonstruieren  
+**A** jeder Kasten der Abbildung: eine Funktion  
 
-**B** drei Regime als Trajektorien  
+**B** Farben, Fitness, Haplotyp, $p'$  
 
-**C** Gleichgewicht gegen Selektionsstärke — mit `sapply()`  
-
-**D** konstante gegen häufigkeitsabhängige Fitness
+**C** die vier Schritte in einer Schleife koppeln
 :::
 :::::
 

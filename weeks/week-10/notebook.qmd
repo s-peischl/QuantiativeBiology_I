@@ -1,6 +1,6 @@
 ---
 title: "Woche 10 — Notebook"
-subtitle: "Demografie und Rettung"
+subtitle: "Resistenz und Rettung"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   html:
@@ -30,16 +30,46 @@ In ungefähr **45 Minuten**:
 
 | Teil | ca. | Ziel |
 |---|---:|---|
-| A | 12 min | Trajektorien: gerettet gegen ausgestorben |
-| B | 15 min | $\Pr(\mathrm{rescue})$ gegen Rückgang $r$ |
-| C | 12 min | gegen Startgrösse $N_0$ |
-| D | 6 min | eine Frage für Checkpoint C |
+| A | 10 min | Start bei einer Kopie: die meisten Bahnen sterben |
+| B | 12 min | $\hat u$ gegen $s$, Linie $2s$ |
+| C | 12 min | Rettung gegen Rückgang $r$ |
+| D | 11 min | gegen Startgrösse $N_0$; Frage für Checkpoint C |
 
-**Rettung:** mindestens eine de-novo-Mutante etabliert sich, bevor der
-Wildtyp demografisch verschwindet. $N_{\mathrm{wt}}$ fällt deterministisch
-mit Rate $r$. Jede neue Mutante etabliert sich mit $u\approx 2s$.
+**Etablierung** $u$: Anteil der Linien, die von $k=1$ nicht bei $p=0$
+enden. **Rettung:** mindestens eine de-novo-Mutante etabliert sich,
+bevor der Wildtyp demografisch verschwindet.
 
 ```{r functions}
+selection_step_haploid <- function(p, s) {
+  p * (1 + s) / (1 + p * s)
+}
+
+wf_step <- function(p, s, N) {
+  p_sel <- selection_step_haploid(p, s)
+  if (p_sel <= 0) return(0)
+  if (p_sel >= 1) return(1)
+  rbinom(1, N, p_sel) / N
+}
+
+simulate_wf <- function(p0, s, N, generations = 200) {
+  p <- numeric(generations + 1)
+  p[1] <- p0
+  for (t in seq_len(generations)) {
+    p[t + 1] <- wf_step(p[t], s, N)
+  }
+  data.frame(generation = 0:generations, p = p)
+}
+
+lineage_fate <- function(s, N, k = 1, max_gen = 400) {
+  p <- k / N
+  for (t in seq_len(max_gen)) {
+    p <- wf_step(p, s, N)
+    if (p <= 0) return(0)
+    if (p >= 1) return(1)
+  }
+  as.numeric(p >= 0.5)
+}
+
 p_rescue_approx <- function(N0, r, s, U) {
   1 - exp(-2 * N0 * U * s / pmax(r, 1e-12))
 }
@@ -78,48 +108,86 @@ rescue_rate <- function(N0, r, s, U, n_reps = 80, max_gen = 160) {
 }
 ```
 
-`one_rescue_run()` ist **ein** Replikat — analog zu einer Kultur.
-
 ------------------------------------------------------------------------
 
-# A — Zwei Ausgänge
+# A — Eine Kopie, die meisten Bahnen sterben
 
-```{r traj}
-set.seed(10)
-N0 <- 1e5
-r <- 0.10
-s <- 0.12
-U <- 2e-5
-plot(NA, xlim = c(0, 120), ylim = c(0, 6.1),
-     xlab = "Generation", ylab = "log10 N",
-     main = "20 Replikate")
-for (i in 1:20) {
-  run <- one_rescue_run(N0, r, s, U, 120)
-  col <- if (run$rescued) "#2166ac" else "#bdbdbd"
-  lines(run$generation, log10(pmax(run$N, 1)), col = col, lwd = 1.6)
+Im Teich startete $p$ bei $0.5$. Hier: $p=1/N$. $s>0$, und trotzdem
+gehen die meisten Linien nach 0.
+
+```{r rare}
+set.seed(11)
+N <- 500
+s <- 0.05
+plot(NA, xlim = c(0, 200), ylim = c(0, 1),
+     xlab = "Generation", ylab = "p = f(A)",
+     main = "Start: eine Kopie")
+for (i in 1:30) {
+  sim <- simulate_wf(1 / N, s, N, 200)
+  lost <- sim$p[length(sim$p)] == 0
+  col <- if (lost) adjustcolor("grey60", 0.55) else "#d95f02"
+  lines(sim$generation, sim$p, col = col, lwd = if (lost) 1 else 2)
 }
-legend("topright", c("gerettet", "ausgestorben"),
-       col = c("#2166ac", "#bdbdbd"), lwd = 2, bty = "n")
 ```
 
 ::: {.callout-tip}
 ## Aufgabe A1
 
-1. Zählen Sie ungefähr: wie viele der 20 Linien kehren um?
-2. Ändern Sie `r` auf `0.20`. Was passiert mit den blauen Kurven?
-3. Welche Grösse fällt hier ohne Zufall — welche Ereignisse sind zufällig?
+1. Zählen Sie ungefähr: wie viele der 30 Linien bleiben weg von 0?
+2. Setzen Sie den Start auf `0.5` (wie im Teich). Sterben dann noch
+   Bahnen aus?
+3. Warum ist $p=0.5$ für den Nachweis von Selektion oft die
+   bessere Wahl — nicht die seltenere?
 :::
 
 ------------------------------------------------------------------------
 
-# B — Rettung gegen Rückgang $r$
+# B — Etablierungswahrscheinlichkeit $\hat u(s)$
+
+Eine Linie startet mit **einer** Kopie. `lineage_fate` gibt 1 zurück,
+wenn $p$ nach 1 läuft, sonst 0. $\hat u$ ist der Mittelwert über Replikate.
+
+```{r u-hat}
+set.seed(9)
+s_grid <- c(0.02, 0.05, 0.08, 0.12)
+n_reps <- 120
+N <- 800
+u_est <- numeric(length(s_grid))
+for (i in seq_along(s_grid)) {
+  u_est[i] <- mean(replicate(n_reps, lineage_fate(s_grid[i], N)))
+}
+plot(s_grid, u_est, type = "b", pch = 19, lwd = 2, col = "#2166ac",
+     xlim = c(0, 0.14), ylim = c(0, 0.30),
+     xlab = "s", ylab = "u hat",
+     main = "Etablierung, k = 1")
+curve(2 * x, from = 0, to = 0.14, add = TRUE, lwd = 2, lty = 2,
+      col = "#d95f02")
+legend("topleft", c("Simulation", "u = 2s"),
+       col = c("#2166ac", "#d95f02"), lwd = 2, lty = c(1, 2), bty = "n")
+```
+
+::: {.callout-tip}
+## Aufgabe B1
+
+1. Steigt $\hat u$ mit $s$? Liegt es nahe bei $2s$?
+2. Erhöhen Sie `n_reps` (z. B. 300). Was wird glatter — die biologische
+   Aussage oder nur das Rauschen von $\hat u$?
+3. Setzen Sie `s_grid` bis `0.40`. Wo bricht $2s$ sichtbar?
+:::
+
+------------------------------------------------------------------------
+
+# C — Rettung gegen Rückgang $r$
+
+$N_{\mathrm{wt}}$ fällt deterministisch. Jede neue Mutante etabliert
+sich mit $u\approx 2s$. `one_rescue_run()` ist **ein** Replikat.
 
 ```{r vs-r}
 set.seed(10)
 N0 <- 8e4
 s <- 0.08
 U <- 1.5e-5
-r_grid <- c(0.04, 0.08, 0.12, 0.18)  # Parameter aendern
+r_grid <- c(0.04, 0.08, 0.12, 0.18)
 n_reps <- 60
 p_hat <- numeric(length(r_grid))
 for (i in seq_along(r_grid)) {
@@ -136,26 +204,26 @@ legend("topright", c("Simulation", "Formel"),
 ```
 
 ::: {.callout-tip}
-## Aufgabe B1
+## Aufgabe C1
 
 1. Warum fällt $\Pr(\mathrm{rescue})$ mit $r$?
 2. Liegt die gestrichelte Linie auf den Punkten? Wo weicht sie ab?
-3. Setzen Sie `r_grid <- c(0.03, 0.06, 0.10, 0.25)`. Welche $r$ wären
-   in einem Antibiotikum «viel Zeit bis zum Aussterben»?
+3. Welche $r$ wären in einem Antibiotikum «viel Zeit bis zum Aussterben»?
 :::
 
 ------------------------------------------------------------------------
 
-# C — Rettung gegen Startgrösse $N_0$
+# D — Rettung gegen Startgrösse $N_0$
 
-Bell & Gonzalez (2009): Schwelle in der ancestralen Populationsgrösse.
+Mehr Individuen: mehr Versuche, eine rettende Mutante zu ziehen.
+Bell & Gonzalez (2009) sahen eine Schwelle in $N_0$.
 
 ```{r vs-n0}
 set.seed(10)
 s <- 0.10
 U <- 2e-5
 r <- 0.10
-N0_grid <- c(5e3, 2e4, 8e4, 3e5)  # Parameter aendern
+N0_grid <- c(5e3, 2e4, 8e4, 3e5)
 p_n <- numeric(length(N0_grid))
 for (i in seq_along(N0_grid)) {
   p_n[i] <- rescue_rate(N0_grid[i], r, s, U, n_reps = 60)
@@ -171,25 +239,11 @@ legend("bottomright", c("Simulation", "Formel"),
 ```
 
 ::: {.callout-tip}
-## Aufgabe C1
+## Aufgabe D1
 
 1. Wo liegt ungefähr die Schwelle in $N_0$?
-2. $N_0$ und $U$ stehen in der Formel als Produkt. Was würde ein
-   Laborversuch an $N_0$ ändern — und was an $U$?
-3. Unser Modell kennt nur de novo. Was würde stehende Variation an
-   dieser Schwelle tun?
+2. Wählen Sie für Checkpoint C **eines**: neutrale Wolke der Teiche;
+   $s$-Wolke; Rettung gegen $r$; Rettung gegen $N_0$.
+3. Schreiben Sie in einem Satz die biologische Frage und welche
+   Abbildung Sie zeigen.
 :::
-
-------------------------------------------------------------------------
-
-# D — Vorbereitung auf Checkpoint C
-
-Wählen Sie **eines**: Parameter $r$, $s$ oder $N_0$.
-
-1. biologische Frage (Rettung unter Stress / Antibiotikum / Salz)
-2. welcher Parameter sich ändert
-3. welche Abbildung Sie in Woche 11 zeigen
-4. eine Annahme (deterministische Demografie, nur de novo, $u=2s$)
-5. was ein Laborversuch an Kulturen messen würde
-
-Nächste Woche: kurze Synthese, Notebook, 3–5-Minuten-Präsentation.
