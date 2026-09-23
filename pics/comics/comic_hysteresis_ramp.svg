@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="960" height="320" viewBox="0 0 960 320">
-  <rect width="960" height="320" fill="white"/>
-  <text x="480" y="28" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#1a5276">Hysterese: Hinweg und Rueckweg sind nicht gleich</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="340" viewBox="0 0 960 340">
+  <rect width="960" height="340" fill="white"/>
+  <text x="480" y="28" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#1a5276">Kelpwald und Seeigelwüste</text>
 
   <!-- axes -->
   <line x1="80" y1="260" x2="900" y2="260" stroke="#333" stroke-width="2"/>
   <line x1="80" y1="260" x2="80" y2="50" stroke="#333" stroke-width="2"/>
-  <text x="490" y="295" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Umweltparameter (z. B. R)</text>
-  <text x="28" y="160" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333" transform="rotate(-90 28 160)">Zustand</text>
+  <text x="490" y="292" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">Otteranzahl</text>
+  <text x="22" y="160" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333" transform="rotate(-90 22 160)">Kelp</text>
 
   <!-- low branch -->
   <path d="M 100 230 C 220 225, 320 220, 420 210" fill="none" stroke="#27ae60" stroke-width="4"/>
@@ -25,10 +25,10 @@
   <circle cx="420" cy="210" r="6" fill="#27ae60"/>
   <circle cx="280" cy="100" r="6" fill="#d68910"/>
 
-  <text x="440" y="200" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#196f3d">Kippen nach oben</text>
-  <text x="150" y="90" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#9a7b0a">Kippen nach unten</text>
-  <text x="700" y="55" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#922b21">hoher Zustand</text>
-  <text x="180" y="250" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#196f3d">niedriger Zustand</text>
+  <text x="440" y="200" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#196f3d">Wald kehrt zurück</text>
+  <text x="120" y="88" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#9a7b0a">Wald kippt</text>
+  <text x="700" y="55" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#922b21">Kelpwald</text>
+  <text x="130" y="252" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#196f3d">Seeigelwüste</text>
 
-  <text x="480" y="315" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5d6d7e">Beim Zurueckdrehen muss man oft weiter zurueck als bis zum Ausloesepunkt</text>
+  <text x="480" y="328" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5d6d7e">Zurück zum Kelpwald braucht mehr Otter als der Kipppunkt</text>
 </svg>

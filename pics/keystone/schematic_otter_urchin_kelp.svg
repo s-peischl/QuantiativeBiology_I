@@ -21,9 +21,9 @@
   <text x="320" y="266" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#148f77">bleibt erhalten</text>
   <text x="250" y="330" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#196f3d">halten (Resistance)</text>
 
-  <!-- right: barren -->
+  <!-- right: Seeigelwüste -->
   <rect x="520" y="75" width="420" height="280" rx="14" fill="#fdf2e9" stroke="#d68910" stroke-width="2"/>
-  <text x="730" y="105" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#9a7b0a">Seeigel-Barren</text>
+  <text x="730" y="105" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#9a7b0a">Seeigelwüste</text>
   <rect x="600" y="145" width="160" height="48" rx="8" fill="#8e44ad"/>
   <text x="680" y="175" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="white">viele Igel (mager)</text>
   <rect x="600" y="230" width="160" height="48" rx="8" fill="#95a5a6"/>

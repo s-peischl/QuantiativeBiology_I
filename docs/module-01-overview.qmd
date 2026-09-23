@@ -41,7 +41,7 @@ Für die **Benotung von Checkpoint A** müssen Sie **anwesend sein** und in der 
 Wer fehlt, kann diesen Checkpoint nicht ablegen (siehe [Kursinfo (PDF)](kursinfo.pdf) · ILIAS).
 :::
 
-**Format:** Teams **bis zu vier** · die Checkpoint-Frage mit dem **R-Notebook** beantworten · eine Abbildung · kurzer Kommentar, wenn die Assistenz kommt.  
+**Format:** Teams **bis zu vier** · die Checkpoint-Frage mit dem **R-Notebook** beantworten · mindestens zwei Abbildungen mit qualitativ verschiedenem Verlauf, in beiden bleiben alle drei Strategien · kurzer Kommentar, wenn die Assistenz kommt.  
 Keine separate Hausarbeit — die Notebook-Arbeit ist die Vorbereitung.
 
 ## Materialien

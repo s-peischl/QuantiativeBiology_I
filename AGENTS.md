@@ -68,7 +68,7 @@ Course arc: weeks 1 → 14 under `weeks/`.
 
 ### Live hub (GitHub Pages)
 
-Only **published** weeks are built and linked. Currently: **weeks 1–4** (Modul 1 through Checkpoint A). Later weeks stay in git. **Week 1 has slides only** (no student notebook). **The week-4 notebook is not on GitHub** until the checkpoint session (`weeks/week-04/notebook.qmd` is gitignored; keep a local copy). Navbar: `Start`, `Glossar`, `KI-Richtlinie`, Folien/Notebooks as `Woche N`. Module overviews are linked from the homepage, not the navbar.
+Only **published** weeks are built and linked. Currently: **weeks 1–4** (Modul 1 through Checkpoint A). Later weeks stay in git. **Week 1 has slides only** (no student notebook). **The week-4 notebook is not on GitHub** until the checkpoint session (`weeks/week-04/notebook.qmd` is gitignored; keep a local copy). The solution notebook and the solution-only slides stay local too (`notebook-loesung.qmd`, `slides-loesung.qmd`). Navbar: `Start`, `Glossar`, `KI-Richtlinie`, Folien/Notebooks as `Woche N`. Module overviews are linked from the homepage, not the navbar.
 
 Course organisation and grading live on **ILIAS**, not as hub webpages. Student PDFs: `docs/kursinfo.pdf` (rules) and `docs/kursplan.pdf` (calendar + week content), built with `scripts/render_handouts_pdf.sh`. Source for the plan: `docs/course-outline.qmd` (not rendered as HTML).
 

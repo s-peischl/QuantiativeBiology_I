@@ -49,7 +49,7 @@ Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 
 Nach heute **kennen** Sie …
 
-1. **Gleichgewicht**, **Stabilität** und **Einzugsgebiet** — Stabilität heisst Reaktion auf eine Störung,
+1. **Gleichgewicht**, **Stabilität** und **Einzugsgebiet**: stabil heisst, das System kehrt nach einer kleinen Störung zurück,
 2. dass Konkurrenz **einen** oder **zwei** Endpunkte haben kann, und welche Rolle $\alpha$ und der Start dabei spielen,
 3. **Keystone** (starke Wirkung einer Art auf die Gemeinschaft) und **Hysterese** (Hinweg und Rückweg sind nicht gleich).
 
@@ -253,7 +253,7 @@ Massstab **1** = so stark wie die eigene Selbstkonkurrenz.
 | $= 1$ | ein Fremdes = ein Eigenes |
 | $> 1$ | Art 2 hemmt **stärker** als die Selbstkonkurrenz |
 
-$(\alpha_{12},\alpha_{21})$ wählt man relativ zu 1. Das bestimmt den Charakter.
+Man vergleicht beide $\alpha$ mit 1. Davon hängt ab, ob am Ende eine Art, beide Arten oder — je nach Start — die eine oder die andere übrig bleibt.
 
 ::: aside
 Kurswerte zur Illustration — keine Schätzungen aus den Gause-Daten.
@@ -303,7 +303,7 @@ sim_space <- function(P, T = 600, M0 = 35, O0 = 35) {
 | beide $<1$ | Fremdkonkurrenz schwächer als Selbstkonkurrenz | **Koexistenz** |
 | beide $>1$ | gegenseitig zu stark | **zwei** mögliche Gewinner |
 
-Dieselben Gleichungen. Andere $\alpha$, anderer Charakter.
+Die Gleichungen bleiben dieselben. Welches der drei Muster entsteht, hängt davon ab, wo die beiden $\alpha$ relativ zu 1 liegen.
 
 ## Ausschluss
 
@@ -321,7 +321,7 @@ plot_two_ts(
 )
 ```
 
-Beide Starts → derselbe Rand. Ein Gleichgewicht — das *Paramecium*-Muster.
+Von beiden Starts aus bleibt am Ende dieselbe Art übrig. Es gibt ein stabiles Gleichgewicht, wie bei den beiden *Paramecium*.
 
 ## Koexistenz
 
@@ -339,7 +339,7 @@ plot_two_ts(
 )
 ```
 
-Beide Starts → dieselbe Koexistenz. Wieder ein Endpunkt, diesmal innen.
+Von beiden Starts aus bleiben beide Arten bei denselben positiven Dichten. Wieder ein Gleichgewicht, diesmal mit beiden Arten.
 
 ## Wenn beide $\alpha>1$
 
@@ -384,9 +384,9 @@ Dieselbe Umwelt, zwei langfristige Zustände.
 
 Niederschlag allein sagt das Biom **nicht** voraus.
 
-Nach Rodung kann Feuer das Grasland halten, auch wenn Wald klimatisch möglich wäre. Bäume pflanzen oder Feuer unterdrücken wirkt deshalb nicht linear.
+Nach Rodung kann Feuer das Grasland halten, auch wenn Wald klimatisch möglich wäre. Einzelne Bäume zu pflanzen oder das Feuer nur kurz zu unterdrücken reicht oft nicht: solange Gras und Feuer bleiben, bleibt das System im Grasland.
 
-Kohlenstoff und Vielfalt hängen am Einzugsgebiet: an der **Geschichte**, nicht nur am Klima.
+Wie viel Kohlenstoff gebunden ist und welche Arten vorkommen, hängt vom Einzugsgebiet ab, also von der Geschichte, nicht nur vom Klima.
 
 ## Starke gegenseitige Hemmung
 
@@ -411,7 +411,7 @@ plot_two_ts(
 )
 ```
 
-**Bistabilität:** dieselben Parameter, der Start wählt das Gleichgewicht.
+**Bistabilität:** die Parameter sind dieselben. Welches Gleichgewicht erreicht wird, hängt vom Start ab.
 
 ## Zwei Einzugsgebiete
 
@@ -442,7 +442,7 @@ ggplot() +
   theme_slide()
 ```
 
-Eine kleine Störung bleibt im selben Becken. Ein Wechsel braucht eine Störung über die Grenze.
+Eine kleine Störung bleibt im selben Einzugsgebiet. Der Zustand wechselt erst, wenn die Störung über die Grenze geht.
 
 ## Ein Endpunkt oder zwei
 
@@ -460,7 +460,7 @@ Teil 1–2: zwei Arten um **dieselbe Ressource**. Oft bleibt **eine**.
 
 Jetzt kommt ein Räuber hinzu — zusätzliche Sterblichkeit.
 
-Naive Erwartung: es wird **schlimmer**. Noch weniger Arten, Ausschluss nur härter.
+Die naive Erwartung: zusätzliche Sterblichkeit macht den Ausschluss härter, und es bleiben noch weniger Arten.
 
 ## Felsküste: Raum als Ressource
 
@@ -496,9 +496,9 @@ Wenn die naive Erwartung stimmt, sollte ohne Räuber die sessile Vielfalt **stei
 
 ![](../../pics/keystone/schematic_paine_pisaster.svg){fig-alt="Mit Pisaster geteilter Raum; ohne dominieren Miesmuscheln" width="92%"}
 
-Ohne Seestern überwachsen die Muscheln den Fels. Die Vielfalt **sinkt**.
+Ohne Seestern überwachsen die Muscheln den Fels. Die Vielfalt sinkt.
 
-Mit Seestern bleibt Raum geteilt. Der Räuber macht es **nicht** schlimmer — nur die Empirie zeigt das.
+Mit Seestern bleibt der Raum geteilt. Der Räuber verschärft den Ausschluss nicht. Die Versuchsflächen zeigen das Gegenteil der Erwartung.
 
 ## Zum Verstehen: das Modell
 
@@ -555,26 +555,41 @@ Im **[Notebook](notebook.html)** sehen Sie so ein Modell genauer: Wolf, Elch, Ve
 :::
 :::::
 
-Otter → Igel → Kelp. Dieselbe Kaskade wie Wolf → Elch → Ufer — hier das Netz aus dem Freiland.
+Otter fressen Seeigel, Seeigel fressen Kelp. Die Kette läuft in dieselbe Richtung wie Wolf, Elch und Ufervegetation, hier aus dem Freiland.
 
 ::: aside
 *Pycnopodia* (Sonnenblumenstern) frisst ebenfalls Igel; das kommt gleich.
 :::
 
+## Das geschätzte Netz
+
+Langendorf et al. (2025), aus Zeitreihen von etwa 30 Jahren. Westküste von Vancouver Island und San Nicolas Island.
+
+![](../../pics/keystone/langendorf_2025_fig1.jpg){fig-alt="Geschaetztes Kelp-Food-Web mit Ottern, Raeubern, Herbivoren und Algen an zwei Kueste" height="300px"}
+
+::: aside
+Langendorf et al. (2025), Fig. 1 · unverändert · CC BY-NC-ND 4.0
+:::
+
+## Das Netz lesen
+
+Die Kette Otter–Igel–Kelp ist darin eine Kante unter vielen.
+
+Violett gibt es nur im Norden, grün nur im Süden. Durchgezogen wirkt nach unten, gestrichelt nach oben.
+
 ## Die erwartete Kaskade
 
-An der kalifornischen Küste regulieren Seeotter Seeigel. Ohne Otter entsteht oft ein Seeigel-Barren.
+An der kalifornischen Küste regulieren Seeotter Seeigel. Ohne Otter entsteht oft eine Seeigelwüste.
 
-![](../../pics/keystone/guardians_of_the_kelp.png){fig-alt="Mit Seeottern bleibt der Kelpwald; ohne nehmen Seeigel zu und fressen Kelp weg" width="82%"}
+![](../../pics/keystone/guardians_of_the_kelp.png){fig-alt="Mit Seeottern bleibt der Kelpwald; ohne nehmen Seeigel zu und fressen Kelp weg" height="300px"}
 
 ::: aside
 «Guardians of the Kelp» · BioRender.com
 :::
 
-Mit Ottern bleibt Kelp. Ohne Otter ein Barren.  
-Die Erwartung ist: wenn Otter wieder zunehmen, erholt sich der Wald.
-
 ## Monterey Bay, ab etwa 2014
+
+Mit Ottern bleibt Kelp, ohne Otter eine Seeigelwüste. Nehmen die Otter wieder zu, sollte sich der Wald erholen.
 
 Smith et al. (2021):
 
@@ -587,88 +602,70 @@ Die erwartete Folge wäre: mehr Otter → weniger Igel → Kelp erholt sich.
 
 ## Was die Daten zeigen
 
-![](../../pics/keystone/figure10_otter_urchin_kelp.jpg){fig-alt="Zeitreihen Otter, Kelp, Seeigel, Pycnopodia und Mechanismus-Skizze" width="92%"}
+![](../../pics/keystone/figure10_otter_urchin_kelp.jpg){fig-alt="Zeitreihen Otter, Kelp, Seeigel, Pycnopodia und Mechanismus-Skizze" height="340px"}
 
 ::: aside
 Smith et al. (2021), Fig. 10 · Jessica Kendall-Bar · Planet-Vie/PNAS · Lehre / nicht-kommerziell
 :::
 
-Otter oben (A), Kelp unten (B), Seeigel oben (C), *Pycnopodia* weg (D).  
-Mehr Otter, aber das erwartete Muster bleibt aus.
+Otter oben (A), Kelp unten (B), Seeigel oben (C), *Pycnopodia* weg (D). Die Otterdichte steigt wieder, der Kelpwald aber nicht überall.
 
 ## Hysterese
 
 Ist der Zustand gekippt, reicht oft **nicht** dieselbe Otterdichte wie zuvor, um zurückzukommen.
 
-![](../../pics/comics/comic_hysteresis_ramp.svg){fig-alt="Hysterese: Sprung nach oben und Ruecksprung bei anderem Parameterwert" width="92%"}
+![](../../pics/comics/comic_hysteresis_ramp.svg){fig-alt="Hysterese: Kelp gegen Otteranzahl, Kippen und Rueckkehr bei verschiedener Dichte" height="280px"}
 
 Dieselbe Otterdichte, zwei Zustände. Der Rückweg braucht eine **andere** Schwelle.
 
-## Hinweg und Rückweg
+## Restwald und Seeigelwüste
 
-Wir erhöhen die Otterdichte langsam und warten jedes Mal, bis sich Kelp eingestellt hat. Dann senken wir sie **auf demselben Weg** wieder.
+Start im Kelpwald. Die Otterdichte sinkt, bis der Wald in die Seeigelwüste kippt. Steigt sie wieder, bleibt die Wüste, bis eine höhere Dichte erreicht ist. Auf der Skizze liegen die beiden Sprünge nicht übereinander.
+
+Otter können vorhandenen Kelp schützen. Eine Seeigelwüste mit derselben Dichte wieder in Wald zu verwandeln gelingt oft nicht.
+
+Einen bestehenden Wald zu halten und eine Seeigelwüste wiederherzustellen sind zwei verschiedene Aufgaben.
+
+::: aside
+Dieselbe Kurvenform kommt aus einem Insektenmodell. Bonus am Ende der Folien: der Fichtenwickler.
+:::
+
+## Holling Typ III
+
+Otter fressen Seeigel selektiv. Ein Tauchgang lohnt sich erst, wenn die Biomasse gross genug ist. Bei wenig Beute bleibt der Frass deshalb flach. Danach steigt er und sättigt:
+
+$$
+f(N)=\frac{a N^{2}}{1+a h N^{2}}
+$$
 
 ```{r}
-#| fig-height: 3.6
-#| fig-width: 8.0
-#| out-width: 74%
-f_hyst <- function(u, R, Q = 20) {
-  R * (1 - u / Q) - u / (1 + u^2)
-}
-track <- function(Rseq, u0) {
-  u <- u0
-  out <- numeric(length(Rseq))
-  for (i in seq_along(Rseq)) {
-    for (k in 1:350) u <- max(u + 0.03 * u * f_hyst(u, Rseq[i]), 1e-12)
-    out[i] <- u
-  }
-  out
-}
-R_up <- seq(0.12, 0.65, length.out = 140)
-R_dn <- rev(R_up)
-u_up <- track(R_up, 0.25)
-u_dn <- track(R_dn, tail(u_up, 1))
-hyst <- rbind(
-  data.frame(R = R_up, u = u_up, weg = "Otter nehmen zu"),
-  data.frame(R = R_dn, u = u_dn, weg = "Otter nehmen ab")
-)
-ggplot(hyst, aes(R, u, colour = weg)) +
-  geom_line(linewidth = 1.15) +
-  geom_vline(xintercept = 0.38, linetype = "dotted", colour = "#7f8c8d") +
-  annotate("text", x = 0.22, y = 2.2, label = "Barren",
-           colour = "#1a5276", size = 3.6) +
-  annotate("text", x = 0.55, y = 18.5, label = "Kelpwald",
-           colour = "#9a7b0a", size = 3.6) +
-  scale_colour_manual(values = c(
-    "Otter nehmen zu" = col_navy,
-    "Otter nehmen ab" = col_grass
-  )) +
-  coord_cartesian(ylim = c(0, 21)) +
-  labs(x = "Otterdichte (schematisch)", y = "Kelp") +
+#| fig-height: 2.15
+#| fig-width: 7.2
+#| out-width: 48%
+N <- seq(0, 8, length.out = 200)
+a <- 0.9
+h <- 0.5
+holling <- data.frame(N = N, f = a * N^2 / (1 + a * h * N^2))
+ggplot(holling, aes(N, f)) +
+  geom_line(colour = col_navy, linewidth = 1.15) +
+  geom_hline(yintercept = 1 / h, linetype = "dashed", colour = "#7f8c8d") +
+  annotate("text", x = 6.4, y = 1 / h + 0.12, label = "Saettigung",
+           colour = "#7f8c8d", size = 3.3) +
+  labs(x = "Seeigel-Biomasse", y = "Frass pro Otter") +
   theme_slide()
 ```
 
-Die gestrichelte Linie: **dieselbe** Otterdichte. Blau noch Barren, orange noch Wald. Der Weg entscheidet.
-
-::: aside
-Kursmodell zur Illustration — keine Anpassung an Smith et al.
-:::
-
-## Restwald und Barren
-
-Otter können vorhandenen Kelp schützen. Einen Barren wieder in Kelpwald zu verwandeln gelingt mit derselben Dichte oft nicht.
-
-Erhaltung und Wiederherstellung sind nicht dasselbe.
+Bei kleiner Biomasse bleibt die Kurve flach, bei grosser nähert sie sich $1/h$. Dieselbe Form steht im Bonus, beim Fichtenwickler.
 
 # Abschluss
 
 ## Take-home
 
-Eine Störung zeigt, ob das System **ein** Gleichgewicht hat oder **zwei**.
+Eine Störung zeigt, ob das System ein Gleichgewicht hat oder zwei.
 
-*Pisaster* erhält Vielfalt, indem er den stärksten Konkurrenten frisst. Mehr Seeotter führen nach dem Kelp-Zusammenbruch nicht automatisch zur Erholung.
+*Pisaster* erhält die Vielfalt, weil er die starke Konkurrentin frisst. Nach dem Zusammenbruch des Kelps führt eine höhere Otterdichte nicht von selbst zur Erholung: der Rückweg hat eine andere Schwelle.
 
-**Stabilität ist eine Eigenschaft der Dynamik, nicht einer einzelnen Art.**
+Ob ein Zustand hält, sieht man daran, wie das System auf die Störung reagiert.
 
 ## Notebook
 
@@ -695,7 +692,10 @@ Yellowstone als Modell: Aspen, Sage, Elch, Wolf. Sie setzen den Wolf und lesen d
 5. **Ripple, W. J., & Beschta, R. L. (2012).** Trophic cascades in Yellowstone. *Biological Conservation* 145: 205–213. [doi:10.1016/j.biocon.2011.11.005](https://doi.org/10.1016/j.biocon.2011.11.005)
 6. **Fortin, D., et al. (2005).** Wolves influence elk movements. *Ecology* 86: 1320–1330. [doi:10.1890/04-0953](https://doi.org/10.1890/04-0953)
 7. **Smith, J. G., et al. (2021).** Sea otter–urchin trophic cascade. *PNAS* 118: e2012493118. [doi:10.1073/pnas.2012493118](https://doi.org/10.1073/pnas.2012493118).
-8. **Ludwig, D., Jones, D. D., & Holling, C. S. (1978).** Qualitative analysis of insect outbreak systems: the spruce budworm and forest. *Journal of Animal Ecology* 47: 315–332. [doi:10.2307/3939](https://doi.org/10.2307/3939) — Fichtenwickler, für Interessierte.
+8. **Langendorf, R. E., Estes, J. A., Watson, J. C., et al. (2025).** Dynamic and context-dependent keystone species effects in kelp forests. *PNAS*. [doi:10.1073/pnas.2413360122](https://doi.org/10.1073/pnas.2413360122) — geschätztes Interaktionsnetz.
+9. **Ludwig, D., Jones, D. D., & Holling, C. S. (1978).** Qualitative analysis of insect outbreak systems: the spruce budworm and forest. *Journal of Animal Ecology* 47: 315–332. [doi:10.2307/3939](https://doi.org/10.2307/3939) — Konzeptmodell im Bonus.
+10. **Morris, R. F. (Ed.). (1963).** The dynamics of epidemic spruce budworm populations. *Memoirs of the Entomological Society of Canada* 31: 1–332.
+11. **Royama, T. (1984).** Population dynamics of the spruce budworm *Choristoneura fumiferana*. *Ecological Monographs* 54: 429–462. [doi:10.2307/1942595](https://doi.org/10.2307/1942595)
 ::::
 
 ## Bildnachweise
@@ -708,18 +708,195 @@ Yellowstone als Modell: Aspen, Sage, Elch, Wolf. Sie setzen den Wolf und lesen d
 - Miesmuscheln: Sharon Mollerus (CC BY 2.0) · *Pisaster*: D. Gordon E. Robertson (CC BY-SA 3.0)
 - Seeotter: Marshal Hedin (CC BY-SA 2.0) · Seeigel: Jerry Kirkhart (CC BY 2.0) · Kelpwald: Eric T. Gunther (CC BY-SA 3.0)
 
-**Abbildungen:** «Guardians of the Kelp» · BioRender.com · Fig. 10: Jessica Kendall-Bar nach Smith et al. (2021), via Planet-Vie (Lehre, nicht kommerziell)
+**Abbildungen:** «Guardians of the Kelp» · BioRender.com · Fig. 10: Jessica Kendall-Bar nach Smith et al. (2021), via Planet-Vie (Lehre, nicht kommerziell) · Food-Web: Langendorf et al. (2025), Fig. 1, unverändert, CC BY-NC-ND 4.0
 
 **Lehrskizzen** (Comics, Schemata): Kursmaterial.
 ::::
 
-## Erweitertes Material
+# Bonus · Fichtenwickler
 
-**Fichtenwickler** (*Choristoneura fumiferana*) im borealen Nadelwald.
+## Nicht Stoff der Sitzung
 
-Klassisches Beispiel für Hysterese (Ludwig, Jones & Holling 1978): Vögel halten den Wickler bei niedriger Dichte in Schach. Sättigt der Frass, kippt der Bestand in eine Massenvermehrung. Der Rückweg braucht eine andere Schwelle — dieselbe Logik wie Kelpwald und Barren.
+Die Skizze oben ist dieselbe Form wie ein klassisches Insektenmodell. Hier die Biologie dazu, und warum Hinweg und Rückweg auseinanderfallen.
 
-Nicht Stoff der Sitzung. Für Interessierte: der Artikel oben.
+Empirie der Zyklen: Morris (1963), Royama (1984). Die Gleichung: Ludwig, Jones & Holling (1978). Die Zahlen sind Kurswerte, keine Schätzung aus den Zählungen.
+
+## Der Falter im Wald
+
+Der **Fichtenwickler** (*Choristoneura fumiferana*) lebt in den borealen Wäldern Ostkanadas und des nordöstlichen Nordamerikas. Eine Generation pro Jahr. Die Raupen fressen im späten Frühjahr die jungen Nadeln von Balsamtanne und Fichte.
+
+Über Jahrzehnte bleibt die Dichte niedrig. Dann folgen mehrere Jahre schwerer Frass, und der Bestand bricht wieder zusammen (Morris 1963; Royama 1984).
+
+## Was die Raupen tun
+
+- Sie fressen Nadeln und junge Triebe.  
+- Bei einem Ausbruch entlauben sie Bestände über grosse Flächen.  
+- Wiederholter starker Frass kann Bäume absterben lassen.  
+
+Die Nadelfläche des Waldes ändert sich dabei über Jahre, nicht über Wochen. Sie setzt, wie viele Wickler der Wald ernähren kann.
+
+## Was die Räuber tun
+
+Vögel und andere Feinde halten eine niedrige Dichte oft unten. Jeder Räuber kann nur begrenzt fressen. Wird der Wickler häufig, ist dieser Frass gesättigt: der Anteil, den die Vögel noch wegnehmen, fällt.
+
+Unterhalb dieser Sättigung bleibt die Population klein. Kommt sie darüber, wächst sie fast ohne diese Bremse weiter, bis die Nadeln knapp werden.
+
+::: aside
+Royama (1984) führt die Zyklen auf ein ganzes Gefüge von Feinden mit Verzögerung zurück, nicht nur auf sättigende Vögel. Das Modell unten behält nur diesen einen Mechanismus.
+:::
+
+## Zwei Zustände im selben Wald
+
+Bei mittlerer Nadelfläche können zwei langfristige Regime nebeneinander bestehen:
+
+| Zustand | Wicklerdichte | Was die Dichte hält |
+|---------|---------------|---------------------|
+| niedrig, endemisch | klein | Prädation nimmt den Zuwachs weg |
+| Ausbruch | gross | Räuber sind gesättigt; die Nadelmenge bremst erst spät |
+
+Der Sprung nach oben ist oft abrupt. Zurück in die niedrige Dichte braucht häufig weniger Nadelfläche, als den Ausbruch ausgelöst hat.
+
+## Die langsame Variable
+
+Im Modell ist $R$ die effektive Nadelfläche, also wie gut der Wald den Wickler ernähren kann. $R$ ändert sich langsamer als die Wicklerdichte $u$.
+
+**$R$ steigt**, wenn Kronen nachwachsen und die Dichte niedrig bleibt: der Wickler frisst den Wald dann kaum zurück.
+
+**$R$ sinkt**, wenn ein Ausbruch die Bestände entlaubt oder Bäume absterben. Weniger Nadeln dämpfen danach das Wachstum des Wicklers.
+
+Diese Trennung der Zeitskalen ist der Grund für die Hysterese. Die schnelle Variable springt; die langsame hat sich unterdessen schon weiterbewegt.
+
+## Die Gleichung
+
+$$
+\frac{du}{d\tau}
+  = u\left(
+      R\Bigl(1-\frac{u}{Q}\Bigr)
+      - \frac{u}{1+u^2}
+    \right)
+\qquad (Q=20)
+$$
+
+| Symbol | Bedeutung |
+|--------|-----------|
+| $u$ | Wicklerdichte |
+| $R$ | Nadelfläche, der langsame Parameter |
+| $Q$ | Skala der Selbstbegrenzung, hier fest |
+| $R(1-u/Q)$ | Wachstum, gebremst durch knappe Nadeln |
+| $u/(1+u^2)$ | Typ-III-Frass, pro Beute |
+
+Der Frass sättigt. Bei mittlerem $R$ gibt es zwei stabile $u$.
+
+## Die langsame Rampe
+
+$R$ wird langsam erhöht. Nach jedem Schritt wartet das Modell, bis sich $u$ eingestellt hat. Danach läuft $R$ auf demselben Weg zurück.
+
+```{r}
+#| fig-height: 3.8
+#| fig-width: 8.2
+#| out-width: 78%
+f_bud <- function(u, R, Q = 20) {
+  R * (1 - u / Q) - u / (1 + u^2)
+}
+track_bud <- function(Rseq, u0) {
+  u <- u0
+  out <- numeric(length(Rseq))
+  for (i in seq_along(Rseq)) {
+    for (k in 1:350) u <- max(u + 0.03 * u * f_bud(u, Rseq[i]), 1e-12)
+    out[i] <- u
+  }
+  out
+}
+R_up <- seq(0.12, 0.65, length.out = 140)
+R_dn <- rev(R_up)
+u_up <- track_bud(R_up, 0.25)
+u_dn <- track_bud(R_dn, tail(u_up, 1))
+bud <- rbind(
+  data.frame(R = R_up, u = u_up, weg = "Nadelflaeche steigt"),
+  data.frame(R = R_dn, u = u_dn, weg = "Nadelflaeche sinkt")
+)
+roots_at <- function(Rv) {
+  uu <- seq(0.02, 19.8, length.out = 2500)
+  d <- f_bud(uu, Rv)
+  ix <- which(d[-length(d)] * d[-1] < 0)
+  uu[ix]
+}
+arrow_at <- function(Rv, u, len) {
+  s <- sign(f_bud(u, Rv))
+  data.frame(R = Rv, y = u - s * len / 2, yend = u + s * len / 2)
+}
+flow_rows <- list()
+for (Rv in c(0.15, 0.24, 0.32, 0.40, 0.48, 0.58)) {
+  r <- sort(roots_at(Rv))
+  if (length(r) == 1 && r[1] < 5) {
+    for (u in c(3, 8, 13, 17.5)) {
+      flow_rows[[length(flow_rows) + 1]] <- arrow_at(Rv, u, 1.7)
+    }
+  } else if (length(r) == 1) {
+    for (u in c(2, 6, 11, 15)) {
+      flow_rows[[length(flow_rows) + 1]] <- arrow_at(Rv, u, 1.7)
+    }
+  } else {
+    lo <- r[1]
+    mid <- r[2]
+    hi <- r[3]
+    if (mid - lo > 0.7) {
+      flow_rows[[length(flow_rows) + 1]] <- arrow_at(
+        Rv, (lo + mid) / 2, min(1.8, 0.65 * (mid - lo))
+      )
+    }
+    ys <- seq(mid + 1.6, hi - 1.6, length.out = 2)
+    for (u in ys) {
+      flow_rows[[length(flow_rows) + 1]] <- arrow_at(Rv, u, 1.5)
+    }
+    if (20.2 - hi > 1.6) {
+      flow_rows[[length(flow_rows) + 1]] <- arrow_at(
+        Rv, min(19.2, hi + 1.6), 1.2
+      )
+    }
+  }
+}
+flow <- do.call(rbind, flow_rows)
+ggplot(bud, aes(R, u, colour = weg)) +
+  geom_segment(
+    data = flow,
+    aes(x = R, xend = R, y = y, yend = yend),
+    inherit.aes = FALSE,
+    arrow = arrow(length = unit(0.14, "cm"), type = "closed"),
+    colour = "#34495e", linewidth = 0.55
+  ) +
+  geom_line(linewidth = 1.15) +
+  annotate("text", x = 0.275, y = 3.6, label = "niedrig",
+           colour = "#1a5276", size = 3.6) +
+  annotate("text", x = 0.50, y = 10, label = "Ausbruch",
+           colour = "#9a7b0a", size = 3.6) +
+  scale_colour_manual(values = c(
+    "Nadelflaeche steigt" = col_navy,
+    "Nadelflaeche sinkt" = col_grass
+  )) +
+  coord_cartesian(ylim = c(0, 21)) +
+  labs(x = "R = Nadelflaeche", y = "u = Wicklerdichte") +
+  theme_slide()
+```
+
+## Die Kurve lesen
+
+Blau: die Nadelfläche wächst. Die Dichte bleibt lange niedrig, weil die Vögel den Zuwachs wegnehmen. An einer Schwelle verschwindet dieses niedrige Gleichgewicht, und $u$ springt in den Ausbruch.
+
+Orange: die Nadelfläche nimmt wieder ab. Der Ausbruch bleibt, bis eine **tiefere** Schwelle erreicht ist. Erst dort verschwindet das hohe Gleichgewicht, und die Dichte fällt zurück.
+
+Die Pfeile zeigen, wohin $u$ bei festem $R$ läuft. Links nur nach unten, rechts nur nach oben. Dazwischen an demselben $R$ in beide Richtungen: unter einer Schwelle zurück zur niedrigen Dichte, darüber in den Ausbruch. Das ist die Bistabilität.
+
+## Wickler und Kelp
+
+| | Fichtenwickler | Seeotter und Kelp |
+|--|----------------|-------------------|
+| langsame Grösse | Nadelfläche $R$ | Zustand der Fläche, ob sich der Frass für Otter lohnt |
+| niedriger Zustand | endemische Dichte | Kelpwald, von Ottern gehalten |
+| hoher Zustand | Ausbruch | Seeigelwüste |
+| Rückweg | braucht kleineres $R$ | dieselbe Otterdichte stellt den Wald oft nicht wieder her |
+
+Im Wald ist die langsame Grösse die Nadelfläche. An der Küste kommen Raum und Verhalten dazu: Otter fressen dort, wo die Seeigel sich lohnen, und meiden die magere Seeigelwüste. Die Hysterese ist in beiden Fällen dieselbe Form.
 
 ## Navigation
 

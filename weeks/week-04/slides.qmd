@@ -152,6 +152,18 @@ $$
 
 Diskreter Replikator: relative Fitness steuert die Anteile.
 
+## $(Ap)_i$ ist eine gewichtete Summe
+
+$p$ ist der Vektor der Anteile, $A$ die Kostenmatrix. Das Produkt $Ap$ ist wieder ein Vektor, und $(Ap)_i$ ist sein $i$-ter Eintrag: die $i$-te Zeile von $A$, mit den Häufigkeiten gewichtet und aufsummiert.
+
+$$
+(Ap)_i = A_{i1}\, p_1 + A_{i2}\, p_2 + A_{i3}\, p_3
+$$
+
+$A_{ij}$ ist, was Strategie $i$ zahlt, wenn sie auf $j$ trifft. $p_j$ ist, wie häufig dieses Treffen vorkommt. Die Summe sind die mittleren Kosten von $i$ in der aktuellen Mischung.
+
+Vertiefung zur Matrixmultiplikation: Vorlesung **Mathematische Modellierung**.
+
 ## Was bedeutet jeder Term?
 
 ::: {style="font-size: 0.88em;"}
@@ -299,111 +311,14 @@ Dieselbe zyklische Logik — die dritte Strategie verhindert den einfachen Aussc
 
 ## Wenn die Assistenz kommt
 
-Teams **bis zu vier**. Zeigen Sie am **Notebook** die Antwort auf die Checkpoint-Frage:
+Teams **bis zu vier**. Es gibt **drei** Formen, in denen keine Strategie verloren geht. Zeigen Sie am **Notebook** mindestens **zwei** davon — mit qualitativ verschiedenem Verhalten.
 
-1. Ihre Matrix $A$ (oder $s,w$)  
-2. Ein Plot  
-3. Welchen Endzustand zeigen Sie?  
-4. Warum wäre dasselbe mit nur zwei Strategien unmöglich?
+1. Matrix $A$ (oder $s,w$) für beide Läufe  
+2. Zwei Plots (Zeitreihe oder Simplex)  
+3. Je einen Satz: was langfristig passiert, und dass alle drei bleiben  
+4. Warum geht das mit nur zwei Strategien nicht?
 
 **Anwesenheit Pflicht** — ohne Gruppenpräsentation kein Checkpoint A.
-
-# Lösung · Drei Formen
-
-## Der Simplex
-
-Drei Strategien → Zustände als Anteile  
-$f_i = N_i / \sum_j N_j$ mit $f_1+f_2+f_3=1$.
-
-```{r}
-#| fig-height: 3.2
-#| fig-width: 5.5
-plot_simplex(NULL, labels = c("nur 1", "nur 2", "nur 3")) +
-  annotate("point", x = 0.5, y = sqrt(3) / 6, colour = "#8e44ad", size = 2.4) +
-  annotate("text", x = 0.5, y = sqrt(3) / 6 - 0.08,
-           label = "Mischung", colour = "#8e44ad", size = 3.3)
-```
-
-Ecken = eine allein · Kanten = eine fehlt · Innen = alle drei $> 0$.
-
-## Übersicht der drei Formen
-
-| Form | $s+w$ | Zeitreihe | Simplex |
-|------|-------|-----------|---------|
-| **Punkt** | $< 2$ | → konstante Anteile | Spirale **ins Innere** |
-| **Oszillation** | $\approx 2$ | dauerhafte Schwingung | **geschlossener Zyklus** |
-| **Heteroklin** | $> 2$ | Minima → 0 | Drift zu den **Rändern** |
-
-## 1 · Punktgleichgewicht
-
-$s=1.2$, $w=0.5$ → $s+w=1.7 < 2$
-
-```{r}
-#| fig-height: 3.3
-#| fig-width: 9
-plot_n_ts(d3, cols, "Zeitreihe") +
-  plot_simplex(d3[, -1], "Simplex → Punkt")
-```
-
-Alle drei bleiben — Langzeit = fester Punkt im Inneren.
-
-## 2 · Stabile Oszillation
-
-$s=1.35$, $w=0.65$ → $s+w=2$
-
-```{r}
-#| fig-height: 3.3
-#| fig-width: 9
-A_osc <- matrix(c(1, 0.65, 1.35,
-                  1.35, 1, 0.65,
-                  0.65, 1.35, 1), 3, 3, byrow = TRUE)
-d_osc <- sim_n(A_osc, c(45, 30, 25), T = 4000, r = 0.02)
-names(d_osc) <- c("time", "1", "2", "3")
-plot_n_ts(d_osc, cols, "Zeitreihe") +
-  plot_simplex(d_osc[, -1], "geschlossener Zyklus")
-```
-
-Dominanz rotiert dauerhaft — Bahn bleibt weg vom Rand.
-
-## 3 · Heteroklinzyklus
-
-$s=1.40$, $w=0.65$ → $s+w=2.05 > 2$
-
-```{r}
-#| fig-height: 3.3
-#| fig-width: 9
-A_het <- matrix(c(1, 0.65, 1.40,
-                  1.40, 1, 0.65,
-                  0.65, 1.40, 1), 3, 3, byrow = TRUE)
-d_het <- sim_n(A_het, c(45, 30, 25), T = 12000, r = 0.015)
-names(d_het) <- c("time", "1", "2", "3")
-plot_n_ts(d_het, cols, "Zeitreihe") +
-  plot_simplex(d_het[, -1], "Drift zu den Kanten")
-```
-
-Alle drei lange sichtbar — die Bahn wandert zu den **Kanten**.
-
-## Vergleich auf dem Simplex
-
-```{r}
-#| fig-height: 3.4
-#| fig-width: 9.5
-plot_simplex(d3[, -1], "Punkt") +
-  plot_simplex(d_osc[, -1], "Oszillation") +
-  plot_simplex(d_het[, -1], "Heteroklin")
-```
-
-Gleiche zyklische Logik — **andere Stärke** → andere Bahn.
-
-## Faustregel $s+w$
-
-Bei symmetrischem $s,w$:
-
-- $s+w < 2$ → eher **Punkt**  
-- $s+w \approx 2$ → **Oszillation**  
-- $s+w > 2$ → **Heteroklin**
-
-Qualitative Orientierung (May–Leonard).
 
 ## Take-home
 
