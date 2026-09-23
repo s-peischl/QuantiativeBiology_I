@@ -8,10 +8,7 @@ _freeze/weeks/*
 !_freeze/weeks/week-03/
 !_freeze/weeks/week-04/
 _freeze/weeks/week-04/notebook/
-# Checkpoint A: notebook and solution stay local until the session.
-weeks/week-04/notebook.qmd
-weeks/week-04/notebook.html
-weeks/week-04/notebook.knit.md
+# Checkpoint A: solution stays local.
 weeks/week-04/notebook-loesung.qmd
 weeks/week-04/notebook-loesung.html
 weeks/week-04/notebook-loesung.knit.md
@@ -37,3 +34,4 @@ weeks/**/slides.pdf
 
 # Local-only materials (not for GitHub / Pages)
 private/
+Questionaire/

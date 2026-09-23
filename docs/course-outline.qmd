@@ -145,7 +145,7 @@ Grundprinzip: biologische Regel → **additive Differenzengleichung** $X_{t+1}=X
 - **Notebook:** Yellowstone-Food-Web (Aspen–Sage–Elch–Wolf) — Wolf ein- und ausschalten
 ### Woche 4 — Spieltheorie, RPS & **Checkpoint A**
 **Wann:** Do., 8. Okt. 2026, 08:15–10:00 Uhr  
-**Materialien:** [Folien](../weeks/week-04/slides.qmd) · [PDF](../weeks/week-04/slides.pdf) · Notebook in der Sitzung (nicht vorab)
+**Materialien:** [Folien](../weeks/week-04/slides.qmd) · [PDF](../weeks/week-04/slides.pdf) · [Notebook](../weeks/week-04/notebook.qmd)
 
 - **Ablauf:** ~20 min Intro · ~40 min Notebook · ~30 min Kurzpräsentationen
 - Intro: Spieltheorie + *Uta*-RPS; **2 Strategien → Exclusion**, 3. Strategie stabilisiert; RPS kann **Punkt** sein

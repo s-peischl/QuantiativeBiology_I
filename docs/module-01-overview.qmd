@@ -51,7 +51,7 @@ Keine separate Hausarbeit — die Notebook-Arbeit ist die Vorbereitung.
 | 1 | [Folien](../weeks/week-01/slides.qmd) | [PDF](../weeks/week-01/slides.pdf) | — |
 | 2 | [Folien](../weeks/week-02/slides.qmd) | [PDF](../weeks/week-02/slides.pdf) | [Notebook](../weeks/week-02/notebook.qmd) |
 | 3 | [Folien](../weeks/week-03/slides.qmd) | [PDF](../weeks/week-03/slides.pdf) | [Notebook](../weeks/week-03/notebook.qmd) |
-| 4 | [Folien](../weeks/week-04/slides.qmd) | [PDF](../weeks/week-04/slides.pdf) | in der Sitzung |
+| 4 | [Folien](../weeks/week-04/slides.qmd) | [PDF](../weeks/week-04/slides.pdf) | [Notebook](../weeks/week-04/notebook.qmd) |
 
 PDF-Dateien werden beim Veröffentlichen der Website erzeugt. Alternativ in den Folien **E** drücken und «Als PDF speichern».
 
