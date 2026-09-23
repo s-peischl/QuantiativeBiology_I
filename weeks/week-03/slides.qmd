@@ -630,32 +630,47 @@ Einen bestehenden Wald zu halten und eine Seeigelwüste wiederherzustellen sind 
 Dieselbe Kurvenform kommt aus einem Insektenmodell. Bonus am Ende der Folien: der Fichtenwickler.
 :::
 
-## Holling Typ III
+## Wie der Otter jagt
 
-Otter fressen Seeigel selektiv. Ein Tauchgang lohnt sich erst, wenn die Biomasse gross genug ist. Bei wenig Beute bleibt der Frass deshalb flach. Danach steigt er und sättigt:
+Der Unterschied ist **wie** der Otter wirkt — nicht wie viele Seeigel es gibt.
+
+**Nicht:** je mehr Beute, desto mehr Frass.
+
+**Sondern:** nur wenn die Beute gut genug ist, jagt er.
+
+Ein Tauchgang kostet. In der Seeigelwüste sind die Igel mager — der Otter lässt sie, obwohl es viele gibt.
+
+Im Kelpwald sind sie fett. Dort lohnt sich der Tauchgang.
+
+## Holling Typ III {#holling-typ-iii}
+
+Der Verlust der Seeigel $U$ durch Otter $P$ ist dann
 
 $$
-f(N)=\frac{a N^{2}}{1+a h N^{2}}
+P\cdot f(U),\qquad f(U)=\frac{a U^{2}}{1+ah U^{2}}
 $$
 
 ```{r}
 #| fig-height: 2.15
 #| fig-width: 7.2
-#| out-width: 48%
-N <- seq(0, 8, length.out = 200)
-a <- 0.9
+#| out-width: 56%
+source("../slides-ggplot.R")
+U <- seq(0, 12, length.out = 250)
+a <- 0.08
 h <- 0.5
-holling <- data.frame(N = N, f = a * N^2 / (1 + a * h * N^2))
-ggplot(holling, aes(N, f)) +
+holling <- data.frame(U = U, f = a * U^2 / (1 + a * h * U^2))
+ggplot(holling, aes(U, f)) +
   geom_line(colour = col_navy, linewidth = 1.15) +
   geom_hline(yintercept = 1 / h, linetype = "dashed", colour = "#7f8c8d") +
-  annotate("text", x = 6.4, y = 1 / h + 0.12, label = "Saettigung",
-           colour = "#7f8c8d", size = 3.3) +
+  annotate("text", x = 2.1, y = 0.22, label = "kein Jagen",
+           colour = "#7f8c8d", size = 3.2) +
+  annotate("text", x = 10.2, y = 1 / h + 0.16, label = "Saettigung",
+           colour = "#7f8c8d", size = 3.2) +
   labs(x = "Seeigel-Biomasse", y = "Frass pro Otter") +
   theme_slide()
 ```
 
-Bei kleiner Biomasse bleibt die Kurve flach, bei grosser nähert sie sich $1/h$. Dieselbe Form steht im Bonus, beim Fichtenwickler.
+Links bleibt $f$ fast null: kein Jagen. Rechts sättigt $f$ bei $1/h$: volle Mahlzeit. Dieselbe Form steht im Bonus.
 
 # Abschluss
 
@@ -663,7 +678,7 @@ Bei kleiner Biomasse bleibt die Kurve flach, bei grosser nähert sie sich $1/h$.
 
 Eine Störung zeigt, ob das System ein Gleichgewicht hat oder zwei.
 
-*Pisaster* erhält die Vielfalt, weil er die starke Konkurrentin frisst. Nach dem Zusammenbruch des Kelps führt eine höhere Otterdichte nicht von selbst zur Erholung: der Rückweg hat eine andere Schwelle.
+*Pisaster* erhält die Vielfalt, weil er die starke Konkurrentin frisst. Otter halten den Wald, weil sie nur jagen, wo die Igel sich lohnen. Nach dem Zusammenbruch reicht dieselbe Otterdichte oft nicht: der Rückweg hat eine andere Schwelle.
 
 Ob ein Zustand hält, sieht man daran, wie das System auf die Störung reagiert.
 

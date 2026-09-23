@@ -765,6 +765,17 @@ Parameter selbst ändern und mit den Gause-Kurven vergleichen.
 :::
 :::::
 
+## R und RStudio
+
+Wer beides schon hat: weiter zum Notebook.
+
+Sonst **jetzt** installieren — hier im Raum, in dieser Reihenfolge:
+
+1. **R** zuerst: [cran.r-project.org](https://cran.r-project.org/)
+2. **RStudio** danach: [posit.co/download/rstudio-desktop](https://posit.co/download/rstudio-desktop/)
+
+R ist die Sprache. RStudio ist das Fenster. Wenn unten eine Konsole mit `>` steht, sind Sie bereit. Die Assistenz hilft.
+
 ## Abschlussfragen
 
 1.  Was sind Input und Output von `next_N`?  
