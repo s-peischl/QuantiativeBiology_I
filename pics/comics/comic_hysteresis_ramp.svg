@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="960" height="340" viewBox="0 0 960 340">
+  <defs>
+    <marker id="arr" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 z" fill="#5d6d7e"/>
+    </marker>
+  </defs>
   <rect width="960" height="340" fill="white"/>
   <text x="480" y="28" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#1a5276">Kelpwald und Seeigelwüste</text>
 
@@ -9,18 +14,25 @@
   <text x="490" y="292" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">Otteranzahl</text>
   <text x="22" y="160" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333" transform="rotate(-90 22 160)">Kelp</text>
 
-  <!-- low branch -->
+  <!-- one barren branch (Seeigelwueste) -->
   <path d="M 100 230 C 220 225, 320 220, 420 210" fill="none" stroke="#27ae60" stroke-width="4"/>
-  <!-- jump up -->
-  <path d="M 420 210 L 420 95" fill="none" stroke="#27ae60" stroke-width="3" stroke-dasharray="6 4"/>
-  <!-- high branch -->
-  <path d="M 420 95 C 520 85, 650 80, 820 75" fill="none" stroke="#c0392b" stroke-width="4"/>
-  <!-- return high -->
-  <path d="M 820 75 C 650 80, 480 90, 280 100" fill="none" stroke="#d68910" stroke-width="4"/>
-  <!-- jump down -->
-  <path d="M 280 100 L 280 235" fill="none" stroke="#d68910" stroke-width="3" stroke-dasharray="6 4"/>
-  <!-- return low -->
-  <path d="M 280 235 C 200 238, 140 240, 100 242" fill="none" stroke="#27ae60" stroke-width="3" opacity="0.5"/>
+  <!-- jump up to forest -->
+  <path d="M 420 210 L 420 91" fill="none" stroke="#27ae60" stroke-width="3" stroke-dasharray="6 4"/>
+  <!-- forest branch -->
+  <path d="M 280 100 C 420 90, 620 78, 820 75" fill="none" stroke="#c0392b" stroke-width="4"/>
+  <!-- jump down onto the same barren branch -->
+  <path d="M 280 100 L 280 221" fill="none" stroke="#d68910" stroke-width="3" stroke-dasharray="6 4"/>
+
+  <!-- stability: where the system goes at a given otter count -->
+  <!-- few otters: only barren -->
+  <line x1="155" y1="105" x2="155" y2="218" stroke="#5d6d7e" stroke-width="2.2" marker-end="url(#arr)"/>
+  <line x1="200" y1="130" x2="200" y2="218" stroke="#5d6d7e" stroke-width="2.2" marker-end="url(#arr)"/>
+  <!-- bistable window: two attractors -->
+  <line x1="350" y1="168" x2="350" y2="112" stroke="#5d6d7e" stroke-width="2.2" marker-end="url(#arr)"/>
+  <line x1="350" y1="178" x2="350" y2="208" stroke="#5d6d7e" stroke-width="2.2" marker-end="url(#arr)"/>
+  <!-- many otters: only forest -->
+  <line x1="560" y1="210" x2="560" y2="98" stroke="#5d6d7e" stroke-width="2.2" marker-end="url(#arr)"/>
+  <line x1="680" y1="200" x2="680" y2="92" stroke="#5d6d7e" stroke-width="2.2" marker-end="url(#arr)"/>
 
   <circle cx="420" cy="210" r="6" fill="#27ae60"/>
   <circle cx="280" cy="100" r="6" fill="#d68910"/>
@@ -30,5 +42,5 @@
   <text x="700" y="55" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#922b21">Kelpwald</text>
   <text x="130" y="252" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#196f3d">Seeigelwüste</text>
 
-  <text x="480" y="328" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5d6d7e">Zurück zum Kelpwald braucht mehr Otter als der Kipppunkt</text>
+  <text x="480" y="328" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5d6d7e">Pfeile: wohin das System laeuft. Zurueck zum Wald braucht mehr Otter.</text>
 </svg>

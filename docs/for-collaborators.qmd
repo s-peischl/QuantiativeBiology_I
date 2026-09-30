@@ -123,6 +123,17 @@ cp templates/notebook-template.qmd weeks/week-03/notebook.qmd
 
 Update titles, navigation links, and content.
 
+Pointing to Uni Bern research: use the shared box (CSS in `weeks/print.css`; kicker is automatic):
+
+```markdown
+::: {.unibe}
+**Project name**
+One sentence that ties it to this slide.
+[Page](url) · [Paper](doi)
+:::
+```
+
+
 ---
 
 ## Notebooks

@@ -93,6 +93,14 @@ den öffentlichen Kurs-Hub legen.
 | `marine_sticklebacks.jpg` | Marine Stichlinge, Oyster Lagoon. Peichel- / Schluter-Labore. |
 | `pond2_chrxi_sign.jpg` | Teich 2, Inversion Chr XI. Peichel- / Schluter-Labore. |
 
+## PaNDiv (`pics/pandiv/`)
+
+Lehrkopie vom Allan Ecology Lab. Nur für den Kurs; Namensnennung beibehalten.
+
+| Lokale Datei | Hinweis |
+|---|---|
+| `pandiv_wide.jpg` | Luftbild der 336 Versuchsparzellen in Münchenbuchsee. Foto: Hugo Vincent ©. Quelle: [allanecology.com/projects/pandiv](https://allanecology.com/projects/pandiv/) |
+
 ## Organismen (`pics/organisms/`)
 
 | Lokale Datei | Commons-Datei | Urheber:in | Lizenz |

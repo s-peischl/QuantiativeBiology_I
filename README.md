@@ -354,6 +354,7 @@ Alternativ eine betreuende Person bitten, die Ausführung in CI zu aktivieren (d
 - **Startseite** in der Fusszeile verlinken
 - Bildquellen nachweisen (Folienrand oder `pics/README.md`)
 - Für empirische Aussagen reale Daten / Zitate verwenden
+- Hinweis auf Forschung an der Uni Bern: Box `::: {.unibe}` (Stil in `weeks/print.css`). Der Kicker «Forschung an der Uni Bern» kommt aus dem CSS.
 
 Vorlagen:
 

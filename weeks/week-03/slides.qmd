@@ -83,9 +83,7 @@ Yellowstone National Park
 ![](../../pics/yellowstone/elk_rmnp.jpg){fig-alt="Wapiti-Hirsch Cervus canadensis" width="92%"}
 :::
 ::: {.column width="58%"}
-**Wapiti-Hirsche** (*Cervus canadensis*) — nicht Elche (*Alces*).
-
-Danach beobachtet und diskutiert:
+**Wapiti-Hirsche nehmen zu:**
 
 - starke Beweidung an Flussufern  
 - Weiden und Pappeln kommen kaum nach  
@@ -168,6 +166,22 @@ Beide *Paramecium*-Arten überleben **allein**. Warum gewinnt zusammen **eine**?
 *P. caudatum* vs. *P. aurelia* · Gause (1934)
 :::
 
+## Das Experiment
+
+Gause (1934): zwei *Paramecium*-Arten, **dieselbe** Nahrung (Bakterien im Haferflocken-Aufguss).
+
+Drei Ansätze, sonst dasselbe Setup:
+
+- nur *P. caudatum*
+- nur *P. aurelia*
+- beide zusammen
+
+Tägliche Messung des Volumens. Frage: reicht die Ressource für beide, oder gewinnt eine?
+
+::: aside
+Gause, *The Struggle for Existence* (1934), Fig. 22
+:::
+
 ## Allein: ein Plateau
 
 ```{r}
@@ -175,8 +189,8 @@ Beide *Paramecium*-Arten überleben **allein**. Warum gewinnt zusammen **eine**?
 #| fig-width: 8
 #| out-width: 70%
 source("../slides-ggplot.R")
-pc <- read.csv("data/paramecium_caudatum_alone.csv")
-pa <- read.csv("data/paramecium_aurelia_alone.csv")
+pc <- subset(read.csv("data/paramecium_caudatum_alone.csv"), !is.na(volume))
+pa <- subset(read.csv("data/paramecium_aurelia_alone.csv"), !is.na(volume))
 p_pc <- ggplot(pc, aes(day, volume)) +
   geom_line(colour = col_blue, linewidth = 0.9) +
   geom_point(colour = col_blue, size = 1.7) +
@@ -252,23 +266,7 @@ $$
 
 **Lesen:** Zeile $i$ ist die Art, die gehemmt wird. Spalte $j$ ist die Art, die hemmt. $A_{12}=\alpha_{12}$: ein Individuum von Art 2 zählt in der Tragfähigkeit von Art 1 wie $\alpha_{12}$ eigene.
 
-**Warum $1$ auf der Diagonale?** Die eigene Dichte ist der Massstab. $\alpha=1$ heisst: ein Fremdes hemmt genau so stark wie ein Eigenes. Alles andere ist relativ zu dieser $1$.
-
-## $\alpha$ wählen
-
-Massstab **1** = so stark wie die eigene Selbstkonkurrenz.
-
-**$\alpha_{12}<1$.** Art 2 hemmt schwächer als ein eigenes Individuum. Zwei Gräser auf leicht verschiedenen Stellen: jede leidet vor allem unter der eigenen Dichte. Beide können bleiben.
-
-**$\alpha_{12}=1$.** Ein Fremdes zählt wie ein Eigenes. Zwei Sorten desselben Getreides, dieselbe Nische — austauschbar.
-
-**$\alpha_{12}>1$.** Art 2 hemmt stärker. *P. aurelia* gegen *P. caudatum*: die stärkere Art verdrängt. Oder Wald gegen Gras: die Krone beschattet stärker, als Gras den Wald bremst.
-
-Man vergleicht **beide** $\alpha$ mit $1$. Davon hängt ab, ob eine Art bleibt, beide, oder — je nach Start — die eine oder die andere.
-
-::: aside
-Kurswerte zur Illustration — keine Schätzungen aus den Gause-Daten.
-:::
+**Warum $1$ auf der Diagonale?** Die eigene Dichte ist der Massstab. $\alpha=1$ heisst: ein fremdes Individuum hemmt Wachstum genau so stark wie ein eigenes Individuum. Alles andere ist relativ zu dieser $1$.
 
 ```{r}
 #| include: false
@@ -488,20 +486,24 @@ An der Nordpazifik-Felsküste ist **Raum** knapp. Viele sessile Arten sitzen auf
 
 ## Paines Experiment (1966)
 
-::::: columns
-::: {.column width="28%"}
-![](../../pics/keystone/pisaster_ochraceus.jpg){fig-alt="Pisaster ochraceus" width="92%"}
-:::
-::: {.column width="72%"}
 Paine entfernte *Pisaster*. Im Modell ist das $P=0$ — der Frassterm fällt weg.
 
 $$
-M_{t+1}=M_t+r_M M_t\left(1-\frac{M_t+\alpha_{MO}O_t}{K}\right)\mathbf{-a\,P\,M_t}
+\begin{aligned}
+M_{t+1}
+&= M_t + r_M M_t\left(1-\frac{M_t+\alpha_{MO}O_t}{K}\right) \\
+&\qquad\mathbf{-a\,P\,M_t}
+\end{aligned}
 $$
 
+::::: columns
+::: {.column width="70%"}
 $M$ = Muschel (starke Konkurrentin), $O$ = die anderen. Nur $M$ wird gefressen. $O$ bleibt die Gleichung aus Teil 2.
 
 Ohne Seestern: $-aPM$ ist null. Dieselbe Konkurrenz, keine zusätzliche Sterblichkeit.
+:::
+::: {.column width="30%"}
+![](../../pics/keystone/pisaster_ochraceus.jpg){fig-alt="Pisaster ochraceus" width="100%"}
 :::
 :::::
 
@@ -659,15 +661,70 @@ Die profitabelsten Seeigel leben im Kelpwald. In der Wüste sind sie mager — v
 
 Deshalb kein starker Effekt, der das System zurück zum Wald bringt.
 
+## Holling Typ III {#holling-typ-iii}
+
+::::: columns
+::: {.column width="38%"}
+Wir können das Jagdverhalten mit einer Funktion beschreiben:
+
+$$
+f(U)=\frac{a U^{2}}{1+ah U^{2}}
+$$
+
+**Links:** Wüste, magere Igel, $f\approx 0$ — kein Tauchgang.
+
+**Rechts:** Kelpwald, der Fang lohnt sich, die Rate sättigt.
+:::
+::: {.column width="62%"}
+```{r}
+#| fig-height: 4.0
+#| fig-width: 6.4
+#| out-width: 100%
+source("../slides-ggplot.R")
+U <- seq(0, 12, length.out = 250)
+a <- 0.08
+h <- 0.5
+holling <- data.frame(U = U, f = a * U^2 / (1 + a * h * U^2))
+ggplot(holling, aes(U, f)) +
+  geom_line(colour = col_navy, linewidth = 1.2) +
+  geom_hline(yintercept = 1 / h, linetype = "dashed", colour = "#7f8c8d") +
+  annotate("text", x = 2.2, y = 0.32, label = "Wueste",
+           colour = "#7f8c8d", size = 3.3) +
+  annotate("text", x = 9.6, y = 1 / h + 0.16, label = "Kelpwald",
+           colour = "#7f8c8d", size = 3.3) +
+  labs(x = "Seeigel-Biomasse", y = "Fressrate") +
+  theme_slide()
+```
+:::
+:::::
+
 ## Hysterese
 
 Halten $\neq$ wiederherstellen. Ist der Zustand gekippt, reicht oft **nicht** dieselbe Otterdichte wie zuvor.
 
-![](../../pics/comics/comic_hysteresis_ramp.svg){fig-alt="Hysterese: Kelp gegen Otteranzahl, Kippen und Rueckkehr bei verschiedener Dichte" height="280px"}
+![](../../pics/comics/comic_hysteresis_ramp.svg){fig-alt="Hysterese: senkrechte Pfeile zeigen, wohin das System laeuft" height="280px"}
 
 Dieselbe Otterdichte, zwei Zustände. Der Rückweg braucht eine **andere** Schwelle.
 
 Siehe auch Bonus-Anhang am Ende der Folien.
+
+## PaNDiv — dieselben $\alpha$, hier in Bern
+
+::: {.photo-banner}
+![](../../pics/pandiv/pandiv_wide.jpg){fig-alt="Luftbild der 336 PaNDiv-Parzellen in Münchenbuchsee"}
+
+Luftbild: Hugo Vincent · [Allan Ecology Lab](https://allanecology.com/projects/pandiv/)
+:::
+
+Münchenbuchsee, seit 2015. **336** Parzellen à 2 × 2 m. Vier Faktoren gekreuzt:
+
+**Artenzahl** · schnell vs. langsam wachsende Pflanzen · **Stickstoff** · **Blattpilze**
+
+::: {.unibe}
+**PaNDiv** (Pathogens, Nitrogen, Diversity). Caroline Daniel schätzt daraus die Interaktionskoeffizienten: wer hemmt wen, und wie Stickstoff und Pathogene das Konkurrenznetz verändern.
+
+[Projekt](https://allanecology.com/projects/pandiv/) · [Profil](https://www.terr.iee.unibe.ch/about_us/team/personen_teamlist/dr_daniel_caroline/index_eng.html) · [Daniel et al. 2024](https://doi.org/10.1111/ele.14425)
+:::
 
 # Abschluss
 
@@ -703,9 +760,10 @@ Yellowstone als Modell: Pappel, Steppen-Beifuss, Wapiti, Wolf. Sie setzen den Wo
 6. **Fortin, D., et al. (2005).** Wolves influence elk movements. *Ecology* 86: 1320–1330. [doi:10.1890/04-0953](https://doi.org/10.1890/04-0953)
 7. **Smith, J. G., et al. (2021).** Sea otter–urchin trophic cascade. *PNAS* 118: e2012493118. [doi:10.1073/pnas.2012493118](https://doi.org/10.1073/pnas.2012493118).
 8. **Langendorf, R. E., Estes, J. A., Watson, J. C., et al. (2025).** Dynamic and context-dependent keystone species effects in kelp forests. *PNAS*. [doi:10.1073/pnas.2413360122](https://doi.org/10.1073/pnas.2413360122) — geschätztes Interaktionsnetz.
-9. **Ludwig, D., Jones, D. D., & Holling, C. S. (1978).** Qualitative analysis of insect outbreak systems: the spruce budworm and forest. *Journal of Animal Ecology* 47: 315–332. [doi:10.2307/3939](https://doi.org/10.2307/3939) — Konzeptmodell im Bonus.
-10. **Morris, R. F. (Ed.). (1963).** The dynamics of epidemic spruce budworm populations. *Memoirs of the Entomological Society of Canada* 31: 1–332.
-11. **Royama, T. (1984).** Population dynamics of the spruce budworm *Choristoneura fumiferana*. *Ecological Monographs* 54: 429–462. [doi:10.2307/1942595](https://doi.org/10.2307/1942595)
+9. **Daniel, C., Allan, E., Saiz, H., & Godoy, O. (2024).** Fast–slow traits predict competition network structure and its response to resources and enemies. *Ecology Letters* 27: e14425. [doi:10.1111/ele.14425](https://doi.org/10.1111/ele.14425) — PaNDiv, geschätzte $\alpha$.
+10. **Ludwig, D., Jones, D. D., & Holling, C. S. (1978).** Qualitative analysis of insect outbreak systems: the spruce budworm and forest. *Journal of Animal Ecology* 47: 315–332. [doi:10.2307/3939](https://doi.org/10.2307/3939) — Konzeptmodell im Bonus.
+11. **Morris, R. F. (Ed.). (1963).** The dynamics of epidemic spruce budworm populations. *Memoirs of the Entomological Society of Canada* 31: 1–332.
+12. **Royama, T. (1984).** Population dynamics of the spruce budworm *Choristoneura fumiferana*. *Ecological Monographs* 54: 429–462. [doi:10.2307/1942595](https://doi.org/10.2307/1942595)
 ::::
 
 ## Bildnachweise
@@ -717,6 +775,7 @@ Yellowstone als Modell: Pappel, Steppen-Beifuss, Wapiti, Wolf. Sie setzen den Wo
 - Savanne, Serengeti: Michelle Maria (CC BY 3.0) · Wald, Gabun: Axel Rouvin (CC BY 2.0)
 - Miesmuscheln: Sharon Mollerus (CC BY 2.0) · *Pisaster*: D. Gordon E. Robertson (CC BY-SA 3.0)
 - Seeotter: Marshal Hedin (CC BY-SA 2.0) · Seeigel: Jerry Kirkhart (CC BY 2.0) · Kelpwald: Eric T. Gunther (CC BY-SA 3.0)
+- PaNDiv-Luftbild: Hugo Vincent, Allan Ecology Lab (Lehre, mit Namensnennung)
 
 **Abbildungen:** «Guardians of the Kelp» · BioRender.com · Fig. 10: Jessica Kendall-Bar nach Smith et al. (2021), via Planet-Vie (Lehre, nicht kommerziell) · Food-Web: Langendorf et al. (2025), Fig. 1, unverändert, CC BY-NC-ND 4.0
 

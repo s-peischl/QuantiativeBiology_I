@@ -1,3 +1,62 @@
+/* Uni Bern research pointer — reuse on any slide:
+   ::: {.unibe}
+   **Projektname**
+   Ein Satz zur Verbindung mit der Folie.
+   [Seite](url) · [Paper](doi)
+   :::
+   The kicker «Forschung an der Uni Bern» comes from CSS. */
+.reveal .unibe {
+  margin: 0.45em 0 0.15em 0;
+  padding: 0.55em 0.95em 0.7em 1em;
+  background: #fdf6f6;
+  border-left: 6px solid #e2001a;
+  border-radius: 0 8px 8px 0;
+  width: 94%;
+  box-sizing: border-box;
+  font-size: 0.78em;
+  line-height: 1.35;
+}
+
+.reveal .unibe::before {
+  content: "Forschung an der Uni Bern";
+  display: block;
+  font-size: 0.7em;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #e2001a;
+  margin-bottom: 0.4em;
+}
+
+.reveal .unibe p {
+  margin: 0.22em 0;
+}
+
+.reveal .unibe a {
+  color: #8b0010;
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+}
+
+.reveal .photo-banner {
+  margin: 0.1em 0 0.35em 0;
+}
+
+.reveal .photo-banner img {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.reveal .photo-banner > p:last-child {
+  margin: 0.12em 0 0 0;
+  font-size: 0.48em;
+  line-height: 1.2;
+  color: #7f8c8d;
+  text-align: right;
+}
+
 /* Keep photos and slide colours when students print / save as PDF. */
 @media print {
   html,

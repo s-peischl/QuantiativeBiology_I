@@ -71,6 +71,14 @@ aussieht und *was* sie tut. Ableiten: andere Vorlesung.
 2.
 3.
 
+<!-- Uni Bern research pointer (style in weeks/print.css):
+::: {.unibe}
+**Projektname**
+Ein Satz zur Verbindung mit der Folie.
+[Seite](url) · [Paper](doi)
+:::
+-->
+
 ## Notebook (~45 min)
 
 **→ [Notebook öffnen](notebook.html)**
