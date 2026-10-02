@@ -5,6 +5,8 @@ project:
     - styles.css
     - docs/kursinfo.pdf
     - docs/kursplan.pdf
+    - weeks/week-04/notebook.Rmd
+    - weeks/week-04/checkpoint.R
   render:
     - index.qmd
     - docs/module-01-overview.qmd
@@ -14,15 +16,16 @@ project:
     - docs/glossary.qmd
     - docs/for-collaborators.qmd
     - docs/ai-policy.qmd
-    # Live hub: only published weeks (Modul 1 through Checkpoint A).
-    # Later week sources stay in git; add paths here when releasing.
-    # Week 1 has slides only (no student notebook).
+    # Live hub: published weeks only. Add paths here when releasing.
+    # Week 1: slides only. Weeks 5–6: slides only (no student notebook on hub).
     - weeks/week-01/slides.qmd
     - weeks/week-01/glossary.qmd
     - weeks/week-02/*.qmd
     - weeks/week-03/*.qmd
     - weeks/week-04/slides.qmd
     - weeks/week-04/notebook.qmd
+    - weeks/week-05/slides.qmd
+    - weeks/week-06/slides.qmd
 
 lang: de
 
@@ -46,6 +49,10 @@ website:
             text: "Woche 3"
           - href: weeks/week-04/slides.qmd
             text: "Woche 4"
+          - href: weeks/week-05/slides.qmd
+            text: "Woche 5"
+          - href: weeks/week-06/slides.qmd
+            text: "Woche 6"
       - text: Notebooks
         menu:
           - href: weeks/week-02/notebook.qmd

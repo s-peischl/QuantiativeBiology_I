@@ -152,6 +152,22 @@ $$
 
 Diskreter Replikator: relative Fitness steuert die Anteile.
 
+## Die Matrix $A$
+
+$$
+A =
+\begin{pmatrix}
+1 & A_{12} & A_{13} \\
+A_{21} & 1 & A_{23} \\
+A_{31} & A_{32} & 1
+\end{pmatrix}
+$$
+
+- Zeile $i$ = wer betroffen ist · Spalte $j$ = wer wirkt  
+- Diagonale $=1$: Baseline «Treffen der eigenen Strategie»  
+- $A_{ij} > 1$: $j$ kostet $i$ **mehr** → $i$ leidet, wenn $j$ häufig ist  
+- $A_{ij} < 1$: $j$ kostet $i$ **weniger** → $i$ profitiert relativ  
+
 ## $(Ap)_i$ ist eine gewichtete Summe
 
 $p$ ist der Vektor der Anteile, $A$ die Kostenmatrix. Das Produkt $Ap$ ist wieder ein Vektor, und $(Ap)_i$ ist sein $i$-ter Eintrag: die $i$-te Zeile von $A$, mit den Häufigkeiten gewichtet und aufsummiert.
@@ -188,22 +204,6 @@ Vertiefung zur Matrixmultiplikation: Vorlesung **Mathematische Modellierung**.
 
 Selektion braucht **Kontrast** zwischen Strategien.  
 Allein gibt es keinen Frequenzvorteil — und das soll so sein.
-
-## Die Matrix $A$
-
-$$
-A =
-\begin{pmatrix}
-1 & A_{12} & A_{13} \\
-A_{21} & 1 & A_{23} \\
-A_{31} & A_{32} & 1
-\end{pmatrix}
-$$
-
-- Zeile $i$ = wer betroffen ist · Spalte $j$ = wer wirkt  
-- Diagonale $=1$: Baseline «Treffen der eigenen Strategie»  
-- $A_{ij} > 1$: $j$ kostet $i$ **mehr** → $i$ leidet, wenn $j$ häufig ist  
-- $A_{ij} < 1$: $j$ kostet $i$ **weniger** → $i$ profitiert relativ  
 
 ## Beispiel: zyklische Dominanz
 
@@ -308,6 +308,8 @@ Dieselbe zyklische Logik — die dritte Strategie verhindert den einfachen Aussc
 3. Parameter drehen, bis Sie **alle drei** Endzustände haben  
 4. Je einen Satz: was passiert langfristig?  
    (Zeitreihe **oder** Simplex)
+
+Drei Formate, gleiche Aufgabe: [Quarto](notebook.html) · [R Markdown](notebook.Rmd) · [nur R](checkpoint.R)
 
 ## Wenn die Assistenz kommt
 

@@ -1,18 +1,12 @@
 ---
-title: "Woche 4 — Notebook"
+title: "Woche 4 — Notebook (R Markdown)"
 subtitle: "Strategie und Fitness"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
-lang: de
-format:
-  html:
+output:
+  html_document:
     toc: true
-    toc-depth: 2
-    code-fold: false
-    embed-resources: true
-execute:
-  echo: true
-  warning: false
-  message: false
+    toc_depth: 2
+    theme: flatly
 ---
 
 # Auftrag
@@ -21,24 +15,14 @@ Bei zwei Strategien bleibt am Ende eine. Bei drei Strategien mit zyklischer Domi
 
 Ihre Aufgabe: diese drei Verläufe finden, indem Sie $s$ und $w$ wählen. Plots und die Matrix sind vorbereitet. Sie ändern nur die beiden Zahlen und beschreiben, was Sie sehen.
 
-::: {.callout-tip}
-## Was Sie abgeben
+> **Was Sie abgeben**
+>
+> - die Matrix $A$ für beide Läufe
+> - zwei Plots mit qualitativ verschiedenem Verlauf; in beiden bleiben alle drei Strategien
+> - je einen Satz, was langfristig passiert
+> - einen Satz: warum dasselbe mit nur zwei Strategien nicht geht
 
-- die Matrix $A$ für beide Läufe
-- zwei Plots mit qualitativ verschiedenem Verlauf; in beiden bleiben alle drei Strategien
-- je einen Satz, was langfristig passiert
-- einen Satz: warum dasselbe mit nur zwei Strategien nicht geht
-:::
-
-::: {.callout-note}
-## Drei Formate (gleiche Aufgabe)
-
-| Format | Datei | Für wen |
-|--------|-------|---------|
-| Quarto | diese Seite / `notebook.qmd` | Standard |
-| R Markdown | [`notebook.Rmd`](notebook.Rmd) | Knit in RStudio, ohne Quarto |
-| nur R | [`checkpoint.R`](checkpoint.R) | Source in RStudio; nur Code, base R |
-:::
+Falls Quarto Probleme macht: dieses `.Rmd` in RStudio öffnen und **Knit** drücken. Noch einfacher: die reine R-Datei [`checkpoint.R`](checkpoint.R) (Source → `s` und `w` setzen).
 
 # Das Modell
 
@@ -83,8 +67,7 @@ $$
 
 Damit schlägt 1 den Typ 2, 2 den Typ 3 und 3 den Typ 1. Wie stark dieser Zyklus ist, steckt in $s$ und $w$. Das ändern Sie unten.
 
-```{r}
-#| include: false
+```{r setup, include=FALSE}
 next_rps <- function(N, r, A, C = 2) {
   sN <- sum(N)
   if (sN <= 0) return(N)
@@ -209,16 +192,13 @@ Den Plotcode schreiben Sie nicht. Sie wählen $s$ und $w$ und rufen eine der bei
 
 `show_rps(s, w)` benutzt dieselbe Matrix, lässt aber alle drei Strategien starten. Sie druckt $A$ und zeichnet links die Zeitreihe, rechts den Simplex. Vorgaben: $r = 0.05$, $T = 2500$, Start $N_0 = (40,\, 35,\, 30)$. Wenn die Kurven sehr langsam auf die Achse zulaufen, übergeben Sie ein grösseres $T$ und bei Bedarf ein kleineres $r$ als weitere Argumente.
 
-In jedem Chunk unten Zahlen einsetzen, die Zeile `#| eval: false` löschen und den Chunk ausführen. Dabei $s>1>w$ einhalten.
+In jedem Chunk unten Zahlen einsetzen, `eval=FALSE` auf `eval=TRUE` setzen (oder die Option löschen) und den Chunk ausführen. Dabei $s>1>w$ einhalten.
 
 # 1 · Zwei Strategien
 
 Wählen Sie $s$ und $w$ und zeichnen Sie die drei Paare. Schauen Sie jedes Panel einzeln an.
 
-```{r}
-#| eval: false
-#| fig-height: 3.4
-#| fig-width: 9
+```{r, eval=FALSE, fig.height=3.4, fig.width=9}
 s <-
 w <-
 show_two(s, w)
@@ -230,10 +210,7 @@ Wer bleibt in welchem Paar? Bleibt irgendwo Vielfalt erhalten?
 
 Dieselben $s$ und $w$ wie oben. Jetzt starten alle drei.
 
-```{r}
-#| eval: false
-#| fig-height: 3.6
-#| fig-width: 9
+```{r, eval=FALSE, fig.height=3.6, fig.width=9}
 show_rps(s, w)
 ```
 
@@ -247,10 +224,7 @@ Wenn zwei Versuche gleich aussehen, ist das noch nicht der dritte Verlauf.
 
 ## Versuch 1
 
-```{r}
-#| eval: false
-#| fig-height: 3.6
-#| fig-width: 9
+```{r, eval=FALSE, fig.height=3.6, fig.width=9}
 s <-
 w <-
 show_rps(s, w)
@@ -258,10 +232,7 @@ show_rps(s, w)
 
 ## Versuch 2
 
-```{r}
-#| eval: false
-#| fig-height: 3.6
-#| fig-width: 9
+```{r, eval=FALSE, fig.height=3.6, fig.width=9}
 s <-
 w <-
 show_rps(s, w)
@@ -269,10 +240,7 @@ show_rps(s, w)
 
 ## Versuch 3
 
-```{r}
-#| eval: false
-#| fig-height: 3.6
-#| fig-width: 9
+```{r, eval=FALSE, fig.height=3.6, fig.width=9}
 s <-
 w <-
 show_rps(s, w)
@@ -286,10 +254,7 @@ Die Kernaufgabe bleibt bei $s$ und $w$. Hier dürfen Sie mehr drehen: wie lange 
 
 `show_rps` nimmt dieselben $s$ und $w$ wie oben. Zusätzlich: `T` = Zahl der Schritte, `N0` = drei Startwerte. Die Anteile sind $N/\sum N$, deshalb reicht jede positive Kombination.
 
-```{r}
-#| eval: false
-#| fig-height: 3.6
-#| fig-width: 9
+```{r, eval=FALSE, fig.height=3.6, fig.width=9}
 s <-
 w <-
 N0 <-
@@ -299,10 +264,7 @@ show_rps(s, w, N0 = N0, T = T)
 
 `show_flex` lässt die Diagonale bei $1$ und nimmt die sechs freien Einträge in dieser Reihenfolge: $A_{12}$, $A_{13}$, $A_{21}$, $A_{23}$, $A_{31}$, $A_{32}$. Ohne zyklische Symmetrie sortiert $s+w$ die Verläufe nicht mehr.
 
-```{r}
-#| eval: false
-#| fig-height: 3.6
-#| fig-width: 9
+```{r, eval=FALSE, fig.height=3.6, fig.width=9}
 A12 <-
 A13 <-
 A21 <-

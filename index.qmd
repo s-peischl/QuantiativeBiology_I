@@ -53,18 +53,18 @@ Details: [Modul 1](docs/module-01-overview.qmd) · [Kursinfo (PDF)](docs/kursinf
 | 1 | 17. Sep | Einstieg — Bajau → Tibet | [Folien](weeks/week-01/slides.qmd) · [PDF](weeks/week-01/slides.pdf) |
 | 2 | 24. Sep | Erstes Modell | [Folien](weeks/week-02/slides.qmd) · [PDF](weeks/week-02/slides.pdf) · [**Notebook**](weeks/week-02/notebook.qmd) |
 | 3 | 1. Okt | Stabilität / Food Web | [Folien](weeks/week-03/slides.qmd) · [PDF](weeks/week-03/slides.pdf) · [Notebook](weeks/week-03/notebook.qmd) |
-| 4 | 8. Okt | RPS · **Checkpoint A** | [Folien](weeks/week-04/slides.qmd) · [PDF](weeks/week-04/slides.pdf) · [**Notebook**](weeks/week-04/notebook.qmd) |
+| 4 | 8. Okt | RPS · **Checkpoint A** | [Folien](weeks/week-04/slides.qmd) · [PDF](weeks/week-04/slides.pdf) · [**Notebook**](weeks/week-04/notebook.qmd) · [Rmd](weeks/week-04/notebook.Rmd) · [R](weeks/week-04/checkpoint.R) |
 
-## Modul 2 · folgt
+## Modul 2 · Wochen 5–6 online
 
 **Vererbung und Vektoren** · Hardy–Weinberg → lokale Anpassung → Raum · endet mit **Checkpoint B in Woche 8**.
 
-Folien und Notebooks erscheinen hier, sobald der Block frei gegeben ist. Überblick: [Modul 2](docs/module-02-overview.qmd).
+Überblick: [Modul 2](docs/module-02-overview.qmd). Wochen 7–8 folgen.
 
 | Woche | Datum | Thema | Materialien |
 |------:|------|--------|-------------|
-| 5 | 15. Okt. | HWE · Wahlund · Duffy | folgt |
-| 6 | 22. Okt. | Lokale Anpassung | folgt |
+| 5 | 15. Okt. | HWE · Wahlund · Duffy | [Folien](weeks/week-05/slides.qmd) · [PDF](weeks/week-05/slides.pdf) |
+| 6 | 22. Okt. | Lokale Anpassung | [Folien](weeks/week-06/slides.qmd) · [PDF](weeks/week-06/slides.pdf) |
 | 7 | 29. Okt. | Erhalt von Variation | folgt |
 | 8 | 5. Nov. | Synthese · **Checkpoint B** | folgt |
 
