@@ -111,7 +111,7 @@ Ob Gene oder Lernen: entscheidend ist die **Häufigkeit** der Strategien und wer
 Die **Seitenfleckeneidechse** hat drei Männchen-Strategien (Kehlfarben).  
 Erfolg hängt davon ab, **wie häufig die anderen Morphen** sind — frequenzabhängige Fitness.
 
-![](../../pics/Emma/Grafik_lizard_RPS.jpg){fig-alt="Uta stansburiana drei Maennchen-Strategien RPS" width="78%"}
+![](../../pics/Emma/Grafik_lizard_RPS.jpg){.lizard-rps fig-alt="Uta stansburiana drei Maennchen-Strategien RPS"}
 
 ::: aside
 Illustration: Emma Ochsner · Sinervo & Lively (1996); Corl et al. (2026)
@@ -310,17 +310,6 @@ Dieselbe zyklische Logik — die dritte Strategie verhindert den einfachen Aussc
    (Zeitreihe **oder** Simplex)
 
 Drei Formate, gleiche Aufgabe: [Quarto](notebook.html) · [R Markdown](notebook.Rmd) · [nur R](checkpoint.R)
-
-## Wenn die Assistenz kommt
-
-Teams **bis zu vier**. Es gibt **drei** Formen, in denen keine Strategie verloren geht. Zeigen Sie am **Notebook** mindestens **zwei** davon — mit qualitativ verschiedenem Verhalten.
-
-1. Matrix $A$ (oder $s,w$) für beide Läufe  
-2. Zwei Plots (Zeitreihe oder Simplex)  
-3. Je einen Satz: was langfristig passiert, und dass alle drei bleiben  
-4. Warum geht das mit nur zwei Strategien nicht?
-
-**Anwesenheit Pflicht** — ohne Gruppenpräsentation kein Checkpoint A.
 
 ## Take-home
 

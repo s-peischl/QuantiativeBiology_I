@@ -1,0 +1,35 @@
+---
+title: "Checkpoint A — Merkblatt Assistenz"
+subtitle: "Woche 4 · RPS"
+---
+
+**Nicht für Studierende.** Teams bis 4 · Notebook (Quarto / Rmd / `checkpoint.R`)
+
+## Checkliste
+
+- [ ] Zwei Abbildungen mit **qualitativ verschiedenem** Muster
+- [ ] In beiden bleiben alle drei Strategien sichtbar
+- [ ] $s$ und $w$ (oder Matrix) genannt; $s > 1 > w$
+
+## Fragen an die Gruppe
+
+**1.** Habt ihr zwei klar verschiedene Langzeitmuster?
+
+**2.** Für welche Parameter entsteht welches Muster?
+
+Hilfestellung: grob $s+w$ — unter 2 eher Punkt (Spirale innen), nahe 2 Oszillation, über 2 Heteroklin (Drift zum Rand).
+
+Beispiele: $(1.2,\ 0.5)$ · $(1.35,\ 0.65)$ · $(1.40,\ 0.65)$
+
+**Was heisst weicher / harter Zyklus?**
+
+Im Paar (ein Typ häufig, einer selten): Kann der Seltene einwandern?
+
+- **weich** ($w \ll 1 < s$, eher $s+w < 2$): der seltene Typ wächst **langsam** gegen den häufigen — sanfte Rückkehr zum Inneren (Punkt).
+- **hart** ($w < 1 \ll s$, eher $s+w > 2$): der seltene Typ wächst **schnell** — Dominanz wechselt heftig, Bahn geht zum Rand (Heteroklin).
+
+**3.** Welches kurze Experiment würde RPS andeuten — ohne lange 3-Typen-Serie?
+
+Zielbild: **drei Paar-Kulturen** (1 vs 2, 2 vs 3, 3 vs 1). Jeweils Start z. B. 90 % / 10 %. Nach wenigen Generationen: nimmt der Seltene zu?
+
+Wenn ja in **allen drei** Paaren (zyklisch: 1 schlägt 2, 2 schlägt 3, 3 schlägt 1) → Hinweis auf RPS. Geht mit kurzen Läufen; `show_two` im Notebook ist dasselbe Setup.
