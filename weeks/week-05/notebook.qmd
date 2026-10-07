@@ -180,7 +180,7 @@ Avocados (**Persea americana**) blühen in Blütenständen, wobei einzelne Blüt
 Dieser Zyklus wird durch die Allele A1 und A2 innerhalb eines sogenannten "synchronized dichogamy" locus geregelt. "Typ A" Bäume haben den Genotyp A1/A1 oder A1/A2 und "Typ B" Bäume haben den Genotyp A2/A2.
 
 
-![Die Blühtypen von **Persea americana**](data/grafik_Avocados_final.png)
+![Die Blühtypen von **Persea americana**](data/grafik_Avocados.png)
 ```{r avocado definition}
 avocados <- data.frame(A1A1 = 5, A1A2 = 33, A2A2 = 62)
 
