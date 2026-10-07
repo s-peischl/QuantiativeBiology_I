@@ -152,7 +152,7 @@ plot(x = p_grid,
      col = "#1b9e77", ylim = c(0, 0.8),
      xlab = "p", ylab = "Heterozygotenanteil",
      main = "HWE-Kurve weltweite Beobachtungen")
-# beobachtete Frequenzen
+# beobachteter Heterozygotenanteil
 points(x = HW_world$p, 
        y = HW_world$f_MN, 
        pch = 16, cex = 1.6,
@@ -166,7 +166,11 @@ legend("topright", c("HWE", "Weltweit", "Schweiz"),
        lwd = c(2.5, NA, NA), pch = c(NA, 16, 16), bty = "n")
 ```
 
+::: {.callout-tip}
+## F3
 
+Was beobachten Sie? Wie verhaltet sich der beobachtete Heterozygotenateil gegenüber den Hardy-Weinberg Erwartungen?
+:::
 
 ---
 
@@ -202,7 +206,7 @@ HW_avocados
 ```
 
 ::: {.callout-tip}
-## F4
+## F5
 
 1. Stimmen die beobachteten und erwarteten Genotypfrequenzen überein?
 2. Was ist die erwartete Verteilung von Typ A und Typ B Bäumen?
@@ -214,7 +218,7 @@ Die erfahrenen Avocadozüchter*innen erwarteten die folgende Genotypfrequenzen f
 | 0 | 0.525 | 0.475 | 
 
 ::: {.callout-tip}
-## F5
+## F6
 
 1. Was ist der Unterschied zwischen Ihren Erwartungen und der der Avocadozüchter*innen? 
 2. Welche Hardy-Weinberg Erwartungen werden in diesem Beispiel erfüllt, welche eventuell nicht? Wieso?
