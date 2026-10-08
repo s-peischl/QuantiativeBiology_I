@@ -58,7 +58,7 @@ Rechnen Sie die **relativen** Genotypfrequenzen von Hand nach
 # Funktion für die Berechnung der erwarteten Genotypfrequenzen
 zusammenfassen <- function(d) {
   n <- d$AA + d$AB + d$BB # Populationsgrösse
-  p <- (2 * d$AA + d$AB) / (2 * n) # Frequenz von A
+  p <- (2 * d$AA + d$AB) / (2 * n) # Frequenz von Allele A
   data.frame(
     n = n,
     p = p,
@@ -101,7 +101,7 @@ bloodgroups_world
 # Funktion für die Berechnung der erwarteten Genotypfrequenzen
 zusammenfassen_MN <- function(d) {
   n <- d$MM + d$MN + d$NN # Populationsgrösse
-  p <- (2 * d$MM + d$MN) / (2 * n) # Frequenz von M
+  p <- (2 * d$MM + d$MN) / (2 * n) # Frequenz von Allele M
   data.frame(
     Country = d$Country,
     n = n,
