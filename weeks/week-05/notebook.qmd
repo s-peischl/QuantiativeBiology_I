@@ -29,7 +29,7 @@ Zwei Allele $A$ und $B$. Zählungen `AA`, `AB`, `BB`.
 
 - **Relative Häufigkeit** eines Genotyps: Zählung geteilt durch $n$.
 - **Allelfrequenz** $p = (2\,n_{AA} + n_{AB}) / (2n)$.
-- **HWE-Erwartung:** $p^2$, $2pq$, $q^2$.
+- **HWE-Erwartung:** $p^2 + 2pq + q^2 = 1$.
 
 ---
 
@@ -62,9 +62,9 @@ zusammenfassen <- function(d) {
   data.frame(
     n = n,
     p = p,
-    f_AA = d$AA / n,
-    f_AB = d$AB / n,
-    f_BB = d$BB / n,
+    f_AA = d$AA / n, # Frequenz Genotyp AA
+    f_AB = d$AB / n, # Frequenz Genotyp AB
+    f_BB = d$BB / n, # Frequenz Genotyp BB
     hwe_AA = p^2, # Hardy-Weinberg Erwartung für Genotyp AA
     hwe_AB = 2 * p * (1 - p), # Hardy-Weinberg Erwartung für Genotyp AB
     hwe_BB = (1 - p)^2 # Hardy-Weinberg Erwartung für Genotyp BB
@@ -86,40 +86,43 @@ zusammenfassen(pop)
 ---
 
 # Teil B - Blutgruppen
-Als erstes Beispiel schauen wir uns die Vererbung von Blutgruppen in Menschen an. Für das brauchen wir einen Ausschnitt aus den Daten von Mourant et al. (1976) via dem package `HardyWeinberg`. Die Daten enthalten die Genotypfrequnzen MM, MN un NN am MN im MNS-Antigensystem für eine Stichprobe aus der Schweiz.
+Als erstes Beispiel schauen wir uns die Vererbung von Blutgruppen in Menschen an. Für das brauchen wir einen Ausschnitt aus den Daten von Mourant et al. (1976) via dem package `HardyWeinberg`. Die Daten enthalten die Genotypfrequnzen MM, MN und NN aus dem MNS-Antigensystem.
 
 ```{r load CH}
 # Daten reinladen
-bloodgroups_CH <- read.csv("data/bloodgroups_Mourant1976_CH.csv")
+bloodgroups_world <- read.csv("data/bloodgroups_Mourant1976_world.csv")
 
 # Daten auschauen
-bloodgroups_CH
+bloodgroups_world
 
 ```
-## B1) HW-Erwartungen Schweiz
 
 ```{r HW_definition MN}
 # Funktion für die Berechnung der erwarteten Genotypfrequenzen
-zusammenfassen <- function(d) {
+zusammenfassen_MN <- function(d) {
   n <- d$MM + d$MN + d$NN # Populationsgrösse
   p <- (2 * d$MM + d$MN) / (2 * n) # Frequenz von M
   data.frame(
+    Country = d$Country,
     n = n,
     p = p,
-    f_MM = d$MM / n,
-    f_MN = d$MN / n,
-    f_NN = d$NN / n,
+    f_MM = d$MM / n, # Frequenz Genotyp MM
+    f_MN = d$MN / n, # Frequenz Genotyp MN
+    f_NN = d$NN / n, # Frequenz Genotyp NN
     hwe_MM = p^2, # Hardy-Weinberg Erwartung für Genotyp MM
     hwe_MN = 2 * p * (1 - p), # Hardy-Weinberg Erwartung für Genotyp MN
     hwe_NN = (1 - p)^2 # Hardy-Weinberg Erwartung für Genotyp NN
   )
 }
+```
 
-HW_CH <- zusammenfassen(bloodgroups_CH)
+## B1) HW-Erwartungen Schweiz
+```{r HW CH}
+
+HW_CH <- zusammenfassen_MN(bloodgroups_world[bloodgroups_world$Country == "Switzerland",])
 HW_CH
 
 ```
-
 
 ::: {.callout-tip}
 ## F3
@@ -131,15 +134,11 @@ HW_CH
 # B2) HW-Erwartungen Welt
 
 ```{r load world}
-# Daten reinladen
-bloodgroups_world <- read.csv("data/bloodgroups_Mourant1976_world.csv")
-
-# Daten anschauen
-head(bloodgroups_world)
 
 # HW berechnen
-HW_world <- zusammenfassen(bloodgroups_world)
- 
+HW_world <- zusammenfassen_MN(bloodgroups_world)
+HW_world
+
 ```
 
 
@@ -169,18 +168,18 @@ legend("topright", c("HWE", "Weltweit", "Schweiz"),
 ::: {.callout-tip}
 ## F3
 
-Was beobachten Sie? Wie verhaltet sich der beobachtete Heterozygotenateil gegenüber den Hardy-Weinberg Erwartungen?
+Was beobachten Sie? Wie verhaltet sich der beobachtete Heterozygotenanteil gegenüber den Hardy-Weinberg Erwartungen?
 :::
 
 ---
 
 # Teil C) Avocados
 Als zweites Beispiel untersuchen wir die Vererbung von verschiedenem Blühtypen in Avocados. Dieses Beispiel ist an die Studie von Groh et. al (2026) angelehnt.
-Avocados (**Persea americana**) blühen in Blütenständen, wobei einzelne Blüten entweder männlich oder weiblich sind. In "Typ A" Bäumen öffnen sich zuerst die weiblichen Blüten und später am Nachmittag die männlichen Blüten, während sich die weiblichen Blüten wieder schliessen; bei den "Typ B" Bäumen ist es genau umgekehrt. So haben beide Typen einen komplementären Zyklus von alternierenden Blütengeschlechtern. 
+Avocados (*Persea americana*) blühen in Blütenständen, wobei einzelne Blüten entweder männlich oder weiblich sind. In "Typ A" Bäumen öffnen sich zuerst die weiblichen Blüten und später am Nachmittag die männlichen Blüten, während sich die weiblichen Blüten wieder schliessen; bei den "Typ B" Bäumen ist es genau umgekehrt. So haben beide Typen einen komplementären Zyklus von alternierenden Blütengeschlechtern. 
 Dieser Zyklus wird durch die Allele A1 und A2 innerhalb eines sogenannten "synchronized dichogamy" locus geregelt. "Typ A" Bäume haben den Genotyp A1/A1 oder A1/A2 und "Typ B" Bäume haben den Genotyp A2/A2.
 
 
-![Die Blühtypen von **Persea americana**](data/grafik_Avocados.png)
+![Die Blühtypen von *Persea americana*](data/grafik_Avocados.png)
 ```{r avocado definition}
 avocados <- data.frame(A1A1 = 5, A1A2 = 33, A2A2 = 62)
 
@@ -212,9 +211,9 @@ HW_avocados
 2. Was ist die erwartete Verteilung von Typ A und Typ B Bäumen?
 :::
 
-Die erfahrenen Avocadozüchter*innen erwarteten die folgende Genotypfrequenzen für die der geernteten Früchte:
+Die erfahrenen Avocadozüchter*innen erwarteten die folgenden Genotypfrequenzen für die geernteten Früchte:
 | A1A1 | A1A2 | A2A2 |
-|--------|-----------|--------------|
+|------|------|------|
 | 0 | 0.525 | 0.475 | 
 
 ::: {.callout-tip}
@@ -228,8 +227,8 @@ Die erfahrenen Avocadozüchter*innen erwarteten die folgende Genotypfrequenzen f
 ---
 # Referenzen
 
-Mourant, A. E, Kopec, A, and Domaniewska-Sobczak, K. (1976) **The Distribution of the Human Blood Groups and other Polymorphisms.** British Medical Journal. Jun 12;1(6023):1472. PMCID: PMC1640394.
+Mourant, A. E, Kopec, A, and Domaniewska-Sobczak, K. (1976) *The Distribution of the Human Blood Groups and other Polymorphisms.* British Medical Journal. Jun 12;1(6023):1472. PMCID: PMC1640394.
 
 
-Groh, J. S., Soares dos Santos, M. F., Avila de Dios, E., Ackerman, G., Solares, E., Iturrieta, R. A., ... & Coop, G. (2026). **Balanced polymorphism in a floral transcription factor underlies the ancient rhythm of daily sex alternation in avocado.** Proceedings of the National Academy of Sciences, 123(31), e2606876123.
+Groh, J. S., Soares dos Santos, M. F., Avila de Dios, E., Ackerman, G., Solares, E., Iturrieta, R. A., ... & Coop, G. (2026). *Balanced polymorphism in a floral transcription factor underlies the ancient rhythm of daily sex alternation in avocado.* Proceedings of the National Academy of Sciences, 123(31), e2606876123.
 
