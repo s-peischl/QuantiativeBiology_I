@@ -132,7 +132,7 @@ HW_CH
 :::
 
 # B2) HW-Erwartungen Welt
-
+Nun berechnen wir die Hardy-Weinberg Erwartungen für alle Länder in unserem Datensatz. Anhand von Vektormanipulierung `bloodgroups_world$...` können wir das gleichzeitig für alle Zeilen im Datensatz rechnen.
 ```{r load world}
 
 # HW berechnen
@@ -141,7 +141,7 @@ HW_world
 
 ```
 
-
+Damit wir alle Länder vergleichen können, plotten wir die beobachteten Frequenzen relativ zu der erwarteten Hardy-Weinberg Frequnz für Heterozygote (MN).
 ```{r plot HW}
 # HW Erwartungen
 p_grid <- seq(0, 1, length.out = 201)
@@ -175,8 +175,10 @@ Was beobachten Sie? Wie verhaltet sich der beobachtete Heterozygotenanteil gegen
 
 # Teil C) Avocados
 Als zweites Beispiel untersuchen wir die Vererbung von verschiedenem Blühtypen in Avocados. Dieses Beispiel ist an die Studie von Groh et. al (2026) angelehnt.
+
 Avocados (*Persea americana*) blühen in Blütenständen, wobei einzelne Blüten entweder männlich oder weiblich sind. In "Typ A" Bäumen öffnen sich zuerst die weiblichen Blüten und später am Nachmittag die männlichen Blüten, während sich die weiblichen Blüten wieder schliessen; bei den "Typ B" Bäumen ist es genau umgekehrt. So haben beide Typen einen komplementären Zyklus von alternierenden Blütengeschlechtern. 
-Dieser Zyklus wird durch die Allele A1 und A2 innerhalb eines sogenannten "synchronized dichogamy" locus geregelt. "Typ A" Bäume haben den Genotyp A1/A1 oder A1/A2 und "Typ B" Bäume haben den Genotyp A2/A2.
+
+Dieser Zyklus wird durch die Allele A1 und A2 innerhalb eines sogenannten "synchronized dichogamy" Lokus geregelt. "Typ A" Bäume haben den Genotyp A1/A1 oder A1/A2 und "Typ B" Bäume haben den Genotyp A2/A2.
 
 
 ![Die Blühtypen von *Persea americana*](data/grafik_Avocados.png)
@@ -184,7 +186,7 @@ Dieser Zyklus wird durch die Allele A1 und A2 innerhalb eines sogenannten "synch
 avocados <- data.frame(A1A1 = 5, A1A2 = 33, A2A2 = 62)
 
 # Funktion für die Berechnung der erwarteten Genotypfrequenzen
-zusammenfassen <- function(d) {
+zusammenfassen_avo <- function(d) {
   n <- d$A1A1 + d$A1A2 + d$A2A2 # Populationsgrösse
   p <- (2 * d$A1A1 + d$A1A2) / (2 * n) # Frequenz von A1
   data.frame(
@@ -199,7 +201,7 @@ zusammenfassen <- function(d) {
   )
 }
 
-HW_avocados <- zusammenfassen(avocados)
+HW_avocados <- zusammenfassen_avo(avocados)
 HW_avocados
 
 ```
@@ -212,9 +214,10 @@ HW_avocados
 :::
 
 Die erfahrenen Avocadozüchter*innen erwarteten die folgenden Genotypfrequenzen für die geernteten Früchte:
-| A1A1 | A1A2 | A2A2 |
-|------|------|------|
-| 0 | 0.525 | 0.475 | 
+
+| A1A1  | A1A2  | A2A2  |
+|---|---|---|---|
+| 0  | 0.525   | 0.475   |
 
 ::: {.callout-tip}
 ## F6
@@ -223,6 +226,9 @@ Die erfahrenen Avocadozüchter*innen erwarteten die folgenden Genotypfrequenzen 
 2. Welche Hardy-Weinberg Erwartungen werden in diesem Beispiel erfüllt, welche eventuell nicht? Wieso?
 
 :::
+
+# Zusammenfassung
+Das Hardy-Weinberg Model trifft mehrere Annahmen, um erwartete Genotypfrequenzen zu berechnen. Wenn gemessene Frequenzen nicht zu erwarteten passen, ist das ein Hinweis, dass nicht alle Annahmen erfüllt werden.
 
 ---
 # Referenzen
