@@ -173,7 +173,7 @@ legend("topright", c("HWE", "Weltweit", "Schweiz"),
 ```
 
 ::: {.callout-tip}
-## F3
+## F4
 
 1. Was beobachten Sie? Wie verhaltet sich der beobachtete Heterozygotenanteil gegenüber den Hardy-Weinberg Erwartungen?
 2. Was bedeutet das für die Hardy-Weinberg-Annahmen in diesem Fall? Werden sie erfüllt?
@@ -189,7 +189,8 @@ Avocados (*Persea americana*) blühen in Blütenständen, wobei einzelne Blüten
 Dieser Zyklus wird durch die Allele A1 und A2 innerhalb eines sogenannten "synchronized dichogamy" Lokus geregelt. "Typ A" Bäume haben den Genotyp A1/A1 oder A1/A2 und "Typ B" Bäume haben den Genotyp A2/A2.
 
 
-![Die Blühtypen von *Persea americana*](data/grafik_Avocados.png)
+![Die Blühtypen von *Persea americana*. Illustration: Emma Ochsner · nach Groh et al. (2026).](data/grafik_Avocados.png)
+
 ```{r avocado definition}
 avocados <- data.frame(A1A1 = 5, A1A2 = 33, A2A2 = 62)
 
@@ -203,9 +204,9 @@ zusammenfassen_avo <- function(d) {
     f_A1A1 = d$A1A1 / n,
     f_A1A2 = d$A1A2 / n,
     f_A2A2 = d$A2A2 / n,
-    hwe_A1A1 = p^2, # Hardy-Weinberg Erwartung für Genotyp A1A1
-    hwe_A1A2 = 2 * p * (1 - p), # Hardy-Weinberg Erwartung für Genotyp MN
-    hwe_A2A2 = (1 - p)^2 # Hardy-Weinberg Erwartung für Genotyp NN
+    hwe_A1A1 = p^2,
+    hwe_A1A2 = 2 * p * (1 - p),
+    hwe_A2A2 = (1 - p)^2
   )
 }
 
@@ -223,9 +224,9 @@ HW_avocados
 
 Die erfahrenen Avocadozüchter*innen erwarteten die folgenden Genotypfrequenzen für die geernteten Früchte:
 
-| A1A1  | A1A2  | A2A2  |
-|---|---|---|---|
-| 0  | 0.525   | 0.475   |
+| A1A1 | A1A2 | A2A2 |
+|------|------|------|
+| 0 | 0.525 | 0.475 |
 
 ::: {.callout-tip}
 ## F6

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="360" viewBox="0 0 960 360">
+  <rect width="960" height="360" fill="#fbfcfd"/>
+  <text x="480" y="32" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="#1a5276">Genotyp &#8800; Ph&#228;notyp</text>
+  <text x="480" y="56" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5d6d7e">derselbe genetische Hintergrund kann verschiedene Kehlfarben ergeben</text>
+
+  <!-- OO box -->
+  <rect x="40" y="85" width="200" height="230" rx="12" fill="#fdebd0" stroke="#e67e22" stroke-width="2.5"/>
+  <text x="140" y="118" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#a04000">Genotyp OO</text>
+  <text x="140" y="145" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">zwei O-Haplotypen</text>
+  <text x="140" y="190" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="28" fill="#7f8c8d">&#8595;</text>
+  <circle cx="140" cy="245" r="28" fill="#e67e22" stroke="#a04000" stroke-width="2"/>
+  <text x="140" y="252" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="white">O</text>
+  <text x="140" y="295" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#a04000">Ph&#228;notyp orange</text>
+
+  <!-- BB / OB box -->
+  <rect x="300" y="85" width="620" height="230" rx="12" fill="#eaf2fb" stroke="#2980b9" stroke-width="2.5"/>
+  <text x="610" y="118" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#1a5276">Genotyp BB oder OB</text>
+  <text x="610" y="145" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">mindestens ein B-Haplotyp &#8212; dieselbe genetische Seite</text>
+
+  <text x="450" y="190" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="28" fill="#7f8c8d">&#8600;</text>
+  <text x="770" y="190" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="28" fill="#7f8c8d">&#8601;</text>
+
+  <!-- blue phenotype -->
+  <circle cx="450" cy="245" r="28" fill="#3498db" stroke="#1a5276" stroke-width="2"/>
+  <text x="450" y="252" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="white">B</text>
+  <text x="450" y="295" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#1a5276">Ph&#228;notyp blau</text>
+
+  <!-- yellow phenotype -->
+  <circle cx="770" cy="245" r="28" fill="#f4d03f" stroke="#7d6608" stroke-width="2"/>
+  <text x="770" y="252" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#7d6608">G</text>
+  <text x="770" y="295" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#7d6608">Ph&#228;notyp gelb</text>
+
+  <text x="610" y="330" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#c0392b" font-weight="bold">Plastizit&#228;t: ein Genotyp &#8594; zwei sichtbare Morphen</text>
+</svg>

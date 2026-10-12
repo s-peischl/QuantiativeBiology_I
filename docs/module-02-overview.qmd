@@ -30,7 +30,7 @@ Details: [Glossar](glossary.qmd).
 ## Was Sie können sollen (am Ende von Woche 8)
 
 - erklären, warum Farbmorphen **einer** Art Vererbung ins Spiel bringen
-- Hardy–Weinberg als **Nullbild ohne Selektion** lesen und echte Genotypdaten daran halten
+- Hardy–Weinberg als **Nullbild ohne Selektion** lesen und echte Genotypdaten damit vergleichen
 - sagen, wann Selektion Polymorphismus erhält (Überdominanz) — und warum häufigkeitsabhängige Fitness etwas anderes ist
 - an Trajektorien sehen, wann Unterschiede zwischen Habitaten **stabil** sind; $F_{ST}$ als Brücke zum Scan
 - Neutralisten und Selektionisten sowie die Spandrels-Kritik in einem Satz einordnen
@@ -60,7 +60,7 @@ Themen: häufigkeitsabhängige Fitness gegen klassische Überdominanz; die Über
 
 | Woche | Folien | PDF | Notebook |
 |------:|--------|-----|----------|
-| 5 | [Folien](../weeks/week-05/slides.qmd) | [PDF](../weeks/week-05/slides.pdf) | — |
+| 5 | [Folien](../weeks/week-05/slides.qmd) | [PDF](../weeks/week-05/slides.pdf) | [Notebook](../weeks/week-05/notebook.qmd) |
 | 6 | [Folien](../weeks/week-06/slides.qmd) | [PDF](../weeks/week-06/slides.pdf) | — |
 | 7 | [Folien](../weeks/week-07/slides.qmd) | folgt | folgt |
 | 8 | [Folien](../weeks/week-08/slides.qmd) | folgt | folgt |

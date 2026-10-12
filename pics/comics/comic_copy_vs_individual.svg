@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="300" viewBox="0 0 960 300">
+  <rect width="960" height="300" fill="#fbfcfd"/>
+  <text x="480" y="34" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="#1a5276">Zwei Z&#228;hlweisen &#8212; nicht verwechseln</text>
+
+  <!-- left: allele copies -->
+  <rect x="40" y="60" width="420" height="200" rx="12" fill="#eaf2fb" stroke="#2980b9" stroke-width="2.5"/>
+  <text x="250" y="95" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#1a5276">Allelfrequenz p</text>
+  <text x="250" y="122" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">z&#228;hlt Kopien im Gametenpool</text>
+
+  <circle cx="130" cy="175" r="16" fill="#2166ac"/><text x="130" y="181" text-anchor="middle" font-size="11" fill="white" font-family="Helvetica">A</text>
+  <circle cx="170" cy="175" r="16" fill="#2166ac"/><text x="170" y="181" text-anchor="middle" font-size="11" fill="white" font-family="Helvetica">A</text>
+  <circle cx="210" cy="175" r="16" fill="#2166ac"/><text x="210" y="181" text-anchor="middle" font-size="11" fill="white" font-family="Helvetica">A</text>
+  <circle cx="250" cy="175" r="16" fill="#2166ac"/><text x="250" y="181" text-anchor="middle" font-size="11" fill="white" font-family="Helvetica">A</text>
+  <circle cx="290" cy="175" r="16" fill="#2166ac"/><text x="290" y="181" text-anchor="middle" font-size="11" fill="white" font-family="Helvetica">A</text>
+  <circle cx="330" cy="175" r="16" fill="#2166ac"/><text x="330" y="181" text-anchor="middle" font-size="11" fill="white" font-family="Helvetica">A</text>
+  <circle cx="370" cy="175" r="16" fill="#b2182b"/><text x="370" y="181" text-anchor="middle" font-size="11" fill="white" font-family="Helvetica">a</text>
+
+  <text x="250" y="230" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="22" font-weight="bold" fill="#1a5276">p = 0.60</text>
+
+  <!-- right: genotype share -->
+  <rect x="500" y="60" width="420" height="200" rx="12" fill="#fdedec" stroke="#c0392b" stroke-width="2.5"/>
+  <text x="710" y="95" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#922b21">Genotypanteil</text>
+  <text x="710" y="122" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">z&#228;hlt Individuen</text>
+
+  <rect x="560" y="150" width="70" height="40" rx="6" fill="#2166ac"/>
+  <text x="595" y="176" text-anchor="middle" font-size="13" fill="white" font-family="Helvetica" font-weight="bold">AA</text>
+  <rect x="650" y="150" width="70" height="40" rx="6" fill="#1b9e77"/>
+  <text x="685" y="176" text-anchor="middle" font-size="13" fill="white" font-family="Helvetica" font-weight="bold">AB</text>
+  <rect x="740" y="150" width="70" height="40" rx="6" fill="#b2182b"/>
+  <text x="775" y="176" text-anchor="middle" font-size="13" fill="white" font-family="Helvetica" font-weight="bold">BB</text>
+
+  <text x="710" y="230" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="22" font-weight="bold" fill="#922b21">f(AA) = 0.36</text>
+
+  <text x="480" y="285" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#c0392b" font-weight="bold">0.60 &#8800; 0.36 &#8212; Kopienanteil ist nicht Individuenanteil</text>
+</svg>

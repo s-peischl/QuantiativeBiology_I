@@ -92,6 +92,219 @@
   max-height: 420px;
 }
 
+.reveal section img.lizard-rps,
+.reveal section .lizard-rps img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 88%;
+  max-height: 480px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.reveal section img.checkpoint-recall,
+.reveal section .checkpoint-recall img {
+  display: block;
+  margin: 0.25em auto;
+  max-width: 94%;
+  max-height: 380px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.reveal section img.mating-schematic,
+.reveal section .mating-schematic img {
+  display: block;
+  margin: 0.3em auto;
+  max-width: 92%;
+  max-height: 320px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+
+
+.reveal section img.overview-avo,
+.reveal section .overview-avo img {
+  display: block;
+  margin: 0.2em auto;
+  max-width: 100%;
+  max-height: 280px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.reveal section img.bfu-avo,
+.reveal section .bfu-avo img {
+  display: block;
+  margin: 1.2em auto 0;
+  max-width: 96px;
+  max-height: 96px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  animation: bfu-boomerang 2.8s ease-in-out infinite;
+  transform-origin: 50% 60%;
+}
+
+@keyframes bfu-boomerang {
+  0%   { transform: rotate(0deg) translateX(0); }
+  25%  { transform: rotate(-18deg) translateX(-6px); }
+  50%  { transform: rotate(12deg) translateX(8px); }
+  75%  { transform: rotate(-10deg) translateX(-4px); }
+  100% { transform: rotate(0deg) translateX(0); }
+}
+
+.reveal section img.corl-fig,
+.reveal section .corl-fig img {
+  display: block;
+  margin: 0.15em auto;
+  max-width: 58%;
+  max-height: 520px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.reveal .morph-o,
+.reveal .morph-b,
+.reveal .morph-y {
+  display: inline-block;
+  font-weight: 700;
+  border-radius: 6px;
+  padding: 0.12em 0.45em;
+  font-size: 0.92em;
+}
+
+.reveal .morph-o {
+  background: #fdebd0;
+  color: #a04000;
+  border: 1px solid #e67e22;
+}
+
+.reveal .morph-b {
+  background: #d6eaf8;
+  color: #1a5276;
+  border: 1px solid #2980b9;
+}
+
+.reveal .morph-y {
+  background: #fcf3cf;
+  color: #7d6608;
+  border: 1px solid #f1c40f;
+}
+
+.reveal .big-contrast {
+  margin: 0.55em 0;
+  padding: 0.55em 0.85em;
+  background: #fdedec;
+  border: 2px solid #c0392b;
+  border-radius: 8px;
+  font-size: 0.92em;
+  line-height: 1.4;
+}
+
+.reveal .hwe-plot,
+.reveal .hwe-plot .cell-output-display {
+  text-align: center;
+}
+
+.reveal .hwe-plot img,
+.reveal .hwe-plot .cell-output-display img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 92%;
+  max-height: 380px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.reveal .hwe-plot pre {
+  font-size: 0.48em;
+  max-height: 9.5em;
+  overflow: auto;
+}
+
+.reveal .fig-credit {
+  font-size: 0.48em;
+  color: #7f8c8d;
+  text-align: center;
+  margin-top: 0.15em;
+  line-height: 1.25;
+}
+
+.reveal section img.allele-schematic,
+.reveal section .allele-schematic img {
+  display: block;
+  margin: 0.25em auto;
+  max-width: 88%;
+  max-height: 240px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.reveal section img.hapmap-fig,
+.reveal section .hapmap-fig img {
+  display: block;
+  margin: 0.1em auto;
+  max-width: 100%;
+  max-height: 420px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.reveal section img.hapmap-hwe,
+.reveal section .hapmap-hwe img {
+  display: block;
+  margin: 0.2em auto;
+  max-width: 96%;
+  max-height: 360px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.reveal .hwe-plot img,
+.reveal .hwe-plot .cell-output-display img {
+  max-height: 460px;
+}
+
+
+.reveal .diskussion {
+  margin: 0.7em 0 0.2em 0;
+  padding: 0.65em 0.95em 0.75em 1em;
+  background: #f4f9fc;
+  border-left: 6px solid #2980b9;
+  border-radius: 0 8px 8px 0;
+  width: 94%;
+  box-sizing: border-box;
+  font-size: 0.88em;
+  line-height: 1.35;
+}
+
+
+.reveal .diskussion p {
+  margin: 0.2em 0;
+}
+
+.reveal .diskussion strong:first-child {
+  color: #1a5276;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  font-size: 0.78em;
+}
+
+
+
 .reveal .columns img {
   max-height: 320px;
   width: auto;

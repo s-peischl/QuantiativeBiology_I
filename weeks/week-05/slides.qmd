@@ -20,7 +20,7 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Start](../../index.html) · [Modul 2](../../docs/module-02-overview.html)"
+    footer: "[Start](../../index.html) · [Notebook](notebook.html) · [Modul 2](../../docs/module-02-overview.html)"
 execute:
   echo: false
   warning: false
@@ -63,13 +63,27 @@ hwe_kurven <- function(punkte = NULL, main = "") {
 
 **Woche 5** von 14 · **Do., 15. Okt. 2026, 08:15–10:00**
 
+::::: columns
+::: {.column width="52%"}
 | Teil | Dauer | Was |
 |------|-------|-----|
 | Vorlesung | ~45 min | Farbmorphen → Vererbung → Hardy–Weinberg |
-| Notebook | ~45 min | 225 echte SNPs gegen das Nullmodell halten |
+| Notebook | ~45 min | **Avocado-Genetik** · Blutgruppen · HWE |
+:::
+::: {.column width="38%"}
+![](data/grafik_Avocados.png){.overview-avo fig-alt="Avocado Bluetypen A und B"}
+
+::: {.fig-credit}
+Illustration: Emma Ochsner · nach Groh et al. (2026)
+:::
+:::
+::: {.column width="10%"}
+![](../../pics/fun/boomerang_fu_avocado.png){.bfu-avo fig-alt="Boomerang Fu Avocado Easter Egg"}
+:::
+:::::
 
 ::: aside
-Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
+Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht · Easter Egg: *Boomerang Fu*
 :::
 
 ## Lernziele
@@ -78,36 +92,17 @@ Nach heute können Sie …
 
 1. erklären, warum drei Farbmorphen **einer** Art die Vererbung ins Spiel bringen,
 2. beschreiben, welche genetische Grundlage hinter den Kehlfarben steckt,
-3. Locus, Allel, Genotyp und Allelfrequenz auseinanderhalten,
-4. Hardy–Weinberg als **Erwartung ohne Selektion** lesen und echte Genotypdaten daran halten,
+3. Locus, Allel, Genotyp, Phänotyp und Allelfrequenz auseinanderhalten,
+4. Hardy–Weinberg als **Erwartung ohne Selektion** lesen und echte Genotypdaten damit vergleichen,
 5. eine Rechnung auf eine **ganze Datenspalte** anwenden statt auf eine Schleife.
 
-## Heute in einem Blick
-
-::::: columns
-::: {.column width="22%"}
-![](../../pics/icons/icon_biology.svg){fig-alt="Biologie" width="70%"}
-:::
-::: {.column width="22%"}
-![](../../pics/icons/icon_dna.svg){fig-alt="Genetik" width="70%"}
-:::
-::: {.column width="22%"}
-![](../../pics/icons/icon_math.svg){fig-alt="Modell" width="70%"}
-:::
-::: {.column width="22%"}
-![](../../pics/icons/icon_code.svg){fig-alt="Code" width="70%"}
-:::
-:::::
-
-**Beobachtung** (drei Morphen) → **Genetik** (welche Allele?) → **Nullmodell** (was ohne Selektion zu erwarten wäre) → **Daten** (225 SNPs).
-
-## Heute in dieser Reihenfolge
+## Heute
 
 1. Warum aus Strategien Gene werden müssen
 2. Was hinter den Kehlfarben steckt
-3. Vererbung in drei Begriffen
+3. Vererbung: Locus, Allel, Genotyp, Phänotyp
 4. Hardy–Weinberg: die Erwartung ohne Selektion
-5. Echte Genotypdaten gegen diese Erwartung
+5. Echte Genotypdaten mit dieser Erwartung vergleichen
 
 ::: aside
 [Modul 2](../../docs/module-02-overview.html) · [Glossar](../../docs/glossary.html)
@@ -117,7 +112,7 @@ Nach heute können Sie …
 
 ## Woche 4: drei Strategien
 
-![](../../pics/Emma/Grafik_lizard_RPS.jpg){fig-alt="Seitenfleckeneidechse drei Maennchen-Strategien" width="66%"}
+![](../../pics/Emma/Grafik_lizard_RPS.jpg){.lizard-rps fig-alt="Seitenfleckeneidechse drei Maennchen-Strategien"}
 
 Orange schlägt Blau, Blau schlägt Gelb, Gelb schlägt Orange.  
 Der Erfolg hing davon ab, **wie häufig** die anderen Morphen gerade sind.
@@ -128,15 +123,19 @@ Illustration: Emma Ochsner · Sinervo & Lively (1996)
 
 ## Was wir bisher beschrieben haben
 
-Im Modell waren die Morphen **Anteile** einer Population: drei Zahlen, die sich gegenseitig hoch- und runterschieben.
+Im Modell: Morphen als **Anteile** — Zeitreihe und Simplex wie im Checkpoint.
 
-Das genügt, um den Zyklus zu erzeugen. Es sagt aber nichts darüber, **wie** eine Eidechse orange wird.
+![](figs/checkpoint_rps_traj_simplex.png){.checkpoint-recall fig-alt="Checkpoint Zeitreihe und Simplex"}
+
+Das erzeugt den Zyklus. Es sagt aber nichts darüber, **wie** eine Eidechse orange wird.
 
 ## Der entscheidende Punkt
 
 Die drei Morphen sind **keine drei Arten**. Sie gehören zu *Uta stansburiana*, leben nebeneinander und paaren sich miteinander.
 
-Ein oranges Männchen hat also nicht zwingend orange Söhne. Was weitergegeben wird, sind **Gene** — und die mischen sich bei jeder Paarung neu.
+![](../../pics/comics/comic_uta_mating.svg){.mating-schematic fig-alt="Orange und blau paaren sich, Nachkommen-Morph unklar"}
+
+Ein oranges Männchen hat also nicht zwingend orange Söhne. Weitergegeben werden **Gene** — und die mischen sich bei jeder Paarung neu.
 
 ## Die Frage dieser Woche
 
@@ -148,86 +147,133 @@ Bevor wir sagen können, was Selektion tut (Woche 6), brauchen wir ein Bild davo
 
 ## Die naheliegende Annahme
 
-Drei Farben, also drei Allele an einem Locus — so wurde das System jahrzehntelang beschrieben, und so steht es in vielen Lehrbüchern.
+Drei Farben, also drei Allele an einem Locus — so wurde das System jahrzehntelang beschrieben.
 
-Die Annahme ist sparsam und passt zur Intuition: eine Farbe, ein Allel.
+| Genotyp | Phänotyp | Strategie |
+|---------|----------|-----------|
+| $oo$ | [Orange]{.morph-o} | aggressiv, grosses Revier |
+| $bb$ | [Blau]{.morph-b} | bewacht kleines Revier |
+| $yy$ | [Gelb]{.morph-y} | Schleicher, kein Revier |
+
+Intuition: eine Farbe, ein Allel. Sparsam — aber stimmt das?
 
 ## Was die Genome zeigen
 
-Corl et al. (2026) haben Genome vieler Männchen sequenziert und gefragt, welche Regionen mit der Kehlfarbe zusammenhängen.
+Corl et al. (2026): Genome vieler Männchen, Frage nach der Region hinter der Kehlfarbe.
 
-Gefunden wurde **eine** Region: die Regulatorregion von *SPR* (Sepiapterin-Reduktase), ein Enzym im Stoffwechsel gelber und roter Pigmente.
+![](../../pics/papers/corl2026_fig1.png){.corl-fig fig-alt="Corl et al. 2026 Figure 1 Morphen und SPR-Region"}
+
+::: aside
+Corl et al. (2026) *Science* · Fig. 1
+:::
 
 ## Zwei Haplotypen statt drei Allele
 
-Dort liegen **zwei** stark verschiedene Haplotypen — Varianten, die als Block vererbt werden.
+Gefunden: **eine** Region — Regulatorregion von *SPR* — mit **zwei** Haplotypen ($O$, $B$).
 
-| Träger | Kehlfarbe |
-|--------|-----------|
-| ein Haplotyp | orange |
-| der andere | blau |
+| Genotyp | typischer Phänotyp |
+|---------|-------------------|
+| $OO$ | [Orange]{.morph-o} |
+| $OB$ oder $BB$ | [Blau]{.morph-b} · manchmal [Gelb]{.morph-y} |
 
-Für eine dritte, gelbe Variante ist in den Daten kein Platz.
+Die Daten liefern keine eigene Variante für Gelb.
 
 ## Woher kommt dann Gelb?
 
-Gelbe Männchen tragen überwiegend **denselben** genetischen Hintergrund wie blaue. Die gelbe Kehle entsteht nicht aus einem eigenen Allel, sondern aus der Entwicklung: derselbe Genotyp, ein anderer Phänotyp.
+Gelbe Männchen tragen überwiegend **denselben** genetischen Hintergrund wie blaue.
 
-Dafür gibt es einen Begriff: **Plastizität**.
+![](../../pics/comics/comic_geno_pheno_uta.svg){fig-alt="Genotyp ungleich Phaenotyp bei Uta" width="92%"}
 
-## Warum dieser Befund zählt
+Derselbe Genotyp, ein anderer Phänotyp — **Plastizität**.
+
+## Takeaway
 
 1. Ein sichtbarer Unterschied ist **nicht automatisch** ein genetischer Unterschied.
 2. Die Zahl der Morphen ist nicht die Zahl der Allele.
-3. In den Modellen von Corl et al. bleibt der Polymorphismus mit «zwei Allele plus Plastizität» eher erhalten als mit drei Allelen.
+3. Mit «zwei Allele plus Plastizität» bleibt der Polymorphismus in den Modellen eher erhalten als mit drei Allelen (Corl et al. 2026) — dazu Woche 6.
 
-Punkt 3 nehmen wir in Woche 6 wieder auf.
+# Teil 3 · Vererbung
 
-## Was das für heute heisst
+## Modell
 
-Wir rechnen ab jetzt mit dem einfachsten Fall, der Vererbung wirklich abbildet:
+- **ein Locus**
+- **zwei Allele** ($A$, $a$ bzw. $O$, $B$)
+- **diploide** Individuen (zwei Kopien pro Individuum)
 
-**ein Locus, zwei Allele, diploide Individuen.**
+| Begriff | Bedeutung | Beispiel *Uta* / allgemein |
+|---------|-----------|----------------------------|
+| **Locus** | Stelle oder Region im Genom | Regulatorregion von *SPR* |
+| **Allel** | eine Variante an dieser Stelle | $O$ oder $B$ · $A$ oder $a$ |
+| **Genotyp** | die **beiden** Kopien eines Individuums | $OO$, $OB$, $BB$ |
+| **Phänotyp** | das **sichtbare** Merkmal | orange / blau / gelb Kehle |
 
-Dieses Gerüst trägt die nächsten drei Wochen — von den Eidechsen über die Sichelzellanämie bis zum Stichling.
-
-# Teil 3 · Vererbung in drei Begriffen
-
-## Locus, Allel, Genotyp
-
-| Begriff | Bedeutung | Beispiel |
-|---------|-----------|----------|
-| **Locus** | eine Stelle oder Region im Genom | die Regulatorregion von *SPR* |
-| **Allel** | eine Variante an dieser Stelle | $A$ oder $B$ |
-| **Genotyp** | die **beiden** Kopien eines Individuums | $AA$, $AB$, $BB$ |
-
-Diploid heisst: jedes Individuum trägt zwei Kopien, eine von jedem Elternteil.
+Genotyp und Phänotyp sind **nicht** dasselbe — Gelb zeigt das.
 
 ## Allelfrequenz zählt Kopien
 
-Die Allelfrequenz $p$ ist der Anteil von $A$ unter **allen** Kopien in der Population — nicht der Anteil der Individuen mit $AA$.
+$p$ = Anteil von $A$ unter **allen** Kopien — nicht der Anteil der Individuen mit $AA$.
 
 $$
 p = \frac{2\,n_{AA} + n_{AB}}{2n}
 $$
 
-Jedes $AA$-Individuum steuert zwei $A$-Kopien bei, jedes $AB$ eine, jedes $BB$ keine. Im Nenner steht $2n$, weil $n$ Individuen zusammen $2n$ Kopien tragen.
+$AA$ steuert zwei $A$-Kopien bei, $AB$ eine, $BB$ keine. Nenner $2n$: $n$ Individuen, $2n$ Kopien.
 
 ## Ein Zahlenbeispiel
 
 100 Individuen: 36 $AA$, 48 $AB$, 16 $BB$.
 
 $$
-p = \frac{2\cdot 36 + 48}{200} = \frac{120}{200} = 0.6
+p = \frac{2\cdot 36 + 48}{200} = 0.6
 $$
 
-60 % der Kopien sind $A$, aber nur 36 % der Individuen sind $AA$. Die beiden Zahlen dürfen nie verwechselt werden.
+![](../../pics/comics/comic_copy_vs_individual.svg){.allele-schematic fig-alt="Allelfrequenz versus Genotypanteil"}
+
+::: {.big-contrast}
+**$p = 0.60$** · Anteil der **Kopien**, die $A$ sind  
+**$f(AA) = 0.36$** · Anteil der **Individuen**, die $AA$ sind  
+
+Diese beiden Zahlen **nie** verwechseln.
+:::
 
 ## Zufällige Paarung
 
-Für heute nehmen wir an: Partner finden sich **unabhängig** von ihrem Genotyp an diesem Locus.
+Für Hardy–Weinberg brauchen wir: Partner finden sich **unabhängig** vom Genotyp an diesem Locus.
 
 Dann ist jede Befruchtung so, als würden zwei Kopien zufällig aus einem grossen Gametenpool gezogen.
+
+::: {.diskussion}
+**Diskussion**
+
+Kann man diese Annahme rechtfertigen — und wann eher nicht?
+:::
+
+## Zufällige Paarung — Antworten
+
+::: {.diskussion}
+**Diskussion**
+
+Kann man diese Annahme rechtfertigen — und wann eher nicht?
+:::
+
+::::: columns
+::: {.column width="48%"}
+**Dafür** (oft plausibel)
+
+- Locus betrifft kein Paarungsverhalten  
+- grosse, durchmischte Population  
+- Partnerwahl nach anderem Merkmal als diesem SNP  
+:::
+::: {.column width="48%"}
+**Dagegen** (Annahme bricht)
+
+- assortative Paarung nach Phänotyp  
+- das Merkmal **selbst** steuert, wer sich trifft  
+- Beispiel Pflanzen: **Blühzeit** / Dichogamie  
+:::
+:::::
+
+Avocado (Notebook): Typ A und Typ B öffnen weibliche und männliche Blüten zu **verschiedenen** Tageszeiten — komplementär. Wer sich kreuzt, hängt am Blühtyp-Locus. Das ist **keine** zufällige Paarung an genau diesem Gen.
 
 # Teil 4 · Hardy–Weinberg
 
@@ -255,6 +301,18 @@ hwe_kurven(main = "Erwartete Genotypfrequenzen")
 
 Heterozygote sind **nie** häufiger als die Hälfte: $2pq$ erreicht bei $p = 0.5$ sein Maximum von $0.5$.
 
+## Fünf Annahmen
+
+| Annahme | Verletzt, wenn … |
+|---------|------------------|
+| zufällige Paarung | Individuen sich bevorzugt mit bestimmten Genotypen paaren (**assortative Paarung**) |
+| keine Selektion | Genotypen unterschiedlich überleben oder sich fortpflanzen |
+| keine Migration | Individuen zwischen verschiedenen Habitaten migrieren |
+| eine Population | Populationsstruktur ignoriert wird |
+| sehr gross | Populationen klein sind und Zufall eine starke Rolle spielt |
+
+Nicht jede Verletzung behandeln wir im Kurs — aber jede macht die Erwartung $p^2$, $2pq$, $q^2$ ungültig.
+
 ## Wozu ein Nullmodell gut ist
 
 Hardy–Weinberg sagt nicht: «hier passiert nichts». Es sagt:
@@ -263,27 +321,38 @@ Hardy–Weinberg sagt nicht: «hier passiert nichts». Es sagt:
 
 Erst mit dieser Referenz ist eine Abweichung überhaupt interessant.
 
-## Fünf Annahmen
+# Teil 5 · Daten, und was wir von ihnen erwarten
 
-| Annahme | Verletzt, wenn … |
-|---------|------------------|
-| zufällige Paarung | Partnerwahl nach Merkmal (Woche 6) |
-| keine Selektion | Genotypen unterschiedlich überleben (Woche 6) |
-| keine Migration | Zuwanderung aus anderem Habitat (Woche 7) |
-| eine Population | zwei Gruppen in einer Probe (Notebook) |
-| sehr gross | Zufall in kleinen Populationen (Woche 9) |
+## HapMap: menschliche Variation
 
-Jede verletzte Annahme ist ein Thema der nächsten Wochen.
+**HapMap** (International HapMap Project, ab ~2002): Katalog der **häufigen** genetischen Variation beim Menschen — SNPs und Allelfrequenzen in mehreren Populationen weltweit.
 
-# Teil 5 · Die Erwartung an Daten halten
+::::: columns
+::: {.column width="42%"}
+Für viele SNPs wurde ausgezählt, wie viele Personen $AA$, $AB$ oder $BB$ tragen — genau die Zählungen für Hardy–Weinberg.
 
-## Woher die Zahlen kommen
+Ein SNP: Stelle mit zwei Nukleotiden in der Population = einfachster Locus mit zwei Allelen.
+:::
+::: {.column width="58%"}
+![](../../pics/popgen/hapmap_pca_9pops.png){.hapmap-fig fig-alt="PCA der neun HapMap-Populationen"}
 
-Das HapMap-Projekt hat für Tausende von SNPs ausgezählt, wie viele Menschen $AA$, $AB$ oder $BB$ tragen.
+::: {.fig-credit}
+PCA der HapMap-Populationen (u. a. **CHB** = Peking). Bouaziz et al. 2012 · CC BY 2.5
+:::
+:::
+:::::
 
-Unser Ausschnitt: **225 SNPs** auf Chromosom 1, je **84 Personen** aus Peking.
+## Unser Ausschnitt: CHB
 
-Ein SNP ist eine Stelle, an der in der Population zwei Nukleotide vorkommen — der einfachste denkbare Locus mit zwei Allelen.
+Wir nehmen einen kleinen Ausschnitt: **225 SNPs** auf Chromosom 1, je **84 Personen** aus Peking (**CHB**).
+
+![](../../pics/popgen/hapmap_hwe_ceu_yri.png){.hapmap-hwe fig-alt="HapMap SNPs und Hardy-Weinberg Kurven CEU und YRI"}
+
+::: {.fig-credit}
+Tausende HapMap-SNPs folgen den HWE-Kurven (hier CEU / YRI). Graham Coop · CC BY 3.0 · [Commons](https://commons.wikimedia.org/wiki/File:Demonstrating_Hardy-Weinberg_proportions_using_10,000_SNPs_from_the_HapMap_CEU_European_and_YRI_African_populations.png)
+:::
+
+Als Nächstes: dieselben Kurven mit **unseren** 225 CHB-SNPs.
 
 ## So sieht die Tabelle aus
 
@@ -295,11 +364,16 @@ head(snps, 4)
 
 Eine Zeile ist ein SNP, die Spalten sind Genotypzählungen. Keine Zeitreihe — eine Tabelle von Beobachtungen.
 
-## 225 SNPs gegen die Erwartung
+## 225 SNPs und die Erwartung
+
+Punkte = beobachtete Genotypanteile · Linien = HWE
 
 ```{r}
-#| fig-height: 4.1
-#| fig-width: 8.6
+#| echo: false
+#| fig-height: 4.2
+#| fig-width: 8.4
+#| fig-align: center
+#| classes: hwe-plot
 snps$n <- snps$AA + snps$AB + snps$BB
 snps$p <- (2 * snps$AA + snps$AB) / (2 * snps$n)
 punkte <- rbind(
@@ -307,7 +381,7 @@ punkte <- rbind(
   data.frame(p = snps$p, f = snps$AB / snps$n, gt = "AB"),
   data.frame(p = snps$p, f = snps$BB / snps$n, gt = "BB")
 )
-hwe_kurven(punkte, main = "225 SNPs (Punkte) und die HWE-Erwartung (Linien)")
+hwe_kurven(punkte, main = "")
 ```
 
 ## Was wir sehen
@@ -316,19 +390,26 @@ Die Punkte streuen um die Kurven, aber sie folgen ihnen.
 
 ```{r}
 #| echo: true
-mean(snps$AB / snps$n)              # beobachtete Heterozygotie
-mean(2 * snps$p * (1 - snps$p))     # vom Nullmodell erwartet
+mean(snps$AB / snps$n)              # beobachtet
+mean(2 * snps$p * (1 - snps$p))     # erwartet unter HWE
 ```
 
-Ein Modell mit einer einzigen Zahl pro SNP trifft 225 reale Beobachtungen im Mittel auf drei Nachkommastellen.
+Die beiden Mittelwerte liegen praktisch übereinander.
+
+## Was `mean` macht
+
+`snps$AB / snps$n` = **Vektor** mit 225 Heterozygoten-Anteilen (einer pro SNP).  
+`mean(...)` = **Mittelwert** über alle SNPs — eine Zahl.
+
+Dasselbe für die HWE-Erwartung $2p(1-p)$ an jedem SNP.
 
 ## Vorsicht mit dem Umkehrschluss
 
-Gute Übereinstimmung heisst **nicht**, dass keine Evolution stattfindet.
+Gute Übereinstimmung heisst **nicht**: keine Evolution.
 
-Hardy–Weinberg stellt sich nach **einer** Generation zufälliger Paarung wieder ein. Selektion verschiebt $p$ zwischen den Generationen — die Genotypen können trotzdem in jeder Generation nahe an der Erwartung liegen.
+HWE stellt sich nach **einer** Generation zufälliger Paarung wieder ein. Selektion verschiebt $p$ zwischen den Generationen — die Genotypen können trotzdem nahe an der Erwartung liegen.
 
-Deshalb sehen wir uns ab Woche 6 die **Veränderung von $p$** an, nicht die Genotypanteile einer Momentaufnahme.
+Ab Woche 6: **Veränderung von $p$**, nicht nur eine Momentaufnahme.
 
 # Neu im Code · Rechnen auf ganzen Spalten
 
@@ -416,7 +497,7 @@ Zeitreihen bleiben Schleifen. Tabellen mit unabhängigen Beobachtungen nicht.
 | Zeile einer Tabelle | ein SNP, eine Beobachtung |
 | Spalte | eine gemessene Grösse über alle SNPs |
 | Rechnung auf der Spalte | dieselbe Frage an jeden Locus |
-| Punkte über einer Kurve | Daten gegen Modellerwartung |
+| Punkte über einer Kurve | Daten im Vergleich zur Modellerwartung |
 
 # Abschluss
 
@@ -433,15 +514,21 @@ Zeitreihen bleiben Schleifen. Tabellen mit unabhängigen Beobachtungen nicht.
 **→ [Notebook Woche 5 öffnen](notebook.html)**
 
 ::::: columns
-::: {.column width="20%"}
-![](../../pics/icons/icon_code.svg){fig-alt="Notebook" width="70%"}
+::: {.column width="28%"}
+![](data/grafik_Avocados.png){.overview-avo fig-alt="Avocado Bluetypen"}
+
+::: {.fig-credit}
+Illustration: Emma Ochsner
 :::
-::: {.column width="80%"}
+:::
+::: {.column width="72%"}
+**Avocado-Genetik** · Blühtypen A/B und Hardy–Weinberg  
+
 **A** Genotypzählungen → relative Häufigkeiten → $p$  
 
-**B** jede Population gegen HWE, dann derselbe Topf  
+**B** Populationen mit HWE vergleichen · Wahlund  
 
-**C** der Punkt unter der Kurve — Wahlund, kurz
+**C** Avocados: Züchtererwartung vs. Daten
 :::
 :::::
 

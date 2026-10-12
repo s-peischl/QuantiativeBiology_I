@@ -5,31 +5,51 @@ subtitle: "Woche 4 · RPS"
 
 **Nicht für Studierende.** Teams bis 4 · Notebook (Quarto / Rmd / `checkpoint.R`)
 
-## Checkliste
+## 1 · Check (keine Frage)
 
 - [ ] Zwei Abbildungen mit **qualitativ verschiedenem** Muster
 - [ ] In beiden bleiben alle drei Strategien sichtbar
 - [ ] $s$ und $w$ (oder Matrix) genannt; $s > 1 > w$
 
-## Fragen an die Gruppe
+Danach: Studierende sollen **ihre** gewählten $s$ und $w$ anschauen und $s+w$ ausrechnen.
 
-**1.** Habt ihr zwei klar verschiedene Langzeitmuster?
+## 2 · Frage: Welche Parameter → welches Muster?
 
-**2.** Für welche Parameter entsteht welches Muster?
+**Was ihr ihnen sagen könnt:** Die Summe $s+w$ erklärt die Muster **grob**:
 
-Hilfestellung: grob $s+w$ — unter 2 eher Punkt (Spirale innen), nahe 2 Oszillation, über 2 Heteroklin (Drift zum Rand).
+| $s+w$ | typisches Muster |
+|-------|------------------|
+| unter 2 | Punkt (Spirale nach innen) |
+| nahe 2 | dauerhafte Oszillation |
+| über 2 | Heteroklin (Drift zum Rand) |
 
 Beispiele: $(1.2,\ 0.5)$ · $(1.35,\ 0.65)$ · $(1.40,\ 0.65)$
 
-**Was heisst weicher / harter Zyklus?**
+![](ta-figs/simplex_muster.png){width=95%}
 
-Im Paar (ein Typ häufig, einer selten): Kann der Seltene einwandern?
+**Paarweise Konkurrenz — Rolle von $s$ und $w$**
 
-- **weich** ($w \ll 1 < s$, eher $s+w < 2$): der seltene Typ wächst **langsam** gegen den häufigen — sanfte Rückkehr zum Inneren (Punkt).
-- **hart** ($w < 1 \ll s$, eher $s+w > 2$): der seltene Typ wächst **schnell** — Dominanz wechselt heftig, Bahn geht zum Rand (Heteroklin).
+Nur zwei Typen. Treffen auf die eigene Strategie kostet $1$ (Baseline). Treffen auf die andere:
 
-**3.** Welches kurze Experiment würde RPS andeuten — ohne lange 3-Typen-Serie?
+- Verlierer zahlt $s$ (also **mehr** als $1$) — Nachteil: $s-1$
+- Gewinner zahlt $w$ (also **weniger** als $1$) — Vorteil: $1-w$
 
-Zielbild: **drei Paar-Kulturen** (1 vs 2, 2 vs 3, 3 vs 1). Jeweils Start z. B. 90 % / 10 %. Nach wenigen Generationen: nimmt der Seltene zu?
+**Ausgewogen: $s+w = 2$.** Dann ist $s-1 = 1-w$: der eine verliert genau so viel, wie der andere gewinnt. Vorteil und Nachteil sind gleich gross → **stabiler Zyklus** (Oszillation).
 
-Wenn ja in **allen drei** Paaren (zyklisch: 1 schlägt 2, 2 schlägt 3, 3 schlägt 1) → Hinweis auf RPS. Geht mit kurzen Läufen; `show_two` im Notebook ist dasselbe Setup.
+**Weicher: $s+w < 2$.** Dann ist $s-1 < 1-w$: der Nachteil des Verlierers ist **kleiner** als der Vorteil des Gewinners. Der seltene Gewinner wächst eher **langsam** / die Anteile beruhigen sich → eher **Punkt**.
+
+**Harter: $s+w > 2$.** Dann ist $s-1 > 1-w$: der Nachteil des Verlierers ist **grösser** als der Vorteil des Gewinners. Der seltene Gewinner wächst **schnell**, Dominanz wechselt heftig → eher **Heteroklin** (Bahn zum Rand).
+
+![](ta-figs/einwandern_weich_hart.png){width=90%}
+
+Kurz: Vergleich $s-1$ mit $1-w$ — das ist genau der Vergleich von $s+w$ mit $2$.
+
+## 3 · Denkanstoss: Reicht ein kurzes Experiment?
+
+Idee: drei Paar-Kulturen (1 vs 2, 2 vs 3, 3 vs 1). Start z. B. 90 % / 10 %. Nimmt der Seltene jeweils zu? (`show_two` im Notebook.)
+
+![](ta-figs/paar_experiment.png){width=90%}
+
+**Frage an die Gruppe:** Würde so ein Experiment reichen, um RPS zu vermuten — auch ohne lange Serie mit allen drei Typen?
+
+Was man erwarten kann: Wenn in **allen drei** Paaren der Seltene wächst (zyklisch: 1 schlägt 2, 2 schlägt 3, 3 schlägt 1), ist das ein Hinweis. Es ist aber nur ein Hinweis — nicht der volle Langzeitverlauf mit drei Typen.

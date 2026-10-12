@@ -1,6 +1,12 @@
 # Week 5 genotype data
 
+## `grafik_Avocados.png`
+
+Kursillustration der Avocado-Blühtypen A/B (Morgen/Nachmittag).  
+**Illustration: Emma Ochsner** · nach Groh et al. (2026). Nicht ohne Genehmigung weiterverbreiten.
+
 ## `hapmap_chb_chr1.csv`
+
 
 Genotype counts (`AA`, `AB`, `BB`) for 225 polymorphic SNPs without
 missing genotypes on chromosome 1 in 84 Han Chinese individuals from

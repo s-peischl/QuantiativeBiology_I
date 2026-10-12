@@ -35,18 +35,18 @@
   <rect x="446" y="216" width="80" height="50" fill="#e3efe6" stroke="#7f8c8d"/>
   <rect x="546" y="216" width="80" height="50" fill="#f6dcdc" stroke="#7f8c8d"/>
 
-  <text x="486" y="187" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">AA = p2</text>
+  <text x="486" y="187" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">AA = p<tspan baseline-shift="super" font-size="10">2</tspan></text>
   <text x="586" y="187" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">Aa = pq</text>
   <text x="486" y="247" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">Aa = pq</text>
-  <text x="586" y="247" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">aa = q2</text>
+  <text x="586" y="247" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">aa = q<tspan baseline-shift="super" font-size="10">2</tspan></text>
 
   <text x="688" y="190" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="26" fill="#7f8c8d">&gt;</text>
 
   <rect x="712" y="70" width="208" height="230" rx="12" fill="#eafaf1" stroke="#27ae60" stroke-width="2"/>
   <text x="816" y="102" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#196f3d">3 &#183; Erwartung</text>
-  <text x="816" y="152" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#333">AA : p2</text>
+  <text x="816" y="152" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#333">AA : p<tspan baseline-shift="super" font-size="11">2</tspan></text>
   <text x="816" y="187" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#333">Aa : 2pq</text>
-  <text x="816" y="222" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#333">aa : q2</text>
+  <text x="816" y="222" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#333">aa : q<tspan baseline-shift="super" font-size="11">2</tspan></text>
   <text x="816" y="266" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#196f3d">beide Aa-Felder zaehlen zusammen</text>
 
   <text x="480" y="345" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5d6d7e">Keine Selektion, keine Zuwanderung, keine Vorliebe bei der Partnerwahl: nur Zufall beim Zusammentreffen</text>

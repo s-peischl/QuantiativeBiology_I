@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="300" viewBox="0 0 960 300">
+  <rect width="960" height="300" fill="#fbfcfd"/>
+  <text x="480" y="32" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="17" font-weight="bold" fill="#1a5276">Paarung: Morph + Morph &#8594; ???</text>
+
+  <!-- Orange -->
+  <rect x="50" y="60" width="190" height="170" rx="14" fill="#fdebd0" stroke="#e67e22" stroke-width="2.5"/>
+  <circle cx="145" cy="120" r="38" fill="#e67e22" stroke="#a04000" stroke-width="2"/>
+  <text x="145" y="128" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="24" font-weight="bold" fill="white">O</text>
+  <text x="145" y="185" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#a04000">orange</text>
+  <text x="145" y="210" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">Elternteil</text>
+
+  <text x="280" y="150" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="40" fill="#7f8c8d">+</text>
+
+  <!-- Blue -->
+  <rect x="320" y="60" width="190" height="170" rx="14" fill="#d6eaf8" stroke="#2980b9" stroke-width="2.5"/>
+  <circle cx="415" cy="120" r="38" fill="#3498db" stroke="#1a5276" stroke-width="2"/>
+  <text x="415" y="128" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="24" font-weight="bold" fill="white">B</text>
+  <text x="415" y="185" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#1a5276">blau</text>
+  <text x="415" y="210" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">Elternteil</text>
+
+  <text x="550" y="150" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="40" fill="#7f8c8d">&#8594;</text>
+
+  <!-- Offspring -->
+  <rect x="590" y="60" width="320" height="170" rx="14" fill="#f8f9f9" stroke="#5d6d7e" stroke-width="2.5" stroke-dasharray="7 5"/>
+  <text x="750" y="115" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="48" font-weight="bold" fill="#5d6d7e">???</text>
+  <text x="750" y="160" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#2c3e50">Nachkommen-Morph</text>
+  <text x="750" y="188" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">orange? blau? gelb?</text>
+  <text x="750" y="212" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#c0392b">nicht zwingend wie die Eltern</text>
+
+  <text x="480" y="275" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5d6d7e">Weitergegeben werden Gene &#8212; der sichtbare Morph entsteht erst daraus</text>
+</svg>

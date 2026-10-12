@@ -16,6 +16,7 @@ Privates Kursfoto (nicht von Commons):
 | `high-altitude/P1040210.jpg` | Privates Kursfoto (Cotopaxi). Stephan Peischl. Nicht ohne Genehmigung weiterverbreiten. |
 | `umfrage/qr-fragebogen.png` | QR-Code zum Studierenden-Fragebogen (Woche 1). |
 | `Emma/Grafik_lizard_RPS.jpg` | Kursillustration (*Uta* RPS). Emma Ochsner. Nicht ohne Genehmigung weiterverbreiten. |
+| `fun/boomerang_fu_avocado.png` | Easter Egg (*Boomerang Fu* Avocado). Offizielles Charakterbild von [boomerangfu.com](http://www.boomerangfu.com/). Cranky Watermelon · nur Kurs-/Scherzverwendung. |
 
 ## Bajau (`pics/bajau/`)
 
@@ -136,6 +137,7 @@ Savanne vs. geschlossener Wald (Woche 3, Staver): siehe `ecosystems/CREDITS.md`.
 
 | Lokale Datei | Paper | Hinweis |
 |---|---|---|
+| `corl2026_fig1.png` | Corl et al. 2026 *Science* Fig. 1 | Author PDF ([Nielsen lab](https://nielsen-lab.github.io/pdfs/papers/rps.pdf)); Kursnutzung · DOI [10.1126/science.adw8265](https://doi.org/10.1126/science.adw8265) |
 | `huerta2014_fig1_fst.jpg` | Huerta-Sánchez et al. 2014 *Nature* | Author manuscript via [PMC4134395](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4134395/) |
 | `huerta2014_fig2_haplotypes.jpg` | dieselbe | Haplotyp-Muster Tibet vs Han |
 | `huerta2014_fig3_network.jpg` | dieselbe | Haplotyp-Netzwerk inkl. Denisova |
