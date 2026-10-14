@@ -511,7 +511,7 @@ Zeitreihen bleiben Schleifen. Tabellen mit unabhängigen Beobachtungen nicht.
 
 ## Notebook (~45 min)
 
-**→ [Notebook Woche 5 öffnen](notebook.html)**
+**→ [Notebook Woche 5 öffnen](notebook.html)** · [Rmd](notebook.Rmd) · [R](notebook.R)
 
 ::::: columns
 ::: {.column width="28%"}
@@ -553,7 +553,7 @@ Illustration: Emma Ochsner
 
 | | |
 |---|---|
-| Notebook | [Notebook Woche 5](notebook.html) |
+| Notebook | [Quarto](notebook.html) · [Rmd](notebook.Rmd) · [R](notebook.R) |
 | Zurück | [← Woche 4](../week-04/slides.html) |
 | Weiter | [Woche 6 →](../week-06/slides.html) |
 | Modul | [Modul 2](../../docs/module-02-overview.html) |

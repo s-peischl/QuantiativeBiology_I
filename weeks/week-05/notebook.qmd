@@ -23,6 +23,16 @@ execute:
 - Hardy–Weinberg rechnen und vergleichen — wie in der Vorlesung.
 - Die Annahmen von Hardy-Weinberg verstehen und ein Beispiel nennen, wo sie jeweils erfüllt oder nicht erfüllt werden
 
+::: {.callout-note}
+## Drei Formate (gleiche Aufgabe)
+
+| Format | Datei | Für wen |
+|--------|-------|---------|
+| Quarto | diese Seite / `notebook.qmd` | Standard |
+| R Markdown | [`notebook.Rmd`](notebook.Rmd) | Knit in RStudio, ohne Quarto |
+| nur R | [`notebook.R`](notebook.R) | Source in RStudio; Blutgruppen + **Avocado** |
+:::
+
 ## Die Grössen
 
 Zwei Allele $A$ und $B$. Zählungen `AA`, `AB`, `BB`.

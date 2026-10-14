@@ -1,0 +1,221 @@
+---
+title: "Woche 5 — Notebook (R Markdown)"
+subtitle: "Allel und Genotyp"
+author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    theme: flatly
+---
+
+# Ziel
+
+- Hardy–Weinberg rechnen und vergleichen — wie in der Vorlesung.
+- Die Annahmen von Hardy–Weinberg verstehen und ein Beispiel nennen, wo sie jeweils erfüllt oder nicht erfüllt werden.
+
+Falls Quarto Probleme macht: dieses `.Rmd` in RStudio öffnen und **Knit** drücken. Noch einfacher: die reine R-Datei [`notebook.R`](notebook.R) (Source).
+
+## Die Grössen
+
+Zwei Allele $A$ und $B$. Zählungen `AA`, `AB`, `BB`.
+
+- **Relative Häufigkeit** eines Genotyps: Zählung geteilt durch $n$.
+- **Allelfrequenz** $p = (2\,n_{AA} + n_{AB}) / (2n)$.
+- **HWE-Erwartung:** $p^2 + 2pq + q^2 = 1$.
+
+---
+
+# Teil A — theoretische Grundlagen
+
+## A1) Genotypzählungen
+
+Eine Population mit 100 Individuen.
+
+```{r pop_definition}
+pop <- data.frame(AA = 16, AB = 48, BB = 36)
+```
+
+> **F1.** Rechnen Sie die **relativen** Genotypfrequenzen von Hand nach (`AA / n`, …).
+
+---
+
+## A2) Hardy–Weinberg
+
+```{r HW_definition}
+# Funktion für die Berechnung der erwarteten Genotypfrequenzen
+zusammenfassen <- function(d) {
+  # d ist ein Platzhalter für die Daten, die wir später in die Funktion einsetzen
+  n <- d$AA + d$AB + d$BB # Populationsgrösse
+  p <- (2 * d$AA + d$AB) / (2 * n) # Frequenz von Allel A
+
+  data.frame(
+    n = n,
+    p = p,
+    f_AA = d$AA / n,
+    f_AB = d$AB / n,
+    f_BB = d$BB / n,
+    hwe_AA = p^2,
+    hwe_AB = 2 * p * (1 - p),
+    hwe_BB = (1 - p)^2
+  )
+}
+
+zusammenfassen(pop)
+```
+
+> **F2.**
+>
+> 1. Stimmen die beobachteten und erwarteten Genotypfrequenzen überein?
+> 2. Warum steht im Nenner von $p$ die $2n$?
+> 3. Was sind unsere Annahmen für diese Berechnung? (Schauen Sie in der Vorlesung nach)
+
+---
+
+# Teil B — Blutgruppen
+
+Als erstes Beispiel schauen wir uns die Vererbung von Blutgruppen in Menschen an. Dafür brauchen wir einen Ausschnitt aus den Daten von Mourant et al. (1976) via dem Package `HardyWeinberg`. Die Daten enthalten die Genotypfrequenzen MM, MN und NN aus dem MNS-Antigensystem.
+
+```{r load_CH}
+bloodgroups_world <- read.csv("data/bloodgroups_Mourant1976_world.csv")
+bloodgroups_world
+```
+
+```{r HW_definition_MN}
+zusammenfassen_MN <- function(d) {
+  n <- d$MM + d$MN + d$NN
+  p <- (2 * d$MM + d$MN) / (2 * n)
+
+  data.frame(
+    Country = d$Country,
+    n = n,
+    p = p,
+    f_MM = d$MM / n,
+    f_MN = d$MN / n,
+    f_NN = d$NN / n,
+    hwe_MM = p^2,
+    hwe_MN = 2 * p * (1 - p),
+    hwe_NN = (1 - p)^2
+  )
+}
+```
+
+## B1) HW-Erwartungen Schweiz
+
+Zuerst berechnen wir die Hardy–Weinberg-Erwartungen nur für die Schweiz. Mit `bloodgroups_world[bloodgroups_world$Country == "Switzerland",]` wählen wir alle Zeilen, die in der Spalte `Country` den Wert `Switzerland` haben.
+
+```{r HW_CH}
+HW_CH <- zusammenfassen_MN(
+  bloodgroups_world[bloodgroups_world$Country == "Switzerland", ]
+)
+HW_CH
+```
+
+> **F3.** Stimmen die beobachteten und erwarteten Genotypfrequenzen überein?
+
+## B2) HW-Erwartungen Welt
+
+Nun berechnen wir die Hardy–Weinberg-Erwartungen für alle Länder. Anhand von Vektormanipulation (`bloodgroups_world$...`) können wir das gleichzeitig für alle Zeilen rechnen.
+
+```{r load_world}
+HW_world <- zusammenfassen_MN(bloodgroups_world)
+HW_world
+```
+
+Damit wir alle Länder vergleichen können, plotten wir die beobachteten Frequenzen relativ zur erwarteten Hardy–Weinberg-Frequenz für Heterozygote (MN).
+
+```{r plot_HW}
+p_grid <- seq(0, 1, length.out = 201)
+plot(
+  x = p_grid,
+  y = 2 * p_grid * (1 - p_grid),
+  type = "l", lwd = 2.5,
+  col = "#1b9e77", ylim = c(0, 0.8),
+  xlab = "p", ylab = "Heterozygotenanteil",
+  main = "HWE-Kurve weltweite Beobachtungen"
+)
+points(
+  x = HW_world$p,
+  y = HW_world$f_MN,
+  pch = 16, cex = 1.6,
+  col = "#2166ac"
+)
+points(
+  x = HW_CH$p,
+  y = HW_CH$f_MN,
+  pch = 16, cex = 1.6,
+  col = "#8500ac"
+)
+legend(
+  "topright", c("HWE", "Weltweit", "Schweiz"),
+  col = c("#1b9e77", "#2166ac", "#8500ac"),
+  lwd = c(2.5, NA, NA), pch = c(NA, 16, 16), bty = "n"
+)
+```
+
+> **F4.**
+>
+> 1. Was beobachten Sie? Wie verhält sich der beobachtete Heterozygotenanteil gegenüber den Hardy–Weinberg-Erwartungen?
+> 2. Was bedeutet das für die Hardy–Weinberg-Annahmen in diesem Fall? Werden sie erfüllt?
+
+---
+
+# Teil C — Avocados
+
+Als zweites Beispiel untersuchen wir die Vererbung von verschiedenen Blühtypen in Avocados. Dieses Beispiel ist an die Studie von Groh et al. (2026) angelehnt.
+
+Avocados (*Persea americana*) blühen in Blütenständen, wobei einzelne Blüten entweder männlich oder weiblich sind. In «Typ A»-Bäumen öffnen sich zuerst die weiblichen Blüten und später am Nachmittag die männlichen Blüten, während sich die weiblichen Blüten wieder schliessen; bei den «Typ B»-Bäumen ist es genau umgekehrt. So haben beide Typen einen komplementären Zyklus von alternierenden Blütengeschlechtern.
+
+Dieser Zyklus wird durch die Allele A1 und A2 innerhalb eines sogenannten «synchronized dichogamy»-Locus geregelt. «Typ A»-Bäume haben den Genotyp A1/A1 oder A1/A2 und «Typ B»-Bäume den Genotyp A2/A2.
+
+![Die Blühtypen von *Persea americana*. Illustration: Emma Ochsner · nach Groh et al. (2026).](data/grafik_Avocados.png)
+
+```{r avocado_definition}
+avocados <- data.frame(A1A1 = 5, A1A2 = 33, A2A2 = 62)
+
+zusammenfassen_avo <- function(d) {
+  n <- d$A1A1 + d$A1A2 + d$A2A2
+  p <- (2 * d$A1A1 + d$A1A2) / (2 * n)
+  data.frame(
+    n = n,
+    p = p,
+    f_A1A1 = d$A1A1 / n,
+    f_A1A2 = d$A1A2 / n,
+    f_A2A2 = d$A2A2 / n,
+    hwe_A1A1 = p^2,
+    hwe_A1A2 = 2 * p * (1 - p),
+    hwe_A2A2 = (1 - p)^2
+  )
+}
+
+HW_avocados <- zusammenfassen_avo(avocados)
+HW_avocados
+```
+
+> **F5.**
+>
+> 1. Stimmen die beobachteten und erwarteten Genotypfrequenzen überein?
+> 2. Was ist die erwartete Verteilung von Typ-A- und Typ-B-Bäumen?
+
+Die erfahrenen Avocadozüchter\*innen erwarteten die folgenden Genotypfrequenzen für die geernteten Früchte:
+
+| A1A1 | A1A2 | A2A2 |
+|------|------|------|
+| 0 | 0.525 | 0.475 |
+
+> **F6.**
+>
+> 1. Was ist der Unterschied zwischen Ihren Erwartungen und denen der Avocadozüchter\*innen?
+> 2. Welche Hardy–Weinberg-Annahmen werden in diesem Beispiel erfüllt, welche eventuell nicht? Wieso?
+
+# Zusammenfassung
+
+Das Hardy–Weinberg-Modell trifft mehrere Annahmen, um erwartete Genotypfrequenzen zu berechnen. Wenn gemessene Frequenzen nicht zu den erwarteten passen, ist das ein Hinweis, dass nicht alle Annahmen erfüllt werden.
+
+---
+
+# Referenzen
+
+Mourant, A. E., Kopec, A., and Domaniewska-Sobczak, K. (1976). *The Distribution of the Human Blood Groups and other Polymorphisms.* British Medical Journal. Jun 12;1(6023):1472. PMCID: PMC1640394.
+
+Groh, J. S., Soares dos Santos, M. F., Avila de Dios, E., Ackerman, G., Solares, E., Iturrieta, R. A., ... & Coop, G. (2026). *Balanced polymorphism in a floral transcription factor underlies the ancient rhythm of daily sex alternation in avocado.* Proceedings of the National Academy of Sciences, 123(31), e2606876123.
