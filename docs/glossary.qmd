@@ -185,6 +185,18 @@ Derselbe Genotyp bringt je nach Bedingungen verschiedene Phänotypen hervor. Ein
 **Haplotyp**  
 Eine Kombination von Varianten, die gemeinsam auf einem Chromosomenabschnitt vererbt wird.
 
+**Selektion (Viabilität)**  
+Unterschiedliches Überleben nach Genotyp zwischen Geburt und Fortpflanzung. Signatur: Erwachsene weichen von der Hardy–Weinberg-Erwartung ab, Neugeborene oft nicht (Woche 6).
+
+**Absolute Fitness $W_g$**  
+Wie gut sich ein Genotyp absolut vermehrt: Nachkommen pro Elternteil, bzw. Überlebensrate × mittlere Fruchtbarkeit über eine Generation. Biologische Grösse — nicht der Quotient beobachtet/erwartet (Woche 6).
+
+**Relative Fitness $w_g$**  
+$w_g = W_g / W_{\mathrm{ref}}$, im Kurs meist $W_{\mathrm{ref}} = \max W$ (bester Genotyp = 1). Für $p'$ zählen nur **Verhältnisse**. Aus Querschnittsdaten oft geschätzt über beobachtet/erwartet, dann normiert (Woche 6).
+
+**Beobachtet / erwartet (O/E)**  
+Vergleich von Genotypzählungen mit der Hardy–Weinberg-Erwartung. Misst Abweichung vom Zufallsbild; unter Annahmen proportional zur relativen Viabilität — **nicht** absolute Fitness (Woche 6).
+
 **Überdominanz**  
 Heterozygote am fittesten. Unter **konstanter** Viabilitätsselektion in **einer** Population: geschützter Polymorphismus. Lehrbeispiel Sichelzelle / Malaria. Erklärt nicht frequenzabhängige Spiele (*Uta*) und nicht räumliche Selektion.
 

@@ -19,7 +19,7 @@ project:
     - docs/for-collaborators.qmd
     - docs/ai-policy.qmd
     # Live hub: published weeks only. Add paths here when releasing.
-    # Week 1: slides only. Week 6: slides only (no student notebook on hub yet).
+    # Week 1: slides only.
     - weeks/week-01/slides.qmd
     - weeks/week-01/glossary.qmd
     - weeks/week-02/*.qmd
@@ -29,6 +29,7 @@ project:
     - weeks/week-05/slides.qmd
     - weeks/week-05/notebook.qmd
     - weeks/week-06/slides.qmd
+    - weeks/week-06/notebook.qmd
 
 lang: de
 
@@ -66,6 +67,8 @@ website:
             text: "Woche 4"
           - href: weeks/week-05/notebook.qmd
             text: "Woche 5"
+          - href: weeks/week-06/notebook.qmd
+            text: "Woche 6"
 
 # Do NOT set project-level format: html here.
 # That overrides slide decks. HTML pages declare format in their own YAML;

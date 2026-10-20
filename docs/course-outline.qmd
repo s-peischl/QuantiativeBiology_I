@@ -172,15 +172,15 @@ und Genotypen. Einstieg aus Woche 4 (*Uta*: dieselbe Art → Vererbung). Ableite
 - Locus, Allel, Genotyp; Hardy–Weinberg als Nullbild ohne Selektion, geprüft an echten HapMap-Genotypzählungen
 - **Neu im Code:** Datentabellen und vektorisiertes Rechnen über alle Zeilen
 
-### Woche 6 — Wann Selektion Vielfalt erhält
+### Woche 6 — Selektion
 **Wann:** Do., 22. Okt. 2026, 08:15–10:00 Uhr  
 **Materialien:** [Folien](../weeks/week-06/slides.qmd) · [Notebook](../weeks/week-06/notebook.qmd)
 
 - **Sitzung:** ~45 min Vorlesung + ~45 min Notebook
-- Sichelzellanämie und Malaria als gemessener Heterozygotenvorteil; daraus der Fitnessvektor
-- Gerichtete Selektion, Unterdominanz, Überdominanz; geschützter Polymorphismus nur im dritten Fall
-- Häufigkeitsabhängige Fitness als eigener Mechanismus — die Voraussetzung der klassischen Aussage ist bei den Eidechsen verletzt
-- **Neu im Code:** Default-Argumente und `sapply()` für Parameter-Sweeps
+- Sichelzelle: Abweichung von HWE als Spur von Selektion; Fitness und Rekursion für $p$
+- Gerichtete Selektion, Unterdominanz, Überdominanz; Abgleich Überdominanz mit Sichelzell-Daten
+- Wrap-up Kehlfarben (häufigkeitsabhängige Fitness + Plastizität $\theta$)
+- **Notebook:** drei Teile — konstante Fitness ($w_{Aa}$); RPS mit 3 Allelen; Plastizität $\theta$
 
 ### Woche 7 — Anpassung im Raum
 **Wann:** Do., 29. Okt. 2026, 08:15–10:00 Uhr  

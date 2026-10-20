@@ -1,0 +1,244 @@
+---
+title: "Woche 6 — Notebook (R Markdown)"
+subtitle: "Überleben und Fitness"
+author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    theme: flatly
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE,
+                      fig.height = 3.6)
+library(ggplot2)
+theme_set(theme_minimal(base_size = 13))
+cols_morph <- c(orange = "#e67e22", blau = "#2980b9", gelb = "#c9a227")
+```
+
+Selektion kann genetische Vielfalt erhalten oder beseitigen. Wir beginnen mit konstanter relativer Fitness und kehren danach zu den Kehlfarben zurück — zuerst ohne, dann mit genetischer Grundlage, schliesslich mit Plastizität.
+
+Keine Abgabe. Ändern Sie nur die markierten Parameter; die Startwerte bleiben gleich.
+
+Falls Quarto fehlt: **Knit** hier, oder [`notebook.R`](notebook.R) sourcen.
+
+---
+
+# 1 · Was macht die Heterozygote?
+
+Zwei Allele $A$ und $a$ haben die relativen Fitnesswerte $(w_{AA},\, w_{Aa},\, w_{aa})$. Die Fitness der Homozygoten ist fest und nahezu symmetrisch. Die Fitness der Heterozygoten wählen Sie frei. Je nach dieser Wahl kann die Allelfrequenz $p$ an den Rand wandern oder im Inneren bleiben.
+
+```{r konstant-fitness}
+# Eine Generation: Allelfrequenz p nach Selektion mit Fitness w = (w_AA, w_Aa, w_aa)
+selektionsschritt <- function(p, w) {
+  q <- 1 - p
+  wbar <- p^2 * w[1] + 2 * p * q * w[2] + q^2 * w[3]  # mittlere Fitness
+  (p^2 * w[1] + p * q * w[2]) / wbar                     # Beitrag von A
+}
+
+# Bahn von p über mehrere Generationen
+simuliere_w <- function(p0, w, gen = 200) {
+  p <- numeric(gen + 1)
+  p[1] <- p0
+  for (t in seq_len(gen)) p[t + 1] <- selektionsschritt(p[t], w)
+  p
+}
+
+# Homozygote fest; Heterozygote frei waehlen
+w_AA <- 1.0
+w_aa <- 0.9
+w_Aa <- 1.1   # <- aendern (z.B. 0.5, 0.95, 1.1)
+
+w <- c(w_AA, w_Aa, w_aa)
+starts <- c(0.05, 0.2, 0.5, 0.8, 0.95)   # Startwerte gleich lassen
+
+df1 <- do.call(rbind, lapply(starts, function(p0) {
+  data.frame(t = 0:200, p = simuliere_w(p0, w), start = factor(p0))
+}))
+
+ggplot(df1, aes(t, p, colour = start, group = start)) +
+  geom_hline(yintercept = c(0, 1), colour = "grey85", linewidth = 0.4) +
+  geom_line(linewidth = 0.9) +
+  coord_cartesian(ylim = c(0, 1)) +
+  labs(x = "Generation", y = "Allelfrequenz p",
+       title = sprintf("Relative Fitness w = (%.2f, %.2f, %.2f)", w[1], w[2], w[3]),
+       colour = expression(p[0]))
+```
+
+::: {.callout-tip}
+## F1
+
+1. Belassen Sie die Homozygoten bei $1$ und $0{,}9$ und ändern Sie nur $w_{Aa}$.
+2. Unter welchen Bedingungen bleibt Vielfalt erhalten? Wann wandert $p$ an den Rand?
+:::
+
+---
+
+# 2 · Von Strategien zur Vererbung
+
+In Woche 4 waren Orange, Blau und Gelb reine Strategien: ihr Erfolg hing allein von den Häufigkeiten ab. Dieselbe Auszahlungsmatrix $A$ verwenden wir hier erneut.
+
+Nun führen wir drei Allele $o$, $b$ und $y$ ein. Zyklische Dominanz ordnet jedem Genotyp genau eine Morphe zu und vermeidet Zwischenformen:
+
+- $O$ dominant über $B$: Genotypen $OO$ und $OB$ sind orange,
+- $B$ dominant über $Y$: $BB$ und $BY$ sind blau,
+- $Y$ dominant über $O$: $YY$ und $YO$ sind gelb.
+
+Wählen Sie $s$ und $w$ mit $s > 1 > w$. Links stehen reine Strategien, rechts das genetische Modell bei gleichen Startanteilen.
+
+```{r rps-vergleich, fig.width=9, fig.height=3.8}
+# RPS-Auszahlungsmatrix (Kosten): s > 1 stark, w < 1 schwach
+make_rps_A <- function(s, w) {
+  matrix(c(1, w, s, s, 1, w, w, s, 1), 3, byrow = TRUE)
+}
+
+# Reine Strategien (wie Woche 4): Anteile f, Fitness aus A, Normalisieren
+simuliere_strategie <- function(f0, s, w, gen = 400, C = 2) {
+  F <- matrix(NA_real_, gen + 1, 3)
+  F[1, ] <- f0 / sum(f0)
+  for (t in seq_len(gen)) {
+    W <- C - as.vector(make_rps_A(s, w) %*% F[t, ])
+    f1 <- F[t, ] * W
+    F[t + 1, ] <- f1 / sum(f1)
+  }
+  F
+}
+
+# Allelfrequenzen p = (o, b, y) → Morphanteile unter zyklischer Dominanz
+morphen_3allel <- function(p) {
+  o <- p[1]; b <- p[2]; y <- p[3]
+  c(o^2 + 2 * o * b,   # orange: OO, OB
+    b^2 + 2 * b * y,   # blau:   BB, BY
+    y^2 + 2 * y * o)   # gelb:   YY, YO
+}
+
+# Drei Allele: HWE → Morphen → Fitness → Genotypselektion → neue Allelfrequenzen
+simuliere_3allel <- function(p0, s, w, gen = 400, C = 2) {
+  P <- matrix(NA_real_, gen + 1, 3)
+  P[1, ] <- p0 / sum(p0)
+  for (t in seq_len(gen)) {
+    o <- P[t, 1]; b <- P[t, 2]; y <- P[t, 3]
+    f <- morphen_3allel(P[t, ])
+    Wm <- C - as.vector(make_rps_A(s, w) %*% f)
+    g <- c(o^2, 2 * o * b, 2 * o * y, b^2, 2 * b * y, y^2)
+    Wg <- c(Wm[1], Wm[1], Wm[3], Wm[2], Wm[2], Wm[3])
+    g1 <- g * Wg / sum(g * Wg)
+    P[t + 1, ] <- c(
+      g1[1] + 0.5 * g1[2] + 0.5 * g1[3],
+      g1[4] + 0.5 * g1[2] + 0.5 * g1[5],
+      g1[6] + 0.5 * g1[3] + 0.5 * g1[5]
+    )
+  }
+  P
+}
+
+bahn_lang <- function(M, modell) {
+  nm <- c("orange", "blau", "gelb")
+  do.call(rbind, lapply(seq_along(nm), function(j) {
+    data.frame(
+      t = 0:(nrow(M) - 1),
+      anteil = M[, j],
+      morph = factor(nm[j], levels = nm),
+      modell = modell
+    )
+  }))
+}
+
+plot_morphen <- function(df, title) {
+  ggplot(df, aes(t, anteil, colour = morph)) +
+    geom_line(linewidth = 0.95) +
+    facet_wrap(~ modell) +
+    scale_colour_manual(values = cols_morph) +
+    coord_cartesian(ylim = c(0, 1)) +
+    labs(x = "Generation", y = "Anteil", colour = NULL, title = title) +
+    theme(legend.position = "bottom")
+}
+
+s <- 1.5   # <- aendern
+w <- 0.3   # <- aendern
+f0 <- c(0.4, 0.35, 0.25)
+
+F_s <- simuliere_strategie(f0, s, w)
+M_g <- t(apply(simuliere_3allel(f0, s, w), 1, morphen_3allel))
+
+df2 <- rbind(
+  bahn_lang(F_s, "reine Strategien"),
+  bahn_lang(M_g, "drei Allele mit Dominanz")
+)
+df2$modell <- factor(df2$modell,
+                     levels = c("reine Strategien", "drei Allele mit Dominanz"))
+
+plot_morphen(df2, sprintf("Auszahlungsparameter s = %s, w = %s", s, w))
+```
+
+::: {.callout-tip}
+## F2
+
+1. Was bleibt gleich zwischen den beiden Panels, was ändert sich?
+2. Probieren Sie mindestens ein zweites Paar $(s, w)$.
+:::
+
+---
+
+# 3 · Plastizität statt eines dritten Allels
+
+Corl et al. (2026) beschreiben ein System mit nur zwei Haplotypen, $O$ und $B$. Die gelbe Morphe entsteht plastisch: ein Anteil $\theta$ der Individuen mit Hintergrund $BB$ entwickelt die gelbe statt der blauen Kehlfarbe.
+
+Wir behalten die Auszahlungsparameter aus dem vorherigen Abschnitt und wählen $\theta$ so, dass Blau und Gelb unterscheidbare Anteile haben.
+
+```{r plastizitaet, fig.width=9, fig.height=3.8}
+# Haplotypfrequenz p (Anteil O): Morphanteile mit Plastizitaet theta
+farben_theta <- function(p, theta) {
+  q <- 1 - p
+  c(p^2 + 2 * p * q,       # orange: alles mit mindestens einem O
+    (1 - theta) * q^2,     # blau: Anteil (1 - theta) der BB
+    theta * q^2)           # gelb: Anteil theta der BB
+}
+
+# Eine Frequenz p; Fitness von B ist der Mittelwert aus blau und gelb
+simuliere_theta <- function(p0, theta, s, w, gen = 400, C = 2) {
+  p <- numeric(gen + 1)
+  p[1] <- p0
+  for (t in seq_len(gen)) {
+    f <- farben_theta(p[t], theta)
+    W <- C - as.vector(make_rps_A(s, w) %*% f)
+    wO <- W[1]
+    wB <- (1 - theta) * W[2] + theta * W[3]
+    q <- 1 - p[t]
+    p[t + 1] <- p[t] * wO / ((p[t]^2 + 2 * p[t] * q) * wO + q^2 * wB)
+  }
+  p
+}
+
+theta <- 0.48   # <- aendern
+s3 <- 1.5
+w3 <- 0.3
+
+traj <- function(th, label) {
+  p <- simuliere_theta(0.5, th, s3, w3)
+  M <- t(sapply(p, function(pi) farben_theta(pi, th)))
+  bahn_lang(M, label)
+}
+
+df3 <- rbind(
+  traj(theta, sprintf("theta = %s", theta)),
+  traj(0, "theta = 0")
+)
+df3$modell <- factor(df3$modell,
+                     levels = c(sprintf("theta = %s", theta), "theta = 0"))
+
+plot_morphen(
+  df3,
+  sprintf("Zwei Haplotypen und Plastizitaet (s = %s, w = %s)", s3, w3)
+)
+```
+
+::: {.callout-tip}
+## F3
+
+1. Vergleichen Sie die Zeitreihen mit Abschnitt 2.
+2. Was ändert sich bei $\theta = 0$, wenn die gelbe Morphe fehlt?
+:::
+
+> Corl et al. (2026) zeigen in Simulationen, dass Stein-Schere-Papier mit zwei Allelen und Plastizität den Polymorphismus oft besser erhält als ein klassisches Drei-Allele-System.
