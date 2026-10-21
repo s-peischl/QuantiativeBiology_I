@@ -20,161 +20,275 @@ execute:
 
 # Ziel
 
-$F_{ST}$ aus Heterozygotie **zwischen** und **innerhalb**.
-Dann das Migrations–Selektions-Modell lösen und $F_{ST}$ aus der
-ganzen Trajektorie **vektorwertig** rechnen — nicht in einer
-zweiten Schleife. Zum Schluss: wie $m/s$ die Differenzierung ändert.
-
-Alles **base R**.
+- verstehen, wie Selektion und Migration lokale Anpassung beeinflussen
+- nachvollziehen, wie verschiedene Kräfte (Selektion und Migration) ähnliche Anpassungsmuster generieren können
 
 ---
 
-# A · Die Formel
+# 0) Lokale Anpassung in kurz
 
-Zwei gleich grosse Populationen, Frequenzen $p_1$ und $p_2$.
+**Migration** vermischt Populationen, wodurch sie einander **ähnlicher** werden. **Selektion** führt dazu, dass Populationen sich ihrer Umgebung anpassen, wodurch Populationen **unterschiedlicher** werden.
 
-**Gesamt** $\bar p = (p_1+p_2)/2$.
+---
 
-Wenn alle zufällig im Gesamttopf paaren würden:
+# A) Beispiel Insektizidresistenz in Moskitos
+Diese Woche untersuchen wir die Anpassung verschiedener Moskitopopulationen an Insektizide. Dieses Beispiel ist an eine Studie von Lenormand et al. (1999) angelehnt.
 
+Um die Stadt Montpellier wurde in den 90er Jahren Insektizid ausgetragen, woraufhin die lokale Moskitopopulation eine Resistenz dagegen entwickelt hat. Diese Resistenz ist jedoch in Abwesenheit des Insektizids unvorteilhaft und daher in ländlichen Moskitopopulationen nicht vorhanden. Wir untersuchen nun, wie sich die Resistenzfrequenz $p_\mathrm{R}$ in der Stadtpopulation unter verschiedenen Selektions- und Migrationsszenarien verändert. Dafür tracken wir die resistenten $\mathrm{R}$ und die sensiblen Moskitos $\mathrm{S}$ in der Population, jeweils mit Frequenzen $p_\mathrm{R}$ und $p_\mathrm{S}$.
+
+## Gleichungen
+Wir nehmen an, dass in der Stadtpopulation Fitness der resistenten Moskitos $w_\mathrm{R} = 1$ ist und Fitness der sensiblen Moskitos durch den Selektionkoeffizient $s$ reduziert wird; $w_\mathrm{S} = 1-s$.
+
+Die mittlere Fitness $\bar w$ ist demnach:
 $$
-H_T = 2\,\bar p\,(1-\bar p)
-$$
-
-Mittel der Heterozygotie **in** den Populationen (je HWE):
-
-$$
-H_S = \tfrac{1}{2}\bigl(2p_1(1-p_1) + 2p_2(1-p_2)\bigr)
-$$
-
-Der Anteil der Heterozygotie, der **zwischen** den Populationen sitzt:
-
-$$
-F_{ST} = \frac{H_T - H_S}{H_T}.
+\bar w = p_\mathrm{R} w_\mathrm{R} + p_\mathrm{S} w_\mathrm{S}
 $$
 
-$H_T - H_S$ ist der Wahlund-Defizit. $F_{ST}=0$: dieselben $p$.
-$F_{ST}$ nahe 1: die Populationen sind fast fixiert auf
-verschiedene Allele.
+und danach gilt:
 
+$$
+p^s_\mathrm{R} = \frac{p_\mathrm{R} w_{\mathrm{R}}}{\bar w}, \qquad p^s_\mathrm{S} = \frac{p_\mathrm{S} w_{\mathrm{S}}}{\bar w}
+$$
+
+Nach Migration nehmen wir an, dass ein Anteil $m$ der Individuen aus der Population aus der Nachbarpopulation stammt:
+$$
+p^m_\mathrm{R} = (1-m)\,p^s_\mathrm{R} + m\,p^s_\mathrm{S}, \qquad
+p^m_\mathrm{S} = (1-m)\,p^s_\mathrm{S} + m\,p^s_\mathrm{R}
+$$
+
+## Funktionen
 ```{r}
-fst <- function(p1, p2) {
-  p_quer <- (p1 + p2) / 2
-  H_T <- 2 * p_quer * (1 - p_quer)
-  H_S <- (2 * p1 * (1 - p1) + 2 * p2 * (1 - p2)) / 2
-  out <- (H_T - H_S) / H_T
-  out[H_T == 0] <- 0
-  out
+# Selektion; Berechnung der mittleren Fitness
+selektionsschritt <- function(p, # Proportion der gefragten Moskitos
+                              w) # Fitness der verschiedenen Moskitotypen (Vektor mit zwei Einträgen)
+  {
+  
+  q <- 1-p # Proportion der restllichen Moskitos
+  
+  w_quer <- p*w[1] + q*w[2]
+  
+  p_sel <- p*w[1] / w_quer
+  
+  return(p_sel)
 }
 
-fst(0.9, 0.1)
-fst(0.5, 0.5)
+# Simulation eines Generationschritts, Selektion gefolgt von Migration
+eine_generation <- function(pR, # Proportion resistenter Moskitos
+                            s, # Selektionskoeffizient
+                            m) # Migration
+  {
+  
+  pS <- 1-pR # Proportion der sensibeln Moskitos
+  
+  # Selektion
+  pR_sel <- selektionsschritt(pR, c(1, 1-s))
+  pS_sel <- selektionsschritt(pS, c(1-s, 1))
+  
+  # Migration
+  pR_mig <- (1 - m) * pR_sel + m * pS_sel
+  pS_mig <- (1 - m) * pS_sel + m * pR_sel
+  
+  return(c(pR_mig, pS_mig))
+
+}
+
 ```
 
-`fst` arbeitet auf **Vektoren**: zwei Trajektorien hinein, eine
-$F_{ST}$-Zeitreihe hinaus.
+## A1) Eine Generation
+Simulieren Sie eine einzelne Generation. Wir starten mit einer gleichmässign Verteilung von resistenten und sensibeln Moskitos; $p_\mathrm{R} = 0.5$.
 
 ::: {.callout-tip}
 ## F1
 
-1. Warum ist $F_{ST}(0.5, 0.5) = 0$?
-2. Rechnen Sie $H_T$, $H_S$ und $F_{ST}$ für $p_1=1$, $p_2=0$ von Hand.
+Was sind Ihre Erwartungen? Nimmt $p_\mathrm{R}$ ab oder zu?
 :::
 
----
-
-# B · Modell, dann $F_{ST}$ aus der Bahn
-
-Selektion lokal (See: $A$ besser; Meer: $B$ besser), danach Mischung.
-
 ```{r}
-selektionsschritt <- function(p, w) {
-  q <- 1 - p
-  w_quer <- p^2 * w[1] + 2 * p * q * w[2] + q^2 * w[3]
-  (p^2 * w[1] + p * q * w[2]) / w_quer
-}
 
-eine_generation <- function(p1, p2, s, m) {
-  p1_s <- selektionsschritt(p1, c(1 + s, 1 + s / 2, 1))
-  p2_s <- selektionsschritt(p2, c(1, 1 + s / 2, 1 + s))
-  c((1 - m) * p1_s + m * p2_s,
-    (1 - m) * p2_s + m * p1_s)
-}
+eine_generation(pR = 0.5,
+                s = 0.2,
+                m = 0.2)
 
-zwei_demen <- function(s, m, generationen = 250) {
-  p1 <- p2 <- numeric(generationen + 1)
-  p1[1] <- p2[1] <- 0.5
-  for (t in seq_len(generationen)) {
-    nxt <- eine_generation(p1[t], p2[t], s, m)
-    p1[t + 1] <- nxt[1]
-    p2[t + 1] <- nxt[2]
-  }
-  data.frame(generation = 0:generationen, p1 = p1, p2 = p2)
-}
-
-sim <- zwei_demen(s = 0.15, m = 0.02)
-sim$fst <- fst(sim$p1, sim$p2)   # kein zweites for
-```
-
-```{r}
-#| fig-height: 4.2
-#| fig-width: 8
-plot(sim$generation, sim$p1, type = "l", lwd = 2.2, col = "#2166ac",
-     ylim = c(0, 1), xlab = "Generation", ylab = "p / FST",
-     main = "s = 0.15, m = 0.02")
-lines(sim$generation, sim$p2, lwd = 2.2, col = "#b2182b")
-lines(sim$generation, sim$fst, lwd = 2.2, lty = 2, col = "#7f8c8d")
-legend("right", c("See p1", "Meer p2", "FST"),
-       col = c("#2166ac", "#b2182b", "#7f8c8d"),
-       lwd = 2.2, lty = c(1, 1, 2), bty = "n")
 ```
 
 ::: {.callout-tip}
 ## F2
 
-1. Steigt $F_{ST}$ mit dem Abstand der beiden $p$?
-2. Die Schleife steckt nur in `zwei_demen`. Wo sitzt $F_{ST}$ — und
-   warum braucht es dafür kein `for`?
+Setzen Sie zuerst `s` und dann `m` auf 0; was sehen Sie?
+
 :::
 
----
-
-# C · Wie $m/s$ die Differenzierung setzt
-
-Dasselbe Modell, viele Paare $(m,s)$. $F_{ST}$ am **Ende** der Bahn.
-Die $x$-Achse ist das Verhältnis $m/s$.
-
+# A2) Mehrere Generationen
 ```{r}
-#| fig-height: 4.4
-#| fig-width: 7
-s_grid <- c(0.08, 0.15, 0.30)
-m_grid <- seq(0.005, 0.25, length.out = 18)
-
-erg <- do.call(rbind, lapply(s_grid, function(s) {
-  ende <- sapply(m_grid, function(m) {
-    bahn <- zwei_demen(s = s, m = m, generationen = 400)
-    fst(tail(bahn$p1, 1), tail(bahn$p2, 1))
-  })
-  data.frame(s = s, m = m_grid, ratio = m_grid / s, fst = ende)
-}))
-
-plot(NA, xlim = range(erg$ratio), ylim = c(0, 1),
-     xlab = "m / s", ylab = "FST am Ende",
-     main = "Genfluss relativ zur lokalen Selektion")
-farben <- c("#2166ac", "#1b9e77", "#d95f02")
-for (i in seq_along(s_grid)) {
-  d <- erg[erg$s == s_grid[i], ]
-  lines(d$ratio, d$fst, lwd = 2.2, col = farben[i])
-  points(d$ratio, d$fst, pch = 16, col = farben[i])
+# Simulation mehrerer Generationen
+simulateLA <- function(pR_0, # Anfangsproportion pR
+                       s, # Selektionskoeffizient
+                       m, # Migration
+                       generationen = 250) # Anzahl Generationen; Annahme = 250
+  {
+  
+  pR <- pS <- numeric(generationen + 1) # Vorbereiten von leeren Vektoren (von 0 bis zur maximalen Generationen Zahl)
+  
+  # Anfangsproportionen
+  pR[1] <- pR_0
+  pS[1] <- 1- pR_0 
+  
+  for (t in seq_len(generationen)) { # Wiederholen der Zeitschritte
+    
+    nxt <- eine_generation(pR[t], s, m)
+    pR[t + 1] <- nxt[1]
+    pS[t + 1] <- nxt[2]
+  }
+  
+  data.frame(generation = 0:generationen, 
+             pR = pR, 
+             pS = pS)
 }
-legend("topright", paste("s =", s_grid), col = farben, lwd = 2.2, bty = "n")
+
+```
+
+Simulieren Sie was passiert (i) ohne, (ii) mit schwacher und (iii) mit starker Selektion:
+```{r}
+
+no_sel <- simulateLA(pR_0 = 0.5,
+                     s = 0,
+                     m = 0.2)
+
+schwach_sel <- simulateLA(pR_0 = 0.5,
+                     s = 0.1,
+                     m = 0.2)
+
+stark_sel <- simulateLA(pR_0 = 0.5,
+                     s = 0.5,
+                     m = 0.2)
+
+par(mfrow = c(1, 3))
+
+plot(x = no_sel$generation,
+     y = no_sel$pR,
+     type = "l", lwd = 2, col = "dodgerblue",
+     xlab = "Generationen",
+     ylab = "p",
+     ylim = c(0,1),
+     main = "s = 0.0, m = 0,2")
+lines(x = no_sel$generation,
+     y = no_sel$pS, 
+     type = "l", lwd = 2, col = "chartreuse3")
+legend("right", c("Resistent", "Sensibel"),
+       col = c("dodgerblue", "chartreuse3"),
+       lwd = 2, bty = "n")
+
+plot(x = schwach_sel$generation,
+     y = schwach_sel$pR,
+     type = "l", lwd = 2, col = "dodgerblue",
+     xlab = "Generationen",
+     ylab = "p",
+     ylim = c(0,1),
+     main = "s = 0.1, m = 0,2")
+lines(x = schwach_sel$generation,
+     y = schwach_sel$pS, 
+     type = "l", lwd = 2, col = "chartreuse3")
+legend("right", c("Resistent", "Sensibel"),
+       col = c("dodgerblue", "chartreuse3"),
+       lwd = 2, bty = "n")
+
+plot(x = stark_sel$generation,
+     y = stark_sel$pR,
+     type = "l", lwd = 2, col = "dodgerblue",
+     xlab = "Generationen",
+     ylab = "p",
+     ylim = c(0,1),
+     main = "s = 0.5, m = 0,2")
+lines(x = stark_sel$generation,
+     y = stark_sel$pS, 
+     type = "l", lwd = 2, col = "chartreuse3")
+legend("right", c("Resistent", "Sensibel"),
+       col = c("dodgerblue", "chartreuse3"),
+       lwd = 2, bty = "n")
+
+
 ```
 
 ::: {.callout-tip}
 ## F3
 
-1. Fallen die drei Kurven ungefähr aufeinander — zählt also $m/s$?
-2. Was bedeutet ein grosses $m/s$ biologisch (gene swamping)?
-3. Alle Loci teilen dasselbe $m$, aber nicht dasselbe $s$. Warum ist
-   dann nur ein Teil des Genoms stark differenziert?
+Wie verhaltet sich $p_\mathrm{R}$ mit unterschiedlichem $s$?
+
 :::
+
+Simulieren Sie was passiert (i) ohne, (ii) mit schwacher und (iii) mit starker Migration:
+```{r}
+
+no_mig <- simulateLA(pR_0 = 0.5,
+                     s = 0.2,
+                     m = 0) 
+
+schwach_mig <- simulateLA(pR_0 = 0.5,
+                     s = 0.2,
+                     m = 0) # Bitte ändern
+
+stark_mig <- simulateLA(pR_0 = 0.5,
+                     s = 0.2,
+                     m = 0) # Bitte ändern
+
+par(mfrow = c(1, 3))
+
+plot(x = no_mig$generation,
+     y = no_mig$pR,
+     type = "l", lwd = 2, col = "dodgerblue",
+     xlab = "Generationen",
+     ylab = "p",
+     ylim = c(0,1),
+     main = "s = 0.2, m = ?")
+lines(x = no_mig$generation,
+     y = no_mig$pS, 
+     type = "l", lwd = 2, col = "chartreuse3")
+legend("right", c("Resistent", "Sensibel"),
+       col = c("dodgerblue", "chartreuse3"),
+       lwd = 2, bty = "n")
+
+plot(x = schwach_mig$generation,
+     y = schwach_mig$pR,
+     type = "l", lwd = 2, col = "dodgerblue",
+     xlab = "Generationen",
+     ylab = "p",
+     ylim = c(0,1),
+     main = "s = 0.2, m = ?")
+lines(x = schwach_mig$generation,
+     y = schwach_mig$pS, 
+     type = "l", lwd = 2, col = "chartreuse3")
+legend("right", c("Resistent", "Sensibel"),
+       col = c("dodgerblue", "chartreuse3"),
+       lwd = 2, bty = "n")
+
+plot(x = stark_mig$generation,
+     y = stark_mig$pR,
+     type = "l", lwd = 2, col = "dodgerblue",
+     xlab = "Generationen",
+     ylab = "p",
+     ylim = c(0,1),
+     main = "s = 0.2, m = ?")
+lines(x = stark_mig$generation,
+     y = stark_mig$pS, 
+     type = "l", lwd = 2, col = "chartreuse3")
+legend("right", c("Resistent", "Sensibel"),
+       col = c("dodgerblue", "chartreuse3"),
+       lwd = 2, bty = "n")
+
+
+```
+::: {.callout-tip}
+## F3
+
+Wie verhaltet sich $p_\mathrm{R}$ mit unterschiedlichem $m$?
+Ist es möglich mit unterschiedlichen Kombinationen von $m$ und $s$ das gleiche $p$ Muster zu kriegen?
+
+:::
+
+---
+
+# Referenzen
+Lenormand, T., Bourguet, D., Guillemaud, T. et al. *Tracking the evolution of insecticide resistance in the mosquito Culex pipiens*. Nature 400, 861–864 (1999). https://doi.org/10.1038/23685
+
+
+
