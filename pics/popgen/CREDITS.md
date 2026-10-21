@@ -9,6 +9,7 @@ Commons file page before redistribution beyond the course.
 | `drosophila.jpg` | Drosophila melanogaster - side (aka).jpg | Lewontin / Hubby 1966; model organism |
 | `anopheles.jpg` | Anopheles stephensi.jpeg | Duffy, malaria, HBB |
 | `sickle_cells.jpg` | Sickle cell 01.jpg | Sichelzell-Allel |
+| `malaria_vs_sickle_trait.png` | [Malaria versus sickle-cell trait distributions.png](https://commons.wikimedia.org/wiki/File:Malaria_versus_sickle-cell_trait_distributions.png) | Afrika: Malaria vs. HbS · Anthony Allison · CC0 |
 | `mine.jpg` | Parys Mountain Copper Pit - geograph.org.uk - 1437489.jpg | Mine vs. meadow |
 | `agrostis.jpg` | Agrostis capillaris sl9.jpg | Metal-tolerant grasses |
 | `rocky_shore.jpg` | Rocky shore.jpg | Marine / coastal habitat |

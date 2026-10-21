@@ -322,7 +322,7 @@ Drei Formate, gleiche Aufgabe: [Quarto](notebook.html) · [R Markdown](notebook.
 
 Morphen sind Varianten **derselben** Art — sie paaren sich und vererben.  
 Nächste Woche: welche Gene hinter den Kehlfarben stecken, und wie Genotypfrequenzen ohne Selektion aussehen (Hardy–Weinberg).  
-Danach: wann Selektion den Polymorphismus erhält — und was häufigkeitsabhängige Fitness zusätzlich leistet.
+Danach: Selektion und Fitness (absolut/relativ) — und was häufigkeitsabhängige Fitness zusätzlich leistet.
 
 → [Woche 5](../week-05/slides.html) · [Modul 2](../../docs/module-02-overview.html)
 

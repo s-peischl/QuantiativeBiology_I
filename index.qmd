@@ -64,7 +64,7 @@ Details: [Modul 1](docs/module-01-overview.qmd) · [Kursinfo (PDF)](docs/kursinf
 | Woche | Datum | Thema | Materialien |
 |------:|------|--------|-------------|
 | 5 | 15. Okt. | HWE · Blutgruppen · Avocado | [Folien](weeks/week-05/slides.qmd) · [PDF](weeks/week-05/slides.pdf) · [Notebook](weeks/week-05/notebook.qmd) · [Rmd](weeks/week-05/notebook.Rmd) · [R](weeks/week-05/notebook.R) |
-| 6 | 22. Okt. | Lokale Anpassung | [Folien](weeks/week-06/slides.qmd) · [PDF](weeks/week-06/slides.pdf) |
+| 6 | 22. Okt. | Selektion · Sichelzelle · RPS | [Folien](weeks/week-06/slides.qmd) · [PDF](weeks/week-06/slides.pdf) · [Notebook](weeks/week-06/notebook.qmd) · [Rmd](weeks/week-06/notebook.Rmd) · [R](weeks/week-06/notebook.R) |
 | 7 | 29. Okt. | Erhalt von Variation | folgt |
 | 8 | 5. Nov. | Synthese · **Checkpoint B** | folgt |
 

@@ -21,7 +21,7 @@ Das **Beispiel** kommt zuerst: Farbmorphen der Seitenfleckeneidechse, Sichelzell
 | Woche | Datum | Thema | Biologie | Neu im Code |
 |------:|------|--------|-----------|-------------|
 | **5** | 15. Okt. | Von Strategien zu Genen | Farbmorphen, Vererbung, Hardy–Weinberg | Datentabellen, vektorisiertes Rechnen |
-| **6** | 22. Okt. | Selektion | Sichelzelle, absolute/relative Fitness, Überdominanz | Default-Argumente, `sapply()` |
+| **6** | 22. Okt. | Selektion | Sichelzelle, drei Regime, RPS-Wrap-up | Parameter im Kehlfarben-Modell |
 | **7** | 29. Okt. | Anpassung im Raum | Stichling, Genfluss, $F_{ST}$, Tibet | Filtern mit `quantile()` |
 | **8** | 5. Nov. | Ideen und Grenzen | Neutralisten, Spandrels, **Checkpoint B** | Werkzeugkasten-Rückblick |
 
@@ -31,14 +31,14 @@ Details: [Glossar](glossary.qmd).
 
 - erklären, warum Farbmorphen **einer** Art Vererbung ins Spiel bringen
 - Hardy–Weinberg als **Nullbild ohne Selektion** lesen und echte Genotypdaten damit vergleichen
-- Abweichung von HWE in Daten lesen; eine Generation modellieren (Reproduktion → HWE → Selektion → $p'$); $w$ schätzen; Überdominanz und häufigkeitsabhängige Fitness trennen
+- Abweichung von HWE als Selektionsspur lesen; eine Generation mit Fitness modellieren; Überdominanz vs. häufigkeitsabhängige Fitness (Kehlfarben) unterscheiden
 - an Trajektorien sehen, wann Unterschiede zwischen Habitaten **stabil** sind; $F_{ST}$ als Brücke zum Scan
 - Neutralisten und Selektionisten sowie die Spandrels-Kritik in einem Satz einordnen
 - eine biologische Frage in **eine Abbildung** übersetzen (Checkpoint B)
 
 ## Programmierung in diesem Modul
 
-Jede Woche bringt genau ein neues Werkzeug, und es kommt immer dort, wo die Biologie es verlangt: eine Tabelle mit 225 SNPs rechnet man nicht in einer Schleife (Woche 5); vier Parameterwerte kopiert man nicht vier Mal (Woche 6); eine Liste auffälliger Loci entsteht durch Filtern (Woche 7).
+Jede Woche bringt genau ein neues Werkzeug, und es kommt immer dort, wo die Biologie es verlangt: eine Tabelle mit 225 SNPs rechnet man nicht in einer Schleife (Woche 5); Parameter im Kehlfarben-Modell dreht man systematisch (Woche 6); eine Liste auffälliger Loci entsteht durch Filtern (Woche 7).
 
 ## Checkpoint B (Woche 8) — Präsenzpflicht
 
@@ -61,7 +61,7 @@ Themen: häufigkeitsabhängige Fitness gegen klassische Überdominanz; die Über
 | Woche | Folien | PDF | Notebook |
 |------:|--------|-----|----------|
 | 5 | [Folien](../weeks/week-05/slides.qmd) | [PDF](../weeks/week-05/slides.pdf) | [Notebook](../weeks/week-05/notebook.qmd) · [Rmd](../weeks/week-05/notebook.Rmd) · [R](../weeks/week-05/notebook.R) |
-| 6 | [Folien](../weeks/week-06/slides.qmd) | [PDF](../weeks/week-06/slides.pdf) | — |
+| 6 | [Folien](../weeks/week-06/slides.qmd) | [PDF](../weeks/week-06/slides.pdf) | [Notebook](../weeks/week-06/notebook.qmd) · [Rmd](../weeks/week-06/notebook.Rmd) · [R](../weeks/week-06/notebook.R) |
 | 7 | [Folien](../weeks/week-07/slides.qmd) | folgt | folgt |
 | 8 | [Folien](../weeks/week-08/slides.qmd) | folgt | folgt |
 

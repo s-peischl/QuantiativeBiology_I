@@ -68,7 +68,7 @@ Course arc: weeks 1 → 14 under `weeks/`.
 
 ### Live hub (GitHub Pages)
 
-Only **published** weeks are built and linked. Currently: **weeks 1–5** (Modul 1 through week 5; week 6 slides also on hub). Later weeks stay in git. **Week 1 has slides only** (no student notebook). Week 5 student notebook is the avocado/bloodgroups notebook. The week-4 **student** notebook is public; solution notebooks and solution-only slides stay local (`notebook-loesung.qmd`, `slides-loesung.qmd`). Navbar: `Start`, `Glossar`, `KI-Richtlinie`, Folien/Notebooks as `Woche N`. Module overviews are linked from the homepage, not the navbar.
+Only **published** weeks are built and linked. Currently: **weeks 1–6**. Later weeks stay in git. **Week 1 has slides only** (no student notebook). Week 5 student notebook is the avocado/bloodgroups notebook; week 6 notebook is the Kehlfarben/RPS parameter task. The week-4 **student** notebook is public; solution notebooks and solution-only slides stay local (`notebook-loesung.qmd`, `slides-loesung.qmd`). Navbar: `Start`, `Glossar`, `KI-Richtlinie`, Folien/Notebooks as `Woche N`. Module overviews are linked from the homepage, not the navbar.
 
 Course organisation and grading live on **ILIAS**, not as hub webpages. Student PDFs: `docs/kursinfo.pdf` (rules) and `docs/kursplan.pdf` (calendar + week content), built with `scripts/render_handouts_pdf.sh`. Source for the plan: `docs/course-outline.qmd` (not rendered as HTML).
 
