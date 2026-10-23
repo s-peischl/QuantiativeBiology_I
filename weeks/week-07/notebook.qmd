@@ -34,68 +34,74 @@ execute:
 # A) Beispiel Insektizidresistenz in Moskitos
 Diese Woche untersuchen wir die Anpassung verschiedener Moskitopopulationen an Insektizide. Dieses Beispiel ist an eine Studie von Lenormand et al. (1999) angelehnt.
 
-Um die Stadt Montpellier wurde in den 90er Jahren Insektizid ausgetragen, woraufhin die lokale Moskitopopulation eine Resistenz dagegen entwickelt hat. Diese Resistenz ist jedoch in Abwesenheit des Insektizids unvorteilhaft und daher in ländlichen Moskitopopulationen nicht vorhanden. Wir untersuchen nun, wie sich die Resistenzfrequenz $p_\mathrm{R}$ in der Stadtpopulation unter verschiedenen Selektions- und Migrationsszenarien verändert. Dafür tracken wir die resistenten $\mathrm{R}$ und die sensiblen Moskitos $\mathrm{S}$ in der Population, jeweils mit Frequenzen $p_\mathrm{R}$ und $p_\mathrm{S}$.
+Um die Stadt Montpellier wurde in den 90er Jahren Insektizid ausgetragen, woraufhin die lokale Moskitopopulation eine Resistenz dagegen entwickelt hat. Diese Resistenz ist jedoch in Abwesenheit des Insektizids unvorteilhaft und daher in ländlichen Moskitopopulationen nicht vorhanden. Wir untersuchen nun, wie sich die Resistenzfrequenz $p$ des Resistenz-Alleles $\mathrm{R}$ in der Stadtpopulation unter verschiedenen Selektions- und Migrationsszenarien verändert. Dafür tracken wir das resistente Allel $\mathrm{R}$ und das anfällige Allel $\mathrm{A}$ in der Stadtpopulation, jeweils mit Frequenzen $p_\mathrm{R}$ und $p_\mathrm{A}$.
 
 ## Gleichungen
-Wir nehmen an, dass in der Stadtpopulation Fitness der resistenten Moskitos $w_\mathrm{R} = 1$ ist und Fitness der sensiblen Moskitos durch den Selektionkoeffizient $s$ reduziert wird; $w_\mathrm{S} = 1-s$.
+Wir nehmen an, dass in der Stadtpopulation das Resistenzallel $\mathrm{R}$ vorteilhaft ist, so dass die Genotypen folgende Fitnesswerte haben:
+
+|  $w_\mathrm{RR}$ |  $w_\mathrm{AR}$ |  $w_\mathrm{AA}$ |
+|---|---|---|
+| $1 + s$ | $1 + \frac{s}{2}$ | 1 |
+
+Dabei ist $s$ der Selektionskoeffizient und somit der Fitnessvorteil von Resistenz in der Stadt. 
 
 Die mittlere Fitness $\bar w$ ist demnach:
 $$
-\bar w = p_\mathrm{R} w_\mathrm{R} + p_\mathrm{S} w_\mathrm{S}
+\bar w = p^2 w_\mathrm{RR} + 2pq w_\mathrm{AR} + q^2 w_\mathrm{AA}
 $$
 
-und danach gilt:
+und nach Selektion gilt:
 
 $$
-p^s_\mathrm{R} = \frac{p_\mathrm{R} w_{\mathrm{R}}}{\bar w}, \qquad p^s_\mathrm{S} = \frac{p_\mathrm{S} w_{\mathrm{S}}}{\bar w}
+p^s = \frac{p^2 w_{\mathrm{RR}} + pq w_{\mathrm{AR}} }{\bar w}, \qquad q^s = \frac{q^2 w_{\mathrm{AA}} + pq w_{\mathrm{AR}} }{\bar w}
 $$
 
-Nach Migration nehmen wir an, dass ein Anteil $m$ der Individuen aus der Population aus der Nachbarpopulation stammt:
+Nach Migration nehmen wir an, dass ein Anteil $m$ der Individuen aus der Population aus der Nachbarpopulation stammt, wobei eine Population komplett durchmischt ist, wenn $m = 0.5$:
 $$
-p^m_\mathrm{R} = (1-m)\,p^s_\mathrm{R} + m\,p^s_\mathrm{S}, \qquad
-p^m_\mathrm{S} = (1-m)\,p^s_\mathrm{S} + m\,p^s_\mathrm{R}
+p^m = (1-m)\,p^s + m\,q^s, \qquad
+q^m = (1-m)\,q^s + m\,p^s
 $$
 
 ## Funktionen
 ```{r}
 # Selektion; Berechnung der mittleren Fitness
-selektionsschritt <- function(p, # Proportion der gefragten Moskitos
-                              w) # Fitness der verschiedenen Moskitotypen (Vektor mit zwei Einträgen)
+selektionsschritt <- function(p, # Proportion des gefragten Alleles
+                              w) # Fitness der verschiedenen Genotypen (Vektor mit drei Einträgen)
   {
   
-  q <- 1-p # Proportion der restllichen Moskitos
+  q <- 1-p # Proportion des anderen Alleles
   
-  w_quer <- p*w[1] + q*w[2]
+  w_quer <- p^2*w[1] + 2*p*q*w[2] + q^2*w[3]
   
-  p_sel <- p*w[1] / w_quer
+  p_sel <- (p^2*w[1] + p*q*w[2] )/ w_quer
   
   return(p_sel)
 }
 
 # Simulation eines Generationschritts, Selektion gefolgt von Migration
-eine_generation <- function(pR, # Proportion resistenter Moskitos
+eine_generation <- function(p, # Frequenz des Resistenz-Alleles
                             s, # Selektionskoeffizient
                             m) # Migration
   {
   
-  pS <- 1-pR # Proportion der sensibeln Moskitos
+  q <- 1 - p # Proportion der anfälligen Moskitos
   
   # Selektion
-  pR_sel <- selektionsschritt(pR, c(1, 1-s))
-  pS_sel <- selektionsschritt(pS, c(1-s, 1))
+  p_sel <- selektionsschritt(p, c(1 + s, 1 + s/2, 1))
+  q_sel <- selektionsschritt(q, c(1, 1 + s/2, 1 + s))
   
   # Migration
-  pR_mig <- (1 - m) * pR_sel + m * pS_sel
-  pS_mig <- (1 - m) * pS_sel + m * pR_sel
+  p_mig <- (1 - m) * p_sel + m * q
+  q_mig <- (1 - m) * q_sel + m * p
   
-  return(c(pR_mig, pS_mig))
+  return(c(p_mig, q_mig))
 
 }
 
 ```
 
 ## A1) Eine Generation
-Simulieren Sie eine einzelne Generation. Wir starten mit einer gleichmässign Verteilung von resistenten und sensibeln Moskitos; $p_\mathrm{R} = 0.5$.
+Simulieren Sie eine einzelne Generation. Wir starten mit einer gleichmässign Verteilung von resistenten und anfälligen Moskitos; $p_\mathrm{R} = 0.5$.
 
 ::: {.callout-tip}
 ## F1
@@ -105,7 +111,7 @@ Was sind Ihre Erwartungen? Nimmt $p_\mathrm{R}$ ab oder zu?
 
 ```{r}
 
-eine_generation(pR = 0.5,
+eine_generation(p = 0.5,
                 s = 0.2,
                 m = 0.2)
 
@@ -121,28 +127,28 @@ Setzen Sie zuerst `s` und dann `m` auf 0; was sehen Sie?
 # A2) Mehrere Generationen
 ```{r}
 # Simulation mehrerer Generationen
-simulateLA <- function(pR_0, # Anfangsproportion pR
+simulateLA <- function(p_0, # Anfangsfrequenz
                        s, # Selektionskoeffizient
                        m, # Migration
-                       generationen = 250) # Anzahl Generationen; Annahme = 250
+                       generationen = 100) # Anzahl Generationen; Annahme = 100
   {
   
-  pR <- pS <- numeric(generationen + 1) # Vorbereiten von leeren Vektoren (von 0 bis zur maximalen Generationen Zahl)
+  p <- q <- numeric(generationen + 1) # Vorbereiten von leeren Vektoren (von 0 bis zur maximalen Generationen Zahl)
   
-  # Anfangsproportionen
-  pR[1] <- pR_0
-  pS[1] <- 1- pR_0 
+  # Anfangsfrequenzen
+  p[1] <- p_0
+  q[1] <- 1- p_0 
   
   for (t in seq_len(generationen)) { # Wiederholen der Zeitschritte
     
-    nxt <- eine_generation(pR[t], s, m)
-    pR[t + 1] <- nxt[1]
-    pS[t + 1] <- nxt[2]
+    new_freq <- eine_generation(p[t], s, m)
+    p[t + 1] <- new_freq[1]
+    q[t + 1] <- new_freq[2]
   }
   
   data.frame(generation = 0:generationen, 
-             pR = pR, 
-             pS = pS)
+             p = p, 
+             q = q)
 }
 
 ```
@@ -150,140 +156,64 @@ simulateLA <- function(pR_0, # Anfangsproportion pR
 Simulieren Sie was passiert (i) ohne, (ii) mit schwacher und (iii) mit starker Selektion:
 ```{r}
 
-no_sel <- simulateLA(pR_0 = 0.5,
-                     s = 0,
+no_sel <- simulateLA(p_0 = 0.5,
+                     s = 0.2,
+                     m = 0.1)
+
+schwach_sel <- simulateLA(p_0 = 0.5,
+                     s = 0.4,
                      m = 0.2)
 
-schwach_sel <- simulateLA(pR_0 = 0.5,
-                     s = 0.1,
-                     m = 0.2)
-
-stark_sel <- simulateLA(pR_0 = 0.5,
-                     s = 0.5,
-                     m = 0.2)
+stark_sel <- simulateLA(p_0 = 0.5,
+                     s = 0.6,
+                     m = 0.3)
 
 par(mfrow = c(1, 3))
 
 plot(x = no_sel$generation,
-     y = no_sel$pR,
+     y = no_sel$p,
      type = "l", lwd = 2, col = "dodgerblue",
      xlab = "Generationen",
-     ylab = "p",
+     ylab = "Allelfrequenz",
      ylim = c(0,1),
      main = "s = 0.0, m = 0,2")
 lines(x = no_sel$generation,
-     y = no_sel$pS, 
+     y = no_sel$q, 
      type = "l", lwd = 2, col = "chartreuse3")
-legend("right", c("Resistent", "Sensibel"),
+legend("topright", c("Resistent", "Anfällig"),
        col = c("dodgerblue", "chartreuse3"),
        lwd = 2, bty = "n")
 
 plot(x = schwach_sel$generation,
-     y = schwach_sel$pR,
+     y = schwach_sel$p,
      type = "l", lwd = 2, col = "dodgerblue",
      xlab = "Generationen",
-     ylab = "p",
+     ylab = "Allelfrequenz",
      ylim = c(0,1),
      main = "s = 0.1, m = 0,2")
 lines(x = schwach_sel$generation,
-     y = schwach_sel$pS, 
+     y = schwach_sel$q, 
      type = "l", lwd = 2, col = "chartreuse3")
-legend("right", c("Resistent", "Sensibel"),
+legend("topright", c("Resistent", "Anfällig"),
        col = c("dodgerblue", "chartreuse3"),
        lwd = 2, bty = "n")
 
 plot(x = stark_sel$generation,
-     y = stark_sel$pR,
+     y = stark_sel$p,
      type = "l", lwd = 2, col = "dodgerblue",
      xlab = "Generationen",
-     ylab = "p",
+     ylab = "Allelfrequenz",
      ylim = c(0,1),
      main = "s = 0.5, m = 0,2")
 lines(x = stark_sel$generation,
-     y = stark_sel$pS, 
+     y = stark_sel$q, 
      type = "l", lwd = 2, col = "chartreuse3")
-legend("right", c("Resistent", "Sensibel"),
+legend("topright", c("Resistent", "Anfällig"),
        col = c("dodgerblue", "chartreuse3"),
        lwd = 2, bty = "n")
-
-
 ```
 
-::: {.callout-tip}
-## F3
 
-Wie verhaltet sich $p_\mathrm{R}$ mit unterschiedlichem $s$?
-
-:::
-
-Simulieren Sie was passiert (i) ohne, (ii) mit schwacher und (iii) mit starker Migration:
-```{r}
-
-no_mig <- simulateLA(pR_0 = 0.5,
-                     s = 0.2,
-                     m = 0) 
-
-schwach_mig <- simulateLA(pR_0 = 0.5,
-                     s = 0.2,
-                     m = 0) # Bitte ändern
-
-stark_mig <- simulateLA(pR_0 = 0.5,
-                     s = 0.2,
-                     m = 0) # Bitte ändern
-
-par(mfrow = c(1, 3))
-
-plot(x = no_mig$generation,
-     y = no_mig$pR,
-     type = "l", lwd = 2, col = "dodgerblue",
-     xlab = "Generationen",
-     ylab = "p",
-     ylim = c(0,1),
-     main = "s = 0.2, m = ?")
-lines(x = no_mig$generation,
-     y = no_mig$pS, 
-     type = "l", lwd = 2, col = "chartreuse3")
-legend("right", c("Resistent", "Sensibel"),
-       col = c("dodgerblue", "chartreuse3"),
-       lwd = 2, bty = "n")
-
-plot(x = schwach_mig$generation,
-     y = schwach_mig$pR,
-     type = "l", lwd = 2, col = "dodgerblue",
-     xlab = "Generationen",
-     ylab = "p",
-     ylim = c(0,1),
-     main = "s = 0.2, m = ?")
-lines(x = schwach_mig$generation,
-     y = schwach_mig$pS, 
-     type = "l", lwd = 2, col = "chartreuse3")
-legend("right", c("Resistent", "Sensibel"),
-       col = c("dodgerblue", "chartreuse3"),
-       lwd = 2, bty = "n")
-
-plot(x = stark_mig$generation,
-     y = stark_mig$pR,
-     type = "l", lwd = 2, col = "dodgerblue",
-     xlab = "Generationen",
-     ylab = "p",
-     ylim = c(0,1),
-     main = "s = 0.2, m = ?")
-lines(x = stark_mig$generation,
-     y = stark_mig$pS, 
-     type = "l", lwd = 2, col = "chartreuse3")
-legend("right", c("Resistent", "Sensibel"),
-       col = c("dodgerblue", "chartreuse3"),
-       lwd = 2, bty = "n")
-
-
-```
-::: {.callout-tip}
-## F3
-
-Wie verhaltet sich $p_\mathrm{R}$ mit unterschiedlichem $m$?
-Ist es möglich mit unterschiedlichen Kombinationen von $m$ und $s$ das gleiche $p$ Muster zu kriegen?
-
-:::
 
 ---
 
