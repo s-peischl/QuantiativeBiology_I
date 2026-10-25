@@ -153,66 +153,120 @@ simulateLA <- function(p_0, # Anfangsfrequenz
 
 ```
 
-Simulieren Sie was passiert (i) ohne, (ii) mit schwacher und (iii) mit starker Selektion:
+Schauen Sie sich nun die Allelfrequenz als Funktion von Zeit an
 ```{r}
 
-no_sel <- simulateLA(p_0 = 0.5,
-                     s = 0.2,
-                     m = 0.1)
-
-schwach_sel <- simulateLA(p_0 = 0.5,
-                     s = 0.4,
+test_df <- simulateLA(p_0 = 0.5,
+                     s = 0.2, # Bitte ändern
                      m = 0.2)
 
-stark_sel <- simulateLA(p_0 = 0.5,
-                     s = 0.6,
+plot(x = test_df$generation,
+     y = test_df$p,
+     type = "l", lwd = 2, col = "dodgerblue",
+     xlab = "Generationen",
+     ylab = "Allelfrequenz",
+     ylim = c(0,1),
+     main = "s = ?, m = 0.2")
+lines(x = test_df$generation,
+     y = test_df$q, 
+     type = "l", lwd = 2, col = "chartreuse3")
+legend("topright", c("Resistent", "Anfällig"),
+       col = c("dodgerblue", "chartreuse3"),
+       lwd = 2, bty = "n")
+
+```
+::: {.callout-tip}
+## F4
+
+Ändern Sie $s$. Was passiert mit dem Resistenzallel?
+
+:::
+
+Vergleichen Sie Simulationen mit verschiedenen $m$ und $s$ Werten:
+```{r}
+
+s0.1_m0.1 <- simulateLA(p_0 = 0.5,
+                     s = 0.1,
+                     m = 0.1)
+
+s0.3_m0.1 <- simulateLA(p_0 = 0.5,
+                     s = 0.3,
+                     m = 0.1)
+
+s0.3_m0.3 <- simulateLA(p_0 = 0.5,
+                     s = 0.3,
                      m = 0.3)
 
-par(mfrow = c(1, 3))
+s0.6_m0.2 <- simulateLA(p_0 = 0.5,
+                     s = 0.6,
+                     m = 0.2)
 
-plot(x = no_sel$generation,
-     y = no_sel$p,
+par(mfrow = c(1, 4))
+plot(x = s0.1_m0.1$generation,
+     y = s0.1_m0.1$p,
      type = "l", lwd = 2, col = "dodgerblue",
      xlab = "Generationen",
      ylab = "Allelfrequenz",
      ylim = c(0,1),
-     main = "s = 0.0, m = 0,2")
-lines(x = no_sel$generation,
-     y = no_sel$q, 
+     main = "s = 0.1, m = 0.1")
+lines(x = s0.1_m0.1$generation,
+     y = s0.1_m0.1$q, 
      type = "l", lwd = 2, col = "chartreuse3")
 legend("topright", c("Resistent", "Anfällig"),
        col = c("dodgerblue", "chartreuse3"),
        lwd = 2, bty = "n")
 
-plot(x = schwach_sel$generation,
-     y = schwach_sel$p,
+plot(x = s0.3_m0.1$generation,
+     y = s0.3_m0.1$p,
      type = "l", lwd = 2, col = "dodgerblue",
      xlab = "Generationen",
      ylab = "Allelfrequenz",
      ylim = c(0,1),
-     main = "s = 0.1, m = 0,2")
-lines(x = schwach_sel$generation,
-     y = schwach_sel$q, 
+     main = "s = 0.3, m = 0.1")
+lines(x = s0.3_m0.1$generation,
+     y = s0.3_m0.1$q, 
      type = "l", lwd = 2, col = "chartreuse3")
 legend("topright", c("Resistent", "Anfällig"),
        col = c("dodgerblue", "chartreuse3"),
        lwd = 2, bty = "n")
 
-plot(x = stark_sel$generation,
-     y = stark_sel$p,
+plot(x = s0.3_m0.3$generation,
+     y = s0.3_m0.3$p,
      type = "l", lwd = 2, col = "dodgerblue",
      xlab = "Generationen",
      ylab = "Allelfrequenz",
      ylim = c(0,1),
-     main = "s = 0.5, m = 0,2")
-lines(x = stark_sel$generation,
-     y = stark_sel$q, 
+     main = "s = 0.3, m = 0.3")
+lines(x = s0.3_m0.3$generation,
+     y = s0.3_m0.3$q, 
      type = "l", lwd = 2, col = "chartreuse3")
 legend("topright", c("Resistent", "Anfällig"),
        col = c("dodgerblue", "chartreuse3"),
        lwd = 2, bty = "n")
+
+plot(x = s0.6_m0.2$generation,
+     y = s0.6_m0.2$p,
+     type = "l", lwd = 2, col = "dodgerblue",
+     xlab = "Generationen",
+     ylab = "Allelfrequenz",
+     ylim = c(0,1),
+     main = "s = 0.6, m = 0.2")
+lines(x = s0.6_m0.2$generation,
+     y = s0.6_m0.2$q, 
+     type = "l", lwd = 2, col = "chartreuse3")
+legend("topright", c("Resistent", "Anfällig"),
+       col = c("dodgerblue", "chartreuse3"),
+       lwd = 2, bty = "n")
+
+
+
 ```
+::: {.callout-tip}
+## F4
 
+Was fällt Ihnen auf? Führen grössere Werte für $s$ immernoch zu höheren Allelefrequenzen des Resistenzallels?
+
+:::
 
 
 ---
