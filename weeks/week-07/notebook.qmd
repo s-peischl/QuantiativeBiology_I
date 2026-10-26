@@ -176,83 +176,135 @@ legend("topright", c("Resistent", "Anfällig"),
 
 ```
 ::: {.callout-tip}
-## F4
+## F3
 
 Ändern Sie $s$. Was passiert mit dem Resistenzallel?
 
 :::
 
-Vergleichen Sie Simulationen mit verschiedenen $m$ und $s$ Werten:
+## Vergleich verschiedener m/s Regime
 ```{r}
 
-s01_m01 <- simulateLA(p_0 = 0.5,
-                     s = 0.1,
-                     m = 0.1)
+# m/s grösser 1
+ms_gr_1 <- simulateLA(p_0 = 0.5,
+                     s = 0, # Bitte ändern
+                     m = 0) # Bitte ändern
 
-s03_m03 <- simulateLA(p_0 = 0.5,
+# m/s gleich 1
+ms_gl_1 <- simulateLA(p_0 = 0.5,
                      s = 0.3,
                      m = 0.3)
 
-s03_m01 <- simulateLA(p_0 = 0.5,
-                     s = 0.3,
+# m/s kleiner 1
+ms_kl_1 <- simulateLA(p_0 = 0.5,
+                     s = 0, # Bitte ändern
+                     m = 0) # Bitte ändern
+
+par(mfrow = c(1, 3))
+plot(x = ms_gr_1$generation,
+     y = ms_gr_1$p,
+     type = "l", lwd = 2, col = "dodgerblue",
+     xlab = "Generationen",
+     ylab = "Allelfrequenz",
+     ylim = c(0,1),
+     main = "m/s > 1")
+lines(x = ms_gr_1$generation,
+     y = ms_gr_1$q, 
+     type = "l", lwd = 2, col = "chartreuse3")
+legend("topright", c("Resistent", "Anfällig"),
+       col = c("dodgerblue", "chartreuse3"),
+       lwd = 2, bty = "n")
+
+plot(x = ms_gl_1$generation,
+     y = ms_gl_1$p,
+     type = "l", lwd = 2, col = "dodgerblue",
+     xlab = "Generationen",
+     ylab = "Allelfrequenz",
+     ylim = c(0,1),
+     main = "m/s = 1")
+lines(x = ms_gl_1$generation,
+     y = ms_gl_1$q, 
+     type = "l", lwd = 2, col = "chartreuse3")
+legend("topright", c("Resistent", "Anfällig"),
+       col = c("dodgerblue", "chartreuse3"),
+       lwd = 2, bty = "n")
+
+plot(x = ms_kl_1$generation,
+     y = ms_kl_1$p,
+     type = "l", lwd = 2, col = "dodgerblue",
+     xlab = "Generationen",
+     ylab = "Allelfrequenz",
+     ylim = c(0,1),
+     main = "m/s <a 1")
+lines(x = ms_kl_1$generation,
+     y = ms_kl_1$q, 
+     type = "l", lwd = 2, col = "chartreuse3")
+legend("topright", c("Resistent", "Anfällig"),
+       col = c("dodgerblue", "chartreuse3"),
+       lwd = 2, bty = "n")
+
+```
+::: {.callout-tip}
+## F4
+
+Ändern Sie die $m$ und $s$ Werte der verschiedenen Simulationen, um die drei$m/s$ Szenarien zu plotten.
+Beschreiben Sie was sie sehen.
+:::
+
+
+Vergleichen Sie Simulationen mit verschiedenen $m$ und $s$ Werten:
+```{r}
+
+ref <- simulateLA(p_0 = 0.5,
+                     s = 0.25,
                      m = 0.1)
 
-s06_m <- simulateLA(p_0 = 0.5,
-                     s = 0.6,
+test1 <- simulateLA(p_0 = 0.5,
+                     s = 0.0, # Bitte ändern
+                     m = 0.3)
+
+test2 <- simulateLA(p_0 = 0.5,
+                     s = 0.5,
                      m = 0.0) # Bitte ändern
 
-par(mfrow = c(1, 4))
-plot(x = s01_m01$generation,
-     y = s01_m01$p,
+par(mfrow = c(1, 3))
+plot(x = ref$generation,
+     y = ref$p,
      type = "l", lwd = 2, col = "dodgerblue",
      xlab = "Generationen",
      ylab = "Allelfrequenz",
      ylim = c(0,1),
-     main = "s = 0.1, m = 0.1")
-lines(x = s01_m01$generation,
-     y = s01_m01$q, 
+     main = "s = 0.25, m = 0.1")
+lines(x = ref$generation,
+     y = ref$q, 
      type = "l", lwd = 2, col = "chartreuse3")
 legend("topright", c("Resistent", "Anfällig"),
        col = c("dodgerblue", "chartreuse3"),
        lwd = 2, bty = "n")
 
-plot(x = s03_m03$generation,
-     y = s03_m03$p,
+plot(x = test1$generation,
+     y = test1$p,
      type = "l", lwd = 2, col = "dodgerblue",
      xlab = "Generationen",
      ylab = "Allelfrequenz",
      ylim = c(0,1),
-     main = "s = 0.3, m = 0.3")
-lines(x = s03_m03$generation,
-     y = s03_m03$q, 
+     main = "s = ?, m = 0.3")
+lines(x = test1$generation,
+     y = test1$q, 
      type = "l", lwd = 2, col = "chartreuse3")
 legend("topright", c("Resistent", "Anfällig"),
        col = c("dodgerblue", "chartreuse3"),
        lwd = 2, bty = "n")
 
-plot(x = s03_m01$generation,
-     y = s03_m01$p,
+plot(x = test2$generation,
+     y = test2$p,
      type = "l", lwd = 2, col = "dodgerblue",
      xlab = "Generationen",
      ylab = "Allelfrequenz",
      ylim = c(0,1),
-     main = "s = 0.3, m = 0.1")
-lines(x = s03_m01$generation,
-     y = s03_m01$q, 
-     type = "l", lwd = 2, col = "chartreuse3")
-legend("topright", c("Resistent", "Anfällig"),
-       col = c("dodgerblue", "chartreuse3"),
-       lwd = 2, bty = "n")
-
-plot(x = s06_m$generation,
-     y = s06_m$p,
-     type = "l", lwd = 2, col = "dodgerblue",
-     xlab = "Generationen",
-     ylab = "Allelfrequenz",
-     ylim = c(0,1),
-     main = "s = 0.6, m = ? ")
-lines(x = s06_m$generation,
-     y = s06_m$q, 
+     main = "s = 0.5, m = ? ")
+lines(x = test2$generation,
+     y = test2$q, 
      type = "l", lwd = 2, col = "chartreuse3")
 legend("topright", c("Resistent", "Anfällig"),
        col = c("dodgerblue", "chartreuse3"),
@@ -261,11 +313,12 @@ legend("topright", c("Resistent", "Anfällig"),
 
 
 ```
+
 ::: {.callout-tip}
 ## F4
 
-- Was fällt Ihnen auf wenn Sie die ersten beiden Graphen mit $s = 0.1, 0.3$ und $m = 0.1, 0.3$ vergleichen? 
-- Wählen Sie nun $m$ in der letzten Simulation `s06_m`, damit Sie ein ähnliches Muster, wie für `s03_m01` erhalten. Welchen Wert wählen Sie für $m$? Wieso?
+Wählen Sie in den Simulationen die fehlenden Werte für $m$ oder $s$ damit das Muster der Allelfrequenzen zum ersten Graphen ($s = 0.25, m = 0.1$) passt.
+Welche Werte wählen Sie?
 
 :::
 
