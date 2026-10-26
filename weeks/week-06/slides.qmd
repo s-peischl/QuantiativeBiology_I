@@ -569,7 +569,7 @@ Wer die Kehlfarben mit Überdominanz erklärt, nennt den falschen Mechanismus.
 
 ## Notebook (~45 min)
 
-**→ [Notebook Woche 6 öffnen](notebook.html)**
+**→ [Notebook Woche 6 öffnen](notebook.html)** · [Rmd](notebook.Rmd) · [R](notebook.R)
 
 **Auftrag:** drei kurze Teile
 
@@ -598,8 +598,8 @@ Kursdaten `sickle_nigeria.csv`: Lehrzahlen, siehe `data/README.md`.
 
 | | |
 |---|---|
-| Notebook | [Notebook Woche 6](notebook.html) |
+| Notebook | [Quarto](notebook.html) · [Rmd](notebook.Rmd) · [R](notebook.R) |
 | Zurück | [← Woche 5](../week-05/slides.html) |
 | Weiter | [Woche 7 →](../week-07/slides.html) |
 | Modul | [Modul 2](../../docs/module-02-overview.html) |
-| PDF | Taste **E**, dann Drucken → Als PDF speichern |
+| PDF | [slides.pdf](slides.pdf) · oder Taste **E**, dann Drucken |

@@ -21,7 +21,7 @@ Selektion kann genetische Vielfalt erhalten oder beseitigen. Wir beginnen mit ko
 
 Keine Abgabe. Ändern Sie nur die markierten Parameter; die Startwerte bleiben gleich.
 
-Falls Quarto fehlt: **Knit** hier, oder [`notebook.R`](notebook.R) sourcen.
+Falls Quarto fehlt: dieses `.Rmd` in RStudio öffnen und **Knit** drücken. Noch einfacher: die reine R-Datei [`notebook.R`](notebook.R) (Source).
 
 ---
 
@@ -66,12 +66,10 @@ ggplot(df1, aes(t, p, colour = start, group = start)) +
        colour = expression(p[0]))
 ```
 
-::: {.callout-tip}
-## F1
-
-1. Belassen Sie die Homozygoten bei $1$ und $0{,}9$ und ändern Sie nur $w_{Aa}$.
-2. Unter welchen Bedingungen bleibt Vielfalt erhalten? Wann wandert $p$ an den Rand?
-:::
+> **F1.**
+>
+> 1. Belassen Sie die Homozygoten bei $1$ und $0{,}9$ und ändern Sie nur $w_{Aa}$.
+> 2. Unter welchen Bedingungen bleibt Vielfalt erhalten? Wann wandert $p$ an den Rand?
 
 ---
 
@@ -172,12 +170,10 @@ df2$modell <- factor(df2$modell,
 plot_morphen(df2, sprintf("Auszahlungsparameter s = %s, w = %s", s, w))
 ```
 
-::: {.callout-tip}
-## F2
-
-1. Was bleibt gleich zwischen den beiden Panels, was ändert sich?
-2. Probieren Sie mindestens ein zweites Paar $(s, w)$.
-:::
+> **F2.**
+>
+> 1. Was bleibt gleich zwischen den beiden Panels, was ändert sich?
+> 2. Probieren Sie mindestens ein zweites Paar $(s, w)$.
 
 ---
 
@@ -234,11 +230,9 @@ plot_morphen(
 )
 ```
 
-::: {.callout-tip}
-## F3
-
-1. Vergleichen Sie die Zeitreihen mit Abschnitt 2.
-2. Was ändert sich bei $\theta = 0$, wenn die gelbe Morphe fehlt?
-:::
+> **F3.**
+>
+> 1. Vergleichen Sie die Zeitreihen mit Abschnitt 2.
+> 2. Was ändert sich bei $\theta = 0$, wenn die gelbe Morphe fehlt?
 
 > Corl et al. (2026) zeigen in Simulationen, dass Stein-Schere-Papier mit zwei Allelen und Plastizität den Polymorphismus oft besser erhält als ein klassisches Drei-Allele-System.

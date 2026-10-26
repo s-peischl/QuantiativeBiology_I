@@ -141,6 +141,8 @@ Savanne vs. geschlossener Wald (Woche 3, Staver): siehe `ecosystems/CREDITS.md`.
 | `huerta2014_fig1_fst.jpg` | Huerta-Sánchez et al. 2014 *Nature* | Author manuscript via [PMC4134395](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4134395/) |
 | `huerta2014_fig2_haplotypes.jpg` | dieselbe | Haplotyp-Muster Tibet vs Han |
 | `huerta2014_fig3_network.jpg` | dieselbe | Haplotyp-Netzwerk inkl. Denisova |
+| `colosimo2004_meer.png`, `colosimo2004_see.png` | Colosimo et al. 2004 *PLoS Biology* Fig. 1 (Ausschnitte, Karte entfernt) | CC BY · DOI [10.1371/journal.pbio.0020109](https://doi.org/10.1371/journal.pbio.0020109) · Woche 7 |
+| `hohenlohe2010_fig6_AE.png` | Hohenlohe et al. 2010 *PLoS Genetics* Fig. 6, Panels A und E (zugeschnitten) | CC BY 4.0 · DOI [10.1371/journal.pgen.1000862](https://doi.org/10.1371/journal.pgen.1000862) · Woche 7 |
 
 Ilardo et al. 2018 *Cell* (Bajau-Scan): **nicht** frei lizenzierbar — im Unterricht DOI öffnen / Campus-Zugang. Lehrschema: `pics/biology/scan_hit_bajau.png`.
 

@@ -1,6 +1,6 @@
 ---
-title: "Woche 8 — Ideen, Grenzen und Checkpoint B"
-subtitle: "Neutralität und Anpassung"
+title: "Woche 8 — Clines & Checkpoint B"
+subtitle: "Sommer und Winter"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:
@@ -20,7 +20,7 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Start](../../index.html) · [Notebook](notebook.html)"
+    footer: "[Start](../../index.html) · [Notebook](notebook.html) · [Modul 2](../../docs/module-02-overview.html)"
 execute:
   echo: false
   warning: false
@@ -28,300 +28,179 @@ execute:
   freeze: auto
 ---
 
+```{r}
+#| include: false
+source("../slides-ggplot.R")
+
+logistisch <- function(x, c, b) 1 / (1 + exp(-b * (x - c)))
+
+x <- seq(-8, 8, by = 1)
+n <- 40
+k_sommer <- c(0, 0, 0, 0, 0, 0, 3, 10, 15, 27, 39, 37, 40, 39, 40, 40, 40)
+k_winter <- c(0, 1, 0, 3, 5, 7, 7, 14, 16, 24, 30, 36, 32, 32, 38, 37, 40)
+clines <- rbind(
+  data.frame(x = x, p = k_sommer / n, saison = "Sommer"),
+  data.frame(x = x, p = k_winter / n, saison = "Winter")
+)
+saison_farben <- c(Sommer = "#d95f02", Winter = "#2166ac")
+```
+
 ## Übersicht
 
 **Woche 8** von 14 · **Checkpoint B** · **Do., 5. Nov. 2026, 08:15–10:00**
 
 | Teil | Dauer | Was |
 |------|-------|-----|
-| Kurzvorlesung | ~20 min | Neutralität, Spandrels, Landkarte Modul 2 |
-| Notebook | ~35 min | eine Frage, eine Abbildung |
-| Präsentationen | ~35 min | 3–5 Minuten, **Anwesenheitspflicht** |
+| Intro | ~15 min | Resistenz im Raum · eine Cline · die Frage |
+| Notebook | ~45 min | zwei Abbildungen erzeugen, Antwort finden |
+| Gruppen | ~30 min | Assistenz geht durch · 1–2 Min. erklären |
 
 ::: aside
 Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 :::
 
-## Lernziele
-
-Nach heute können Sie …
-
-1. erklären, warum viel genetische Variation allein noch kein Beweis für Selektion ist,
-2. die neutrale Theorie in einem Satz wiedergeben,
-3. die Spandrels-Kritik auf ein eigenes Beispiel anwenden,
-4. eine biologische Frage in **eine** Abbildung übersetzen und vortragen.
-
-## Heute in dieser Reihenfolge
-
-1. Eine Messung, die alles durcheinanderbrachte
-2. Die neutrale Antwort
-3. Spandrels: die Kritik an zu schnellen Anpassungsgeschichten
-4. Landkarte Modul 2 und Werkzeugkasten
-5. Checkpoint B
-
-# Teil 1 · Eine Messung von 1966
-
-## Wie viel Variation gibt es?
-
-::::: columns
-::: {.column width="46%"}
-![](../../pics/popgen/electrophoresis.jpg){fig-alt="Gelelektrophorese" width="94%"}
-:::
-::: {.column width="54%"}
-Bis in die 1960er war unklar, wie viel genetische Variation eine Population überhaupt trägt.
-
-Die Elektrophorese machte Proteinvarianten sichtbar: Unterschiedlich geladene Enzymvarianten wandern verschieden weit im Gel.
-:::
-:::::
-
-## Der Befund
-
-Lewontin & Hubby (1966) an *Drosophila pseudoobscura*, Harris (1966) am Menschen:
-
-- Ein **grosser Anteil** der untersuchten Loci war polymorph.
-- Ein typisches Individuum war an vielen Loci heterozygot.
-
-Das war weit mehr Variation als erwartet.
-
-## Warum das ein Problem war
-
-Nehmen wir an, all diese Polymorphismen würden durch Überdominanz erhalten (Woche 6).
-
-Dann müsste in **jeder** Generation an **jedem** dieser Loci ein Teil der Nachkommen wegselektiert werden. Aufsummiert über Tausende von Loci verlangt das mehr Nachwuchs, als eine Population produzieren kann.
-
-Diese Rechnung nennt man das **Kostenargument** (Haldane 1957).
-
-## Die Streitfrage
-
-> Wird diese Vielfalt von Selektion **erhalten** — oder ist sie einfach da?
-
-Genau darum drehte sich die Debatte zwischen **Selektionisten** und **Neutralisten**.
-
-# Teil 2 · Die neutrale Antwort
-
-## Kimuras Vorschlag
-
-::::: columns
-::: {.column width="34%"}
-![](../../pics/popgen/kimura.png){fig-alt="Motoo Kimura" width="88%"}
-:::
-::: {.column width="66%"}
-Kimura (1968), kurz darauf King & Jukes (1969):
-
-Die **meisten** molekularen Unterschiede sind für die Fitness fast **belanglos**. Ihre Häufigkeit schwankt, weil in endlichen Populationen zufällig entschieden wird, wer sich fortpflanzt.
-
-Dann braucht hohe Diversität keine Erklärung durch Selektion — nur Mutation und Zufall.
-:::
-:::::
-
-## Was die neutrale Theorie nicht sagt
-
-Sie behauptet **nicht**, dass es keine Selektion gibt.
-
-| Sie sagt | Sie sagt nicht |
-|---|---|
-| die meisten *molekularen* Varianten sind fast neutral | Anpassung existiert nicht |
-| Zufall erklärt viel Diversität | Selektion erklärt nichts |
-| schädliche Varianten werden entfernt | alle Varianten sind gleichwertig |
-
-Sie ist vor allem ein **Nullmodell** — dasselbe Prinzip wie Hardy–Weinberg, eine Ebene höher.
-
-## Warum wir sie noch nicht rechnen können
-
-Zufall im Fortpflanzungserfolg wirkt nur in **endlichen** Populationen.
-
-Unsere Modelle der Wochen 5 bis 7 waren deterministisch: $p$ folgte einer festen Regel, ohne Rauschen.
-
-Ab Woche 9 kommt genau diese Zutat dazu — dann lässt sich die neutrale Erwartung selbst simulieren.
-
-## Wie der Streit ausging
-
-Er wurde nicht entschieden, sondern präzisiert.
-
-Heute fragt man nicht «Selektion oder Zufall?», sondern: **An welchen Stellen des Genoms, mit welcher Stärke?** Genau dafür braucht man Scans — und einen Hintergrund, gegen den man vergleicht (Woche 7).
-
-# Teil 3 · Spandrels
-
-## Die Kuppel von San Marco
-
-Gould & Lewontin (1979) beschreiben die dreieckigen Zwickel (*spandrels*) unter einer Kuppel: kunstvoll bemalt, perfekt in die Fläche gefügt.
-
-Man könnte meinen, die Kuppel sei gebaut worden, um diese Flächen zu schaffen.
-
-Tatsächlich ist es umgekehrt: Die Zwickel sind ein **Nebenprodukt** — wer vier Bögen mit einer Kuppel überspannt, bekommt sie automatisch.
-
-## Die Kritik
-
-Der Vorwurf an die Biologie: Zu oft wird ein Merkmal zerlegt und für jeden Teil eine Anpassungsgeschichte erzählt, ohne Alternativen zu prüfen.
-
-Gould und Lewontin nannten das den **Panglossschen** Denkstil — alles ist am Ende zum Besten eingerichtet.
-
-## Die Alternativen, die man prüfen muss
-
-| Alternative | Beispiel |
-|---|---|
-| Nebenprodukt eines anderen Merkmals | Zwickel unter der Kuppel |
-| Zufall in endlichen Populationen | neutrale Varianten (ab Woche 9) |
-| Entwicklungs- oder Bauzwang | was anatomisch möglich ist |
-| Geschichte statt Funktion | von den Vorfahren geerbt |
-| aus einer anderen Population übernommen | EPAS1-Haplotyp (Woche 1) |
-
-## Angewandt auf unsere eigenen Beispiele
-
-| Woche | Was wir gezeigt haben | Was offen bleibt |
-|---|---|---|
-| 5 | Gelb entsteht plastisch, nicht aus einem dritten Allel | warum diese Plastizität besteht |
-| 6 | Erwachsene zeigen eine SS-Lücke, das Gleichgewicht passt | ob wirklich nur Malaria wirkt |
-| 7 | einzelne Fenster ragen aus dem Hintergrund | welches Gen, welcher Druck |
-
-Ein Modell, das zu den Daten passt, ist noch nicht der Beweis, dass es der richtige Mechanismus ist.
-
-## Die nützliche Haltung
-
-Nicht: «Selektion erklärt nichts.»  
-Sondern: **Was wäre ohne Selektion zu erwarten — und geht der Befund darüber hinaus?**
-
-Dieselbe Denkbewegung wie bei Hardy–Weinberg in Woche 5. Ein Nullmodell ist kein Pessimismus, sondern die Voraussetzung dafür, überhaupt etwas behaupten zu können.
-
-# Teil 4 · Landkarte Modul 2
-
-## Vier Wochen, vier Fragen
-
-::::::: columns
-::::: {.column width="32%"}
-![](../../pics/Emma/Grafik_lizard_RPS.jpg){fig-alt="Farbmorphen" width="100%"}
-
-**5** · Wie sieht eine Population ohne Selektion aus?
-:::::
-::::: {.column width="32%"}
-![](../../pics/popgen/sickle_cells.jpg){fig-alt="Sichelzellen" width="100%"}
-
-**6** · Wann erhält Selektion Vielfalt?
-:::::
-::::: {.column width="32%"}
-![](../../pics/organisms/stickleback.jpg){fig-alt="Stichling" width="100%"}
-
-**7** · Wann bleiben Habitate verschieden?
-:::::
-:::::::
-
-Immer dieselbe Bewegung: Beobachtung → Nullmodell → Abweichung → Mechanismus.
-
-## Was jede Woche beigetragen hat
-
-| Woche | Biologie | Modell |
-|---|---|---|
-| 5 | Farbmorphen einer Art, zwei Haplotypen | $p^2$, $2pq$, $q^2$ |
-| 6 | Sichelzelle und Malaria | $p' = (p^2 w_{AA} + pq\,w_{AB})/\bar w$ |
-| 7 | Stichlinge, Meer und Süsswasser | $p_1$, $p_2$, Migration, $F_{ST}$ |
-| 8 | Neutralität, Spandrels | Grenzen aller obigen |
-
-## Der Werkzeugkasten
-
-| Woche | Neu im Code | Wofür |
-|---|---|---|
-| 2 | Funktion, Vektor, `for` | ein Zeitschritt, viele Schritte |
-| 3 | zwei Zustandsgrössen | zwei Arten gleichzeitig |
-| 4 | Matrix | wer wen beeinflusst |
-| 5 | Datentabelle, Spaltenrechnung | 225 SNPs auf einmal |
-| 6 | Default-Argumente, `sapply()` | Parameter systematisch drehen |
-| 7 | Bedingungen, `quantile()` | Zeilen auswählen, Schwellen setzen |
-
-Heute kommt nichts Neues dazu — heute benutzen Sie es.
-
-## Was eine gute Abbildung ausmacht
-
-1. **Eine** Aussage, nicht drei.
-2. Achsen beschriftet, Einheiten klar.
-3. Legende, wenn mehr als eine Linie im Bild ist.
-4. Die Parameter, die Sie gedreht haben, stehen im Titel oder in der Legende.
-5. Man versteht sie ohne den Code.
-
-# Checkpoint B
-
-## Heute wird benotet
+## Checkpoint B — Anwesenheit Pflicht
 
 ::::: columns
 ::: {.column width="18%"}
-![](../../pics/icons/icon_warning.svg){fig-alt="Wichtig" width="80%"}
+![](../../pics/icons/icon_warning.svg){fig-alt="Wichtig" width="75%"}
 :::
 ::: {.column width="82%"}
-Für die Bewertung müssen Sie **anwesend sein und vortragen**.
+Heute ist **Checkpoint B**.  
+Sie müssen **anwesend sein** und in der Gruppe Ihre Antwort erklären (nicht an der Tafel).
 
-Wer heute fehlt, kann Checkpoint B nicht ablegen (siehe Kursinfo · ILIAS).
+**Kein Programmieren:** Sie führen nur Funktionen aus, die im Notebook bereitstehen.
+
+[Modul 2](../../docs/module-02-overview.html) · Kursinfo auf ILIAS
 :::
 :::::
 
-Arbeit zu zweit ist möglich. Es gibt keine schriftliche Abgabe.
+# Resistenz im Raum
 
-## Ablauf des Vortrags (3–5 Min.)
+## Pestizid auf einer Seite
 
-1. die biologische Frage
-2. welchen Parameter Sie verändert haben — einer genügt
-3. **eine** Abbildung
-4. was biologisch herauskommt
-5. eine Grenze des Modells
+::::: columns
+::: {.column width="40%"}
+![](../../pics/popgen/slides/anopheles.jpg){fig-alt="Stechmücke" width="100%"}
+:::
+::: {.column width="58%"}
+Auf einer Seite einer Grenze wird gegen Insekten **Pestizid gespritzt**, auf der anderen nicht.
 
-Punkt 5 ist nach heute Vormittag keine Formalität mehr.
+- gespritzt: das **Resistenz-Allel R** ist im Vorteil
+- unbehandelt: R kostet etwas, das andere Allel ist besser
+- die Insekten **fliegen** über die Grenze
+:::
+:::::
 
-## Drei Themen zur Auswahl
+## Wie Woche 7 — nur im Raum
 
-| | Frage | Werkzeug |
+Woche 7: zwei Habitate, Selektion zieht auseinander, Migration mischt. Es zählte nur $m/s$.
+
+Jetzt: viele Stellen in einer Reihe. Die Frequenz von R ändert sich **entlang einer Strecke** — eine **Cline**.
+
+## Eine Cline
+
+```{r}
+#| fig-height: 3.4
+#| fig-width: 8
+xs <- seq(-8, 8, length.out = 200)
+ggplot(data.frame(x = xs, p = logistisch(xs, 0, 1)), aes(x, p)) +
+  annotate("rect", xmin = -2, xmax = 2, ymin = -Inf, ymax = Inf,
+           fill = "#d5e4f0", alpha = 0.6) +
+  geom_vline(xintercept = 0, linetype = "dashed", colour = "#b2182b") +
+  geom_line(colour = "#2166ac", linewidth = 1.2) +
+  annotate("text", x = 0.3, y = 0.08, label = "Zentrum", hjust = 0,
+           colour = "#b2182b", size = 4) +
+  annotate("segment", x = -2, xend = 2, y = 1.07, yend = 1.07,
+           colour = "#2166ac",
+           arrow = arrow(ends = "both", length = unit(0.15, "cm"))) +
+  annotate("text", x = -2.2, y = 1.07, label = "Breite", hjust = 1,
+           colour = "#2166ac", size = 4) +
+  coord_cartesian(ylim = c(0, 1.1)) +
+  labs(x = "Position (km): links unbehandelt, rechts gespritzt",
+       y = "Frequenz von R") +
+  theme_slide()
+```
+
+Zwei Zahlen beschreiben sie: **Zentrum** (wo $p = 0.5$) und **Breite** (wie schnell der Übergang). Das Notebook passt eine logistische Kurve an und liefert beide.
+
+## Sommer und Winter
+
+```{r}
+#| fig-height: 3.5
+#| fig-width: 8
+ggplot(clines, aes(x, p, colour = saison, shape = saison)) +
+  geom_vline(xintercept = 0, linetype = "dotted", colour = "grey60") +
+  geom_point(size = 2.8) +
+  scale_colour_manual(values = saison_farben, name = NULL) +
+  scale_shape_manual(values = c(Sommer = 16, Winter = 17), name = NULL) +
+  coord_cartesian(ylim = c(0, 1)) +
+  labs(x = "Position (km): links unbehandelt, rechts gespritzt",
+       y = "Frequenz von R") +
+  theme_slide() +
+  theme(legend.position = "right")
+```
+
+Dieselben 17 Stellen, im Sommer und im Winter beprobt.
+
+## Die Frage
+
+> Die Winter-Cline ist anders als die Sommer-Cline.  
+> **Was** ist anders — und kann das die Selektion $s$ oder die Migration $m$ erklären?
+
+# Auftrag
+
+## Notebook (~45 min)
+
+**→ [Notebook Woche 8 öffnen](notebook.html)** · [Rmd](notebook.Rmd) · [R](notebook.R)
+
+| Teil | Sie führen aus | Sie erhalten |
 |---|---|---|
-| **1** | Warum erklärt Überdominanz die Kehlfarben nicht? | konstante gegen häufigkeitsabhängige Fitness |
-| **2** | Was heisst «geschützter Polymorphismus»? | Trajektorien von verschiedenen Startwerten |
-| **3** | Wann bleiben zwei Habitate verschieden? | $p_1$, $p_2$ und $F_{ST}$ gegen $m$ |
+| 1 | `vergleiche_clines()` | **Abbildung 1:** Sommer und Winter mit Kurven, Tabelle mit Zentrum und Breite |
+| 2 | `zeige_modell(s = …, m = …)` | **Abbildung 2:** das Modell über den Daten |
 
-Das Notebook ist noch offen (eventuell Clines). Die drei Fragen
-nutzen die Werkzeuge aus den Wochen 5–7.
+In Teil 2 ändern Sie immer nur **eine** Zahl: einmal $s$ kleiner, einmal $m$ grösser.
 
-## Häufige Stolpersteine
+## Erklären in 1–2 Minuten
 
-- Drei Abbildungen statt einer — die Zeit reicht nicht.
-- Den Code erklären statt die Biologie.
-- «Das Modell beweist, dass …» — es zeigt, was unter Annahmen folgt.
-- Achsen ohne Beschriftung.
+Zeigen Sie der Assistenz **eine** Abbildung und sagen Sie drei Sätze:
+
+1. **Was** ist im Winter anders?
+2. **Welche** Änderung im Modell — $s$ oder $m$ — erzeugt das?
+3. **Was** ist biologisch plausibler? (Was passiert im Winter mit dem Pestizid?)
+
+# Abschluss
+
+## Take-home
+
+1. Eine Cline ist Selektion gegen Genfluss im Raum — wie Woche 7, nur mit vielen Stellen.
+2. Zentrum und Breite fassen eine Cline in zwei Zahlen.
+3. Ein Modell zeigt, **welche** Ursachen passen. Welche es war, braucht ein biologisches Argument.
 
 ## Ausblick · Modul 3
 
 Alle Modelle dieses Moduls waren **deterministisch**: $p$ folgte einer festen Regel.
 
-Das ist eine gute Beschreibung, solange ein Allel **häufig** ist. Eine neue Mutation beginnt jedoch mit **einer einzigen Kopie** — dann entscheidet der Zufall, ob sie überhaupt je häufig wird.
+Eine neue Mutation beginnt jedoch mit **einer einzigen Kopie** — dann entscheidet der Zufall, ob sie überhaupt je häufig wird.
 
-Wochen 9–11: Etablierung, evolutionäre Rettung, Checkpoint C.
-
-## Take-home
-
-1. Viel Variation allein beweist keine Selektion — 1966 brachte genau diese Frage ins Rollen.
-2. Die neutrale Theorie ist ein Nullmodell für molekulare Vielfalt, kein Gegenbeweis zur Anpassung.
-3. Spandrels erinnern daran, Alternativen zu prüfen, bevor man eine Anpassungsgeschichte erzählt.
-4. Modul 2 war eine einzige Bewegung: Erwartung ohne Selektion, dann Abweichung, dann Mechanismus.
-
-## Notebook
-
-**→ [Notebook Woche 8 öffnen](notebook.html)**
-
-Wählen Sie **eine** der drei Fragen. Hilfsfunktionen stehen in den
-Notebooks 5–7; bewertet werden die Frage und die Abbildung, nicht
-der Umfang des Codes.
+Wochen 9–11: Zufall, Etablierung, evolutionäre Rettung · Checkpoint C.
 
 ## Literatur
 
 :::: {.lit}
-1. **Lewontin, R. C., & Hubby, J. L. (1966).** A molecular approach to the study of genic heterozygosity in natural populations. II. *Genetics* 54: 595–609.
-2. **Harris, H. (1966).** Enzyme polymorphisms in man. *Proc. R. Soc. Lond. B* 164: 298–310.
-3. **Haldane, J. B. S. (1957).** The cost of natural selection. *Journal of Genetics* 55: 511–524.
-4. **Kimura, M. (1968).** Evolutionary rate at the molecular level. *Nature* 217: 624–626. [doi:10.1038/217624a0](https://doi.org/10.1038/217624a0)
-5. **King, J. L., & Jukes, T. H. (1969).** Non-Darwinian evolution. *Science* 164: 788–798.
-6. **Gould, S. J., & Lewontin, R. C. (1979).** The spandrels of San Marco and the Panglossian paradigm. *Proc. R. Soc. Lond. B* 205: 581–598. [doi:10.1098/rspb.1979.0086](https://doi.org/10.1098/rspb.1979.0086)
+1. **Haldane, J. B. S. (1948).** The theory of a cline. *Journal of Genetics* 48: 277–284.
+2. **Slatkin, M. (1973).** Gene flow and selection in a cline. *Genetics* 75: 733–756.
+3. **Lenormand, T., Bourguet, D., Guillemaud, T., & Raymond, M. (1999).** Tracking the evolution of insecticide resistance in the mosquito *Culex pipiens*. *Nature* 400: 861–864.
+
+Kursdaten Sommer/Winter: Lehrzahlen der Assistenzen, im Notebook.
 ::::
 
 ## Navigation
 
 | | |
 |---|---|
-| Notebook | [Notebook Woche 8](notebook.html) |
+| Notebook | [Quarto](notebook.html) · [Rmd](notebook.Rmd) · [R](notebook.R) |
 | Zurück | [← Woche 7](../week-07/slides.html) |
 | Weiter | [Woche 9 →](../week-09/slides.html) |
 | Modul | [Modul 2](../../docs/module-02-overview.html) |
-| PDF | Taste **E**, dann Drucken → Als PDF speichern |
+| PDF | [slides.pdf](slides.pdf) · oder Taste **E**, dann Drucken |

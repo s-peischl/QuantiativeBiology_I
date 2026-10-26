@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="300" viewBox="0 0 900 300">
+  <defs>
+    <marker id="pfeil" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#7f8c8d"/>
+    </marker>
+  </defs>
+  <rect width="900" height="300" fill="#fbfcfd"/>
+  <text x="450" y="38" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="22" font-weight="bold" fill="#1a5276">Von einem p zu zwei Frequenzen</text>
+
+  <!-- Wochen 5-6 -->
+  <rect x="40" y="70" width="240" height="170" rx="14" fill="#eaf2fb" stroke="#2980b9" stroke-width="2.5"/>
+  <text x="160" y="108" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="bold" fill="#1a5276">Wochen 5–6</text>
+  <text x="160" y="170" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="48" fill="#2166ac">p</text>
+  <text x="160" y="215" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" fill="#333">eine Population</text>
+
+  <!-- Pfeil -->
+  <line x1="300" y1="155" x2="368" y2="155" stroke="#7f8c8d" stroke-width="4" marker-end="url(#pfeil)"/>
+
+  <!-- Woche 7 -->
+  <rect x="390" y="70" width="470" height="170" rx="14" fill="#fdf2e9" stroke="#e67e22" stroke-width="2.5"/>
+  <text x="625" y="108" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="bold" fill="#b9770e">Woche 7</text>
+  <text x="520" y="170" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="48" fill="#2166ac">p<tspan font-size="28" font-style="normal" dy="10">1</tspan></text>
+  <text x="520" y="215" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" fill="#333">See</text>
+  <text x="625" y="170" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="36" fill="#7f8c8d">und</text>
+  <text x="730" y="170" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="48" fill="#b2182b">p<tspan font-size="28" font-style="normal" dy="10">2</tspan></text>
+  <text x="730" y="215" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" fill="#333">Meer</text>
+
+  <text x="450" y="280" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" fill="#5d6d7e">Zustand: Frequenz von A an demselben Locus in zwei Habitaten</text>
+</svg>

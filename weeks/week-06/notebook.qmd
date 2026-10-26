@@ -31,13 +31,13 @@ Selektion kann genetische Vielfalt erhalten oder beseitigen. Wir beginnen mit ko
 Keine Abgabe. Ändern Sie nur die markierten Parameter; die Startwerte bleiben gleich.
 
 ::: {.callout-note}
-## Drei Formate
+## Drei Formate (gleiche Aufgabe)
 
-| Format | Datei |
-|--------|-------|
-| Quarto | diese Seite |
-| R Markdown | [`notebook.Rmd`](notebook.Rmd) |
-| nur R | [`notebook.R`](notebook.R) |
+| Format | Datei | Für wen |
+|--------|-------|---------|
+| Quarto | diese Seite / `notebook.qmd` | Standard |
+| R Markdown | [`notebook.Rmd`](notebook.Rmd) | Knit in RStudio, ohne Quarto |
+| nur R | [`notebook.R`](notebook.R) | Source in RStudio (base R) |
 :::
 
 ---

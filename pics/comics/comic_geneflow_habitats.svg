@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="300" viewBox="0 0 920 300">
+  <rect width="920" height="300" fill="#fbfcfd"/>
+  <text x="460" y="30" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="17" font-weight="bold" fill="#1a5276">Genfluss mischt — Selektion trennt</text>
+
+  <ellipse cx="220" cy="160" rx="140" ry="90" fill="#d4e6f1" stroke="#2166ac" stroke-width="2"/>
+  <text x="220" y="130" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#1a5276">Meer</text>
+  <text x="220" y="155" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">viele Platten</text>
+  <text x="220" y="180" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">p2 hoch fuer A?</text>
+
+  <ellipse cx="700" cy="160" rx="140" ry="90" fill="#d5f5e3" stroke="#1abc9c" stroke-width="2"/>
+  <text x="700" y="130" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#0e6655">See / Bach</text>
+  <text x="700" y="155" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">wenige Platten</text>
+  <text x="700" y="180" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">p1 anders</text>
+
+  <path d="M360 130 C460 90, 560 90, 660 130" fill="none" stroke="#e67e22" stroke-width="3" marker-end="url(#a1)"/>
+  <path d="M660 190 C560 230, 460 230, 360 190" fill="none" stroke="#e67e22" stroke-width="3" marker-end="url(#a1)"/>
+  <defs>
+    <marker id="a1" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#e67e22"/>
+    </marker>
+  </defs>
+  <text x="460" y="105" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="bold" fill="#e67e22">Migration m</text>
+  <text x="460" y="250" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5d6d7e">Jede Generation: ein Anteil der Allele wechselt das Habitat</text>
+</svg>
