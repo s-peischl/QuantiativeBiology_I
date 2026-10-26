@@ -34,12 +34,12 @@ execute:
 # A) Beispiel Insektizidresistenz in Moskitos
 Diese Woche untersuchen wir die Anpassung verschiedener Moskitopopulationen an Insektizide. Dieses Beispiel ist an eine Studie von Lenormand et al. (1999) angelehnt.
 
-Um die Stadt Montpellier wurde in den 90er Jahren Insektizid ausgetragen, woraufhin die lokale Moskitopopulation eine Resistenz dagegen entwickelt hat. Diese Resistenz ist jedoch in Abwesenheit des Insektizids unvorteilhaft und daher in ländlichen Moskitopopulationen nicht vorhanden. Wir untersuchen nun, wie sich die Resistenzfrequenz $p$ des Resistenz-Alleles $\mathrm{R}$ in der Stadtpopulation unter verschiedenen Selektions- und Migrationsszenarien verändert. Dafür tracken wir das resistente Allel $\mathrm{R}$ und das anfällige Allel $\mathrm{A}$ in der Stadtpopulation, jeweils mit Frequenzen $p_\mathrm{R}$ und $p_\mathrm{A}$.
+Um die Stadt Montpellier wurde in den 90er Jahren Insektizid ausgetragen, woraufhin die lokale Moskitopopulation eine Resistenz dagegen entwickelt hat. Diese Resistenz ist jedoch in Abwesenheit des Insektizids unvorteilhaft und daher in ländlichen Moskitopopulationen nicht vorhanden. Wir untersuchen nun, wie sich die Resistenzfrequenz $p$ des Resistenz-Alleles $\mathrm{R}$ in der Stadtpopulation unter verschiedenen Selektions- und Migrationsszenarien verändert. Dafür tracken wir das resistente Allel $\mathrm{R}$ und das anfällige Allel $\mathrm{r}$ in der Stadtpopulation, jeweils mit Frequenzen $p_\mathrm{R}$ und $p_\mathrm{r}$.
 
 ## Gleichungen
 Wir nehmen an, dass in der Stadtpopulation das Resistenzallel $\mathrm{R}$ vorteilhaft ist, so dass die Genotypen folgende Fitnesswerte haben:
 
-|  $w_\mathrm{RR}$ |  $w_\mathrm{AR}$ |  $w_\mathrm{AA}$ |
+|  $w_\mathrm{RR}$ |  $w_\mathrm{rR}$ |  $w_\mathrm{rr}$ |
 |---|---|---|
 | $1 + s$ | $1 + \frac{s}{2}$ | 1 |
 
@@ -47,13 +47,13 @@ Dabei ist $s$ der Selektionskoeffizient und somit der Fitnessvorteil von Resiste
 
 Die mittlere Fitness $\bar w$ ist demnach:
 $$
-\bar w = p^2 w_\mathrm{RR} + 2pq w_\mathrm{AR} + q^2 w_\mathrm{AA}
+\bar w = p^2 w_\mathrm{RR} + 2pq w_\mathrm{rR} + q^2 w_\mathrm{rr}
 $$
 
 und nach Selektion gilt:
 
 $$
-p^s = \frac{p^2 w_{\mathrm{RR}} + pq w_{\mathrm{AR}} }{\bar w}, \qquad q^s = \frac{q^2 w_{\mathrm{AA}} + pq w_{\mathrm{AR}} }{\bar w}
+p^s = \frac{p^2 w_{\mathrm{RR}} + pq w_{\mathrm{rR}} }{\bar w}, \qquad q^s = \frac{q^2 w_{\mathrm{rr}} + pq w_{\mathrm{rR}} }{\bar w}
 $$
 
 Nach Migration nehmen wir an, dass ein Anteil $m$ der Individuen aus der Population aus der Nachbarpopulation stammt, wobei eine Population komplett durchmischt ist, wenn $m = 0.5$:
@@ -185,74 +185,74 @@ legend("topright", c("Resistent", "Anfällig"),
 Vergleichen Sie Simulationen mit verschiedenen $m$ und $s$ Werten:
 ```{r}
 
-s0.1_m0.1 <- simulateLA(p_0 = 0.5,
+s01_m01 <- simulateLA(p_0 = 0.5,
                      s = 0.1,
                      m = 0.1)
 
-s0.3_m0.1 <- simulateLA(p_0 = 0.5,
-                     s = 0.3,
-                     m = 0.1)
-
-s0.3_m0.3 <- simulateLA(p_0 = 0.5,
+s03_m03 <- simulateLA(p_0 = 0.5,
                      s = 0.3,
                      m = 0.3)
 
-s0.6_m0.2 <- simulateLA(p_0 = 0.5,
+s03_m01 <- simulateLA(p_0 = 0.5,
+                     s = 0.3,
+                     m = 0.1)
+
+s06_m <- simulateLA(p_0 = 0.5,
                      s = 0.6,
-                     m = 0.2)
+                     m = 0.0) # Bitte ändern
 
 par(mfrow = c(1, 4))
-plot(x = s0.1_m0.1$generation,
-     y = s0.1_m0.1$p,
+plot(x = s01_m01$generation,
+     y = s01_m01$p,
      type = "l", lwd = 2, col = "dodgerblue",
      xlab = "Generationen",
      ylab = "Allelfrequenz",
      ylim = c(0,1),
      main = "s = 0.1, m = 0.1")
-lines(x = s0.1_m0.1$generation,
-     y = s0.1_m0.1$q, 
+lines(x = s01_m01$generation,
+     y = s01_m01$q, 
      type = "l", lwd = 2, col = "chartreuse3")
 legend("topright", c("Resistent", "Anfällig"),
        col = c("dodgerblue", "chartreuse3"),
        lwd = 2, bty = "n")
 
-plot(x = s0.3_m0.1$generation,
-     y = s0.3_m0.1$p,
-     type = "l", lwd = 2, col = "dodgerblue",
-     xlab = "Generationen",
-     ylab = "Allelfrequenz",
-     ylim = c(0,1),
-     main = "s = 0.3, m = 0.1")
-lines(x = s0.3_m0.1$generation,
-     y = s0.3_m0.1$q, 
-     type = "l", lwd = 2, col = "chartreuse3")
-legend("topright", c("Resistent", "Anfällig"),
-       col = c("dodgerblue", "chartreuse3"),
-       lwd = 2, bty = "n")
-
-plot(x = s0.3_m0.3$generation,
-     y = s0.3_m0.3$p,
+plot(x = s03_m03$generation,
+     y = s03_m03$p,
      type = "l", lwd = 2, col = "dodgerblue",
      xlab = "Generationen",
      ylab = "Allelfrequenz",
      ylim = c(0,1),
      main = "s = 0.3, m = 0.3")
-lines(x = s0.3_m0.3$generation,
-     y = s0.3_m0.3$q, 
+lines(x = s03_m03$generation,
+     y = s03_m03$q, 
      type = "l", lwd = 2, col = "chartreuse3")
 legend("topright", c("Resistent", "Anfällig"),
        col = c("dodgerblue", "chartreuse3"),
        lwd = 2, bty = "n")
 
-plot(x = s0.6_m0.2$generation,
-     y = s0.6_m0.2$p,
+plot(x = s03_m01$generation,
+     y = s03_m01$p,
      type = "l", lwd = 2, col = "dodgerblue",
      xlab = "Generationen",
      ylab = "Allelfrequenz",
      ylim = c(0,1),
-     main = "s = 0.6, m = 0.2")
-lines(x = s0.6_m0.2$generation,
-     y = s0.6_m0.2$q, 
+     main = "s = 0.3, m = 0.1")
+lines(x = s03_m01$generation,
+     y = s03_m01$q, 
+     type = "l", lwd = 2, col = "chartreuse3")
+legend("topright", c("Resistent", "Anfällig"),
+       col = c("dodgerblue", "chartreuse3"),
+       lwd = 2, bty = "n")
+
+plot(x = s06_m$generation,
+     y = s06_m$p,
+     type = "l", lwd = 2, col = "dodgerblue",
+     xlab = "Generationen",
+     ylab = "Allelfrequenz",
+     ylim = c(0,1),
+     main = "s = 0.6, m = ? ")
+lines(x = s06_m$generation,
+     y = s06_m$q, 
      type = "l", lwd = 2, col = "chartreuse3")
 legend("topright", c("Resistent", "Anfällig"),
        col = c("dodgerblue", "chartreuse3"),
@@ -264,7 +264,8 @@ legend("topright", c("Resistent", "Anfällig"),
 ::: {.callout-tip}
 ## F4
 
-Was fällt Ihnen auf? Führen grössere Werte für $s$ immernoch zu höheren Allelefrequenzen des Resistenzallels?
+- Was fällt Ihnen auf wenn Sie die ersten beiden Graphen mit $s = 0.1, 0.3$ und $m = 0.1, 0.3$ vergleichen? 
+- Wählen Sie nun $m$ in der letzten Simulation `s06_m`, damit Sie ein ähnliches Muster, wie für `s03_m01` erhalten. Welchen Wert wählen Sie für $m$? Wieso?
 
 :::
 
