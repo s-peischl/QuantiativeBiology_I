@@ -59,13 +59,13 @@ Details: [Modul 1](docs/module-01-overview.qmd) · [Kursinfo (PDF)](docs/kursinf
 
 **Vererbung und Vektoren** · Hardy–Weinberg → lokale Anpassung → Raum · endet mit **Checkpoint B in Woche 8**.
 
-Überblick: [Modul 2](docs/module-02-overview.qmd). Wochen 7–8 folgen.
+Überblick: [Modul 2](docs/module-02-overview.qmd). Woche 8 folgt.
 
 | Woche | Datum | Thema | Materialien |
 |------:|------|--------|-------------|
 | 5 | 15. Okt. | HWE · Blutgruppen · Avocado | [Folien](weeks/week-05/slides.qmd) · [PDF](weeks/week-05/slides.pdf) · [Notebook](weeks/week-05/notebook.qmd) · [Rmd](weeks/week-05/notebook.Rmd) · [R](weeks/week-05/notebook.R) |
 | 6 | 22. Okt. | Selektion · Sichelzelle · RPS | [Folien](weeks/week-06/slides.qmd) · [PDF](weeks/week-06/slides.pdf) · [Notebook](weeks/week-06/notebook.qmd) · [Rmd](weeks/week-06/notebook.Rmd) · [R](weeks/week-06/notebook.R) |
-| 7 | 29. Okt. | Erhalt von Variation | folgt |
+| 7 | 29. Okt. | Anpassung im Raum · Stichling · $F_{ST}$ | [Folien](weeks/week-07/slides.qmd) · [PDF](weeks/week-07/slides.pdf) · [Notebook](weeks/week-07/notebook.qmd) |
 | 8 | 5. Nov. | Synthese · **Checkpoint B** | folgt |
 
 ## Modul 3 · folgt
@@ -103,8 +103,8 @@ Folien und Notebooks erscheinen hier, sobald der Block frei gegeben ist. Überbl
 | [3](weeks/week-03/slides.qmd) | 1. Okt | Stabilität / Food Web | |
 | [4](weeks/week-04/slides.qmd) | 8. Okt | Spieltheorie / RPS | **A** |
 | 5 | 15. Okt | HWE · HapMap · Wahlund | |
-| 6 | 22. Okt | Selektion · lokale Anpassung | |
-| 7 | 29. Okt | Molekulare Diversität · Erhalt | |
+| 6 | 22. Okt | Selektion · Sichelzelle · RPS | |
+| 7 | 29. Okt | Anpassung im Raum · $F_{ST}$ | |
 | 8 | 5. Nov | Synthese | **B** |
 | 9 | 12. Nov | Stichlinge · Zufall | |
 | 10 | 19. Nov | Resistenz · Rettung | |

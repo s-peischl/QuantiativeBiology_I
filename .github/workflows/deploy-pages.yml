@@ -46,6 +46,9 @@ jobs:
         # Force R execution: --no-execute dropped plots; freeze restore is unreliable with embed-resources.
         run: quarto render --execute
 
+      - name: Fix Reveal lazy-loaded images
+        run: python3 scripts/fix_reveal_lazy_images.py
+
       - name: Export slide PDFs
         continue-on-error: true
         run: |

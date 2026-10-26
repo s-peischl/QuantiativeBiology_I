@@ -23,3 +23,17 @@ Commons file page before redistribution beyond the course.
 
 Always name the Commons page in lecture asides.
 
+Slide-sized copies for Reveal (compressed): `pics/popgen/slides/` — generated from the files above plus `high-altitude/DSCF0610.jpg` → `slides/highland.jpg`.
+
+
+### Woche 7 · «Lokale Anpassung ist überall» (`pics/popgen/slides/`, 2026-10-23)
+
+Direkt als verkleinerte Slide-Kopien geladen (max. 900 px).
+
+| Local file | Commons file | Author · License |
+|---|---|---|
+| `birkenspanner_getarnt.jpg` | [Moth camouflage (5801047047).jpg](https://commons.wikimedia.org/wiki/File:Moth_camouflage_(5801047047).jpg) | Gilles San Martin · CC BY-SA 2.0 (zugeschnitten) |
+| `birkenspanner_carbonaria.jpg` | [(1931) Peppered Moth (Biston betularia) f.carbonaria - Flickr - Bennyboymothman.jpg](https://commons.wikimedia.org/wiki/File:(1931)_Peppered_Moth_(Biston_betularia)_f.carbonaria_-_Flickr_-_Bennyboymothman.jpg) | Ben Sale · CC BY 2.0 |
+| `whitesands_eidechse.jpg` | [Bleached Earless Lizard (Holbrookia maculata ruthveni). (c77b6709-…).JPG](https://commons.wikimedia.org/wiki/File:Bleached_Earless_Lizard_(Holbrookia_maculata_ruthveni)._(c77b6709-155d-451f-67ba-bd8242bfc686).JPG) | NPS · Public domain |
+| `strandmaus.jpg` | [Usfws-perdido-key-beach-mouse-large.jpg](https://commons.wikimedia.org/wiki/File:Usfws-perdido-key-beach-mouse-large.jpg) | USFWS · Public domain |
+| `darwinfinken.jpg` | [Darwin's finches.png](https://commons.wikimedia.org/wiki/File:Darwin%27s_finches.png) | Collage by Kiwi Rex · CC BY-SA 4.0 |

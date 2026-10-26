@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="340" viewBox="0 0 920 340">
+  <rect width="920" height="340" fill="#fbfcfd"/>
+  <text x="460" y="28" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="bold" fill="#1a5276">Genom: Hintergrund aehnlich, wenige parallele Spitzen</text>
+
+  <text x="60" y="70" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Paar 1 (Meer–See)</text>
+  <line x1="60" y1="120" x2="860" y2="120" stroke="#bdc3c7" stroke-width="2"/>
+  <polyline points="60,115 120,112 180,118 240,110 300,50 360,108 420,115 480,55 540,112 600,118 660,110 720,116 780,112 860,114" fill="none" stroke="#2166ac" stroke-width="2.2"/>
+  <circle cx="300" cy="50" r="6" fill="#b2182b"/>
+  <circle cx="480" cy="55" r="6" fill="#b2182b"/>
+  <text x="300" y="40" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#b2182b">Eda</text>
+  <text x="480" y="45" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#b2182b">Becken</text>
+
+  <text x="60" y="175" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Paar 2 (unabhaengig)</text>
+  <line x1="60" y1="225" x2="860" y2="225" stroke="#bdc3c7" stroke-width="2"/>
+  <polyline points="60,220 120,218 180,222 240,215 300,160 360,218 420,220 480,165 540,218 600,222 660,216 720,220 780,218 860,219" fill="none" stroke="#1b9e77" stroke-width="2.2"/>
+  <circle cx="300" cy="160" r="6" fill="#b2182b"/>
+  <circle cx="480" cy="165" r="6" fill="#b2182b"/>
+
+  <text x="460" y="290" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5d6d7e">Jones et al. 2012 · Nature — Differenzierung entlang des Genoms (schematisch)</text>
+  <text x="460" y="312" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#333">y: Staerke der Differenzierung · x: Position im Genom</text>
+</svg>

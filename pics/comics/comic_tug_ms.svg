@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="400" viewBox="0 0 960 400">
+  <defs>
+    <marker id="pfeil-rot" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#b2182b"/>
+    </marker>
+    <marker id="pfeil-blau" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2166ac"/>
+    </marker>
+  </defs>
+  <rect width="960" height="400" fill="#fbfcfd"/>
+  <text x="480" y="34" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="#1a5276">Ein Tauziehen zwischen Selektion und Migration</text>
+
+  <!-- Zahlengerade -->
+  <line x1="90" y1="200" x2="870" y2="200" stroke="#5d6d7e" stroke-width="2"/>
+  <line x1="90" y1="192" x2="90" y2="208" stroke="#5d6d7e" stroke-width="2"/>
+  <line x1="870" y1="192" x2="870" y2="208" stroke="#5d6d7e" stroke-width="2"/>
+  <text x="90" y="232" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#5d6d7e">0</text>
+  <text x="870" y="232" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#5d6d7e">1</text>
+  <text x="480" y="232" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#5d6d7e">Frequenz von A</text>
+
+  <!-- p2 (Meer) und p1 (See) -->
+  <circle cx="300" cy="200" r="15" fill="#b2182b"/>
+  <text x="300" y="205" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="bold" fill="#ffffff">p2</text>
+  <text x="300" y="262" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Meer</text>
+  <circle cx="660" cy="200" r="15" fill="#2166ac"/>
+  <text x="660" y="205" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="bold" fill="#ffffff">p1</text>
+  <text x="660" y="262" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">See</text>
+
+  <!-- Selektion: nach aussen -->
+  <line x1="285" y1="140" x2="185" y2="140" stroke="#b2182b" stroke-width="5" marker-end="url(#pfeil-rot)"/>
+  <line x1="675" y1="140" x2="775" y2="140" stroke="#b2182b" stroke-width="5" marker-end="url(#pfeil-rot)"/>
+  <text x="480" y="128" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#b2182b">Selektion zieht auseinander</text>
+  <text x="480" y="150" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#b2182b">staerker bei grossem s</text>
+
+  <!-- Migration: nach innen -->
+  <line x1="320" y1="300" x2="420" y2="300" stroke="#2166ac" stroke-width="5" marker-end="url(#pfeil-blau)"/>
+  <line x1="640" y1="300" x2="540" y2="300" stroke="#2166ac" stroke-width="5" marker-end="url(#pfeil-blau)"/>
+  <text x="480" y="296" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#2166ac">Migration</text>
+  <text x="480" y="318" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#2166ac">zieht zusammen</text>
+  <text x="480" y="340" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#2166ac">staerker bei grossem m</text>
+
+  <text x="480" y="382" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#5d6d7e">Gleichgewicht: dort, wo beide Pfeile gleich lang sind</text>
+</svg>
