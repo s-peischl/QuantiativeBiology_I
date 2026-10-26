@@ -34,7 +34,7 @@ execute:
 # A) Beispiel Insektizidresistenz in Moskitos
 Diese Woche untersuchen wir die Anpassung verschiedener Moskitopopulationen an Insektizide. Dieses Beispiel ist an eine Studie von Lenormand et al. (1999) angelehnt.
 
-Um die Stadt Montpellier wurde in den 90er Jahren Insektizid ausgetragen, woraufhin die lokale Moskitopopulation eine Resistenz dagegen entwickelt hat. Diese Resistenz ist jedoch in Abwesenheit des Insektizids unvorteilhaft und daher in ländlichen Moskitopopulationen nicht vorhanden. Wir untersuchen nun, wie sich die Resistenzfrequenz $p$ des Resistenz-Alleles $\mathrm{R}$ in der Stadtpopulation unter verschiedenen Selektions- und Migrationsszenarien verändert. Dafür tracken wir das resistente Allel $\mathrm{R}$ und das anfällige Allel $\mathrm{r}$ in der Stadtpopulation, jeweils mit Frequenzen $p_\mathrm{R}$ und $p_\mathrm{r}$.
+Um die Stadt Montpellier wurde in den 90er Jahren Insektizid ausgetragen, woraufhin die lokale Moskitopopulation eine Resistenz dagegen entwickelt hat. Diese Resistenz ist jedoch in Abwesenheit des Insektizids unvorteilhaft und daher in ländlichen Moskitopopulationen nicht vorhanden. Wir untersuchen nun, wie sich die Resistenzfrequenz $p$ des Resistenz-Alleles $\mathrm{R}$ in der Stadtpopulation unter verschiedenen Selektions- und Migrationsszenarien verändert. Dafür tracken wir das resistente Allel $\mathrm{R}$ und das ursprüngliche (Insektizid-anfällige) Allel $\mathrm{r}$ in der Stadtpopulation, jeweils mit Frequenzen $p_\mathrm{R}$ und $p_\mathrm{r}$.
 
 ## Gleichungen
 Wir nehmen an, dass in der Stadtpopulation das Resistenzallel $\mathrm{R}$ vorteilhaft ist, so dass die Genotypen folgende Fitnesswerte haben:
@@ -101,7 +101,7 @@ eine_generation <- function(p, # Frequenz des Resistenz-Alleles
 ```
 
 ## A1) Eine Generation
-Simulieren Sie eine einzelne Generation. Wir starten mit einer gleichmässign Verteilung von resistenten und anfälligen Moskitos; $p_\mathrm{R} = 0.5$.
+Simulieren Sie eine einzelne Generation. Wir starten mit einer gleichmässigen Verteilung von resistenten und anfälligen Moskitos; $p_\mathrm{R} = 0.5$.
 
 ::: {.callout-tip}
 ## F1
@@ -247,8 +247,8 @@ legend("topright", c("Resistent", "Anfällig"),
 ::: {.callout-tip}
 ## F4
 
-Ändern Sie die $m$ und $s$ Werte der verschiedenen Simulationen, um die drei$m/s$ Szenarien zu plotten.
-Beschreiben Sie was sie sehen.
+Ändern Sie die $m$ und $s$ Werte der verschiedenen Simulationen, um die drei $m/s$ Szenarien zu plotten.
+Beschreiben Sie, was Sie sehen.
 :::
 
 
@@ -315,7 +315,7 @@ legend("topright", c("Resistent", "Anfällig"),
 ```
 
 ::: {.callout-tip}
-## F4
+## F5
 
 Wählen Sie in den Simulationen die fehlenden Werte für $m$ oder $s$ damit das Muster der Allelfrequenzen zum ersten Graphen ($s = 0.25, m = 0.1$) passt.
 Welche Werte wählen Sie?
