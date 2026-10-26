@@ -1,4 +1,5 @@
 # Woche 6 — Notebook (nur R, base R)
+# Inhalt: konstante Fitness · RPS mit 3 Allelen · Plastizitaet (Corl)
 # In RStudio: Working Directory = weeks/week-06, dann Source.
 # Keine Abgabe. Nur markierte Parameter aendern.
 

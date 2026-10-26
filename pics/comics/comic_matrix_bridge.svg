@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="920" height="360" viewBox="0 0 920 360">
   <rect width="920" height="360" fill="#fbfcfd"/>
-  <text x="460" y="32" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="#1a5276">Matrix bleibt — Biologie wechselt</text>
+  <text x="460" y="32" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="#1a5276">Matrix bleibt - Biologie wechselt</text>
 
   <rect x="40" y="60" width="380" height="240" rx="12" fill="#eafaf1" stroke="#27ae60" stroke-width="2"/>
   <text x="230" y="95" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#196f3d">Woche 3 · Ressourcen</text>
@@ -21,5 +21,5 @@
   <text x="690" y="225" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">Frage: entsteht RPS?</text>
   <text x="690" y="270" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1a5276">3 x 3 Matrix</text>
 
-  <text x="460" y="335" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5d6d7e">Fitness aus Haeufigkeiten — nicht Futterkampf, nicht Raeuber-Beute</text>
+  <text x="460" y="335" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5d6d7e">Fitness aus Haeufigkeiten - nicht Futterkampf, nicht Raeuber-Beute</text>
 </svg>

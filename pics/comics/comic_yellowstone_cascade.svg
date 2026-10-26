@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="380" viewBox="0 0 1000 380">
   <rect width="1000" height="380" fill="white"/>
-  <text x="500" y="32" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="#1a5276">Yellowstone — trophische Kaskade (vereinfacht)</text>
+  <text x="500" y="32" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="#1a5276">Yellowstone - trophische Kaskade (vereinfacht)</text>
 
   <!-- left: without wolf -->
   <rect x="30" y="55" width="290" height="290" rx="14" fill="#fdf2e9" stroke="#d68910" stroke-width="2"/>
-  <text x="175" y="88" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#9a7b0a">ohne Wolf (1926–1995)</text>
+  <text x="175" y="88" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#9a7b0a">ohne Wolf (1926-1995)</text>
   <text x="175" y="125" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">viele Wapiti</text>
   <text x="175" y="152" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#b9770e">↓</text>
   <text x="175" y="180" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">starker Verbiss</text>

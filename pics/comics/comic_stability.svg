@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="920" height="300" viewBox="0 0 920 300">
   <rect width="920" height="300" fill="white"/>
-  <text x="460" y="32" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="#222">Stabilität: nach kleiner Störung — zurück?</text>
+  <text x="460" y="32" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" fill="#222">Stabilität: nach kleiner Störung - zurück?</text>
 
   <rect x="40" y="60" width="380" height="200" rx="14" fill="#eafaf1" stroke="#27ae60" stroke-width="3"/>
   <text x="230" y="95" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#196f3d">Gleichgewicht</text>
