@@ -53,13 +53,13 @@ saison_farben <- c(Sommer = "#d95f02", Winter = "#2166ac")
 |------|-------|-----|
 | Intro | ~15 min | Resistenz im Raum · eine Cline · die Frage |
 | Notebook | ~45 min | zwei Abbildungen erzeugen, Antwort finden |
-| Gruppen | ~30 min | Assistenz geht durch · 1–2 Min. erklären |
+| Gruppen | ~30 min | Assistenz kommt vorbei · 1–2 Min. erklären |
 
 ::: aside
 Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 :::
 
-## Checkpoint B — Anwesenheit Pflicht
+## Checkpoint B — Anwesenheitspflicht
 
 ::::: columns
 ::: {.column width="18%"}
@@ -77,18 +77,18 @@ Sie müssen **anwesend sein** und in der Gruppe Ihre Antwort erklären (nicht an
 
 # Resistenz im Raum
 
-## Pestizid auf einer Seite
+## Insektizid auf einer Seite
 
 ::::: columns
 ::: {.column width="40%"}
 ![](../../pics/popgen/slides/anopheles.jpg){fig-alt="Stechmücke" width="100%"}
 :::
 ::: {.column width="58%"}
-Auf einer Seite einer Grenze wird gegen Insekten **Pestizid gespritzt**, auf der anderen nicht.
+Auf einer Seite einer Grenze wird gegen Stechmücken **Insektizid gespritzt**, auf der anderen nicht.
 
 - gespritzt: das **Resistenz-Allel R** ist im Vorteil
 - unbehandelt: R kostet etwas, das andere Allel ist besser
-- die Insekten **fliegen** über die Grenze
+- die Mücken **fliegen** über die Grenze
 :::
 :::::
 
@@ -122,7 +122,7 @@ ggplot(data.frame(x = xs, p = logistisch(xs, 0, 1)), aes(x, p)) +
   theme_slide()
 ```
 
-Zwei Zahlen beschreiben sie: **Zentrum** (wo $p = 0.5$) und **Breite** (wie schnell der Übergang). Das Notebook passt eine logistische Kurve an und liefert beide.
+Zwei Zahlen beschreiben sie: **Zentrum** (wo $p = 0.5$) und **Breite** (wie lang der Übergang ist). Das Notebook passt eine logistische Kurve an und liefert beide.
 
 ## Sommer und Winter
 
@@ -167,15 +167,15 @@ Zeigen Sie der Assistenz **eine** Abbildung und sagen Sie drei Sätze:
 
 1. **Was** ist im Winter anders?
 2. **Welche** Änderung im Modell — $s$ oder $m$ — erzeugt das?
-3. **Was** ist biologisch plausibler? (Was passiert im Winter mit dem Pestizid?)
+3. **Was** ist biologisch plausibler? (Was passiert im Winter mit dem Insektizid?)
 
 # Abschluss
 
 ## Take-home
 
 1. Eine Cline ist Selektion gegen Genfluss im Raum — wie Woche 7, nur mit vielen Stellen.
-2. Zentrum und Breite fassen eine Cline in zwei Zahlen.
-3. Ein Modell zeigt, **welche** Ursachen passen. Welche es war, braucht ein biologisches Argument.
+2. Zentrum und Breite fassen eine Cline in zwei Zahlen zusammen.
+3. Ein Modell zeigt, **welche** Ursachen passen. Welche es tatsächlich war, entscheidet erst ein biologisches Argument.
 
 ## Ausblick · Modul 3
 
@@ -192,7 +192,7 @@ Wochen 9–11: Zufall, Etablierung, evolutionäre Rettung · Checkpoint C.
 2. **Slatkin, M. (1973).** Gene flow and selection in a cline. *Genetics* 75: 733–756.
 3. **Lenormand, T., Bourguet, D., Guillemaud, T., & Raymond, M. (1999).** Tracking the evolution of insecticide resistance in the mosquito *Culex pipiens*. *Nature* 400: 861–864.
 
-Kursdaten Sommer/Winter: Lehrzahlen der Assistenzen, im Notebook.
+Kursdaten Sommer/Winter: Daten der Assistenzen, im Notebook.
 ::::
 
 ## Navigation

@@ -20,9 +20,9 @@
   <circle cx="286" cy="207" r="13" fill="#b2182b"/>
   <circle cx="326" cy="207" r="13" fill="#b2182b"/>
   <circle cx="366" cy="207" r="13" fill="#2166ac"/>
-  <text x="326" y="252" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#196f3d">p2 faellt</text>
+  <text x="326" y="252" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#196f3d">p2 fällt</text>
 
-  <text x="234" y="298" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5d6d7e">Abstand zwischen den Habitaten waechst</text>
+  <text x="234" y="298" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5d6d7e">Abstand zwischen den Habitaten wächst</text>
 
   <text x="462" y="200" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="26" fill="#7f8c8d">&gt;</text>
 
@@ -53,5 +53,5 @@
   <text x="708" y="298" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5d6d7e">Abstand zwischen den Habitaten schrumpft</text>
 
   <text x="480" y="352" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#333">Bleibt ein Unterschied bestehen, halten sich die beiden Schritte die Waage</text>
-  <text x="480" y="378" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5d6d7e">viel Migration bei schwacher Selektion: die Habitate werden genetisch gleich (gene swamping)</text>
+  <text x="480" y="378" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5d6d7e">viel Migration bei schwacher Selektion: die Habitate werden genetisch gleich</text>
 </svg>

@@ -6,12 +6,12 @@
   <ellipse cx="220" cy="160" rx="140" ry="90" fill="#d4e6f1" stroke="#2166ac" stroke-width="2"/>
   <text x="220" y="130" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#1a5276">Meer</text>
   <text x="220" y="155" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">viele Platten</text>
-  <text x="220" y="180" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">p2 hoch fuer A?</text>
+  <text x="220" y="180" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">p2</text>
 
   <ellipse cx="700" cy="160" rx="140" ry="90" fill="#d5f5e3" stroke="#1abc9c" stroke-width="2"/>
   <text x="700" y="130" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#0e6655">See / Bach</text>
   <text x="700" y="155" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">wenige Platten</text>
-  <text x="700" y="180" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">p1 anders</text>
+  <text x="700" y="180" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#333">p1</text>
 
   <path d="M360 130 C460 90, 560 90, 660 130" fill="none" stroke="#e67e22" stroke-width="3" marker-end="url(#a1)"/>
   <path d="M660 190 C560 230, 460 230, 360 190" fill="none" stroke="#e67e22" stroke-width="3" marker-end="url(#a1)"/>

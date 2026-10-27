@@ -158,7 +158,7 @@ fst_skizze <- function() {
 | Teil | Dauer | Was |
 |------|-------|-----|
 | Vorlesung | ~45 min | Stichling → Selektion gegen Genfluss → $m/s$ → Blick ins Genom |
-| Notebook | ~45 min | Resistenz bei Stechmücken: $s$ und $m$ drehen |
+| Notebook | ~45 min | Resistenz bei Stechmücken: $s$ und $m$ verändern |
 
 ::: aside
 Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
@@ -169,8 +169,8 @@ Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 Nach heute können Sie …
 
 1. eine Generation als «Selektion lokal, dann Mischung» beschreiben,
-2. an Trajektorien erkennen, wann Genfluss lokale Unterschiede einebnet,
-3. erklären, warum für das Ergebnis vor allem das Verhältnis $m/s$ zählt.
+2. an Trajektorien erkennen, wann Genfluss lokale Unterschiede verschwinden lässt,
+3. erklären, warum für das Ergebnis vor allem das Verhältnis $m/s$ zählt,
 4. $F_{ST}$ aus zwei Allelfrequenzen berechnen und einen Genom-Scan lesen.
 
 ## Heute
@@ -299,7 +299,7 @@ Wie man so einen Scan misst und liest: Teil 4.
 
 ![](../../pics/comics/comic_geneflow_habitats.svg){fig-alt="Genfluss zwischen Meer und See" width="92%"}
 
-Meerfische wandern in Flussmündungen, Seefische werden ausgespült. Jede Generation mischt einen Teil der Allele wieder.
+Meerfische wandern in Flussmündungen, Seefische werden ausgespült. In jeder Generation werden die Allele zum Teil wieder durchmischt.
 
 ## Die Frage
 
@@ -394,7 +394,7 @@ Die Kurven trennen sich und bleiben getrennt: Selektion und Migration halten sic
 zeige_demen(zwei_demen(s = 0.15, m = 0.30), "s = 0.15, m = 0.30")
 ```
 
-Beide Habitate landen fast bei derselben Frequenz: Genfluss **ebnet** den Unterschied ein.
+Beide Habitate landen fast bei derselben Frequenz: Genfluss **gleicht** den Unterschied **aus**.
 
 # Teil 3 · Nur das Verhältnis zählt
 
@@ -419,10 +419,10 @@ Sechs Simulationen, aber nur **zwei** Endwerte: Es zählt nicht $s$ oder $m$ all
 | $m/s$ | Was passiert |
 |-------|--------------|
 | deutlich kleiner als 1 | Selektion gewinnt: die Habitate bleiben verschieden |
-| etwa 1 | Unterschied stark eingeebnet |
+| etwa 1 | Unterschied wird deutlich kleiner |
 | deutlich grösser als 1 | Migration gewinnt: die Habitate werden fast gleich |
 
-Starke Selektion verträgt viel Genfluss. Schwache Selektion wird schon von wenig Genfluss überspielt.
+Starke Selektion verträgt viel Genfluss. Schwache Selektion unterliegt schon wenig Genfluss.
 
 ## Warum nur manche Gene?
 
@@ -434,11 +434,11 @@ Alle Gene erleben **denselben** Genfluss $m$, aber jedes hat sein eigenes $s$. N
 
 ![](../../pics/comics/comic_rekombination.svg){fig-alt="Ein Meer-Chromosom wird im See durch Rekombination zerschnitten; nahe Eda wird es entfernt, weit weg bleibt es" width="80%"}
 
-Stellen **nahe** an einem selektierten Gen werden mit-selektiert. Weiter weg trennt **Rekombination** sie ab, und Genfluss mischt sie. Darum sieht man im Genom **Spitzen** mit einer Breite.
+Stellen **nahe** an einem selektierten Gen werden mitselektiert. Weiter weg trennt **Rekombination** sie ab, und Genfluss mischt sie. Darum sieht man im Genom **Spitzen**, die eine gewisse Breite haben.
 
 ## Die Idee eines Genom-Scans
 
-1. Die meisten Stellen im Genom sind **neutral**: Genfluss mischt sie, sie bilden einen tiefen **Hintergrund**.
+1. Die meisten Stellen im Genom sind **neutral**: Genfluss mischt sie, sie bilden einen niedrigen **Hintergrund**.
 2. Wo ein Gen unter lokaler Selektion steht, bleibt der Unterschied — **samt Nachbarschaft** (Rekombination).
 3. Also: Unterschied an **jeder** Stelle messen und nach Spitzen suchen, die aus dem Hintergrund ragen.
 
@@ -546,7 +546,7 @@ Hohenlohe et al. (2010) *PLoS Genetics*, Fig. 6 A und E · [CC BY 4.0](https://d
 
 **Meer gegen Meer (A):** überall flach. Die Meerpopulationen tauschen viele Gene aus und leben im gleichen Habitat.
 
-**Meer gegen Süsswasser (E):** der Hintergrund bleibt tief — Genfluss hält das Genom zusammen. Aber an einigen Stellen **ragt** $F_{ST}$ bis 0.5 heraus: Dort ist $m/s$ klein, Selektion hält stand.
+**Meer gegen Süsswasser (E):** der Hintergrund bleibt niedrig — Genfluss hält das Genom zusammen. Aber an einigen Stellen **ragt** $F_{ST}$ bis 0.5 heraus: Dort ist $m/s$ klein, Selektion hält stand.
 
 Eine dieser Spitzen liegt auf Chromosom IV bei *Eda*, dem Gen für die Panzerplatten.
 
@@ -626,7 +626,7 @@ Resistenz gegen Insektizid bei Stechmücken um Montpellier (Lenormand et al. 199
 
 **A1** Eine Generation: nimmt $p_R$ zu oder ab?  
 
-**A2** Viele Generationen: erst $s$ drehen, dann $m$ — gibt es verschiedene Kombinationen mit demselben Muster?
+**A2** Viele Generationen: erst $s$ verändern, dann $m$ — gibt es verschiedene Kombinationen mit demselben Muster?
 :::
 :::::
 

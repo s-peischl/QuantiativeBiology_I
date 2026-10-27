@@ -31,14 +31,14 @@
   <line x1="285" y1="140" x2="185" y2="140" stroke="#b2182b" stroke-width="5" marker-end="url(#pfeil-rot)"/>
   <line x1="675" y1="140" x2="775" y2="140" stroke="#b2182b" stroke-width="5" marker-end="url(#pfeil-rot)"/>
   <text x="480" y="128" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#b2182b">Selektion zieht auseinander</text>
-  <text x="480" y="150" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#b2182b">staerker bei grossem s</text>
+  <text x="480" y="150" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#b2182b">stärker bei grossem s</text>
 
   <!-- Migration: nach innen -->
   <line x1="320" y1="300" x2="420" y2="300" stroke="#2166ac" stroke-width="5" marker-end="url(#pfeil-blau)"/>
   <line x1="640" y1="300" x2="540" y2="300" stroke="#2166ac" stroke-width="5" marker-end="url(#pfeil-blau)"/>
   <text x="480" y="296" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="bold" fill="#2166ac">Migration</text>
   <text x="480" y="318" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#2166ac">zieht zusammen</text>
-  <text x="480" y="340" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#2166ac">staerker bei grossem m</text>
+  <text x="480" y="340" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#2166ac">stärker bei grossem m</text>
 
   <text x="480" y="382" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#5d6d7e">Gleichgewicht: dort, wo beide Pfeile gleich lang sind</text>
 </svg>
