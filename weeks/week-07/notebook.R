@@ -74,12 +74,17 @@ eine_generation <- function(p, # Frequenz des Resistenz-Alleles
   p_mig <- (1 - m) * p_sel + m * q
   q_mig <- (1 - m) * q_sel + m * p
   
-  return(c(p_mig, q_mig))
+  return(c(p_mig = p_mig, q_mig = q_mig))
 
 }
 
 # --- A1) Eine Generation ---
 # Simulieren Sie eine einzelne Generation. Wir starten mit einer gleichmaessigen Verteilung von resistenten und anfaelligen Moskitos; p_R = 0.5.
+#
+# Die Ausgabe hat zwei Zahlen:
+#
+# - p_mig: Frequenz von R in der Stadt nach Selektion und Migration
+# - q_mig: Frequenz von R in der Nachbarpopulation (Land) nach Selektion und Migration
 
 # --- F1 ---
 #
@@ -282,6 +287,13 @@ legend("topright", c("Resistent", "Anfaellig"),
 #   F_ST = (H_T - H_S) / H_T,     H = 2p(1-p)
 #
 # H_S ist die mittlere Heterozygotie innerhalb der Populationen, H_T die Heterozygotie, wenn man beide Populationen zusammenwirft. F_ST = 0: kein Unterschied; F_ST = 1: verschiedene Allele fixiert.
+#
+# Zwei Funktionen, beide geben F_ST aus:
+#
+# - fst_aus_p(p1, p2) rechnet F_ST direkt aus zwei Allelfrequenzen, zum Beispiel aus gemessenen Daten. Hier gibt es kein Modell, nur die Formel oben.
+# - fst_aus_ms(m, s) fragt: Wie gross wird F_ST, wenn Selektion und Migration lange genug gewirkt haben? Die Funktion laesst simulateLA() 1000 Generationen laufen, nimmt die Frequenzen der letzten Generation (Stadt und Land) und gibt sie an fst_aus_p() weiter.
+#
+# Der Unterschied: Bei fst_aus_p() geben Sie die Frequenzen vor; bei fst_aus_ms() geben Sie die Kraefte vor, und das Modell bestimmt die Frequenzen.
 
 # F_ST aus zwei Allelfrequenzen
 fst_aus_p <- function(p1, # Frequenz von R in Population 1

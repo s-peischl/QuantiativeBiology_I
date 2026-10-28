@@ -13,6 +13,12 @@ output:
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
+<style>
+table { width: auto !important; margin: 1em auto; border-collapse: collapse; }
+th, td { padding: 0.4em 1.2em !important; border: 1px solid #ccc; text-align: center !important; }
+blockquote { font-size: 1em; border-left: 4px solid #2c7fb8; background: #f2f8fc; padding: 0.6em 1em; }
+</style>
+
 Falls Quarto fehlt: dieses `.Rmd` in RStudio öffnen und **Knit** drücken. Noch einfacher: die reine R-Datei [`notebook.R`](notebook.R) (Source).
 
 # Ziel
@@ -91,7 +97,7 @@ eine_generation <- function(p, # Frequenz des Resistenz-Alleles
   p_mig <- (1 - m) * p_sel + m * q
   q_mig <- (1 - m) * q_sel + m * p
   
-  return(c(p_mig, q_mig))
+  return(c(p_mig = p_mig, q_mig = q_mig))
 
 }
 
@@ -99,6 +105,11 @@ eine_generation <- function(p, # Frequenz des Resistenz-Alleles
 
 ## A1) Eine Generation
 Simulieren Sie eine einzelne Generation. Wir starten mit einer gleichmässigen Verteilung von resistenten und anfälligen Moskitos; $p_\mathrm{R} = 0.5$.
+
+Die Ausgabe hat zwei Zahlen:
+
+- `p_mig`: Frequenz von $\mathrm{R}$ in der **Stadt** nach Selektion und Migration
+- `q_mig`: Frequenz von $\mathrm{R}$ in der **Nachbarpopulation** (Land) nach Selektion und Migration
 
 > **F1**
 >
@@ -167,6 +178,7 @@ legend("topright", c("Resistent", "Anfällig"),
        lwd = 2, bty = "n")
 
 ```
+
 > **F3**
 >
 > Ändern Sie $s$. Was passiert mit dem Resistenzallel?
@@ -233,11 +245,11 @@ legend("topright", c("Resistent", "Anfällig"),
        lwd = 2, bty = "n")
 
 ```
+
 > **F4**
 >
 > Ändern Sie die $m$ und $s$ Werte der verschiedenen Simulationen, um die drei $m/s$ Szenarien zu plotten.
 > Beschreiben Sie, was Sie sehen.
-
 
 Vergleichen Sie Simulationen mit verschiedenen $m$ und $s$ Werten:
 ```{r}
@@ -297,15 +309,12 @@ legend("topright", c("Resistent", "Anfällig"),
        col = c("dodgerblue", "chartreuse3"),
        lwd = 2, bty = "n")
 
-
-
 ```
 
 > **F5**
 >
 > Wählen Sie in den Simulationen die fehlenden Werte für $m$ oder $s$ damit das Muster der Allelfrequenzen zum ersten Graphen ($s = 0.25, m = 0.1$) passt.
 > Welche Werte wählen Sie?
-
 
 ---
 
@@ -318,6 +327,13 @@ F_{ST} = \frac{H_T - H_S}{H_T}, \qquad H = 2p(1-p)
 $$
 
 $H_S$ ist die mittlere Heterozygotie **innerhalb** der Populationen, $H_T$ die Heterozygotie, wenn man beide Populationen **zusammenwirft**. $F_{ST} = 0$: kein Unterschied; $F_{ST} = 1$: verschiedene Allele fixiert.
+
+Zwei Funktionen, beide geben $F_{ST}$ aus:
+
+- `fst_aus_p(p1, p2)` rechnet $F_{ST}$ **direkt aus zwei Allelfrequenzen**, zum Beispiel aus gemessenen Daten. Hier gibt es kein Modell, nur die Formel oben.
+- `fst_aus_ms(m, s)` fragt: Wie gross wird $F_{ST}$, wenn Selektion und Migration lange genug gewirkt haben? Die Funktion lässt `simulateLA()` 1000 Generationen laufen, nimmt die Frequenzen der letzten Generation (Stadt und Land) und gibt sie an `fst_aus_p()` weiter.
+
+Der Unterschied: Bei `fst_aus_p()` geben Sie die Frequenzen **vor**; bei `fst_aus_ms()` geben Sie die **Kräfte** vor, und das Modell bestimmt die Frequenzen.
 
 ```{r}
 # F_ST aus zwei Allelfrequenzen
@@ -359,11 +375,8 @@ fst_aus_ms(m = 0.1, s = 0.1)  # Bitte ändern
 > - Wann ist `fst_aus_p()` gleich 0, wann gleich 1?
 > - Verdoppeln Sie in `fst_aus_ms()` $m$ **und** $s$. Was passiert mit $F_{ST}$? Und wenn Sie nur $m$ verdoppeln?
 
-
 ---
 
 # Referenzen
 Lenormand, T., Bourguet, D., Guillemaud, T. et al. *Tracking the evolution of insecticide resistance in the mosquito Culex pipiens*. Nature 400, 861–864 (1999). https://doi.org/10.1038/23685
-
-
 
