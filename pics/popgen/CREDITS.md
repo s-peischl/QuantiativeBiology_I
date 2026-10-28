@@ -37,3 +37,9 @@ Direkt als verkleinerte Slide-Kopien geladen (max. 900 px).
 | `whitesands_eidechse.jpg` | [Bleached Earless Lizard (Holbrookia maculata ruthveni). (c77b6709-…).JPG](https://commons.wikimedia.org/wiki/File:Bleached_Earless_Lizard_(Holbrookia_maculata_ruthveni)._(c77b6709-155d-451f-67ba-bd8242bfc686).JPG) | NPS · Public domain |
 | `strandmaus.jpg` | [Usfws-perdido-key-beach-mouse-large.jpg](https://commons.wikimedia.org/wiki/File:Usfws-perdido-key-beach-mouse-large.jpg) | USFWS · Public domain |
 | `darwinfinken.jpg` | [Darwin's finches.png](https://commons.wikimedia.org/wiki/File:Darwin%27s_finches.png) | Collage by Kiwi Rex · CC BY-SA 4.0 |
+
+## Eigene Abbildungen des Kursteams
+
+| Local file | Quelle | Use |
+|---|---|---|
+| `slides/moskitos_stadt_land.jpg` | Zeichnung: **Emma Ochsner** (Kursteam QuBi I), verkleinert aus `QuBi-Moskitos_neu.jpg` | Woche 7: Stechmücken, Insektizid Stadt vs. Land, Migration |

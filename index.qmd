@@ -65,7 +65,7 @@ Details: [Modul 1](docs/module-01-overview.qmd) · [Kursinfo (PDF)](docs/kursinf
 |------:|------|--------|-------------|
 | 5 | 15. Okt. | HWE · Blutgruppen · Avocado | [Folien](weeks/week-05/slides.qmd) · [PDF](weeks/week-05/slides.pdf) · [Notebook](weeks/week-05/notebook.qmd) · [Rmd](weeks/week-05/notebook.Rmd) · [R](weeks/week-05/notebook.R) |
 | 6 | 22. Okt. | Selektion · Sichelzelle · RPS | [Folien](weeks/week-06/slides.qmd) · [PDF](weeks/week-06/slides.pdf) · [Notebook](weeks/week-06/notebook.qmd) · [Rmd](weeks/week-06/notebook.Rmd) · [R](weeks/week-06/notebook.R) |
-| 7 | 29. Okt. | Anpassung im Raum · Stichling · $F_{ST}$ | [Folien](weeks/week-07/slides.qmd) · [PDF](weeks/week-07/slides.pdf) · [Notebook](weeks/week-07/notebook.qmd) |
+| 7 | 29. Okt. | Anpassung im Raum · Stichling · $F_{ST}$ | [Folien](weeks/week-07/slides.qmd) · [PDF](weeks/week-07/slides.pdf) · [Notebook](weeks/week-07/notebook.qmd) · [Rmd](weeks/week-07/notebook.Rmd) · [R](weeks/week-07/notebook.R) |
 | 8 | 5. Nov. | Clines · Sommer und Winter · **Checkpoint B** | [Folien](weeks/week-08/slides.qmd) · [PDF](weeks/week-08/slides.pdf) · [Notebook](weeks/week-08/notebook.qmd) · [Rmd](weeks/week-08/notebook.Rmd) · [R](weeks/week-08/notebook.R) |
 
 ## Modul 3 · folgt

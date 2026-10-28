@@ -580,20 +580,11 @@ Huerta-Sánchez et al. (2014), Abb. 1
 
 ## Dasselbe Prinzip: Stechmücken
 
-::::: columns
-::: {.column width="40%"}
-![](../../pics/popgen/slides/anopheles.jpg){fig-alt="Stechmücke" width="100%"}
-:::
-::: {.column width="58%"}
-Um Montpellier wurde in den 1990er Jahren gegen Stechmücken **Insektizid** gespritzt, im ländlichen Umland nicht.
+![](../../pics/popgen/slides/moskitos_stadt_land.jpg){fig-alt="Skizze: Stadt mit Insektizid und resistenten Mücken, Land ohne Insektizid, Migration dazwischen" height="430px" fig-align="center"}
 
-- in der Stadt: **resistente** Mücken im Vorteil
-- auf dem Land: Resistenz kostet etwas
-- die Mücken fliegen hin und her
+Montpellier, 1990er: in der Stadt **Insektizid**, Resistenz im Vorteil; auf dem Land kostet sie etwas. Die Mücken fliegen hin und her — wieder **Selektion gegen Migration** (Lenormand et al. 1999).
 
-Wieder Selektion gegen Migration — das rechnen Sie im Notebook (Lenormand et al. 1999).
-:::
-:::::
+[Abbildung: Emma Ochsner]{.small}
 
 ## Ausblick · Checkpoint B
 

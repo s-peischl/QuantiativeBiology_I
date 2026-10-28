@@ -1,0 +1,369 @@
+---
+title: "Woche 7 — Notebook (R Markdown)"
+subtitle: "Migration und Selektion"
+author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    theme: flatly
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+Falls Quarto fehlt: dieses `.Rmd` in RStudio öffnen und **Knit** drücken. Noch einfacher: die reine R-Datei [`notebook.R`](notebook.R) (Source).
+
+# Ziel
+
+- verstehen, wie Selektion und Migration lokale Anpassung beeinflussen
+- nachvollziehen, wie verschiedene Kräfte (Selektion und Migration) ähnliche Anpassungsmuster generieren können
+
+---
+
+# 0) Lokale Anpassung in kurz
+
+**Migration** vermischt Populationen, wodurch sie einander **ähnlicher** werden. **Selektion** führt dazu, dass Populationen sich ihrer Umgebung anpassen, wodurch Populationen **unterschiedlicher** werden.
+
+---
+
+# A) Beispiel Insektizidresistenz in Moskitos
+Diese Woche untersuchen wir die Anpassung verschiedener Moskitopopulationen an Insektizide. Dieses Beispiel ist an eine Studie von Lenormand et al. (1999) angelehnt.
+
+Um die Stadt Montpellier wurde in den 90er Jahren Insektizid ausgetragen, woraufhin die lokale Moskitopopulation eine Resistenz dagegen entwickelt hat. Diese Resistenz ist jedoch in Abwesenheit des Insektizids unvorteilhaft und daher in ländlichen Moskitopopulationen nicht vorhanden. Wir untersuchen nun, wie sich die Resistenzfrequenz $p$ des Resistenz-Alleles $\mathrm{R}$ in der Stadtpopulation unter verschiedenen Selektions- und Migrationsszenarien verändert. Dafür tracken wir das resistente Allel $\mathrm{R}$ und das ursprüngliche (Insektizid-anfällige) Allel $\mathrm{r}$ in der Stadtpopulation, jeweils mit Frequenzen $p_\mathrm{R}$ und $p_\mathrm{r}$.
+
+## Gleichungen
+Wir nehmen an, dass in der Stadtpopulation das Resistenzallel $\mathrm{R}$ vorteilhaft ist, so dass die Genotypen folgende Fitnesswerte haben:
+
+|  $w_\mathrm{RR}$ |  $w_\mathrm{rR}$ |  $w_\mathrm{rr}$ |
+|---|---|---|
+| $1 + s$ | $1 + \frac{s}{2}$ | 1 |
+
+Dabei ist $s$ der Selektionskoeffizient und somit der Fitnessvorteil von Resistenz in der Stadt. 
+
+Die mittlere Fitness $\bar w$ ist demnach:
+$$
+\bar w = p^2 w_\mathrm{RR} + 2pq w_\mathrm{rR} + q^2 w_\mathrm{rr}
+$$
+
+und nach Selektion gilt:
+
+$$
+p^s = \frac{p^2 w_{\mathrm{RR}} + pq w_{\mathrm{rR}} }{\bar w}, \qquad q^s = \frac{q^2 w_{\mathrm{rr}} + pq w_{\mathrm{rR}} }{\bar w}
+$$
+
+Nach Migration nehmen wir an, dass ein Anteil $m$ der Individuen aus der Population aus der Nachbarpopulation stammt, wobei eine Population komplett durchmischt ist, wenn $m = 0.5$:
+$$
+p^m = (1-m)\,p^s + m\,q^s, \qquad
+q^m = (1-m)\,q^s + m\,p^s
+$$
+
+## Funktionen
+```{r}
+# Selektion; Berechnung der mittleren Fitness
+selektionsschritt <- function(p, # Proportion des gefragten Alleles
+                              w) # Fitness der verschiedenen Genotypen (Vektor mit drei Einträgen)
+  {
+  
+  q <- 1-p # Proportion des anderen Alleles
+  
+  w_quer <- p^2*w[1] + 2*p*q*w[2] + q^2*w[3]
+  
+  p_sel <- (p^2*w[1] + p*q*w[2] )/ w_quer
+  
+  return(p_sel)
+}
+
+# Simulation eines Generationschritts, Selektion gefolgt von Migration
+eine_generation <- function(p, # Frequenz des Resistenz-Alleles
+                            s, # Selektionskoeffizient
+                            m) # Migration
+  {
+  
+  q <- 1 - p # Proportion der anfälligen Moskitos
+  
+  # Selektion
+  p_sel <- selektionsschritt(p, c(1 + s, 1 + s/2, 1))
+  q_sel <- selektionsschritt(q, c(1, 1 + s/2, 1 + s))
+  
+  # Migration
+  p_mig <- (1 - m) * p_sel + m * q
+  q_mig <- (1 - m) * q_sel + m * p
+  
+  return(c(p_mig, q_mig))
+
+}
+
+```
+
+## A1) Eine Generation
+Simulieren Sie eine einzelne Generation. Wir starten mit einer gleichmässigen Verteilung von resistenten und anfälligen Moskitos; $p_\mathrm{R} = 0.5$.
+
+> **F1**
+>
+> Was sind Ihre Erwartungen? Nimmt $p_\mathrm{R}$ ab oder zu?
+
+```{r}
+
+eine_generation(p = 0.5,
+                s = 0.2,
+                m = 0.2)
+
+```
+
+> **F2**
+>
+> Setzen Sie zuerst `s` und dann `m` auf 0; was sehen Sie?
+
+# A2) Mehrere Generationen
+```{r}
+# Simulation mehrerer Generationen
+simulateLA <- function(p_0, # Anfangsfrequenz
+                       s, # Selektionskoeffizient
+                       m, # Migration
+                       generationen = 100) # Anzahl Generationen; Annahme = 100
+  {
+  
+  p <- q <- numeric(generationen + 1) # Vorbereiten von leeren Vektoren (von 0 bis zur maximalen Generationen Zahl)
+  
+  # Anfangsfrequenzen
+  p[1] <- p_0
+  q[1] <- 1- p_0 
+  
+  for (t in seq_len(generationen)) { # Wiederholen der Zeitschritte
+    
+    new_freq <- eine_generation(p[t], s, m)
+    p[t + 1] <- new_freq[1]
+    q[t + 1] <- new_freq[2]
+  }
+  
+  data.frame(generation = 0:generationen, 
+             p = p, 
+             q = q)
+}
+
+```
+
+Schauen Sie sich nun die Allelfrequenz als Funktion von Zeit an
+```{r}
+
+test_df <- simulateLA(p_0 = 0.5,
+                     s = 0.2, # Bitte ändern
+                     m = 0.2)
+
+plot(x = test_df$generation,
+     y = test_df$p,
+     type = "l", lwd = 2, col = "dodgerblue",
+     xlab = "Generationen",
+     ylab = "Allelfrequenz",
+     ylim = c(0,1),
+     main = "s = ?, m = 0.2")
+lines(x = test_df$generation,
+     y = test_df$q, 
+     type = "l", lwd = 2, col = "chartreuse3")
+legend("topright", c("Resistent", "Anfällig"),
+       col = c("dodgerblue", "chartreuse3"),
+       lwd = 2, bty = "n")
+
+```
+> **F3**
+>
+> Ändern Sie $s$. Was passiert mit dem Resistenzallel?
+
+## Vergleich verschiedener m/s Regime
+```{r}
+
+# m/s grösser 1
+ms_gr_1 <- simulateLA(p_0 = 0.5,
+                     s = 0, # Bitte ändern
+                     m = 0) # Bitte ändern
+
+# m/s gleich 1
+ms_gl_1 <- simulateLA(p_0 = 0.5,
+                     s = 0.3,
+                     m = 0.3)
+
+# m/s kleiner 1
+ms_kl_1 <- simulateLA(p_0 = 0.5,
+                     s = 0, # Bitte ändern
+                     m = 0) # Bitte ändern
+
+par(mfrow = c(1, 3))
+plot(x = ms_gr_1$generation,
+     y = ms_gr_1$p,
+     type = "l", lwd = 2, col = "dodgerblue",
+     xlab = "Generationen",
+     ylab = "Allelfrequenz",
+     ylim = c(0,1),
+     main = "m/s > 1")
+lines(x = ms_gr_1$generation,
+     y = ms_gr_1$q, 
+     type = "l", lwd = 2, col = "chartreuse3")
+legend("topright", c("Resistent", "Anfällig"),
+       col = c("dodgerblue", "chartreuse3"),
+       lwd = 2, bty = "n")
+
+plot(x = ms_gl_1$generation,
+     y = ms_gl_1$p,
+     type = "l", lwd = 2, col = "dodgerblue",
+     xlab = "Generationen",
+     ylab = "Allelfrequenz",
+     ylim = c(0,1),
+     main = "m/s = 1")
+lines(x = ms_gl_1$generation,
+     y = ms_gl_1$q, 
+     type = "l", lwd = 2, col = "chartreuse3")
+legend("topright", c("Resistent", "Anfällig"),
+       col = c("dodgerblue", "chartreuse3"),
+       lwd = 2, bty = "n")
+
+plot(x = ms_kl_1$generation,
+     y = ms_kl_1$p,
+     type = "l", lwd = 2, col = "dodgerblue",
+     xlab = "Generationen",
+     ylab = "Allelfrequenz",
+     ylim = c(0,1),
+     main = "m/s < 1")
+lines(x = ms_kl_1$generation,
+     y = ms_kl_1$q, 
+     type = "l", lwd = 2, col = "chartreuse3")
+legend("topright", c("Resistent", "Anfällig"),
+       col = c("dodgerblue", "chartreuse3"),
+       lwd = 2, bty = "n")
+
+```
+> **F4**
+>
+> Ändern Sie die $m$ und $s$ Werte der verschiedenen Simulationen, um die drei $m/s$ Szenarien zu plotten.
+> Beschreiben Sie, was Sie sehen.
+
+
+Vergleichen Sie Simulationen mit verschiedenen $m$ und $s$ Werten:
+```{r}
+
+ref <- simulateLA(p_0 = 0.5,
+                     s = 0.25,
+                     m = 0.1)
+
+test1 <- simulateLA(p_0 = 0.5,
+                     s = 0.0, # Bitte ändern
+                     m = 0.3)
+
+test2 <- simulateLA(p_0 = 0.5,
+                     s = 0.5,
+                     m = 0.0) # Bitte ändern
+
+par(mfrow = c(1, 3))
+plot(x = ref$generation,
+     y = ref$p,
+     type = "l", lwd = 2, col = "dodgerblue",
+     xlab = "Generationen",
+     ylab = "Allelfrequenz",
+     ylim = c(0,1),
+     main = "s = 0.25, m = 0.1")
+lines(x = ref$generation,
+     y = ref$q, 
+     type = "l", lwd = 2, col = "chartreuse3")
+legend("topright", c("Resistent", "Anfällig"),
+       col = c("dodgerblue", "chartreuse3"),
+       lwd = 2, bty = "n")
+
+plot(x = test1$generation,
+     y = test1$p,
+     type = "l", lwd = 2, col = "dodgerblue",
+     xlab = "Generationen",
+     ylab = "Allelfrequenz",
+     ylim = c(0,1),
+     main = "s = ?, m = 0.3")
+lines(x = test1$generation,
+     y = test1$q, 
+     type = "l", lwd = 2, col = "chartreuse3")
+legend("topright", c("Resistent", "Anfällig"),
+       col = c("dodgerblue", "chartreuse3"),
+       lwd = 2, bty = "n")
+
+plot(x = test2$generation,
+     y = test2$p,
+     type = "l", lwd = 2, col = "dodgerblue",
+     xlab = "Generationen",
+     ylab = "Allelfrequenz",
+     ylim = c(0,1),
+     main = "s = 0.5, m = ? ")
+lines(x = test2$generation,
+     y = test2$q, 
+     type = "l", lwd = 2, col = "chartreuse3")
+legend("topright", c("Resistent", "Anfällig"),
+       col = c("dodgerblue", "chartreuse3"),
+       lwd = 2, bty = "n")
+
+
+
+```
+
+> **F5**
+>
+> Wählen Sie in den Simulationen die fehlenden Werte für $m$ oder $s$ damit das Muster der Allelfrequenzen zum ersten Graphen ($s = 0.25, m = 0.1$) passt.
+> Welche Werte wählen Sie?
+
+
+---
+
+# B) Zum Experimentieren: $F_{ST}$
+
+Nur der Vollständigkeit halber: Wie verschieden sind die beiden Populationen am Ende? Das misst $F_{ST}$ (siehe Folien):
+
+$$
+F_{ST} = \frac{H_T - H_S}{H_T}, \qquad H = 2p(1-p)
+$$
+
+$H_S$ ist die mittlere Heterozygotie **innerhalb** der Populationen, $H_T$ die Heterozygotie, wenn man beide Populationen **zusammenwirft**. $F_{ST} = 0$: kein Unterschied; $F_{ST} = 1$: verschiedene Allele fixiert.
+
+```{r}
+# F_ST aus zwei Allelfrequenzen
+fst_aus_p <- function(p1, # Frequenz von R in Population 1
+                      p2) # Frequenz von R in Population 2
+  {
+
+  p_quer <- (p1 + p2) / 2                          # mittlere Frequenz
+  H_S <- (2*p1*(1 - p1) + 2*p2*(1 - p2)) / 2       # innerhalb
+  H_T <- 2*p_quer*(1 - p_quer)                     # zusammengeworfen
+
+  return((H_T - H_S) / H_T)
+}
+
+# F_ST im Gleichgewicht von Migration und Selektion
+fst_aus_ms <- function(m, # Migration
+                       s, # Selektionskoeffizient
+                       generationen = 1000) # lange laufen lassen
+  {
+
+  sim <- simulateLA(p_0 = 0.5, s = s, m = m, generationen = generationen)
+  ende <- sim[nrow(sim), ] # letzte Generation
+
+  return(fst_aus_p(ende$p, ende$q))
+}
+
+```
+
+```{r}
+
+fst_aus_p(p1 = 0.9, p2 = 0.1) # Bitte ändern
+
+fst_aus_ms(m = 0.1, s = 0.1)  # Bitte ändern
+
+```
+
+> **Zum Ausprobieren**
+>
+> - Wann ist `fst_aus_p()` gleich 0, wann gleich 1?
+> - Verdoppeln Sie in `fst_aus_ms()` $m$ **und** $s$. Was passiert mit $F_{ST}$? Und wenn Sie nur $m$ verdoppeln?
+
+
+---
+
+# Referenzen
+Lenormand, T., Bourguet, D., Guillemaud, T. et al. *Tracking the evolution of insecticide resistance in the mosquito Culex pipiens*. Nature 400, 861–864 (1999). https://doi.org/10.1038/23685
+
+
+

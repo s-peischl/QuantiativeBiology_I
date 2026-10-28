@@ -14,6 +14,8 @@ project:
     - weeks/week-05/notebook.R
     - weeks/week-06/notebook.Rmd
     - weeks/week-06/notebook.R
+    - weeks/week-07/notebook.Rmd
+    - weeks/week-07/notebook.R
     - weeks/week-08/notebook.Rmd
     - weeks/week-08/notebook.R
   render:

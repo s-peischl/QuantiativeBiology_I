@@ -23,6 +23,8 @@ execute:
 - verstehen, wie Selektion und Migration lokale Anpassung beeinflussen
 - nachvollziehen, wie verschiedene Kräfte (Selektion und Migration) ähnliche Anpassungsmuster generieren können
 
+Andere Formate: [R Markdown](notebook.Rmd) · [nur R](notebook.R)
+
 ---
 
 # 0) Lokale Anpassung in kurz
@@ -235,7 +237,7 @@ plot(x = ms_kl_1$generation,
      xlab = "Generationen",
      ylab = "Allelfrequenz",
      ylim = c(0,1),
-     main = "m/s <a 1")
+     main = "m/s < 1")
 lines(x = ms_kl_1$generation,
      y = ms_kl_1$q, 
      type = "l", lwd = 2, col = "chartreuse3")
@@ -320,6 +322,61 @@ legend("topright", c("Resistent", "Anfällig"),
 Wählen Sie in den Simulationen die fehlenden Werte für $m$ oder $s$ damit das Muster der Allelfrequenzen zum ersten Graphen ($s = 0.25, m = 0.1$) passt.
 Welche Werte wählen Sie?
 
+:::
+
+
+---
+
+# B) Zum Experimentieren: $F_{ST}$
+
+Nur der Vollständigkeit halber: Wie verschieden sind die beiden Populationen am Ende? Das misst $F_{ST}$ (siehe Folien):
+
+$$
+F_{ST} = \frac{H_T - H_S}{H_T}, \qquad H = 2p(1-p)
+$$
+
+$H_S$ ist die mittlere Heterozygotie **innerhalb** der Populationen, $H_T$ die Heterozygotie, wenn man beide Populationen **zusammenwirft**. $F_{ST} = 0$: kein Unterschied; $F_{ST} = 1$: verschiedene Allele fixiert.
+
+```{r}
+# F_ST aus zwei Allelfrequenzen
+fst_aus_p <- function(p1, # Frequenz von R in Population 1
+                      p2) # Frequenz von R in Population 2
+  {
+
+  p_quer <- (p1 + p2) / 2                          # mittlere Frequenz
+  H_S <- (2*p1*(1 - p1) + 2*p2*(1 - p2)) / 2       # innerhalb
+  H_T <- 2*p_quer*(1 - p_quer)                     # zusammengeworfen
+
+  return((H_T - H_S) / H_T)
+}
+
+# F_ST im Gleichgewicht von Migration und Selektion
+fst_aus_ms <- function(m, # Migration
+                       s, # Selektionskoeffizient
+                       generationen = 1000) # lange laufen lassen
+  {
+
+  sim <- simulateLA(p_0 = 0.5, s = s, m = m, generationen = generationen)
+  ende <- sim[nrow(sim), ] # letzte Generation
+
+  return(fst_aus_p(ende$p, ende$q))
+}
+
+```
+
+```{r}
+
+fst_aus_p(p1 = 0.9, p2 = 0.1) # Bitte ändern
+
+fst_aus_ms(m = 0.1, s = 0.1)  # Bitte ändern
+
+```
+
+::: {.callout-tip}
+## Zum Ausprobieren
+
+- Wann ist `fst_aus_p()` gleich 0, wann gleich 1?
+- Verdoppeln Sie in `fst_aus_ms()` $m$ **und** $s$. Was passiert mit $F_{ST}$? Und wenn Sie nur $m$ verdoppeln?
 :::
 
 
