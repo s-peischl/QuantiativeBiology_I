@@ -9,14 +9,14 @@ format:
 
 **Nicht für Studierende.** Teams bis 4 · Notebook (Quarto / Rmd / `notebook.R`) · Gespräch 1–2 Minuten pro Gruppe
 
-**Kurz:** Die Winter-Cline ist **breiter**. Im Modell passt sowohl $s$ kleiner (0.02) als auch $m$ grösser (0.5). Beide Male ist $m/s \approx 5$, im Sommer ist $m/s = 1$. Die Daten allein entscheiden also nicht zwischen den beiden. Das Argument muss biologisch sein.
+**Kurz:** Die Winter-Cline ist **breiter**. Im Modell zählt nur $m/s$: Sommer $m/s = 1$, Winter $m/s \approx 5$. Ob $s$ kleiner oder $m$ grösser wird, können die Daten nicht entscheiden. Biologisch gilt: Im Winter fliegen die Mücken **weniger** ($m$ kleiner). Das allein würde die Cline **enger** machen. Damit sie trotzdem breiter wird, muss die **Selektion fast ganz wegfallen** ($s$ von 0.1 auf etwa 0.01): Im Winter wird kaum gespritzt.
 
 ## 1 · Check (Bestanden?)
 
 - [ ] **Eine Abbildung** gezeigt (Abbildung 1 oder ein Modellplot aus Teil 2)
 - [ ] **F1:** Breite im Winter grösser, Zentrum etwa gleich
-- [ ] **F2:** beide Versuche probiert; $s \approx 0.02$ **und** $m \approx 0.5$ passen
-- [ ] **F3:** ein biologisches Argument, warum eher $s$ (oder begründet $m$)
+- [ ] **F2:** Tabelle ausgefüllt; erkannt, dass es nur auf $m/s$ ankommt
+- [ ] **F3:** mit $m = 0.05$ passt $s \approx 0.01$; Selektion im Winter fast weg, weil kaum gespritzt wird
 
 Bestanden, wenn die Gruppe **was**, **welche Änderung** und **warum** in eigenen Worten sagen kann. Exakte Zahlen sind nicht nötig.
 
@@ -33,43 +33,48 @@ Das Zentrum bleibt an der Grenze, nur der Übergang wird etwa **doppelt so breit
 
 ![](ta-figs/abb1_clines.png){width=58%}
 
-**F2 — Modell.** Der «Abstand zu den Winter-Daten» steht über jeder Abbildung (Sommer-Modell: 0.213).
+**F2 — Modell.** Über jeder Abbildung stehen die Abstände zum Sommer und zum Winter.
 
 | | $s$ | $m$ | $m/s$ | Abstand |
 |---|---|---|---|---|
-| Sommer | 0.1 | 0.1 | 1 | 0.213 |
-| Winter, Versuch A | **0.02** | 0.1 | 5 | 0.053 |
-| Winter, Versuch B | 0.1 | **0.5** | 5 | 0.051 |
+| Sommer | 0.1 | 0.1 | 1 | Sommer 0.035 |
+| Versuch A | 0.05 | 0.05 | 1 | Sommer 0.036 |
+| Versuch A | 0.2 | 0.2 | 1 | Sommer 0.034 |
+| Versuch B (Winter) | **0.02** | 0.1 | 5 | Winter 0.053 |
+| Versuch C (Winter) | 0.1 | **0.5** | 5 | Winter 0.051 |
 
-Werte zwischen etwa $s$ = 0.015–0.025 bzw. $m$ = 0.4–0.6 sind genauso gut. Die beiden Modellkurven liegen praktisch **übereinander**:
+- **Versuch A:** Werden $s$ und $m$ gleich verändert, bleibt die Cline gleich und passt weiter zum Sommer.
+- **Versuche B und C:** Beide passen zum Winter, und beide Male ist $m/s = 5$. Werte von etwa $s$ = 0.015–0.025 bzw. $m$ = 0.4–0.6 sind genauso gut.
+- **Kernaussage:** Wie in Woche 7 zählt nur das **Verhältnis** $m/s$. Die Modellkurven liegen praktisch übereinander:
 
-![](ta-figs/zwei_loesungen.png){width=58%}
-
-**Warum?** Wie in Woche 7 zählt nur das Verhältnis $m/s$. Ob man $s$ durch 5 teilt oder $m$ mit 5 multipliziert, gibt dieselbe Cline:
+![](ta-figs/winter_modelle.png){width=58%}
 
 ![](ta-figs/abstand_ms.png){width=58%}
 
-**F3 — Biologie.** Die erwartete Antwort lautet: **$s$ ist im Winter kleiner.**
+**F3 — Biologie (Versuch D).** Im Winter fliegen die Mücken weniger: $m = 0.05$.
 
-- Im Winter wird kaum oder gar nicht gespritzt. Damit fällt der Vorteil von R in der Stadt weg oder wird kleiner (*relaxed selection*).
-- Die Kosten der Resistenz bleiben. Bei *Culex pipiens* überleben resistente Mücken den Winter sogar schlechter (Lenormand et al. 1999).
-- $m$ grösser ist unplausibel: Im Winter fliegen die Mücken **weniger**, sie überwintern in Kellern und Höhlen.
+1. Mit $s = 0.1$ wird die Cline **enger** als im Sommer ($m/s = 0.5$, Abstand zum Winter 0.308). Weniger Flug allein erklärt den Winter also **nicht**, er macht es sogar schlimmer.
+2. Passend ist $s \approx 0.01$ (Abstand 0.053, wieder $m/s = 5$). Von der Selektion bleibt nur etwa **ein Zehntel**, sie ist de facto weg.
+3. Warum: Im Winter wird kaum oder gar nicht gespritzt. Der Vorteil von R in der Stadt fällt weg, die Kosten der Resistenz bleiben eher noch (bei *Culex pipiens* überwintern resistente Mücken schlechter, Lenormand et al. 1999).
 
-Auch eine Gruppe, die $m$ wählt, kann bestehen, wenn sie es begründet und erkennt, dass das Modell beides erlaubt.
+![](ta-figs/versuch_d.png){width=58%}
+
+Eine Gruppe, die in F2 «$m$ grösser» bevorzugt, sollte mit Versuch D merken, warum das nicht passt.
 
 ## 3 · Häufige Probleme
 
-- **Beide Zahlen gleichzeitig geändert.** Nur eine Zahl pro Versuch, die andere bleibt 0.1.
+- **Falsche Zahl geändert.** In A beide gleich, in B nur $s$, in C nur $m$, in D nur $s$ (mit $m = 0.05$).
 - **Komma statt Punkt** (`0,02`) gibt eine Fehlermeldung. Richtig ist `0.02`.
-- **«Abstand» falsch gelesen.** Kleiner heisst besser. Einen Wert unter etwa 0.06 können Sie als «passt» gelten lassen.
+- **«Abstand» falsch gelesen.** Kleiner heisst besser. Bei A zählt der Abstand zum **Sommer**, bei B–D zum **Winter**. Einen Winter-Abstand unter etwa 0.06 können Sie als «passt» gelten lassen.
 - **Keine Abbildung in `notebook.R`.** Die Abbildungen erscheinen im *Plots*-Fenster von RStudio. Den Code Zeile für Zeile ausführen, nicht mit *Source* ohne Echo.
 - **Hilfsfunktionen-Block nicht ausgeführt** führt zu `could not find function`. Abschnitt 0 komplett ausführen.
 
 ## 4 · Nachfragen für schnelle Gruppen
 
-- **Welchen Wert hat $m/s$ in Ihrer Tabelle?** Erwartet: Sommer 1, Winter in beiden Versuchen etwa 5.
+- **Welchen Wert hat $m/s$ in Ihrer Tabelle?** Erwartet: Sommer und A 1, Winter (B, C, D) etwa 5.
+- **Wenn $m$ im Winter auf ein Viertel fällt ($m = 0.025$), welches $s$ passt dann?** $s = 0.005$; die Selektion ist dann noch schwächer.
 - **Wie viel breiter wird die Cline?** Die Breite wächst ungefähr mit $\sqrt{m/s}$: $\sqrt{5} \approx 2.2$, und $7.8 / 3.4 \approx 2.3$.
 - **Wie könnte man $s$ und $m$ getrennt messen?** $m$ direkt über Markierung und Wiederfang der Mücken, $s$ über Überleben resistenter und anfälliger Mücken mit und ohne Insektizid. Das Modell allein kann es nicht.
 - **Warum bleibt das Zentrum an der Grenze?** Das Modell ist symmetrisch: Was R in der Stadt nützt, kostet es auf dem Land.
 
-Die Daten sind Kursdaten (17 Stellen, 40 Allele pro Stelle), angelehnt an Lenormand et al. (1999).
+Die Daten sind **für den Kurs erfunden** (17 Stellen, 40 Allele pro Stelle), angelehnt an Lenormand et al. (1999).

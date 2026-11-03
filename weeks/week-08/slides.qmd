@@ -150,17 +150,18 @@ Dieselben 17 Stellen, im Sommer und im Winter beprobt.
 | Teil | Sie führen aus | Sie erhalten |
 |---|---|---|
 | 1 | `vergleiche_clines()` | **Abbildung 1:** Sommer und Winter mit Kurven, Tabelle mit Zentrum und Breite |
-| 2 | `zeige_modell(s = …, m = …)` | **Abbildung 2:** das Modell über den Daten, mit dem Abstand zu den Winter-Daten |
+| 2 | `zeige_modell(s = …, m = …)` | **Abbildung 2:** das Modell über den Daten, mit dem Abstand zu Sommer und Winter |
+| 3 | `zeige_modell(s = …, m = 0.05)` | **Abbildung 3:** Winter mit weniger fliegenden Mücken |
 
-In Teil 2 ändern Sie immer nur **eine** Zahl: einmal nur $s$, einmal nur $m$. Die besten Werte tragen Sie in eine kleine Tabelle ein.
+Teil 2: $s$ und $m$ gleich ändern, dann nur $s$, dann nur $m$ — Werte in eine Tabelle. Teil 3: $m$ ist im Winter kleiner. Welches $s$ passt dann?
 
 ## Erklären in 1–2 Minuten
 
 Zeigen Sie der Assistenz **eine** Abbildung und sagen Sie drei Sätze:
 
 1. **Was** ist im Winter anders?
-2. **Welche** Änderung im Modell passt — und was zeigt $m/s$?
-3. **Was** ist biologisch plausibler? (Was passiert im Winter mit dem Insektizid?)
+2. **Worauf** kommt es im Modell an — $s$, $m$ oder $m/s$?
+3. **Was** hat sich im Winter geändert, wenn die Mücken weniger fliegen?
 
 # Abschluss
 
@@ -185,7 +186,7 @@ Wochen 9–11: Zufall, Etablierung, evolutionäre Rettung · Checkpoint C.
 2. **Slatkin, M. (1973).** Gene flow and selection in a cline. *Genetics* 75: 733–756.
 3. **Lenormand, T., Bourguet, D., Guillemaud, T., & Raymond, M. (1999).** Tracking the evolution of insecticide resistance in the mosquito *Culex pipiens*. *Nature* 400: 861–864.
 
-Kursdaten Sommer/Winter: Daten der Assistenzen, im Notebook.
+Kursdaten Sommer/Winter: für den Kurs erfunden, angelehnt an Lenormand et al. (1999).
 ::::
 
 ## Navigation

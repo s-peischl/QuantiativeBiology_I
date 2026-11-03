@@ -9,23 +9,24 @@
 
 # --- Auftrag ---
 #
-# Kein Programmieren: Sie fuehren nur Code aus und aendern eine Zahl.
+# Kein Programmieren: Sie fuehren nur Code aus und aendern Zahlen.
 #
 # 1. Teil 1: Abbildung 1 erzeugen. Was ist im Winter anders? -> F1
-# 2. Teil 2: Im Modell einmal nur s aendern, einmal nur m, bis das Modell zum Winter passt. Werte in die Tabelle eintragen. -> F2
-# 3. Teil 3: Der Assistenz in 1–2 Minuten mit einer Abbildung erklaeren, warum der Winter anders aussieht. -> F3
+# 2. Teil 2: Im Modell s und m aendern (beide gleich, nur s, nur m) und die Werte in eine Tabelle eintragen. -> F2
+# 3. Teil 3: Mit biologischem Wissen entscheiden, was sich im Winter geaendert hat. -> F3
+# 4. Gespraech: Der Assistenz in 1–2 Minuten mit einer Abbildung erklaeren, warum der Winter anders aussieht.
 
 # ===========================================================================
 # 0 · Daten und Funktionen
 # ===========================================================================
 #
-# Einfach ausfuehren. Die Zahlen stammen von den Assistenzen.
+# Einfach ausfuehren. Die Daten sind fuer den Kurs erfunden, aber realistisch.
 
 # Position in km: links (x < 0) Land ohne Insektizid, rechts (x > 0) Stadt mit Insektizid
 x <- seq(-8, 8, by = 1)
 n <- 40   # typisierte Allele pro Stelle
 
-# Anzahl Resistenz-Allele R pro Stelle (Daten: TAs)
+# Anzahl Resistenz-Allele R pro Stelle (Kursdaten)
 k_sommer <- c(0, 0, 0, 0, 0, 0, 3, 10, 15, 27, 39, 37, 40, 39, 40, 40, 40)
 k_winter <- c(0, 1, 0, 3, 5, 7, 7, 14, 16, 24, 30, 36, 32, 32, 38, 37, 40)
 
@@ -89,16 +90,17 @@ simuliere_cline <- function(s, m, generationen = 3000) {
   p
 }
 
-# Abstand zwischen Modell und Winter-Daten (kleiner = passt besser)
-abstand_winter <- function(p_modell) round(sum((p_modell - winter$p)^2), 3)
+# Abstand zwischen Modell und Daten (kleiner = passt besser)
+abstand <- function(p_modell, daten) round(sum((p_modell - daten$p)^2), 3)
 
 zeige_modell <- function(s, m) {
   p_modell <- simuliere_cline(s, m)
   zeige_clines(main = paste0("Modell (schwarz): s = ", s, ", m = ", m,
                              ",  m/s = ", round(m / s, 1)))
   lines(x, p_modell, col = "grey15", lwd = 2.2, type = "b", pch = 1)
-  mtext(paste("Abstand zu den Winter-Daten:", abstand_winter(p_modell),
-              "(kleiner = passt besser)"), side = 3, line = 0.2, cex = 0.85)
+  mtext(paste0("Abstand zum Sommer: ", abstand(p_modell, sommer),
+               "   zum Winter: ", abstand(p_modell, winter),
+               "   (kleiner = passt besser)"), side = 3, line = 0.2, cex = 0.85)
 }
 
 # ===========================================================================
@@ -129,41 +131,55 @@ vergleiche_clines()
 
 zeige_modell(s = 0.1, m = 0.1)   # Sommer
 
-# Jetzt der Winter. Aendern Sie in jedem Versuch nur eine Zahl. Ueber der Abbildung steht der Abstand zu den Winter-Daten: je kleiner, desto besser passt das Modell.
+# Ueber jeder Abbildung steht der Abstand des Modells zu den Sommer- und zu den Winter-Daten: je kleiner, desto besser passt das Modell.
 #
-# Versuch A — nur s aendern (m bleibt 0.1). Probieren Sie zum Beispiel s = 0.05, 0.02, 0.01.
+# Versuch A — s und m gleich aendern (so bleibt m/s = 1). Probieren Sie zum Beispiel s = m = 0.05 und s = m = 0.2. Passt das Modell immer noch zum Sommer?
 
-zeige_modell(s = 0.1, m = 0.1)   # hier s aendern
+zeige_modell(s = 0.1, m = 0.1)   # hier s und m gleich aendern
 
-# Versuch B — nur m aendern (s bleibt 0.1). Probieren Sie zum Beispiel m = 0.2, 0.5, 0.8.
+# Versuch B — nur s aendern (m bleibt 0.1). Probieren Sie zum Beispiel s = 0.05, 0.02, 0.01. Wann passt das Modell zum Winter?
 
-zeige_modell(s = 0.1, m = 0.1)   # hier m aendern
+zeige_modell(s = 0.1, m = 0.1)   # hier nur s aendern
+
+# Versuch C — nur m aendern (s bleibt 0.1). Probieren Sie zum Beispiel m = 0.2, 0.5, 0.8. Wann passt das Modell zum Winter?
+
+zeige_modell(s = 0.1, m = 0.1)   # hier nur m aendern
 
 # --- F2 ---
 #
-# Tragen Sie Ihre besten Werte ein:
+# Tragen Sie Ihre Werte ein (Abstand: zum Sommer bei A, zum Winter bei B und C):
 #
-# |  | s | m | m/s |
-# | Sommer | 0.1 | 0.1 | 1 |
-# | Winter, Versuch A |  | 0.1 |  |
-# | Winter, Versuch B | 0.1 |  |  |
+# |  | s | m | m/s | Abstand |
+# | Sommer | 0.1 | 0.1 | 1 |  |
+# | Versuch A |  |  | 1 |  |
+# | Versuch A |  |  | 1 |  |
+# | Versuch B (Winter) |  | 0.1 |  |  |
+# | Versuch C (Winter) | 0.1 |  |  |  |
 #
-# Klappen beide Versuche? Was faellt Ihnen an der Spalte m/s auf? (Erinnerung an Woche 7.)
+# Was faellt Ihnen an der Spalte m/s auf? Worauf kommt es an: auf s, auf m oder auf m/s? (Erinnerung an Woche 7.)
 
 # ===========================================================================
-# 3 · Ihre Erklaerung
+# 3 · Abbildung 3: Was passiert im Winter wirklich?
 # ===========================================================================
+#
+# Das Modell allein kann nicht entscheiden, ob sich s oder m geaendert hat. Dafuer braucht es Biologie.
+#
+# Bekannt ist: Im Winter fliegen die Muecken weniger. Viele ueberwintern in Kellern und Hoehlen. Nehmen wir an, m ist im Winter nur noch halb so gross: m = 0.05.
+#
+# Versuch D — m = 0.05 fest, s suchen. Lassen Sie zuerst s = 0.1 stehen und schauen Sie, was passiert. Verkleinern Sie dann s, bis das Modell zum Winter passt.
+
+zeige_modell(s = 0.1, m = 0.05)   # hier s aendern
 
 # --- F3 ---
 #
-# Das Modell allein kann nicht entscheiden, ob s oder m sich geaendert hat. Was ist biologisch plausibler?
-#
-# Tipp: Wird im Winter gleich viel Insektizid gespritzt? Fliegen Muecken im Winter mehr?
+# 1. Mit m = 0.05 und s = 0.1: Wird die Cline breiter oder enger als im Sommer?
+# 2. Welches s brauchen Sie mit m = 0.05 fuer den Winter? Wie viel Selektion ist vom Sommer noch uebrig?
+# 3. Warum ist die Selektion im Winter so schwach? Tipp: Wird im Winter gespritzt?
 
 # --- Fuer das Gespraech mit der Assistenz (1–2 Minuten) ---
 #
-# Zeigen Sie eine Abbildung (1 oder 2) und sagen Sie drei Saetze:
+# Zeigen Sie eine Abbildung und sagen Sie drei Saetze:
 #
 # 1. Was ist im Winter anders? (F1)
-# 2. Welche Aenderung im Modell passt? (F2)
-# 3. Warum ist das biologisch plausibel? (F3)
+# 2. Worauf kommt es im Modell an? (F2)
+# 3. Was hat sich im Winter geaendert, und warum ist das plausibel? (F3)
