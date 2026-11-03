@@ -22,24 +22,15 @@ blockquote { font-size: 1em; border-left: 4px solid #2c7fb8; background: #f2f8fc
 
 Falls Quarto fehlt: dieses `.Rmd` in RStudio öffnen und **Knit** drücken. Noch einfacher: die reine R-Datei [`notebook.R`](notebook.R) (Source).
 
-Rund um Montpellier wird gegen Stechmücken **Insektizid** gespritzt, auf dem Land nicht. In der Stadt ist das **Resistenz-Allel R** im Vorteil, auf dem Land kostet es etwas. Die Mücken fliegen hin und her — wie in Woche 7.
-
-Entlang einer Strecke von 17 Stellen (vom Land bis in die Stadt) wurde der Anteil von R gemessen, **einmal im Sommer und einmal im Winter**. Die beiden Kurven sehen verschieden aus. **Warum?**
+In der Stadt wird gegen Mücken **Insektizid** gespritzt, auf dem Land nicht. Der Anteil des Resistenz-Allels **R** wurde an 17 Stellen vom Land bis in die Stadt gemessen, im **Sommer** und im **Winter**. Warum sehen die beiden Clines verschieden aus?
 
 > **Auftrag**
 >
-> Kein Programmieren: Sie führen nur Code aus und ändern **Zahlen**.
->
-> 1. **Teil 1:** Abbildung 1 erzeugen. Was ist im Winter anders? → **F1**
-> 2. **Teil 2:** Im Modell $s$ und $m$ ändern (beide gleich, nur $s$, nur $m$) und die Werte in eine Tabelle eintragen. → **F2**
-> 3. **Teil 3:** Mit biologischem Wissen entscheiden, was sich im Winter geändert hat. → **F3**
-> 4. **Gespräch:** Der Assistenz in **1–2 Minuten** mit **einer** Abbildung erklären, warum der Winter anders aussieht.
-
----
+> Code ausführen, Zahlen ändern, Tabelle ausfüllen. Am Schluss der Assistenz mit **einer** Abbildung in 1–2 Minuten erklären: **Was** ist im Winter anders, **worauf** kommt es im Modell an, **was** hat sich geändert?
 
 # 0 · Daten und Funktionen
 
-Einfach ausführen. Die Daten sind für den Kurs erfunden, aber realistisch.
+Einfach ausführen (Kursdaten, erfunden).
 
 ```{r}
 # Position in km: links (x < 0) Land ohne Insektizid, rechts (x > 0) Stadt mit Insektizid
@@ -127,14 +118,7 @@ zeige_modell <- function(s, m) {
 }
 ```
 
----
-
-# 1 · Abbildung 1: Sommer und Winter
-
-Die Punkte sind die Messungen. Die Linien sind **logistische Kurven**, die R an die Punkte anpasst. Zwei Zahlen fassen eine Kurve zusammen:
-
-- **Zentrum:** wo die Frequenz 0.5 ist,
-- **Breite:** wie lang der Übergang vom Land zur Stadt ist.
+# 1 · Sommer und Winter
 
 ```{r}
 #| fig-height: 4.6
@@ -144,92 +128,42 @@ vergleiche_clines()
 
 > **F1**
 >
-> Lesen Sie die Tabelle unter der Abbildung. Was ist an der Winter-Kurve anders: das **Zentrum**, die **Breite** oder beides?
+> Was ist im Winter anders: **Zentrum**, **Breite** oder beides? (Tabelle unter der Abbildung)
 
----
+# 2 · Modell: $s$ und $m$
 
-# 2 · Abbildung 2: Selektion oder Migration?
+Wie Woche 7, nur mit 17 Stellen in einer Reihe: $s$ = Selektion, $m$ = Anteil der Mücken, der zu den Nachbarstellen fliegt. Mit $s = m = 0.1$ passt das Modell zum Sommer. Über der Abbildung steht der **Abstand** zu Sommer und Winter (kleiner = besser).
 
-Das Modell ist dasselbe wie in Woche 7, nur mit 17 Stellen in einer Reihe statt zwei Habitaten:
-
-- $s$ = **Selektion**: wie stark R in der Stadt hilft (und auf dem Land schadet),
-- $m$ = **Migration**: welcher Anteil der Mücken pro Generation zu den Nachbarstellen fliegt.
-
-Mit $s = 0.1$ und $m = 0.1$ passt das Modell gut zum **Sommer**:
+Ändern Sie die Zahlen und führen Sie den Block für jede Zeile der Tabelle neu aus:
 
 ```{r}
 #| fig-height: 4.6
 #| fig-width: 7.5
-zeige_modell(s = 0.1, m = 0.1)   # Sommer
-```
-
-Über jeder Abbildung steht der **Abstand** des Modells zu den Sommer- und zu den Winter-Daten: je kleiner, desto besser passt das Modell.
-
-**Versuch A — $s$ und $m$ gleich ändern** (so bleibt $m/s = 1$). Probieren Sie zum Beispiel $s = m = 0.05$ und $s = m = 0.2$. Passt das Modell immer noch zum Sommer?
-
-```{r}
-#| fig-height: 4.6
-#| fig-width: 7.5
-zeige_modell(s = 0.1, m = 0.1)   # hier s und m gleich ändern
-```
-
-**Versuch B — nur $s$ ändern** ($m$ bleibt 0.1). Probieren Sie zum Beispiel $s$ = 0.05, 0.02, 0.01. Wann passt das Modell zum Winter?
-
-```{r}
-#| fig-height: 4.6
-#| fig-width: 7.5
-zeige_modell(s = 0.1, m = 0.1)   # hier nur s ändern
-```
-
-**Versuch C — nur $m$ ändern** ($s$ bleibt 0.1). Probieren Sie zum Beispiel $m$ = 0.2, 0.5, 0.8. Wann passt das Modell zum Winter?
-
-```{r}
-#| fig-height: 4.6
-#| fig-width: 7.5
-zeige_modell(s = 0.1, m = 0.1)   # hier nur m ändern
+zeige_modell(s = 0.1, m = 0.1)
 ```
 
 > **F2**
 >
-> Tragen Sie Ihre Werte ein (Abstand: zum Sommer bei A, zum Winter bei B und C):
->
-> |  | $s$ | $m$ | $m/s$ | Abstand |
+> |  | $s$ | $m$ | $m/s$ | passt zu |
 > |---|---|---|---|---|
-> | Sommer | 0.1 | 0.1 | 1 |  |
-> | Versuch A |  |  | 1 |  |
-> | Versuch A |  |  | 1 |  |
-> | Versuch B (Winter) |  | 0.1 |  |  |
-> | Versuch C (Winter) | 0.1 |  |  |  |
+> | Start | 0.1 | 0.1 | 1 | Sommer |
+> | A: beide gleich | 0.05 | 0.05 |  |  |
+> | B: nur $s$ | ? | 0.1 |  | Winter |
+> | C: nur $m$ | 0.1 | ? |  | Winter |
 >
-> Was fällt Ihnen an der Spalte $m/s$ auf? Worauf kommt es an: auf $s$, auf $m$ oder auf $m/s$? (Erinnerung an Woche 7.)
+> Bei B und C: Wert suchen, bis der Abstand zum Winter klein ist. Worauf kommt es an: $s$, $m$ oder $m/s$?
 
----
+# 3 · Was passiert im Winter?
 
-# 3 · Abbildung 3: Was passiert im Winter wirklich?
-
-Das Modell allein kann nicht entscheiden, ob sich $s$ oder $m$ geändert hat. Dafür braucht es Biologie.
-
-**Bekannt ist:** Im Winter fliegen die Mücken **weniger**. Viele überwintern in Kellern und Höhlen. Nehmen wir an, $m$ ist im Winter nur noch halb so gross: $m = 0.05$.
-
-**Versuch D — $m = 0.05$ fest, $s$ suchen.** Lassen Sie zuerst $s = 0.1$ stehen und schauen Sie, was passiert. Verkleinern Sie dann $s$, bis das Modell zum Winter passt.
+Im Winter fliegen die Mücken **weniger**. Setzen Sie $m = 0.05$, lassen Sie zuerst $s = 0.1$ und verkleinern Sie dann $s$, bis das Modell zum Winter passt.
 
 ```{r}
 #| fig-height: 4.6
 #| fig-width: 7.5
-zeige_modell(s = 0.1, m = 0.05)   # hier s ändern
+zeige_modell(s = 0.1, m = 0.05)
 ```
 
 > **F3**
 >
-> 1. Mit $m = 0.05$ und $s = 0.1$: Wird die Cline breiter oder enger als im Sommer?
-> 2. Welches $s$ brauchen Sie mit $m = 0.05$ für den Winter? Wie viel Selektion ist vom Sommer noch übrig?
-> 3. Warum ist die Selektion im Winter so schwach? Tipp: Wird im Winter gespritzt?
-
-> **Für das Gespräch mit der Assistenz (1–2 Minuten)**
->
-> Zeigen Sie **eine** Abbildung und sagen Sie drei Sätze:
->
-> 1. **Was** ist im Winter anders? (F1)
-> 2. **Worauf** kommt es im Modell an? (F2)
-> 3. **Was** hat sich im Winter geändert, und warum ist das plausibel? (F3)
+> Wird die Cline mit $s = 0.1$ breiter oder enger? Welches $s$ passt zum Winter, und warum ist die Selektion im Winter so schwach?
 

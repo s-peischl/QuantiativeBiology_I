@@ -37,9 +37,8 @@ Das Zentrum bleibt an der Grenze, nur der Übergang wird etwa **doppelt so breit
 
 | | $s$ | $m$ | $m/s$ | Abstand |
 |---|---|---|---|---|
-| Sommer | 0.1 | 0.1 | 1 | Sommer 0.035 |
+| Start | 0.1 | 0.1 | 1 | Sommer 0.035 |
 | Versuch A | 0.05 | 0.05 | 1 | Sommer 0.036 |
-| Versuch A | 0.2 | 0.2 | 1 | Sommer 0.034 |
 | Versuch B (Winter) | **0.02** | 0.1 | 5 | Winter 0.053 |
 | Versuch C (Winter) | 0.1 | **0.5** | 5 | Winter 0.051 |
 
