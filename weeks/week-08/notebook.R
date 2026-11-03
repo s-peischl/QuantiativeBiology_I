@@ -1,29 +1,25 @@
 # Woche 8 — Notebook · Checkpoint B (nur R, base R)
 # Sommer und Winter: eine Resistenz-Cline bei Stechmuecken
-# In RStudio: Working Directory = weeks/week-08, dann Source.
-# Kein Programmieren: nur ausfuehren und im Teil 2 eine Zahl aendern.
+# In RStudio: Working Directory = weeks/week-08, dann Zeile fuer Zeile ausfuehren.
+# Kein Programmieren: nur ausfuehren und in Teil 2 eine Zahl aendern.
+
+# Rund um Montpellier wird gegen Stechmuecken Insektizid gespritzt, auf dem Land nicht. In der Stadt ist das Resistenz-Allel R im Vorteil, auf dem Land kostet es etwas. Die Muecken fliegen hin und her — wie in Woche 7.
 #
-# Rund um Montpellier wurde gegen Stechmuecken Insektizid gespritzt, auf dem
-# Land nicht. In der Stadt ist das Resistenz-Allel R im Vorteil, auf dem
-# Land kostet es etwas. Die Muecken fliegen hin und her.
+# Entlang einer Strecke von 17 Stellen (vom Land bis in die Stadt) wurde der Anteil von R gemessen, einmal im Sommer und einmal im Winter. Die beiden Kurven sehen verschieden aus. Warum?
+
+# --- Auftrag ---
 #
-# Entlang eines Transekts von 17 Stellen wurde der Anteil von R gemessen —
-# einmal im Sommer, einmal im Winter. Die beiden Kurven sehen verschieden
-# aus.
+# Kein Programmieren: Sie fuehren nur Code aus und aendern eine Zahl.
 #
-# Ihr Auftrag (kein Programmieren, nur Code ausfuehren und eine Zahl
-# aendern):
-#
-# 1. Abbildung 1: Sommer und Winter mit angepassten Kurven. Was ist im
-#    Winter anders?
-# 2. Abbildung 2: Im Modell eine Zahl aendern, bis die Winter-Kurve passt —
-#    einmal s kleiner, einmal m groesser.
-# 3. Erklaeren Sie der Assistenz in 1–2 Minuten mit einer Abbildung: Warum
-#    sieht der Winter anders aus?
+# 1. Teil 1: Abbildung 1 erzeugen. Was ist im Winter anders? -> F1
+# 2. Teil 2: Im Modell einmal nur s aendern, einmal nur m, bis das Modell zum Winter passt. Werte in die Tabelle eintragen. -> F2
+# 3. Teil 3: Der Assistenz in 1–2 Minuten mit einer Abbildung erklaeren, warum der Winter anders aussieht. -> F3
 
 # ===========================================================================
-# 0 · Daten und Funktionen (einfach ausfuehren)
+# 0 · Daten und Funktionen
 # ===========================================================================
+#
+# Einfach ausfuehren. Die Zahlen stammen von den Assistenzen.
 
 # Position in km: links (x < 0) Land ohne Insektizid, rechts (x > 0) Stadt mit Insektizid
 x <- seq(-8, 8, by = 1)
@@ -35,8 +31,6 @@ k_winter <- c(0, 1, 0, 3, 5, 7, 7, 14, 16, 24, 30, 36, 32, 32, 38, 37, 40)
 
 sommer <- data.frame(x = x, p = k_sommer / n)
 winter <- data.frame(x = x, p = k_winter / n)
-
-# --- Hilfsfunktionen (nicht veraendern) ---
 
 farben <- c(Sommer = "#d95f02", Winter = "#2166ac")
 
@@ -72,7 +66,7 @@ vergleiche_clines <- function() {
 }
 
 # Modell wie Woche 7, aber 17 Stellen in einer Reihe:
-# 1. Selektion lokal: in der Stadt ist R besser, auf dem Land A
+# 1. Selektion lokal: in der Stadt ist R besser, auf dem Land r
 # 2. Migration: Anteil m/2 fliegt zu jeder Nachbarstelle
 selektionsschritt <- function(p, w) {
   q <- 1 - p
@@ -95,54 +89,81 @@ simuliere_cline <- function(s, m, generationen = 3000) {
   p
 }
 
+# Abstand zwischen Modell und Winter-Daten (kleiner = passt besser)
+abstand_winter <- function(p_modell) round(sum((p_modell - winter$p)^2), 3)
+
 zeige_modell <- function(s, m) {
-  zeige_clines(main = paste0("Modell (schwarz): s = ", s, ", m = ", m))
-  lines(x, simuliere_cline(s, m), col = "grey15", lwd = 2.2, type = "b",
-        pch = 1)
+  p_modell <- simuliere_cline(s, m)
+  zeige_clines(main = paste0("Modell (schwarz): s = ", s, ", m = ", m,
+                             ",  m/s = ", round(m / s, 1)))
+  lines(x, p_modell, col = "grey15", lwd = 2.2, type = "b", pch = 1)
+  mtext(paste("Abstand zu den Winter-Daten:", abstand_winter(p_modell),
+              "(kleiner = passt besser)"), side = 3, line = 0.2, cex = 0.85)
 }
 
 # ===========================================================================
 # 1 · Abbildung 1: Sommer und Winter
 # ===========================================================================
-# Die Punkte sind die Messungen. Die Linien sind logistische Kurven, die R
-# an die Punkte anpasst. Zwei Zahlen fassen eine Kurve zusammen:
+#
+# Die Punkte sind die Messungen. Die Linien sind logistische Kurven, die R an die Punkte anpasst. Zwei Zahlen fassen eine Kurve zusammen:
 #
 # - Zentrum: wo die Frequenz 0.5 ist,
 # - Breite: wie lang der Uebergang vom Land zur Stadt ist.
 
-print(vergleiche_clines())
+vergleiche_clines()
 
-# F1: Was ist an der Winter-Kurve anders: das Zentrum, die Breite oder beides?
+# --- F1 ---
+#
+# Lesen Sie die Tabelle unter der Abbildung. Was ist an der Winter-Kurve anders: das Zentrum, die Breite oder beides?
 
 # ===========================================================================
 # 2 · Abbildung 2: Selektion oder Migration?
 # ===========================================================================
-# Das Modell ist dasselbe wie in Woche 7 — nur mit 17 Stellen in einer Reihe
-# statt zwei Habitaten:
 #
-# - s = Selektion: wie stark R in der Stadt hilft (und auf dem Land
-#    schadet),
-# - m = Migration: wie viele Muecken pro Generation zur Nachbarstelle
-#    fliegen.
+# Das Modell ist dasselbe wie in Woche 7, nur mit 17 Stellen in einer Reihe statt zwei Habitaten:
 #
-# Mit s = 0.1 und m = 0.1 passt das Modell zum Sommer. Aendern Sie fuer den
-# Winter jeweils nur eine Zahl.
+# - s = Selektion: wie stark R in der Stadt hilft (und auf dem Land schadet),
+# - m = Migration: welcher Anteil der Muecken pro Generation zu den Nachbarstellen fliegt.
+#
+# Mit s = 0.1 und m = 0.1 passt das Modell gut zum Sommer:
 
 zeige_modell(s = 0.1, m = 0.1)   # Sommer
-zeige_modell(s = 0.1, m = 0.1)   # Versuch A: nur s kleiner machen
-zeige_modell(s = 0.1, m = 0.1)   # Versuch B: nur m groesser machen
 
-# F2: Welche Aenderung im Modell erzeugt die Winter-Kurve: s kleiner oder m
-# groesser? Klappt beides?
+# Jetzt der Winter. Aendern Sie in jedem Versuch nur eine Zahl. Ueber der Abbildung steht der Abstand zu den Winter-Daten: je kleiner, desto besser passt das Modell.
+#
+# Versuch A — nur s aendern (m bleibt 0.1). Probieren Sie zum Beispiel s = 0.05, 0.02, 0.01.
+
+zeige_modell(s = 0.1, m = 0.1)   # hier s aendern
+
+# Versuch B — nur m aendern (s bleibt 0.1). Probieren Sie zum Beispiel m = 0.2, 0.5, 0.8.
+
+zeige_modell(s = 0.1, m = 0.1)   # hier m aendern
+
+# --- F2 ---
+#
+# Tragen Sie Ihre besten Werte ein:
+#
+# |  | s | m | m/s |
+# | Sommer | 0.1 | 0.1 | 1 |
+# | Winter, Versuch A |  | 0.1 |  |
+# | Winter, Versuch B | 0.1 |  |  |
+#
+# Klappen beide Versuche? Was faellt Ihnen an der Spalte m/s auf? (Erinnerung an Woche 7.)
 
 # ===========================================================================
 # 3 · Ihre Erklaerung
 # ===========================================================================
-# F3: Was ist biologisch plausibler? Tipp: Was passiert im Winter mit dem
-# Insektizid — und fliegen Muecken im Winter mehr?
+
+# --- F3 ---
 #
-# Woche 7: Fuer das Gleichgewicht zaehlte vor allem das Verhaeltnis m/s.
+# Das Modell allein kann nicht entscheiden, ob s oder m sich geaendert hat. Was ist biologisch plausibler?
 #
-# Fuer das Gespraech (1-2 Minuten): eine Abbildung zeigen und drei Saetze
-# sagen — was ist anders, welche Aenderung im Modell passt, warum ist das
-# biologisch plausibel.
+# Tipp: Wird im Winter gleich viel Insektizid gespritzt? Fliegen Muecken im Winter mehr?
+
+# --- Fuer das Gespraech mit der Assistenz (1–2 Minuten) ---
+#
+# Zeigen Sie eine Abbildung (1 oder 2) und sagen Sie drei Saetze:
+#
+# 1. Was ist im Winter anders? (F1)
+# 2. Welche Aenderung im Modell passt? (F2)
+# 3. Warum ist das biologisch plausibel? (F3)

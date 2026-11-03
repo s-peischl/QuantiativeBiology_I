@@ -77,20 +77,13 @@ Sie müssen **anwesend sein** und in der Gruppe Ihre Antwort erklären (nicht an
 
 # Resistenz im Raum
 
-## Insektizid auf einer Seite
+## Stadt und Land
 
-::::: columns
-::: {.column width="40%"}
-![](../../pics/popgen/slides/anopheles.jpg){fig-alt="Stechmücke" width="100%"}
-:::
-::: {.column width="58%"}
-Auf einer Seite einer Grenze wird gegen Stechmücken **Insektizid gespritzt**, auf der anderen nicht.
+![](../../pics/popgen/slides/moskitos_stadt_land.jpg){fig-alt="Skizze: Stadt mit Insektizid und resistenten Mücken, Land ohne Insektizid, Migration dazwischen" height="400px" fig-align="center"}
 
-- gespritzt: das **Resistenz-Allel R** ist im Vorteil
-- unbehandelt: R kostet etwas, das andere Allel ist besser
-- die Mücken **fliegen** über die Grenze
-:::
-:::::
+Stadt: **Insektizid**, das Resistenz-Allel **R** ist im Vorteil · Land: R kostet etwas · die Mücken **fliegen** hin und her.
+
+[Abbildung: Emma Ochsner]{.small}
 
 ## Wie Woche 7 — nur im Raum
 
@@ -117,7 +110,7 @@ ggplot(data.frame(x = xs, p = logistisch(xs, 0, 1)), aes(x, p)) +
   annotate("text", x = -2.2, y = 1.07, label = "Breite", hjust = 1,
            colour = "#2166ac", size = 4) +
   coord_cartesian(ylim = c(0, 1.1)) +
-  labs(x = "Position (km): links unbehandelt, rechts gespritzt",
+  labs(x = "Position (km): links Land, rechts Stadt mit Insektizid",
        y = "Frequenz von R") +
   theme_slide()
 ```
@@ -135,7 +128,7 @@ ggplot(clines, aes(x, p, colour = saison, shape = saison)) +
   scale_colour_manual(values = saison_farben, name = NULL) +
   scale_shape_manual(values = c(Sommer = 16, Winter = 17), name = NULL) +
   coord_cartesian(ylim = c(0, 1)) +
-  labs(x = "Position (km): links unbehandelt, rechts gespritzt",
+  labs(x = "Position (km): links Land, rechts Stadt mit Insektizid",
        y = "Frequenz von R") +
   theme_slide() +
   theme(legend.position = "right")
@@ -157,16 +150,16 @@ Dieselben 17 Stellen, im Sommer und im Winter beprobt.
 | Teil | Sie führen aus | Sie erhalten |
 |---|---|---|
 | 1 | `vergleiche_clines()` | **Abbildung 1:** Sommer und Winter mit Kurven, Tabelle mit Zentrum und Breite |
-| 2 | `zeige_modell(s = …, m = …)` | **Abbildung 2:** das Modell über den Daten |
+| 2 | `zeige_modell(s = …, m = …)` | **Abbildung 2:** das Modell über den Daten, mit dem Abstand zu den Winter-Daten |
 
-In Teil 2 ändern Sie immer nur **eine** Zahl: einmal $s$ kleiner, einmal $m$ grösser.
+In Teil 2 ändern Sie immer nur **eine** Zahl: einmal nur $s$, einmal nur $m$. Die besten Werte tragen Sie in eine kleine Tabelle ein.
 
 ## Erklären in 1–2 Minuten
 
 Zeigen Sie der Assistenz **eine** Abbildung und sagen Sie drei Sätze:
 
 1. **Was** ist im Winter anders?
-2. **Welche** Änderung im Modell — $s$ oder $m$ — erzeugt das?
+2. **Welche** Änderung im Modell passt — und was zeigt $m/s$?
 3. **Was** ist biologisch plausibler? (Was passiert im Winter mit dem Insektizid?)
 
 # Abschluss
