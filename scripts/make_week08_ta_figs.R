@@ -2,7 +2,7 @@
 # Aufruf aus dem Repo-Root: Rscript scripts/make_week08_ta_figs.R
 setwd("weeks/week-08")
 src <- readLines("notebook.R")
-ende <- grep("^# 1 · Abbildung 1", src) - 2
+ende <- grep("^# 1 · ", src) - 2
 eval(parse(text = src[1:ende]))   # nur Daten und Funktionen
 
 # 1 · Daten mit angepassten Kurven (wie Abbildung 1 der Studierenden)
