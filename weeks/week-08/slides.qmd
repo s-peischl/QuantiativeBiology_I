@@ -85,11 +85,45 @@ Stadt: **Insektizid**, das Resistenz-Allel **R** ist im Vorteil · Land: R koste
 
 [Abbildung: Emma Ochsner]{.small}
 
-## Wie Woche 7 — nur im Raum
+## Das Modell: Stellen in einer Reihe
 
-Woche 7: zwei Habitate, Selektion zieht auseinander, Migration mischt. Es zählte nur $m/s$.
+```{r}
+#| fig-height: 3.2
+#| fig-width: 9.5
+k <- 9
+pos <- seq_len(k)
+p_r <- logistisch(pos, 5, 1.1)
+y0 <- 0
+pfeile <- data.frame(x = pos[-k] + 0.22, xend = pos[-1] - 0.22)
+ggplot() +
+  annotate("rect", xmin = 0.4, xmax = 4.9, ymin = -0.75, ymax = 0.75,
+           fill = "#e8f3e0", colour = NA) +
+  annotate("rect", xmin = 5.1, xmax = 9.6, ymin = -0.75, ymax = 0.75,
+           fill = "#e6e6e6", colour = NA) +
+  geom_curve(data = pfeile, aes(x = x, xend = xend, y = 0.22, yend = 0.22),
+             curvature = -0.5, colour = "#555555", linewidth = 0.5,
+             arrow = arrow(length = unit(0.12, "cm"))) +
+  geom_curve(data = pfeile, aes(x = xend, xend = x, y = -0.22, yend = -0.22),
+             curvature = -0.5, colour = "#555555", linewidth = 0.5,
+             arrow = arrow(length = unit(0.12, "cm"))) +
+  geom_point(aes(pos, y0, fill = p_r), shape = 21, size = 13,
+             colour = "grey25", stroke = 0.6) +
+  scale_fill_gradient(low = "white", high = "#b2182b", limits = c(0, 1),
+                      guide = "none") +
+  annotate("text", x = 1.5, y = 0.58, label = "m/2", size = 6,
+           colour = "#333333") +
+  annotate("text", x = 1.5, y = -0.58, label = "m/2", size = 6,
+           colour = "#333333") +
+  annotate("text", x = 2.65, y = -1.05, size = 6.2, colour = "#2e7d32",
+           label = "Land: r im Vorteil (s)") +
+  annotate("text", x = 7.35, y = -1.05, size = 6.2, colour = "#424242",
+           label = "Stadt: R im Vorteil (s)") +
+  coord_cartesian(xlim = c(0.4, 9.6), ylim = c(-1.2, 0.8)) +
+  theme_void()
+```
 
-Jetzt: viele Stellen in einer Reihe. Die Frequenz von R ändert sich **entlang einer Strecke** — eine **Cline**.
+- Jeder Kreis ist eine Stelle, je **dunkler**, desto mehr R. An jeder Stelle wirkt Selektion $s$ wie in Woche 7.
+- Pro Generation fliegt ein Anteil $m/2$ zu **jeder Nachbarstelle**, nicht weiter.
 
 ## Eine Cline
 
@@ -134,7 +168,7 @@ ggplot(clines, aes(x, p, colour = saison, shape = saison)) +
   theme(legend.position = "right")
 ```
 
-Dieselben 17 Stellen, im Sommer und im Winter beprobt.
+An denselben 17 Stellen gemessen: einmal im Sommer, einmal im Winter.
 
 ## Die Frage
 

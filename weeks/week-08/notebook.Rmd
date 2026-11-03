@@ -44,7 +44,7 @@ Einfach ausführen. Die Daten sind für den Kurs erfunden, aber realistisch.
 ```{r}
 # Position in km: links (x < 0) Land ohne Insektizid, rechts (x > 0) Stadt mit Insektizid
 x <- seq(-8, 8, by = 1)
-n <- 40   # typisierte Allele pro Stelle
+n <- 40   # untersuchte Allele (Genkopien) pro Stelle
 
 # Anzahl Resistenz-Allele R pro Stelle (Kursdaten)
 k_sommer <- c(0, 0, 0, 0, 0, 0, 3, 10, 15, 27, 39, 37, 40, 39, 40, 40, 40)
