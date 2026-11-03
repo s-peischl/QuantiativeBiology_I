@@ -20,14 +20,14 @@ lines(x, simuliere_cline(0.01, 0.05), col = "#1b9e77", lwd = 2.4, lty = 4)
 legend("bottomright", bty = "n", lwd = c(2, 2.4, 2.4, 2.4), lty = c(3, 1, 2, 4),
        col = c("grey60", "black", "#e7298a", "#1b9e77"), cex = 0.85,
        legend = c("Sommer-Modell: s = 0.1, m = 0.1",
-                  "B: s = 0.02, m = 0.1",
-                  "C: s = 0.1, m = 0.5",
-                  "D: s = 0.01, m = 0.05"))
+                  "Lösung 1: s = 0.02, m = 0.1",
+                  "Lösung 2: s = 0.1, m = 0.5",
+                  "weniger Flug: s = 0.01, m = 0.05"))
 dev.off()
 
-# 3 · Versuch D: weniger Flug allein macht die Cline enger
+# 3 · Weniger Flug (m = 0.05) allein macht die Cline enger
 png("ta-figs/versuch_d.png", width = 1500, height = 900, res = 200)
-zeige_clines(main = "Versuch D: m = 0.05 (Mücken fliegen weniger)")
+zeige_clines(main = "Winter mit m = 0.05 (Mücken fliegen weniger)")
 lines(x, simuliere_cline(0.1, 0.05), col = "#7570b3", lwd = 2.4, lty = 2)
 lines(x, simuliere_cline(0.01, 0.05), col = "#1b9e77", lwd = 2.4)
 legend("bottomright", bty = "n", lwd = 2.4, lty = c(2, 1),
@@ -46,13 +46,13 @@ png("ta-figs/abstand_ms.png", width = 1500, height = 900, res = 200)
 plot(0.1 / s_werte, a_s, type = "b", pch = 16, col = "black", log = "x",
      ylim = c(0, max(a_s, a_m, a_d)), xlab = "m/s (log)",
      ylab = "Abstand zu den Winter-Daten",
-     main = "Versuche B, C und D fallen auf eine Kurve")
+     main = "Alle Winter-Lösungen fallen auf eine Kurve")
 lines(m_werte / 0.1, a_m, type = "b", pch = 17, col = "#e7298a", lty = 2)
 lines(0.05 / s_d, a_d, type = "b", pch = 15, col = "#1b9e77", lty = 4)
 abline(v = 5, lty = 3, col = "grey50")
 legend("topright", bty = "n", pch = c(16, 17, 15), lty = c(1, 2, 4),
        col = c("black", "#e7298a", "#1b9e77"), cex = 0.85,
-       legend = c("B: nur s (m = 0.1)", "C: nur m (s = 0.1)", "D: s mit m = 0.05"))
+       legend = c("nur s (m = 0.1)", "nur m (s = 0.1)", "s mit m = 0.05"))
 dev.off()
 p_kl <- simuliere_cline(0.1, 0.05)
 print(tab)

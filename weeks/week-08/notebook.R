@@ -7,7 +7,11 @@
 
 # --- Auftrag ---
 #
-# Code ausfuehren, Zahlen aendern, Tabelle ausfuellen. Am Schluss der Assistenz mit einer Abbildung in 1–2 Minuten erklaeren: Was ist im Winter anders, worauf kommt es im Modell an, was hat sich geaendert?
+# 1. Finden Sie Parameterwerte s und m, mit denen das Modell zur Sommer-Cline passt, und solche fuer die Winter-Cline.
+# 2. Welche Parameter haben Sie gefunden? Tragen Sie sie in die Tabelle ein.
+# 3. Sind diese Parameter plausibel?
+#
+# Erklaeren Sie das der Assistenz in 1–2 Minuten mit einer Abbildung.
 
 # ===========================================================================
 # 0 · Daten und Funktionen
@@ -97,41 +101,46 @@ zeige_modell <- function(s, m) {
 }
 
 # ===========================================================================
-# 1 · Sommer und Winter
+# 1 · Die Daten
 # ===========================================================================
 
 vergleiche_clines()
 
-# --- F1 ---
-# Was ist im Winter anders: Zentrum, Breite oder beides? (Tabelle unter der Abbildung)
+# Die Tabelle unter der Abbildung zeigt Zentrum und Breite der beiden Clines.
 
 # ===========================================================================
-# 2 · Modell: s und m
+# 2 · Parameter finden
 # ===========================================================================
 #
-# Wie Woche 7, nur mit 17 Stellen in einer Reihe: s = Selektion, m = Anteil der Muecken, der zu den Nachbarstellen fliegt. Mit s = m = 0.1 passt das Modell zum Sommer. Ueber der Abbildung steht der Abstand zu Sommer und Winter (kleiner = besser).
+# Das Modell ist wie in Woche 7, nur mit 17 Stellen in einer Reihe:
 #
-# Aendern Sie die Zahlen und fuehren Sie den Block fuer jede Zeile der Tabelle neu aus:
+# - s = Selektion: wie stark R in der Stadt hilft (und auf dem Land schadet),
+# - m = Migration: welcher Anteil der Muecken pro Generation zu den Nachbarstellen fliegt.
+#
+# Aendern Sie s und m und fuehren Sie den Block erneut aus. Ueber der Abbildung steht der Abstand zu den Sommer- und Winter-Daten: Unter etwa 0.06 passt das Modell.
 
-zeige_modell(s = 0.1, m = 0.1)
+zeige_modell(s = 0.2, m = 0.05)   # hier s und m aendern
 
-# --- F2 ---
+# Tipp: Aendern Sie zuerst nur eine Zahl. Es gibt mehr als eine Loesung. Suchen Sie fuer den Winter zwei verschiedene.
+
+# --- F1 · Welche Parameter haben Sie gefunden? ---
 #
-# |  | s | m | m/s | passt zu |
-# | Start | 0.1 | 0.1 | 1 | Sommer |
-# | A: beide gleich | 0.05 | 0.05 |  |  |
-# | B: nur s | ? | 0.1 |  | Winter |
-# | C: nur m | 0.1 | ? |  | Winter |
+# |  | s | m | m/s | Abstand |
+# | Sommer |  |  |  |  |
+# | Winter, Loesung 1 |  |  |  |  |
+# | Winter, Loesung 2 |  |  |  |  |
 #
-# Bei B und C: Wert suchen, bis der Abstand zum Winter klein ist. Worauf kommt es an: s, m oder m/s?
+# Was haben alle Ihre Winter-Loesungen gemeinsam? Und was unterscheidet sie vom Sommer?
 
 # ===========================================================================
-# 3 · Was passiert im Winter?
+# 3 · Sind die Parameter plausibel?
 # ===========================================================================
 #
-# Im Winter fliegen die Muecken weniger. Setzen Sie m = 0.05, lassen Sie zuerst s = 0.1 und verkleinern Sie dann s, bis das Modell zum Winter passt.
+# Im Winter fliegen die Muecken weniger als im Sommer, m ist also eher kleiner. Probieren Sie m halb so gross wie in Ihrer Sommer-Loesung und suchen Sie das passende s.
 
-zeige_modell(s = 0.1, m = 0.05)
+zeige_modell(s = 0.1, m = 0.05)   # hier s aendern
 
-# --- F3 ---
-# Wird die Cline mit s = 0.1 breiter oder enger? Welches s passt zum Winter, und warum ist die Selektion im Winter so schwach?
+# --- F2 · Plausibel? ---
+#
+# - Welche Ihrer Winter-Loesungen passt dazu, dass die Muecken weniger fliegen?
+# - Wie stark ist die Selektion im Winter im Vergleich zum Sommer? Warum ist das plausibel? (Tipp: Wird im Winter gespritzt?)

@@ -181,21 +181,18 @@ An denselben 17 Stellen gemessen: einmal im Sommer, einmal im Winter.
 
 **→ [Notebook Woche 8 öffnen](notebook.html)** · [Rmd](notebook.Rmd) · [R](notebook.R)
 
-| Teil | Sie führen aus | Sie erhalten |
-|---|---|---|
-| 1 | `vergleiche_clines()` | **Abbildung 1:** Sommer und Winter mit Kurven, Tabelle mit Zentrum und Breite |
-| 2 | `zeige_modell(s = …, m = …)` | **Abbildung 2:** das Modell über den Daten, mit dem Abstand zu Sommer und Winter |
-| 3 | `zeige_modell(s = …, m = 0.05)` | **Abbildung 3:** Winter mit weniger fliegenden Mücken |
+Mit `zeige_modell(s = …, m = …)` legen Sie das Modell über die Daten.
 
-Teil 2: $s$ und $m$ gleich ändern, dann nur $s$, dann nur $m$ — Werte in eine Tabelle. Teil 3: $m$ ist im Winter kleiner. Welches $s$ passt dann?
+1. **Finden Sie Parameterwerte** $s$ und $m$ für die Sommer- und die Winter-Cline.
+2. **Welche Parameter haben Sie gefunden?** → Tabelle im Notebook
+3. **Sind diese Parameter plausibel?**
 
 ## Erklären in 1–2 Minuten
 
-Zeigen Sie der Assistenz **eine** Abbildung und sagen Sie drei Sätze:
+Zeigen Sie der Assistenz **eine** Abbildung und beantworten Sie:
 
-1. **Was** ist im Winter anders?
-2. **Worauf** kommt es im Modell an — $s$, $m$ oder $m/s$?
-3. **Was** hat sich im Winter geändert, wenn die Mücken weniger fliegen?
+1. Welche $s$ und $m$ passen zum Sommer, welche zum Winter?
+2. Sind diese Werte plausibel? (Fliegen Mücken im Winter mehr oder weniger? Wird gespritzt?)
 
 # Abschluss
 
