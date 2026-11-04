@@ -1,0 +1,179 @@
+# Woche 10 — Notebook (nur R, base R)
+# Mutation und Rettung: Etablierung einer Kopie und evolutionaere Rettung
+# In RStudio: Working Directory = weeks/week-10, dann Zeile fuer Zeile ausfuehren.
+# Ausfuehren, Zahlen aendern, Aufgaben beantworten.
+
+# Eine neue Mutation beginnt mit einer Kopie. Auch wenn sie vorteilhaft ist, geht sie oft durch Zufall verloren. Heute simulieren Sie zuerst, wie oft sich eine solche Mutation etabliert. Danach schrumpft eine Population, weil die Umwelt schlecht wird (z. B. ein Antibiotikum). Kann eine resistente Mutation sie retten?
+#
+# Das Modell. Jedes Individuum hat eine zufaellige Zahl von Nachkommen:
+#
+# - Mutante (resistent): im Mittel 1 + s Nachkommen,
+# - Wildtyp im neuen Stress: im Mittel 1 - r Nachkommen, die Population schrumpft also jede Generation um den Anteil r,
+# - Jeder Wildtyp-Nachkomme ist mit Wahrscheinlichkeit U = 0.00001 eine neue Mutante.
+#
+# Die Abbildungen.
+#
+# - Teil 1: x-Achse Generation, y-Achse Anzahl Kopien einer Mutation. Blau: ueberlebt, orange: verloren.
+# - Teil 3: x-Achse Generation, y-Achse Populationsgroesse auf einer log-Skala (1, 10, 100, …). Blau: gerettet, grau: ausgestorben.
+
+# --- Auftrag ---
+#
+# 1. Verfolgen Sie einzelne neue Mutationen und schaetzen Sie, wie oft sie sich etablieren.
+# 2. Simulieren Sie eine schrumpfende Population und schaetzen Sie, wie oft sie gerettet wird.
+# 3. Finden Sie heraus, wie Rettung von der Startgroesse N_0 und vom Rueckgang r abhaengt.
+
+# ===========================================================================
+# 0 · Funktionen
+# ===========================================================================
+#
+# Einfach ausfuehren.
+
+# Eine Mutation ueber die Zeit: jede Kopie hat im Mittel 1 + s Nachkommen
+linie <- function(s, generationen = 40) {
+  n <- numeric(generationen + 1)
+  n[1] <- 1
+  for (t in seq_len(generationen)) n[t + 1] <- rpois(1, n[t] * (1 + s))
+  n
+}
+
+zeige_linien <- function(s, anzahl = 20) {
+  plot(NA, xlim = c(0, 40), ylim = c(0, 25), xlab = "Generation",
+       ylab = "Anzahl Kopien", main = paste("Neue Mutationen mit s =", s))
+  verloren <- 0
+  for (i in seq_len(anzahl)) {
+    n <- linie(s)
+    weg <- n[41] == 0
+    verloren <- verloren + weg
+    lines(0:40, n, col = if (weg) "#e67e22" else "#2166ac", lwd = 1.5)
+  }
+  mtext(paste(verloren, "von", anzahl, "verloren"), side = 3, line = 0.2)
+}
+
+# 1 = etabliert (100 Kopien erreicht), 0 = verloren
+schicksal <- function(s, grenze = 100) {
+  n <- 1
+  while (n > 0 && n < grenze) n <- rpois(1, n * (1 + s))
+  as.numeric(n >= grenze)
+}
+
+schaetze_etablierung <- function(s, wiederholungen = 2000) {
+  mean(replicate(wiederholungen, schicksal(s)))
+}
+
+# Eine schrumpfende Population: Wildtyp (1 - r), Mutanten (1 + s)
+rettung_lauf <- function(N0, r, s, U = 1e-5, generationen = 120) {
+  wt <- N0; mut <- 0
+  N <- numeric(generationen + 1); N[1] <- N0
+  for (t in seq_len(generationen)) {
+    neu <- rbinom(1, wt, U)
+    wt <- rpois(1, wt * (1 - r))
+    mut <- min(rpois(1, mut * (1 + s)) + neu, 1e7)
+    N[t + 1] <- wt + mut
+  }
+  N
+}
+
+zeige_rettung <- function(N0, r, s, anzahl = 10) {
+  plot(NA, xlim = c(0, 120), ylim = c(1, 1e7), log = "y", xlab = "Generation",
+       ylab = "Populationsgroesse (log)", yaxt = "n",
+       main = paste0("N0 = ", N0, ", r = ", r, ", s = ", s))
+  axis(2, at = 10^c(0, 2, 4, 6), labels = c("1", "100", "10 000", "1 Mio."), las = 1)
+  gerettet <- 0
+  for (i in seq_len(anzahl)) {
+    N <- rettung_lauf(N0, r, s)
+    ok <- N[121] > 0
+    gerettet <- gerettet + ok
+    lines(0:120, pmax(N, 1), col = if (ok) "#2166ac" else "grey60", lwd = 1.5)
+  }
+  mtext(paste(gerettet, "von", anzahl, "gerettet"), side = 3, line = 0.2)
+}
+
+# 1 = gerettet (1000 Mutanten), 0 = ausgestorben
+rettung <- function(N0, r, s, U = 1e-5, grenze = 1000) {
+  wt <- N0; mut <- 0
+  repeat {
+    neu <- rbinom(1, wt, U)
+    wt <- rpois(1, wt * (1 - r))
+    mut <- rpois(1, mut * (1 + s)) + neu
+    if (mut >= grenze) return(1)
+    if (wt + mut == 0) return(0)
+  }
+}
+
+schaetze_rettung <- function(N0, r, s, wiederholungen = 300) {
+  mean(replicate(wiederholungen, rettung(N0, r, s)))
+}
+
+# Naeherung (Orr & Unckless 2014)
+formel <- function(N0, r, s, U = 1e-5) round(1 - exp(-2 * N0 * U * s / r), 2)
+
+# ===========================================================================
+# 1 · Eine neue Mutation
+# ===========================================================================
+#
+# 20 neue Mutationen, jede startet mit einer Kopie und hat den Vorteil s = 0.1.
+
+zeige_linien(s = 0.1)   # hier s aendern
+
+# --- Aufgabe A ---
+#
+# 1. Wie viele der 20 Mutationen gehen verloren? Fuehren Sie den Block mehrmals aus.
+# 2. Probieren Sie s = 0 und s = 0.3. Was aendert sich?
+# 3. Warum geht eine vorteilhafte Mutation ueberhaupt verloren?
+
+# ===========================================================================
+# 2 · Wie oft etabliert sie sich?
+# ===========================================================================
+#
+# schaetze_etablierung(s) simuliert 2000 neue Mutationen und gibt den Anteil zurueck, der sich etabliert (100 Kopien erreicht). Die Faustregel sagt: etwa 2s.
+
+schaetze_etablierung(s = 0.1)   # hier s aendern
+2 * 0.1                         # Faustregel
+
+# --- Aufgabe B ---
+#
+# Fuellen Sie die Tabelle aus:
+#
+# | s | Simulation | Faustregel 2s |
+# | 0.02 |  |  |
+# | 0.05 |  |  |
+# | 0.1 |  |  |
+# | 0.2 |  |  |
+#
+# Wann passt die Faustregel gut, wann weniger?
+
+# ===========================================================================
+# 3 · Evolutionaere Rettung
+# ===========================================================================
+#
+# Eine Population mit N_0 = 30\,000 Individuen geraet in Stress und schrumpft jede Generation um r = 10\,\%. Resistente Mutanten haben den Vorteil s = 0.1. Die Abbildung zeigt 10 Wiederholungen.
+
+zeige_rettung(N0 = 30000, r = 0.1, s = 0.1)   # hier N0 oder r aendern
+
+# --- Aufgabe C ---
+#
+# 1. Beschreiben Sie eine blaue Kurve: Was passiert zuerst, was danach?
+# 2. Probieren Sie N_0 = 3000 und N_0 = 300\,000. Was aendert sich?
+# 3. Probieren Sie r = 0.3 (mit N_0 = 30\,000). Was aendert sich?
+
+# ===========================================================================
+# 4 · Wie wahrscheinlich ist Rettung?
+# ===========================================================================
+#
+# schaetze_rettung simuliert 300 Populationen und gibt den Anteil der geretteten zurueck. formel ist die Naeherung aus der Vorlesung.
+
+schaetze_rettung(N0 = 30000, r = 0.1, s = 0.1)   # hier aendern
+formel(N0 = 30000, r = 0.1, s = 0.1)             # gleich aendern
+
+# --- Aufgabe D ---
+#
+# a) Startgroesse (r = 0.1, s = 0.1):
+#
+# | N_0 | Simulation | Formel |
+# | 1 000 |  |  |
+# | 10 000 |  |  |
+# | 100 000 |  |  |
+#
+# b) Ab welchem N_0 wird etwa die Haelfte der Populationen gerettet?
+#
+# c) Was bedeutet das fuer Bakterien unter Antibiotika (Milliarden Zellen) und fuer eine bedrohte Art mit wenigen hundert Tieren?

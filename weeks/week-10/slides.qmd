@@ -1,6 +1,6 @@
 ---
 title: "Woche 10 — Resistenz und Rettung"
-subtitle: "Resistenz und Rettung"
+subtitle: "Mutation und Rettung"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:
@@ -20,7 +20,7 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Start](../../index.html) · [Notebook](notebook.html)"
+    footer: "[Start](../../index.html) · [Notebook](notebook.html) · [Modul 3](../../docs/module-03-overview.html)"
 execute:
   echo: false
   warning: false
@@ -32,74 +32,45 @@ execute:
 #| include: false
 source("../slides-ggplot.R")
 
-selection_step_haploid <- function(p, s) {
-  p * (1 + s) / (1 + p * s)
+# Eine Kopie: jede Kopie hat im Mittel 1 + s Nachkommen (Poisson)
+linie <- function(s, generationen = 40) {
+  n <- numeric(generationen + 1)
+  n[1] <- 1
+  for (t in seq_len(generationen)) n[t + 1] <- rpois(1, n[t] * (1 + s))
+  n
 }
 
-wf_step <- function(p, s, N) {
-  p_sel <- selection_step_haploid(p, s)
-  if (p_sel <= 0) return(0)
-  if (p_sel >= 1) return(1)
-  rbinom(1, N, p_sel) / N
+schicksal <- function(s, grenze = 100) {
+  n <- 1
+  while (n > 0 && n < grenze) n <- rpois(1, n * (1 + s))
+  as.numeric(n >= grenze)
 }
 
-simulate_wf <- function(p0, s, N, generations = 200) {
-  p <- numeric(generations + 1)
-  p[1] <- p0
-  for (t in seq_len(generations)) p[t + 1] <- wf_step(p[t], s, N)
-  data.frame(generation = 0:generations, p = p)
-}
-
-lineage_fate <- function(s, N, k = 1, max_gen = 400) {
-  p <- k / N
-  for (t in seq_len(max_gen)) {
-    p <- wf_step(p, s, N)
-    if (p <= 0) return(0)
-    if (p >= 1) return(1)
+# Rettung: Wildtyp schrumpft (1 - r), Mutanten wachsen (1 + s)
+rettung_lauf <- function(N0, r, s, U = 1e-5, generationen = 120) {
+  wt <- N0; mut <- 0
+  N <- numeric(generationen + 1); N[1] <- N0
+  for (t in seq_len(generationen)) {
+    neu <- rbinom(1, wt, U)
+    wt <- rpois(1, wt * (1 - r))
+    mut <- min(rpois(1, mut * (1 + s)) + neu, 1e7)
+    N[t + 1] <- wt + mut
   }
-  as.numeric(p >= 0.5)
+  data.frame(generation = 0:generationen, N = N)
 }
 
-u_hat <- function(s, N, n_reps = 250, k = 1) {
-  mean(replicate(n_reps, lineage_fate(s, N, k = k)))
-}
-
-p_rescue_approx <- function(N0, r, s, U) {
-  1 - exp(-2 * N0 * U * s / pmax(r, 1e-12))
-}
-
-one_rescue_run <- function(N0, r, s, U, max_gen = 180) {
-  n_wt <- N0
-  n_mut <- 0
-  established <- FALSE
-  N <- numeric(max_gen + 1)
-  N[1] <- N0
-  u <- min(1, max(0, 2 * s))
-  for (t in seq_len(max_gen)) {
-    if (!established && n_wt >= 1) {
-      n_new <- rpois(1, lambda = U * n_wt)
-      if (n_new > 0 && any(runif(n_new) < u)) {
-        established <- TRUE
-        n_mut <- 1
-      }
-    }
-    n_wt <- n_wt * (1 - r)
-    if (n_wt < 1) n_wt <- 0
-    if (established) n_mut <- n_mut * (1 + s)
-    tot <- n_wt + n_mut
-    N[t + 1] <- tot
-    if (!established && n_wt < 1) {
-      if (t < max_gen) N[(t + 2):(max_gen + 1)] <- 0
-      break
-    }
+rettung <- function(N0, r, s, U = 1e-5, grenze = 1000) {
+  wt <- N0; mut <- 0
+  repeat {
+    neu <- rbinom(1, wt, U)
+    wt <- rpois(1, wt * (1 - r))
+    mut <- rpois(1, mut * (1 + s)) + neu
+    if (mut >= grenze) return(1)
+    if (wt + mut == 0) return(0)
   }
-  list(rescued = established && (n_wt + n_mut) >= 1,
-       N = pmax(N, 0), generation = 0:max_gen)
 }
 
-rescue_rate <- function(N0, r, s, U, n_reps = 80, max_gen = 160) {
-  mean(replicate(n_reps, one_rescue_run(N0, r, s, U, max_gen)$rescued))
-}
+formel <- function(N0, r, s, U = 1e-5) 1 - exp(-2 * N0 * U * s / r)
 ```
 
 ## Übersicht
@@ -108,376 +79,196 @@ rescue_rate <- function(N0, r, s, U, n_reps = 80, max_gen = 160) {
 
 | Teil | Dauer | Was |
 |------|-------|-----|
-| Vorlesung | ~45 min | Seltenheit · $2s$ · Rettung |
-| Notebook | ~45 min | Draft: $\hat u(s)$ und $\Pr(\mathrm{rescue})$ |
+| Vorlesung | ~40 min | eine neue Mutation · evolutionäre Rettung |
+| Notebook | ~50 min | Schicksal einer Kopie · Rettung simulieren |
 
 ::: aside
-Pfeiltasten · **M** Menü · **Esc** Übersicht
+Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 :::
 
-## Lernziele
+## Letzte Woche: viele Kopien
 
-Nach heute können Sie …
+Im Teich startete die Inversion bei $p = 0.5$: Jeder Fisch trug eine Kopie.
 
-1. sagen, warum das Teichexperiment bei $p=0.5$ startet,
-2. die **Etablierungswahrscheinlichkeit** $\hat u$ aus Replikaten schätzen
-   und mit $u\approx 2s$ vergleichen,
-3. Rettung in einem Satz sagen: Anpassung **vor** $N=0$,
-4. $\Pr(R)\approx 1-\exp(-2 N_0 U s/r)$ gegen eine Simulation legen.
+Zufall liess die Teiche verschieden laufen, aber **keiner verlor** die Inversion.
 
-## Heute in dieser Reihenfolge
+Eine **neue Mutation** beginnt anders: mit **einer einzigen Kopie**.
 
-1. Warum Heterozygote — und warum selten riskant ist.
-2. Die meisten Bahnen bei $p=1/N$ enden bei 0.
-3. $\hat u$ und die Gerade $2s$.
-4. Schrumpfende $N$: evolutionäre Rettung.
-5. Ein kurzer Blick in die Literatur.
+# Eine neue Mutation
 
-::: aside
-[Modul 3](../../docs/module-03-overview.html) · [Glossar](../../docs/glossary.html)
-:::
-
-# Teil 1 · Warum $p=0.5$?
-
-## Was letzte Woche feststand
-
-Drei Teiche, Chr XI, Start $p=0.5$. Neutralität trägt die Bahnen nicht.
-Ein $s>0$ kann sie tragen.
-
-Offen: wäre ein **seltener** Start nicht klarer? Der Zuwachs von $0.01$
-nach $0.20$ sieht dramatischer aus als von $0.5$ nach $0.65$.
-
-## Die biologische Antwort
-
-Sie haben **Heterozygote** gesetzt. Jede Orientierung ist einmal da.
-$p_0=0.5$ ist das Design, nicht eine statistische Trickserei.
-
-Und: bei $p=0.5$ stirbt die Inversion nicht in der ersten Generation
-an Zufall. Viele Kopien.
-
-## Die theoretische Gegenfrage
-
-Bei kleinem $p$ ist der relative Vorteil von A am klarsten:
-fast jeder Nachbar ist B.
-
-Aber eine Linie mit **einer** Kopie stirbt oft, auch wenn $s>0$.
-
-Selektion hilft im Mittel. Der Zufall entscheidet früh.
-
-## Start: eine Kopie
-
-```{r}
-#| fig-height: 3.45
-#| fig-width: 8.2
-#| out-width: 88%
-set.seed(11)
-N <- 500
-rep_df <- do.call(rbind, lapply(1:40, function(i) {
-  sim <- simulate_wf(1 / N, 0.05, N, 200)
-  lost <- min(sim$p) == 0 && sim$p[length(sim$p)] == 0
-  data.frame(
-    generation = sim$generation, p = sim$p, id = i,
-    weg = if (lost) "verloren" else "nicht verloren"
-  )
-}))
-ggplot(rep_df, aes(generation, p, group = id, colour = weg)) +
-  geom_line(
-    data = subset(rep_df, weg == "verloren"),
-    alpha = 0.55, linewidth = 0.45
-  ) +
-  geom_line(
-    data = subset(rep_df, weg == "nicht verloren"),
-    linewidth = 0.85
-  ) +
-  scale_colour_manual(values = c("verloren" = "#bdbdbd", "nicht verloren" = "#d95f02")) +
-  coord_cartesian(xlim = c(0, 200), ylim = c(0, 1)) +
-  labs(
-    x = "Generation", y = "p = f(A)",
-    title = "Start: eine Kopie, N = 500, s = 0.05"
-  ) +
-  theme_slide()
-```
-
-$s>0$, und trotzdem gehen die meisten Linien nach $0$.
-
-## Deshalb nicht $p\approx 0$ im Teich
-
-Hätten sie eine Kopie der Süsswasser-Orientierung ausgesetzt:
-meist **Aussterben**, selten eine steile Bahn.
-
-Dann sähe man entweder nichts — oder einen Extremwert.
-Drei Teiche bei $p=0.5$ sind der bessere Nachweis.
-
-# Teil 2 · Etablierungswahrscheinlichkeit
-
-## Was «etabliert» heisst
-
-Eine Linie startet mit **einer** Kopie ($k=1$).
-
-Im Code: Generation für Generation `wf_step`, bis
-
-- $p=0$ — verloren, oder
-- $p=1$ — fixiert / etabliert.
-
-Die **Etablierungswahrscheinlichkeit** $u$ ist der Anteil der
-Replikate, die nicht bei $0$ enden.
-
-$\hat u$ ist dieser Anteil in einer endlichen Zahl von Versuchen.
-
-## $u$ hängt von $s$ ab
+## Eine Kopie, zwanzig Mal
 
 ```{r}
 #| fig-height: 3.5
-#| fig-width: 8.2
-#| out-width: 88%
-set.seed(9)
-s_grid <- c(0.02, 0.04, 0.06, 0.08, 0.10, 0.12)
-u_est <- vapply(s_grid, function(s) u_hat(s, N = 800, n_reps = 180), 0.0)
-approx <- data.frame(s = seq(0, 0.13, length.out = 80), u = 2 * seq(0, 0.13, length.out = 80))
-ggplot() +
-  geom_line(data = approx, aes(s, u), colour = "#d95f02",
-            linetype = "dashed", linewidth = 0.9) +
-  geom_line(data = data.frame(s = s_grid, u = u_est), aes(s, u),
-            colour = "#2166ac", linewidth = 0.9) +
-  geom_point(data = data.frame(s = s_grid, u = u_est), aes(s, u),
-             colour = "#2166ac", size = 2.2) +
-  coord_cartesian(xlim = c(0, 0.13), ylim = c(0, 0.28)) +
-  labs(x = "s", y = "u hat", title = "Etablierung, Start k = 1, N = 800") +
+#| fig-width: 8.4
+#| out-width: 92%
+set.seed(2)
+linien <- do.call(rbind, lapply(1:20, function(i) {
+  n <- linie(0.1)
+  data.frame(generation = 0:40, n = n, id = i,
+             ausgang = ifelse(n[41] > 0, "überlebt", "verloren"))
+}))
+n_weg <- sum(tapply(linien$ausgang, linien$id, `[`, 1) == "verloren")
+ggplot(linien, aes(generation, n, group = id, colour = ausgang)) +
+  geom_line(data = subset(linien, ausgang == "überlebt"), linewidth = 1) +
+  geom_line(data = subset(linien, ausgang == "verloren"), linewidth = 0.8, alpha = 0.8) +
+  scale_colour_manual(values = c("überlebt" = "#2166ac", "verloren" = "#e67e22")) +
+  coord_cartesian(ylim = c(0, 25)) +
+  labs(x = "Generation", y = "Anzahl Kopien",
+       title = paste0("s = 0.1: ", n_weg, " von 20 Mutationen gehen verloren")) +
   theme_slide()
 ```
 
-Grösseres $s$ $\to$ höheres $u$. Gestrichelt: $u\approx 2s$ (Haldane 1927).
+Jede Kopie hat im Mittel 1.1 Nachkommen. Trotzdem sind die meisten Linien nach wenigen Generationen **weg**.
 
-## Wo $2s$ herkommt — und wo sie bricht
+## Warum?
 
-Poisson-Nachkommen, schwache Selektion, $N$ gross:
-eine neue vorteilhafte Mutante etabliert sich mit $u\approx 2s$.
+Am Anfang gibt es nur **eine** Kopie. Hat ihr Träger zufällig keine Nachkommen, ist die Mutation verloren.
 
-Die Formel ist keine Identität.
+Selektion wirkt im **Mittel**. Bei einer Kopie zählt vor allem **Glück**.
 
-- $s$ nicht klein: $2s$ wird zu grob (kann über 1 laufen)
-- $N$ klein: Fixierung $\neq$ Etablierung; Kimuras $2s/(1-e^{-2Ns})$
-- $N$ ändert sich in der Zeit: $u$ folgt nicht dem $s$ von heute allein
+Erst wenn es viele Kopien gibt, setzt sich der Vorteil durch: Die Mutation hat sich **etabliert**.
 
-Ableitung: Modellierungsvorlesung. Heute der Vergleich auf dem Plot.
+## Wie oft etabliert sie sich?
 
-## Was die Anpassungsrate trägt
+```{r}
+#| fig-height: 3.4
+#| fig-width: 8.4
+#| out-width: 88%
+set.seed(2)
+s_werte <- c(0.01, 0.02, 0.05, 0.1, 0.15, 0.2)
+u_hat <- sapply(s_werte, function(s) mean(replicate(3000, schicksal(s))))
+ggplot() +
+  geom_abline(slope = 2, intercept = 0, colour = "#d95f02", linetype = "dashed", linewidth = 1) +
+  geom_point(data = data.frame(s = s_werte, u = u_hat), aes(s, u),
+             colour = "#2166ac", size = 3) +
+  annotate("text", x = 0.15, y = 0.36, label = "2s", colour = "#d95f02", size = 5) +
+  coord_cartesian(xlim = c(0, 0.21), ylim = c(0, 0.42)) +
+  labs(x = "Selektionsvorteil s", y = "Anteil etabliert",
+       title = "Simulation (Punkte) und Faustregel 2s (Linie)") +
+  theme_slide()
+```
 
-Anpassung aus **neuen** Mutationen:
+Faustregel (Haldane 1927): Eine neue vorteilhafte Mutation etabliert sich mit Wahrscheinlichkeit **etwa $2s$**. Bei $s = 0.1$ gehen also rund **80 %** verloren.
 
-$$
-\text{Mutationsangebot}\ \times\ \text{Etablierungswahrscheinlichkeit}.
-$$
+# Evolutionäre Rettung
 
-Nicht nur «wie stark $s$ im deterministischen $p$-Modell ist».
+## Wenn die Umwelt plötzlich schlecht wird
 
-Als Nächstes schrumpft die Population, während diese Rechnung
-läuft. Dann hat $u$ ein Ablaufdatum.
+Antibiotikum, Pestizid, Hitze, Salz: Die Population **schrumpft** jede Generation um einen Anteil $r$.
 
-# Teil 3 · Evolutionäre Rettung
+Ohne Anpassung stirbt sie aus.
 
-## Ökologie trifft Evolution
-
-Antibiotikum, Pestizid, plötzlicher Stress: $N$ fällt.
-
-Eine resistente Variante muss sich **etablieren, bevor** $N=0$ ist.
-
-Das hat einen Namen: **evolutionäre Rettung**.
-Dieselbe $u$ wie eben — jetzt mit einer schrumpfenden Welt.
+Retten kann sie nur eine **resistente Mutation**, die sich **etabliert, bevor** die Population verschwunden ist: **evolutionäre Rettung**.
 
 ## Zwei Ausgänge
 
 ```{r}
-#| fig-height: 3.45
+#| fig-height: 3.5
 #| fig-width: 8.4
-#| out-width: 90%
-set.seed(10)
-N0 <- 1e5
-r <- 0.10
-s <- 0.12
-U <- 2e-5
-runs <- do.call(rbind, lapply(1:10, function(i) {
-  run <- one_rescue_run(N0, r, s, U, 120)
-  data.frame(
-    generation = run$generation,
-    y = log10(pmax(run$N, 1)),
-    id = i,
-    weg = if (run$rescued) "gerettet" else "ausgestorben"
-  )
-}))
-ggplot(runs, aes(generation, y, group = id, colour = weg)) +
-  geom_line(data = subset(runs, weg == "ausgestorben"),
-            linewidth = 0.5, alpha = 0.85) +
-  geom_line(data = subset(runs, weg == "gerettet"), linewidth = 1.0) +
+#| out-width: 92%
+set.seed(8)
+laeufe <- do.call(rbind, lapply(1:12, function(i) cbind(rettung_lauf(3e4, 0.1, 0.1), id = i)))
+gerettet <- aggregate(N ~ id, laeufe, function(x) tail(x, 1) > 0)
+laeufe$ausgang <- ifelse(gerettet$N[laeufe$id], "gerettet", "ausgestorben")
+ggplot(laeufe, aes(generation, pmax(N, 1), group = id, colour = ausgang)) +
+  geom_line(linewidth = 0.9) +
+  scale_y_log10(breaks = 10^(0:6), labels = c("1", "10", "100", "1000", "10^4", "10^5", "10^6")) +
   scale_colour_manual(values = c(gerettet = "#2166ac", ausgestorben = "#bdbdbd")) +
-  coord_cartesian(xlim = c(0, 120), ylim = c(0, 6.1)) +
-  labs(
-    x = "Generation", y = "log10 N",
-    title = "Wildtyp sinkt; Mutante kann retten"
-  ) +
+  coord_cartesian(ylim = c(1, 1e6)) +
+  labs(x = "Generation", y = "Populationsgrösse (log)",
+       title = "Start: 30 000 Individuen, Rückgang r = 0.1, resistente Mutante s = 0.1") +
   theme_slide()
 ```
 
-Grau: keine Etablierung rechtzeitig. Blau: Dichte kehrt um.
+Grau: ausgestorben. Blau: Eine Mutante hat sich rechtzeitig etabliert — die Population erholt sich (**U-Kurve**).
 
-## Gomulkiewicz & Holt (1995)
+## Wovon hängt Rettung ab?
 
-Gomulkiewicz & Holt (1995) *Evolution*: Wann verhindert Selektion
-das Aussterben?
+| Zutat | Wirkung | mehr Rettung, wenn … |
+|---|---|---|
+| Startgrösse $N_0$ | mehr Individuen, mehr Mutationen | $N_0$ **gross** |
+| Mutationsrate $U$ | mehr resistente Mutanten | $U$ **gross** |
+| Vorteil $s$ | Etablierung ≈ $2s$ | $s$ **gross** |
+| Rückgang $r$ | weniger Zeit bis zum Aussterben | $r$ **klein** |
 
-Zwei Zeitskalen in **einem** Bild:
-
-- Demografie: $N$ fällt, weil die Umwelt nicht mehr passt
-- Evolution: ein angepasster Typ muss häufig werden, bevor $N$
-  in den Bereich kommt, aus dem es demografisch kein Zurück gibt
-
-Die Rechnung für de-novo-Mutanten in einem Locus: Orr & Unckless.
-
-## Was wir festhalten — und was zufällig bleibt
-
-| Teil | Behandlung |
-|---|---|
-| Wildtyp-Grösse $N_{\mathrm{wt}}$ | **deterministisch** fallend |
-| neue Mutanten | Zufall (wie viele, wann) |
-| Etablierung jeder Mutante | Zufall, mit $u\approx 2s$ |
-
-Orr & Unckless (2014) *PLoS Genetics*: haploid, plötzlicher
-Umweltwechsel, ein Locus. Wir nehmen nur den de-novo-Zweig.
-
-## Die drei Zutaten
-
-**Rückgang.** $N_{\mathrm{wt}}(t+1)=(1-r)\,N_{\mathrm{wt}}(t)$, $r>0$.
-
-**Mutation.** Im Mittel $U\cdot N_{\mathrm{wt}}$ neue Kopien pro Generation.
-
-**Etablierung.** Jede neue Kopie mit $u\approx 2s$. Danach Wachstum $1+s$.
-
-Ein Replikat ist **gerettet**, wenn mindestens eine Mutante sitzt,
-bevor $N_{\mathrm{wt}}<1$.
-
-## Eine Formel zum Drüberlegen
-
-Erwartete Zahl etablierender Mutanten $\approx 2 N_0 U s / r$. Dann
+Zusammen (Orr & Unckless 2014):
 
 $$
-\Pr(R)\ \approx\ 1-\exp\bigl(-2 N_0 U s / r\bigr).
+P(\text{Rettung}) \approx 1 - e^{-2 N_0 U s / r}
 $$
 
-Orr & Unckless (2014). Ableitung: andere Vorlesung.
-Heute: liegt die Kurve auf den Punkten?
-
-Grösseres $N_0$, $U$, $s$; kleineres $r$ $\to$ Rettung wahrscheinlicher.
-
-## Simulation gegen die Kurve: $r$
+## Grosse Populationen werden gerettet
 
 ```{r}
-#| fig-height: 3.5
-#| fig-width: 8.2
+#| fig-height: 3.4
+#| fig-width: 8.4
 #| out-width: 88%
-set.seed(10)
-N0 <- 8e4
-s <- 0.08
-U <- 1.5e-5
-r_grid <- c(0.04, 0.06, 0.08, 0.11, 0.15, 0.22)
-p_hat <- vapply(r_grid, function(r) {
-  rescue_rate(N0, r, s, U, n_reps = 70)
-}, 0.0)
-r_line <- seq(0.03, 0.24, length.out = 80)
+set.seed(4)
+N0_werte <- c(1e3, 3e3, 1e4, 3e4, 1e5, 3e5)
+p_hat <- sapply(N0_werte, function(N0) mean(replicate(300, rettung(N0, 0.1, 0.1))))
+N0_fein <- 10^seq(3, 5.5, length.out = 100)
 ggplot() +
-  geom_line(
-    data = data.frame(r = r_line, p = p_rescue_approx(N0, r_line, s, U)),
-    aes(r, p), colour = "#d95f02", linetype = "dashed", linewidth = 0.9
-  ) +
-  geom_line(data = data.frame(r = r_grid, p = p_hat), aes(r, p),
-            colour = "#2166ac", linewidth = 0.9) +
-  geom_point(data = data.frame(r = r_grid, p = p_hat), aes(r, p),
-             colour = "#2166ac", size = 2.2) +
+  geom_line(data = data.frame(N0 = N0_fein, p = formel(N0_fein, 0.1, 0.1)),
+            aes(N0, p), colour = "#d95f02", linetype = "dashed", linewidth = 1) +
+  geom_point(data = data.frame(N0 = N0_werte, p = p_hat), aes(N0, p),
+             colour = "#2166ac", size = 3) +
+  scale_x_log10(breaks = c(1e3, 1e4, 1e5), labels = c("1000", "10 000", "100 000")) +
   coord_cartesian(ylim = c(0, 1)) +
-  labs(
-    x = "r  (Rueckgang pro Generation)", y = "Pr(rescue)",
-    title = "N0 = 8e4, s = 0.08, U = 1.5e-5"
-  ) +
+  labs(x = "Startgrösse N0 (log)", y = "Anteil gerettet",
+       title = "r = 0.1, s = 0.1, U = 0.00001: Simulation und Formel") +
   theme_slide()
 ```
 
-Schnellerer Rückgang: weniger Zeit für eine Mutante.
+Zwischen 1000 und 100 000 Individuen kippt die Rettung von «fast nie» zu «fast immer».
 
-## Wo die Näherung bricht
+## Im Labor: Hefe unter Salz
 
-- $s$ nicht klein: $u\approx 2s$ war schon grob
-- $N_0$ klein: Demografie ist selbst zufällig
-- $r$ winzig: die Population schrumpft kaum
-- stehende Variation oder HGT: hier nicht im Modell
+Bell & Gonzalez (2009) setzten viele Hefe-Populationen verschiedener Grösse einem Salzgehalt aus, bei dem sie normalerweise sterben.
 
-Bell & Gonzalez (2009): Hefe unter Salz — Schwelle in $N_0$,
-U-Kurve der Dichte. Ein Laborbild, nicht unsere Hauptgeschichte.
+- Viele Populationen starben aus.
+- Manche erholten sich nach einem Einbruch: **U-Kurve**, wie im Modell.
+- **Grössere** Populationen wurden häufiger gerettet.
 
-# Teil 4 · Wer das Feld getragen hat
+## Was das bedeutet
 
-## Ein Kreis, keine Parade
+**Antibiotika und Pestizide:** Riesige Populationen von Bakterien oder Schädlingen werden fast immer gerettet. Resistenz ist zu erwarten.
 
-Gomulkiewicz & Holt (1995): der Rahmen — Demografie und Selektion
-in einem Bild.
+**Naturschutz:** Kleine, schrumpfende Populationen von bedrohten Arten werden selten gerettet. Für sie ist Evolution meist **zu langsam**.
 
-Orr & Unckless (2008, 2014): die de-novo-Rechnung, die wir heute
-gegen die Simulation legen.
-
-Bell & Gonzalez (2009, 2011): Hefe, $N_0$, später Metapopulationen.
-
-## Derselbe Kreis, näher an Bern
-
-Peischl & Kirkpatrick (2012); Kirkpatrick & Peischl (2013):
-$u$ in wechselnder Umwelt, in Raum und Zeit.
-
-Uecker, Otto & Hermisson (2014): Rettung in **strukturierten**
-Populationen.
-
-Osmond & de Mazancourt (2013): Rettung mit Konkurrenz —
-wen die Mutante eigentlich retten muss.
-
-Holt und Gomulkiewicz bleiben der demografische Anker.
+# Abschluss
 
 ## Take-home
 
-1. $p=0.5$ im Teich: Heterozygote, viele Kopien, kein frühes Aussterben.
-2. Eine Kopie: meist Verlust. $u$ zählt den Rest; $u\approx 2s$ ist die Referenz.
-3. Rettung = Etablierung **vor** demografischem Kollaps.
-4. $\Pr(R)\approx 1-\exp(-2 N_0 U s/r)$ — Simulation daneben legen.
+1. Eine neue vorteilhafte Mutation geht meist verloren. Sie etabliert sich nur mit Wahrscheinlichkeit **etwa $2s$**.
+2. Evolutionäre Rettung: Eine Mutante muss sich etablieren, **bevor** die Population ausstirbt.
+3. Grosses $N_0$, $U$, $s$ und langsamer Rückgang $r$ machen Rettung wahrscheinlich.
 
-## Notebook (~45 min)
+## Notebook (~50 min)
 
-**→ [Notebook Woche 10 öffnen](notebook.html)** · Entwurf
+**→ [Notebook Woche 10 öffnen](notebook.html)** · [Rmd](notebook.Rmd) · [R](notebook.R)
 
-$\hat u(s)$ gegen $2s$ $\to$ $\Pr(\mathrm{rescue})$ gegen $r$ und $N_0$.
+Sie verfolgen einzelne Mutationen, schätzen die Etablierung und simulieren Rettung für verschiedene $N_0$ und $r$.
 
-Nächste Woche: **Checkpoint C** — eine Frage, eine Abbildung.
+## Ausblick · Woche 11
 
-## Abschlussfragen
-
-1. Warum ist ein Start bei $p=0.5$ für den Nachweis von Selektion
-   oft besser als $p=1/N$?
-2. Wie ist «etabliert» im Code definiert?
-3. Wann erwarten Sie $\hat u \approx 2s$, wann nicht?
-4. Was unterscheidet Rettung von «ein Allel etabliert sich in fester $N$»?
-5. Warum stehen $N_0$ *und* $r$ in der Formel?
+**Checkpoint C:** Ein Szenario zur Rettung, ein paar Simulationen, **eine Frage** — wie in Checkpoint B.
 
 ## Literatur
 
 :::: {.lit}
 1. **Haldane, J. B. S. (1927).** A mathematical theory of natural and artificial selection, Part V. *Proc. Camb. Philos. Soc.* 23: 838–844.
 2. **Gomulkiewicz, R. & Holt, R. D. (1995).** When does evolution by natural selection prevent extinction? *Evolution* 49: 201–207. [doi:10.1111/j.1558-5646.1995.tb05971.x](https://doi.org/10.1111/j.1558-5646.1995.tb05971.x)
-3. **Orr, H. A. & Unckless, R. L. (2014).** The population genetics of evolutionary rescue. *PLoS Genet.* 10: e1004551. [doi:10.1371/journal.pgen.1004551](https://doi.org/10.1371/journal.pgen.1004551)
-4. **Peischl, S. & Kirkpatrick, M. (2012).** Establishment of new mutations in changing environments. *Genetics* 191: 895–906. [doi:10.1534/genetics.112.140756](https://doi.org/10.1534/genetics.112.140756)
-5. **Kirkpatrick, M. & Peischl, S. (2013).** Evolutionary rescue by beneficial mutations in environments that change in space and time. *Phil. Trans. R. Soc. B* 368: 20120082. [doi:10.1098/rstb.2012.0082](https://doi.org/10.1098/rstb.2012.0082)
-6. **Uecker, H., Otto, S. P. & Hermisson, J. (2014).** Evolutionary rescue in structured populations. *Am. Nat.* 183: E17–E35. [doi:10.1086/674571](https://doi.org/10.1086/674571)
-7. **Osmond, M. M. & de Mazancourt, C. (2013).** How competition affects evolutionary rescue. *Phil. Trans. R. Soc. B* 368: 20120077. [doi:10.1098/rstb.2012.0077](https://doi.org/10.1098/rstb.2012.0077)
-8. **Bell, G. & Gonzalez, A. (2009).** Evolutionary rescue can prevent extinction following environmental change. *Ecology Letters* 12: 942–948. [doi:10.1111/j.1461-0248.2009.01350.x](https://doi.org/10.1111/j.1461-0248.2009.01350.x)
+3. **Bell, G. & Gonzalez, A. (2009).** Evolutionary rescue can prevent extinction following environmental change. *Ecology Letters* 12: 942–948. [doi:10.1111/j.1461-0248.2009.01350.x](https://doi.org/10.1111/j.1461-0248.2009.01350.x)
+4. **Orr, H. A. & Unckless, R. L. (2014).** The population genetics of evolutionary rescue. *PLoS Genet.* 10: e1004551. [doi:10.1371/journal.pgen.1004551](https://doi.org/10.1371/journal.pgen.1004551)
+5. **Peischl, S. & Kirkpatrick, M. (2012).** Establishment of new mutations in changing environments. *Genetics* 191: 895–906. [doi:10.1534/genetics.112.140756](https://doi.org/10.1534/genetics.112.140756)
 ::::
 
 ## Navigation
 
 | | |
 |---|---|
-| Notebook | [Notebook Woche 10](notebook.html) |
+| Notebook | [Quarto](notebook.html) · [Rmd](notebook.Rmd) · [R](notebook.R) |
 | Zurück | [← Woche 9](../week-09/slides.html) |
 | Weiter | [Woche 11 →](../week-11/slides.html) |
+| Modul | [Modul 3](../../docs/module-03-overview.html) |

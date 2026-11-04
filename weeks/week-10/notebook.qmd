@@ -1,7 +1,8 @@
 ---
 title: "Woche 10 — Notebook"
-subtitle: "Resistenz und Rettung"
+subtitle: "Mutation und Rettung"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
+lang: de
 format:
   html:
     toc: true
@@ -17,233 +18,197 @@ execute:
   freeze: false
 ---
 
-::: {.callout-warning}
-## Entwurf
+Eine neue Mutation beginnt mit **einer Kopie**. Auch wenn sie vorteilhaft ist, geht sie oft durch Zufall verloren. Heute simulieren Sie zuerst, wie oft sich eine solche Mutation **etabliert**. Danach schrumpft eine Population, weil die Umwelt schlecht wird (z. B. ein Antibiotikum). Kann eine resistente Mutation sie **retten**?
 
-Dieses Notebook ist noch nicht in der Sitzungsfassung. Die Folien tragen
-die biologische Frage; Übungen kommen später.
+**Das Modell.** Jedes Individuum hat eine zufällige Zahl von Nachkommen:
+
+- **Mutante** (resistent): im Mittel $1 + s$ Nachkommen,
+- **Wildtyp** im neuen Stress: im Mittel $1 - r$ Nachkommen, die Population schrumpft also jede Generation um den Anteil $r$,
+- Jeder Wildtyp-Nachkomme ist mit Wahrscheinlichkeit $U = 0.00001$ eine neue Mutante.
+
+**Die Abbildungen.**
+
+- Teil 1: **x-Achse** Generation, **y-Achse** Anzahl Kopien einer Mutation. Blau: überlebt, orange: verloren.
+- Teil 3: **x-Achse** Generation, **y-Achse** Populationsgrösse auf einer **log-Skala** (1, 10, 100, …). Blau: gerettet, grau: ausgestorben.
+
+::: {.callout-important}
+## Auftrag
+
+1. Verfolgen Sie einzelne neue Mutationen und schätzen Sie, wie oft sie sich etablieren.
+2. Simulieren Sie eine schrumpfende Population und schätzen Sie, wie oft sie gerettet wird.
+3. Finden Sie heraus, wie Rettung von der Startgrösse $N_0$ und vom Rückgang $r$ abhängt.
 :::
 
-# Ziel und Zeitplan
+Andere Formate: [R Markdown](notebook.Rmd) · [nur R](notebook.R)
 
-In ungefähr **45 Minuten**:
+# 0 · Funktionen
 
-| Teil | ca. | Ziel |
-|---|---:|---|
-| A | 10 min | Start bei einer Kopie: die meisten Bahnen sterben |
-| B | 12 min | $\hat u$ gegen $s$, Linie $2s$ |
-| C | 12 min | Rettung gegen Rückgang $r$ |
-| D | 11 min | gegen Startgrösse $N_0$; Frage für Checkpoint C |
+Einfach ausführen.
 
-**Etablierung** $u$: Anteil der Linien, die von $k=1$ nicht bei $p=0$
-enden. **Rettung:** mindestens eine de-novo-Mutante etabliert sich,
-bevor der Wildtyp demografisch verschwindet.
-
-```{r functions}
-selection_step_haploid <- function(p, s) {
-  p * (1 + s) / (1 + p * s)
+```{r}
+#| code-fold: true
+#| code-summary: "Hilfsfunktionen (nicht verändern)"
+# Eine Mutation über die Zeit: jede Kopie hat im Mittel 1 + s Nachkommen
+linie <- function(s, generationen = 40) {
+  n <- numeric(generationen + 1)
+  n[1] <- 1
+  for (t in seq_len(generationen)) n[t + 1] <- rpois(1, n[t] * (1 + s))
+  n
 }
 
-wf_step <- function(p, s, N) {
-  p_sel <- selection_step_haploid(p, s)
-  if (p_sel <= 0) return(0)
-  if (p_sel >= 1) return(1)
-  rbinom(1, N, p_sel) / N
-}
-
-simulate_wf <- function(p0, s, N, generations = 200) {
-  p <- numeric(generations + 1)
-  p[1] <- p0
-  for (t in seq_len(generations)) {
-    p[t + 1] <- wf_step(p[t], s, N)
+zeige_linien <- function(s, anzahl = 20) {
+  plot(NA, xlim = c(0, 40), ylim = c(0, 25), xlab = "Generation",
+       ylab = "Anzahl Kopien", main = paste("Neue Mutationen mit s =", s))
+  verloren <- 0
+  for (i in seq_len(anzahl)) {
+    n <- linie(s)
+    weg <- n[41] == 0
+    verloren <- verloren + weg
+    lines(0:40, n, col = if (weg) "#e67e22" else "#2166ac", lwd = 1.5)
   }
-  data.frame(generation = 0:generations, p = p)
+  mtext(paste(verloren, "von", anzahl, "verloren"), side = 3, line = 0.2)
 }
 
-lineage_fate <- function(s, N, k = 1, max_gen = 400) {
-  p <- k / N
-  for (t in seq_len(max_gen)) {
-    p <- wf_step(p, s, N)
-    if (p <= 0) return(0)
-    if (p >= 1) return(1)
+# 1 = etabliert (100 Kopien erreicht), 0 = verloren
+schicksal <- function(s, grenze = 100) {
+  n <- 1
+  while (n > 0 && n < grenze) n <- rpois(1, n * (1 + s))
+  as.numeric(n >= grenze)
+}
+
+schaetze_etablierung <- function(s, wiederholungen = 2000) {
+  mean(replicate(wiederholungen, schicksal(s)))
+}
+
+# Eine schrumpfende Population: Wildtyp (1 - r), Mutanten (1 + s)
+rettung_lauf <- function(N0, r, s, U = 1e-5, generationen = 120) {
+  wt <- N0; mut <- 0
+  N <- numeric(generationen + 1); N[1] <- N0
+  for (t in seq_len(generationen)) {
+    neu <- rbinom(1, wt, U)
+    wt <- rpois(1, wt * (1 - r))
+    mut <- min(rpois(1, mut * (1 + s)) + neu, 1e7)
+    N[t + 1] <- wt + mut
   }
-  as.numeric(p >= 0.5)
+  N
 }
 
-p_rescue_approx <- function(N0, r, s, U) {
-  1 - exp(-2 * N0 * U * s / pmax(r, 1e-12))
-}
-
-one_rescue_run <- function(N0, r, s, U, max_gen = 180) {
-  n_wt <- N0
-  n_mut <- 0
-  established <- FALSE
-  N <- numeric(max_gen + 1)
-  N[1] <- N0
-  u <- min(1, max(0, 2 * s))
-  for (t in seq_len(max_gen)) {
-    if (!established && n_wt >= 1) {
-      n_new <- rpois(1, lambda = U * n_wt)
-      if (n_new > 0 && any(runif(n_new) < u)) {
-        established <- TRUE
-        n_mut <- 1
-      }
-    }
-    n_wt <- n_wt * (1 - r)
-    if (n_wt < 1) n_wt <- 0
-    if (established) n_mut <- n_mut * (1 + s)
-    tot <- n_wt + n_mut
-    N[t + 1] <- tot
-    if (!established && n_wt < 1) {
-      if (t < max_gen) N[(t + 2):(max_gen + 1)] <- 0
-      break
-    }
+zeige_rettung <- function(N0, r, s, anzahl = 10) {
+  plot(NA, xlim = c(0, 120), ylim = c(1, 1e7), log = "y", xlab = "Generation",
+       ylab = "Populationsgroesse (log)", yaxt = "n",
+       main = paste0("N0 = ", N0, ", r = ", r, ", s = ", s))
+  axis(2, at = 10^c(0, 2, 4, 6), labels = c("1", "100", "10 000", "1 Mio."), las = 1)
+  gerettet <- 0
+  for (i in seq_len(anzahl)) {
+    N <- rettung_lauf(N0, r, s)
+    ok <- N[121] > 0
+    gerettet <- gerettet + ok
+    lines(0:120, pmax(N, 1), col = if (ok) "#2166ac" else "grey60", lwd = 1.5)
   }
-  list(rescued = established && (n_wt + n_mut) >= 1,
-       N = pmax(N, 0), generation = 0:max_gen)
+  mtext(paste(gerettet, "von", anzahl, "gerettet"), side = 3, line = 0.2)
 }
 
-rescue_rate <- function(N0, r, s, U, n_reps = 80, max_gen = 160) {
-  mean(replicate(n_reps, one_rescue_run(N0, r, s, U, max_gen)$rescued))
+# 1 = gerettet (1000 Mutanten), 0 = ausgestorben
+rettung <- function(N0, r, s, U = 1e-5, grenze = 1000) {
+  wt <- N0; mut <- 0
+  repeat {
+    neu <- rbinom(1, wt, U)
+    wt <- rpois(1, wt * (1 - r))
+    mut <- rpois(1, mut * (1 + s)) + neu
+    if (mut >= grenze) return(1)
+    if (wt + mut == 0) return(0)
+  }
 }
+
+schaetze_rettung <- function(N0, r, s, wiederholungen = 300) {
+  mean(replicate(wiederholungen, rettung(N0, r, s)))
+}
+
+# Näherung (Orr & Unckless 2014)
+formel <- function(N0, r, s, U = 1e-5) round(1 - exp(-2 * N0 * U * s / r), 2)
 ```
 
-------------------------------------------------------------------------
+# 1 · Eine neue Mutation
 
-# A — Eine Kopie, die meisten Bahnen sterben
+20 neue Mutationen, jede startet mit **einer** Kopie und hat den Vorteil $s = 0.1$.
 
-Im Teich startete $p$ bei $0.5$. Hier: $p=1/N$. $s>0$, und trotzdem
-gehen die meisten Linien nach 0.
-
-```{r rare}
-set.seed(11)
-N <- 500
-s <- 0.05
-plot(NA, xlim = c(0, 200), ylim = c(0, 1),
-     xlab = "Generation", ylab = "p = f(A)",
-     main = "Start: eine Kopie")
-for (i in 1:30) {
-  sim <- simulate_wf(1 / N, s, N, 200)
-  lost <- sim$p[length(sim$p)] == 0
-  col <- if (lost) adjustcolor("grey60", 0.55) else "#d95f02"
-  lines(sim$generation, sim$p, col = col, lwd = if (lost) 1 else 2)
-}
+```{r}
+#| fig-height: 4.4
+#| fig-width: 7.5
+zeige_linien(s = 0.1)   # hier s ändern
 ```
 
 ::: {.callout-tip}
-## Aufgabe A1
+## Aufgabe A
 
-1. Zählen Sie ungefähr: wie viele der 30 Linien bleiben weg von 0?
-2. Setzen Sie den Start auf `0.5` (wie im Teich). Sterben dann noch
-   Bahnen aus?
-3. Warum ist $p=0.5$ für den Nachweis von Selektion oft die
-   bessere Wahl — nicht die seltenere?
+1. Wie viele der 20 Mutationen gehen verloren? Führen Sie den Block mehrmals aus.
+2. Probieren Sie $s = 0$ und $s = 0.3$. Was ändert sich?
+3. Warum geht eine **vorteilhafte** Mutation überhaupt verloren?
 :::
 
-------------------------------------------------------------------------
+# 2 · Wie oft etabliert sie sich?
 
-# B — Etablierungswahrscheinlichkeit $\hat u(s)$
+`schaetze_etablierung(s)` simuliert 2000 neue Mutationen und gibt den **Anteil** zurück, der sich etabliert (100 Kopien erreicht). Die Faustregel sagt: etwa $2s$.
 
-Eine Linie startet mit **einer** Kopie. `lineage_fate` gibt 1 zurück,
-wenn $p$ nach 1 läuft, sonst 0. $\hat u$ ist der Mittelwert über Replikate.
-
-```{r u-hat}
-set.seed(9)
-s_grid <- c(0.02, 0.05, 0.08, 0.12)
-n_reps <- 120
-N <- 800
-u_est <- numeric(length(s_grid))
-for (i in seq_along(s_grid)) {
-  u_est[i] <- mean(replicate(n_reps, lineage_fate(s_grid[i], N)))
-}
-plot(s_grid, u_est, type = "b", pch = 19, lwd = 2, col = "#2166ac",
-     xlim = c(0, 0.14), ylim = c(0, 0.30),
-     xlab = "s", ylab = "u hat",
-     main = "Etablierung, k = 1")
-curve(2 * x, from = 0, to = 0.14, add = TRUE, lwd = 2, lty = 2,
-      col = "#d95f02")
-legend("topleft", c("Simulation", "u = 2s"),
-       col = c("#2166ac", "#d95f02"), lwd = 2, lty = c(1, 2), bty = "n")
+```{r}
+schaetze_etablierung(s = 0.1)   # hier s ändern
+2 * 0.1                         # Faustregel
 ```
 
 ::: {.callout-tip}
-## Aufgabe B1
+## Aufgabe B
 
-1. Steigt $\hat u$ mit $s$? Liegt es nahe bei $2s$?
-2. Erhöhen Sie `n_reps` (z. B. 300). Was wird glatter — die biologische
-   Aussage oder nur das Rauschen von $\hat u$?
-3. Setzen Sie `s_grid` bis `0.40`. Wo bricht $2s$ sichtbar?
+Füllen Sie die Tabelle aus:
+
+| $s$ | Simulation | Faustregel $2s$ |
+|---|---|---|
+| 0.02 |  |  |
+| 0.05 |  |  |
+| 0.1 |  |  |
+| 0.2 |  |  |
+
+Wann passt die Faustregel gut, wann weniger?
 :::
 
-------------------------------------------------------------------------
+# 3 · Evolutionäre Rettung
 
-# C — Rettung gegen Rückgang $r$
+Eine Population mit $N_0 = 30\,000$ Individuen gerät in Stress und schrumpft jede Generation um $r = 10\,\%$. Resistente Mutanten haben den Vorteil $s = 0.1$. Die Abbildung zeigt 10 Wiederholungen.
 
-$N_{\mathrm{wt}}$ fällt deterministisch. Jede neue Mutante etabliert
-sich mit $u\approx 2s$. `one_rescue_run()` ist **ein** Replikat.
-
-```{r vs-r}
-set.seed(10)
-N0 <- 8e4
-s <- 0.08
-U <- 1.5e-5
-r_grid <- c(0.04, 0.08, 0.12, 0.18)
-n_reps <- 60
-p_hat <- numeric(length(r_grid))
-for (i in seq_along(r_grid)) {
-  p_hat[i] <- rescue_rate(N0, r_grid[i], s, U, n_reps = n_reps)
-}
-plot(r_grid, p_hat, type = "b", pch = 19, lwd = 2, col = "#2166ac",
-     ylim = c(0, 1), xlab = "r", ylab = "Pr(rescue)",
-     main = "gegen Rueckgang")
-r_line <- seq(min(r_grid), max(r_grid), length.out = 60)
-lines(r_line, p_rescue_approx(N0, r_line, s, U),
-      lwd = 2, lty = 2, col = "#d95f02")
-legend("topright", c("Simulation", "Formel"),
-       col = c("#2166ac", "#d95f02"), lwd = 2, lty = c(1, 2), bty = "n")
+```{r}
+#| fig-height: 4.6
+#| fig-width: 7.5
+zeige_rettung(N0 = 30000, r = 0.1, s = 0.1)   # hier N0 oder r ändern
 ```
 
 ::: {.callout-tip}
-## Aufgabe C1
+## Aufgabe C
 
-1. Warum fällt $\Pr(\mathrm{rescue})$ mit $r$?
-2. Liegt die gestrichelte Linie auf den Punkten? Wo weicht sie ab?
-3. Welche $r$ wären in einem Antibiotikum «viel Zeit bis zum Aussterben»?
+1. Beschreiben Sie eine blaue Kurve: Was passiert zuerst, was danach?
+2. Probieren Sie $N_0 = 3000$ und $N_0 = 300\,000$. Was ändert sich?
+3. Probieren Sie $r = 0.3$ (mit $N_0 = 30\,000$). Was ändert sich?
 :::
 
-------------------------------------------------------------------------
+# 4 · Wie wahrscheinlich ist Rettung?
 
-# D — Rettung gegen Startgrösse $N_0$
+`schaetze_rettung` simuliert 300 Populationen und gibt den Anteil der geretteten zurück. `formel` ist die Näherung aus der Vorlesung.
 
-Mehr Individuen: mehr Versuche, eine rettende Mutante zu ziehen.
-Bell & Gonzalez (2009) sahen eine Schwelle in $N_0$.
-
-```{r vs-n0}
-set.seed(10)
-s <- 0.10
-U <- 2e-5
-r <- 0.10
-N0_grid <- c(5e3, 2e4, 8e4, 3e5)
-p_n <- numeric(length(N0_grid))
-for (i in seq_along(N0_grid)) {
-  p_n[i] <- rescue_rate(N0_grid[i], r, s, U, n_reps = 60)
-}
-plot(log10(N0_grid), p_n, type = "b", pch = 19, lwd = 2, col = "#2166ac",
-     ylim = c(0, 1), xlab = "log10 N0", ylab = "Pr(rescue)",
-     main = "gegen Startgroesse")
-n_line <- 10^seq(log10(min(N0_grid)), log10(max(N0_grid)), length.out = 60)
-lines(log10(n_line), p_rescue_approx(n_line, r, s, U),
-      lwd = 2, lty = 2, col = "#d95f02")
-legend("bottomright", c("Simulation", "Formel"),
-       col = c("#2166ac", "#d95f02"), lwd = 2, lty = c(1, 2), bty = "n")
+```{r}
+schaetze_rettung(N0 = 30000, r = 0.1, s = 0.1)   # hier ändern
+formel(N0 = 30000, r = 0.1, s = 0.1)             # gleich ändern
 ```
 
 ::: {.callout-tip}
-## Aufgabe D1
+## Aufgabe D
 
-1. Wo liegt ungefähr die Schwelle in $N_0$?
-2. Wählen Sie für Checkpoint C **eines**: neutrale Wolke der Teiche;
-   $s$-Wolke; Rettung gegen $r$; Rettung gegen $N_0$.
-3. Schreiben Sie in einem Satz die biologische Frage und welche
-   Abbildung Sie zeigen.
+**a)** Startgrösse ($r = 0.1$, $s = 0.1$):
+
+| $N_0$ | Simulation | Formel |
+|---|---|---|
+| 1 000 |  |  |
+| 10 000 |  |  |
+| 100 000 |  |  |
+
+**b)** Ab welchem $N_0$ wird etwa die **Hälfte** der Populationen gerettet?
+
+**c)** Was bedeutet das für Bakterien unter Antibiotika (Milliarden Zellen) und für eine bedrohte Art mit wenigen hundert Tieren?
 :::
