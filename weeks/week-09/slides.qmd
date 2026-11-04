@@ -83,8 +83,8 @@ zeige_wolke <- function(w, titel, ohne_zufall = NULL) {
 
 | Teil | Dauer | Was |
 |------|-------|-----|
-| Vorlesung | ~40 min | ein Teichexperiment · Zufall · die neutrale Wolke |
-| Notebook | ~50 min | Zufallszahlen · eigene Wolken · welches $s$ passt? |
+| Vorlesung | ~45 min | ein Teichexperiment · Zufall in R · Drift · die neutrale Wolke |
+| Notebook | ~45 min | Zufallszahlen · Drift · eigene Wolken · welches $s$ passt? |
 
 ::: aside
 Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
@@ -155,6 +155,16 @@ Dafür müssen wir wissen, wie weit $p$ **ohne** Selektion laufen kann.
 
 # Zufall
 
+## Woher kommt der Zufall?
+
+Auch ohne Selektion ist die nächste Generation nicht genau wie die alte:
+
+- **Überleben:** Ob ein Fisch vom Reiher gefressen wird, hat mit seiner Inversion nichts zu tun.
+- **Nachkommen:** Manche Fische haben viele Junge, andere keine.
+- **Mendel:** Ein Heterozygoter gibt **eine** seiner zwei Kopien weiter, welche, entscheidet ein Münzwurf.
+
+In einer kleinen Population mitteln sich diese Zufälle **nicht** heraus.
+
 ## Zufall in einer kleinen Population
 
 ```{r}
@@ -181,6 +191,88 @@ ggplot(kugeln, aes(platz, -generation)) +
 
 10 Genkopien, **keine Selektion**. Jede Generation wird aus der vorherigen **zufällig gezogen**. $p$ wandert trotzdem: **genetische Drift**.
 
+## Zufall im Computer: eine Münze
+
+`sample` zieht zufällig aus einer Liste. Zehn Münzwürfe:
+
+```{r}
+#| echo: true
+sample(c("Kopf", "Zahl"), size = 10, replace = TRUE)
+sample(c("Kopf", "Zahl"), size = 10, replace = TRUE)
+```
+
+Zweimal derselbe Befehl, zweimal ein anderes Ergebnis.
+
+## Pseudo-Zufall und `set.seed`
+
+Ein Computer würfelt nicht. R **berechnet** Zahlen, die zufällig aussehen. Der Startwert der Rechnung heisst **Seed**.
+
+```{r}
+#| echo: true
+set.seed(1)
+sample(c("Kopf", "Zahl"), size = 10, replace = TRUE)
+set.seed(1)
+sample(c("Kopf", "Zahl"), size = 10, replace = TRUE)
+```
+
+Gleicher Seed, gleiche Zahlen: So kann jemand anders das Ergebnis **genau wiederholen**.
+
+## Von Münzen zu Genkopien
+
+Eine neue Generation mit $N = 250$ Genkopien. Jede ist mit Wahrscheinlichkeit $p = 0.5$ eine Süsswasser-Kopie: 250 Münzwürfe.
+
+Uns interessiert nur, **wie viele** es sind. Das würfelt `rbinom` direkt:
+
+```{r}
+#| echo: true
+set.seed(2)
+rbinom(10, size = 250, prob = 0.5)
+```
+
+Zehn mögliche neue Generationen. Im Mittel 125, aber selten genau 125.
+
+## Wie stark schwankt $p$?
+
+```{r}
+#| fig-height: 3.2
+#| fig-width: 8.4
+#| out-width: 92%
+set.seed(5)
+schwank <- do.call(rbind, lapply(c(25, 250, 2500), function(N)
+  data.frame(N = paste("N =", N), p = rbinom(1000, N, 0.5) / N)))
+schwank$N <- factor(schwank$N, levels = paste("N =", c(25, 250, 2500)))
+ggplot(schwank, aes(p)) +
+  geom_histogram(binwidth = 0.02, boundary = 0, fill = "#95a5a6", colour = "white") +
+  geom_vline(xintercept = 0.5, colour = "#c0392b", linewidth = 1) +
+  facet_wrap(~ N) +
+  coord_cartesian(xlim = c(0.2, 0.8)) +
+  labs(x = "Frequenz p in der neuen Generation", y = "Anzahl",
+       title = "Je 1000 neue Generationen aus p = 0.5") +
+  theme_slide()
+```
+
+Im Mittel bleibt $p = 0.5$: Zufall hat **keine Richtung**. Die Schwankung ist etwa $\sqrt{p(1-p)/N}$: zehnmal mehr Kopien, rund dreimal weniger Schwankung.
+
+## Drift über viele Generationen
+
+```{r}
+#| fig-height: 3.2
+#| fig-width: 8.4
+#| out-width: 92%
+set.seed(8)
+drift <- do.call(rbind, lapply(1:8, function(i) {
+  p <- numeric(61); p[1] <- 0.5
+  for (t in 1:60) p[t + 1] <- rbinom(1, 25, p[t]) / 25
+  data.frame(generation = 0:60, p = p, id = i)
+}))
+ggplot(drift, aes(generation, p, group = id)) +
+  geom_line(colour = "#7f8c8d", linewidth = 0.8) +
+  labs(x = "Generation", y = "Frequenz", title = "8 Bahnen ohne Selektion, N = 25") +
+  theme_slide()
+```
+
+Jede Generation wird aus der **vorherigen** gezogen. Kleine Schritte summieren sich, bis $p$ bei 0 oder 1 hängen bleibt: Die Variante ist **verloren** oder **fixiert**.
+
 ## Zufall im Modell
 
 Wie Woche 6: Selektion macht aus $p$ den Anteil $p'$.
@@ -190,10 +282,11 @@ Neu: Die nächste Generation hat $N$ Genkopien. Jede ist mit Wahrscheinlichkeit 
 In R zieht das **eine** Zeile:
 
 ```r
-p_neu <- rbinom(1, N, p_strich) / N
+p_strich <- selektion(p, s)               # 1. Selektion, ohne Zufall
+p_neu    <- rbinom(1, N, p_strich) / N    # 2. Zufall: N Kopien ziehen
 ```
 
-`rbinom` würfelt, wie viele der $N$ Kopien Süsswasser-Kopien sind. `set.seed(…)` macht den Zufall **wiederholbar**.
+Selektion gibt die **Richtung**, Zufall das **Rauschen**. Für vier Jahre wiederholen wir das viermal: eine **Bahn**.
 
 ## Eine Bahn sagt wenig
 
@@ -238,6 +331,19 @@ zeige_wolke(wolke(0.2, 250, seed = 11),
 
 Mit $s = 0.2$ liegen Teich 2 und 14 **in** der Wolke. Teich 7 liegt noch darüber, hat aber nur 10–43 untersuchte Kopien pro Jahr.
 
+## Ein zweiter Zufall: die Stichprobe
+
+Die Teich-Frequenzen sind **gemessen**. Untersucht wird nur ein Teil der Fische, auch das ist eine Ziehung:
+
+```{r}
+#| echo: true
+set.seed(3)
+rbinom(8, size = 20, prob = 0.6) / 20    # 10 Fische, wahre Frequenz 0.6
+rbinom(8, size = 200, prob = 0.6) / 200  # 100 Fische
+```
+
+Mit 20 Kopien (wie oft in Teich 7) misst man leicht 0.5 oder 0.75, obwohl die wahre Frequenz 0.6 ist.
+
 ## Was das Bild sagt — und was nicht
 
 - Zufall **allein** erklärt die Teiche schlecht.
@@ -253,11 +359,14 @@ Mit $s = 0.2$ liegen Teich 2 und 14 **in** der Wolke. Teich 7 liegt noch darübe
 2. Eine simulierte Bahn sagt wenig. Viele Bahnen ergeben eine **Wolke**.
 3. Daten **ausserhalb** der neutralen Wolke sprechen für Selektion.
 
-## Notebook (~50 min)
+## Notebook (~45 min)
 
 **→ [Notebook Woche 9 öffnen](notebook.html)** · [Rmd](notebook.Rmd) · [R](notebook.R)
 
-Sie ziehen Zufallszahlen, simulieren eigene Wolken und suchen das $s$, das zu den Teichen passt.
+1. Zufallszahlen: Münzen, `set.seed`, `rbinom`
+2. Wie stark schwankt $p$? Drift über viele Generationen
+3. Selektion und Zufall zusammen, die neutrale Wolke
+4. Welches $s$ passt zu den Teichen? Wie genau sind die Messungen?
 
 ## Ausblick · Woche 10
 
