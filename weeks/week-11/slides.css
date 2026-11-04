@@ -114,6 +114,7 @@
   color: #7f8c8d;
 }
 
+/* Callout boxes via markdown blockquotes already styled; key-ref chips */
 .reveal .keyref {
   display: inline-block;
   background: #eafaf1;
@@ -125,6 +126,7 @@
   margin: 0.1em 0.15em;
 }
 
+/* Code blocks — readable on simple theme */
 .reveal pre {
   font-size: 0.55em;
   box-shadow: none;
@@ -147,6 +149,7 @@
   padding: 0;
 }
 
+/* Compact literature lists — same look in every week */
 .reveal .lit {
   font-size: 0.44em;
   line-height: 1.3;
@@ -157,4 +160,9 @@
 .reveal .lit li {
   margin: 0.1em 0;
   line-height: 1.3;
+}
+.reveal .small {
+  font-size: 0.62em;
+  color: #5d6d7e;
+  line-height: 1.25;
 }

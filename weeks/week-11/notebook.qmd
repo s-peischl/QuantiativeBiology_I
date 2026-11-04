@@ -1,7 +1,8 @@
 ---
-title: "Woche 11 — Notebook · Checkpoint C"
-subtitle: "Wolke und Fortbestand"
+title: "Woche 11 — Checkpoint C"
+subtitle: "Wildtyp und Mutator"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
+lang: de
 format:
   html:
     toc: true
@@ -17,173 +18,157 @@ execute:
   freeze: false
 ---
 
-::: {.callout-warning}
-## Entwurf
+Ein Antibiotikum tötet empfindliche Bakterien. Die Population schrumpft. Sie überlebt nur, wenn rechtzeitig eine **resistente Mutante** entsteht und sich etabliert: **evolutionäre Rettung** (Woche 10).
 
-Hilfsfunktionen dürfen stehen bleiben. Die Note gilt der **biologischen
-Frage** und **einer** Abbildung, nicht dem Code-Umfang.
+**Das Experiment.** Bakterien-Kulturen wurden in Röhrchen mit Antibiotikum gegeben. Jede Kultur startet mit $N_0$ Zellen, von 10 000 bis 1 Milliarde. Für jede Startgrösse gibt es **24 Röhrchen**. Nach drei Tagen wird nachgeschaut:
+
+- **trüb:** resistente Zellen sind gewachsen, die Kultur ist **gerettet**,
+- **klar:** alle Zellen sind tot, die Kultur ist **ausgestorben**.
+
+Das wurde mit zwei Stämmen gemacht: dem **Wildtyp** und einem **Mutator**. Der Mutator ist derselbe Stamm, aber mit einem defekten Gen für die **DNA-Reparatur**.
+
+**Die Abbildungen.** Alle Abbildungen haben dieselben Achsen:
+
+- **x-Achse:** Startgrösse $N_0$ (Anzahl Zellen) auf einer **log-Skala**: Jeder Strich ist zehnmal mehr,
+- **y-Achse:** Anteil geretteter Röhrchen (von 24),
+- **orange Kreise:** Wildtyp, **blaue Dreiecke:** Mutator.
+
+::: {.callout-important}
+## Auftrag
+
+1. Passen Sie das Modell an den **Wildtyp** an.
+2. Verändern Sie diese Lösung, bis sie auch zum **Mutator** passt.
+3. Schliessen Sie daraus **biologisch**, was den Mutator unterscheidet.
+
+Am Schluss steht **eine Frage**. Diese beantworten Sie der Assistenz in 1–2 Minuten mit **einer** Abbildung.
 :::
 
-# Anweisung
+Andere Formate: [R Markdown](notebook.Rmd) · [nur R](notebook.R)
 
-Wählen Sie **genau eine** der drei Fragen. Erzeugen Sie eine beschriftete
-Abbildung und beantworten Sie die vier Interpretationsfragen darunter.
+# 0 · Daten und Funktionen
 
-```{r shared}
-selection_step_haploid <- function(p, s) {
-  p * (1 + s) / (1 + p * s)
+Einfach ausführen (Kursdaten, erfunden).
+
+```{r}
+# Startgrössen: 10 000 bis 1 Milliarde Zellen, Schritte von Faktor etwa 3
+N0 <- 10^seq(4, 9, by = 0.5)
+roehrchen <- 24   # Röhrchen pro Startgrösse
+
+# Anzahl geretteter (trüber) Röhrchen pro Startgrösse
+k_wildtyp <- c(0, 0, 0, 0, 0, 1, 3, 6, 16, 23, 24)
+k_mutator <- c(0, 1, 3, 7, 14, 23, 24, 24, 24, 24, 24)
+
+wildtyp <- data.frame(N0 = N0, anteil = k_wildtyp / roehrchen)
+mutator <- data.frame(N0 = N0, anteil = k_mutator / roehrchen)
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "Hilfsfunktionen (nicht verändern)"
+farben <- c(Wildtyp = "#d95f02", Mutator = "#2166ac")
+
+# Wahrscheinlichkeit der Rettung (Woche 10, Orr & Unckless 2014)
+rettung <- function(N0, r, s, U) 1 - exp(-2 * N0 * U * s / r)
+
+zeige_daten <- function(main = "Gerettete Röhrchen") {
+  plot(wildtyp$N0, wildtyp$anteil, log = "x", pch = 16, col = farben["Wildtyp"],
+       ylim = c(0, 1), xaxt = "n", main = main,
+       xlab = "Startgroesse N0 (Zellen, log-Skala)",
+       ylab = "Anteil gerettet (von 24)")
+  axis(1, at = 10^(4:9),
+       labels = c("10 000", "100 000", "1 Mio.", "10 Mio.", "100 Mio.", "1 Mrd."))
+  points(mutator$N0, mutator$anteil, pch = 17, col = farben["Mutator"])
+  abline(h = 0.5, lty = 3, col = "grey60")
+  legend("topleft", c("Wildtyp", "Mutator"), pch = c(16, 17),
+         col = farben, bty = "n")
 }
 
-wf_step <- function(p, s, N) {
-  p_sel <- selection_step_haploid(p, s)
-  if (p_sel <= 0) return(0)
-  if (p_sel >= 1) return(1)
-  rbinom(1, N, p_sel) / N
-}
+# Abstand zwischen Modell und Daten (kleiner = passt besser)
+abstand <- function(p_modell, daten) round(sum((p_modell - daten$anteil)^2), 3)
 
-simulate_wf <- function(p0, s, N, generations = 4) {
-  p <- numeric(generations + 1)
-  p[1] <- p0
-  for (t in seq_len(generations)) {
-    p[t + 1] <- wf_step(p[t], s, N)
-  }
-  data.frame(generation = 0:generations, p = p)
-}
-
-ponds <- read.csv("../week-09/data/pond-chrxi.csv")
-pond_col <- c("2" = "#e67e22", "7" = "#2980b9", "14" = "#1e8449")
-
-p_rescue_approx <- function(N0, r, s, U) {
-  1 - exp(-2 * N0 * U * s / pmax(r, 1e-12))
-}
-
-one_rescue_run <- function(N0, r, s, U, max_gen = 180) {
-  n_wt <- N0
-  n_mut <- 0
-  established <- FALSE
-  N <- numeric(max_gen + 1)
-  N[1] <- N0
-  u <- min(1, max(0, 2 * s))
-  for (t in seq_len(max_gen)) {
-    if (!established && n_wt >= 1) {
-      n_new <- rpois(1, lambda = U * n_wt)
-      if (n_new > 0 && any(runif(n_new) < u)) {
-        established <- TRUE
-        n_mut <- 1
-      }
-    }
-    n_wt <- n_wt * (1 - r)
-    if (n_wt < 1) n_wt <- 0
-    if (established) n_mut <- n_mut * (1 + s)
-    tot <- n_wt + n_mut
-    N[t + 1] <- tot
-    if (!established && n_wt < 1) {
-      if (t < max_gen) N[(t + 2):(max_gen + 1)] <- 0
-      break
-    }
-  }
-  list(rescued = established && (n_wt + n_mut) >= 1,
-       N = pmax(N, 0), generation = 0:max_gen)
-}
-
-rescue_rate <- function(N0, r, s, U, n_reps = 80, max_gen = 160) {
-  mean(replicate(n_reps, one_rescue_run(N0, r, s, U, max_gen)$rescued))
+zeige_modell <- function(s, r, U) {
+  zeige_daten(main = paste0("Modell (schwarz): s = ", s, ", r = ", r, ", U = ", U))
+  N_fein <- 10^seq(4, 9, length.out = 200)
+  lines(N_fein, rettung(N_fein, r, s, U), col = "grey15", lwd = 2.2)
+  mtext(paste0("Abstand zum Wildtyp: ", abstand(rettung(N0, r, s, U), wildtyp),
+               "   zum Mutator: ", abstand(rettung(N0, r, s, U), mutator),
+               "   (kleiner = passt besser)"), side = 3, line = 0.2, cex = 0.85)
 }
 ```
 
-------------------------------------------------------------------------
+# 1 · Die Daten
 
-# Option 1 — Neutrale Wolke
-
-Zustand: drei Teiche, Chr XI, Start $p=0.5$. Parameter: $s=0$, $N$.
-
-```{r option1}
-set.seed(11)
-N <- 250
-n_sims <- 80
-plot(NA, xlim = c(0, 4), ylim = c(0, 1),
-     xlab = "Jahr", ylab = "Frequenz",
-     main = "Option 1: neutrale Wolke")
-for (i in seq_len(n_sims)) {
-  sim <- simulate_wf(0.5, s = 0, N, 4)
-  lines(sim$generation, sim$p, col = adjustcolor("grey60", 0.35))
-}
-for (id in unique(ponds$pond)) {
-  d <- ponds[ponds$pond == id, ]
-  lines(d$year, d$p, lwd = 2.5, col = pond_col[as.character(id)])
-  points(d$year, d$p, pch = 16, col = pond_col[as.character(id)])
-}
+```{r}
+#| fig-height: 4.6
+#| fig-width: 7.5
+zeige_daten()
 ```
 
-**F1.** Liegen die Teiche in der Wolke — oder ausserhalb?  
-**F2.** Was ändert sich, wenn Sie `N` auf `30` oder `400` setzen?  
-**F3.** Warum reicht *eine* graue Linie nicht?  
-**F4.** Was ist das Bild **nicht** (kein $p$-Wert, haploid, $N$ fest)?
+Kleine Kulturen sterben fast immer aus, grosse werden fast immer gerettet. Dazwischen liegt ein Übergang. Die gepunktete Linie markiert die Hälfte: Bei welcher Startgrösse wird etwa jedes zweite Röhrchen gerettet? Beim Mutator liegt dieser Punkt bei viel **kleineren** Kulturen.
 
-------------------------------------------------------------------------
+# 2 · Das Modell
 
-# Option 2 — Selektion plus Rauschen
+Das Modell ist die Formel aus Woche 10:
 
-Zustand: dieselbe Ziehung, $s>0$. Parameter: Selektionskoeffizient $s$.
+$$
+P(\text{Rettung}) = 1 - \exp\!\left(-\frac{2\, N_0\, U\, s}{r}\right)
+$$
 
-```{r option2}
-set.seed(11)
-N <- 250
-s <- 0.2
-n_sims <- 80
-plot(NA, xlim = c(0, 4), ylim = c(0, 1),
-     xlab = "Jahr", ylab = "Frequenz",
-     main = "Option 2: s-Wolke")
-for (i in seq_len(n_sims)) {
-  sim <- simulate_wf(0.5, s, N, 4)
-  lines(sim$generation, sim$p, col = adjustcolor("grey60", 0.35))
-}
-for (id in unique(ponds$pond)) {
-  d <- ponds[ponds$pond == id, ]
-  lines(d$year, d$p, lwd = 2.5, col = pond_col[as.character(id)])
-  points(d$year, d$p, pch = 16, col = pond_col[as.character(id)])
-}
+Die drei Parameter:
+
+- $r$: wie schnell das Antibiotikum **empfindliche** Zellen tötet (Anteil pro Generation),
+- $s$: wie stark **resistente** Zellen im Antibiotikum wachsen (im Mittel $1 + s$ Nachkommen),
+- $U$: Wahrscheinlichkeit, dass eine neue Zelle eine **Resistenzmutation** trägt.
+
+In Woche 10 hat die Simulation gezeigt, dass die Formel gut passt. Heute rechnen wir nur mit der Formel: Eine Simulation mit einer Milliarde Zellen dauert zu lange.
+
+R schreibt sehr kleine Zahlen so: `1e-8` heisst $10^{-8}$ = 0.00000001. `1e-7` ist **zehnmal grösser**, `1e-6` hundertmal.
+
+**Was die Abbildung zeigt:** die Daten wie oben und dazu das Modell als **schwarze Linie**. Im Titel stehen $s$, $r$ und $U$. Darunter steht der **Abstand** zwischen Modell und Daten, einmal zum Wildtyp und einmal zum Mutator. Der Abstand ist die Summe der quadrierten Unterschiede über alle 11 Startgrössen: 0 hiesse perfekt, **unter etwa 0.03 passt das Modell**.
+
+# 3 · Schritt 1: den Wildtyp anpassen
+
+Für den Wildtyp ist die Mutationsrate gemessen: $U = 10^{-8}$. Diese Zahl bleibt fest. Das Modell startet mit $s = 0.1$ und $r = 0.05$. Führen Sie den Block aus: Die schwarze Linie passt **noch nicht** zum Wildtyp.
+
+**Anweisung:** Ändern Sie **entweder** $s$ **oder** $r$ (nur eine Zahl) und führen Sie den Block erneut aus. Wiederholen Sie das, bis der **Abstand zum Wildtyp** unter 0.03 liegt. Notieren Sie Ihre Werte.
+
+```{r}
+#| fig-height: 4.6
+#| fig-width: 7.5
+zeige_modell(s = 0.1, r = 0.05, U = 1e-8)   # Wildtyp: s oder r ändern
 ```
 
-**F1.** Trägt `s = 0.2` die Teiche besser als Neutralität?  
-**F2.** Ändern Sie `s` (z. B. `0.05` und `0.40`). Welche Wolke passt?  
-**F3.** Ist «passt» ein Beweis für genau dieses $s$?  
-**F4.** Welche Annahme (haploid, festes $N$) würde das echte Experiment zuerst treffen?
+# 4 · Schritt 2: den Mutator anpassen
 
-------------------------------------------------------------------------
+Nehmen Sie Ihre **Wildtyp-Lösung** und tragen Sie sie unten ein. Der Mutator wird schon bei kleineren Kulturen gerettet.
 
-# Option 3 — Rettung ($r$ oder $N_0$)
+**Anweisung:** Ändern Sie wieder **nur eine** Zahl, bis der **Abstand zum Mutator** unter 0.03 liegt.
 
-Zustand: schrumpfende Population. Parameter: **eines** von $r$ oder $N_0$.
+- Versuch 1: nur $s$ ändern. Grösser oder kleiner?
+- Versuch 2: zurück zur Wildtyp-Lösung, jetzt nur $r$ ändern. Grösser oder kleiner?
+- Versuch 3: zurück zur Wildtyp-Lösung, jetzt nur $U$ ändern. Grösser oder kleiner?
 
-```{r option3}
-set.seed(11)
-N0 <- 8e4
-s <- 0.08
-U <- 1.5e-5
-r_values <- c(0.04, 0.12)
-n_reps <- 50
-p_hat <- numeric(length(r_values))
-for (i in seq_along(r_values)) {
-  p_hat[i] <- rescue_rate(N0, r_values[i], s, U, n_reps = n_reps)
-}
-plot(r_values, p_hat, type = "b", pch = 19, lwd = 3, col = "#2166ac",
-     xlim = c(0.02, 0.22), ylim = c(0, 1),
-     xlab = "r", ylab = "Pr(rescue)",
-     main = "Option 3: Rettung")
-r_line <- seq(0.03, 0.20, length.out = 50)
-lines(r_line, p_rescue_approx(N0, r_line, s, U),
-      lwd = 2, lty = 2, col = "#d95f02")
+```{r}
+#| fig-height: 4.6
+#| fig-width: 7.5
+zeige_modell(s = 0.1, r = 0.05, U = 1e-8)   # hier Ihre Wildtyp-Lösung eintragen, dann eine Zahl ändern
 ```
 
-**F1.** Was ist $r$ biologisch (Antibiotikum, Stress)?  
-**F2.** Warum fällt $\Pr(\mathrm{rescue})$ mit $r$ — oder steigt sie mit $N_0$, wenn Sie die Achse wechseln?  
-**F3.** Liegt die Formel auf den Punkten?  
-**F4.** Welche Annahme (deterministische Demografie / nur de novo)
-würde ein Laborversuch zuerst treffen?
+# 5 · Die Frage
 
-------------------------------------------------------------------------
+::: {.callout-tip}
+## Was unterscheidet den Mutator?
 
-# Für die Präsentation
+**a)** Ihre Werte:
 
-Frage → Parameter → Abbildung → Ergebnis → eine Grenze · Experimentbezug.
+|  | $s$ | $r$ | $U$ | Abstand |
+|---|---|---|---|---|
+| Wildtyp |  |  |  |  |
+| Mutator, nur $s$ geändert |  |  |  |  |
+| Mutator, nur $r$ geändert |  |  |  |  |
+| Mutator, nur $U$ geändert |  |  |  |  |
+
+**b)** Um welchen **Faktor** mussten Sie jede Zahl ändern? Was haben die drei Mutator-Lösungen gemeinsam?
+
+**c)** Biologisch: In Kontrollversuchen sterben empfindliche Zellen beider Stämme im Antibiotikum **gleich schnell**, und beide tragen **dieselbe** Resistenzmutation. Welcher Parameter unterscheidet den Mutator also, und um wie viel? Was bedeutet das für eine Infektion mit Mutator-Bakterien?
+:::

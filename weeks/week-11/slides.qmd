@@ -1,6 +1,6 @@
 ---
-title: "Woche 11 — Wolke und Fortbestand"
-subtitle: "Wolke und Fortbestand"
+title: "Woche 11 — Resistenz & Checkpoint C"
+subtitle: "Wildtyp und Mutator"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:
@@ -20,7 +20,7 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Start](../../index.html) · [Notebook](notebook.html)"
+    footer: "[Start](../../index.html) · [Checkpoint](notebook.html) · [Modul 3](../../docs/module-03-overview.html)"
 execute:
   echo: false
   warning: false
@@ -30,42 +30,19 @@ execute:
 
 ```{r}
 #| include: false
-p_rescue_approx <- function(N0, r, s, U) {
-  1 - exp(-2 * N0 * U * s / pmax(r, 1e-12))
-}
+source("../slides-ggplot.R")
 
-one_rescue_run <- function(N0, r, s, U, max_gen = 180) {
-  n_wt <- N0
-  n_mut <- 0
-  established <- FALSE
-  N <- numeric(max_gen + 1)
-  N[1] <- N0
-  u <- min(1, max(0, 2 * s))
-  for (t in seq_len(max_gen)) {
-    if (!established && n_wt >= 1) {
-      n_new <- rpois(1, lambda = U * n_wt)
-      if (n_new > 0 && any(runif(n_new) < u)) {
-        established <- TRUE
-        n_mut <- 1
-      }
-    }
-    n_wt <- n_wt * (1 - r)
-    if (n_wt < 1) n_wt <- 0
-    if (established) n_mut <- n_mut * (1 + s)
-    tot <- n_wt + n_mut
-    N[t + 1] <- tot
-    if (!established && n_wt < 1) {
-      if (t < max_gen) N[(t + 2):(max_gen + 1)] <- 0
-      break
-    }
-  }
-  list(rescued = established && (n_wt + n_mut) >= 1,
-       N = pmax(N, 0), generation = 0:max_gen)
-}
-
-rescue_rate <- function(N0, r, s, U, n_reps = 50, max_gen = 140) {
-  mean(replicate(n_reps, one_rescue_run(N0, r, s, U, max_gen)$rescued))
-}
+N0 <- 10^seq(4, 9, by = 0.5)
+k_wildtyp <- c(0, 0, 0, 0, 0, 1, 3, 6, 16, 23, 24)
+k_mutator <- c(0, 1, 3, 7, 14, 23, 24, 24, 24, 24, 24)
+daten <- rbind(
+  data.frame(N0 = N0, k = k_wildtyp, stamm = "Wildtyp"),
+  data.frame(N0 = N0, k = k_mutator, stamm = "Mutator")
+)
+daten$stamm <- factor(daten$stamm, levels = c("Wildtyp", "Mutator"))
+stamm_farben <- c(Wildtyp = "#d95f02", Mutator = "#2166ac")
+n_achse <- scale_x_log10(breaks = 10^(4:9),
+  labels = c("10 000", "100 000", "1 Mio.", "10 Mio.", "100 Mio.", "1 Mrd."))
 ```
 
 ## Übersicht
@@ -74,130 +51,157 @@ rescue_rate <- function(N0, r, s, U, n_reps = 50, max_gen = 140) {
 
 | Teil | Dauer | Was |
 |------|-------|-----|
-| Intro | ~20 min | Landkarte der Wochen 9–10 |
-| Notebook | ~40 min | eine Frage, eine Abbildung · Entwurf |
-| Präsentationen | ~30 min | 3–5 Minuten, Anwesenheit Pflicht |
+| Intro | ~15 min | Rettung im Röhrchen · Wildtyp und Mutator · die Frage |
+| Checkpoint | ~45 min | Parameter finden, Tabelle ausfüllen |
+| Gruppen | ~30 min | Assistenz kommt vorbei · 1–2 Min. erklären |
 
 ::: aside
-Pfeiltasten · **M** Menü · **Esc** Übersicht
+Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 :::
 
-## Heute in dieser Reihenfolge
-
-1. Landkarte: Teich → Wolke → $2s$ → Rettung
-2. Eine Frage wählen, **eine** Abbildung
-3. 3–5 Minuten vortragen
-
-## Heute in einem Blick
-
-::::: columns
-::: {.column width="22%"}
-![](../../pics/icons/icon_biology.svg){fig-alt="Biologie" width="70%"}
-:::
-::: {.column width="22%"}
-![](../../pics/icons/icon_math.svg){fig-alt="Modell" width="70%"}
-:::
-::: {.column width="22%"}
-![](../../pics/icons/icon_code.svg){fig-alt="Code" width="70%"}
-:::
-::: {.column width="22%"}
-![](../../pics/icons/icon_speak.svg){fig-alt="Praesentation" width="70%"}
-:::
-:::::
-
-**Frage** → leichtes Modell → **eine** Abbildung → biologische Pointe.
-Die Mathematik ist das Gerüst der Abbildung. Ableiten und Tests:
-andere Vorlesungen — das Bild nehmen Sie mit.
-
-## Landkarte — die Fragen
-
-::::::: columns
-::::: {.column width="24%"}
-**9** · Drei Teiche, Chr XI: alle steigen, Bahnen trennen sich.
-:::::
-::::: {.column width="24%"}
-**9** · Liegen sie in der **neutralen** Wolke?
-:::::
-::::: {.column width="24%"}
-**10** · Eine Kopie: $u$, und wann $u\approx 2s$?
-:::::
-::::: {.column width="24%"}
-**10** · Schrumpft $N$, muss $u$ **vor** dem Kollaps greifen.
-:::::
-:::::::
-
-Immer dieselbe Schleife: Frage → Bild → was das Modell *nicht* kann.
-
-## Was wir gebraucht haben
-
-| | Wozu | Nicht heute |
-|---|---|---|
-| **Zufallszahlen** (W9) | $X\sim\mathrm{Binomial}$, Wolke | PRNG-Theorie |
-| **Teiche vs. Wolke** (W9) | Neutralität reicht nicht | LRT, $p$-Wert |
-| **$\hat u(s)$** (W10) | Schicksal einer Kopie | Kimura-Formel ableiten |
-| **$\Pr(R)$** (W10) | Population gerettet oder nicht | Raum, Interaktionen |
-
-Mathematik, Statistik und Code tauchen auf, weil die Biologie sie **braucht** —
-nicht als eigenes Kapitel.
-
-## Drei Fragen — eine wählen
-
-1. **Neutrale Wolke.** Liegen die Teichbahnen in dem, was Drift bei
-   $p_0=0.5$ erwartet — oder ausserhalb?
-2. **Selektion plus Rauschen.** Welche $s$-Wolke trägt die Teiche?
-   Kein Beweis — ein konsistentes Bild.
-3. **Rettung.** Wie ändert $\Pr(R)$ mit $r$ oder $N_0$?
-   Formel $\Pr(R)\approx 1-\exp(-2 N_0 U s/r)$ darf daneben liegen.
-
-Eine Frage, **eine** Abbildung, eine Modellgrenze.
-
-## Gemeinsame Annahmen
-
-- haploid, ein Locus
-- Teiche: $N$ fest, Start $p=0.5$, Kurs-$N=250$
-- Rettung: Wildtyp-Demografie **deterministisch**, $u\approx 2s$
-- keine stehende Variation, kein HGT, kein Raum
-
-Das reicht für die drei Fragen. Die echten Teiche sind diploid,
-und $N$ ist nicht wirklich fest.
-
-## Checkpoint C · heute
+## Checkpoint C — Anwesenheitspflicht
 
 ::::: columns
 ::: {.column width="18%"}
-![](../../pics/icons/icon_warning.svg){fig-alt="Wichtig" width="80%"}
+![](../../pics/icons/icon_warning.svg){fig-alt="Wichtig" width="75%"}
 :::
 ::: {.column width="82%"}
-Heute wird **präsentiert und benotet**.
-Sie müssen **anwesend sein und vortragen**.
+Heute ist **Checkpoint C**.
+Sie müssen **anwesend sein** und in der Gruppe Ihre Antwort erklären (nicht an der Tafel).
+
+**Kein Programmieren:** Sie führen nur Funktionen aus, die im Checkpoint bereitstehen.
+
+[Modul 3](../../docs/module-03-overview.html) · Kursinfo auf ILIAS
 :::
 :::::
 
-Vortrag (3–5 Min.):
+# Rettung im Röhrchen
 
-1. biologische Frage
-2. welchen Parameter Sie geändert haben (einer reicht)
-3. **eine** Abbildung
-4. biologisches Ergebnis
-5. eine Modellgrenze · was ein Experiment messen würde
+## Rückblick: Woche 10
 
-## Notebook
+Eine Population schrumpft, weil die Umwelt schlecht wird. Sie überlebt nur, wenn eine **resistente Mutante** entsteht und sich etabliert.
 
-**→ [Notebook Woche 11 öffnen](notebook.html)** · Entwurf
+$$
+P(\text{Rettung}) = 1 - \exp\!\left(-\frac{2\, N_0\, U\, s}{r}\right)
+$$
 
-Nur **eine** der drei Fragen. Fertige Hilfsfunktionen dürfen bleiben;
-die Note gilt der Frage und der Abbildung, nicht dem Code-Umfang.
+| | | Rettung wird … |
+|---|---|---|
+| $N_0$ | Startgrösse | wahrscheinlicher, je grösser |
+| $U$ | Mutationsrate zur Resistenz | wahrscheinlicher, je grösser |
+| $s$ | Wachstum der Resistenten | wahrscheinlicher, je grösser |
+| $r$ | wie schnell Empfindliche sterben | **un**wahrscheinlicher, je grösser |
+
+## Das Experiment
+
+```{r}
+#| fig-height: 2.5
+#| fig-width: 9.5
+auswahl <- c(1e6, 1e7, 1e8)
+roehr <- do.call(rbind, lapply(seq_len(nrow(daten)), function(i) {
+  d <- daten[i, ]
+  if (!any(abs(log10(d$N0) - log10(auswahl)) < 1e-9)) return(NULL)
+  data.frame(N0 = d$N0, stamm = d$stamm, nr = 1:24,
+             trueb = seq_len(24) <= d$k)
+}))
+roehr$spalte <- (roehr$nr - 1) %% 12
+roehr$zeile <- (roehr$nr - 1) %/% 12
+roehr$gruppe <- factor(paste(format(roehr$N0, big.mark = " ", scientific = FALSE), "Zellen"),
+                       levels = paste(format(auswahl, big.mark = " ", scientific = FALSE), "Zellen"))
+ggplot(roehr, aes(spalte, -zeile)) +
+  geom_point(aes(fill = ifelse(trueb, as.character(stamm), "klar")),
+             shape = 21, size = 4.2, colour = "grey40") +
+  scale_fill_manual(values = c(Wildtyp = "#d95f02", Mutator = "#2166ac", klar = "white"),
+                    guide = "none") +
+  facet_grid(stamm ~ gruppe, switch = "y") +
+  scale_y_continuous(limits = c(-1.5, 0.5), expand = c(0, 0)) +
+  theme_void(base_size = 16) +
+  theme(strip.text.x = element_text(margin = margin(2, 2, 6, 2)),
+        strip.text.y.left = element_text(angle = 0, hjust = 1, face = "bold",
+                                         margin = margin(0, 10, 0, 0)),
+        panel.spacing.x = unit(1.5, "lines"),
+        panel.spacing.y = unit(0.8, "lines"))
+```
+
+Je 24 Röhrchen mit Antibiotikum. **Farbig = trüb** (gerettet), **weiss = klar** (ausgestorben). Der **Mutator** hat ein defektes Gen für die DNA-Reparatur.
+
+## Wildtyp und Mutator
+
+```{r}
+#| fig-height: 3.5
+#| fig-width: 8.4
+#| out-width: 92%
+ggplot(daten, aes(N0, k / 24, colour = stamm, shape = stamm)) +
+  geom_hline(yintercept = 0.5, linetype = "dotted", colour = "grey60") +
+  geom_point(size = 3) +
+  scale_colour_manual(values = stamm_farben, name = NULL) +
+  scale_shape_manual(values = c(Wildtyp = 16, Mutator = 17), name = NULL) +
+  n_achse +
+  labs(x = "Startgrösse N0 (Zellen, log-Skala)", y = "Anteil gerettet") +
+  theme_slide() +
+  theme(legend.position = "right")
+```
+
+Beide Stämme: kleine Kulturen sterben aus, grosse werden gerettet. Der Mutator schon bei **viel kleineren** Kulturen.
+
+## Die Frage
+
+> Der Mutator wird viel öfter gerettet.
+> **Welcher** Parameter im Modell erklärt das: $s$, $r$ oder $U$?
+
+# Auftrag
+
+## Checkpoint (~45 min)
+
+**→ [Checkpoint C öffnen](notebook.html)** · [Rmd](notebook.Rmd) · [R](notebook.R)
+
+Mit `zeige_modell(s = …, r = …, U = …)` legen Sie das Modell über die Daten.
+
+1. **Wildtyp anpassen:** $s$ oder $r$ ändern, bis das Modell passt ($U$ ist gemessen).
+2. **Mutator anpassen:** von der Wildtyp-Lösung aus nur eine Zahl ändern. Welche, in welche Richtung, um welchen Faktor?
+3. **Biologisch schliessen:** Was unterscheidet den Mutator?
+
+## Erklären in 1–2 Minuten
+
+Zeigen Sie der Assistenz **eine** Abbildung und beantworten Sie die Frage:
+
+> **Was unterscheidet den Mutator?**
+
+Ihre Werte für Wildtyp und Mutator, welche Änderung um welchen Faktor, und was das biologisch bedeutet.
+
+# Abschluss
 
 ## Take-home
 
-1. Eine biologische Frage, **eine** Abbildung, eine Pointe.
-2. Teich → Wolke → $2s$ → Rettung: dieselbe Ziehung, andere Frage.
-3. Anwesenheit: ohne Vortrag kein Checkpoint C.
+1. Rettung hängt von $N_0 \cdot U \cdot s / r$ ab: Mehr Zellen oder mehr Mutationen wirken gleich.
+2. Wie in Checkpoint B können die Daten allein die Parameter nicht trennen.
+3. Erst ein biologisches Argument (ein Kontrollversuch) sagt, **welcher** Parameter es war.
+
+## Ausblick · Wochen 12–14
+
+Bis jetzt haben wir Modelle gebaut. In den letzten Wochen geht es um **echte Datensätze**:
+
+- Tabellen zusammenfügen,
+- Abbildungen, die man nachrechnen und wiederholen kann.
+
+Checkpoint D in Woche 14.
+
+## Literatur
+
+:::: {.lit}
+1. **Orr, H. A., & Unckless, R. L. (2014).** The population genetics of evolutionary rescue. *PLoS Genetics* 10: e1004551. [doi:10.1371/journal.pgen.1004551](https://doi.org/10.1371/journal.pgen.1004551)
+2. **Oliver, A., Cantón, R., Campo, P., Baquero, F., & Blázquez, J. (2000).** High frequency of hypermutable *Pseudomonas aeruginosa* in cystic fibrosis lung infection. *Science* 288: 1251–1254. [doi:10.1126/science.288.5469.1251](https://doi.org/10.1126/science.288.5469.1251)
+3. **Bell, G., & Gonzalez, A. (2009).** Evolutionary rescue can prevent extinction following environmental change. *Ecology Letters* 12: 942–948. [doi:10.1111/j.1461-0248.2009.01350.x](https://doi.org/10.1111/j.1461-0248.2009.01350.x)
+
+Kursdaten Wildtyp/Mutator: für den Kurs erfunden.
+::::
 
 ## Navigation
 
 | | |
 |---|---|
-| Notebook | [Notebook Woche 11](notebook.html) |
+| Checkpoint | [Quarto](notebook.html) · [Rmd](notebook.Rmd) · [R](notebook.R) |
 | Zurück | [← Woche 10](../week-10/slides.html) |
 | Weiter | [Woche 12 →](../week-12/slides.html) |
+| Modul | [Modul 3](../../docs/module-03-overview.html) |
+| PDF | [slides.pdf](slides.pdf) · oder Taste **E**, dann Drucken |

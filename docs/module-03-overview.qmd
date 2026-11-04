@@ -67,7 +67,7 @@ Wer fehlt, kann diesen Checkpoint nicht ablegen (siehe [Kursinfo (PDF)](kursinfo
 **Format:** Teams **bis zu vier** · die Checkpoint-Frage mit dem **R-Notebook** beantworten · eine Abbildung.  
 Keine separate Hausarbeit — die Notebook-Arbeit ist die Vorbereitung.
 
-Themen: Teiche gegen die neutrale Wolke; welche $s$-Wolke die Teiche trägt; Rettung gegen $r$ oder $N_0$.
+Thema: Rettung unter Antibiotikum bei Wildtyp und Mutator. Erst den Wildtyp anpassen, dann den Mutator, dann biologisch schliessen, welcher Parameter sich unterscheidet.
 
 ## Materialien
 
