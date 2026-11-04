@@ -1,5 +1,5 @@
 ---
-title: "Woche 9 — Stichlinge und Zufall"
+title: "Woche 9 — Zufall im Teich"
 subtitle: "Stichlinge und Zufall"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
@@ -20,7 +20,7 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Start](../../index.html) · [Notebook](notebook.html)"
+    footer: "[Start](../../index.html) · [Notebook](notebook.html) · [Modul 3](../../docs/module-03-overview.html)"
 execute:
   echo: false
   warning: false
@@ -32,86 +32,47 @@ execute:
 #| include: false
 source("../slides-ggplot.R")
 
-selection_step_haploid <- function(p, s) {
-  p * (1 + s) / (1 + p * s)
-}
+selektion <- function(p, s) p * (1 + s) / (1 + p * s)
 
-wf_step <- function(p, s, N) {
-  p_sel <- selection_step_haploid(p, s)
-  if (p_sel <= 0) return(0)
-  if (p_sel >= 1) return(1)
-  rbinom(1, N, p_sel) / N
-}
-
-simulate_det <- function(p0, s, generations = 4) {
-  p <- numeric(generations + 1)
-  p[1] <- p0
-  for (t in seq_len(generations)) p[t + 1] <- selection_step_haploid(p[t], s)
-  data.frame(generation = 0:generations, p = p)
-}
-
-simulate_wf <- function(p0, s, N, generations = 4) {
-  p <- numeric(generations + 1)
-  p[1] <- p0
-  for (t in seq_len(generations)) p[t + 1] <- wf_step(p[t], s, N)
-  data.frame(generation = 0:generations, p = p)
-}
-
-ponds <- read.csv("data/pond-chrxi.csv")
-ponds$teich <- paste("Teich", ponds$pond)
-pond_cols <- c("Teich 2" = "#e67e22", "Teich 7" = "#2980b9", "Teich 14" = "#1e8449")
-
-wf_cloud <- function(p0, s, N, generations = 4, n_sims = 80, seed = 9) {
-  set.seed(seed)
-  do.call(rbind, lapply(seq_len(n_sims), function(i) {
-    sim <- simulate_wf(p0, s, N, generations)
-    data.frame(generation = sim$generation, p = sim$p, id = i)
-  }))
-}
-
-wf_band <- function(cloud) {
-  qs <- do.call(rbind, lapply(split(cloud$p, cloud$generation), function(x) {
-    q <- quantile(x, c(0.05, 0.50, 0.95), names = FALSE)
-    data.frame(lo = q[1], mid = q[2], hi = q[3])
-  }))
-  qs$generation <- as.numeric(names(split(cloud$p, cloud$generation)))
-  qs
-}
-
-plot_cloud <- function(cloud, title, s_line = NULL) {
-  band <- wf_band(cloud)
-  p <- ggplot() +
-    geom_ribbon(
-      data = band, aes(generation, ymin = lo, ymax = hi),
-      fill = "#d5d8dc", alpha = 0.85
-    ) +
-    geom_line(
-      data = cloud, aes(generation, p, group = id),
-      colour = "#bdc3c7", linewidth = 0.25, alpha = 0.45
-    ) +
-    geom_line(
-      data = band, aes(generation, mid),
-      colour = "#7f8c8d", linewidth = 0.8, linetype = "dashed"
-    )
-  if (!is.null(s_line)) {
-    p <- p + geom_line(
-      data = s_line, aes(generation, p),
-      colour = "#c0392b", linewidth = 1.15
-    )
+simuliere_bahn <- function(s, N, jahre = 4, zufall = TRUE) {
+  p <- numeric(jahre + 1)
+  p[1] <- 0.5
+  for (t in seq_len(jahre)) {
+    p_sel <- selektion(p[t], s)
+    p[t + 1] <- if (zufall) rbinom(1, N, p_sel) / N else p_sel
   }
-  p +
-    geom_line(
-      data = ponds, aes(year, p, colour = teich, group = teich),
-      linewidth = 1.05
-    ) +
-    geom_point(
-      data = ponds, aes(year, p, colour = teich, shape = teich),
-      size = 2.4
-    ) +
-    scale_colour_manual(values = pond_cols) +
+  data.frame(jahr = 0:jahre, p = p)
+}
+
+wolke <- function(s, N, n_bahnen = 100, seed = 9) {
+  set.seed(seed)
+  do.call(rbind, lapply(seq_len(n_bahnen), function(i)
+    cbind(simuliere_bahn(s, N), id = i)))
+}
+
+teiche <- read.csv("data/pond-chrxi.csv")
+names(teiche)[1:2] <- c("teich", "jahr")
+teiche$teich <- factor(paste("Teich", teiche$teich), levels = c("Teich 2", "Teich 7", "Teich 14"))
+teich_farben <- c("Teich 2" = "#e67e22", "Teich 7" = "#2980b9", "Teich 14" = "#1e8449")
+
+zeige_wolke <- function(w, titel, ohne_zufall = NULL) {
+  band <- aggregate(p ~ jahr, w, function(x) quantile(x, c(0.05, 0.95)))
+  band <- data.frame(jahr = band$jahr, lo = band$p[, 1], hi = band$p[, 2])
+  g <- ggplot() +
+    geom_ribbon(data = band, aes(jahr, ymin = lo, ymax = hi),
+                fill = "#d5d8dc", alpha = 0.8) +
+    geom_line(data = w, aes(jahr, p, group = id),
+              colour = "#95a5a6", linewidth = 0.25, alpha = 0.5)
+  if (!is.null(ohne_zufall))
+    g <- g + geom_line(data = ohne_zufall, aes(jahr, p),
+                       colour = "#c0392b", linewidth = 1.2)
+  g +
+    geom_line(data = teiche, aes(jahr, p, colour = teich), linewidth = 1.1) +
+    geom_point(data = teiche, aes(jahr, p, colour = teich, shape = teich), size = 2.6) +
+    scale_colour_manual(values = teich_farben) +
     scale_shape_manual(values = c(16, 17, 15)) +
-    coord_cartesian(xlim = c(0, 4), ylim = c(0, 1)) +
-    labs(x = "Jahr", y = "Frequenz", title = title) +
+    coord_cartesian(ylim = c(0.3, 0.9)) +
+    labs(x = "Jahr", y = "Frequenz Süsswasser-Inversion", title = titel) +
     theme_slide()
 }
 ```
@@ -122,376 +83,202 @@ plot_cloud <- function(cloud, title, s_line = NULL) {
 
 | Teil | Dauer | Was |
 |------|-------|-----|
-| Vorlesung | ~45 min | Teich · neutrale Wolke · Selektion plus Rauschen |
-| Notebook | ~45 min | Draft: Zufallszahlen und Trajektorien |
+| Vorlesung | ~40 min | ein Teichexperiment · Zufall · die neutrale Wolke |
+| Notebook | ~50 min | Zufallszahlen · eigene Wolken · welches $s$ passt? |
 
 ::: aside
-Pfeiltasten · **M** Menü · **Esc** Übersicht
+Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 :::
 
-## Lernziele
+## Bis jetzt: kein Zufall
 
-Nach heute können Sie …
+Wochen 5–8: Aus $p$ und $s$ folgte **genau ein** nächstes $p$.
 
-1. drei Teichbahnen **lesen**: alle steigen, und trotzdem verschieden,
-2. Zufallszahlen in R **ziehen** (`set.seed`, `rbinom`),
-3. Zufall in das Allelfrequenz-Modell **einbauen**,
-4. sagen, ob die Teiche in eine **neutrale Wolke** passen — und was eine Wolke mit $s>0$ dazu sagt.
+Echte Populationen sind **endlich**. Wer wie viele Nachkommen hat, ist auch **Glück**.
 
-## Heute in dieser Reihenfolge
+Heute: Was ändert das — und wie erkennt man trotzdem Selektion?
 
-1. Derselbe Fisch wie Woche 7 — jetzt ein Experiment.
-2. Drei Beobachtungen, noch keine Formel.
-3. Was Zufallszahlen sind, und wie wir sie ziehen.
-4. Neutrale Wright–Fisher-Wolke; Daten darüber.
-5. Dieselbe Ziehung mit Selektion.
+# Ein Teichexperiment
 
-::: aside
-[Modul 3](../../docs/module-03-overview.html) · [Glossar](../../docs/glossary.html)
-:::
-
-# Teil 1 · Drei Teiche
-
-## Derselbe Fisch, ein Experiment
-
-Woche 7: marine Stichlinge besiedeln Süsswasser — parallele Genome, *Eda*, Genfluss.
-
-Heute: **dieselbe Art**, jetzt in Teichen. Eine **Inversion** auf Chromosom XI — die Süsswasser-Orientierung — wird über vier Jahre gezählt.
-
-Frage: nimmt sie zu, weil sie unter **Selektion** steht — oder reicht Zufall?
-
-## Ein Teich
-
-![](../../pics/pond-experiment/pond_panorama.jpg){fig-alt="Süsswasserteich" width="100%"}
-
-::: aside
-Foto: Marius Roesti
-:::
-
-## Zwanzig Teiche in Vancouver
+## Stichlinge, wie in Woche 7
 
 ::::: columns
-::: {.column width="52%"}
-![](../../pics/pond-experiment/pond_facility_aerial.jpg){fig-alt="UBC-Teichanlage von oben" width="100%"}
+::: {.column width="50%"}
+![](../../pics/organisms/stickleback.jpg){fig-alt="Dreistachliger Stichling" width="100%"}
 :::
-::: {.column width="48%"}
-UBC experimental pond facility (Schluter-Labor):
+::: {.column width="50%"}
+Meer- und Süsswasser-Stichlinge unterscheiden sich an wenigen Stellen im Genom stark (Woche 7).
 
-- 20 Süsswasserteiche, 25 m × 15 m
-- flache Zone und 6 m Tiefe
-- natürliches Futter
-- Wirbellose und Vögel, **keine Fischräuber**
+Darunter sind **Inversionen**: ein Stück Chromosom liegt umgedreht. Eine davon sitzt auf **Chromosom XI**.
+
+Im Süsswasser ist meist die eine Orientierung häufig, im Meer die andere.
 :::
 :::::
 
 ::: aside
-Satellitenbild: Folien Katie Peichel / Google
+Foto: Wikimedia Commons, *Gasterosteus aculeatus* · Jones et al. (2012)
 :::
+
+## Das Experiment
+
+Katie Peichel (Bern) und Dolph Schluter (UBC, Vancouver) fingen marine Stichlinge, die **heterozygot** sind: eine Meer- und eine **Süsswasser-Orientierung** von Chr XI.
+
+Je etwa 25 dieser Fische kamen 2022 in **drei Versuchsteiche**. Jedes Jahr wird gezählt, wie häufig die Süsswasser-Orientierung ist.
+
+Start: jeder Fisch hat eine Kopie von jeder Orientierung, also $p_0 = 0.5$.
+
+## Drei Teiche
+
+```{r}
+#| fig-height: 3.5
+#| fig-width: 8.4
+#| out-width: 92%
+ggplot(teiche, aes(jahr, p, colour = teich, shape = teich)) +
+  geom_hline(yintercept = 0.5, colour = "#bdc3c7", linetype = "dashed") +
+  geom_line(linewidth = 1.1) +
+  geom_point(size = 2.8) +
+  scale_colour_manual(values = teich_farben) +
+  scale_shape_manual(values = c(16, 17, 15)) +
+  coord_cartesian(ylim = c(0.3, 0.9)) +
+  labs(x = "Jahr", y = "Frequenz Süsswasser-Inversion") +
+  theme_slide()
+```
+
+Alle drei **steigen**, aber jeder Teich anders. Teich 7 hat sehr wenige Fische (kleine Stichproben) und kein Jahr 4.
 
 ## Die Frage
 
-Marine Stichlinge tragen Süsswasser-Inversionen **selten**.
+> Steigt die Süsswasser-Inversion, weil sie im Teich **im Vorteil** ist?
+> Oder kann das auch **Zufall** sein?
 
-Peichel und Schluter setzen heterozygote Träger in Süsswasserteiche.
+Dafür müssen wir wissen, wie weit $p$ **ohne** Selektion laufen kann.
 
-Steht die Süsswasser-Orientierung der Inversion auf **Chromosom XI** im Süsswasser unter Selektion?
+# Zufall
 
-## Warum $p=0.5$?
-
-2022: marine Fische auf Heterozygote für drei Süsswasser-Inversionen gescreent.
-
-In drei Teiche: je etwa **25 Heterozygote** (Chr XI).
-
-Ein Heterozygot trägt **eine** Kopie der Süsswasser-Orientierung — Startfrequenz
-
-$$
-p_0 = 0.5.
-$$
-
-Nicht willkürlich: so ist jede Orientierung einmal da.
-
-## Besatz und Schild
-
-::::: columns
-::: {.column width="50%"}
-![](../../pics/pond-experiment/marine_sticklebacks.jpg){fig-alt="Marine Stichlinge im Kescher" width="100%"}
-:::
-::: {.column width="50%"}
-![](../../pics/pond-experiment/pond2_chrxi_sign.jpg){fig-alt="Schild Teich 2 Chromosom XI" width="100%"}
-:::
-:::::
-
-Links: marine Fische. Rechts: Teich 2, Inversion Chr XI.
-
-::: aside
-Fotos: Peichel- und Schluter-Labore
-:::
-
-## Was gezählt wird
-
-Jedes Jahr (F1 2023 bis F4 2026) PCR an jedem gefangenen Fisch.
-
-$p$: Anteil der **Süsswasser-Orientierung** (Allel-Kopien).
-
-Drei Teiche: 2, 7, 14. Teich 7 hat kein Jahr 4.
-
-Die Inversion ist diploid. Unser Kursmodell bleibt **haploid** — $p$ ist dieselbe Frequenz, der Schritt ist die Näherung aus Woche 6.
-
-## Drei Bahnen
+## Zufall in einer kleinen Population
 
 ```{r}
-#| fig-height: 3.55
+#| fig-height: 3.1
 #| fig-width: 8.4
-#| out-width: 90%
-ggplot(ponds, aes(year, p, colour = teich, shape = teich, group = teich)) +
-  geom_hline(yintercept = 0.5, colour = "#bdc3c7", linetype = "dashed",
-             linewidth = 0.6) +
-  geom_line(linewidth = 1.1) +
-  geom_point(size = 2.6) +
-  scale_colour_manual(values = pond_cols) +
-  scale_shape_manual(values = c(16, 17, 15)) +
-  coord_cartesian(xlim = c(0, 4), ylim = c(0, 1)) +
-  labs(x = "Jahr", y = "Frequenz", title = "Chr XI, Suesswasser-Orientierung") +
-  theme_slide()
+#| out-width: 92%
+set.seed(4)
+N_klein <- 10
+gen <- list(c(rep(1, 5), rep(0, 5)))
+for (t in 2:5) gen[[t]] <- sample(gen[[t - 1]], N_klein, replace = TRUE)
+kugeln <- do.call(rbind, lapply(1:5, function(t)
+  data.frame(generation = t - 1, platz = 1:N_klein, allel = sort(gen[[t]], decreasing = TRUE))))
+anteil <- aggregate(allel ~ generation, kugeln, mean)
+ggplot(kugeln, aes(platz, -generation)) +
+  geom_point(aes(fill = factor(allel)), shape = 21, size = 8, colour = "grey30") +
+  scale_fill_manual(values = c("0" = "white", "1" = "#2980b9"), guide = "none") +
+  geom_text(data = anteil, aes(x = 11.5, y = -generation,
+                               label = paste0("p = ", allel)), size = 5, hjust = 0) +
+  scale_y_continuous(breaks = -(0:4), labels = paste("Generation", 0:4)) +
+  coord_cartesian(xlim = c(0.5, 13)) +
+  theme_void(base_size = 14) +
+  theme(axis.text.y = element_text(hjust = 1))
 ```
 
-Drei Teiche, gleicher Start. Unveröffentlichtes Experiment (Peichel / Schluter).
+10 Genkopien, **keine Selektion**. Jede Generation wird aus der vorherigen **zufällig gezogen**. $p$ wandert trotzdem: **genetische Drift**.
 
-## Beobachtung 1: alle steigen
+## Zufall im Modell
 
-In **jedem** Teich liegt $p$ am Ende über $0.5$.
+Wie Woche 6: Selektion macht aus $p$ den Anteil $p'$.
 
-Die Süsswasser-Orientierung wird häufiger — in dieselbe Richtung.
+Neu: Die nächste Generation hat $N$ Genkopien. Jede ist mit Wahrscheinlichkeit $p'$ eine Süsswasser-Kopie.
 
-Das ist das Muster, das man bei positiver Selektion erwartet.
+In R zieht das **eine** Zeile:
 
-## Beobachtung 2: trotzdem verschieden
-
-Trotz gleichem Start:
-
-- Teich 7 steigt steil (kleine Stichprobe).
-- Teiche 2 und 14 steigen langsamer, mit einem leichten Rückgang.
-
-Dieselben Anfangsbedingungen, **drei Bahnen**.
-
-## Beobachtung 3: warum verschieden?
-
-Noch keine Formel. Kandidaten:
-
-- wenige Teiche
-- Zufall in einer endlichen Population
-- unterschiedlich grosse Stichproben (Teich 7: sehr kleine $n$)
-
-Woche 6: ohne Rauschen bleibt $p$ bei $s=0$ stehen. Heute kommt der Zufall dazu.
-
-# Teil 2 · Neutrales Rauschen
-
-## Reicht Zufall für die Zunahme?
-
-Wenn alles **neutral** ist ($s=0$): wie weit darf $p$ in vier Jahren laufen?
-
-Wenn die Teiche in dieser Wolke liegen: Zufall reicht.
-Wenn sie **ausserhalb** liegen: Neutralität erklärt das Muster nicht.
-
-Formeller Test und $p$-Wert: Statistikvorlesung. Heute reicht das Bild.
-
-## Was der Computer zieht
-
-Ein Computer würfelt nicht. Er erzeugt eine **Folge von Zahlen**,
-die sich wie Zufall benimmt — Pseudozufall.
-
-`set.seed` legt den Start fest: dieselbe Folge, dieselbe Abbildung.
-
-`rbinom(n, size, prob)` zieht, wie oft «Erfolg» in `size` Versuchen
-mit Erfolgswahrscheinlichkeit `prob` vorkommt.
-
-## Dieselbe Ziehung, zweimal
-
-```{r}
-#| fig-height: 3.35
-#| fig-width: 8.4
-#| out-width: 90%
-set.seed(9)
-h1 <- rbinom(2000, size = 20, prob = 0.5)
-set.seed(9)
-h2 <- rbinom(2000, size = 20, prob = 0.5)
-hist_df <- rbind(
-  data.frame(X = h1, panel = "set.seed(9)"),
-  data.frame(X = h2, panel = "dieselbe seed: identisch")
-)
-ggplot(hist_df, aes(X)) +
-  geom_histogram(
-    breaks = 0:21 - 0.5,
-    fill = "#9ecae1", colour = "white", linewidth = 0.2
-  ) +
-  facet_wrap(~ panel, ncol = 2) +
-  labs(x = "X ~ Binomial(20, 0.5)", y = "Anzahl") +
-  theme_slide()
+```r
+p_neu <- rbinom(1, N, p_strich) / N
 ```
 
-Ohne `set.seed` wäre das rechte Histogramm ein anderes Sample.
-Mit Seed ist die Simulation **wiederholbar**.
+`rbinom` würfelt, wie viele der $N$ Kopien Süsswasser-Kopien sind. `set.seed(…)` macht den Zufall **wiederholbar**.
 
-## Was `rbinom` mit einer Generation zu tun hat
-
-$N$ haploide Individuen. Nach Selektion ist der Anteil von A
-gleich $p'$.
-
-Die nächste Generation: $X$ Kopien von A, gezogen mit
-
-$$
-X \sim \mathrm{Binomial}(N,\ p').
-$$
-
-Dann $p_{t+1}=X/N$. Eine Zahl, kein Mittelwert.
-
-## Haploid, ein Locus, zwei Allele
-
-**Allelfrequenz** $p$: Anteil der Süsswasser-Orientierung.
-Haploid: $N$ Individuen = $N$ Kopien. Kurswert: $N=250$.
-
-Selektion zuerst — der haploide Verwandte von `selection_step`
-aus Woche 6 — danach die Ziehung:
-
-$$
-p' = \frac{p\,(1+s)}{1+p s}, \qquad
-X\sim\mathrm{Binomial}(N,\,p'), \qquad
-p_{t+1}=X/N.
-$$
-
-$s=0$: keine Selektion. $s=0.2$: 20% mehr Nachkommen im Mittel.
-
-## Ohne Ziehung bleibt $p=0.5$
+## Eine Bahn sagt wenig
 
 ```{r}
 #| fig-height: 3.4
-#| fig-width: 8.2
-#| out-width: 88%
-det0 <- simulate_det(0.5, s = 0, 4)
-ggplot(det0, aes(generation, p)) +
-  geom_hline(yintercept = 0.5, colour = "#bdc3c7", linewidth = 0.5) +
-  geom_line(colour = "#2166ac", linewidth = 1.2) +
-  geom_point(colour = "#2166ac", size = 2.4) +
-  coord_cartesian(ylim = c(0, 1), xlim = c(0, 4)) +
-  labs(
-    x = "Jahr", y = "Frequenz",
-    title = "s = 0, keine Ziehung: p bleibt 0.5"
-  ) +
-  theme_slide()
-```
-
-Das ist Woche 6: der Mittelwert bewegt sich nicht. Zufall braucht eine Ziehung.
-
-## Mit Ziehung, $s=0$: eine Bahn
-
-```{r}
-#| fig-height: 3.4
-#| fig-width: 8.2
-#| out-width: 88%
+#| fig-width: 8.4
+#| out-width: 92%
 set.seed(3)
-one <- simulate_wf(0.5, s = 0, N = 250, 4)
-ggplot(one, aes(generation, p)) +
-  geom_hline(yintercept = 0.5, colour = "#bdc3c7", linetype = "dashed",
-             linewidth = 0.6) +
-  geom_line(colour = "#7f8c8d", linewidth = 1.15) +
-  geom_point(colour = "#7f8c8d", size = 2.4) +
-  coord_cartesian(ylim = c(0, 1), xlim = c(0, 4)) +
-  labs(
-    x = "Jahr", y = "Frequenz",
-    title = "Eine neutrale Bahn, N = 250"
-  ) +
+bahnen <- do.call(rbind, lapply(1:3, function(i) cbind(simuliere_bahn(0, 250), id = factor(i))))
+ggplot(bahnen, aes(jahr, p, group = id)) +
+  geom_hline(yintercept = 0.5, colour = "#bdc3c7", linetype = "dashed") +
+  geom_line(colour = "#7f8c8d", linewidth = 1) +
+  geom_point(colour = "#7f8c8d", size = 2) +
+  coord_cartesian(ylim = c(0.3, 0.9)) +
+  labs(x = "Jahr", y = "Frequenz", title = "Drei Bahnen ohne Selektion, N = 250") +
   theme_slide()
 ```
 
-Jetzt irrt $p$. Eine Bahn sagt wenig — wir brauchen **viele**.
+Gleicher Start, gleiches Modell, $s = 0$ — und jede Bahn ist anders.
 
-## Viele Replikate: die neutrale Wolke
+## Viele Bahnen: die neutrale Wolke
 
 ```{r}
-#| fig-height: 3.55
+#| fig-height: 3.5
 #| fig-width: 8.4
-#| out-width: 90%
-cloud0 <- wf_cloud(0.5, s = 0, N = 250, generations = 4, n_sims = 80, seed = 9)
-plot_cloud(cloud0, "Neutral, N = 250; Daten darueber")
+#| out-width: 92%
+zeige_wolke(wolke(0, 250), "100 Bahnen ohne Selektion (s = 0, N = 250) und die Teiche")
 ```
 
-Grau: was Neutralität in vier Jahren erwarten lässt.
-Farbe: die drei Teiche. Sie liegen **ausserhalb** der Wolke.
-
-## Was das Bild sagt — und was nicht
-
-Die Teiche steigen stärker, als es Drift bei $N=250$ und $p_0=0.5$ hergibt.
-
-Das ist **kein** $p$-Wert. Ein formeller Test kommt in der Statistikvorlesung.
-
-Heute: Neutralität als Erklärung für *alle drei* Bahnen passt nicht.
-
-# Teil 3 · Selektion plus Rauschen
-
-## Dieselbe Ziehung, $s>0$
-
-$p'$ ist jetzt nicht mehr $p$. Die Ziehung bleibt.
-
-Kurswert $s=0.2$ — nicht geschätzt, ein Wert der Grössenordnung, die die Teiche tragen kann.
-
-Kein Beweis. Die Frage: liegt das Muster **in** der Wolke?
+Grau: wohin $p$ **ohne Selektion** in vier Jahren laufen kann. Alle Teiche liegen am Ende **darüber**, Teich 7 deutlich.
 
 ## Wolke mit Selektion
 
 ```{r}
-#| fig-height: 3.55
+#| fig-height: 3.5
 #| fig-width: 8.4
-#| out-width: 90%
-cloud_s <- wf_cloud(0.5, s = 0.2, N = 250, generations = 4, n_sims = 80, seed = 11)
-det_s <- simulate_det(0.5, s = 0.2, 4)
-plot_cloud(cloud_s, "s = 0.2, N = 250; rote Linie: ohne Zufall", s_line = det_s)
+#| out-width: 92%
+zeige_wolke(wolke(0.2, 250, seed = 11),
+            "100 Bahnen mit s = 0.2; rot: dasselbe ohne Zufall",
+            ohne_zufall = simuliere_bahn(0.2, 250, zufall = FALSE))
 ```
 
-Die Teiche liegen in der Wolke. Teich 7 am Rand — kleine $n$, steile Bahn.
+Mit $s = 0.2$ liegen Teich 2 und 14 **in** der Wolke. Teich 7 liegt noch darüber, hat aber nur 10–43 untersuchte Kopien pro Jahr.
 
-## Konsistent, nicht bewiesen
+## Was das Bild sagt — und was nicht
 
-Positive Selektion **kann** die Trajektorien erklären.
+- Zufall **allein** erklärt die Teiche schlecht.
+- Selektion **plus** Zufall passt — und erklärt auch, warum die Teiche verschieden sind.
+- Kleine Stichproben (Teich 7) sind selbst ein Zufall: Die gemessene Frequenz weicht von der wahren ab.
+- Das ist **kein Beweis** und kein statistischer Test. Das Bild zeigt, was zu den Daten **passt**.
 
-Andere $s$, andere $N$, andere Details (diploid, wechselnde Grösse) würden die Wolke verschieben.
-
-Nächste Woche: warum der Start bei $p=0.5$ sinnvoll war — und was passiert, wenn eine vorteilhafte Variante **selten** beginnt.
+# Abschluss
 
 ## Take-home
 
-1. Drei Teiche, Chr XI: alle steigen, die Bahnen trennen sich.
-2. Ohne Ziehung bleibt $p=0.5$. Mit `rbinom` entsteht Drift.
-3. Die Teiche liegen ausserhalb der **neutralen** Wolke.
-4. Eine Wolke mit $s>0$ trägt sie — konsistent, kein Beweis.
+1. In endlichen Populationen ändert sich $p$ auch **ohne** Selektion: **Drift**.
+2. Eine simulierte Bahn sagt wenig. Viele Bahnen ergeben eine **Wolke**.
+3. Daten **ausserhalb** der neutralen Wolke sprechen für Selektion.
 
-## Notebook (~45 min)
+## Notebook (~50 min)
 
-**→ [Notebook Woche 9 öffnen](notebook.html)** · Entwurf
+**→ [Notebook Woche 9 öffnen](notebook.html)** · [Rmd](notebook.Rmd) · [R](notebook.R)
 
-Zufallszahlen $\to$ eine neutrale Bahn $\to$ Wolke plus Daten $\to$ Wolke mit $s>0$.
+Sie ziehen Zufallszahlen, simulieren eigene Wolken und suchen das $s$, das zu den Teichen passt.
 
-## Abschlussfragen
+## Ausblick · Woche 10
 
-1. Warum startet das Experiment bei $p=0.5$?
-2. Was ändert `set.seed` an einer Abbildung — und was nicht?
-3. Wo sitzt der Zufall im Generationsschritt, und wo sitzt $s$?
-4. Warum reicht *eine* neutrale Bahn nicht, um die Teiche zu beurteilen?
-5. Was unterscheidet «liegt ausserhalb der Wolke» von einem statistischen Test?
+Heute startete die Inversion bei $p = 0.5$: viele Kopien.
+
+Eine **neue** Mutation beginnt mit **einer** Kopie. Dann entscheidet der Zufall, ob sie überhaupt überlebt — auch wenn sie vorteilhaft ist.
 
 ## Literatur
 
 :::: {.lit}
-1. **Peichel, C. L., et al. (2001).** The genetic architecture of divergence between threespine stickleback species. *Nature* 414: 901–905. [doi:10.1038/414901a](https://doi.org/10.1038/414901a)
-2. **Jones, F. C., et al. (2012).** The genomic basis of adaptive evolution in threespine sticklebacks. *Nature* 484: 55–61. [doi:10.1038/nature10944](https://doi.org/10.1038/nature10944)
-3. **Peichel, C. L., & Marques, D. A. (2017).** The genetic and molecular architecture of phenotypic diversity in sticklebacks. *Phil. Trans. R. Soc. B* 372: 20150486. [doi:10.1098/rstb.2015.0486](https://doi.org/10.1098/rstb.2015.0486)
-::::
+1. **Jones, F. C., et al. (2012).** The genomic basis of adaptive evolution in threespine sticklebacks. *Nature* 484: 55–61. [doi:10.1038/nature10944](https://doi.org/10.1038/nature10944)
+2. **Barrett, R. D. H., Rogers, S. M., & Schluter, D. (2008).** Natural selection on a major armor gene in threespine stickleback. *Science* 322: 255–257. [doi:10.1126/science.1159978](https://doi.org/10.1126/science.1159978)
 
-Teichdaten: Peichel- und Schluter-Labore, unveröffentlicht. Fotos: Marius Roesti; Peichel- und Schluter-Labore.
+Teichdaten Chr XI: Katie Peichel (Bern) und Dolph Schluter (UBC), unveröffentlicht, mit freundlicher Genehmigung.
+::::
 
 ## Navigation
 
 | | |
 |---|---|
-| Notebook | [Notebook Woche 9](notebook.html) |
+| Notebook | [Quarto](notebook.html) · [Rmd](notebook.Rmd) · [R](notebook.R) |
 | Zurück | [← Woche 8](../week-08/slides.html) |
 | Weiter | [Woche 10 →](../week-10/slides.html) |
+| Modul | [Modul 3](../../docs/module-03-overview.html) |

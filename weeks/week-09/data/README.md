@@ -16,8 +16,9 @@ are F1–F4 samples (spring 2023–2026). Pond 7 has no year-4 sample.
 | `p` | Frequency `k / n` |
 
 **Source.** Katie Peichel (Bern) and Dolph Schluter (UBC). Unpublished
-teaching extract from the ongoing pond experiment. Not a published
-dataset — do not redistribute or put on the public course hub without
-their permission.
+teaching extract from the ongoing pond experiment. Use on the public course
+hub approved by the data owners (Nov 2026). Cite as "unveröffentlicht, mit
+freundlicher Genehmigung". Pond photos in `pics/pond-experiment/` are **not**
+covered by this and stay local.
 
-Axis labels in plots: `Jahr`, `Frequenz` (no umlauts).
+Axis labels in plots: `Jahr`, `Frequenz` (no umlauts in the R script).

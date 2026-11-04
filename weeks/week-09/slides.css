@@ -161,3 +161,8 @@
   margin: 0.1em 0;
   line-height: 1.3;
 }
+.reveal .small {
+  font-size: 0.62em;
+  color: #5d6d7e;
+  line-height: 1.25;
+}

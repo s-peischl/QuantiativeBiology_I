@@ -2,6 +2,7 @@
 title: "Woche 9 — Notebook"
 subtitle: "Stichlinge und Zufall"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
+lang: de
 format:
   html:
     toc: true
@@ -17,193 +18,171 @@ execute:
   freeze: false
 ---
 
-::: {.callout-warning}
-## Entwurf
+Marine Stichlinge, die **heterozygot** für eine Inversion auf Chromosom XI sind, wurden in drei Süsswasser-Teiche gesetzt. Jedes Jahr wurde gemessen, wie häufig die **Süsswasser-Orientierung** der Inversion ist. Alle drei Teiche steigen. Ist das **Selektion** oder kann das auch **Zufall** sein?
 
-Dieses Notebook ist noch nicht in der Sitzungsfassung. Die Folien tragen
-die biologische Frage; Übungen kommen später.
+**Die Daten.** Für jeden Teich (2, 7, 14) und jedes Jahr (0 bis 4) gibt es:
+
+- `k`: Anzahl Süsswasser-Kopien unter den untersuchten Fischen,
+- `n`: Anzahl untersuchter Kopien (2 pro Fisch),
+- `p = k / n`: die **Frequenz** der Süsswasser-Orientierung.
+
+Jahr 0 ist der Start: nur Heterozygote, also $p = 0.5$. Teich 7 hat wenige Fische und kein Jahr 4.
+
+**Die Abbildungen.** Alle Abbildungen haben dieselben Achsen:
+
+- **x-Achse:** Jahr seit dem Aussetzen (etwa eine Generation pro Jahr),
+- **y-Achse:** Frequenz der Süsswasser-Orientierung,
+- **farbige Linien:** die drei Teiche, **graue Linien:** Simulationen.
+
+::: {.callout-important}
+## Auftrag
+
+1. Zufallszahlen in R ziehen.
+2. Simulieren, wie weit $p$ **ohne** Selektion in vier Jahren laufen kann (die **neutrale Wolke**).
+3. Suchen, mit welcher Selektion $s$ die Teiche in die Wolke passen.
 :::
 
-# Ziel und Zeitplan
+Andere Formate: [R Markdown](notebook.Rmd) · [nur R](notebook.R)
 
-In ungefähr **45 Minuten**:
+# 0 · Daten und Funktionen
 
-| Teil | ca. | Ziel |
-|---|---:|---|
-| A | 10 min | Zufallszahlen: `set.seed`, `rbinom` |
-| B | 12 min | Eine Bahn: ohne und mit Ziehung |
-| C | 12 min | Neutrale Wolke und die drei Teiche |
-| D | 11 min | Dieselbe Wolke mit $s>0$ |
+Einfach ausführen.
 
-**Allelfrequenz** $p$: Anteil der Süsswasser-Orientierung (Chr XI).
-Haploid: $N$ Individuen = $N$ Kopien. Kurswert $N=250$. $s$: Fitnessvorteil.
-Die Teiche starten bei $p=0.5$.
+```{r}
+teiche <- read.csv("data/pond-chrxi.csv")
+teiche
+```
 
-```{r functions}
-selection_step_haploid <- function(p, s) {
-  p * (1 + s) / (1 + p * s)
-}
+```{r}
+#| code-fold: true
+#| code-summary: "Hilfsfunktionen (nicht verändern)"
+teich_farben <- c("2" = "#e67e22", "7" = "#2980b9", "14" = "#1e8449")
 
-wf_step <- function(p, s, N) {
-  p_sel <- selection_step_haploid(p, s)
-  if (p_sel <= 0) return(0)
-  if (p_sel >= 1) return(1)
-  rbinom(1, N, p_sel) / N
-}
+# Selektion wie Woche 6 (haploid): aus p wird p_strich
+selektion <- function(p, s) p * (1 + s) / (1 + p * s)
 
-simulate_det <- function(p0, s, generations = 4) {
-  p <- numeric(generations + 1)
-  p[1] <- p0
-  for (t in seq_len(generations)) {
-    p[t + 1] <- selection_step_haploid(p[t], s)
+# Eine Bahn: jedes Jahr Selektion, dann Zufall (N Kopien ziehen)
+simuliere_bahn <- function(s, N, jahre = 4) {
+  p <- numeric(jahre + 1)
+  p[1] <- 0.5
+  for (t in seq_len(jahre)) {
+    p_strich <- selektion(p[t], s)
+    p[t + 1] <- rbinom(1, N, p_strich) / N
   }
-  data.frame(generation = 0:generations, p = p)
+  p
 }
 
-simulate_wf <- function(p0, s, N, generations = 4) {
-  p <- numeric(generations + 1)
-  p[1] <- p0
-  for (t in seq_len(generations)) {
-    p[t + 1] <- wf_step(p[t], s, N)
+zeige_teiche <- function() {
+  for (id in c(2, 7, 14)) {
+    d <- teiche[teiche$pond == id, ]
+    lines(d$year, d$p, lwd = 2.5, col = teich_farben[as.character(id)])
+    points(d$year, d$p, pch = 16, col = teich_farben[as.character(id)])
   }
-  data.frame(generation = 0:generations, p = p)
+  legend("topleft", paste("Teich", c(2, 7, 14)), col = teich_farben,
+         lwd = 2.5, pch = 16, bty = "n")
 }
 
-ponds <- read.csv("data/pond-chrxi.csv")
+zeige_wolke <- function(s, N, n_bahnen = 100) {
+  plot(NA, xlim = c(0, 4), ylim = c(0.2, 1), xlab = "Jahr",
+       ylab = "Frequenz Suesswasser-Orientierung",
+       main = paste0(n_bahnen, " Bahnen mit s = ", s, ", N = ", N))
+  abline(h = 0.5, lty = 3, col = "grey60")
+  ende <- numeric(n_bahnen)
+  for (i in seq_len(n_bahnen)) {
+    p <- simuliere_bahn(s, N)
+    lines(0:4, p, col = adjustcolor("grey40", 0.3))
+    ende[i] <- p[5]
+  }
+  zeige_teiche()
+  bereich <- round(quantile(ende, c(0.05, 0.95)), 2)
+  mtext(paste0("90 % der Bahnen enden in Jahr 4 zwischen ",
+               bereich[1], " und ", bereich[2]),
+        side = 3, line = 0.2, cex = 0.85)
+}
 ```
 
-`wf_step`: erst $p'$, dann eine Binomialziehung. Ohne Ziehung
-(`simulate_det`, $s=0$) bleibt $p$ stehen.
+# 1 · Die Daten
 
-------------------------------------------------------------------------
+```{r}
+#| fig-height: 4.4
+#| fig-width: 7.5
+plot(NA, xlim = c(0, 4), ylim = c(0.2, 1), xlab = "Jahr",
+     ylab = "Frequenz Suesswasser-Orientierung", main = "Drei Teiche, Chr XI")
+abline(h = 0.5, lty = 3, col = "grey60")
+zeige_teiche()
+```
 
-# A — Zufallszahlen
+Alle steigen, aber jeder anders. Schauen Sie in die Tabelle oben: Wie viele Kopien (`n`) wurden in Teich 7 untersucht?
 
-`rbinom(n, size, prob)` zieht $n$ mal, wie oft Erfolg in `size` Versuchen
-vorkommt. `set.seed` macht die Folge wiederholbar.
+# 2 · Zufallszahlen
 
-```{r rng}
-set.seed(9)
-x <- rbinom(2000, size = 20, prob = 0.5)
-hist(x, breaks = 0:21 - 0.5, col = "#9ecae1", border = "white",
-     main = "2000 Ziehungen", xlab = "X ~ Binomial(20, 0.5)", ylab = "Anzahl")
+`rbinom(anzahl, size, prob)` würfelt: Von `size` Kopien ist jede mit Wahrscheinlichkeit `prob` eine Süsswasser-Kopie. Wie viele sind es? Das Ganze `anzahl`-mal.
+
+```{r}
+rbinom(10, size = 250, prob = 0.5)
 ```
 
 ::: {.callout-tip}
-## Aufgabe A1
+## Aufgabe A
 
-1. Lassen Sie denselben Block **ohne** `set.seed` zweimal laufen.
-   Ändert sich das Histogramm?
-2. Setzen Sie `prob = 0.1`. Wohin wandert der Haufen?
-3. Was entspricht `size` im Populationsmodell — und was `prob`?
+1. Führen Sie den Block **zweimal** aus. Bekommen Sie dieselben Zahlen?
+2. Schreiben Sie `set.seed(1)` in die Zeile davor und führen Sie den Block zweimal aus. Was ändert sich?
+3. Teilen Sie die Zahlen durch 250: So stark schwankt $p$ in **einer** Generation, wenn $p = 0.5$ und $N = 250$.
 :::
 
-------------------------------------------------------------------------
+# 3 · Eine Bahn
 
-# B — Eine Bahn
+`simuliere_bahn(s, N)` rechnet vier Jahre: jedes Jahr erst **Selektion** ($s$), dann **Zufall** ($N$ Kopien ziehen). Das Ergebnis sind fünf Frequenzen, Jahr 0 bis 4.
 
-Nach Selektion ist $p'$ der erwartete Anteil. `wf_step` zieht daraus
-$X\sim\mathrm{Binomial}(N,p')$ und setzt $p\leftarrow X/N$.
-
-```{r one-traj}
-set.seed(9)
-N <- 250
-det <- simulate_det(0.5, s = 0, 4)
-stoch <- simulate_wf(0.5, s = 0, N, 4)
-plot(det$generation, det$p, type = "l", lwd = 3, col = "#2166ac",
-     ylim = c(0, 1), xlab = "Jahr", ylab = "Frequenz",
-     main = "Start p = 0.5, s = 0")
-lines(stoch$generation, stoch$p, lwd = 2, col = "#d95f02")
-points(stoch$generation, stoch$p, pch = 16, col = "#d95f02")
-legend("bottomright", c("ohne Ziehung", "mit Zufall"),
-       col = c("#2166ac", "#d95f02"), lwd = c(3, 2), bty = "n")
+```{r}
+simuliere_bahn(s = 0, N = 250)
 ```
 
 ::: {.callout-tip}
-## Aufgabe B1
+## Aufgabe B
 
-1. Die blaue Linie bleibt bei $0.5$. Warum — welcher Schritt fehlt?
-2. Lassen Sie `s = 0.2` (ohne den Rest zu ändern). Wohin geht die
-   blaue Linie, und was macht die orange?
-3. Wo im Code sitzt der Zufall, wo sitzt $s$?
+1. Führen Sie den Block mehrmals aus. Wie verschieden sind die Bahnen, obwohl $s = 0$?
+2. Setzen Sie `N = 25`. Was ändert sich?
 :::
 
-------------------------------------------------------------------------
+# 4 · Die neutrale Wolke
 
-# C — Neutrale Wolke und die Teiche
+Eine Bahn sagt wenig. Wir simulieren **100** Bahnen ohne Selektion und legen die Teiche darüber. Über der Abbildung steht, wo 90 % der Bahnen in Jahr 4 enden.
 
-Viele neutrale Replikate: die Wolke, die Neutralität in vier Jahren
-erlaubt. Darüber die drei Teiche.
-
-```{r cloud-neutral}
+```{r}
+#| fig-height: 4.6
+#| fig-width: 7.5
 set.seed(9)
-N <- 250
-n_sims <- 80
-plot(NA, xlim = c(0, 4), ylim = c(0, 1),
-     xlab = "Jahr", ylab = "Frequenz",
-     main = "Neutral, N = 250")
-for (i in seq_len(n_sims)) {
-  sim <- simulate_wf(0.5, s = 0, N, 4)
-  lines(sim$generation, sim$p, col = adjustcolor("grey60", 0.35))
-}
-pond_col <- c("2" = "#e67e22", "7" = "#2980b9", "14" = "#1e8449")
-for (id in unique(ponds$pond)) {
-  d <- ponds[ponds$pond == id, ]
-  lines(d$year, d$p, lwd = 2.5, col = pond_col[as.character(id)])
-  points(d$year, d$p, pch = 16, col = pond_col[as.character(id)])
-}
-legend("bottomright", c("Teich 2", "Teich 7", "Teich 14", "neutral"),
-       col = c("#e67e22", "#2980b9", "#1e8449", "grey60"),
-       lwd = 2, bty = "n")
+zeige_wolke(s = 0, N = 250)
 ```
 
 ::: {.callout-tip}
-## Aufgabe C1
+## Aufgabe C
 
-1. Liegen die drei Teiche in der grauen Wolke — oder ausserhalb?
-2. Teich 7 hat sehr kleine $n$. Warum ist seine Bahn am steilsten
-   *und* am unsichersten zu lesen?
-3. Warum reicht *eine* graue Linie nicht als Vergleich?
+1. Liegen die Teiche **in** der grauen Wolke oder darüber?
+2. Wir kennen $N$ nicht genau. Probieren Sie `N = 100` und `N = 1000`. Wann wird die Wolke breiter, wann schmaler?
+3. Reicht Zufall allein, um die Teiche zu erklären?
 :::
 
-------------------------------------------------------------------------
+# 5 · Welches $s$ passt?
 
-# D — Selektion plus Rauschen
+Jetzt mit Selektion. Probieren Sie $s$ = 0.05, 0.1, 0.2 und 0.3 (lassen Sie $N = 250$).
 
-Dieselbe Wolke, jetzt mit $s>0$. Kein Beweis — ein Bild, das zu den
-Teichen **passen kann**.
-
-```{r cloud-sel}
+```{r}
+#| fig-height: 4.6
+#| fig-width: 7.5
 set.seed(11)
-N <- 250
-s <- 0.2
-n_sims <- 80
-det <- simulate_det(0.5, s, 4)
-plot(NA, xlim = c(0, 4), ylim = c(0, 1),
-     xlab = "Jahr", ylab = "Frequenz",
-     main = "s = 0.2, N = 250")
-for (i in seq_len(n_sims)) {
-  sim <- simulate_wf(0.5, s, N, 4)
-  lines(sim$generation, sim$p, col = adjustcolor("grey60", 0.35))
-}
-lines(det$generation, det$p, lwd = 3, col = "#c0392b")
-for (id in unique(ponds$pond)) {
-  d <- ponds[ponds$pond == id, ]
-  lines(d$year, d$p, lwd = 2.5, col = pond_col[as.character(id)])
-  points(d$year, d$p, pch = 16, col = pond_col[as.character(id)])
-}
-legend("bottomright",
-       c("Teich 2", "Teich 7", "Teich 14", "ohne Zufall", "mit s"),
-       col = c("#e67e22", "#2980b9", "#1e8449", "#c0392b", "grey60"),
-       lwd = 2, bty = "n")
+zeige_wolke(s = 0.2, N = 250)   # hier s ändern
 ```
 
 ::: {.callout-tip}
-## Aufgabe D1
+## Aufgabe D
 
-1. Liegen die Teiche jetzt in der Wolke?
-2. Ändern Sie `s` auf `0.05` und auf `0.40`. Welche Wolke trägt die
-   Teiche besser?
-3. Nächste Woche: wäre ein Start bei sehr kleinem $p$ ein klarerer
-   Nachweis — oder riskanter?
+1. Bei welchem $s$ liegen Teich 2 und 14 gut in der Wolke?
+2. Teich 7 liegt höher. Warum sollte man Teich 7 weniger trauen? (Tipp: `n` in der Tabelle.)
+3. Ist das ein **Beweis** für Selektion? Was zeigt das Bild, und was nicht?
 :::
+
+---
+
+Teichdaten: Katie Peichel (Bern) und Dolph Schluter (UBC), unveröffentlicht, mit freundlicher Genehmigung.

@@ -1,0 +1,179 @@
+---
+title: "Woche 9 — Notebook (R Markdown)"
+subtitle: "Stichlinge und Zufall"
+author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    theme: flatly
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE,
+                      fig.height = 4.6, fig.width = 7.5)
+```
+
+<style>
+table { width: auto !important; margin: 1em auto; border-collapse: collapse; }
+th, td { padding: 0.4em 1.2em !important; border: 1px solid #ccc; text-align: center !important; }
+blockquote { font-size: 1em; border-left: 4px solid #2c7fb8; background: #f2f8fc; padding: 0.6em 1em; }
+</style>
+
+Falls Quarto fehlt: dieses `.Rmd` in RStudio öffnen und **Knit** drücken. Noch einfacher: die reine R-Datei [`notebook.R`](notebook.R) (Source).
+
+Marine Stichlinge, die **heterozygot** für eine Inversion auf Chromosom XI sind, wurden in drei Süsswasser-Teiche gesetzt. Jedes Jahr wurde gemessen, wie häufig die **Süsswasser-Orientierung** der Inversion ist. Alle drei Teiche steigen. Ist das **Selektion** oder kann das auch **Zufall** sein?
+
+**Die Daten.** Für jeden Teich (2, 7, 14) und jedes Jahr (0 bis 4) gibt es:
+
+- `k`: Anzahl Süsswasser-Kopien unter den untersuchten Fischen,
+- `n`: Anzahl untersuchter Kopien (2 pro Fisch),
+- `p = k / n`: die **Frequenz** der Süsswasser-Orientierung.
+
+Jahr 0 ist der Start: nur Heterozygote, also $p = 0.5$. Teich 7 hat wenige Fische und kein Jahr 4.
+
+**Die Abbildungen.** Alle Abbildungen haben dieselben Achsen:
+
+- **x-Achse:** Jahr seit dem Aussetzen (etwa eine Generation pro Jahr),
+- **y-Achse:** Frequenz der Süsswasser-Orientierung,
+- **farbige Linien:** die drei Teiche, **graue Linien:** Simulationen.
+
+> **Auftrag**
+>
+> 1. Zufallszahlen in R ziehen.
+> 2. Simulieren, wie weit $p$ **ohne** Selektion in vier Jahren laufen kann (die **neutrale Wolke**).
+> 3. Suchen, mit welcher Selektion $s$ die Teiche in die Wolke passen.
+
+# 0 · Daten und Funktionen
+
+Einfach ausführen.
+
+```{r}
+teiche <- read.csv("data/pond-chrxi.csv")
+teiche
+```
+
+```{r hilfsfunktionen}
+# Hilfsfunktionen (nicht verändern)
+teich_farben <- c("2" = "#e67e22", "7" = "#2980b9", "14" = "#1e8449")
+
+# Selektion wie Woche 6 (haploid): aus p wird p_strich
+selektion <- function(p, s) p * (1 + s) / (1 + p * s)
+
+# Eine Bahn: jedes Jahr Selektion, dann Zufall (N Kopien ziehen)
+simuliere_bahn <- function(s, N, jahre = 4) {
+  p <- numeric(jahre + 1)
+  p[1] <- 0.5
+  for (t in seq_len(jahre)) {
+    p_strich <- selektion(p[t], s)
+    p[t + 1] <- rbinom(1, N, p_strich) / N
+  }
+  p
+}
+
+zeige_teiche <- function() {
+  for (id in c(2, 7, 14)) {
+    d <- teiche[teiche$pond == id, ]
+    lines(d$year, d$p, lwd = 2.5, col = teich_farben[as.character(id)])
+    points(d$year, d$p, pch = 16, col = teich_farben[as.character(id)])
+  }
+  legend("topleft", paste("Teich", c(2, 7, 14)), col = teich_farben,
+         lwd = 2.5, pch = 16, bty = "n")
+}
+
+zeige_wolke <- function(s, N, n_bahnen = 100) {
+  plot(NA, xlim = c(0, 4), ylim = c(0.2, 1), xlab = "Jahr",
+       ylab = "Frequenz Suesswasser-Orientierung",
+       main = paste0(n_bahnen, " Bahnen mit s = ", s, ", N = ", N))
+  abline(h = 0.5, lty = 3, col = "grey60")
+  ende <- numeric(n_bahnen)
+  for (i in seq_len(n_bahnen)) {
+    p <- simuliere_bahn(s, N)
+    lines(0:4, p, col = adjustcolor("grey40", 0.3))
+    ende[i] <- p[5]
+  }
+  zeige_teiche()
+  bereich <- round(quantile(ende, c(0.05, 0.95)), 2)
+  mtext(paste0("90 % der Bahnen enden in Jahr 4 zwischen ",
+               bereich[1], " und ", bereich[2]),
+        side = 3, line = 0.2, cex = 0.85)
+}
+```
+
+# 1 · Die Daten
+
+```{r}
+#| fig-height: 4.4
+#| fig-width: 7.5
+plot(NA, xlim = c(0, 4), ylim = c(0.2, 1), xlab = "Jahr",
+     ylab = "Frequenz Suesswasser-Orientierung", main = "Drei Teiche, Chr XI")
+abline(h = 0.5, lty = 3, col = "grey60")
+zeige_teiche()
+```
+
+Alle steigen, aber jeder anders. Schauen Sie in die Tabelle oben: Wie viele Kopien (`n`) wurden in Teich 7 untersucht?
+
+# 2 · Zufallszahlen
+
+`rbinom(anzahl, size, prob)` würfelt: Von `size` Kopien ist jede mit Wahrscheinlichkeit `prob` eine Süsswasser-Kopie. Wie viele sind es? Das Ganze `anzahl`-mal.
+
+```{r}
+rbinom(10, size = 250, prob = 0.5)
+```
+
+> **Aufgabe A**
+>
+> 1. Führen Sie den Block **zweimal** aus. Bekommen Sie dieselben Zahlen?
+> 2. Schreiben Sie `set.seed(1)` in die Zeile davor und führen Sie den Block zweimal aus. Was ändert sich?
+> 3. Teilen Sie die Zahlen durch 250: So stark schwankt $p$ in **einer** Generation, wenn $p = 0.5$ und $N = 250$.
+
+# 3 · Eine Bahn
+
+`simuliere_bahn(s, N)` rechnet vier Jahre: jedes Jahr erst **Selektion** ($s$), dann **Zufall** ($N$ Kopien ziehen). Das Ergebnis sind fünf Frequenzen, Jahr 0 bis 4.
+
+```{r}
+simuliere_bahn(s = 0, N = 250)
+```
+
+> **Aufgabe B**
+>
+> 1. Führen Sie den Block mehrmals aus. Wie verschieden sind die Bahnen, obwohl $s = 0$?
+> 2. Setzen Sie `N = 25`. Was ändert sich?
+
+# 4 · Die neutrale Wolke
+
+Eine Bahn sagt wenig. Wir simulieren **100** Bahnen ohne Selektion und legen die Teiche darüber. Über der Abbildung steht, wo 90 % der Bahnen in Jahr 4 enden.
+
+```{r}
+#| fig-height: 4.6
+#| fig-width: 7.5
+set.seed(9)
+zeige_wolke(s = 0, N = 250)
+```
+
+> **Aufgabe C**
+>
+> 1. Liegen die Teiche **in** der grauen Wolke oder darüber?
+> 2. Wir kennen $N$ nicht genau. Probieren Sie `N = 100` und `N = 1000`. Wann wird die Wolke breiter, wann schmaler?
+> 3. Reicht Zufall allein, um die Teiche zu erklären?
+
+# 5 · Welches $s$ passt?
+
+Jetzt mit Selektion. Probieren Sie $s$ = 0.05, 0.1, 0.2 und 0.3 (lassen Sie $N = 250$).
+
+```{r}
+#| fig-height: 4.6
+#| fig-width: 7.5
+set.seed(11)
+zeige_wolke(s = 0.2, N = 250)   # hier s ändern
+```
+
+> **Aufgabe D**
+>
+> 1. Bei welchem $s$ liegen Teich 2 und 14 gut in der Wolke?
+> 2. Teich 7 liegt höher. Warum sollte man Teich 7 weniger trauen? (Tipp: `n` in der Tabelle.)
+> 3. Ist das ein **Beweis** für Selektion? Was zeigt das Bild, und was nicht?
+
+---
+
+Teichdaten: Katie Peichel (Bern) und Dolph Schluter (UBC), unveröffentlicht, mit freundlicher Genehmigung.
