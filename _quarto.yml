@@ -89,7 +89,7 @@ website:
           - href: weeks/week-07/notebook.qmd
             text: "Woche 7"
           - href: weeks/week-08/notebook.qmd
-            text: "Woche 8"
+            text: "Woche 8 · Checkpoint B"
 
 # Do NOT set project-level format: html here.
 # That overrides slide decks. HTML pages declare format in their own YAML;

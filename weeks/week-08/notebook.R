@@ -1,17 +1,23 @@
-# Woche 8 — Notebook · Checkpoint B (nur R, base R)
+# Woche 8 — Checkpoint B (nur R, base R)
 # Sommer und Winter: eine Resistenz-Cline bei Stechmuecken
 # In RStudio: Working Directory = weeks/week-08, dann Zeile fuer Zeile ausfuehren.
 # Kein Programmieren: nur ausfuehren und Zahlen aendern.
 
-# In der Stadt wird gegen Muecken Insektizid gespritzt, auf dem Land nicht. Der Anteil des Resistenz-Allels R wurde an 17 Stellen vom Land bis in die Stadt gemessen, im Sommer und im Winter. Warum sehen die beiden Clines verschieden aus?
+# In der Stadt wird gegen Muecken Insektizid gespritzt, auf dem Land nicht. In der Stadt ist das Resistenz-Allel R im Vorteil, auf dem Land das empfindliche Allel r. Die Muecken fliegen zwischen Stadt und Land hin und her.
+#
+# Die Daten. Entlang einer Strecke liegen 17 Stellen im Abstand von 1 km: Position −8 bis −1 ist Land, 0 ist die Stadtgrenze, 1 bis 8 ist Stadt. An jeder Stelle wurden 20 Muecken gefangen und ihre 40 Genkopien untersucht. Gezaehlt wurde, wie viele davon R sind; daraus ergibt sich die Frequenz von R (zwischen 0 und 1). Das wurde zweimal gemacht: im Sommer und im Winter.
+#
+# Die Abbildungen. Alle Abbildungen haben dieselben Achsen:
+#
+# - x-Achse: Position in km, links Land, rechts Stadt, gepunktete Linie = Stadtgrenze,
+# - y-Achse: Frequenz von R an dieser Stelle,
+# - orange Kreise: Sommer-Daten, blaue Dreiecke: Winter-Daten.
+#
+# Auf dem Land ist R selten, in der Stadt haeufig. Dazwischen liegt ein Uebergang, eine Cline. Im Winter sieht dieser Uebergang anders aus als im Sommer. Warum?
 
 # --- Auftrag ---
 #
-# 1. Finden Sie Parameterwerte s und m, mit denen das Modell zur Sommer-Cline passt, und solche fuer die Winter-Cline.
-# 2. Welche Parameter haben Sie gefunden? Tragen Sie sie in die Tabelle ein.
-# 3. Sind diese Parameter plausibel?
-#
-# Erklaeren Sie das der Assistenz in 1–2 Minuten mit einer Abbildung.
+# Finden Sie mit dem Modell Werte fuer Selektion s und Migration m, die zur Sommer- und zur Winter-Cline passen. Am Schluss steht eine Frage: Diese beantworten Sie der Assistenz in 1–2 Minuten mit einer Abbildung.
 
 # ===========================================================================
 # 0 · Daten und Funktionen
@@ -106,41 +112,52 @@ zeige_modell <- function(s, m) {
 
 vergleiche_clines()
 
-# Die Tabelle unter der Abbildung zeigt Zentrum und Breite der beiden Clines.
+# Die Linien sind logistische Kurven (S-Kurven), die R moeglichst gut durch die Punkte legt. Die Tabelle darunter fasst jede Kurve in zwei Zahlen zusammen:
+#
+# - Zentrum: Position, an der die Frequenz von R 0.5 ist,
+# - Breite: wie viele km der Uebergang von «fast kein R» zu «fast nur R» dauert.
 
 # ===========================================================================
 # 2 · Parameter finden
 # ===========================================================================
 #
-# Das Modell ist wie in Woche 7, nur mit 17 Stellen in einer Reihe:
+# Das Modell ist wie in Woche 7, nur mit 17 Stellen in einer Reihe. In jeder Generation passiert zweierlei:
 #
-# - s = Selektion: wie stark R in der Stadt hilft (und auf dem Land schadet),
-# - m = Migration: welcher Anteil der Muecken pro Generation zu den Nachbarstellen fliegt.
+# 1. Selektion an jeder Stelle: In der Stadt haben RR-Muecken die Fitness 1 + s, auf dem Land die rr-Muecken. Rr liegt in der Mitte.
+# 2. Migration: Ein Anteil m/2 der Muecken fliegt zur linken, ein Anteil m/2 zur rechten Nachbarstelle.
 #
-# Aendern Sie s und m und fuehren Sie den Block erneut aus. Ueber der Abbildung steht der Abstand zu den Sommer- und Winter-Daten: Unter etwa 0.06 passt das Modell.
+# Das Modell startet ueberall mit Frequenz 0.5 und rechnet 3000 Generationen, bis sich die Cline nicht mehr aendert.
+#
+# Was die Abbildung zeigt: die Daten wie oben und dazu das Modell als schwarze Linie mit offenen Kreisen. Im Titel stehen s, m und m/s. Darunter steht der Abstand zwischen Modell und Daten, einmal zum Sommer und einmal zum Winter. Der Abstand ist die Summe der quadrierten Unterschiede ueber alle 17 Stellen: 0 hiesse perfekt, unter etwa 0.06 passt das Modell.
+#
+# Aendern Sie s und m im Block unten und fuehren Sie ihn erneut aus.
 
 zeige_modell(s = 0.2, m = 0.05)   # hier s und m aendern
 
-# Tipp: Aendern Sie zuerst nur eine Zahl. Es gibt mehr als eine Loesung. Suchen Sie fuer den Winter zwei verschiedene.
-
-# --- F1 · Welche Parameter haben Sie gefunden? ---
-#
-# |  | s | m | m/s | Abstand |
-# | Sommer |  |  |  |  |
-# | Winter, Loesung 1 |  |  |  |  |
-# | Winter, Loesung 2 |  |  |  |  |
-#
-# Was haben alle Ihre Winter-Loesungen gemeinsam? Und was unterscheidet sie vom Sommer?
+# Tipp: Aendern Sie zuerst nur eine Zahl. Es gibt mehr als eine Loesung. Suchen Sie fuer den Winter zwei verschiedene und notieren Sie alle Werte (Tabelle in der Frage unten).
 
 # ===========================================================================
-# 3 · Sind die Parameter plausibel?
+# 3 · Weniger Flug im Winter
 # ===========================================================================
 #
 # Im Winter fliegen die Muecken weniger als im Sommer, m ist also eher kleiner. Probieren Sie m halb so gross wie in Ihrer Sommer-Loesung und suchen Sie das passende s.
 
 zeige_modell(s = 0.1, m = 0.05)   # hier s aendern
 
-# --- F2 · Plausibel? ---
+# ===========================================================================
+# 4 · Die Frage
+# ===========================================================================
+
+# --- Welche Parameter erklaeren Sommer und Winter, und sind sie plausibel? ---
 #
-# - Welche Ihrer Winter-Loesungen passt dazu, dass die Muecken weniger fliegen?
-# - Wie stark ist die Selektion im Winter im Vergleich zum Sommer? Warum ist das plausibel? (Tipp: Wird im Winter gespritzt?)
+# a) Tragen Sie Ihre Werte ein:
+#
+# |  | s | m | m/s | Abstand |
+# | Sommer |  |  |  |  |
+# | Winter, Loesung 1 |  |  |  |  |
+# | Winter, Loesung 2 |  |  |  |  |
+# | Winter, weniger Flug (Teil 3) |  |  |  |  |
+#
+# b) Was haben alle Winter-Loesungen gemeinsam, und was unterscheidet sie vom Sommer?
+#
+# c) Welche Winter-Loesung ist plausibel, wenn die Muecken im Winter weniger fliegen? Wie stark ist die Selektion dann noch, und warum? (Tipp: Wird im Winter gespritzt?)

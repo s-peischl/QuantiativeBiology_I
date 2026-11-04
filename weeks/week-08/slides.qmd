@@ -20,7 +20,7 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Start](../../index.html) · [Notebook](notebook.html) · [Modul 2](../../docs/module-02-overview.html)"
+    footer: "[Start](../../index.html) · [Checkpoint](notebook.html) · [Modul 2](../../docs/module-02-overview.html)"
 execute:
   echo: false
   warning: false
@@ -52,7 +52,7 @@ saison_farben <- c(Sommer = "#d95f02", Winter = "#2166ac")
 | Teil | Dauer | Was |
 |------|-------|-----|
 | Intro | ~15 min | Resistenz im Raum · eine Cline · die Frage |
-| Notebook | ~45 min | zwei Abbildungen erzeugen, Antwort finden |
+| Checkpoint | ~45 min | Parameter finden, Tabelle ausfüllen |
 | Gruppen | ~30 min | Assistenz kommt vorbei · 1–2 Min. erklären |
 
 ::: aside
@@ -69,7 +69,7 @@ Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 Heute ist **Checkpoint B**.  
 Sie müssen **anwesend sein** und in der Gruppe Ihre Antwort erklären (nicht an der Tafel).
 
-**Kein Programmieren:** Sie führen nur Funktionen aus, die im Notebook bereitstehen.
+**Kein Programmieren:** Sie führen nur Funktionen aus, die im Checkpoint bereitstehen.
 
 [Modul 2](../../docs/module-02-overview.html) · Kursinfo auf ILIAS
 :::
@@ -149,7 +149,7 @@ ggplot(data.frame(x = xs, p = logistisch(xs, 0, 1)), aes(x, p)) +
   theme_slide()
 ```
 
-Zwei Zahlen beschreiben sie: **Zentrum** (wo $p = 0.5$) und **Breite** (wie lang der Übergang ist). Das Notebook passt eine logistische Kurve an und liefert beide.
+Zwei Zahlen beschreiben sie: **Zentrum** (wo $p = 0.5$) und **Breite** (wie lang der Übergang ist). Der Checkpoint passt eine logistische Kurve an und liefert beide.
 
 ## Sommer und Winter
 
@@ -177,22 +177,22 @@ An denselben 17 Stellen gemessen: einmal im Sommer, einmal im Winter.
 
 # Auftrag
 
-## Notebook (~45 min)
+## Checkpoint (~45 min)
 
-**→ [Notebook Woche 8 öffnen](notebook.html)** · [Rmd](notebook.Rmd) · [R](notebook.R)
+**→ [Checkpoint B öffnen](notebook.html)** · [Rmd](notebook.Rmd) · [R](notebook.R)
 
 Mit `zeige_modell(s = …, m = …)` legen Sie das Modell über die Daten.
 
-1. **Finden Sie Parameterwerte** $s$ und $m$ für die Sommer- und die Winter-Cline.
-2. **Welche Parameter haben Sie gefunden?** → Tabelle im Notebook
-3. **Sind diese Parameter plausibel?**
+> **Welche Parameter $s$ und $m$ erklären Sommer und Winter, und sind sie plausibel?**
+
+Werte in die Tabelle im Checkpoint eintragen, dann: Fliegen Mücken im Winter mehr oder weniger? Wird gespritzt?
 
 ## Erklären in 1–2 Minuten
 
-Zeigen Sie der Assistenz **eine** Abbildung und beantworten Sie:
+Zeigen Sie der Assistenz **eine** Abbildung und beantworten Sie die Frage:
 
 1. Welche $s$ und $m$ passen zum Sommer, welche zum Winter?
-2. Sind diese Werte plausibel? (Fliegen Mücken im Winter mehr oder weniger? Wird gespritzt?)
+2. Welche Winter-Lösung ist plausibel, und warum?
 
 # Abschluss
 
@@ -224,7 +224,7 @@ Kursdaten Sommer/Winter: für den Kurs erfunden, angelehnt an Lenormand et al. (
 
 | | |
 |---|---|
-| Notebook | [Quarto](notebook.html) · [Rmd](notebook.Rmd) · [R](notebook.R) |
+| Checkpoint | [Quarto](notebook.html) · [Rmd](notebook.Rmd) · [R](notebook.R) |
 | Zurück | [← Woche 7](../week-07/slides.html) |
 | Weiter | [Woche 9 →](../week-09/slides.html) |
 | Modul | [Modul 2](../../docs/module-02-overview.html) |
