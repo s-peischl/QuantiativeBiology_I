@@ -79,7 +79,7 @@ Sie müssen **anwesend sein** und in der Gruppe Ihre Antwort erklären (nicht an
 
 ## Stadt und Land
 
-![](../../pics/popgen/slides/moskitos_stadt_land.jpg){fig-alt="Skizze: Stadt mit Insektizid und resistenten Mücken, Land ohne Insektizid, Migration dazwischen" height="400px" fig-align="center"}
+![](../../pics/Emma/Grafik_Insekten_LandStadt.jpg){fig-alt="Skizze: Stadt mit Insektizid und resistenten Mücken, Land ohne Insektizid, Migration dazwischen" height="400px" fig-align="center"}
 
 Stadt: **Insektizid**, das Resistenz-Allel **R** ist im Vorteil · Land: R kostet etwas · die Mücken **fliegen** hin und her.
 

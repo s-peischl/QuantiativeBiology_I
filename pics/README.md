@@ -16,6 +16,7 @@ Privates Kursfoto (nicht von Commons):
 | `high-altitude/P1040210.jpg` | Privates Kursfoto (Cotopaxi). Stephan Peischl. Nicht ohne Genehmigung weiterverbreiten. |
 | `umfrage/qr-fragebogen.png` | QR-Code zum Studierenden-Fragebogen (Woche 1). |
 | `Emma/Grafik_lizard_RPS.jpg` | Kursillustration (*Uta* RPS). Emma Ochsner. Nicht ohne Genehmigung weiterverbreiten. |
+| `Emma/Grafik_Insekten_LandStadt.jpg` | Kursillustration (Stechmücken, Insektizid Stadt vs. Land, Migration; Woche 8). Emma Ochsner. Nicht ohne Genehmigung weiterverbreiten. |
 | `fun/boomerang_fu_avocado.png` | Easter Egg (*Boomerang Fu* Avocado). Offizielles Charakterbild von [boomerangfu.com](http://www.boomerangfu.com/). Cranky Watermelon · nur Kurs-/Scherzverwendung. |
 
 ## Bajau (`pics/bajau/`)
