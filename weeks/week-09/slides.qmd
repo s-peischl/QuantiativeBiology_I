@@ -83,8 +83,8 @@ zeige_wolke <- function(w, titel, ohne_zufall = NULL) {
 
 | Teil | Dauer | Was |
 |------|-------|-----|
-| Vorlesung | ~45 min | ein Teichexperiment · Zufall in R · Drift · die neutrale Wolke |
-| Notebook | ~45 min | Zufallszahlen · Drift · eigene Wolken · welches $s$ passt? |
+| Vorlesung | ~50 min | ein Teichexperiment · Zufall in R · Drift · die neutrale Wolke |
+| Notebook | ~40 min | Zufallszahlen · Drift · eigene Wolken · welches $s$ passt? |
 
 ::: aside
 Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
@@ -97,6 +97,15 @@ Wochen 5–8: Aus $p$ und $s$ folgte **genau ein** nächstes $p$.
 Echte Populationen sind **endlich**. Wer wie viele Nachkommen hat, ist auch **Glück**.
 
 Heute: Was ändert das — und wie erkennt man trotzdem Selektion?
+
+## Lernziele
+
+Nach heute können Sie …
+
+1. drei Teichbahnen **lesen**: alle steigen, und trotzdem verschieden,
+2. Zufallszahlen in R **ziehen** (`sample`, `set.seed`, `rbinom`),
+3. Zufall in das Modell für die Allelfrequenz **einbauen**,
+4. sagen, ob die Teiche in eine **neutrale Wolke** passen, und was eine Wolke mit $s > 0$ dazu sagt.
 
 # Ein Teichexperiment
 
@@ -127,6 +136,27 @@ Foto: Wikimedia Commons, *Gasterosteus aculeatus* · Jones et al. (2012)
 Foto: Marius Roesti
 :::
 
+## Die Forscherin
+
+::::: columns
+::: {.column width="35%"}
+![](../../pics/people/katie_peichel.jpg){fig-alt="Katie Peichel" width="100%"}
+:::
+::: {.column width="65%"}
+**Katie Peichel** (Universität Bern) erforscht, wie sich Stichlinge genetisch an Süsswasser anpassen.
+
+Zusammen mit **Dolph Schluter** (UBC, Vancouver) fragt sie:
+
+> Stehen die Süsswasser-Inversionen im Süsswasser unter **Selektion**?
+
+Statt nur Genome zu vergleichen, machen sie ein **Experiment**.
+:::
+:::::
+
+::: aside
+Foto: Universität Bern
+:::
+
 ## Zwanzig Teiche in Vancouver
 
 ::::: columns
@@ -147,30 +177,97 @@ Versuchsteiche der UBC (Schluter-Labor):
 Satellitenbild: Folien Katie Peichel / Google
 :::
 
-## Das Experiment
-
-Katie Peichel (Bern) und Dolph Schluter (UBC, Vancouver) fingen marine Stichlinge, die **heterozygot** sind: eine Meer- und eine **Süsswasser-Orientierung** von Chr XI.
-
-Je etwa 25 dieser Fische kamen 2022 in **drei Versuchsteiche**. Jedes Jahr wird gezählt, wie häufig die Süsswasser-Orientierung ist.
-
-Start: jeder Fisch hat eine Kopie von jeder Orientierung, also $p_0 = 0.5$.
-
-## Besatz und Schild
+## Schritt 1: marine Fische fangen
 
 ::::: columns
 ::: {.column width="50%"}
+![](../../pics/pond-experiment/oyster_lagoon_collecting.jpg){fig-alt="Fang in der Oyster Lagoon" width="100%"}
+:::
+::: {.column width="50%"}
 ![](../../pics/pond-experiment/marine_sticklebacks.jpg){fig-alt="Marine Stichlinge im Kescher" width="100%"}
+:::
+:::::
+
+2022 in der **Oyster Lagoon** (Meer): marine Stichlinge mit Reusen und Kescher fangen.
+
+::: aside
+Fotos: Peichel- und Schluter-Labore
+:::
+
+## Schritt 2: Heterozygote finden
+
+::::: columns
+::: {.column width="50%"}
+![](../../pics/pond-experiment/holding_tanks_cups.jpg){fig-alt="Becken mit Bechern, jeder Becher ein Fisch" width="100%"}
+:::
+::: {.column width="50%"}
+![](../../pics/pond-experiment/genotype_notes.jpg){fig-alt="Notizen zu den Genotypen" width="100%"}
+:::
+:::::
+
+**1152 Fische in 12 Tagen** genotypisiert: jeder Fisch in einem eigenen Becher. Gesucht sind **Heterozygote**, Fische mit einer Meer- und einer Süsswasser-Orientierung.
+
+::: aside
+Fotos: Peichel- und Schluter-Labore
+:::
+
+## Warum $p_0 = 0.5$?
+
+Marine Stichlinge tragen Süsswasser-Inversionen **selten**. Deshalb das aufwendige Suchen.
+
+In jeden Teich kommen nur **Heterozygote**, etwa 25 pro Teich.
+
+Ein Heterozygoter trägt **eine** Kopie jeder Orientierung, also startet jeder Teich bei
+
+$$
+p_0 = 0.5.
+$$
+
+Nicht willkürlich: So sind beide Orientierungen gleich häufig, und keine hat einen Vorsprung.
+
+## Schritt 3: ab in die Teiche
+
+::::: columns
+::: {.column width="50%"}
+![](../../pics/pond-experiment/release_into_pond.jpg){fig-alt="Fische werden in den Teich gesetzt" width="100%"}
 :::
 ::: {.column width="50%"}
 ![](../../pics/pond-experiment/pond2_chrxi_sign.jpg){fig-alt="Schild Teich 2 Chromosom XI" width="100%"}
 :::
 :::::
 
-Links: marine Fische vor dem Aussetzen. Rechts: Teich 2, Inversion Chr XI.
+Je etwa 25 Heterozygote in **drei Teiche** (2, 7, 14). Rechts: das Schild an Teich 2.
 
 ::: aside
 Fotos: Peichel- und Schluter-Labore
 :::
+
+## Schritt 4: jedes Frühjahr Proben
+
+::::: columns
+::: {.column width="50%"}
+![](../../pics/pond-experiment/pond_sampling.jpg){fig-alt="Fang am Teichrand" width="100%"}
+:::
+::: {.column width="50%"}
+![](../../pics/pond-experiment/sampling_lab.jpg){fig-alt="Proben werden genommen" width="100%"}
+:::
+:::::
+
+Jedes Frühjahr (2023 bis 2026) werden Fische gefangen und genotypisiert: die 1., 2., 3. und 4. Generation im Teich.
+
+::: aside
+Fotos: Peichel- und Schluter-Labore
+:::
+
+## Was gezählt wird
+
+Für jeden gefangenen Fisch: Welche Orientierung trägt er auf seinen **zwei** Chromosomen XI?
+
+Daraus: $p$ = Anteil der **Süsswasser-Orientierung** unter allen untersuchten Kopien.
+
+Drei Teiche: 2, 7, 14. Teich 7 hat wenige Fische und kein Jahr 4.
+
+Stichlinge sind diploid. Unser Modell bleibt **haploid** wie in Woche 6: $p$ ist dieselbe Frequenz, der Schritt ist eine Näherung.
 
 ## Drei Teiche
 
@@ -189,7 +286,32 @@ ggplot(teiche, aes(jahr, p, colour = teich, shape = teich)) +
   theme_slide()
 ```
 
-Alle drei **steigen**, aber jeder Teich anders. Teich 7 hat sehr wenige Fische (kleine Stichproben) und kein Jahr 4.
+Gleicher Start bei 0.5, vier Jahre später: drei verschiedene Bahnen.
+
+## Beobachtung 1: alle steigen
+
+In **jedem** Teich liegt $p$ am Ende über 0.5.
+
+Die Süsswasser-Orientierung wird häufiger, in allen drei Teichen in **dieselbe Richtung**.
+
+Das erwartet man bei **positiver Selektion**.
+
+## Beobachtung 2: trotzdem verschieden
+
+Trotz gleichem Start:
+
+- Teich 7 steigt steil.
+- Teiche 2 und 14 steigen langsamer, mit einem kleinen Rückgang zwischendurch.
+
+Gleiche Anfangsbedingungen, **drei Bahnen**. Mit den Modellen aus Woche 5–8 wäre das unmöglich: gleicher Start, gleiches $s$, gleiche Bahn.
+
+## Beobachtung 3: warum verschieden?
+
+Noch ohne Formel. Kandidaten:
+
+- **Zufall** in einer endlichen Population (wer überlebt, wer Junge hat),
+- **kleine Stichproben**: In Teich 7 wurden pro Jahr nur 10–43 Kopien untersucht,
+- echte Unterschiede zwischen den Teichen.
 
 ## Die Frage
 
@@ -333,6 +455,37 @@ p_neu    <- rbinom(1, N, p_strich) / N    # 2. Zufall: N Kopien ziehen
 
 Selektion gibt die **Richtung**, Zufall das **Rauschen**. Für vier Jahre wiederholen wir das viermal: eine **Bahn**.
 
+## Ein Schritt als Formel
+
+$$
+p' = \frac{p\,(1+s)}{1+p\,s}, \qquad
+X \sim \mathrm{Binomial}(N,\ p'), \qquad
+p_{t+1} = \frac{X}{N}
+$$
+
+- $p'$: erwarteter Anteil nach der Selektion (Woche 6),
+- $X$: wie viele der $N$ neuen Kopien Süsswasser-Kopien sind, eine **Zufallszahl**,
+- $p_{t+1}$: die neue Frequenz, **eine** mögliche Zukunft, kein Mittelwert.
+
+$s = 0$: keine Selektion. $s = 0.2$: 20 % mehr Nachkommen im Mittel. Kurswert $N = 250$.
+
+## Ohne Ziehung bleibt $p = 0.5$
+
+```{r}
+#| fig-height: 3.2
+#| fig-width: 8.4
+#| out-width: 92%
+ggplot(simuliere_bahn(0, 250, zufall = FALSE), aes(jahr, p)) +
+  geom_hline(yintercept = 0.5, colour = "#bdc3c7", linetype = "dashed") +
+  geom_line(colour = "#2166ac", linewidth = 1.2) +
+  geom_point(colour = "#2166ac", size = 2.4) +
+  coord_cartesian(ylim = c(0.3, 0.9)) +
+  labs(x = "Jahr", y = "Frequenz", title = "s = 0, ohne Zufall: p bleibt 0.5") +
+  theme_slide()
+```
+
+Das ist Woche 6: Ohne Selektion bewegt sich $p$ nicht. Damit $p$ wandert, braucht es die **Ziehung**.
+
 ## Eine Bahn sagt wenig
 
 ```{r}
@@ -351,6 +504,15 @@ ggplot(bahnen, aes(jahr, p, group = id)) +
 ```
 
 Gleicher Start, gleiches Modell, $s = 0$ — und jede Bahn ist anders.
+
+## Reicht Zufall für den Anstieg?
+
+Wenn alles **neutral** ist ($s = 0$): Wie weit kann $p$ in vier Jahren laufen?
+
+- Liegen die Teiche **in** dieser Wolke: Zufall reicht als Erklärung.
+- Liegen sie **ausserhalb**: Neutralität erklärt das Muster nicht.
+
+Einen formellen Test mit $p$-Wert gibt es in der Statistikvorlesung. Heute reicht das Bild.
 
 ## Viele Bahnen: die neutrale Wolke
 
@@ -396,6 +558,14 @@ Mit 20 Kopien (wie oft in Teich 7) misst man leicht 0.5 oder 0.75, obwohl die wa
 - Kleine Stichproben (Teich 7) sind selbst ein Zufall: Die gemessene Frequenz weicht von der wahren ab.
 - Das ist **kein Beweis** und kein statistischer Test. Das Bild zeigt, was zu den Daten **passt**.
 
+## Konsistent, nicht bewiesen
+
+Positive Selektion **kann** die drei Bahnen erklären.
+
+Andere Werte für $s$ und $N$ oder mehr Biologie (diploid, schwankende Populationsgrösse) würden die Wolke verschieben.
+
+Katie Peichel und Dolph Schluter schätzen mit einem diploiden Modell für Chr XI eine starke Selektion. Unser einfaches Modell kommt zum gleichen Schluss: Die Süsswasser-Orientierung ist im Teich **im Vorteil**.
+
 # Abschluss
 
 ## Take-home
@@ -404,7 +574,7 @@ Mit 20 Kopien (wie oft in Teich 7) misst man leicht 0.5 oder 0.75, obwohl die wa
 2. Eine simulierte Bahn sagt wenig. Viele Bahnen ergeben eine **Wolke**.
 3. Daten **ausserhalb** der neutralen Wolke sprechen für Selektion.
 
-## Notebook (~45 min)
+## Notebook (~40 min)
 
 **→ [Notebook Woche 9 öffnen](notebook.html)** · [Rmd](notebook.Rmd) · [R](notebook.R)
 
@@ -412,6 +582,15 @@ Mit 20 Kopien (wie oft in Teich 7) misst man leicht 0.5 oder 0.75, obwohl die wa
 2. Wie stark schwankt $p$? Drift über viele Generationen
 3. Selektion und Zufall zusammen, die neutrale Wolke
 4. Welches $s$ passt zu den Teichen? Wie genau sind die Messungen?
+
+## Abschlussfragen
+
+1. Warum startet das Experiment bei $p = 0.5$?
+2. Was ändert `set.seed` an einer Abbildung, und was nicht?
+3. Wo sitzt der Zufall im Generationsschritt, und wo sitzt $s$?
+4. Warum reicht **eine** neutrale Bahn nicht, um die Teiche zu beurteilen?
+5. Warum schwankt Teich 7 stärker als Teich 2?
+6. Was unterscheidet «liegt ausserhalb der Wolke» von einem statistischen Test?
 
 ## Ausblick · Woche 10
 
@@ -422,10 +601,12 @@ Eine **neue** Mutation beginnt mit **einer** Kopie. Dann entscheidet der Zufall,
 ## Literatur
 
 :::: {.lit}
+1. **Peichel, C. L., et al. (2001).** The genetic architecture of divergence between threespine stickleback species. *Nature* 414: 901–905. [doi:10.1038/414901a](https://doi.org/10.1038/414901a)
 1. **Jones, F. C., et al. (2012).** The genomic basis of adaptive evolution in threespine sticklebacks. *Nature* 484: 55–61. [doi:10.1038/nature10944](https://doi.org/10.1038/nature10944)
-2. **Barrett, R. D. H., Rogers, S. M., & Schluter, D. (2008).** Natural selection on a major armor gene in threespine stickleback. *Science* 322: 255–257. [doi:10.1126/science.1159978](https://doi.org/10.1126/science.1159978)
+1. **Peichel, C. L., & Marques, D. A. (2017).** The genetic and molecular architecture of phenotypic diversity in sticklebacks. *Phil. Trans. R. Soc. B* 372: 20150486. [doi:10.1098/rstb.2015.0486](https://doi.org/10.1098/rstb.2015.0486)
+1. **Barrett, R. D. H., Rogers, S. M., & Schluter, D. (2008).** Natural selection on a major armor gene in threespine stickleback. *Science* 322: 255–257. [doi:10.1126/science.1159978](https://doi.org/10.1126/science.1159978)
 
-Teichdaten Chr XI: Katie Peichel (Bern) und Dolph Schluter (UBC), unveröffentlicht, mit freundlicher Genehmigung. Fotos: Marius Roesti; Peichel- und Schluter-Labore.
+Teichdaten Chr XI: Katie Peichel (Bern) und Dolph Schluter (UBC), unveröffentlicht, mit freundlicher Genehmigung. Fotos: Marius Roesti; Peichel- und Schluter-Labore; Universität Bern (Porträt).
 ::::
 
 ## Navigation

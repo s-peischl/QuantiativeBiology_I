@@ -94,6 +94,14 @@ den öffentlichen Kurs-Hub legen.
 | `pond_facility_aerial.jpg` | UBC experimental pond facility (20 Teiche). Folien Katie Peichel; Satellitenbild-Hintergrund Google. |
 | `marine_sticklebacks.jpg` | Marine Stichlinge, Oyster Lagoon. Peichel- / Schluter-Labore. |
 | `pond2_chrxi_sign.jpg` | Teich 2, Inversion Chr XI. Peichel- / Schluter-Labore. |
+| `oyster_lagoon_collecting.jpg` | Fang mariner Stichlinge, Oyster Lagoon 2022. Aus Folien Katie Peichel. |
+| `oyster_lagoon_fieldwork.jpg` | Feldarbeit Oyster Lagoon. Aus Folien Katie Peichel. |
+| `holding_tanks_cups.jpg` | Becken mit Einzelbechern beim Genotypisieren (UBC). Aus Folien Katie Peichel. |
+| `holding_tanks.jpg` | Hälterungsbecken UBC. Aus Folien Katie Peichel. |
+| `genotype_notes.jpg` | Notizen zu den Genotypen. Aus Folien Katie Peichel. |
+| `release_into_pond.jpg` | Aussetzen der Heterozygoten in einen Teich. Aus Folien Katie Peichel. |
+| `pond_sampling.jpg` | Fang am Teichrand (Probennahme). Aus Folien Katie Peichel. |
+| `sampling_lab.jpg` | Probennahme am Teich. Aus Folien Katie Peichel. |
 
 ## PaNDiv (`pics/pandiv/`)
 
