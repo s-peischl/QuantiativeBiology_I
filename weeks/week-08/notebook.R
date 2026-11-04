@@ -17,7 +17,11 @@
 
 # --- Auftrag ---
 #
-# Finden Sie mit dem Modell Werte fuer Selektion s und Migration m, die zur Sommer- und zur Winter-Cline passen. Am Schluss steht eine Frage: Diese beantworten Sie der Assistenz in 1–2 Minuten mit einer Abbildung.
+# 1. Passen Sie das Modell an die Sommer-Cline an.
+# 2. Veraendern Sie diese Loesung, bis sie auch zur Winter-Cline passt.
+# 3. Schliessen Sie daraus biologisch, was sich im Winter geaendert hat.
+#
+# Am Schluss steht eine Frage. Diese beantworten Sie der Assistenz in 1–2 Minuten mit einer Abbildung.
 
 # ===========================================================================
 # 0 · Daten und Funktionen
@@ -118,7 +122,7 @@ vergleiche_clines()
 # - Breite: wie viele km der Uebergang von «fast kein R» zu «fast nur R» dauert.
 
 # ===========================================================================
-# 2 · Parameter finden
+# 2 · Das Modell
 # ===========================================================================
 #
 # Das Modell ist wie in Woche 7, nur mit 17 Stellen in einer Reihe. In jeder Generation passiert zweierlei:
@@ -129,35 +133,43 @@ vergleiche_clines()
 # Das Modell startet ueberall mit Frequenz 0.5 und rechnet 3000 Generationen, bis sich die Cline nicht mehr aendert.
 #
 # Was die Abbildung zeigt: die Daten wie oben und dazu das Modell als schwarze Linie mit offenen Kreisen. Im Titel stehen s, m und m/s. Darunter steht der Abstand zwischen Modell und Daten, einmal zum Sommer und einmal zum Winter. Der Abstand ist die Summe der quadrierten Unterschiede ueber alle 17 Stellen: 0 hiesse perfekt, unter etwa 0.06 passt das Modell.
-#
-# Aendern Sie s und m im Block unten und fuehren Sie ihn erneut aus.
-
-zeige_modell(s = 0.2, m = 0.05)   # hier s und m aendern
-
-# Tipp: Aendern Sie zuerst nur eine Zahl. Es gibt mehr als eine Loesung. Suchen Sie fuer den Winter zwei verschiedene und notieren Sie alle Werte (Tabelle in der Frage unten).
 
 # ===========================================================================
-# 3 · Weniger Flug im Winter
+# 3 · Schritt 1: den Sommer anpassen
 # ===========================================================================
 #
-# Im Winter fliegen die Muecken weniger als im Sommer, m ist also eher kleiner. Probieren Sie m halb so gross wie in Ihrer Sommer-Loesung und suchen Sie das passende s.
-
-zeige_modell(s = 0.1, m = 0.05)   # hier s aendern
-
-# ===========================================================================
-# 4 · Die Frage
-# ===========================================================================
-
-# --- Welche Parameter erklaeren Sommer und Winter, und sind sie plausibel? ---
+# Das Modell startet mit s = 0.2 und m = 0.05. Fuehren Sie den Block aus: Die schwarze Linie passt noch nicht ganz zum Sommer (Abstand zum Sommer ueber 0.06).
 #
-# a) Tragen Sie Ihre Werte ein:
+# Anweisung: Aendern Sie entweder s oder m (nur eine Zahl) und fuehren Sie den Block erneut aus. Wiederholen Sie das, bis der Abstand zum Sommer unter 0.06 liegt. Notieren Sie Ihre Werte.
+
+zeige_modell(s = 0.2, m = 0.05)   # Sommer: s oder m aendern
+
+# ===========================================================================
+# 4 · Schritt 2: den Winter anpassen
+# ===========================================================================
+#
+# Nehmen Sie Ihre Sommer-Loesung und tragen Sie sie unten ein. Die Winter-Cline ist breiter.
+#
+# Anweisung: Aendern Sie wieder nur eine Zahl, bis der Abstand zum Winter unter 0.06 liegt.
+#
+# - Versuch 1: nur s aendern. Groesser oder kleiner?
+# - Versuch 2: zurueck zur Sommer-Loesung, jetzt nur m aendern. Groesser oder kleiner?
+
+zeige_modell(s = 0.2, m = 0.05)   # hier Ihre Sommer-Loesung eintragen, dann eine Zahl aendern
+
+# ===========================================================================
+# 5 · Die Frage
+# ===========================================================================
+
+# --- Was hat sich im Winter geaendert? ---
+#
+# a) Ihre Werte:
 #
 # |  | s | m | m/s | Abstand |
 # | Sommer |  |  |  |  |
-# | Winter, Loesung 1 |  |  |  |  |
-# | Winter, Loesung 2 |  |  |  |  |
-# | Winter, weniger Flug (Teil 3) |  |  |  |  |
+# | Winter, nur s geaendert |  |  |  |  |
+# | Winter, nur m geaendert |  |  |  |  |
 #
-# b) Was haben alle Winter-Loesungen gemeinsam, und was unterscheidet sie vom Sommer?
+# b) Welchen Parameter muss man in welche Richtung aendern, damit die Cline breiter wird? Was haben beide Winter-Loesungen gemeinsam?
 #
-# c) Welche Winter-Loesung ist plausibel, wenn die Muecken im Winter weniger fliegen? Wie stark ist die Selektion dann noch, und warum? (Tipp: Wird im Winter gespritzt?)
+# c) Biologisch: Im Winter fliegen die Muecken weniger. Welcher Parameter hat sich dann eher geaendert, und in welche Richtung? Was schliessen Sie daraus ueber das Insektizid im Winter?

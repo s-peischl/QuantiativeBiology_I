@@ -7,15 +7,15 @@ format:
     fig-pos: "H"
 ---
 
-**Nicht für Studierende.** Eine Frage mit Teilen a–c am Ende des Checkpoints. Teams bis 4 · Notebook (Quarto / Rmd / `notebook.R`) · Gespräch 1–2 Minuten pro Gruppe
+**Nicht für Studierende.** Ablauf: Sommer anpassen → Winter anpassen → eine Frage (a–c). Teams bis 4 · Notebook (Quarto / Rmd / `notebook.R`) · Gespräch 1–2 Minuten pro Gruppe
 
 **Kurz:** Die Winter-Cline ist **breiter**. Im Modell zählt nur $m/s$: Sommer $m/s = 1$, Winter $m/s \approx 5$. Ob $s$ kleiner oder $m$ grösser wird, können die Daten nicht entscheiden. Biologisch gilt: Im Winter fliegen die Mücken **weniger** ($m$ kleiner). Das allein würde die Cline **enger** machen. Damit sie trotzdem breiter wird, muss die **Selektion fast ganz wegfallen** ($s$ von 0.1 auf etwa 0.01): Im Winter wird kaum gespritzt.
 
 ## 1 · Check (Bestanden?)
 
 - [ ] **Eine Abbildung** gezeigt (Daten oder ein Modellplot)
-- [ ] **a, b:** Parameter für Sommer und Winter gefunden (Tabelle); erkannt, dass es nur auf $m/s$ ankommt (Sommer 1, Winter etwa 5)
-- [ ] **c:** Mücken fliegen im Winter weniger, also $m$ kleiner. Dann passt nur ein sehr kleines $s$: Die Selektion ist im Winter fast weg, weil kaum gespritzt wird.
+- [ ] **a, b:** Sommer angepasst, dann Winter; erkannt: breiter heisst $s$ kleiner **oder** $m$ grösser, beide Male $m/s$ etwa 5 statt 1
+- [ ] **c:** Mücken fliegen im Winter weniger, also kann $m$ nicht grösser werden. Es muss $s$ sein, und zwar stark kleiner: Die Selektion ist im Winter fast weg, weil kaum gespritzt wird.
 
 Bestanden, wenn die Gruppe **welche Parameter** und **warum plausibel** in eigenen Worten sagen kann. Exakte Zahlen sind nicht nötig.
 
@@ -30,15 +30,19 @@ Bestanden, wenn die Gruppe **welche Parameter** und **warum plausibel** in eigen
 
 ![](ta-figs/abb1_clines.png){width=58%}
 
-**a, b — Welche Parameter?** Das Modell startet mit $s = 0.2$, $m = 0.05$; das passt zu keiner Saison. Typische Lösungen (Abstand unter etwa 0.06 = passt):
+**Schritt 1 — Sommer.** Das Modell startet mit $s = 0.2$, $m = 0.05$ ($m/s = 0.25$, Abstand zum Sommer 0.093: zu steil). Passend ist z. B. $s = 0.05$ (nur $s$ geändert) oder $m = 0.2$ (nur $m$ geändert), beide $m/s = 1$.
+
+**Schritt 2 — Winter, a und b.** Von der Sommer-Lösung aus eine Zahl ändern: $s$ etwa durch 5 teilen **oder** $m$ etwa mal 5. Typische Werte (Abstand unter etwa 0.06 = passt):
 
 | | $s$ | $m$ | $m/s$ | Abstand |
 |---|---|---|---|---|
-| Sommer | 0.1 | 0.1 | 1 | Sommer 0.035 |
-| Sommer (ebenso gut) | 0.05 | 0.05 | 1 | Sommer 0.036 |
-| Winter, Lösung 1 | **0.02** | 0.1 | 5 | Winter 0.053 |
-| Winter, Lösung 2 | 0.1 | **0.5** | 5 | Winter 0.051 |
-| Winter, weniger Flug | **0.01** | 0.05 | 5 | Winter 0.053 |
+| Start | 0.2 | 0.05 | 0.25 | Sommer 0.093 |
+| **Sommer-Lösung A** (nur $s$) | 0.05 | 0.05 | 1 | Sommer 0.036 |
+| Winter von A, nur $s$ | **0.01** | 0.05 | 5 | Winter 0.053 |
+| Winter von A, nur $m$ | 0.05 | **0.25** | 5 | Winter 0.052 |
+| **Sommer-Lösung B** (nur $m$) | 0.2 | 0.2 | 1 | Sommer 0.034 |
+| Winter von B, nur $s$ | **0.04** | 0.2 | 5 | Winter 0.052 |
+| Winter von B, nur $m$ | 0.2 | **1.0** | 5 | Winter 0.052 |
 
 - Jedes Paar mit $m/s \approx 1$ passt zum Sommer, jedes mit $m/s \approx 5$ zum Winter (etwa 4–6 ist in Ordnung).
 - **Kernaussage:** Wie in Woche 7 zählt nur das **Verhältnis** $m/s$. Die Daten allein können $s$ und $m$ nicht trennen. Die Modellkurven liegen praktisch übereinander:
@@ -47,12 +51,12 @@ Bestanden, wenn die Gruppe **welche Parameter** und **warum plausibel** in eigen
 
 ![](ta-figs/abstand_ms.png){width=58%}
 
-**c — Plausibel?** Im Winter fliegen die Mücken weniger, z. B. $m = 0.05$ (halb so viel wie im Sommer mit $m = 0.1$).
+**c — Biologisch.** Im Winter fliegen die Mücken **weniger**, $m$ wird also eher kleiner, nicht grösser.
 
-1. Lösung 2 ($m$ grösser) ist damit **unplausibel**.
-2. Mit $m = 0.05$ und $s = 0.1$ wird die Cline sogar **enger** als im Sommer (Abstand zum Winter 0.308). Weniger Flug allein erklärt den Winter nicht.
-3. Passend ist $s \approx 0.01$ (Abstand 0.053, wieder $m/s = 5$). Von der Selektion bleibt etwa **ein Zehntel**, sie ist de facto weg.
-4. Warum: Im Winter wird kaum oder gar nicht gespritzt. Der Vorteil von R in der Stadt fällt weg, die Kosten der Resistenz bleiben (bei *Culex pipiens* überwintern resistente Mücken schlechter, Lenormand et al. 1999).
+1. «$m$ grösser» ist damit **unplausibel** (bei Sommer-Lösung B wäre sogar $m = 1$ nötig: jede Mücke fliegt jede Generation weg).
+2. Wird $m$ kleiner, wird die Cline bei gleichem $s$ sogar **enger** (z. B. $s = 0.1$, $m = 0.05$: Abstand zum Winter 0.308). Weniger Flug allein erklärt den Winter nicht.
+3. Also muss $s$ **stark** kleiner werden, mehr als fünfmal, wenn $m$ auch noch sinkt. Von der Selektion bleibt im Winter fast nichts.
+4. Schluss: Im Winter wird kaum oder gar nicht gespritzt. Der Vorteil von R in der Stadt fällt weg, die Kosten der Resistenz bleiben (bei *Culex pipiens* überwintern resistente Mücken schlechter, Lenormand et al. 1999).
 
 ![](ta-figs/versuch_d.png){width=58%}
 

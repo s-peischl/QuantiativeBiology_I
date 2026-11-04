@@ -183,16 +183,17 @@ An denselben 17 Stellen gemessen: einmal im Sommer, einmal im Winter.
 
 Mit `zeige_modell(s = …, m = …)` legen Sie das Modell über die Daten.
 
-> **Welche Parameter $s$ und $m$ erklären Sommer und Winter, und sind sie plausibel?**
-
-Werte in die Tabelle im Checkpoint eintragen, dann: Fliegen Mücken im Winter mehr oder weniger? Wird gespritzt?
+1. **Sommer anpassen:** $s$ oder $m$ ändern, bis das Modell passt.
+2. **Winter anpassen:** von der Sommer-Lösung aus nur eine Zahl ändern. Welche, in welche Richtung?
+3. **Biologisch schliessen:** Mücken fliegen im Winter weniger. Was hat sich also geändert?
 
 ## Erklären in 1–2 Minuten
 
 Zeigen Sie der Assistenz **eine** Abbildung und beantworten Sie die Frage:
 
-1. Welche $s$ und $m$ passen zum Sommer, welche zum Winter?
-2. Welche Winter-Lösung ist plausibel, und warum?
+> **Was hat sich im Winter geändert?**
+
+Ihre Werte für Sommer und Winter, welche Änderung in welche Richtung, und was das biologisch bedeutet.
 
 # Abschluss
 

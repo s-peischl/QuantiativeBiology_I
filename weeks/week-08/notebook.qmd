@@ -33,7 +33,11 @@ Auf dem Land ist R selten, in der Stadt häufig. Dazwischen liegt ein Übergang,
 ::: {.callout-important}
 ## Auftrag
 
-Finden Sie mit dem Modell Werte für Selektion $s$ und Migration $m$, die zur Sommer- und zur Winter-Cline passen. Am Schluss steht **eine Frage**: Diese beantworten Sie der Assistenz in 1–2 Minuten mit **einer** Abbildung.
+1. Passen Sie das Modell an die **Sommer**-Cline an.
+2. Verändern Sie diese Lösung, bis sie auch zur **Winter**-Cline passt.
+3. Schliessen Sie daraus **biologisch**, was sich im Winter geändert hat.
+
+Am Schluss steht **eine Frage**. Diese beantworten Sie der Assistenz in 1–2 Minuten mit **einer** Abbildung.
 :::
 
 Andere Formate: [R Markdown](notebook.Rmd) · [nur R](notebook.R)
@@ -142,7 +146,7 @@ Die Linien sind **logistische Kurven** (S-Kurven), die R möglichst gut durch di
 - **Zentrum:** Position, an der die Frequenz von R 0.5 ist,
 - **Breite:** wie viele km der Übergang von «fast kein R» zu «fast nur R» dauert.
 
-# 2 · Parameter finden
+# 2 · Das Modell
 
 Das Modell ist wie in Woche 7, nur mit 17 Stellen in einer Reihe. In jeder Generation passiert zweierlei:
 
@@ -153,41 +157,47 @@ Das Modell startet überall mit Frequenz 0.5 und rechnet 3000 Generationen, bis 
 
 **Was die Abbildung zeigt:** die Daten wie oben und dazu das Modell als **schwarze Linie mit offenen Kreisen**. Im Titel stehen $s$, $m$ und $m/s$. Darunter steht der **Abstand** zwischen Modell und Daten, einmal zum Sommer und einmal zum Winter. Der Abstand ist die Summe der quadrierten Unterschiede über alle 17 Stellen: 0 hiesse perfekt, **unter etwa 0.06 passt das Modell**.
 
-Ändern Sie $s$ und $m$ im Block unten und führen Sie ihn erneut aus.
+# 3 · Schritt 1: den Sommer anpassen
+
+Das Modell startet mit $s = 0.2$ und $m = 0.05$. Führen Sie den Block aus: Die schwarze Linie passt **noch nicht ganz** zum Sommer (Abstand zum Sommer über 0.06).
+
+**Anweisung:** Ändern Sie **entweder** $s$ **oder** $m$ (nur eine Zahl) und führen Sie den Block erneut aus. Wiederholen Sie das, bis der **Abstand zum Sommer** unter 0.06 liegt. Notieren Sie Ihre Werte.
 
 ```{r}
 #| fig-height: 4.6
 #| fig-width: 7.5
-zeige_modell(s = 0.2, m = 0.05)   # hier s und m ändern
+zeige_modell(s = 0.2, m = 0.05)   # Sommer: s oder m ändern
 ```
 
-Tipp: Ändern Sie zuerst nur **eine** Zahl. Es gibt mehr als eine Lösung. Suchen Sie für den Winter **zwei** verschiedene und notieren Sie alle Werte (Tabelle in der Frage unten).
+# 4 · Schritt 2: den Winter anpassen
 
-# 3 · Weniger Flug im Winter
+Nehmen Sie Ihre **Sommer-Lösung** und tragen Sie sie unten ein. Die Winter-Cline ist breiter.
 
-Im Winter fliegen die Mücken **weniger** als im Sommer, $m$ ist also eher **kleiner**. Probieren Sie $m$ halb so gross wie in Ihrer Sommer-Lösung und suchen Sie das passende $s$.
+**Anweisung:** Ändern Sie wieder **nur eine** Zahl, bis der **Abstand zum Winter** unter 0.06 liegt.
+
+- Versuch 1: nur $s$ ändern. Grösser oder kleiner?
+- Versuch 2: zurück zur Sommer-Lösung, jetzt nur $m$ ändern. Grösser oder kleiner?
 
 ```{r}
 #| fig-height: 4.6
 #| fig-width: 7.5
-zeige_modell(s = 0.1, m = 0.05)   # hier s ändern
+zeige_modell(s = 0.2, m = 0.05)   # hier Ihre Sommer-Lösung eintragen, dann eine Zahl ändern
 ```
 
-# 4 · Die Frage
+# 5 · Die Frage
 
 ::: {.callout-tip}
-## Welche Parameter erklären Sommer und Winter, und sind sie plausibel?
+## Was hat sich im Winter geändert?
 
-**a)** Tragen Sie Ihre Werte ein:
+**a)** Ihre Werte:
 
 |  | $s$ | $m$ | $m/s$ | Abstand |
 |---|---|---|---|---|
 | Sommer |  |  |  |  |
-| Winter, Lösung 1 |  |  |  |  |
-| Winter, Lösung 2 |  |  |  |  |
-| Winter, weniger Flug (Teil 3) |  |  |  |  |
+| Winter, nur $s$ geändert |  |  |  |  |
+| Winter, nur $m$ geändert |  |  |  |  |
 
-**b)** Was haben alle Winter-Lösungen gemeinsam, und was unterscheidet sie vom Sommer?
+**b)** Welchen Parameter muss man in welche **Richtung** ändern, damit die Cline breiter wird? Was haben beide Winter-Lösungen gemeinsam?
 
-**c)** Welche Winter-Lösung ist plausibel, wenn die Mücken im Winter weniger fliegen? Wie stark ist die Selektion dann noch, und warum? (Tipp: Wird im Winter gespritzt?)
+**c)** Biologisch: Im Winter fliegen die Mücken **weniger**. Welcher Parameter hat sich dann eher geändert, und in welche Richtung? Was schliessen Sie daraus über das Insektizid im Winter?
 :::
