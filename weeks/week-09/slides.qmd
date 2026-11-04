@@ -119,6 +119,34 @@ Im Süsswasser ist meist die eine Orientierung häufig, im Meer die andere.
 Foto: Wikimedia Commons, *Gasterosteus aculeatus* · Jones et al. (2012)
 :::
 
+## Ein Teich
+
+![](../../pics/pond-experiment/pond_panorama.jpg){fig-alt="Süsswasserteich" width="100%"}
+
+::: aside
+Foto: Marius Roesti
+:::
+
+## Zwanzig Teiche in Vancouver
+
+::::: columns
+::: {.column width="52%"}
+![](../../pics/pond-experiment/pond_facility_aerial.jpg){fig-alt="UBC-Teichanlage von oben" width="100%"}
+:::
+::: {.column width="48%"}
+Versuchsteiche der UBC (Schluter-Labor):
+
+- 20 Süsswasserteiche, 25 m × 15 m
+- flache Zone und 6 m Tiefe
+- natürliches Futter
+- Wirbellose und Vögel, **keine Fischräuber**
+:::
+:::::
+
+::: aside
+Satellitenbild: Folien Katie Peichel / Google
+:::
+
 ## Das Experiment
 
 Katie Peichel (Bern) und Dolph Schluter (UBC, Vancouver) fingen marine Stichlinge, die **heterozygot** sind: eine Meer- und eine **Süsswasser-Orientierung** von Chr XI.
@@ -126,6 +154,23 @@ Katie Peichel (Bern) und Dolph Schluter (UBC, Vancouver) fingen marine Stichling
 Je etwa 25 dieser Fische kamen 2022 in **drei Versuchsteiche**. Jedes Jahr wird gezählt, wie häufig die Süsswasser-Orientierung ist.
 
 Start: jeder Fisch hat eine Kopie von jeder Orientierung, also $p_0 = 0.5$.
+
+## Besatz und Schild
+
+::::: columns
+::: {.column width="50%"}
+![](../../pics/pond-experiment/marine_sticklebacks.jpg){fig-alt="Marine Stichlinge im Kescher" width="100%"}
+:::
+::: {.column width="50%"}
+![](../../pics/pond-experiment/pond2_chrxi_sign.jpg){fig-alt="Schild Teich 2 Chromosom XI" width="100%"}
+:::
+:::::
+
+Links: marine Fische vor dem Aussetzen. Rechts: Teich 2, Inversion Chr XI.
+
+::: aside
+Fotos: Peichel- und Schluter-Labore
+:::
 
 ## Drei Teiche
 
@@ -380,7 +425,7 @@ Eine **neue** Mutation beginnt mit **einer** Kopie. Dann entscheidet der Zufall,
 1. **Jones, F. C., et al. (2012).** The genomic basis of adaptive evolution in threespine sticklebacks. *Nature* 484: 55–61. [doi:10.1038/nature10944](https://doi.org/10.1038/nature10944)
 2. **Barrett, R. D. H., Rogers, S. M., & Schluter, D. (2008).** Natural selection on a major armor gene in threespine stickleback. *Science* 322: 255–257. [doi:10.1126/science.1159978](https://doi.org/10.1126/science.1159978)
 
-Teichdaten Chr XI: Katie Peichel (Bern) und Dolph Schluter (UBC), unveröffentlicht, mit freundlicher Genehmigung.
+Teichdaten Chr XI: Katie Peichel (Bern) und Dolph Schluter (UBC), unveröffentlicht, mit freundlicher Genehmigung. Fotos: Marius Roesti; Peichel- und Schluter-Labore.
 ::::
 
 ## Navigation
