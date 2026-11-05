@@ -1,5 +1,7 @@
 # Woche 9 — Notebook (nur R, base R)
-# Stichlinge und Zufall: drei Teiche und die neutrale Wolke
+# Zufall und Notwendigkeit: drei Teiche und die neutrale Wolke
+#
+# "Alles, was im Universum existiert, ist die Frucht von Zufall und Notwendigkeit." (Demokrit)
 # In RStudio: Working Directory = weeks/week-09, dann Zeile fuer Zeile ausfuehren.
 # Ausfuehren, Zahlen aendern, Aufgaben beantworten.
 

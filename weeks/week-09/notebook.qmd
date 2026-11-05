@@ -1,6 +1,6 @@
 ---
 title: "Woche 9 — Notebook"
-subtitle: "Stichlinge und Zufall"
+subtitle: "Zufall und Notwendigkeit"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 lang: de
 format:
@@ -17,6 +17,8 @@ execute:
   message: false
   freeze: false
 ---
+
+> *«Alles, was im Universum existiert, ist die Frucht von Zufall und Notwendigkeit.»* — Demokrit
 
 Marine Stichlinge, die **heterozygot** für eine Inversion auf Chromosom XI sind, wurden in drei Süsswasser-Teiche gesetzt. Jedes Jahr wurde gemessen, wie häufig die **Süsswasser-Orientierung** der Inversion ist. Alle drei Teiche steigen. Ist das **Selektion** oder kann das auch **Zufall** sein?
 

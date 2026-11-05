@@ -1,6 +1,6 @@
 ---
 title: "Woche 9 — Notebook (R Markdown)"
-subtitle: "Stichlinge und Zufall"
+subtitle: "Zufall und Notwendigkeit"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 output:
   html_document:
@@ -8,6 +8,8 @@ output:
     toc_depth: 2
     theme: flatly
 ---
+
+> *«Alles, was im Universum existiert, ist die Frucht von Zufall und Notwendigkeit.»* — Demokrit
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE,

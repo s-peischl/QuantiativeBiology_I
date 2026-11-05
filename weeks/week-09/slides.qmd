@@ -1,6 +1,6 @@
 ---
 title: "Woche 9 — Zufall im Teich"
-subtitle: "Stichlinge und Zufall"
+subtitle: "Zufall und Notwendigkeit <span class='epigraph'>«Alles, was im Universum existiert, ist die Frucht von Zufall und Notwendigkeit.» — Demokrit</span>"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:
