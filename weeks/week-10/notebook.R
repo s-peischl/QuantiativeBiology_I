@@ -22,6 +22,7 @@
 # 2. Simulieren Sie eine schrumpfende Population und schaetzen Sie, wie oft sie gerettet wird.
 # 3. Finden Sie heraus, wie Rettung von der Startgroesse N_0 und vom Rueckgang r abhaengt.
 # 4. Bonus: Wie viel eher mussten Elefanten ohne Stosszaehne den Krieg ueberleben?
+# 5. Bonus: Hilft Migration aus einer Zuflucht der Rettung?
 
 # ===========================================================================
 # 0 · Funktionen
@@ -203,3 +204,57 @@ p_nachher           # beobachtet nach dem Krieg: 0.509
 #    Mutation mit einer Kopie in dieser Zeit erreicht?
 # 3. Bei den Toechtern, die nach dem Krieg geboren wurden, sind es 33 %, weniger als bei
 #    ihren Muettern. Tipp: Eine stosszahnlose Mutter traegt das Allel nur einmal.
+
+# ===========================================================================
+# 6 · Bonus: Rettung mit zwei Orten
+# ===========================================================================
+#
+# Tomasini & Peischl (2020): Zwei Orte tauschen Individuen aus. Ort 1 wird sofort schlecht, Ort 2 ist zuerst eine Zuflucht und wird erst nach theta = 100 Generationen schlecht.
+#
+# - Wildtyp im schlechten Ort: im Mittel 1 - r Nachkommen. In der Zuflucht bleibt er bei K = 5000.
+# - Mutante im schlechten Ort: 1 + z. In der Zuflucht hat sie Kosten: 1 - s.
+# - Jede Generation wechselt ein Anteil m/2 jedes Ortes zum anderen Ort.
+# - Gerettet, sobald es irgendwo 500 Mutanten gibt.
+
+zwei_orte <- function(m, s, z, r, K = 5000, theta = 100, U = 2e-5, grenze = 500) {
+  wt  <- c(K, K)   # Wildtyp in Ort 1 und Ort 2
+  mut <- c(0, 0)   # Mutanten in Ort 1 und Ort 2
+  for (t in 1:1000) {
+    schlecht <- c(TRUE, t > theta)
+    wt  <- rpois(2, wt * ifelse(schlecht, 1 - r, 1))
+    if (!schlecht[2]) wt[2] <- K                  # Zuflucht bleibt voll
+    neu <- rbinom(2, wt, U)                       # neue Mutanten
+    mut <- rpois(2, mut * ifelse(schlecht, 1 + z, 1 - s)) + neu
+    weg_wt  <- rbinom(2, wt,  m / 2)              # Migration
+    weg_mut <- rbinom(2, mut, m / 2)
+    wt  <- wt  - weg_wt  + rev(weg_wt)
+    mut <- mut - weg_mut + rev(weg_mut)
+    if (sum(mut) >= grenze) return(1)             # gerettet
+    if (sum(wt) + sum(mut) == 0) return(0)        # ausgestorben
+  }
+  0
+}
+
+zeige_migration <- function(s, z, r, wiederholungen = 200) {
+  m_werte <- c(0, 0.01, 0.05, 0.1, 0.2, 0.4, 0.7, 1)
+  p <- sapply(m_werte, function(m) mean(replicate(wiederholungen, zwei_orte(m, s, z, r))))
+  plot(seq_along(m_werte), p, type = "b", pch = 16, lwd = 2, col = "#2166ac",
+       ylim = c(0, 1), xaxt = "n", xlab = "Migrationsrate m", ylab = "Anteil gerettet",
+       main = paste0("s = ", s, ", z = ", z, ", r = ", r))
+  axis(1, at = seq_along(m_werte), labels = m_werte)
+  invisible(data.frame(m = m_werte, gerettet = p))
+}
+
+# Jeder Punkt: 200 Populationen bei einer Migrationsrate.
+
+set.seed(1)
+zeige_migration(s = 0.02, z = 0.1, r = 0.1)   # billige Mutante
+
+set.seed(1)
+zeige_migration(s = 0.5, z = 0.2, r = 0.2)    # teure Mutante: bitte s aendern
+
+# --- Aufgabe F (Bonus) ---
+# 1. Billige Mutante (s = 0.02): Hilft Migration? Wie viel mehr Populationen werden gerettet als ohne Migration (m = 0)?
+# 2. Teure Mutante (s = 0.5): Bei welcher Migrationsrate ist Rettung am wahrscheinlichsten? Was passiert bei sehr viel Migration?
+# 3. Erklaeren Sie den Unterschied mit dem Wort gene swamping: Wo landen die Mutanten bei viel Migration, und was passiert dort mit ihnen?
+# 4. Pruefen Sie die Bedingung aus der Vorlesung, s/z < r theta, fuer beide Faelle (theta = 100). Was sagt sie, was sagt sie nicht?

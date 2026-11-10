@@ -642,7 +642,7 @@ Ob es für Rettung reicht, ist **offen**. Die Autoren schreiben vorsichtig: Die 
 
 **→ [Notebook Woche 10 öffnen](notebook.html)** · [Rmd](notebook.Rmd) · [R](notebook.R)
 
-Sie verfolgen einzelne Mutationen, schätzen die Etablierung und simulieren Rettung für verschiedene $N_0$ und $r$. Bonus: Wie viel besser mussten stosszahnlose Elefanten überleben?
+Sie verfolgen einzelne Mutationen, schätzen die Etablierung und simulieren Rettung für verschiedene $N_0$ und $r$. Bonus: Wie viel besser mussten stosszahnlose Elefanten überleben? Und: Rettung mit zwei Orten, wann hilft Migration?
 
 ## Ausblick · Woche 11
 
