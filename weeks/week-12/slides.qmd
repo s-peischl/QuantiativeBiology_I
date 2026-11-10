@@ -40,8 +40,8 @@ source("../rottensand-prep.R")
 
 | Teil | Dauer | Was |
 |------|-------|-----|
-| Vorlesung | ~45 min | Rottensand · zwei Dateien · ein Schlüssel · prüfen · kombinieren |
-| Notebook | ~45 min | einlesen · eine Funktion für beide Jahre · `merge` und `rbind` |
+| Vorlesung | ~45 min | Rottensand · zwei Dateien · ein Schlüssel · lange Tabelle · ggplot |
+| Notebook | ~45 min | Tabelle bauen (15 min) · **ggplot-Spielplatz** (30 min) |
 
 ::: aside
 Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
@@ -55,7 +55,8 @@ Nach heute können Sie …
 2. zwei Jahre mit **derselben** Funktion aufbereiten,
 3. eine Tabelle **prüfen**, bevor Sie plotten,
 4. zwei Tabellen über einen **Schlüssel** kombinieren: nebeneinander und untereinander,
-5. sagen, warum die Rohdaten nie von Hand geändert werden.
+5. sagen, warum die Rohdaten nie von Hand geändert werden,
+6. aus einer **langen** Tabelle mit **ggplot2** in wenigen Zeilen eine Abbildung bauen.
 
 # Rottensand
 
@@ -278,17 +279,126 @@ ggplot(beide, aes(OedCae_2019, OedCae_2024)) +
 
 Gleicher Plot, gleiche Methode, oft ganz andere Zahlen. Zählen ist eine **Stichprobe** (Woche 9). Und vier Besuche im Juli sind nicht der ganze Sommer.
 
+# Von der Tabelle zur Abbildung
+
+## Breit oder lang?
+
+:::: columns
+::: {.column width="50%"}
+**Breit:** eine Spalte pro Art
+
+| plot | jahr | OedCae | CalIta | … |
+|---|---|---|---|---|
+| 3 | 2024 | 9 | 2 | … |
+| 5 | 2024 | 0 | 14 | … |
+:::
+::: {.column width="50%"}
+**Lang:** eine Zeile pro Plot, Jahr und Art
+
+| plot | jahr | art | anzahl |
+|---|---|---|---|
+| 3 | 2024 | OedCae | 9 |
+| 3 | 2024 | CalIta | 2 |
+| 5 | 2024 | OedCae | 0 |
+| 5 | 2024 | CalIta | 14 |
+:::
+::::
+
+In der langen Tabelle ist die **Art eine Spalte**. Jede Spalte kann eine Achse, eine Farbe oder ein eigenes Bild werden.
+
+::: aside
+Zahlen zur Illustration
+:::
+
+## ggplot in drei Teilen
+
+```r
+ggplot(lang, aes(x = habitat, y = anzahl, colour = habitat)) +
+  geom_boxplot()
+```
+
+1. **Daten:** welche Tabelle (`lang`)
+2. **Zuordnung** (`aes`): welche Spalte auf x, y, Farbe, Grösse
+3. **Geometrie** (`geom_…`): Punkte, Boxen, Linien, Balken
+
+Mit `+` kommt jeweils eine Schicht dazu: weitere Geometrien, Farben, Titel, ein Bild pro Gruppe.
+
+## Schritt 1: eine Zeile
+
+```{r}
+#| echo: true
+#| fig-height: 2.6
+#| fig-width: 7
+#| out-width: 62%
+ggplot(lang, aes(habitat, anzahl)) +
+  geom_boxplot()
+```
+
+Funktioniert. Aber alle Arten sind vermischt, und man sieht nicht, wie viele Plots es sind.
+
+## Schritt 2: Punkte und ein Bild pro Art
+
+```{r}
+#| echo: true
+#| fig-height: 3.3
+#| fig-width: 9
+#| out-width: 82%
+ggplot(lang, aes(habitat, anzahl, colour = habitat)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter(width = 0.2, alpha = 0.5) +
+  facet_wrap(~ art, scales = "free_y", nrow = 2)
+```
+
+## Schritt 3: schön machen
+
+```{r}
+#| echo: true
+#| fig-height: 3.3
+#| fig-width: 9
+#| out-width: 78%
+ggplot(lang, aes(habitat, anzahl, colour = habitat)) +
+  geom_boxplot(outlier.shape = NA) + geom_jitter(width = 0.2, alpha = 0.5) +
+  facet_wrap(~ art, scales = "free_y", nrow = 2) +
+  scale_colour_manual(values = hab_farben, guide = "none") +
+  labs(x = NULL, y = "Tiere pro Plot", title = "Am häufigsten in der Steppe") +
+  theme_minimal(base_size = 13) + theme(strip.text = element_text(face = "italic"))
+```
+
+## Schritt 4: dieselben Daten als Karte
+
+```{r}
+#| echo: true
+#| fig-height: 3.4
+#| fig-width: 11
+#| out-width: 100%
+ggplot(lang, aes(x, y, size = anzahl, colour = habitat)) +
+  geom_point(alpha = 0.6) + facet_grid(jahr ~ art) +
+  scale_colour_manual(values = hab_farben) + scale_size_area(max_size = 3) +
+  coord_equal() + theme_void() + theme(strip.text.x = element_text(face = "italic", size = 9))
+```
+
+Zwölf Karten, sechs Arten mal zwei Jahre. Nur die Zuordnung in `aes` hat sich geändert.
+
+## Warum nicht Excel?
+
+| | Excel | Skript mit ggplot |
+|---|---|---|
+| 12 Karten | 12 Diagramme einzeln klicken | `facet_grid(jahr ~ art)` |
+| andere Farbe für alle | jedes Diagramm einzeln | eine Zeile |
+| neue Daten 2025 | alles neu klicken | `read.csv` einmal mehr, alles entsteht neu |
+| Wie entstand die Abbildung? | steht nirgends | steht im Code |
+
+Excel *kann* plotten. Aber nur das Skript ist **reproduzierbar**: Wer es laufen lässt, bekommt dieselbe Abbildung.
+
 # Abschluss
 
 ## Notebook (~45 min)
 
 **→ [Notebook Woche 12 öffnen](notebook.html)** · [Rmd](notebook.Rmd) · [R](notebook.R)
 
-1. Beide Jahre einlesen: Was ist eine Zeile?
-2. `aufbereiten`: eine Funktion für beide Jahre
-3. Prüfen: Schlüssel, Deckung, Namen
-4. Kombinieren: `merge` und `rbind`
-5. Erste Abbildung: gleicher Plot, zwei Jahre
+1. Beide Jahre einlesen und mit `aufbereiten` zu **einer** Tabelle machen (ca. 15 min)
+2. Die **lange** Tabelle bauen: eine Zeile pro Plot, Jahr und Art
+3. **ggplot-Spielplatz** (ca. 30 min): eine Abbildung in fünf Schritten, dann verändern und eigene Abbildungen bauen
 
 ## Take-home
 
@@ -297,6 +407,7 @@ Gleicher Plot, gleiche Methode, oft ganz andere Zahlen. Zählen ist eine **Stich
 3. Eine **Funktion** für alle Dateien statt Copy-Paste.
 4. Vor dem Plotten **prüfen**: Schlüssel, Summen, Namen.
 5. `merge` legt nebeneinander (über den Schlüssel), `rbind` stapelt.
+6. Eine **lange** Tabelle plus ggplot: jede Spalte kann Achse, Farbe oder ein eigenes Bild werden.
 
 ## Nächste Woche: Farbe und Form
 

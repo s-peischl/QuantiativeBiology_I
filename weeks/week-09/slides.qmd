@@ -332,7 +332,7 @@ Ohne Selektion spielt die Inversion keine Rolle. Trotzdem trägt nicht jeder Fis
 | **Fortpflanzung** | wer wie viele Junge hat | Ein Fisch hat 50 Junge, ein anderer keines. Seine Kopien sind dann häufiger. |
 | **Vererbung** | welche Kopie ein Heterozygoter weitergibt | Bei jedem Jungen ein Münzwurf (Mendel). |
 
-Keiner hat eine **Richtung**: Im Mittel bleibt $p$ gleich. In einer kleinen Population gleichen sie sich aber **nicht** aus.
+Keiner hat eine **Richtung**: Im Mittel bleibt $p$ gleich. Aber $p$ **schwankt**, umso stärker, je kleiner die Population ist. Erreicht $p$ dabei 0 oder 1, bleibt es dort.
 
 ## Zufall in einer kleinen Population
 
@@ -358,7 +358,7 @@ ggplot(kugeln, aes(platz, -generation)) +
   theme(axis.text.y = element_text(hjust = 1))
 ```
 
-10 Genkopien, **keine Selektion**. Alle drei Zufälle fassen wir in **einem** Schritt zusammen: Jede Generation wird aus der vorherigen **zufällig gezogen**. $p$ ändert sich trotzdem, zufällig, von Generation zu Generation: **genetische Drift**.
+10 Genkopien, **keine Selektion**. Im Modell wird jede Generation einfach aus der vorherigen **zufällig gezogen**. $p$ ändert sich trotzdem, zufällig, von Generation zu Generation: **genetische Drift**.
 
 ## Zufall im Computer: eine Münze
 

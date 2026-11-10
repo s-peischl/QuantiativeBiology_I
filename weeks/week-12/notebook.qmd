@@ -20,7 +20,7 @@ execute:
 
 Im **Rottensand** (Pfynwald, Wallis) haben Studierende der Universität Bern im Juli **2019** und im Juli **2024** Heuschrecken gezählt. Dieselben 10 × 10 m Flächen, je **vier Besuche**, dazu eine Karte des Lebensraums: wie viel Gras, Kraut, offener Boden, Kies und Stein.
 
-Zwei Jahre, zwei Dateien. Heute machen Sie daraus **eine** Tabelle, mit der man arbeiten kann. Nächste Woche spielen wir mit Abbildungen.
+Zwei Jahre, zwei Dateien. Zuerst machen Sie daraus **eine** Tabelle. Dann kommt der spannende Teil: Mit dieser Tabelle und **ggplot2** bauen Sie in wenigen Zeilen Abbildungen, für die man in Excel einen Nachmittag klicken würde.
 
 **Die Arten** (Kürzel in den Daten):
 
@@ -36,11 +36,9 @@ Zwei Jahre, zwei Dateien. Heute machen Sie daraus **eine** Tabelle, mit der man 
 ::: {.callout-important}
 ## Auftrag
 
-1. Beide Jahre einlesen und verstehen, was eine Zeile ist.
-2. Aus jeder Datei eine **kurze** Tabelle machen, mit **derselben** Funktion.
-3. Prüfen, ob die Daten plausibel sind.
-4. Die zwei Jahre **kombinieren**: nebeneinander und untereinander.
-5. Eine erste Abbildung: Gleicher Plot, zwei Jahre.
+1. Beide Jahre einlesen und **eine** Tabelle daraus machen (ca. 15 min).
+2. Die Tabelle in die **lange Form** bringen: eine Zeile pro Plot, Jahr und Art.
+3. **ggplot-Spielplatz** (ca. 30 min): Abbildungen bauen, verändern, ausprobieren. Das ist der Hauptteil.
 :::
 
 Andere Formate: [R Markdown](notebook.Rmd) · [nur R](notebook.R)
@@ -55,6 +53,12 @@ list.files("data")
 
 Falls hier `character(0)` steht: In RStudio *Session → Set Working Directory → To Source File Location*.
 
+Heute brauchen wir das Paket **ggplot2**. Falls der nächste Block einen Fehler gibt, einmal `install.packages("ggplot2")` ausführen.
+
+```{r}
+library(ggplot2)
+```
+
 # 1 · Einlesen
 
 ```{r}
@@ -65,29 +69,22 @@ dim(roh24)
 dim(roh19)
 ```
 
-Über 130 Spalten. Die ersten paar:
+Über 130 Spalten. Für jede Art gibt es vier Spalten, eine pro Besuch: `OedCae1` bis `OedCae4`.
 
 ```{r}
-head(roh24[, 1:8], 10)
-```
-
-Für jede Art gibt es vier Spalten, eine pro Besuch: `OedCae1`, `OedCae2`, `OedCae3`, `OedCae4`.
-
-```{r}
-head(roh24[roh24$quarter == "tot", c("plot", "OedCae1", "OedCae2", "OedCae3", "OedCae4")])
+head(roh24[roh24$quarter == "tot", c("plot", "quarter", "habitat.type", "OedCae1", "OedCae2", "OedCae3", "OedCae4")])
 ```
 
 ::: {.callout-tip}
 ## F1
 
-- Jeder Plot kommt **fünfmal** vor (`quarter` = SW, NW, NE, SE, tot). Was könnte das bedeuten? Schauen Sie sich die Zeilen von Plot 3 an: `roh24[roh24$plot == 3, 1:8]`.
+- Jeder Plot kommt **fünfmal** vor (`quarter` = SW, NW, NE, SE, tot). Was könnte das bedeuten? Schauen Sie sich Plot 3 an: `roh24[roh24$plot == 3, 1:8]`.
 - Warum haben einige Zeilen überall `NA`?
-- Welche Spalten gibt es nur in einem der beiden Jahre? Probieren Sie `setdiff(names(roh19), names(roh24))`.
 :::
 
-# 2 · Eine kurze Tabelle
+# 2 · Eine Funktion für beide Jahre
 
-Wir behalten nur die ganzen Plots (`quarter == "tot"`), die auch besucht wurden. Für jede Art nehmen wir die **höchste Zahl** aus den vier Besuchen: so viele Tiere waren mindestens da.
+Wir behalten nur die ganzen, besuchten Plots. Für jede Art nehmen wir die **höchste Zahl** aus den vier Besuchen. Alles steckt in **einer Funktion**: So machen wir für 2019 genau dasselbe wie für 2024, ohne Copy-Paste.
 
 ```{r}
 arten <- c("OedCae", "CalIta", "OedGer", "SphCae", "PlaAlb", "ManRel")
@@ -97,11 +94,7 @@ max_besuch <- function(d, art) {
   zaehlung <- d[, paste0(art, 1:4)]
   apply(zaehlung, 1, function(x) if (all(is.na(x))) NA else max(x, na.rm = TRUE))
 }
-```
 
-Alles, was wir mit einer Datei tun, packen wir in **eine Funktion**. Dann machen wir für 2019 genau dasselbe wie für 2024, ohne Copy-Paste.
-
-```{r}
 aufbereiten <- function(roh, jahr) {
   d <- roh[roh$quarter == "tot" & !is.na(roh$temp1), ]   # ganze, besuchte Plots
   kurz <- data.frame(
@@ -113,9 +106,7 @@ aufbereiten <- function(roh, jahr) {
     temp    = d$temp1,            # Temperatur beim ersten Besuch
     boden   = d$soil,             # Deckung in Prozent
     gras    = d$grass,
-    kraut   = d$forb,
     kies    = d$gravel,
-    stein   = d$stone + d$rock,
     baum    = d$canopy,
     deckung = d$cover.sum,        # Summe aller Deckungen, sollte 100 sein
     team    = d$observ1           # wer beim ersten Besuch gezählt hat
@@ -128,113 +119,221 @@ aufbereiten <- function(roh, jahr) {
 
 k24 <- aufbereiten(roh24, 2024)
 k19 <- aufbereiten(roh19, 2019)
-
 head(k24)
+```
+
+# 3 · Prüfen und kombinieren
+
+Drei schnelle Fragen an jede Tabelle:
+
+```{r}
+sum(duplicated(k19$plot)); sum(duplicated(k24$plot))   # Schlüssel doppelt?
+table(k19$deckung)                                      # Deckung = 100?
+table(k19$habitat); table(k24$habitat)                  # gleiche Namen?
+```
+
+Die zwei Jahre **untereinander** stapeln. Das geht, weil `aufbereiten` beiden Tabellen dieselben Spalten gibt:
+
+```{r}
+alle <- rbind(k19, k24)
+
+# Entscheidung, im Code festgehalten: nur die drei grossen Lebensräume,
+# mit deutschen Namen. Die 4 Plots mit neuen Namen 2024 fallen weg.
+alle <- alle[alle$habitat %in% c("forest", "alluvial", "steppe"), ]
+alle$habitat <- factor(alle$habitat, levels = c("forest", "alluvial", "steppe"),
+                       labels = c("Wald", "Aue", "Steppe"))
+table(alle$jahr, alle$habitat)
 ```
 
 ::: {.callout-tip}
 ## F2
 
-- Wie viele Plots gibt es pro Jahr? (`nrow`)
-- Statt 136 Spalten sind es jetzt 20. Was ist eine Zeile?
-- Fügen Sie in `aufbereiten` eine Spalte `streu = d$litter` hinzu und lassen Sie den Block noch einmal laufen. In **beiden** Jahren ist sie jetzt da. Das ist der Vorteil einer Funktion.
+- Welche Plots haben 2019 keine 100 % Deckung? `k19[k19$deckung != 100, ]`
+- Welche Lebensraum-Namen gibt es nur 2024? Was haben wir mit diesen Plots gemacht, und wo steht das?
 :::
 
-# 3 · Prüfen, bevor man plottet
+# 4 · Die lange Tabelle
 
-Drei Fragen, bevor man einer Tabelle traut.
-
-**Gibt es einen Plot doppelt?** Die Plotnummer ist unser **Schlüssel**. Sie muss eindeutig sein.
+`alle` hat für jede Art eine **eigene Spalte**. Für Abbildungen ist eine andere Form praktischer: **eine Zeile pro Plot, Jahr und Art**, und die Art steht in einer Spalte. Dann kann jede Spalte zu einer Achse, einer Farbe oder einem eigenen Bild werden.
 
 ```{r}
-sum(duplicated(k19$plot))
-sum(duplicated(k24$plot))
-```
+namen <- c(OedCae = "Oedipoda caerulescens", CalIta = "Calliptamus italicus",
+           OedGer = "Oedipoda germanica", SphCae = "Sphingonotus caerulans",
+           PlaAlb = "Platycleis albopunctata", ManRel = "Mantis religiosa")
 
-**Ergeben die Deckungen 100 %?**
+lang <- NULL
+for (a in arten) {
+  stueck <- alle[, c("plot", "jahr", "x", "y", "habitat", "temp", "boden", "gras", "team")]
+  stueck$art <- namen[a]
+  stueck$anzahl <- alle[[a]]
+  lang <- rbind(lang, stueck)
+}
 
-```{r}
-table(k19$deckung)
-table(k24$deckung)
-```
-
-**Heissen die Lebensräume in beiden Jahren gleich?**
-
-```{r}
-table(k19$habitat)
-table(k24$habitat)
+dim(lang)
+head(lang)
 ```
 
 ::: {.callout-tip}
 ## F3
 
-- Welche Plots haben 2019 keine 100 %? Finden Sie sie mit `k19[k19$deckung != 100, ]`. Was würden Sie mit diesen Plots machen?
-- Welche Lebensraum-Namen gibt es nur 2024?
-- Diese Fehler sind **echt**. Im Feld schreibt man schnell etwas falsch. Wichtig ist nur, dass man es findet, bevor man Schlüsse zieht.
+- Wie viele Zeilen haben `alle` und `lang`? (`nrow`) Warum hat `lang` genau 6-mal so viele?
+- Was ist jetzt **eine Zeile**?
 :::
 
-# 4 · Kombinieren
+# 5 · ggplot-Spielplatz
 
-Es gibt zwei Arten, Tabellen zu kombinieren.
+Jede ggplot-Abbildung hat drei Teile:
 
-**Nebeneinander** (`merge`): Zeilen mit demselben Schlüssel werden zusammengelegt. Jede Zeile ist ein Plot, mit den Spalten von 2019 **und** von 2024.
+1. **Daten:** `ggplot(lang, ...)`
+2. **Zuordnung** (`aes`): welche Spalte auf die x-Achse, die y-Achse, die Farbe, die Grösse kommt
+3. **Geometrie** (`geom_...`): Punkte, Boxen, Linien, Balken
+
+Die Teile werden mit `+` verbunden. Wir bauen eine Abbildung in fünf Schritten.
+
+## Schritt 1: Boxen
 
 ```{r}
-beide <- merge(k19, k24, by = "plot", suffixes = c("_2019", "_2024"))
-dim(beide)
-head(beide[, c("plot", "habitat_2019", "habitat_2024", "OedCae_2019", "OedCae_2024")])
+#| fig-height: 3.5
+#| fig-width: 7
+ggplot(lang, aes(x = habitat, y = anzahl)) +
+  geom_boxplot()
 ```
 
-**Untereinander** (`rbind`): Die Tabellen werden gestapelt. Jede Zeile ist ein Plot **in einem Jahr**. Das geht nur, weil beide Tabellen dieselben Spalten haben, dank `aufbereiten`.
+## Schritt 2: jeder Plot ein Punkt
 
 ```{r}
-alle <- rbind(k19, k24)
-dim(alle)
-table(alle$jahr)
+#| fig-height: 3.5
+#| fig-width: 7
+ggplot(lang, aes(x = habitat, y = anzahl, colour = habitat)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter(width = 0.2, alpha = 0.5)
+```
+
+## Schritt 3: ein Bild pro Art
+
+Ein Befehl mehr, und jede Art bekommt ihr eigenes Bild. Das ist die Stärke der langen Tabelle.
+
+```{r}
+#| fig-height: 5.5
+#| fig-width: 9
+ggplot(lang, aes(x = habitat, y = anzahl, colour = habitat)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter(width = 0.2, alpha = 0.5) +
+  facet_wrap(~ art, scales = "free_y")
+```
+
+## Schritt 4: schön machen
+
+```{r}
+#| fig-height: 5.5
+#| fig-width: 9
+farben <- c(Wald = "#1e8449", Aue = "#5dade2", Steppe = "#e5a50a")
+
+ggplot(lang, aes(x = habitat, y = anzahl, colour = habitat)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter(width = 0.2, alpha = 0.5) +
+  facet_wrap(~ art, scales = "free_y") +
+  scale_colour_manual(values = farben, guide = "none") +
+  labs(x = NULL, y = "Tiere pro Plot (max. von 4 Besuchen)",
+       title = "Alle sechs Arten sind in der Steppe am häufigsten") +
+  theme_minimal(base_size = 13) +
+  theme(strip.text = element_text(face = "italic"))
+```
+
+## Schritt 5: dieselben Daten als Karte
+
+Nur die Zuordnung ändert sich: x und y sind jetzt die Koordinaten, die Grösse ist die Anzahl.
+
+```{r}
+#| fig-height: 3.6
+#| fig-width: 12
+ggplot(lang, aes(x = x, y = y, size = anzahl, colour = habitat)) +
+  geom_point(alpha = 0.6) +
+  facet_grid(jahr ~ art) +
+  scale_colour_manual(values = farben) +
+  scale_size_area(max_size = 3) +
+  coord_equal() +
+  theme_void() +
+  theme(strip.text.x = element_text(face = "italic", size = 8), legend.position = "bottom")
+```
+
+Zwölf Karten, sechs Arten mal zwei Jahre, in acht Zeilen. In Excel wären das zwölf einzelne Diagramme, und bei neuen Daten müsste man alle zwölf neu klicken.
+
+::: {.callout-tip}
+## F4 · Verändern Sie je **eine** Sache
+
+Nehmen Sie den Code aus Schritt 4 und probieren Sie:
+
+1. `y = anzahl` ändern zu `y = log1p(anzahl)`. Was wird besser sichtbar?
+2. `facet_wrap(~ art)` ändern zu `facet_grid(art ~ jahr)`.
+3. `colour = habitat` ändern zu `colour = factor(jahr)` (und die Zeile `scale_colour_manual` löschen).
+4. `geom_boxplot` ersetzen durch `geom_violin`.
+5. `theme_minimal()` ersetzen durch `theme_dark()` oder `theme_classic()`.
+:::
+
+## Eigene Abbildungen
+
+Ein paar Ideen zum Ausprobieren. Starten Sie mit einer Vorlage und verändern Sie sie.
+
+**Mögen die Heuschrecken offenen Boden?**
+
+```{r}
+#| fig-height: 5.5
+#| fig-width: 9
+ggplot(lang, aes(x = boden, y = anzahl, colour = habitat)) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(aes(group = 1), method = "loess", colour = "black", se = FALSE) +
+  facet_wrap(~ art, scales = "free_y") +
+  scale_colour_manual(values = farben) +
+  labs(x = "Offener Boden (%)", y = "Tiere pro Plot") +
+  theme_minimal()
+```
+
+**Zählt man bei Hitze mehr?**
+
+```{r}
+#| fig-height: 5.5
+#| fig-width: 9
+ggplot(lang, aes(x = temp, y = anzahl)) +
+  geom_point(alpha = 0.5) +
+  facet_wrap(~ art, scales = "free_y") +
+  labs(x = "Temperatur beim ersten Besuch (Grad C)", y = "Tiere pro Plot") +
+  theme_minimal()
+```
+
+**Gleicher Plot, zwei Jahre.** Dafür brauchen wir die Jahre **nebeneinander**, mit `merge` über den Schlüssel `plot`:
+
+```{r}
+#| fig-height: 5.5
+#| fig-width: 9
+l19 <- lang[lang$jahr == 2019, c("plot", "art", "anzahl")]
+l24 <- lang[lang$jahr == 2024, c("plot", "art", "anzahl", "habitat")]
+beide <- merge(l19, l24, by = c("plot", "art"), suffixes = c("_2019", "_2024"))
+
+ggplot(beide, aes(x = anzahl_2019, y = anzahl_2024, colour = habitat)) +
+  geom_abline(linetype = "dashed", colour = "grey50") +
+  geom_jitter(width = 0.2, height = 0.2, alpha = 0.7) +
+  facet_wrap(~ art, scales = "free") +
+  scale_colour_manual(values = farben) +
+  labs(x = "Anzahl 2019", y = "Anzahl 2024") +
+  theme_minimal()
 ```
 
 ::: {.callout-tip}
-## F4
+## F5 · Ihre Abbildung
 
-- 2019 waren es 92 Plots, 2024 waren es 90. Warum hat `beide` nur 83 Zeilen?
-- Welche Plots fehlen? `setdiff(k19$plot, k24$plot)` und `setdiff(k24$plot, k19$plot)`.
-- Für welche Frage brauchen Sie `beide`, für welche `alle`?
-  a) Ist *Calliptamus* in der Steppe häufiger als im Wald?
-  b) Hat ein Plot, der 2019 viele Tiere hatte, 2024 auch viele?
+1. Wählen Sie eine Frage (Ideen oben, oder eine eigene) und bauen Sie **eine** Abbildung dazu.
+2. Geben Sie ihr einen Titel, der die **Aussage** sagt, nicht nur das Thema.
+3. Speichern Sie sie als Datei: `ggsave("meine_abbildung.png", width = 8, height = 5)` direkt nach dem Plot.
+4. Was zeigt die Abbildung **nicht**? Ein Satz.
 :::
 
-# 5 · Gleicher Plot, zwei Jahre
+::: {.callout-note}
+## Warum nicht Excel?
 
-```{r}
-#| fig-height: 5
-#| fig-width: 5.5
-plot(beide$OedCae_2019, beide$OedCae_2024,
-     pch = 16, col = "#2980b9",
-     xlab = "Anzahl 2019", ylab = "Anzahl 2024",
-     main = "Oedipoda caerulescens, gleicher Plot")
-abline(0, 1, lty = 2)   # Diagonale: in beiden Jahren gleich viele
-```
-
-::: {.callout-tip}
-## F5
-
-- Ändern Sie `OedCae` zu einer anderen Art (an beiden Stellen). Liegen die Punkte auf der Diagonale?
-- Gleicher Plot, gleiche Methode, und trotzdem oft ganz andere Zahlen. Denken Sie an Woche 9: Woher kommt der Unterschied?
-:::
-
-# 6 · Abspeichern
-
-Die kombinierte Tabelle können Sie speichern. Aber: Die Datei ist ein **Ergebnis**, kein Rohdatum. Wer sie wieder braucht, lässt besser dieses Notebook noch einmal laufen.
-
-```{r}
-#| eval: false
-write.csv(alle, "data/rottensand_alle.csv", row.names = FALSE)
-```
-
-::: {.callout-tip}
-## F6 · Bonus
-
-Was müsste jemand anderes haben, um **genau** Ihre Abbildung aus Teil 5 noch einmal zu machen? Schreiben Sie eine kurze Liste.
+- Neue Daten 2025? Eine Zeile `read.csv` mehr, und **alle** Abbildungen entstehen neu.
+- Jeder Schritt steht im Code: Wer Ihr Notebook laufen lässt, bekommt **dieselbe** Abbildung.
+- Ein Wort ändern (`facet_wrap`, `colour`, `geom_violin`) statt jedes Diagramm neu zu klicken.
 :::
 
 ---

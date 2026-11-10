@@ -159,7 +159,7 @@ Do not re-teach this. Do not assume anything past it.
 | 7 | Stickleback *Eda* / sea–freshwater; mosquitoes (Lenormand 1999) | Local selection, then mixing. $F_{ST}$ | `quantile()` to filter rows |
 | 8 | Neutralism, spandrels; Checkpoint B | Summer cline first, then **one** number for winter, then a biological argument | No new tool. Helpers stay folded |
 
-Cumulative toolkit at the end of week 8: a function for one step, a vector, a loop, a base-R plot, a data frame, vectorised row maths, filtering. Student notebooks use **base graphics**. ggplot2 is for slides only (`source("../slides-ggplot.R")`, `theme_slide()`).
+Cumulative toolkit at the end of week 8: a function for one step, a vector, a loop, a base-R plot, a data frame, vectorised row maths, filtering. Student notebooks use **base graphics** through week 11. ggplot2 is for slides (`source("../slides-ggplot.R")`, `theme_slide()`) until week 12, where it is introduced to students on purpose: the long table plus ggplot is the point of weeks 12–13.
 
 Ploidy is easy to get wrong. Weeks 5–7 are diploid where the biology is diploid (HWE, sickle cell, mosquito genotypes $w_{RR}, w_{Rr}, w_{rr}$ — the notebook was corrected to diploid on purpose). The spatial cline in week 8 is the week-7 model. From week 9 the **course** Wright–Fisher step is haploid: selection to $p'$, then $X\sim\mathrm{Binomial}(N,p')$. Say so when the simplification matters. Do not silently switch a published diploid example to haploid.
 
