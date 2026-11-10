@@ -41,8 +41,8 @@ kursiv <- theme(plot.title = element_text(face = "italic"))
 
 | Teil | Dauer | Was |
 |------|-------|-----|
-| Vorlesung | ~40 min | eine Frage, eine Abbildung · Makeover · Karten · Fallstricke |
-| Werkstatt | ~50 min | Abbildungen bauen · Ihre eigene Frage |
+| Vorlesung | ~35 min | eine Frage, eine Abbildung · vier neue Abbildungen · Fallstricke |
+| Werkstatt | ~55 min | Farbfeld, Veränderung, Vielfalt, Zusammenhang · Ihre eigene Frage |
 
 ::: aside
 Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
@@ -53,20 +53,19 @@ Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 Nach heute können Sie …
 
 1. vor dem Plotten die **Frage** aufschreiben, die eine Abbildung beantwortet,
-2. eine Standard-Abbildung Schritt für Schritt **verbessern**,
-3. Daten als **Karte** und als viele kleine Bilder zeigen,
-4. eine Abbildung als **Funktion** schreiben und als Datei speichern,
-5. in einem Satz sagen, was eine Abbildung **nicht** zeigt.
+2. Daten **zusammenfassen** und als Farbfeld zeigen (`aggregate`, `geom_tile`),
+3. **Veränderung** zwischen zwei Jahren zeigen (Linien, Karte mit `merge`),
+4. **Vielfalt** und **Zusammenhang** zwischen Arten als Abbildung zeigen,
+5. eine Abbildung als **Funktion** schreiben und mit `ggsave` speichern,
+6. in einem Satz sagen, was eine Abbildung **nicht** zeigt.
 
-## Rückblick: eine Tabelle aus zwei
+## Rückblick: Woche 12
 
-Letzte Woche: Rottensand 2019 und 2024, je eine Datei.
+- Aus zwei Dateien wurde **eine** Tabelle, dann die **lange** Tabelle: eine Zeile pro Plot, Jahr und Art.
+- ggplot: Daten, Zuordnung (`aes`), Geometrie (`geom_…`), mit `+` verbunden.
+- Boxen, Punkte, `facet_wrap`, Karten: alles aus derselben Tabelle.
 
-- `aufbereiten()` macht aus jeder Datei eine kurze Tabelle: eine Zeile pro Plot.
-- `beide`: 2019 und 2024 **nebeneinander**, `r nrow(beide)` Plots.
-- `alle`: beide Jahre **untereinander**, `r nrow(alle)` Zeilen.
-
-Heute arbeiten wir nur noch mit diesen Tabellen. Der Code von letzter Woche steht oben im Notebook und läuft in einer Sekunde.
+Heute: **neue** Arten von Abbildungen, je für eine andere Frage. Dann Ihre eigene.
 
 # Eine Frage, eine Abbildung
 
@@ -97,85 +96,43 @@ p1 + p2 + p3 + plot_layout(widths = c(1, 1.6, 1))
 
 Alle drei zeigen *Calliptamus italicus*. Jede beantwortet eine **andere** Frage. Die Frage kommt zuerst.
 
-# Makeover
+# Vier Fragen, vier Abbildungen
 
-## Vorher
-
-```{r}
-#| fig-height: 3.6
-#| fig-width: 6
-#| out-width: 60%
-par(mar = c(3, 3, 1, 1))
-boxplot(CalIta ~ habitat, data = drei)
-```
-
-Es funktioniert. Aber: Was wurde gezählt? Wie viele Plots? Welches Jahr?
-
-## Nachher
+## 1 · Zusammenfassen: ein Farbfeld
 
 ```{r}
-#| fig-height: 3.8
+#| fig-height: 3.2
 #| fig-width: 8
 #| out-width: 80%
-ggplot(drei, aes(habitat, CalIta, fill = habitat)) +
-  geom_boxplot(outlier.shape = NA, alpha = 0.35, colour = "grey40") +
-  geom_jitter(aes(colour = habitat), width = 0.15, size = 1.6, alpha = 0.85) +
-  scale_fill_manual(values = hab_farben, guide = "none") +
-  scale_colour_manual(values = hab_farben, guide = "none") +
-  facet_wrap(~ jahr) +
-  labs(x = NULL, y = "Tiere pro Plot (max. von 4 Besuchen)",
-       title = "Calliptamus italicus lebt in der Steppe, 2019 wie 2024") +
-  theme_slide() + kursiv
+mittel <- aggregate(anzahl ~ art + habitat, data = lang, FUN = mean)
+ggplot(mittel, aes(habitat, art, fill = anzahl)) +
+  geom_tile(colour = "white") +
+  geom_text(aes(label = round(anzahl, 1)), size = 4.5) +
+  scale_fill_gradient(low = "#fdfefe", high = "#e67e22", guide = "none") +
+  labs(x = NULL, y = NULL, title = "Mittlere Anzahl pro Plot, beide Jahre") +
+  theme_slide() + theme(axis.text.y = element_text(face = "italic"), panel.grid = element_blank())
 ```
 
-## Was sich geändert hat
+`aggregate(anzahl ~ art + habitat, data = lang, FUN = mean)` macht aus 1000 Zeilen 18. `geom_tile` zeigt sie als Farbfeld, `geom_text` schreibt die Zahl dazu. Alle sechs Arten sind in der **Steppe** am häufigsten. *Sphingonotus* ist auch in der Aue häufig.
 
-1. **Titel = Aussage.** Nicht «Boxplot», sondern was man sehen soll.
-2. **Achsen beschriftet**, mit Einheit und Methode.
-3. **Jeder Plot ein Punkt.** Man sieht, wie viele es sind und wie sie streuen.
-4. **Farbe mit Bedeutung:** dieselben Farben für dieselben Lebensräume, in jeder Abbildung.
-5. **Zwei Jahre nebeneinander**, mit derselben y-Achse.
-
-Im Notebook machen Sie das Schritt für Schritt in base R.
-
-# Karten
-
-## Die Plots haben Koordinaten
+## 2a · Veränderung: Linien zwischen zwei Jahren
 
 ```{r}
-#| fig-height: 3.8
-#| fig-width: 9
-#| out-width: 90%
-ggplot(d24, aes(x, y, size = CalIta, colour = habitat)) +
-  geom_point(alpha = 0.75) +
+#| fig-height: 3.4
+#| fig-width: 9.5
+#| out-width: 92%
+mj <- aggregate(anzahl ~ art + habitat + jahr, data = lang, FUN = mean)
+ggplot(mj, aes(factor(jahr), anzahl, colour = habitat, group = habitat)) +
+  geom_line(linewidth = 1.1) + geom_point(size = 2.2) +
+  facet_wrap(~ art, scales = "free_y", nrow = 2) +
   scale_colour_manual(values = hab_farben, name = NULL) +
-  scale_size_area(max_size = 7, name = "Tiere") +
-  coord_equal() +
-  labs(x = "Ost (m)", y = "Nord (m)", title = "Calliptamus italicus 2024") +
-  theme_slide() + kursiv + theme(legend.position = "right")
+  labs(x = NULL, y = "Tiere pro Plot (Mittel)") +
+  theme_slide() + theme(strip.text = element_text(face = "italic", size = 11), legend.position = "right")
 ```
 
-Farbe = Lebensraum, Grösse = Anzahl. Die Steppe in der Mitte des Bandes ist voll.
+Ein Mittelwert pro Art, Lebensraum **und** Jahr, verbunden mit einer Linie. In der Steppe legen fast alle Arten leicht zu, *Calliptamus* nimmt leicht ab.
 
-## Sechs Arten, sechs Karten
-
-```{r}
-#| fig-height: 4.2
-#| fig-width: 10
-#| out-width: 100%
-ggplot(lang[lang$jahr == 2024, ], aes(x, y, size = anzahl, colour = habitat)) +
-  geom_point(alpha = 0.75) +
-  scale_colour_manual(values = hab_farben, name = NULL) +
-  scale_size_area(max_size = 4, guide = "none") +
-  facet_wrap(~ art, ncol = 3) +
-  coord_equal() +
-  theme_void(base_size = 14) +
-  theme(strip.text = element_text(face = "italic"), legend.position = "top")
-```
-
-Gleiche Achsen, gleiche Farben: Viele kleine Bilder kann man direkt vergleichen.
-
-## Gekommen und verschwunden
+## 2b · Veränderung: gekommen und verschwunden
 
 ```{r}
 #| fig-height: 3.8
@@ -193,24 +150,41 @@ ggplot(beide, aes(x_2024, y_2024, fill = status)) +
   theme_slide() + kursiv + theme(legend.position = "right")
 ```
 
-In `r sum(beide$status == "neu")` Plots neu, in `r sum(beide$status == "verschwunden")` verschwunden. Ausbreitung? Oder Zählglück?
+Zwei Jahre **nebeneinander** (`merge` über `plot`), dann eine neue Spalte `status`. In `r sum(beide$status == "neu")` Plots neu, in `r sum(beide$status == "verschwunden")` verschwunden. Ausbreitung? Oder Zählglück?
 
-## Arten und Lebensräume als Farbfeld
+## 3 · Vielfalt: Arten pro Plot
 
 ```{r}
 #| fig-height: 3.2
-#| fig-width: 8
-#| out-width: 80%
-mittel <- aggregate(anzahl ~ art + habitat, data = lang, FUN = mean)
-ggplot(mittel, aes(habitat, art, fill = anzahl)) +
-  geom_tile(colour = "white") +
-  geom_text(aes(label = round(anzahl, 1)), size = 4.5) +
-  scale_fill_gradient(low = "#fdfefe", high = "#e67e22", guide = "none") +
-  labs(x = NULL, y = NULL, title = "Mittlere Anzahl pro Plot, beide Jahre") +
-  theme_slide() + theme(axis.text.y = element_text(face = "italic"), panel.grid = element_blank())
+#| fig-width: 11
+#| out-width: 100%
+vielfalt <- drei
+vielfalt$n_arten <- rowSums(vielfalt[, arten] > 0)
+ggplot(vielfalt, aes(x, y, colour = n_arten)) +
+  geom_point(size = 2.4) + facet_wrap(~ jahr) +
+  scale_colour_viridis_c(breaks = 0:6, name = "Arten") +
+  coord_equal() + theme_void(base_size = 14)
 ```
 
-Eine Zahl pro Feld, Farbe als Hilfe fürs Auge. Alle sechs Arten sind in der **Steppe** am häufigsten. *Sphingonotus* ist auch in der Aue häufig.
+Eine neue Spalte: `rowSums(alle[, arten] > 0)`. In der Steppe leben im Mittel 4–5 der sechs Arten, im Wald und in der Aue etwa 2.
+
+## 4 · Zusammenhang: welche Arten zusammen?
+
+```{r}
+#| fig-height: 3.6
+#| fig-width: 6.2
+#| out-width: 55%
+k <- cor(drei[, arten])
+dimnames(k) <- list(arten, arten)
+kl <- as.data.frame(as.table(k)); names(kl) <- c("a1", "a2", "r")
+ggplot(kl, aes(a1, a2, fill = r)) +
+  geom_tile(colour = "white") + geom_text(aes(label = round(r, 2)), size = 3.6) +
+  scale_fill_gradient2(low = "#2166ac", mid = "white", high = "#b2182b", limits = c(-1, 1)) +
+  labs(x = NULL, y = NULL) + theme_minimal(base_size = 13) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+Fast alle Paare sind **positiv** korreliert. Helfen die Arten einander? Wahrscheinlicher: Sie mögen alle die **Steppe**. Ein Zusammenhang ist noch keine Wechselwirkung.
 
 # Fallstricke
 
@@ -262,7 +236,7 @@ Für R ist `"9h50"` **später** als `"10h10"`: Text wird Zeichen für Zeichen ve
 ## Farben
 
 - **Gleiche Bedeutung, gleiche Farbe**, in allen Abbildungen (hier: Wald grün, Aue blau, Steppe gelb).
-- **Kein Regenbogen** für Zahlen. Für «wenig bis viel» eine Farbe von hell nach dunkel.
+- **Kein Regenbogen** für Zahlen. Für «wenig bis viel» eine Skala von hell nach dunkel, z. B. `scale_colour_viridis_c()`.
 - Etwa jeder zwölfte Mann sieht Rot und Grün schlecht. Rot gegen Grün allein trägt keine Information.
 
 # Reproduzierbar
@@ -272,36 +246,33 @@ Für R ist `"9h50"` **später** als `"10h10"`: Text wird Zeichen für Zeichen ve
 ```{r}
 #| echo: true
 #| eval: false
-karte <- function(art, jahr) {
-  d <- drei[drei$jahr == jahr, ]
-  plot(d$x, d$y, asp = 1, pch = 21,
-       bg = hab_farben[as.character(d$habitat)],
-       cex = 0.6 + sqrt(d[[art]]) / 1.5,
-       main = paste(namen[art], jahr))
+karte <- function(welche_art, welches_jahr) {
+  d <- lang[lang$art == namen[welche_art] & lang$jahr == welches_jahr, ]
+  ggplot(d, aes(x, y, size = anzahl, colour = habitat)) +
+    geom_point(alpha = 0.7) + coord_equal() + theme_void() +
+    labs(title = paste(namen[welche_art], welches_jahr))
 }
 
-karte("CalIta", 2019)
-karte("SphCae", 2024)
+karte("CalIta", 2024)
 
-png("karte_calliptamus_2019.png", width = 1600, height = 900, res = 200)
-karte("CalIta", 2019)
-dev.off()
+for (a in arten) {
+  ggsave(paste0("karte_", a, "_2024.png"), karte(a, 2024), width = 8, height = 3)
+}
 ```
 
-Neue Daten nächstes Jahr? Eine Zeile ändern, nicht zwanzig Klicks.
+Sechs Dateien in einer Schleife. Neue Daten nächstes Jahr? Eine Zahl ändern, nicht sechzig Klicks.
 
 # Werkstatt
 
-## Notebook (~50 min)
+## Notebook (~55 min)
 
 **→ [Notebook Woche 13 öffnen](notebook.html)** · [Rmd](notebook.Rmd) · [R](notebook.R)
 
-1. Makeover in vier Schritten
-2. Eine Karte, dann sechs Karten
-3. Gekommen, geblieben, verschwunden
-4. `karte()` und `png()`
-5. **Ihre Frage** (ca. 15 min): eine Abbildung, ein Satz
-6. Bonus: dasselbe mit ggplot2
+1. **Zusammenfassen:** ein Farbfeld
+2. **Veränderung:** Linien zwischen zwei Jahren, gekommen und verschwunden
+3. **Vielfalt:** Arten pro Plot
+4. **Zusammenhang:** welche Arten gemeinsam vorkommen
+5. **Ihre Frage** (ca. 20 min), Bonus: Abbildung als Funktion
 
 ## Ihre Frage
 
@@ -318,10 +289,10 @@ Eine Frage, **eine** Abbildung, **ein** Satz:
 ## Take-home
 
 1. Zuerst die **Frage**, dann die Abbildung.
-2. Titel = Aussage. Achsen mit Einheit. Jeder Datenpunkt sichtbar, wenn es geht.
-3. Gleiche Farbe für gleiche Bedeutung, in allen Abbildungen.
-4. Viele kleine Bilder mit gleichen Achsen sind oft besser als ein grosses.
-5. Eine Abbildung ist eine **Funktion** plus `png()`: Sie entsteht jedes Mal genau gleich.
+2. Verschiedene Fragen brauchen verschiedene Abbildungen: zusammenfassen, Veränderung, Vielfalt, Zusammenhang.
+3. Gleiche Farbe für gleiche Bedeutung, in allen Abbildungen. Für Zahlen eine Skala von hell nach dunkel.
+4. Ein Zusammenhang ist noch keine Ursache: Arten können zusammen vorkommen, weil sie denselben Ort mögen.
+5. Eine Abbildung ist eine **Funktion** plus `ggsave`: Sie entsteht jedes Mal genau gleich.
 
 ## Ausblick · Woche 14
 
