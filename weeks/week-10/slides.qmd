@@ -79,12 +79,91 @@ formel <- function(N0, r, s, U = 1e-5) 1 - exp(-2 * N0 * U * s / r)
 
 | Teil | Dauer | Was |
 |------|-------|-----|
-| Vorlesung | ~40 min | eine neue Mutation · evolutionäre Rettung |
-| Notebook | ~50 min | Schicksal einer Kopie · Rettung simulieren |
+| Vorlesung | ~45 min | Elefanten ohne Stosszähne · eine neue Mutation · evolutionäre Rettung |
+| Notebook | ~45 min | Schicksal einer Kopie · Rettung simulieren · Bonus: Elefanten |
 
 ::: aside
 Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 :::
+
+## Lernziele
+
+Nach heute können Sie …
+
+1. an einem Beispiel erklären, wie Selektion in einer **schrumpfenden** Population wirkt,
+2. stehende Variation und **neue** Mutation unterscheiden,
+3. sagen, warum eine neue vorteilhafte Mutation meist **verloren** geht (etwa $2s$),
+4. beschreiben, wovon **evolutionäre Rettung** abhängt: $N_0$, $U$, $s$, $r$.
+
+# Elefanten ohne Stosszähne
+
+## Gorongosa, Mosambik
+
+- Bürgerkrieg in Mosambik, **1977 bis 1992**.
+- Bewaffnete Gruppen wildern im Gorongosa-Nationalpark Elefanten, für **Elfenbein**.
+- Vor dem Krieg: über **2500** Elefanten. Danach: etwa **200**. Über 90 % sind weg.
+
+Gejagt werden Tiere **mit** Stosszähnen.
+
+::: aside
+Campbell-Staton et al. (2021), *Science* 374: 483–487
+:::
+
+## Weibchen ohne Stosszähne
+
+```{r}
+#| fig-height: 3.2
+#| fig-width: 7.5
+#| out-width: 75%
+ele <- data.frame(
+  wann = factor(c("vor dem Krieg\n(n = 52)", "nach dem Krieg\n(n = 108)", "Töchter, nach dem\nKrieg geboren"),
+                levels = c("vor dem Krieg\n(n = 52)", "nach dem Krieg\n(n = 108)", "Töchter, nach dem\nKrieg geboren")),
+  anteil = c(0.185, 0.509, 0.33))
+ggplot(ele, aes(wann, anteil)) +
+  geom_col(fill = "#a04000", width = 0.6) +
+  geom_text(aes(label = paste0(round(100 * anteil, 1), " %")), vjust = -0.4, size = 5) +
+  scale_y_continuous(limits = c(0, 0.62), labels = function(x) paste0(100 * x, " %")) +
+  labs(x = NULL, y = "Anteil ohne Stosszähne") +
+  theme_slide()
+```
+
+Ein kleiner Teil der Weibchen hatte schon immer keine Stosszähne. Nach dem Krieg ist es **die Hälfte**.
+
+::: aside
+Weibchen im Gorongosa-Nationalpark. Campbell-Staton et al. (2021)
+:::
+
+## Zufall oder Selektion?
+
+Wer keine Stosszähne hat, ist für Wilderer uninteressant. Mit Modellen schätzen die Autoren: Stosszahnlose Weibchen hatten eine etwa **fünfmal** höhere Chance, den Krieg zu überleben.
+
+Probe mit der Rechnung aus Woche 6 ($p' = p\,w/\bar w$), hier für den Anteil $p$ stosszahnloser Weibchen. Überleben sie $w = 5$-mal eher:
+
+$$
+p' = \frac{w\,p}{w\,p + (1 - p)} = \frac{5 \cdot 0.185}{5 \cdot 0.185 + 0.815} \approx 0.53
+$$
+
+Beobachtet: 0.509. Ein einziger Selektionsschritt, **innerhalb einer** Elefantengeneration.
+
+## Ein Allel auf dem X-Chromosom
+
+- Im Park sind **keine** Männchen ohne Stosszähne bekannt.
+- Vermutung der Autoren: ein **dominantes** Allel auf dem **X-Chromosom**. Weibchen mit einer Kopie haben keine Stosszähne. Männchen mit dem Allel sterben vermutlich vor der Geburt.
+- Dazu passt: Die Nachkommen stosszahnloser Mütter sind zu **65.7 %** weiblich.
+- Kandidatengene: **AMELX** (auf dem X, Zahnschmelz) und **MEP1a**, beide an der Zahnbildung beteiligt.
+
+Der Vorteil hat also einen **Preis**.
+
+## Ist das Rettung?
+
+**Nicht ganz.** Die Elefanten erholten sich vor allem, weil der Krieg und die Wilderei endeten.
+
+Aber zwei Dinge sind wie bei Rettung:
+
+1. Selektion wirkt **während** die Population einbricht.
+2. Die rettende Variante muss **rechtzeitig da sein**.
+
+Bei den Elefanten war sie **schon da**: **stehende Variation**, viele Kopien. Was, wenn sie erst **neu entstehen** muss?
 
 ## Letzte Woche: viele Kopien
 
@@ -236,6 +315,8 @@ Bell & Gonzalez (2009) setzten viele Hefe-Populationen verschiedener Grösse ein
 
 **Naturschutz:** Kleine, schrumpfende Populationen von bedrohten Arten werden selten gerettet. Für sie ist Evolution meist **zu langsam**.
 
+**Elefanten:** Schnell ging es nur, weil die Variante schon da war. Und sie hat einen Preis: Söhne mit dem Allel überleben vermutlich nicht.
+
 # Abschluss
 
 ## Take-home
@@ -243,12 +324,13 @@ Bell & Gonzalez (2009) setzten viele Hefe-Populationen verschiedener Grösse ein
 1. Eine neue vorteilhafte Mutation geht meist verloren. Sie etabliert sich nur mit Wahrscheinlichkeit **etwa $2s$**.
 2. Evolutionäre Rettung: Eine Mutante muss sich etablieren, **bevor** die Population ausstirbt.
 3. Grosses $N_0$, $U$, $s$ und langsamer Rückgang $r$ machen Rettung wahrscheinlich.
+4. Ist die Variante **schon da** (stehende Variation, wie bei den Elefanten), geht Anpassung viel schneller als mit einer neuen Mutation.
 
 ## Notebook (~50 min)
 
 **→ [Notebook Woche 10 öffnen](notebook.html)** · [Rmd](notebook.Rmd) · [R](notebook.R)
 
-Sie verfolgen einzelne Mutationen, schätzen die Etablierung und simulieren Rettung für verschiedene $N_0$ und $r$.
+Sie verfolgen einzelne Mutationen, schätzen die Etablierung und simulieren Rettung für verschiedene $N_0$ und $r$. Bonus: Wie viel besser mussten stosszahnlose Elefanten überleben?
 
 ## Ausblick · Woche 11
 
@@ -260,8 +342,9 @@ Sie verfolgen einzelne Mutationen, schätzen die Etablierung und simulieren Rett
 1. **Haldane, J. B. S. (1927).** A mathematical theory of natural and artificial selection, Part V. *Proc. Camb. Philos. Soc.* 23: 838–844.
 2. **Gomulkiewicz, R. & Holt, R. D. (1995).** When does evolution by natural selection prevent extinction? *Evolution* 49: 201–207. [doi:10.1111/j.1558-5646.1995.tb05971.x](https://doi.org/10.1111/j.1558-5646.1995.tb05971.x)
 3. **Bell, G. & Gonzalez, A. (2009).** Evolutionary rescue can prevent extinction following environmental change. *Ecology Letters* 12: 942–948. [doi:10.1111/j.1461-0248.2009.01350.x](https://doi.org/10.1111/j.1461-0248.2009.01350.x)
-4. **Orr, H. A. & Unckless, R. L. (2014).** The population genetics of evolutionary rescue. *PLoS Genet.* 10: e1004551. [doi:10.1371/journal.pgen.1004551](https://doi.org/10.1371/journal.pgen.1004551)
-5. **Peischl, S. & Kirkpatrick, M. (2012).** Establishment of new mutations in changing environments. *Genetics* 191: 895–906. [doi:10.1534/genetics.112.140756](https://doi.org/10.1534/genetics.112.140756)
+4. **Campbell-Staton, S. C., Arnold, B. J., Gonçalves, D., Granli, P., Poole, J., Long, R. A. & Pringle, R. M. (2021).** Ivory poaching and the rapid evolution of tusklessness in African elephants. *Science* 374: 483–487. [doi:10.1126/science.abe7389](https://doi.org/10.1126/science.abe7389)
+5. **Orr, H. A. & Unckless, R. L. (2014).** The population genetics of evolutionary rescue. *PLoS Genet.* 10: e1004551. [doi:10.1371/journal.pgen.1004551](https://doi.org/10.1371/journal.pgen.1004551)
+6. **Peischl, S. & Kirkpatrick, M. (2012).** Establishment of new mutations in changing environments. *Genetics* 191: 895–906. [doi:10.1534/genetics.112.140756](https://doi.org/10.1534/genetics.112.140756)
 ::::
 
 ## Navigation

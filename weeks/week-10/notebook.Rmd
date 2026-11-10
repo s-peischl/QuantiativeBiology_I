@@ -40,6 +40,7 @@ Eine neue Mutation beginnt mit **einer Kopie**. Auch wenn sie vorteilhaft ist, g
 > 1. Verfolgen Sie einzelne neue Mutationen und schätzen Sie, wie oft sie sich etablieren.
 > 2. Simulieren Sie eine schrumpfende Population und schätzen Sie, wie oft sie gerettet wird.
 > 3. Finden Sie heraus, wie Rettung von der Startgrösse $N_0$ und vom Rückgang $r$ abhängt.
+> 4. Bonus: Wie viel eher mussten Elefanten ohne Stosszähne den Krieg überleben?
 
 # 0 · Funktionen
 
@@ -204,3 +205,26 @@ formel(N0 = 30000, r = 0.1, s = 0.1)             # gleich ändern
 >
 > **c)** Was bedeutet das für Bakterien unter Antibiotika (Milliarden Zellen) und für eine bedrohte Art mit wenigen hundert Tieren?
 
+# 5 · Bonus: Elefanten ohne Stosszähne
+
+Im Gorongosa-Nationalpark (Mosambik) wurden im Bürgerkrieg 1977–1992 über 90 % der Elefanten gewildert, für Elfenbein. Vor dem Krieg hatten **18.5 %** der Weibchen keine Stosszähne (n = 52), nach dem Krieg **50.9 %** (n = 108) (Campbell-Staton et al. 2021).
+
+Elefanten leben lange: Der Krieg dauerte weniger als eine Elefantengeneration. Wir brauchen also keine Simulation über viele Generationen, sondern **einen** Selektionsschritt wie in Woche 6. Überlebt ein stosszahnloses Weibchen $w$-mal eher als eines mit Stosszähnen, dann ist der neue Anteil
+
+$$
+p' = \frac{w\,p}{w\,p + (1 - p)}.
+$$
+
+```{r}
+p_vorher <- 0.185   # Anteil stosszahnloser Weibchen vor dem Krieg
+w <- 1              # wie viel eher überleben stosszahnlose Weibchen? bitte ändern
+
+p_nachher <- w * p_vorher / (w * p_vorher + (1 - p_vorher))
+p_nachher           # beobachtet nach dem Krieg: 0.509
+```
+
+> **Aufgabe E (Bonus)**
+>
+> 1. Finden Sie den Wert von `w`, bei dem `p_nachher` etwa 0.509 ist. Die Autoren schätzen mit eigenen Modellen etwa 5.
+> 2. Warum ist das **stehende Variation** und keine neue Mutation? Was hätte eine neue Mutation mit einer Kopie in dieser Zeit erreicht?
+> 3. Bei den Töchtern, die nach dem Krieg geboren wurden, sind es 33 %, weniger als bei ihren Müttern. Tipp: Eine stosszahnlose Mutter trägt das Allel nur **einmal**.

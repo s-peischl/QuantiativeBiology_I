@@ -21,6 +21,7 @@
 # 1. Verfolgen Sie einzelne neue Mutationen und schaetzen Sie, wie oft sie sich etablieren.
 # 2. Simulieren Sie eine schrumpfende Population und schaetzen Sie, wie oft sie gerettet wird.
 # 3. Finden Sie heraus, wie Rettung von der Startgroesse N_0 und vom Rueckgang r abhaengt.
+# 4. Bonus: Wie viel eher mussten Elefanten ohne Stosszaehne den Krieg ueberleben?
 
 # ===========================================================================
 # 0 · Funktionen
@@ -177,3 +178,28 @@ formel(N0 = 30000, r = 0.1, s = 0.1)             # gleich aendern
 # b) Ab welchem N_0 wird etwa die Haelfte der Populationen gerettet?
 #
 # c) Was bedeutet das fuer Bakterien unter Antibiotika (Milliarden Zellen) und fuer eine bedrohte Art mit wenigen hundert Tieren?
+
+# ===========================================================================
+# 5 · Bonus: Elefanten ohne Stosszaehne
+# ===========================================================================
+#
+# Im Gorongosa-Nationalpark (Mosambik) wurden im Buergerkrieg 1977-1992 ueber 90 % der
+# Elefanten gewildert, fuer Elfenbein. Vor dem Krieg hatten 18.5 % der Weibchen keine
+# Stosszaehne (n = 52), nach dem Krieg 50.9 % (n = 108) (Campbell-Staton et al. 2021).
+#
+# Der Krieg dauerte weniger als eine Elefantengeneration: ein Selektionsschritt wie in
+# Woche 6. Ueberlebt ein stosszahnloses Weibchen w-mal eher, ist der neue Anteil
+# p' = w p / (w p + (1 - p)).
+
+p_vorher <- 0.185   # Anteil stosszahnloser Weibchen vor dem Krieg
+w <- 1              # wie viel eher ueberleben stosszahnlose Weibchen? bitte aendern
+
+p_nachher <- w * p_vorher / (w * p_vorher + (1 - p_vorher))
+p_nachher           # beobachtet nach dem Krieg: 0.509
+
+# --- Aufgabe E (Bonus) ---
+# 1. Finden Sie w, bei dem p_nachher etwa 0.509 ist. Die Autoren schaetzen etwa 5.
+# 2. Warum ist das stehende Variation und keine neue Mutation? Was haette eine neue
+#    Mutation mit einer Kopie in dieser Zeit erreicht?
+# 3. Bei den Toechtern, die nach dem Krieg geboren wurden, sind es 33 %, weniger als bei
+#    ihren Muettern. Tipp: Eine stosszahnlose Mutter traegt das Allel nur einmal.
