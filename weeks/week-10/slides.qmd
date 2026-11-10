@@ -79,8 +79,8 @@ formel <- function(N0, r, s, U = 1e-5) 1 - exp(-2 * N0 * U * s / r)
 
 | Teil | Dauer | Was |
 |------|-------|-----|
-| Vorlesung | ~50 min | Bakterien unter Antibiotikum · eine neue Mutation · Rettung · Elefanten · Tasmanische Teufel |
-| Notebook | ~40 min | Schicksal einer Kopie · Rettung simulieren · Bonus: Elefanten |
+| Vorlesung | ~55 min | Antibiotika · neue Mutation · Rettung · Tempo und Migration · Elefanten · Teufel |
+| Notebook | ~35 min | Schicksal einer Kopie · Rettung simulieren · Bonus: Elefanten |
 
 ::: aside
 Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
@@ -93,7 +93,8 @@ Nach heute können Sie …
 1. beschreiben, wie Bakterien unter Antibiotikum **gerettet** werden oder aussterben (U-Kurve),
 2. sagen, warum eine neue vorteilhafte Mutation meist **verloren** geht (etwa $2s$),
 3. erklären, wovon **evolutionäre Rettung** abhängt: $N_0$, $U$, $s$, $r$,
-4. stehende Variation und **neue** Mutation unterscheiden: Elefanten und Tasmanische Teufel.
+4. sagen, warum **langsame** Veränderung und **Genfluss** aus einer Zuflucht Rettung oft erleichtern,
+5. stehende Variation und **neue** Mutation unterscheiden: Elefanten und Tasmanische Teufel.
 
 # Bakterien unter Antibiotikum
 
@@ -339,6 +340,111 @@ Bell & Gonzalez (2009) setzten viele Hefe-Populationen verschiedener Grösse ein
 Foto: *Saccharomyces cerevisiae*. A doubt, Wikimedia Commons, CC BY-SA 4.0
 :::
 
+# Wie schnell, und wo?
+
+## Schnell oder langsam?
+
+```{r}
+#| fig-height: 2.1
+#| fig-width: 8
+#| out-width: 70%
+tr <- 0:20
+rampe <- rbind(data.frame(t = tr, c = pmin(1, (tr > 0) * 1), weg = "plötzlich"),
+               data.frame(t = tr, c = pmin(1, tr / 10), weg = "mittel"),
+               data.frame(t = tr, c = tr / 20, weg = "langsam"))
+rampe$weg <- factor(rampe$weg, levels = c("plötzlich", "mittel", "langsam"))
+ggplot(rampe, aes(t, c, colour = weg)) +
+  geom_line(linewidth = 1.4) +
+  scale_colour_manual(values = c(plötzlich = "#c0392b", mittel = "#e67e22", langsam = "#27ae60"), name = NULL) +
+  scale_y_continuous(breaks = c(0, 1), labels = c("0", "Maximum")) +
+  labs(x = "Transfer", y = "Antibiotikum") +
+  theme_slide() + theme(legend.position = "right")
+```
+
+Lindsey et al. (2013): 1255 Populationen *E. coli*, Antibiotikum Rifampicin. Am Ende überall **dieselbe** Konzentration, nur der Weg ist verschieden.
+
+Je **langsamer** es schlechter wird, desto mehr Populationen überleben. Manche Resistenz-Kombinationen sind nur auf dem langsamen Weg erreichbar.
+
+::: aside
+Skizze der drei Behandlungen. Lindsey, Gallie, Taylor & Kerr (2013), *Nature* 494: 463–467
+:::
+
+## Hefe in vielen kleinen Populationen
+
+```{r}
+#| fig-height: 1.9
+#| fig-width: 9.5
+#| out-width: 80%
+gitter <- expand.grid(x = 1:5, y = 1:3)
+pfeile <- rbind(
+  data.frame(art = "getrennt", x = NA, y = NA, xend = NA, yend = NA),
+  data.frame(art = "lokal", x = c(1, 2, 3, 4, 2, 3), y = c(2, 2, 2, 2, 1, 3), xend = c(2, 3, 4, 5, 2, 3), yend = c(2, 2, 2, 2, 2, 2)),
+  data.frame(art = "global", x = c(1, 5, 2, 4), y = c(1, 3, 3, 1), xend = c(4, 2, 5, 1), yend = c(3, 1, 2, 2)))
+pfeile$art <- factor(pfeile$art, levels = c("getrennt", "lokal", "global"))
+punkte <- do.call(rbind, lapply(levels(pfeile$art), function(a) cbind(gitter, art = a)))
+punkte$art <- factor(punkte$art, levels = levels(pfeile$art))
+ggplot() +
+  geom_point(data = punkte, aes(x, y), shape = 21, size = 7, fill = "#fdebd0", colour = "grey40") +
+  geom_segment(data = na.omit(pfeile), aes(x, y, xend = xend, yend = yend),
+               arrow = arrow(length = unit(0.12, "cm")), colour = "#2166ac", linewidth = 0.7) +
+  facet_wrap(~ art) + coord_equal(xlim = c(0.5, 5.5), ylim = c(0.5, 3.5)) +
+  theme_void(base_size = 15) + theme(strip.text = element_text(face = "bold"))
+```
+
+Bell & Gonzalez (2011): über 2000 Hefe-Populationen, von einem Roboter betreut. Das Salz steigt langsam, mittel oder schnell. Austausch: keiner, mit **Nachbarn** oder **zufällig**.
+
+Am besten: **langsame** Verschlechterung und Austausch mit **Nachbarn**. Auch ob ein späterer Salzschock überlebt wird, hängt von beidem ab.
+
+::: aside
+Skizze der drei Verbindungen. Bell & Gonzalez (2011), *Science* 332: 1327–1330
+:::
+
+## Ein Modell mit zwei Orten
+
+```{r}
+#| fig-height: 2.3
+#| fig-width: 9
+#| out-width: 88%
+ggplot() +
+  annotate("rect", xmin = 0, xmax = 3, ymin = 0, ymax = 2, fill = "#f5b7b1", colour = "grey30") +
+  annotate("rect", xmin = 5, xmax = 8, ymin = 0, ymax = 2, fill = "#d5f5e3", colour = "grey30") +
+  annotate("text", x = 1.5, y = 1.45, label = "Ort 1: schlecht ab t = 0", size = 5, fontface = "bold") +
+  annotate("text", x = 1.5, y = 0.7, label = "Wildtyp schrumpft (r)\nMutante wächst (z)", size = 4.3) +
+  annotate("text", x = 6.5, y = 1.45, label = "Ort 2: schlecht erst ab θ", size = 5, fontface = "bold") +
+  annotate("text", x = 6.5, y = 0.7, label = "bis dahin: Zuflucht\nMutante hat Kosten (s)", size = 4.3) +
+  annotate("segment", x = 3.15, xend = 4.85, y = 1.25, yend = 1.25, arrow = arrow(length = unit(0.25, "cm")), linewidth = 1, colour = "#2166ac") +
+  annotate("segment", x = 4.85, xend = 3.15, y = 0.75, yend = 0.75, arrow = arrow(length = unit(0.25, "cm")), linewidth = 1, colour = "#2166ac") +
+  annotate("text", x = 4, y = 1.6, label = "Migration m", colour = "#2166ac", size = 4.5) +
+  coord_equal() + theme_void()
+```
+
+Tomasini & Peischl (2020): Zwei Orte tauschen Individuen aus. Ort 1 wird zuerst schlecht, Ort 2 erst später. Hilft der Austausch der Rettung, oder schadet er?
+
+::: aside
+Tomasini & Peischl (2020), *Evolution* 74: 1640–1653
+:::
+
+## Wann hilft Genfluss?
+
+- **Hilft:** Die Zuflucht schickt laufend Individuen nach Ort 1. Dort entstehen mehr Mutationen, und Mutanten aus der Zuflucht wandern dorthin, wo sie im Vorteil sind.
+- **Schadet:** Zu viel Austausch spült Mutanten in die Zuflucht, wo sie Kosten haben (*gene swamping*).
+
+Genfluss hilft, wenn $\dfrac{s}{z} < r\,\theta$:
+
+Die Kosten der Mutante sind klein im Vergleich zum Nutzen, die Umwelt ist hart ($r$), die Zuflucht bleibt lange ($\theta$). Oft ist eine **mittlere** Migrationsrate am besten.
+
+## Weitere Modelle
+
+| Modell | Frage |
+|---|---|
+| Gomulkiewicz & Holt (1995) | Wann rettet Selektion eine schrumpfende Population? Die U-Kurve |
+| Orr & Unckless (2008, 2014) | Rettung aus neuer Mutation oder aus stehender Variation |
+| Martin et al. (2013) | Passen die Formeln zu Experimenten mit Hefe und *Pseudomonas*? |
+| Uecker, Otto & Hermisson (2014) | Rettung in Populationen mit mehreren Orten. Oft hilft mittlere Migration |
+| Tomasini & Peischl (2020) | Wann hilft Genfluss aus einer Zuflucht? |
+
+Gemeinsam: **Wie viele** Individuen, **wie schnell** die Umwelt schlechter wird, **woher** die Variation kommt, und **wo** die Population lebt.
+
 # Wenn die Variante schon da ist
 
 ## Gorongosa, Mosambik
@@ -529,9 +635,10 @@ Ob es für Rettung reicht, ist **offen**. Die Autoren schreiben vorsichtig: Die 
 1. Eine neue vorteilhafte Mutation geht meist verloren. Sie etabliert sich nur mit Wahrscheinlichkeit **etwa $2s$**.
 2. Evolutionäre Rettung: Eine Mutante muss sich etablieren, **bevor** die Population ausstirbt.
 3. Grosses $N_0$, $U$, $s$ und langsamer Rückgang $r$ machen Rettung wahrscheinlich.
-4. Ist die Variante **schon da** (stehende Variation: Elefanten, Teufel), geht Anpassung viel schneller als mit einer neuen Mutation.
+4. Langsame Veränderung und Austausch mit einer Zuflucht helfen oft, zu viel Austausch kann schaden.
+5. Ist die Variante **schon da** (stehende Variation: Elefanten, Teufel), geht Anpassung viel schneller als mit einer neuen Mutation.
 
-## Notebook (~40 min)
+## Notebook (~35 min)
 
 **→ [Notebook Woche 10 öffnen](notebook.html)** · [Rmd](notebook.Rmd) · [R](notebook.R)
 
@@ -544,14 +651,20 @@ Sie verfolgen einzelne Mutationen, schätzen die Etablierung und simulieren Rett
 ## Literatur
 
 :::: {.lit}
-1. **Haldane, J. B. S. (1927).** A mathematical theory of natural and artificial selection, Part V. *Proc. Camb. Philos. Soc.* 23: 838–844.
-2. **Gomulkiewicz, R. & Holt, R. D. (1995).** When does evolution by natural selection prevent extinction? *Evolution* 49: 201–207. [doi:10.1111/j.1558-5646.1995.tb05971.x](https://doi.org/10.1111/j.1558-5646.1995.tb05971.x)
-3. **Ramsayer, J., Kaltz, O. & Hochberg, M. E. (2013).** Evolutionary rescue in populations of *Pseudomonas fluorescens* across an antibiotic gradient. *Evolutionary Applications* 6: 608–616. [doi:10.1111/eva.12046](https://doi.org/10.1111/eva.12046)
-4. **Bell, G. & Gonzalez, A. (2009).** Evolutionary rescue can prevent extinction following environmental change. *Ecology Letters* 12: 942–948. [doi:10.1111/j.1461-0248.2009.01350.x](https://doi.org/10.1111/j.1461-0248.2009.01350.x)
-5. **Campbell-Staton, S. C., Arnold, B. J., Gonçalves, D., Granli, P., Poole, J., Long, R. A. & Pringle, R. M. (2021).** Ivory poaching and the rapid evolution of tusklessness in African elephants. *Science* 374: 483–487. [doi:10.1126/science.abe7389](https://doi.org/10.1126/science.abe7389)
-6. **Epstein, B., Jones, M., Hamede, R., Hendricks, S., McCallum, H., Murchison, E. P., Schönfeld, B., Wiench, C., Hohenlohe, P. & Storfer, A. (2016).** Rapid evolutionary response to a transmissible cancer in Tasmanian devils. *Nature Communications* 7: 12684. [doi:10.1038/ncomms12684](https://doi.org/10.1038/ncomms12684)
-7. **Orr, H. A. & Unckless, R. L. (2014).** The population genetics of evolutionary rescue. *PLoS Genet.* 10: e1004551. [doi:10.1371/journal.pgen.1004551](https://doi.org/10.1371/journal.pgen.1004551)
-8. **Peischl, S. & Kirkpatrick, M. (2012).** Establishment of new mutations in changing environments. *Genetics* 191: 895–906. [doi:10.1534/genetics.112.140756](https://doi.org/10.1534/genetics.112.140756)
+1. **Bell, G. & Gonzalez, A. (2009).** Evolutionary rescue can prevent extinction following environmental change. *Ecology Letters* 12: 942–948. [doi:10.1111/j.1461-0248.2009.01350.x](https://doi.org/10.1111/j.1461-0248.2009.01350.x)
+2. **Bell, G. & Gonzalez, A. (2011).** Adaptation and evolutionary rescue in metapopulations experiencing environmental deterioration. *Science* 332: 1327–1330. [doi:10.1126/science.1203105](https://doi.org/10.1126/science.1203105)
+3. **Campbell-Staton, S. C., Arnold, B. J., Gonçalves, D., Granli, P., Poole, J., Long, R. A. & Pringle, R. M. (2021).** Ivory poaching and the rapid evolution of tusklessness in African elephants. *Science* 374: 483–487. [doi:10.1126/science.abe7389](https://doi.org/10.1126/science.abe7389)
+4. **Epstein, B., Jones, M., Hamede, R., Hendricks, S., McCallum, H., Murchison, E. P., Schönfeld, B., Wiench, C., Hohenlohe, P. & Storfer, A. (2016).** Rapid evolutionary response to a transmissible cancer in Tasmanian devils. *Nature Communications* 7: 12684. [doi:10.1038/ncomms12684](https://doi.org/10.1038/ncomms12684)
+5. **Gomulkiewicz, R. & Holt, R. D. (1995).** When does evolution by natural selection prevent extinction? *Evolution* 49: 201–207. [doi:10.1111/j.1558-5646.1995.tb05971.x](https://doi.org/10.1111/j.1558-5646.1995.tb05971.x)
+6. **Haldane, J. B. S. (1927).** A mathematical theory of natural and artificial selection, Part V. *Proc. Camb. Philos. Soc.* 23: 838–844.
+7. **Lindsey, H. A., Gallie, J., Taylor, S. & Kerr, B. (2013).** Evolutionary rescue from extinction is contingent on a lower rate of environmental change. *Nature* 494: 463–467. [doi:10.1038/nature11879](https://doi.org/10.1038/nature11879)
+8. **Martin, G., Aguilée, R., Ramsayer, J., Kaltz, O. & Ronce, O. (2013).** The probability of evolutionary rescue: towards a quantitative comparison between theory and evolution experiments. *Phil. Trans. R. Soc. B* 368: 20120088. [doi:10.1098/rstb.2012.0088](https://doi.org/10.1098/rstb.2012.0088)
+9. **Orr, H. A. & Unckless, R. L. (2008).** Population extinction and the genetics of adaptation. *American Naturalist* 172: 160–169. [doi:10.1086/589460](https://doi.org/10.1086/589460)
+10. **Orr, H. A. & Unckless, R. L. (2014).** The population genetics of evolutionary rescue. *PLoS Genet.* 10: e1004551. [doi:10.1371/journal.pgen.1004551](https://doi.org/10.1371/journal.pgen.1004551)
+11. **Peischl, S. & Kirkpatrick, M. (2012).** Establishment of new mutations in changing environments. *Genetics* 191: 895–906. [doi:10.1534/genetics.112.140756](https://doi.org/10.1534/genetics.112.140756)
+12. **Ramsayer, J., Kaltz, O. & Hochberg, M. E. (2013).** Evolutionary rescue in populations of *Pseudomonas fluorescens* across an antibiotic gradient. *Evolutionary Applications* 6: 608–616. [doi:10.1111/eva.12046](https://doi.org/10.1111/eva.12046)
+13. **Tomasini, M. & Peischl, S. (2020).** When does gene flow facilitate evolutionary rescue? *Evolution* 74: 1640–1653. [doi:10.1111/evo.14038](https://doi.org/10.1111/evo.14038)
+14. **Uecker, H., Otto, S. P. & Hermisson, J. (2014).** Evolutionary rescue in structured populations. *American Naturalist* 183: E17–E35. [doi:10.1086/673914](https://doi.org/10.1086/673914)
 ::::
 
 ## Navigation
