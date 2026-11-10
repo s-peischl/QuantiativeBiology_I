@@ -3,11 +3,11 @@
 # In RStudio: Working Directory = weeks/week-09, dann Zeile fuer Zeile ausfuehren.
 # Quarto: notebook.qmd. Knit ohne Quarto: notebook.Rmd.
 
-# In der Vorlesung wandert die Frequenz in den Teichen, auch ohne dass wir schon wissen, wie viel davon Selektion ist. Ein Grund dafuer: Die Population ist endlich. Jede Generation ist eine Ziehung aus der vorherigen.
+# In der Vorlesung aendert sich die Frequenz in den Teichen von Jahr zu Jahr, und nicht nur in eine Richtung. Ein Grund dafuer: Die Population ist endlich. Jede Generation ist eine Ziehung aus der vorherigen.
 #
 # Dieses Notebook rechnet die Teiche nicht noch einmal. Sie kommen nur am Ende von Teil A kurz zurueck. Zwei neue Fragen:
 #
-# 1. Wie haengt diese Wanderung von der Populationsgroesse N ab, wenn das Allel neutral ist?
+# 1. Wie stark aendert sich p allein durch Zufall, und wie haengt das von der Populationsgroesse N ab, wenn das Allel neutral ist?
 # 2. Was passiert mit den drei Kehlfarben der Echsen aus Woche 4, wenn die Population endlich ist?
 
 # Auftrag
@@ -116,15 +116,15 @@ for (i in 1:100) {
 }
 
 hist(p_ende, breaks = seq(0, 1, by = 0.025), xlim = c(0.2, 1),
-     main = paste("100 neutrale Bahnen, N =", N),
+     main = paste("100 neutrale Verlaeufe, N =", N),
      xlab = "Allelfrequenz nach 4 Generationen", ylab = "Anzahl")
 abline(v = c(0.637, 0.625, 0.837), lwd = 2,
        col = c("#e67e22", "#1e8449", "#2980b9"))   # Teich 2, 14, 7
 
-sum(p_ende >= 0.62)   # wie viele Bahnen kommen so hoch wie die Teiche?
+sum(p_ende >= 0.62)   # wie viele Verlaeufe kommen so hoch wie die Teiche?
 
 # F6
-# - Wie viele der 100 neutralen Bahnen kommen so hoch wie die Teiche? Und wie viele so hoch wie Teich 7?
+# - Wie viele der 100 neutralen Verlaeufe kommen so hoch wie die Teiche? Und wie viele so hoch wie Teich 7?
 # - Setzen Sie N auf 50 und dann auf 25. Wie klein muesste die Population sein, damit Zufall allein reicht?
 # - In jedem Teich leben Hunderte Stichlinge. Was muss also zum Zufall dazukommen?
 
@@ -143,7 +143,7 @@ sum(p_ende >= 0.62)   # wie viele Bahnen kommen so hoch wie die Teiche?
 # \end{pmatrix}
 # 
 #
-# gab es drei Verlaeufe. Ist s + w < 2, laufen die Haeufigkeiten auf einen Punkt in der Mitte zu. Ist s + w > 2, schaukeln sie sich auf: eine Heterokline. Jede Farbe wird abwechselnd fast alleinherrschend und dann fast null.
+# gab es drei Verlaeufe. Ist s + w < 2, naehern sich die Haeufigkeiten einem Punkt in der Mitte. Ist s + w > 2, schaukeln sie sich auf: eine Heterokline. Jede Farbe wird abwechselnd fast alleinherrschend und dann fast null.
 #
 # Fast null: Im Modell von Woche 4 ist die Population unendlich gross. Eine Farbe mit Haeufigkeit 0.0001 ist dort noch da und kommt wieder. In echten Echsen-Populationen gibt es nur ganze Maennchen.
 #
@@ -224,7 +224,7 @@ zeit_bis_verlust <- function(s, w, N, wiederholungen = 20, generationen = 3000) 
 zeige_echsen(s = 1.3, w = 0.8, N = Inf)
 
 # F7
-# - s + w = 2.1: Was macht die Bahn im Dreieck?
+# - s + w = 2.1: Was macht die Linie im Dreieck?
 # - Geht eine Farbe je ganz verloren? Wie klein wird die seltenste Farbe? p <- echsen_lauf(1.3, 0.8, N = Inf); min(p)
 
 # --- Mit Zufall ---
@@ -272,7 +272,7 @@ zeit_bis_verlust(s = 1.1, w = 0.5, N = 1000)   # bitte N aendern
 # Fazit
 # ===========================================================================
 #
-# Teil A: Zufall allein laesst ein Allel wandern, und in kleinen Populationen geht es schnell verloren. Teil B: Zufall und Selektion zusammen. Wohin die Selektion die Population treibt, entscheidet, wie gefaehrlich der Zufall ist.
+# Teil A: Zufall allein aendert die Frequenz eines Allels, und in kleinen Populationen geht es schnell verloren. Teil B: Zufall und Selektion zusammen. Wohin die Selektion die Population treibt, entscheidet, wie gefaehrlich der Zufall ist.
 
 # F11
 # Schreiben Sie die drei Saetze zu Ende.

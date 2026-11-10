@@ -102,10 +102,10 @@ Heute: Was ändert das — und wie erkennt man trotzdem Selektion?
 
 Nach heute können Sie …
 
-1. drei Teichbahnen **lesen**: alle steigen, und trotzdem verschieden,
+1. den **Verlauf** von $p$ in drei Teichen lesen: alle steigen, und trotzdem verschieden,
 2. Zufallszahlen in R **ziehen** (`sample`, `set.seed`, `rbinom`),
 3. Zufall in das Modell für die Allelfrequenz **einbauen**,
-4. sagen, ob die Teiche in eine **neutrale Wolke** passen, und was eine Wolke mit $s > 0$ dazu sagt.
+4. sagen, ob die Teiche zu vielen simulierten Bahnen **ohne** Selektion passen (der **neutralen Wolke**), und was eine Wolke mit $s > 0$ dazu sagt.
 
 # Ein Teichexperiment
 
@@ -267,7 +267,7 @@ Daraus: $p$ = Anteil der **Süsswasser-Orientierung** unter allen untersuchten K
 
 Untersuchte Fische pro Jahr: in Teich 2 und 14 zwischen 35 und 232, in Teich 7 nur 7 bis 36. Teich 7 hat kein Jahr 4.
 
-Stichlinge sind diploid. Unser Modell bleibt **haploid** wie in Woche 6: $p$ ist dieselbe Frequenz, der Schritt ist eine Näherung.
+Stichlinge sind diploid. Unser Modell bleibt **haploid** wie in Woche 6: $p$ ist dieselbe Frequenz, aber der Schritt von einer Generation zur nächsten ist vereinfacht.
 
 ## Drei Teiche
 
@@ -286,7 +286,7 @@ ggplot(teiche, aes(jahr, p, colour = teich, shape = teich)) +
   theme_slide()
 ```
 
-Gleicher Start bei 0.5, vier Jahre später: drei verschiedene Bahnen.
+Gleicher Start bei 0.5, vier Jahre später: drei verschiedene **Verläufe** von $p$. Einen solchen Verlauf nennen wir ab jetzt eine **Bahn**.
 
 ## Beobachtung 1: alle steigen
 
@@ -318,19 +318,21 @@ Noch ohne Formel. Kandidaten:
 > Steigt die Süsswasser-Inversion, weil sie im Teich **im Vorteil** ist?
 > Oder kann das auch **Zufall** sein?
 
-Dafür müssen wir wissen, wie weit $p$ **ohne** Selektion laufen kann.
+Dafür müssen wir wissen, wie stark sich $p$ in vier Jahren **allein durch Zufall** verändern kann, also **ohne** Selektion.
 
 # Zufall
 
 ## Woher kommt der Zufall?
 
-Auch ohne Selektion ist die nächste Generation nicht genau wie die alte:
+Ohne Selektion spielt die Inversion keine Rolle. Trotzdem trägt nicht jeder Fisch gleich viel zur nächsten Generation bei:
 
-- **Überleben:** Ob ein Fisch vom Reiher gefressen wird, hat mit seiner Inversion nichts zu tun.
-- **Nachkommen:** Manche Fische haben viele Junge, andere keine.
-- **Mendel:** Ein Heterozygoter gibt **eine** seiner zwei Kopien weiter, welche, entscheidet ein Münzwurf.
+| Wo | Was ist Zufall? | Wie ändert das $p$? |
+|---|---|---|
+| **Überleben** | wer gefressen wird oder krank wird | Ein Reiher erwischt zufällig mehr Fische mit der Süsswasser-Orientierung. |
+| **Fortpflanzung** | wer wie viele Junge hat | Ein Fisch hat 50 Junge, ein anderer keines. Seine Kopien sind dann häufiger. |
+| **Vererbung** | welche Kopie ein Heterozygoter weitergibt | Bei jedem Jungen ein Münzwurf (Mendel). |
 
-In einer kleinen Population mitteln sich diese Zufälle **nicht** heraus.
+Keiner hat eine **Richtung**: Im Mittel bleibt $p$ gleich. In einer kleinen Population gleichen sie sich aber **nicht** aus.
 
 ## Zufall in einer kleinen Population
 
@@ -356,7 +358,7 @@ ggplot(kugeln, aes(platz, -generation)) +
   theme(axis.text.y = element_text(hjust = 1))
 ```
 
-10 Genkopien, **keine Selektion**. Jede Generation wird aus der vorherigen **zufällig gezogen**. $p$ wandert trotzdem: **genetische Drift**.
+10 Genkopien, **keine Selektion**. Alle drei Zufälle fassen wir in **einem** Schritt zusammen: Jede Generation wird aus der vorherigen **zufällig gezogen**. $p$ ändert sich trotzdem, zufällig, von Generation zu Generation: **genetische Drift**.
 
 ## Zufall im Computer: eine Münze
 
@@ -438,7 +440,7 @@ ggplot(drift, aes(generation, p, group = id)) +
   theme_slide()
 ```
 
-Jede Generation wird aus der **vorherigen** gezogen. Kleine Schritte summieren sich, bis $p$ bei 0 oder 1 hängen bleibt: Die Variante ist **verloren** oder **fixiert**.
+Jede Generation wird aus der **vorherigen** gezogen. Die kleinen zufälligen Änderungen summieren sich. Erreicht $p$ den Wert 0 oder 1, bleibt es dort: Die Variante ist **verloren** oder **fixiert**.
 
 ## Zufall im Modell
 
@@ -453,7 +455,7 @@ p_strich <- selektion(p, s)               # 1. Selektion, ohne Zufall
 p_neu    <- rbinom(1, N, p_strich) / N    # 2. Zufall: N Kopien ziehen
 ```
 
-Selektion gibt die **Richtung**, Zufall das **Rauschen**. Für vier Jahre wiederholen wir das viermal: eine **Bahn**.
+Selektion gibt die **Richtung**, Zufall das **Rauschen**. Für vier Jahre wiederholen wir das viermal und erhalten **eine** mögliche Bahn von $p$.
 
 ## Ein Schritt als Formel
 
@@ -484,7 +486,7 @@ ggplot(simuliere_bahn(0, 250, zufall = FALSE), aes(jahr, p)) +
   theme_slide()
 ```
 
-Das ist Woche 6: Ohne Selektion bewegt sich $p$ nicht. Damit $p$ wandert, braucht es die **Ziehung**.
+Das ist Woche 6: Ohne Selektion ändert sich $p$ nicht. Damit sich $p$ zufällig ändert, braucht es die **Ziehung**.
 
 ## Eine Bahn sagt wenig
 
@@ -507,7 +509,9 @@ Gleicher Start, gleiches Modell, $s = 0$ — und jede Bahn ist anders.
 
 ## Reicht Zufall für den Anstieg?
 
-Wenn alles **neutral** ist ($s = 0$): Wie weit kann $p$ in vier Jahren laufen?
+Wenn alles **neutral** ist ($s = 0$): Welche Werte kann $p$ nach vier Jahren allein durch Zufall erreichen?
+
+Wir simulieren dafür 100 Bahnen ohne Selektion. Zusammen bilden sie eine **Wolke**.
 
 - Liegen die Teiche **in** dieser Wolke: Zufall reicht als Erklärung.
 - Liegen sie **ausserhalb**: Neutralität erklärt das Muster nicht.
@@ -523,7 +527,7 @@ Einen formellen Test mit $p$-Wert gibt es in der Statistikvorlesung. Heute reich
 zeige_wolke(wolke(0, 250), "100 Bahnen ohne Selektion (s = 0, N = 250) und die Teiche")
 ```
 
-Grau: wohin $p$ **ohne Selektion** in vier Jahren laufen kann. Alle Teiche liegen am Ende **darüber**, Teich 7 deutlich.
+Grau: der Bereich, in dem 90 von 100 Bahnen **ohne Selektion** liegen. Nach vier Jahren liegen alle Teiche **darüber**, Teich 7 deutlich.
 
 ## Wolke mit Selektion
 
@@ -587,7 +591,7 @@ Illustration: Emma Ochsner
 
 ## Konsistent, nicht bewiesen
 
-Positive Selektion **kann** die drei Bahnen erklären.
+Positive Selektion **kann** die drei Verläufe erklären.
 
 Andere Werte für $s$ und $N$ oder mehr Biologie (diploid, schwankende Populationsgrösse) würden die Wolke verschieben.
 
