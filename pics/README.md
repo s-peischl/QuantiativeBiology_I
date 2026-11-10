@@ -171,8 +171,8 @@ Skripte zum Regenerieren der Lehrschemata: `scripts/make_week01_schematics.R`, `
 
 ## Rottensand (`pics/rottensand/`)
 
-Lokal, gitignored, bis die Veröffentlichung des Bildes bestätigt ist.
+Veröffentlichung mit den Daten genehmigt (Nov. 2026).
 
-| Lokale Datei | Hinweis |
+| Datei | Hinweis |
 |---|---|
 | `rottensand_overview.jpg` | Luftbild Rottensand mit Plotraster. Luftbild swisstopo; Raster: Feldpraktikum Conservation Biology, Universität Bern. Aus `examples/ConservationBio/Rhône_overview_with_plots_compressed.jpg`, auf 1800 px verkleinert. |
