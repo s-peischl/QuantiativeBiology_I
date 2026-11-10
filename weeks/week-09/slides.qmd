@@ -188,7 +188,7 @@ Satellitenbild: Folien Katie Peichel / Google
 :::
 :::::
 
-2022 in der **Oyster Lagoon** (Meer): marine Stichlinge mit Reusen und Kescher fangen.
+2022 in der **Oyster Lagoon** (Meer): marine Stichlinge fangen.
 
 ::: aside
 Fotos: Peichel- und Schluter-Labore
@@ -205,7 +205,9 @@ Fotos: Peichel- und Schluter-Labore
 :::
 :::::
 
-**1152 Fische in 12 Tagen** genotypisiert: jeder Fisch in einem eigenen Becher. Gesucht sind **Heterozygote**, Fische mit einer Meer- und einer Süsswasser-Orientierung.
+An der UBC: **1152 Fische in 12 Tagen** genotypisiert. Jeder Fisch wird gemessen und gewogen, aus einem kleinen Stück Flosse wird per **PCR** die Orientierung bestimmt. Links: jeder Fisch in einem eigenen Becher.
+
+Gesucht sind **Heterozygote**: Fische mit einer Meer- und einer Süsswasser-Orientierung. (Gesucht wurde für drei Inversionen; wir schauen nur Chromosom XI an.)
 
 ::: aside
 Fotos: Peichel- und Schluter-Labore
@@ -213,9 +215,7 @@ Fotos: Peichel- und Schluter-Labore
 
 ## Warum $p_0 = 0.5$?
 
-Marine Stichlinge tragen Süsswasser-Inversionen **selten**. Deshalb das aufwendige Suchen.
-
-In jeden Teich kommen nur **Heterozygote**, etwa 25 pro Teich.
+In die Teiche kommen nur die gefundenen **Heterozygoten**, etwa 25 pro Teich. Es sind die gefangenen Fische selbst, keine Nachzucht aus dem Labor.
 
 Ein Heterozygoter trägt **eine** Kopie jeder Orientierung, also startet jeder Teich bei
 
@@ -223,7 +223,7 @@ $$
 p_0 = 0.5.
 $$
 
-Nicht willkürlich: So sind beide Orientierungen gleich häufig, und keine hat einen Vorsprung.
+Beide Orientierungen starten also gleich häufig.
 
 ## Schritt 3: ab in die Teiche
 
@@ -253,7 +253,7 @@ Fotos: Peichel- und Schluter-Labore
 :::
 :::::
 
-Jedes Frühjahr (2023 bis 2026) werden Fische gefangen und genotypisiert: die 1., 2., 3. und 4. Generation im Teich.
+Die ausgesetzten Fische pflanzen sich im Teich fort. Jedes Frühjahr (2023 bis 2026) wird eine Stichprobe gefangen: die 1., 2., 3. und 4. Generation im Teich. Jeder Fisch wird per PCR genotypisiert, insgesamt rund 15 000 PCRs.
 
 ::: aside
 Fotos: Peichel- und Schluter-Labore
@@ -265,7 +265,7 @@ Für jeden gefangenen Fisch: Welche Orientierung trägt er auf seinen **zwei** C
 
 Daraus: $p$ = Anteil der **Süsswasser-Orientierung** unter allen untersuchten Kopien.
 
-Drei Teiche: 2, 7, 14. Teich 7 hat wenige Fische und kein Jahr 4.
+Untersuchte Fische pro Jahr: in Teich 2 und 14 zwischen 35 und 232, in Teich 7 nur 7 bis 36. Teich 7 hat kein Jahr 4.
 
 Stichlinge sind diploid. Unser Modell bleibt **haploid** wie in Woche 6: $p$ ist dieselbe Frequenz, der Schritt ist eine Näherung.
 
@@ -310,7 +310,7 @@ Gleiche Anfangsbedingungen, **drei Bahnen**. Mit den Modellen aus Woche 5–8 w�
 Noch ohne Formel. Kandidaten:
 
 - **Zufall** in einer endlichen Population (wer überlebt, wer Junge hat),
-- **kleine Stichproben**: In Teich 7 wurden pro Jahr nur 10–43 Kopien untersucht,
+- **kleine Stichproben**: In Teich 7 wurden pro Jahr nur 7–36 Fische untersucht,
 - echte Unterschiede zwischen den Teichen.
 
 ## Die Frage
@@ -536,7 +536,7 @@ zeige_wolke(wolke(0.2, 250, seed = 11),
             ohne_zufall = simuliere_bahn(0.2, 250, zufall = FALSE))
 ```
 
-Mit $s = 0.2$ liegen Teich 2 und 14 **in** der Wolke. Teich 7 liegt noch darüber, hat aber nur 10–43 untersuchte Kopien pro Jahr.
+Mit $s = 0.2$ liegen Teich 2 und 14 **in** der Wolke. Teich 7 liegt noch darüber, hat aber nur 7–36 untersuchte Fische pro Jahr.
 
 ## Ein zweiter Zufall: die Stichprobe
 
@@ -545,11 +545,11 @@ Die Teich-Frequenzen sind **gemessen**. Untersucht wird nur ein Teil der Fische,
 ```{r}
 #| echo: true
 set.seed(3)
-rbinom(8, size = 20, prob = 0.6) / 20    # 10 Fische, wahre Frequenz 0.6
-rbinom(8, size = 200, prob = 0.6) / 200  # 100 Fische
+rbinom(8, size = 20, prob = 0.6) / 20    # 10 Fische = 20 Kopien, wahre Frequenz 0.6
+rbinom(8, size = 200, prob = 0.6) / 200  # 100 Fische = 200 Kopien
 ```
 
-Mit 20 Kopien (wie oft in Teich 7) misst man leicht 0.5 oder 0.75, obwohl die wahre Frequenz 0.6 ist.
+Mit 10 Fischen (Teich 7 hatte im ersten Jahr nur 7) misst man leicht 0.5 oder 0.75, obwohl die wahre Frequenz 0.6 ist.
 
 ## Was das Bild sagt — und was nicht
 

@@ -242,5 +242,5 @@ barplot(as.matrix(data_b),
 # F9. Saetze zu Ende schreiben.
 # - In einer kleinen Population kann ein Allel zufaelligerweise ... . Das ist Drift.
 # - Wenn wir Stichproben nehmen, koennen seltene Typen zufaelligerweise ... .
-# - In Teich 7 wurden pro Jahr nur 10-43 Kopien untersucht. Ein Teil des
+# - In Teich 7 wurden pro Jahr nur 7-36 Fische untersucht. Ein Teil des
 #   Unterschieds zu den anderen Teichen kann deshalb ... sein.

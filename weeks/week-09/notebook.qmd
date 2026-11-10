@@ -325,5 +325,5 @@ Schreiben Sie die drei Sätze zu Ende.
 
 - In einer kleinen Population kann ein Allel zufälligerweise … . Diesen Prozess nennen wir **Drift**.
 - Wenn wir Stichproben nehmen, können seltene Typen zufälligerweise … .
-- In Teich 7 wurden pro Jahr nur 10–43 Kopien untersucht. Ein Teil des Unterschieds zu den anderen Teichen kann deshalb … sein.
+- In Teich 7 wurden pro Jahr nur 7–36 Fische untersucht. Ein Teil des Unterschieds zu den anderen Teichen kann deshalb … sein.
 :::
