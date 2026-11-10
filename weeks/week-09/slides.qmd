@@ -105,7 +105,8 @@ Nach heute können Sie …
 1. drei Teichbahnen **lesen**: alle steigen, und trotzdem verschieden,
 2. Zufallszahlen in R **ziehen** (`sample`, `set.seed`, `rbinom`),
 3. Zufall in das Modell für die Allelfrequenz **einbauen**,
-4. sagen, ob die Teiche in eine **neutrale Wolke** passen, und was eine Wolke mit $s > 0$ dazu sagt.
+4. sagen, ob die Teiche in eine **neutrale Wolke** passen, und was eine Wolke mit $s > 0$ dazu sagt,
+5. Zufall in einer Stichprobe von einer **Verzerrung** beim Fangen unterscheiden.
 
 # Ein Teichexperiment
 
@@ -551,11 +552,67 @@ rbinom(8, size = 200, prob = 0.6) / 200  # 100 Fische = 200 Kopien
 
 Mit 10 Fischen (Teich 7 hatte im ersten Jahr nur 7) misst man leicht 0.5 oder 0.75, obwohl die wahre Frequenz 0.6 ist.
 
+## Nicht alle sind gleich leicht zu fangen
+
+![](../../pics/Emma/Grafik_samples.jpg){fig-alt="Population von Echsen mit gleich vielen orangen, blauen und gelben Männchen; im Netz landen nur blaue und orange" width="62%"}
+
+Die Population hat gleich viele orange, blaue und gelbe Männchen (1 : 1 : 1). Im Netz: 6 blaue, 3 orange, **kein** gelbes.
+
+::: aside
+Illustration: Emma Ochsner
+:::
+
+## Pech oder Verzerrung?
+
+Kein gelbes Männchen in einer Stichprobe von 9 kann **Pech** sein: Die Stichprobe ist eine Ziehung.
+
+Es kann aber auch am **Fangen** liegen. Gelbe Männchen von *Uta* sind **Schleicher** ohne eigenes Revier (Woche 5) und sehen Weibchen ähnlich. Nehmen wir an, sie gehen nur **ein Drittel** so oft ins Netz wie die anderen.
+
+Dann ist die Stichprobe nicht nur zufällig, sondern **verzerrt** (*sampling bias*).
+
+## Zufall wird kleiner, Verzerrung bleibt
+
+```{r}
+#| fig-height: 3.4
+#| fig-width: 9
+#| out-width: 92%
+set.seed(9)
+ziehe_gelb <- function(n, fang) {
+  gewicht <- c(orange = 1, blau = 1, gelb = fang) / 3
+  replicate(2000, rmultinom(1, n, gewicht)[3] / n)
+}
+fang_df <- rbind(
+  data.frame(n = "n = 9 Echsen", fangen = "alle gleich leicht", anteil = ziehe_gelb(9, 1)),
+  data.frame(n = "n = 9 Echsen", fangen = "gelb ein Drittel so oft", anteil = ziehe_gelb(9, 1/3)),
+  data.frame(n = "n = 90 Echsen", fangen = "alle gleich leicht", anteil = ziehe_gelb(90, 1)),
+  data.frame(n = "n = 90 Echsen", fangen = "gelb ein Drittel so oft", anteil = ziehe_gelb(90, 1/3)))
+ggplot(fang_df, aes(anteil, fill = fangen)) +
+  geom_histogram(aes(y = after_stat(density)), binwidth = 1/45, boundary = 0,
+                 position = "identity", alpha = 0.6) +
+  geom_vline(xintercept = 1/3, linetype = "dashed", colour = "grey30") +
+  facet_wrap(~ n) +
+  scale_fill_manual(values = c("alle gleich leicht" = "#7f8c8d", "gelb ein Drittel so oft" = "#f1c40f"), name = NULL) +
+  scale_y_continuous(breaks = NULL) +
+  scale_x_continuous(breaks = c(0, 0.2, 1/3, 0.6), labels = c("0", "0.2", "1/3", "0.6")) +
+  coord_cartesian(xlim = c(0, 0.75)) +
+  labs(x = "Anteil gelb in der Stichprobe (2000 Stichproben)", y = NULL) +
+  theme_slide() + theme(panel.spacing.x = unit(2, "lines"))
+```
+
+Gestrichelt: der wahre Anteil, 1/3. Mehr Echsen machen die Stichprobe **genauer**, aber nicht **richtiger**: Die gelbe Verteilung bleibt bei etwa 0.14.
+
+## Und die Teiche?
+
+- Die Teich-Frequenzen sind eine Stichprobe: Zufall, wie oben, vor allem in Teich 7.
+- Würden Fische mit einer Orientierung **eher gefangen**, wären die Frequenzen zusätzlich verzerrt. Ob das so ist, wissen wir nicht.
+- Eine Verzerrung sieht man den Daten nicht an. Man muss über die **Methode** nachdenken: Wie wurde gefangen, wer fehlt?
+
 ## Was das Bild sagt — und was nicht
 
 - Zufall **allein** erklärt die Teiche schlecht.
 - Selektion **plus** Zufall passt — und erklärt auch, warum die Teiche verschieden sind.
 - Kleine Stichproben (Teich 7) sind selbst ein Zufall: Die gemessene Frequenz weicht von der wahren ab.
+- Eine **verzerrte** Stichprobe weicht immer in dieselbe Richtung ab, auch wenn sie gross ist.
 - Das ist **kein Beweis** und kein statistischer Test. Das Bild zeigt, was zu den Daten **passt**.
 
 ## Konsistent, nicht bewiesen
@@ -573,6 +630,7 @@ Katie Peichel und Dolph Schluter schätzen mit einem diploiden Modell für Chr X
 1. In endlichen Populationen ändert sich $p$ auch **ohne** Selektion: **Drift**.
 2. Eine simulierte Bahn sagt wenig. Viele Bahnen ergeben eine **Wolke**.
 3. Daten **ausserhalb** der neutralen Wolke sprechen für Selektion.
+4. Auch die Stichprobe ist eine Ziehung. Werden nicht alle gleich leicht gefangen, ist sie zusätzlich **verzerrt**, und eine grössere Stichprobe hilft dagegen nicht.
 
 ## Notebook (~40 min)
 
@@ -592,6 +650,7 @@ Dieselben Ziehungen wie in der Vorlesung: zuerst ohne Selektion, dann mit dem Ec
 4. Warum reicht **eine** neutrale Bahn nicht, um die Teiche zu beurteilen?
 5. Warum schwankt Teich 7 stärker als Teich 2?
 6. Was unterscheidet «liegt ausserhalb der Wolke» von einem statistischen Test?
+7. Warum hilft eine grössere Stichprobe gegen Zufall, aber nicht gegen einen Fangbias?
 
 ## Ausblick · Woche 10
 

@@ -17,6 +17,7 @@ Privates Kursfoto (nicht von Commons):
 | `umfrage/qr-fragebogen.png` | QR-Code zum Studierenden-Fragebogen (Woche 1). |
 | `Emma/Grafik_lizard_RPS.jpg` | Kursillustration (*Uta* RPS). Emma Ochsner. Nicht ohne Genehmigung weiterverbreiten. |
 | `Emma/Grafik_Insekten_LandStadt.jpg` | Kursillustration (Stechmücken, Insektizid Stadt vs. Land, Migration; Woche 8). Emma Ochsner. Nicht ohne Genehmigung weiterverbreiten. |
+| `Emma/Grafik_samples.jpg` | Kursillustration (Echsen-Population 1 : 1 : 1 und verzerrte Stichprobe, sampling bias; Woche 9). Emma Ochsner. Nicht ohne Genehmigung weiterverbreiten. |
 | `fun/boomerang_fu_avocado.png` | Easter Egg (*Boomerang Fu* Avocado). Offizielles Charakterbild von [boomerangfu.com](http://www.boomerangfu.com/). Cranky Watermelon · nur Kurs-/Scherzverwendung. |
 
 ## Bajau (`pics/bajau/`)
