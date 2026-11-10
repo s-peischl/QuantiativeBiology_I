@@ -117,6 +117,38 @@ Ramsayer et al. (2013) setzten Hunderte Populationen von *Pseudomonas fluorescen
 - Andere schrumpften 20 bis 30 Stunden lang und **wuchsen dann wieder**: eine **U-Kurve**.
 - Am Ende waren 96.8 % der geretteten Populationen **resistent**. Von den ausgestorbenen waren 96.4 % bis zuletzt empfindlich.
 
+## Was in der U-Kurve steckt
+
+```{r}
+#| fig-height: 3.5
+#| fig-width: 8.4
+#| out-width: 90%
+t <- 0:60
+emp <- 1e6 * 0.85^t                                   # Empfindliche sterben
+res <- ifelse(t >= 8, 1.25^(t - 8), NA)               # eine Resistente ab Stunde 8
+ges <- emp + ifelse(is.na(res), 0, res)
+u <- rbind(data.frame(t = t, N = emp, wer = "empfindlich"),
+           data.frame(t = t, N = res, wer = "resistent"),
+           data.frame(t = t, N = ges, wer = "alle zusammen"))
+u$wer <- factor(u$wer, levels = c("alle zusammen", "empfindlich", "resistent"))
+ggplot(u[!is.na(u$N) & u$N >= 1, ], aes(t, N, colour = wer, linewidth = wer)) +
+  geom_line() +
+  scale_y_log10(breaks = 10^(0:6), labels = c("1", "10", "100", "1000", "10^4", "10^5", "10^6")) +
+  coord_cartesian(ylim = c(0.4, 2e6)) +
+  scale_colour_manual(values = c("alle zusammen" = "grey15", empfindlich = "#e67e22", resistent = "#2166ac"), name = NULL) +
+  scale_linewidth_manual(values = c("alle zusammen" = 2.2, empfindlich = 1, resistent = 1), guide = "none") +
+  annotate("point", x = 8, y = 1, colour = "#2166ac", size = 3) +
+  annotate("text", x = 10, y = 1, label = "eine Mutante entsteht", hjust = 0, vjust = 1.2, size = 4.2, colour = "#2166ac") +
+  labs(x = "Zeit", y = "Zellen (log)") +
+  theme_slide()
+```
+
+Die U-Kurve ist die **Summe** von zwei Gruppen: Empfindliche sterben, eine Resistente wächst. Gerettet ist die Population, wenn die Resistenten schnell genug da sind.
+
+::: aside
+Skizze, keine Messdaten
+:::
+
 ## Grosse Populationen werden öfter gerettet
 
 ```{r}
@@ -320,6 +352,37 @@ Ein kleiner Teil der Weibchen hatte schon immer keine Stosszähne. Nach dem Krie
 
 ::: aside
 Weibchen im Gorongosa-Nationalpark. Campbell-Staton et al. (2021)
+:::
+
+## Wilderei als Filter
+
+```{r}
+#| fig-height: 3.4
+#| fig-width: 9
+#| out-width: 92%
+set.seed(5)
+vorher <- data.frame(id = 1:100, x = (0:99) %% 10, y = (0:99) %/% 10,
+                     typ = c(rep("ohne Stosszähne", 18), rep("mit Stosszähnen", 82)))
+vorher$typ <- sample(vorher$typ)
+ueberlebt <- c(sample(which(vorher$typ == "ohne Stosszähne"), 9),
+               sample(which(vorher$typ == "mit Stosszähnen"), 8))
+vorher$zeit <- "vor dem Krieg: 100 Weibchen"
+nachher <- vorher; nachher$zeit <- "nach dem Krieg: 17 überleben"
+nachher$typ[-ueberlebt] <- "getötet"
+el <- rbind(vorher, nachher)
+el$zeit <- factor(el$zeit, levels = unique(el$zeit))
+ggplot(el, aes(x, -y, colour = typ, shape = typ)) +
+  geom_point(size = 4.2, stroke = 1.2) +
+  scale_colour_manual(values = c("ohne Stosszähne" = "#a04000", "mit Stosszähnen" = "#95a5a6", "getötet" = "#d5d8dc"), name = NULL) +
+  scale_shape_manual(values = c("ohne Stosszähne" = 16, "mit Stosszähnen" = 16, "getötet" = 4), name = NULL) +
+  facet_wrap(~ zeit) + coord_equal() +
+  theme_void(base_size = 15) + theme(legend.position = "bottom")
+```
+
+Vorher 18 von 100 ohne Stosszähne. Wilderer töten Tiere **mit** Stosszähnen viel öfter. Von 17 Überlebenden haben 9 keine: über die Hälfte.
+
+::: aside
+Skizze mit gerundeten Zahlen: Überleben 50 % ohne, 10 % mit Stosszähnen (fünfmal so oft)
 :::
 
 ## Ein Mini-Modell: ein Selektionsschritt
