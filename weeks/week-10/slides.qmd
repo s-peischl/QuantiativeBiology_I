@@ -110,12 +110,24 @@ Für die Patientin ist das zweite schlecht. Für die Bakterien ist es **evolutio
 
 ## Im Labor: *Pseudomonas* und Streptomycin
 
+:::: columns
+::: {.column width="62%"}
 Ramsayer et al. (2013) setzten Hunderte Populationen von *Pseudomonas fluorescens* dem Antibiotikum Streptomycin aus und zählten über die Zeit die Zellen.
 
 - Alle Populationen **schrumpften** zuerst.
 - Manche starben aus, zwischen Stunde 30 und 53.
 - Andere schrumpften 20 bis 30 Stunden lang und **wuchsen dann wieder**: eine **U-Kurve**.
-- Am Ende waren 96.8 % der geretteten Populationen **resistent**. Von den ausgestorbenen waren 96.4 % bis zuletzt empfindlich.
+:::
+::: {.column width="38%"}
+![](../../pics/rescue/pseudomonas_uv.jpg){fig-alt="Pseudomonas fluorescens leuchtet unter UV-Licht auf einer Agarplatte"}
+:::
+::::
+
+Am Ende waren 96.8 % der geretteten Populationen **resistent**. Von den ausgestorbenen waren 96.4 % bis zuletzt empfindlich.
+
+::: aside
+Foto: *P. fluorescens* unter UV-Licht. Ninjatacoshell, Wikimedia Commons, CC BY-SA 3.0
+:::
 
 ## Was in der U-Kurve steckt
 
@@ -310,24 +322,44 @@ Zwischen 1000 und 100 000 Individuen kippt die Rettung von «fast nie» zu «fas
 
 ## Im Labor: Hefe unter Salz
 
+:::: columns
+::: {.column width="65%"}
 Bell & Gonzalez (2009) setzten viele Hefe-Populationen verschiedener Grösse einem Salzgehalt aus, bei dem sie normalerweise sterben.
 
 - Viele Populationen starben aus.
 - Manche erholten sich nach einem Einbruch: **U-Kurve**, wie im Modell.
 - **Grössere** Populationen wurden häufiger gerettet.
+:::
+::: {.column width="35%"}
+![](../../pics/rescue/hefe_kolonien.jpg){fig-alt="Kolonien von Bäckerhefe auf einer Agarplatte"}
+:::
+::::
+
+::: aside
+Foto: *Saccharomyces cerevisiae*. A doubt, Wikimedia Commons, CC BY-SA 4.0
+:::
 
 # Wenn die Variante schon da ist
 
 ## Gorongosa, Mosambik
 
+:::: columns
+::: {.column width="56%"}
 - Bürgerkrieg in Mosambik, **1977 bis 1992**.
-- Bewaffnete Gruppen wildern im Gorongosa-Nationalpark Elefanten, für **Elfenbein**.
-- Vor dem Krieg: über **2500** Elefanten. Danach: etwa **200**. Über 90 % sind weg.
+- Bewaffnete Gruppen wildern Elefanten, für **Elfenbein**.
+- Vor dem Krieg: über **2500** Elefanten im Nationalpark. Danach: etwa **200**.
 
 Gejagt werden Tiere **mit** Stosszähnen.
+:::
+::: {.column width="44%"}
+![](../../pics/rescue/elefant_gorongosa_usaid.jpg){fig-alt="Elefant mit kurzen Stosszähnen in Gorongosa" height="165px"}
+
+![](../../pics/rescue/elefant_gorongosa_flickr.jpg){fig-alt="Elefant in Gorongosa, keine Stosszähne zu sehen" height="165px"}
+:::
+::::
 
 ::: aside
-Campbell-Staton et al. (2021), *Science* 374: 483–487
+Campbell-Staton et al. (2021), *Science* 374: 483–487 · Fotos aus Gorongosa: oben mit Stosszähnen (USAID, gemeinfrei), unten keine zu sehen (Judy Gallagher, Flickr, CC BY 2.0)
 :::
 
 ## Weibchen ohne Stosszähne
@@ -419,6 +451,23 @@ Darum ging es so schnell: ein Schritt, nicht viele Generationen.
 
 # Tasmanische Teufel
 
+## Gesund und krank
+
+:::: columns
+::: {.column width="55%"}
+![](../../pics/rescue/teufel.jpg){fig-alt="Gesunder Tasmanischer Teufel im Gras"}
+:::
+::: {.column width="45%"}
+![](../../pics/rescue/dftd_tumor.jpg){fig-alt="Tasmanischer Teufel mit Gesichtstumor"}
+:::
+::::
+
+Links ein gesunder Tasmanischer Teufel. Rechts ein Teufel mit dem ansteckenden Gesichtstumor (DFTD).
+
+::: aside
+Fotos: JJ Harrison, Wikimedia Commons, CC BY-SA 3.0 · Menna Jones, Wikimedia Commons, CC BY 2.5
+:::
+
 ## Ein ansteckender Krebs
 
 - Der **Tasmanische Teufel** ist das grösste noch lebende Raubbeuteltier.
@@ -434,12 +483,23 @@ Epstein et al. (2016), *Nature Communications* 7: 12684
 
 ## Evolution in vier bis sechs Generationen
 
-Epstein et al. (2016) verglichen das Erbgut von 294 Teufeln aus drei Gebieten, **vor** und **nach** Ankunft der Krankheit.
+:::: columns
+::: {.column width="60%"}
+Erbgut von 294 Teufeln aus drei Gebieten, **vor** und **nach** Ankunft der Krankheit:
 
-- In allen drei Gebieten veränderten sich dieselben **zwei** Regionen im Genom.
-- Dort liegen Gene, die beim Menschen mit dem **Immunsystem** oder mit dem **Krebsrisiko** zu tun haben.
-- Geschätzter Vorteil der zunehmenden Varianten: 16 bis 38 %, je nach Gebiet und Region, mit grosser Unsicherheit.
-- Das alles in etwa **4 bis 6** Generationen (eine Teufelgeneration: etwa 2 Jahre).
+- Überall ändern sich dieselben **zwei** Regionen im Genom.
+- Dort liegen Gene für **Immunsystem** und **Krebsrisiko** (beim Menschen).
+- Geschätzter Vorteil: 16 bis 38 %, sehr unsicher.
+- In **4 bis 6** Generationen (je etwa 2 Jahre).
+:::
+::: {.column width="40%"}
+![](../../pics/rescue/dftd_karte.jpg){fig-alt="Karte Tasmaniens mit der Ausbreitungsfront der Krankheit und den drei Probengebieten"}
+:::
+::::
+
+::: aside
+Epstein et al. (2016). Karte: Ausbreitung ab 1996, Probengebiete mit Jahr der Ankunft (Fig. 1, CC BY 4.0)
+:::
 
 ## Ein Kandidat für Rettung
 

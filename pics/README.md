@@ -177,3 +177,17 @@ Veröffentlichung mit den Daten genehmigt (Nov. 2026).
 | Datei | Hinweis |
 |---|---|
 | `rottensand_overview.jpg` | Luftbild Rottensand mit Plotraster. Luftbild swisstopo; Raster: Feldpraktikum Conservation Biology, Universität Bern. Aus `examples/ConservationBio/Rhône_overview_with_plots_compressed.jpg`, auf 1800 px verkleinert. |
+
+## Evolutionäre Rettung (`pics/rescue/`, Woche 10)
+
+Von Wikimedia Commons, auf höchstens 1400–1600 px verkleinert.
+
+| Datei | Quelle (Commons) | Urheber | Lizenz |
+|---|---|---|---|
+| `pseudomonas_uv.jpg` | File:Pseudomonas fluorescens on TY agar (UV light).JPG | Ninjatacoshell | CC BY-SA 3.0 |
+| `hefe_kolonien.jpg` | File:Saccharomyces cerevisiae SAB colonies 33.jpg | A doubt | CC BY-SA 4.0 |
+| `elefant_gorongosa_usaid.jpg` | File:Gorongosa-elephant 8692522812 o.jpg | USAID | gemeinfrei |
+| `elefant_gorongosa_flickr.jpg` | File:African Elephant - Loxodonta africana, Gorongosa National Park, Mozambique (32440062318).jpg | Judy Gallagher (Flickr) | CC BY 2.0 |
+| `teufel.jpg` | File:Sarcophilus harrisii taranna.jpg | JJ Harrison | CC BY-SA 3.0 |
+| `dftd_karte.jpg` | File:Spread of devil facial tumor disease as of 2015.jpg | Epstein et al. (2016), *Nat. Commun.* 7: 12684, Fig. 1 | CC BY 4.0 |
+| `dftd_tumor.jpg` | File:Tasmanian Devil Facial Tumour Disease.png (als JPEG gespeichert) | Menna Jones | CC BY 2.5 |
