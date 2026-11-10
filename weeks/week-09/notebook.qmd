@@ -1,7 +1,8 @@
 ---
 title: "Woche 9 — Notebook"
-subtitle: "Zufall, Populations- und Stichprobengrössen"
+subtitle: "Zufall und Notwendigkeit"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
+lang: de
 format:
   html:
     toc: true
@@ -17,260 +18,312 @@ execute:
   freeze: false
 ---
 
-# Ziel
+In der Vorlesung wandert die Frequenz in den Teichen, auch ohne dass wir schon wissen, wie viel davon Selektion ist. Zwei Dinge können eine gemessene Frequenz verschieben: die **Population** ist endlich, und die **Stichprobe** ist nur ein Teil davon.
 
-- eine Intuition für Drift entwickeln - welche Rolle spielt Populationsgrösse während Evolution?
-- verstehen wie verschiedene Stichprobengrössen unsere Beobachtungen beeinflussen können
+Dieses Notebook rechnet die Teiche nicht noch einmal. Sie kommen nur am Ende von Teil A kurz zurück. Zwei neue Fragen:
 
----
+1. Wie hängt diese Wanderung von der **Populationsgrösse** $N$ ab, wenn das Allel **neutral** ist?
+2. Was sieht man von den Kehlfarben der Echsen aus Woche 4, wenn der Fang selbst Zufall ist?
 
-# 0) Einführung Zufallszahlen
+Andere Formate: [R Markdown](notebook.Rmd) · [nur R](notebook.R)
 
-`rbinom(n, size, prob)` zieht $n$ mal, wie `size` Versuche "erfolgreich" waren. In anderen Worten: wir fragen `n` Mal, in wie vielen von `size` Fällen etwas mit der Wahrscheinlichkeit `prob` passiert ist oder nicht (ja/nein).
-`set.seed` macht die Folge wiederholbar.
+::: {.callout-important}
+## Auftrag
 
-```{r rng}
+1. Eine Binomialverteilung anschauen und `set.seed` ausprobieren.
+2. Ein neutrales Allel viele Generationen lang verfolgen, einmal in einer grossen und einmal in einer kleinen Population. Dann mit den Teichen vergleichen.
+3. Drei Stichproben von Echsen ziehen und die Stichprobengrösse ändern. Der Fangbias am Schluss ist ein Bonus.
+:::
+
+# 0 · Zufallszahlen
+
+`rbinom(anzahl, size, prob)` zieht `anzahl` Mal, **wie viele** von `size` Versuchen erfolgreich waren. Jeder Versuch klappt mit Wahrscheinlichkeit `prob`. In der Vorlesung war das die Frage: Wie viele von $N$ Genkopien sind die gesuchte Kopie?
+
+`set.seed` legt den Startwert fest. Dieselbe Folge kommt dann noch einmal heraus.
+
+```{r}
 set.seed(2026)
 
 x <- rbinom(1000, size = 20, prob = 0.5)
-hist(x, breaks = 0:21 - 0.5, 
+hist(x, breaks = 0:21 - 0.5,
      main = "1000 Ziehungen", xlab = "X ~ Binomial(20, 0.5)", ylab = "Anzahl")
 ```
 
 ::: {.callout-tip}
-## Aufgabe A1
-
-1. Lassen Sie denselben Block **ohne** `set.seed` zweimal laufen. Ändert sich das Histogramm?
-2. Setzen Sie `prob = 0.1`. Wie verändert sich die Verteilung? Wieso?
-
-:::
-
----
-
-# A) Die Rolle der Populationsgrösse
-Wir verfolgen ein neutrales Allel in einer Population mit $N$ Individuen. Wie in den vorherigen Wochen halten wir mit $p$ die Allelfrequenz des gesuchten Alleles fest. Einfacherheitshalber nehmen wir eine fixe Populationsgrösse von $N$ an und behandeln alle Individuen als haploid (entweder haben sie das Allel oder nicht). Hier wenden wir das Wright-Fisher (WF) Model an, wo jede Generation zufällig neue Individuen gezogen werden, basierend auf den Allelhäufigkeiten der vorhergehenden Generation. Sprich, wenn ein Allel in Generation $t$ sehr häufig ist, wird es in Generation $t+1$ wahrscheinlich auch sehr häufig sein.
-
-```{r one gen}
-
-WF_step <- function(p, # Allelfrequenz
-                    N) # Populationsgrösse
-  {
-  N_p <- rbinom(1, N, p) # wir ziehen die neue Generation von Individuen, wobei jedes von N Individuen die Warscheinlichkeit p hat, das neutrale Allel zu tragen
-  p_neut <- N_p / N # wir berechnen die Frequenz p in der neuen Generation
-  return(p_neut)
-}
-
-```
-
-## A1) Eine Generation
-
-::: {.callout-tip}
 ## F1
 
-- Simulieren Sie eine einzelne Generation. Was sind Ihre Erwartungen? Nimmt $p$ ab oder zu?
-- Lassen Sie den Chunk mehrmals laufen, was passiert?
+1. Lassen Sie denselben Block **ohne** `set.seed` zweimal laufen. Ändert sich das Histogramm?
+2. Setzen Sie `prob = 0.1`. Wie verändert sich die Verteilung? Warum?
 :::
 
+# A · Populationsgrösse
+
+Wir verfolgen ein **neutrales** Allel. $p$ ist seine Frequenz. Der Einfachheit halber ist die Populationsgrösse $N$ fix, und jedes Individuum ist haploid: Es trägt das Allel, oder es trägt es nicht.
+
+Jede Generation wird aus der vorherigen **gezogen**. Ist das Allel in Generation $t$ häufig, ist es in Generation $t+1$ wahrscheinlich auch häufig — aber nicht genau gleich häufig. Das ist derselbe Schritt wie in der Vorlesung, hier ohne Selektion.
+
 ```{r}
-
-WF_step(p = 0.5,
-        N = 1000)
-
-```
-
-## A2) Mehrere Generationen
-
-```{r simulate WF}
-# Simulation mehrerer Generationen
-simulateWF <- function(p_0, # Anfangsfrequenz
-                       N, # Populationsgrösse
-                       generationen = 250) # Anzahl Generationen; Annahme = 250
-  {
-  
-  p <- numeric(generationen + 1) # Vorbereiten von leeren Vektoren (von 0 bis zur maximalen Generationen Zahl)
-  
-  # Anfangsfrequenzen
-  p[1] <- p_0
-  
-  for (t in seq_len(generationen)) { # Wiederholen der Zeitschritte
-    
-    new_freq <- WF_step(p[t], N)
-    p[t + 1] <- new_freq
-  }
-  
-  data.frame(generation = 0:generationen, 
-             p = p)
+WF_step <- function(p, N) {
+  N_p <- rbinom(1, N, p)   # wie viele der N Individuen tragen das Allel?
+  N_p / N
 }
-
 ```
 
-### A2.1) Grosse Population
-Schauen Sie sich nun die Allelfrequenz als Funktion von Zeit an
-```{r}
-p_0 = 0.5 # Bitte ändern
+## Eine Generation
 
-large_pop <- simulateWF(p_0,
-                     N = 1000)
-
-plot(x = large_pop$generation,
-     y = large_pop$p,
-     type = "l", lwd = 2, col = "plum4",
-     xlab = "Generationen",
-     ylab = "Allelfrequenz",
-     ylim = c(0,1),
-     main = "N = 1000")
-abline(h = p_0, lwd = 1, lty = 2) # Linie der Anfangsfrequenz
-
-```
 ::: {.callout-tip}
 ## F2
 
-Ändern Sie `p_0`. Was passiert mit der Allelfrequenz?
+Simulieren Sie eine einzelne Generation mit $p = 0.5$ und $N = 1000$.
 
-:::
-
-### A2.2) Kleine Population
-::: {.callout-tip}
-## F3
-
-Was sind ihre Erwartungen für eine kleiner Population?
-
+- Was erwarten Sie: nimmt $p$ ab, nimmt es zu, oder bleibt es in der Nähe von 0.5?
+- Lassen Sie den Chunk mehrmals laufen. Was passiert?
 :::
 
 ```{r}
-p_0 = 0.5 # Bitte ändern
-
-small_pop <- simulateWF(p_0,
-                     N = 100)
-
-plot(x = small_pop$generation,
-     y = small_pop$p,
-     type = "l", lwd = 2, col = "plum4",
-     xlab = "Generationen",
-     ylab = "Allelfrequenz",
-     ylim = c(0,1),
-     main = "N = 100")
-abline(h = p_0, lwd = 1, lty = 2) # Linie der Anfangsfrequenz
-
+WF_step(p = 0.5, N = 1000)
 ```
+
+## Viele Generationen
+
+```{r}
+simulateWF <- function(p_0, N, generationen = 250) {
+  p <- numeric(generationen + 1)
+  p[1] <- p_0
+  for (t in seq_len(generationen)) {
+    p[t + 1] <- WF_step(p[t], N)
+  }
+  data.frame(generation = 0:generationen, p = p)
+}
+```
+
+### Grosse Population
+
+```{r}
+#| fig-height: 4
+#| fig-width: 7.5
+p_0 <- 0.5   # bitte ändern
+
+large_pop <- simulateWF(p_0, N = 1000)
+
+plot(large_pop$generation, large_pop$p, type = "l", lwd = 2, col = "plum4",
+     xlab = "Generationen", ylab = "Allelfrequenz", ylim = c(0, 1),
+     main = "N = 1000")
+abline(h = p_0, lwd = 1, lty = 2)
+```
+
+::: {.callout-tip}
+## F3
+
+Ändern Sie `p_0`. Was passiert mit der Allelfrequenz über die 250 Generationen?
+:::
+
+### Kleine Population
 
 ::: {.callout-tip}
 ## F4
 
-- Lassen Sie diesen Chunk ein paar mal laufen. Was beobachten Sie? 
-- In den vorherigen Wochen haben wir gesehen, wie Allelfrequenzen zu- oder abnehmen je nach dem, ob das Allel vorteilhaft ist oder nicht; ist das hier auch der Fall?
-- Können Sie sich ein paar biologische Konsequenzen für diese Beobachtungen überlegen? (Stichwort genetische Diversität o.ä.)
-
+Was erwarten Sie für $N = 100$, bevor Sie den nächsten Block laufen lassen?
 :::
 
----
-
-# B) Die Rolle der Stichprobengrösse
-Stellen Sie sich vor, Sie wollen die RPS-Dynamik der Echse *Uta stansburiana*, die Sie in Woche 4 kennen gelernt haben verfolgen. Dafür planen Sie, dass Sie sich über mehrere Jahre jeden Sommer mit einem Netz auf die Lauer legen wollen, um dann für jedes Männchen, das Sie fangen, die Kehlenfarbe festzuhalten. Sie wollen jedes Jahr drei Stichproben mit jeweils $n$ Echsen machen - $n$ beschreibt somit Ihre Stichprobengrösse. Aber wie gross sollte $n$ sein?
-
 ```{r}
+#| fig-height: 4
+#| fig-width: 7.5
+p_0 <- 0.5   # bitte ändern
 
-lizard_pop_y1 <- c(0.5,0.25,0.25) # Verteilung der Echsentypen in der echten Population
+small_pop <- simulateWF(p_0, N = 100)
 
-sample_size = 20 # Bitte verändern! -> wie viele Echsen fangen wir pro Stichprobe
-
-set.seed(2026)
-sample1 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_y1) # Stichprobe 1
-
-sample2 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_y1) # Stichprobe 2
-
-sample3 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_y1) # Stichprobe 3
-
-data_y1 <- data.frame(Reality = lizard_pop_y1,
-                   Sample_1 = sample1/sample_size,
-                   Sample_2 = sample2/sample_size,
-                   Sample_3 = sample3/sample_size)
-data_y1$Durchschnitt <- (data_y1$Sample_1 + data_y1$Sample_2 + data_y1$Sample_3)/3
-
-barplot(as.matrix(data_y1),
-        col = c("#e67e22", "#2980b9", "#f1c40f"),
-        main = paste("Stichprobengrösse", sample_size, ", Jahr 1")) 
-
-
+plot(small_pop$generation, small_pop$p, type = "l", lwd = 2, col = "plum4",
+     xlab = "Generationen", ylab = "Allelfrequenz", ylim = c(0, 1),
+     main = "N = 100")
+abline(h = p_0, lwd = 1, lty = 2)
 ```
+
 ::: {.callout-tip}
 ## F5
 
-- Spiegeln Ihre Stichproben die Realität wahreheitsgetreu wider?
-- Verändern Sie `sample_size`: Was beobachten Sie?
-
+- Lassen Sie den Block ein paar Mal laufen. Was beobachten Sie?
+- In den bisherigen Wochen stieg oder fiel $p$, weil das Allel einen Vorteil oder einen Nachteil hatte. Ist das hier auch so?
+- Was heisst das für die genetische Vielfalt in einer kleinen Population?
 :::
 
+## Zurück zu den Teichen
+
+In der Vorlesung starten alle drei Teiche bei $p = 0.5$ und liegen nach drei bis vier Jahren bei etwa 0.63 (Teich 2 und 14) und 0.84 (Teich 7). Kann ein **neutrales** Allel das allein durch Zufall schaffen?
+
+Wir lassen `simulateWF` 100 Mal laufen, je 4 Generationen mit $N = 250$, und merken uns nur die Frequenz am Ende.
+
 ```{r}
-
-lizard_pop_y2 <- c(0.15,0.8,0.05) # Verteilung der Echsentypen in der echten Population
-
-sample_size = 20 # Bitte verändern! -> wie viele Echsen fangen wir pro Stichprobe
+#| fig-height: 4
+#| fig-width: 7.5
+N <- 250   # bitte ändern
 
 set.seed(2026)
-sample1 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_y2) # Stichprobe 1
+p_ende <- numeric(100)
+for (i in 1:100) {
+  bahn <- simulateWF(p_0 = 0.5, N = N, generationen = 4)
+  p_ende[i] <- bahn$p[5]
+}
 
-sample2 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_y2) # Stichprobe 2
+hist(p_ende, breaks = seq(0, 1, by = 0.025), xlim = c(0.2, 1),
+     main = paste("100 neutrale Bahnen, N =", N),
+     xlab = "Allelfrequenz nach 4 Generationen", ylab = "Anzahl")
+abline(v = c(0.637, 0.625, 0.837), lwd = 2,
+       col = c("#e67e22", "#1e8449", "#2980b9"))   # Teich 2, 14, 7
 
-sample3 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_y2) # Stichprobe 3
-
-data_y2 <- data.frame(Reality = lizard_pop_y2,
-                   Sample_1 = sample1/sample_size,
-                   Sample_2 = sample2/sample_size,
-                   Sample_3 = sample3/sample_size)
-data_y2$Durchschnitt <- (data_y2$Sample_1 + data_y2$Sample_2 + data_y2$Sample_3)/3
-
-barplot(as.matrix(data_y2),
-        col = c("#e67e22", "#2980b9", "#f1c40f"),
-        main = paste("Stichprobengrösse", sample_size, ", Jahr 2")) 
-
-
+sum(p_ende >= 0.62)   # wie viele Bahnen kommen so hoch wie die Teiche?
 ```
 
 ::: {.callout-tip}
 ## F6
 
-- Spiegeln Ihre Stichproben die Realität wahreheitsgetreu wider? Wieso?
-- Verändern Sie `sample_size`: Was beobachten Sie?
-- Sie haben nur limitierte Ressourcen - Investieren Sie in viele kleine Stichproben, oder eine grosse Stichprobe?
-
+- Wie viele der 100 neutralen Bahnen kommen so hoch wie die Teiche? Und wie viele so hoch wie Teich 7?
+- Setzen Sie `N` auf 50 und dann auf 25. Wie klein müsste die Population sein, damit Zufall allein reicht?
+- In jedem Teich leben Hunderte Stichlinge. Was muss also zum Zufall dazukommen?
 :::
 
-## Bonus
-Stellen wir uns nun vor, dass das Verhalten der verschiedenen Echsenmännchen auch einen Einfluss darauf haben könnte, wie einfach sie zu fangen sind. Gehen wir zum Beispiel davon aus, dass die gelben Schleichermännchen schwieriger zu fangen sind, weil sie kein eigenes Revier haben und die aggressiven orangen Männchen dafür einfacher zu fangen sind. Wann und warum könnte das problematisch werden?
+# B · Stichprobengrösse
+
+In Woche 4 hatten die Männchen von *Uta stansburiana* eine Kehlfarbe, und die Anteile folgten aus dem Spiel. Hier sind die Anteile in der Population **gegeben**. Zufällig ist nur, wen Sie fangen.
+
+Sie fangen jeden Sommer drei Stichproben mit je $n$ Echsen und notieren die Kehlfarbe. Wie gross muss $n$ sein, damit die Stichprobe die Population zeigt?
+
+`rmultinom(n, size, prob)` ist die Ziehung für **drei Farben auf einmal**. `size` ist die Zahl gefangener Echsen, `prob` der Anteil jeder Farbe in der Population. Zurück kommt, wie viele Echsen orange, blau und gelb waren. Die Farben im Balken sind von unten nach oben orange, blau, gelb.
+
+### Jahr 1
 
 ```{r}
+#| fig-height: 4.2
+#| fig-width: 7.5
+# Anteile in der Population: orange, blau, gelb
+lizard_pop_y1 <- c(0.5, 0.25, 0.25)
 
-lizard_pop_b <- c(0.25,0.5,0.25) # Bitte verändern
-bias <- c(1,0.75,0.5) # Fangbias - Wahrscheinlichkeit ein Männchen erfolgreich zu fangen
-
-sample_size = 20
+sample_size <- 20   # bitte ändern: Echsen pro Stichprobe
 
 set.seed(2026)
-sample1 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_b*bias) # Stichprobe 1
+sample1 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_y1)
+sample2 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_y1)
+sample3 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_y1)
 
-sample2 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_b*bias) # Stichprobe 2
+data_y1 <- data.frame(
+  Wirklichkeit = lizard_pop_y1,
+  Stichprobe_1 = as.numeric(sample1) / sample_size,
+  Stichprobe_2 = as.numeric(sample2) / sample_size,
+  Stichprobe_3 = as.numeric(sample3) / sample_size
+)
+data_y1$Mittel <- (data_y1$Stichprobe_1 + data_y1$Stichprobe_2 + data_y1$Stichprobe_3) / 3
 
-sample3 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_b*bias) # Stichprobe 3
+barplot(as.matrix(data_y1),
+        col = c("#e67e22", "#2980b9", "#f1c40f"),
+        ylim = c(0, 1.45),
+        legend.text = c("orange", "blau", "gelb"),
+        args.legend = list(bty = "n", x = "topright"),
+        main = paste("Stichprobengrösse", sample_size, ", Jahr 1"),
+        ylab = "Anteil")
+```
 
-data_b <- data.frame(Reality = lizard_pop_b,
-                   Sample_1 = sample1/sample_size,
-                   Sample_2 = sample2/sample_size,
-                   Sample_3 = sample3/sample_size)
-data_b$Durchschnitt <- (data_b$Sample_1 + data_b$Sample_2 + data_b$Sample_3)/3
+::: {.callout-tip}
+## F7
+
+- Stimmen die Stichproben mit der Population überein?
+- Ändern Sie `sample_size`. Was beobachten Sie?
+:::
+
+### Jahr 2
+
+Gelb ist jetzt selten.
+
+```{r}
+#| fig-height: 4.2
+#| fig-width: 7.5
+lizard_pop_y2 <- c(0.15, 0.8, 0.05)   # orange, blau, gelb
+
+sample_size <- 20   # bitte ändern
+
+set.seed(2026)
+sample1 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_y2)
+sample2 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_y2)
+sample3 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_y2)
+
+data_y2 <- data.frame(
+  Wirklichkeit = lizard_pop_y2,
+  Stichprobe_1 = as.numeric(sample1) / sample_size,
+  Stichprobe_2 = as.numeric(sample2) / sample_size,
+  Stichprobe_3 = as.numeric(sample3) / sample_size
+)
+data_y2$Mittel <- (data_y2$Stichprobe_1 + data_y2$Stichprobe_2 + data_y2$Stichprobe_3) / 3
+
+barplot(as.matrix(data_y2),
+        col = c("#e67e22", "#2980b9", "#f1c40f"),
+        ylim = c(0, 1.45),
+        legend.text = c("orange", "blau", "gelb"),
+        args.legend = list(bty = "n", x = "topright"),
+        main = paste("Stichprobengrösse", sample_size, ", Jahr 2"),
+        ylab = "Anteil")
+```
+
+::: {.callout-tip}
+## F8
+
+- Stimmen die Stichproben mit der Population überein? Warum ist das hier heikler als in Jahr 1?
+- Ändern Sie `sample_size`. Was beobachten Sie?
+- Sie haben nur begrenzt Zeit. Lieber viele kleine Stichproben oder eine grosse?
+:::
+
+## Bonus · wen das Netz bevorzugt
+
+Das Verhalten ändert, wie leicht ein Männchen zu fangen ist. Gelbe Schleicher haben kein Revier und gehen seltener ins Netz. Aggressive orange Männchen gehen leichter ins Netz.
+
+Die Zahlen in `bias` sind **Gewichte**, keine Wahrscheinlichkeiten. `rmultinom` teilt sie durch ihre Summe. Orange wird dann relativ häufiger gefangen, als es in der Population ist.
+
+```{r}
+#| fig-height: 4.2
+#| fig-width: 7.5
+lizard_pop_b <- c(0.25, 0.5, 0.25)   # orange, blau, gelb; bitte ändern
+bias <- c(1, 0.75, 0.5)              # orange leicht, gelb schwer zu fangen
+
+sample_size <- 20
+
+set.seed(2026)
+sample1 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_b * bias)
+sample2 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_b * bias)
+sample3 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_b * bias)
+
+data_b <- data.frame(
+  Wirklichkeit = lizard_pop_b,
+  Stichprobe_1 = as.numeric(sample1) / sample_size,
+  Stichprobe_2 = as.numeric(sample2) / sample_size,
+  Stichprobe_3 = as.numeric(sample3) / sample_size
+)
+data_b$Mittel <- (data_b$Stichprobe_1 + data_b$Stichprobe_2 + data_b$Stichprobe_3) / 3
 
 barplot(as.matrix(data_b),
         col = c("#e67e22", "#2980b9", "#f1c40f"),
-        main = paste("Stichprobengrösse", sample_size)) 
-
-
+        ylim = c(0, 1.45),
+        legend.text = c("orange", "blau", "gelb"),
+        args.legend = list(bty = "n", x = "topright"),
+        main = paste("Mit Fangbias, n =", sample_size),
+        ylab = "Anteil")
 ```
+
+::: {.callout-tip}
+## Bonus
+
+Wann wird der Fangbias zum Problem? Hilft ein grösseres `sample_size` dagegen, oder bleibt die Abweichung?
+:::
+
 ---
 
 # Fazit
 
-Zufall kann in mehreren Prozessen eine Rolle spielen:
+Teil A ändert die **Population** über die Generationen. Teil B ändert nur, **was im Netz liegt**. Die Population der Echsen ist in Teil B jedes Mal dieselbe.
 
-- In einer kleinen Population kann ein Allel zufälligerweise ... . Diesen Prozess nennen wir **Drift**.
-- Wenn wir Stichproben nehmen, können seltene Ereignisse zufälligerweise ... .
+::: {.callout-tip}
+## F9
 
+Schreiben Sie die drei Sätze zu Ende.
+
+- In einer kleinen Population kann ein Allel zufälligerweise … . Diesen Prozess nennen wir **Drift**.
+- Wenn wir Stichproben nehmen, können seltene Typen zufälligerweise … .
+- In Teich 7 wurden pro Jahr nur 10–43 Kopien untersucht. Ein Teil des Unterschieds zu den anderen Teichen kann deshalb … sein.
+:::

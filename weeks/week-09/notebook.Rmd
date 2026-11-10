@@ -9,339 +9,283 @@ output:
     theme: flatly
 ---
 
-> *«Alles, was im Universum existiert, ist die Frucht von Zufall und Notwendigkeit.»* — Demokrit
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE,
-                      fig.height = 4.6, fig.width = 7.5)
+                      fig.height = 4.2, fig.width = 7.5)
 ```
 
-<style>
-table { width: auto !important; margin: 1em auto; border-collapse: collapse; }
-th, td { padding: 0.4em 1.2em !important; border: 1px solid #ccc; text-align: center !important; }
-blockquote { font-size: 1em; border-left: 4px solid #2c7fb8; background: #f2f8fc; padding: 0.6em 1em; }
-</style>
+Falls Quarto fehlt: dieses `.Rmd` in RStudio öffnen und **Knit** drücken. Noch einfacher: die reine R-Datei [`notebook.R`](notebook.R) (Source). Die Quarto-Fassung ist [`notebook.qmd`](notebook.qmd).
 
-Falls Quarto fehlt: dieses `.Rmd` in RStudio öffnen und **Knit** drücken. Noch einfacher: die reine R-Datei [`notebook.R`](notebook.R) (Source).
+In der Vorlesung wandert die Frequenz in den Teichen, auch ohne dass wir schon wissen, wie viel davon Selektion ist. Zwei Dinge können eine gemessene Frequenz verschieben: die **Population** ist endlich, und die **Stichprobe** ist nur ein Teil davon.
 
-Marine Stichlinge, die **heterozygot** für eine Inversion auf Chromosom XI sind, wurden in drei Süsswasser-Teiche gesetzt. Jedes Jahr wurde gemessen, wie häufig die **Süsswasser-Orientierung** der Inversion ist. Alle drei Teiche steigen. Ist das **Selektion** oder kann das auch **Zufall** sein?
+Dieses Notebook rechnet die Teiche nicht noch einmal. Sie kommen nur am Ende von Teil A kurz zurück. Zwei neue Fragen:
 
-Um das zu beantworten, bauen wir Schritt für Schritt ein Modell **mit Zufall**: zuerst eine Münze, dann eine Generation, dann vier Jahre, dann hundert Wiederholungen.
-
-**Die Daten.** Für jeden Teich (2, 7, 14) und jedes Jahr (0 bis 4) gibt es:
-
-- `k`: Anzahl Süsswasser-Kopien unter den untersuchten Fischen,
-- `n`: Anzahl untersuchter Kopien (2 pro Fisch),
-- `p = k / n`: die **Frequenz** der Süsswasser-Orientierung.
-
-Jahr 0 ist der Start: nur Heterozygote, also $p = 0.5$. Teich 7 hat wenige Fische und kein Jahr 4.
-
-**Die Abbildungen.** Die Abbildungen mit den Teichen haben alle dieselben Achsen:
-
-- **x-Achse:** Jahr seit dem Aussetzen (etwa eine Generation pro Jahr),
-- **y-Achse:** Frequenz der Süsswasser-Orientierung,
-- **farbige Linien:** die drei Teiche, **graue Linien:** Simulationen.
+1. Wie hängt diese Wanderung von der **Populationsgrösse** $N$ ab, wenn das Allel **neutral** ist?
+2. Was sieht man von den Kehlfarben der Echsen aus Woche 4, wenn der Fang selbst Zufall ist?
 
 > **Auftrag**
 >
-> 1. Lernen, wie man in R Zufallszahlen zieht, und wie stark sie schwanken.
-> 2. Daraus eine Population bauen, deren Frequenz $p$ sich **zufällig** ändert (Drift).
-> 3. Simulieren, wie weit $p$ **ohne** Selektion in vier Jahren laufen kann (die **neutrale Wolke**).
-> 4. Suchen, mit welcher Selektion $s$ die Teiche in die Wolke passen.
+> 1. Eine Binomialverteilung anschauen und `set.seed` ausprobieren.
+> 2. Ein neutrales Allel viele Generationen lang verfolgen, einmal in einer grossen und einmal in einer kleinen Population. Dann mit den Teichen vergleichen.
+> 3. Drei Stichproben von Echsen ziehen und die Stichprobengrösse ändern. Der Fangbias am Schluss ist ein Bonus.
 
-# 0 · Daten und Funktionen
+# 0 · Zufallszahlen
 
-Einfach ausführen.
+`rbinom(anzahl, size, prob)` zieht `anzahl` Mal, **wie viele** von `size` Versuchen erfolgreich waren. Jeder Versuch klappt mit Wahrscheinlichkeit `prob`. In der Vorlesung war das die Frage: Wie viele von $N$ Genkopien sind die gesuchte Kopie?
+
+`set.seed` legt den Startwert fest. Dieselbe Folge kommt dann noch einmal heraus.
 
 ```{r}
-teiche <- read.csv("data/pond-chrxi.csv")
-teiche
+set.seed(2026)
+
+x <- rbinom(1000, size = 20, prob = 0.5)
+hist(x, breaks = 0:21 - 0.5,
+     main = "1000 Ziehungen", xlab = "X ~ Binomial(20, 0.5)", ylab = "Anzahl")
 ```
 
-```{r hilfsfunktionen}
-# Hilfsfunktionen (nicht verändern)
-teich_farben <- c("2" = "#e67e22", "7" = "#2980b9", "14" = "#1e8449")
+> **F1**
+>
+> 1. Lassen Sie denselben Block **ohne** `set.seed` zweimal laufen. Ändert sich das Histogramm?
+> 2. Setzen Sie `prob = 0.1`. Wie verändert sich die Verteilung? Warum?
 
-zeige_teiche <- function() {
-  for (id in c(2, 7, 14)) {
-    d <- teiche[teiche$pond == id, ]
-    lines(d$year, d$p, lwd = 2.5, col = teich_farben[as.character(id)])
-    points(d$year, d$p, pch = 16, col = teich_farben[as.character(id)])
+# A · Populationsgrösse
+
+Wir verfolgen ein **neutrales** Allel. $p$ ist seine Frequenz. Der Einfachheit halber ist die Populationsgrösse $N$ fix, und jedes Individuum ist haploid: Es trägt das Allel, oder es trägt es nicht.
+
+Jede Generation wird aus der vorherigen **gezogen**. Ist das Allel in Generation $t$ häufig, ist es in Generation $t+1$ wahrscheinlich auch häufig — aber nicht genau gleich häufig. Das ist derselbe Schritt wie in der Vorlesung, hier ohne Selektion.
+
+```{r}
+WF_step <- function(p, N) {
+  N_p <- rbinom(1, N, p)   # wie viele der N Individuen tragen das Allel?
+  N_p / N
+}
+```
+
+## Eine Generation
+
+> **F2**
+>
+> Simulieren Sie eine einzelne Generation mit $p = 0.5$ und $N = 1000$.
+>
+> - Was erwarten Sie: nimmt $p$ ab, nimmt es zu, oder bleibt es in der Nähe von 0.5?
+> - Lassen Sie den Chunk mehrmals laufen. Was passiert?
+
+```{r}
+WF_step(p = 0.5, N = 1000)
+```
+
+## Viele Generationen
+
+```{r}
+simulateWF <- function(p_0, N, generationen = 250) {
+  p <- numeric(generationen + 1)
+  p[1] <- p_0
+  for (t in seq_len(generationen)) {
+    p[t + 1] <- WF_step(p[t], N)
   }
-  legend("topleft", paste("Teich", c(2, 7, 14)), col = teich_farben,
-         lwd = 2.5, pch = 16, bty = "n")
-}
-
-# braucht simuliere_bahn() aus Teil 5
-zeige_wolke <- function(s, N, n_bahnen = 100) {
-  plot(NA, xlim = c(0, 4), ylim = c(0.2, 1), xlab = "Jahr",
-       ylab = "Frequenz Suesswasser-Orientierung",
-       main = paste0(n_bahnen, " Bahnen mit s = ", s, ", N = ", N))
-  abline(h = 0.5, lty = 3, col = "grey60")
-  ende <- numeric(n_bahnen)
-  for (i in seq_len(n_bahnen)) {
-    p <- simuliere_bahn(s, N)
-    lines(0:4, p, col = adjustcolor("grey40", 0.3))
-    ende[i] <- p[5]
-  }
-  zeige_teiche()
-  bereich <- round(quantile(ende, c(0.05, 0.95)), 2)
-  mtext(paste0("90 % der Bahnen enden in Jahr 4 zwischen ",
-               bereich[1], " und ", bereich[2]),
-        side = 3, line = 0.2, cex = 0.85)
+  data.frame(generation = 0:generationen, p = p)
 }
 ```
 
-# 1 · Die Daten
+### Grosse Population
 
 ```{r}
-#| fig-height: 4.4
-#| fig-width: 7.5
-plot(NA, xlim = c(0, 4), ylim = c(0.2, 1), xlab = "Jahr",
-     ylab = "Frequenz Suesswasser-Orientierung", main = "Drei Teiche, Chr XI")
-abline(h = 0.5, lty = 3, col = "grey60")
-zeige_teiche()
+p_0 <- 0.5   # bitte ändern
+
+large_pop <- simulateWF(p_0, N = 1000)
+
+plot(large_pop$generation, large_pop$p, type = "l", lwd = 2, col = "plum4",
+     xlab = "Generationen", ylab = "Allelfrequenz", ylim = c(0, 1),
+     main = "N = 1000")
+abline(h = p_0, lwd = 1, lty = 2)
 ```
 
-Alle steigen, aber jeder anders. Schauen Sie in die Tabelle oben: Wie viele Kopien (`n`) wurden in Teich 7 untersucht, wie viele in Teich 2?
-
-# 2 · Zufall in R
-
-Woher kommt der Zufall in einer Population? Welcher Fisch überlebt, wie viele Junge er hat und welche seiner zwei Kopien er weitergibt (Mendel!), ist zum Teil **Glück**. Im Modell ersetzen wir dieses Glück durch **Zufallszahlen**. Wir beginnen mit dem einfachsten Zufall: einer Münze.
-
-## Eine Münze
-
-`sample(x, size)` zieht zufällig `size` Elemente aus `x`.
-
-```{r}
-sample(c("Kopf", "Zahl"), size = 1)
-```
-
-Führen Sie den Block mehrmals aus. Jedes Mal kann etwas anderes herauskommen.
-
-## Viele Münzen
-
-Für mehrere Würfe braucht es `replace = TRUE` (mit Zurücklegen: «Kopf» darf mehrmals vorkommen).
-
-```{r}
-wuerfe <- sample(c("Kopf", "Zahl"), size = 10, replace = TRUE)
-wuerfe
-sum(wuerfe == "Kopf")   # wie oft Kopf?
-```
-
-`wuerfe == "Kopf"` gibt für jeden Wurf `TRUE` oder `FALSE`. `sum()` zählt die `TRUE`.
-
-## Wiederholbarer Zufall: `set.seed`
-
-Ein Computer kann nicht wirklich würfeln. R **berechnet** Zahlen, die zufällig aussehen (Pseudo-Zufallszahlen). Der Startwert dieser Rechnung heisst **Seed**. Mit gleichem Seed kommen die gleichen Zahlen.
-
-```{r}
-set.seed(1)
-sample(c("Kopf", "Zahl"), size = 10, replace = TRUE)
-set.seed(1)
-sample(c("Kopf", "Zahl"), size = 10, replace = TRUE)
-```
-
-Das ist nützlich, damit andere (und Sie selbst nächste Woche) genau dasselbe Ergebnis bekommen.
-
-## Von Münzen zu Genkopien
-
-Jetzt eine Generation im Teich: $N = 250$ Genkopien. Jede ist mit Wahrscheinlichkeit $p = 0.5$ eine Süsswasser-Kopie (1), sonst eine Meer-Kopie (0). Das ist dasselbe wie 250 Münzwürfe.
-
-```{r}
-kopien <- sample(c(1, 0), size = 250, replace = TRUE, prob = c(0.5, 0.5))
-head(kopien, 20)   # die ersten 20 Kopien
-sum(kopien)        # Anzahl Süsswasser-Kopien
-mean(kopien)       # Frequenz p in der neuen Generation
-```
-
-Mit `prob` legen wir fest, wie wahrscheinlich jedes Element ist. `mean()` einer 0/1-Folge ist der Anteil der Einsen, also $p$.
-
-## Die Abkürzung: `rbinom`
-
-Uns interessiert nur die **Anzahl** der Süsswasser-Kopien, nicht welche Kopie welche ist. Diese Anzahl würfelt `rbinom` direkt:
-
-```{r}
-rbinom(1, size = 250, prob = 0.5)
-```
-
-`rbinom(anzahl, size, prob)`: Von `size` Kopien ist jede mit Wahrscheinlichkeit `prob` eine Süsswasser-Kopie. Wie viele sind es? Das Ganze `anzahl`-mal. Hier zehnmal:
-
-```{r}
-rbinom(10, size = 250, prob = 0.5)
-```
-
-> **Aufgabe A**
+> **F3**
 >
-> 1. Werfen Sie 100 Münzen mit `sample` und zählen Sie «Kopf». Wie nahe ist das an 50?
-> 2. Führen Sie `rbinom(10, size = 250, prob = 0.5)` **zweimal** aus. Bekommen Sie dieselben Zahlen? Und mit `set.seed(1)` in der Zeile davor?
-> 3. Ändern Sie `prob` auf `0.8`. Wo liegen die Zahlen jetzt ungefähr? Warum?
+> Ändern Sie `p_0`. Was passiert mit der Allelfrequenz über die 250 Generationen?
 
-# 3 · Wie stark schwankt $p$ in einer Generation?
+### Kleine Population
 
-Zehn Zahlen sind wenig. Wir ziehen **1000** neue Generationen, alle aus derselben Elterngeneration mit $p = 0.5$, und teilen durch $N$, um Frequenzen zu bekommen.
+> **F4**
+>
+> Was erwarten Sie für $N = 100$, bevor Sie den nächsten Block laufen lassen?
 
 ```{r}
-#| fig-height: 4
-#| fig-width: 7.5
-N <- 250   # hier ändern
-p_neu <- rbinom(1000, size = N, prob = 0.5) / N
-hist(p_neu, breaks = seq(0, 1, by = 0.02), xlim = c(0, 1), col = "grey80",
-     main = paste("1000 neue Generationen, N =", N), xlab = "Frequenz p in der neuen Generation")
-abline(v = 0.5, col = "red", lwd = 2)
-mean(p_neu)   # Mittelwert
-sd(p_neu)     # Standardabweichung: wie stark p schwankt
+p_0 <- 0.5   # bitte ändern
+
+small_pop <- simulateWF(p_0, N = 100)
+
+plot(small_pop$generation, small_pop$p, type = "l", lwd = 2, col = "plum4",
+     xlab = "Generationen", ylab = "Allelfrequenz", ylim = c(0, 1),
+     main = "N = 100")
+abline(h = p_0, lwd = 1, lty = 2)
 ```
 
-Im **Mittel** bleibt $p$ bei 0.5 (rote Linie): Zufall hat keine Richtung. Aber **einzelne** Generationen weichen ab. Wie stark, misst die Standardabweichung `sd`. Die Theorie sagt:
-
-$$
-\text{sd} = \sqrt{\frac{p\,(1-p)}{N}}
-$$
-
-```{r}
-sqrt(0.5 * (1 - 0.5) / N)
-```
-
-> **Aufgabe B**
+> **F5**
 >
-> Füllen Sie die Tabelle aus (oben `N` ändern):
->
-> | $N$ | `sd(p_neu)` | Formel |
-> |---|---|---|
-> | 25 |  |  |
-> | 250 |  |  |
-> | 2500 |  |  |
->
-> Wie hängt die Schwankung von $N$ ab? Um wie viel muss $N$ wachsen, damit die Schwankung halb so gross wird?
+> - Lassen Sie den Block ein paar Mal laufen. Was beobachten Sie?
+> - In den bisherigen Wochen stieg oder fiel $p$, weil das Allel einen Vorteil oder einen Nachteil hatte. Ist das hier auch so?
+> - Was heisst das für die genetische Vielfalt in einer kleinen Population?
 
-# 4 · Viele Generationen: Drift
+## Zurück zu den Teichen
 
-Jetzt hängen wir Generationen aneinander. Die neue Generation wird aus der **vorherigen** gezogen, nicht immer aus $p = 0.5$. Dafür brauchen wir eine Schleife (`for`). Lesen Sie den Code Zeile für Zeile:
+In der Vorlesung starten alle drei Teiche bei $p = 0.5$ und liegen nach drei bis vier Jahren bei etwa 0.63 (Teich 2 und 14) und 0.84 (Teich 7). Kann ein **neutrales** Allel das allein durch Zufall schaffen?
 
-```{r}
-#| fig-height: 4
-#| fig-width: 7.5
-N <- 250             # Anzahl Genkopien
-generationen <- 4    # hier ändern
-p <- numeric(generationen + 1)   # leerer Vektor für alle Frequenzen
-p[1] <- 0.5                      # Start
-for (t in 1:generationen) {
-  p[t + 1] <- rbinom(1, size = N, prob = p[t]) / N   # neue aus alter Generation
+Wir lassen `simulateWF` 100 Mal laufen, je 4 Generationen mit $N = 250$, und merken uns nur die Frequenz am Ende.
+
+```{r, fig.height = 4, fig.width = 7.5}
+N <- 250   # bitte ändern
+
+set.seed(2026)
+p_ende <- numeric(100)
+for (i in 1:100) {
+  bahn <- simulateWF(p_0 = 0.5, N = N, generationen = 4)
+  p_ende[i] <- bahn$p[5]
 }
-p
-plot(0:generationen, p, type = "b", pch = 16, ylim = c(0, 1),
-     xlab = "Generation", ylab = "Frequenz p", main = paste("Eine Bahn, N =", N))
-abline(h = 0.5, lty = 3, col = "grey60")
+
+hist(p_ende, breaks = seq(0, 1, by = 0.025), xlim = c(0.2, 1),
+     main = paste("100 neutrale Bahnen, N =", N),
+     xlab = "Allelfrequenz nach 4 Generationen", ylab = "Anzahl")
+abline(v = c(0.637, 0.625, 0.837), lwd = 2,
+       col = c("#e67e22", "#1e8449", "#2980b9"))   # Teich 2, 14, 7
+
+sum(p_ende >= 0.62)   # wie viele Bahnen kommen so hoch wie die Teiche?
 ```
 
-Eine solche Folge von Frequenzen nennen wir eine **Bahn**. Die zufällige Änderung von $p$ heisst **genetische Drift**.
-
-> **Aufgabe C**
+> **F6**
 >
-> 1. Führen Sie den Block mehrmals aus. Wie verschieden sind die Bahnen, obwohl es **keine** Selektion gibt?
-> 2. Setzen Sie `N <- 25`. Was ändert sich?
-> 3. Setzen Sie `N <- 25` und `generationen <- 100`. Was passiert am Ende fast immer? Warum kann $p$ von dort nicht mehr weg?
+> - Wie viele der 100 neutralen Bahnen kommen so hoch wie die Teiche? Und wie viele so hoch wie Teich 7?
+> - Setzen Sie `N` auf 50 und dann auf 25. Wie klein müsste die Population sein, damit Zufall allein reicht?
+> - In jedem Teich leben Hunderte Stichlinge. Was muss also zum Zufall dazukommen?
 
-# 5 · Selektion und Zufall zusammen
+# B · Stichprobengrösse
 
-Jetzt kommt die Selektion aus Woche 6 dazu. Jede Generation passiert zwei Dinge:
+In Woche 4 hatten die Männchen von *Uta stansburiana* eine Kehlfarbe, und die Anteile folgten aus dem Spiel. Hier sind die Anteile in der Population **gegeben**. Zufällig ist nur, wen Sie fangen.
 
-1. **Selektion** macht aus $p$ den erwarteten Anteil $p'$ (ohne Zufall, wie bisher),
-2. **Zufall**: $N$ Kopien werden mit Wahrscheinlichkeit $p'$ gezogen.
+Sie fangen jeden Sommer drei Stichproben mit je $n$ Echsen und notieren die Kehlfarbe. Wie gross muss $n$ sein, damit die Stichprobe die Population zeigt?
 
-Führen Sie diesen Block aus. Die Wolken in Teil 6 und 7 brauchen ihn.
+`rmultinom(n, size, prob)` ist die Ziehung für **drei Farben auf einmal**. `size` ist die Zahl gefangener Echsen, `prob` der Anteil jeder Farbe in der Population. Zurück kommt, wie viele Echsen orange, blau und gelb waren. Die Farben im Balken sind von unten nach oben orange, blau, gelb.
+
+### Jahr 1
 
 ```{r}
-# Selektion wie Woche 6 (haploid): aus p wird p_strich
-selektion <- function(p, s) p * (1 + s) / (1 + p * s)
+# Anteile in der Population: orange, blau, gelb
+lizard_pop_y1 <- c(0.5, 0.25, 0.25)
 
-# Eine Bahn über vier Jahre: jedes Jahr erst Selektion, dann Zufall
-simuliere_bahn <- function(s, N, jahre = 4) {
-  p <- numeric(jahre + 1)
-  p[1] <- 0.5
-  for (t in seq_len(jahre)) {
-    p_strich <- selektion(p[t], s)
-    p[t + 1] <- rbinom(1, N, p_strich) / N
-  }
-  p
-}
+sample_size <- 20   # bitte ändern: Echsen pro Stichprobe
+
+set.seed(2026)
+sample1 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_y1)
+sample2 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_y1)
+sample3 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_y1)
+
+data_y1 <- data.frame(
+  Wirklichkeit = lizard_pop_y1,
+  Stichprobe_1 = as.numeric(sample1) / sample_size,
+  Stichprobe_2 = as.numeric(sample2) / sample_size,
+  Stichprobe_3 = as.numeric(sample3) / sample_size
+)
+data_y1$Mittel <- (data_y1$Stichprobe_1 + data_y1$Stichprobe_2 + data_y1$Stichprobe_3) / 3
+
+barplot(as.matrix(data_y1),
+        col = c("#e67e22", "#2980b9", "#f1c40f"),
+        ylim = c(0, 1.45),
+        legend.text = c("orange", "blau", "gelb"),
+        args.legend = list(bty = "n", x = "topright"),
+        main = paste("Stichprobengrösse", sample_size, ", Jahr 1"),
+        ylab = "Anteil")
 ```
 
-Vergleich: einmal ohne Zufall (nur `selektion`), dreimal mit Zufall.
+> **F7**
+>
+> - Stimmen die Stichproben mit der Population überein?
+> - Ändern Sie `sample_size`. Was beobachten Sie?
+
+### Jahr 2
+
+Gelb ist jetzt selten.
 
 ```{r}
-p_ohne <- 0.5
-for (t in 1:4) p_ohne[t + 1] <- selektion(p_ohne[t], s = 0.2)
-round(p_ohne, 3)
-simuliere_bahn(s = 0.2, N = 250)
-simuliere_bahn(s = 0.2, N = 250)
-simuliere_bahn(s = 0.2, N = 250)
+lizard_pop_y2 <- c(0.15, 0.8, 0.05)   # orange, blau, gelb
+
+sample_size <- 20   # bitte ändern
+
+set.seed(2026)
+sample1 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_y2)
+sample2 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_y2)
+sample3 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_y2)
+
+data_y2 <- data.frame(
+  Wirklichkeit = lizard_pop_y2,
+  Stichprobe_1 = as.numeric(sample1) / sample_size,
+  Stichprobe_2 = as.numeric(sample2) / sample_size,
+  Stichprobe_3 = as.numeric(sample3) / sample_size
+)
+data_y2$Mittel <- (data_y2$Stichprobe_1 + data_y2$Stichprobe_2 + data_y2$Stichprobe_3) / 3
+
+barplot(as.matrix(data_y2),
+        col = c("#e67e22", "#2980b9", "#f1c40f"),
+        ylim = c(0, 1.45),
+        legend.text = c("orange", "blau", "gelb"),
+        args.legend = list(bty = "n", x = "topright"),
+        main = paste("Stichprobengrösse", sample_size, ", Jahr 2"),
+        ylab = "Anteil")
 ```
 
-> **Aufgabe D**
+> **F8**
 >
-> 1. Ohne Zufall: Wo endet $p$ nach vier Jahren mit $s = 0.2$?
-> 2. Mit Zufall: Enden die Bahnen immer höher als 0.5? Immer genau dort wie ohne Zufall?
-> 3. Probieren Sie `s = 0`. Was ist dann `p_ohne`?
+> - Stimmen die Stichproben mit der Population überein? Warum ist das hier heikler als in Jahr 1?
+> - Ändern Sie `sample_size`. Was beobachten Sie?
+> - Sie haben nur begrenzt Zeit. Lieber viele kleine Stichproben oder eine grosse?
 
-# 6 · Die neutrale Wolke
+## Bonus · wen das Netz bevorzugt
 
-Eine Bahn sagt wenig. Wir simulieren **100** Bahnen ohne Selektion ($s = 0$) und legen die Teiche darüber. Über der Abbildung steht, wo 90 % der Bahnen in Jahr 4 enden.
+Das Verhalten ändert, wie leicht ein Männchen zu fangen ist. Gelbe Schleicher haben kein Revier und gehen seltener ins Netz. Aggressive orange Männchen gehen leichter ins Netz.
+
+Die Zahlen in `bias` sind **Gewichte**, keine Wahrscheinlichkeiten. `rmultinom` teilt sie durch ihre Summe. Orange wird dann relativ häufiger gefangen, als es in der Population ist.
 
 ```{r}
-#| fig-height: 4.6
-#| fig-width: 7.5
-set.seed(9)
-zeige_wolke(s = 0, N = 250)
+lizard_pop_b <- c(0.25, 0.5, 0.25)   # orange, blau, gelb; bitte ändern
+bias <- c(1, 0.75, 0.5)              # orange leicht, gelb schwer zu fangen
+
+sample_size <- 20
+
+set.seed(2026)
+sample1 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_b * bias)
+sample2 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_b * bias)
+sample3 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_b * bias)
+
+data_b <- data.frame(
+  Wirklichkeit = lizard_pop_b,
+  Stichprobe_1 = as.numeric(sample1) / sample_size,
+  Stichprobe_2 = as.numeric(sample2) / sample_size,
+  Stichprobe_3 = as.numeric(sample3) / sample_size
+)
+data_b$Mittel <- (data_b$Stichprobe_1 + data_b$Stichprobe_2 + data_b$Stichprobe_3) / 3
+
+barplot(as.matrix(data_b),
+        col = c("#e67e22", "#2980b9", "#f1c40f"),
+        ylim = c(0, 1.45),
+        legend.text = c("orange", "blau", "gelb"),
+        args.legend = list(bty = "n", x = "topright"),
+        main = paste("Mit Fangbias, n =", sample_size),
+        ylab = "Anteil")
 ```
 
-$N = 250$ ist eine Schätzung: etwa so viele Genkopien tragen in einem Teich zur nächsten Generation bei.
-
-> **Aufgabe E**
+> **Bonus**
 >
-> 1. Liegen die Teiche **in** der grauen Wolke oder darüber?
-> 2. Wir kennen $N$ nicht genau. Probieren Sie `N = 100` und `N = 1000`. Wann wird die Wolke breiter, wann schmaler? Passt das zu Aufgabe B?
-> 3. Reicht Zufall allein, um die Teiche zu erklären?
-
-# 7 · Welches $s$ passt?
-
-Jetzt mit Selektion. Probieren Sie $s$ = 0.05, 0.1, 0.2 und 0.3 (lassen Sie $N = 250$).
-
-```{r}
-#| fig-height: 4.6
-#| fig-width: 7.5
-set.seed(11)
-zeige_wolke(s = 0.2, N = 250)   # hier s ändern
-```
-
-> **Aufgabe F**
->
-> 1. Bei welchem $s$ liegen Teich 2 und 14 gut in der Wolke?
-> 2. Liegt Teich 7 auch in der Wolke?
-
-# 8 · Ein zweiter Zufall: die Stichprobe
-
-Die Frequenzen der Teiche sind **gemessen**, nicht die wahren Werte. Im Teich leben viele Fische, untersucht wird nur ein Teil. Auch das ist eine Ziehung. Angenommen, die wahre Frequenz ist 0.6:
-
-```{r}
-#| fig-height: 4
-#| fig-width: 7.5
-n <- 20   # untersuchte Kopien; hier ändern
-gemessen <- rbinom(1000, size = n, prob = 0.6) / n
-hist(gemessen, breaks = seq(0, 1, by = 0.025), xlim = c(0, 1), col = "grey80",
-     main = paste("1000 Stichproben mit je", n, "Kopien, wahre Frequenz 0.6"),
-     xlab = "gemessene Frequenz")
-abline(v = 0.6, col = "red", lwd = 2)
-round(quantile(gemessen, c(0.05, 0.95)), 2)   # 90 % der Messungen liegen hier
-```
-
-> **Aufgabe G**
->
-> 1. Teich 7 hat pro Jahr nur 10–43 untersuchte Kopien, Teich 2 meist über 80. Probieren Sie `n <- 20` und `n <- 200`. Wie genau ist eine Messung?
-> 2. Warum sollte man Teich 7 weniger trauen als Teich 2?
-> 3. Ist das Bild aus Teil 7 ein **Beweis** für Selektion? Was zeigt es, und was nicht?
+> Wann wird der Fangbias zum Problem? Hilft ein grösseres `sample_size` dagegen, oder bleibt die Abweichung?
 
 ---
 
-Teichdaten: Katie Peichel (Bern) und Dolph Schluter (UBC), unveröffentlicht, mit freundlicher Genehmigung.
+# Fazit
+
+Teil A ändert die **Population** über die Generationen. Teil B ändert nur, **was im Netz liegt**. Die Population der Echsen ist in Teil B jedes Mal dieselbe.
+
+> **F9**
+>
+> Schreiben Sie die drei Sätze zu Ende.
+>
+> - In einer kleinen Population kann ein Allel zufälligerweise … . Diesen Prozess nennen wir **Drift**.
+> - Wenn wir Stichproben nehmen, können seltene Typen zufälligerweise … .
+> - In Teich 7 wurden pro Jahr nur 10–43 Kopien untersucht. Ein Teil des Unterschieds zu den anderen Teichen kann deshalb … sein.

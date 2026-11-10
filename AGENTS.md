@@ -136,6 +136,71 @@ author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 
 ---
 
+## How weeks 1–8 were built
+
+Follow this when drafting or revising a week. The first eight weeks are the standard; a later week should feel like the next hour of the same course, not a new course.
+
+Students are first-years, in parallel with a programming course. Each session is a biological question, then data or an experiment, then the mathematics that the question forces. Derivations and formal tests belong to other lectures. Say what a figure is consistent with, and what it does not prove.
+
+Spelling is Swiss German (`ss`, not `ß`): *gross*, *Grösse*, *dass*, *Süsswasser*. Match the tone of weeks 7–8 (short sentences, smoothed wording). Plot axis labels inside R use ASCII (*Haeufigkeit*, *Suesswasser*, *Frequenz*): umlauts in `xlab`/`ylab` have broken renders.
+
+### What they can already do
+
+Do not re-teach this. Do not assume anything past it.
+
+| Week | Biology | Model they leave with | New in R |
+|------|---------|------------------------|----------|
+| 1 | Bajau spleen, Tibetan *EPAS1* | Question → data → method. No notebook | — |
+| 2 | Gause *Paramecium*, then *Didinium* | $N_{t+1}=N_t+f(N_t)$. No $\Delta t$, no ODE as the working model | `next_*()`, vector, `for`, `plot` |
+| 3 | One vs two endpoints, *Pisaster*, Yellowstone | Same pipeline; stability is about the endpoint, not the start | Food web in the notebook |
+| 4 | *Uta* throat colours, Checkpoint A | Payoff matrix; 2 strategies exclude, 3 can cycle. Point / oscillation / heterocline | Change entries of $A$ |
+| 5 | Same lizards as genes; HapMap; avocado | HWE is the null **without** selection. Diploid genotypes | Data frames, one operation on every row |
+| 6 | Sickle cell; throat-colour wrap-up | Fitness → one recursion for $p$. Constant, underdominance, overdominance; frequency dependence + plasticity $\theta$ | Turn one parameter |
+| 7 | Stickleback *Eda* / sea–freshwater; mosquitoes (Lenormand 1999) | Local selection, then mixing. $F_{ST}$ | `quantile()` to filter rows |
+| 8 | Neutralism, spandrels; Checkpoint B | Summer cline first, then **one** number for winter, then a biological argument | No new tool. Helpers stay folded |
+
+Cumulative toolkit at the end of week 8: a function for one step, a vector, a loop, a base-R plot, a data frame, vectorised row maths, filtering. Student notebooks use **base graphics**. ggplot2 is for slides only (`source("../slides-ggplot.R")`, `theme_slide()`).
+
+Ploidy is easy to get wrong. Weeks 5–7 are diploid where the biology is diploid (HWE, sickle cell, mosquito genotypes $w_{RR}, w_{Rr}, w_{rr}$ — the notebook was corrected to diploid on purpose). The spatial cline in week 8 is the week-7 model. From week 9 the **course** Wright–Fisher step is haploid: selection to $p'$, then $X\sim\mathrm{Binomial}(N,p')$. Say so when the simplification matters. Do not silently switch a published diploid example to haploid.
+
+### Shape of a session
+
+- Week 1: two lecture halves, no notebook.
+- Weeks 2, 3, 5, 6, 7: about 45 min lecture, then 45 min notebook.
+- Checkpoint weeks (4, 8, and later 11, 14): short intro, notebook, then TAs walk the room. Not a board presentation.
+- Slides open with **Übersicht** (week number, date, time split), then **Lernziele** as *Nach heute können Sie …* with numbered verbs. Biology, then model, then code. One idea per `##`.
+- The YAML `subtitle` is the same on the slides and the notebook (*Strategie und Fitness*, *Sommer und Winter*). Timing stays on the Übersicht slide.
+- State the pipeline in the open: experiment → observation → model → code. Parameter tables have symbol, meaning, constraint, and the value used in class.
+- A rewrite has already dropped experiment slides that the lecture needed. Diff against the previous deck before replacing it, and put the biology back.
+- New terms go in `docs/glossary.qmd`. Week 1’s `glossary.qmd` only redirects there.
+- Comics live in `pics/comics/`. If the wording changes, change the SVG labels too.
+- Uni Bern research callout: `::: {.unibe}` (kicker comes from `weeks/print.css`).
+
+### Notebooks
+
+The notebook is the same story as the slides, with the code in the students’ hands. Weeks 5–8 ship **three files of one task**: `notebook.qmd`, `notebook.Rmd`, `notebook.R`. Change all three in the same edit. A collaborator commit titled *Vorschlag* is a draft: keep it only if it still answers the lecture’s question, then sync the other two formats and the slide closer that lists the notebook steps. Do not leave `notebook.qmd` on a different organism or a different question from `notebook.Rmd`.
+
+Pattern that worked:
+
+- Opening prose: the biological question, what each column means, and what every figure’s axes, colours, and shapes are. Same axes for every plot in the week. A student who only looks at the figures should still learn something.
+- Section 0 is “run this”: data plus helpers in a folded chunk (*nicht verändern*). Later chunks assume it has been run.
+- Tasks are `::: {.callout-tip}` and numbered in order (`F1`, `F2`, …). Each task changes **one** thing. Say which number to edit.
+- Notebooks the room can finish. Week 8 was cut to one model chunk and three tasks after a longer draft. If a block is optional, mark it bonus.
+- `execute: freeze: false` and `echo: true` on notebooks (the code is the lesson). `embed-resources: true` and `lang: de` from week 5 on. Slides: `freeze: auto`; `echo: false` unless the chunk itself is being read (week 2).
+- Decimal point, not comma (`0.02`).
+- Real data: citation plus `weeks/week-XX/data/README.md`. Unpublished teaching extracts need the owners’ permission in that README. Invented series are labelled in the notebook (*Kursdaten, erfunden*), as in week 8.
+- The student file does not contain the answer. Week 4 solution slides and the solution notebook are gitignored (`*-loesung.qmd`). Checkpoint keys live in `ta-merkblatt.qmd`, which is not linked from student pages or the navbar.
+
+### Checkpoints A and B
+
+Pass/fail is attendance and a conversation, at least 3 of 4 checkpoints. Teams of up to four. No homework. The TA comes to the group.
+
+The task is **one question**, answered with **one figure**, in one or two minutes. The path is fixed: fit or explore the first case, change a single parameter for the second case, then argue biologically which change is plausible. Week 8: summer cline first, winter by changing either $s$ or $m$, then why it has to be selection (mosquitoes fly less in winter, so a larger $m$ is the wrong story). Several parameter pairs can match; the biology decides.
+
+The TA sheet states what “bestanden” means, the expected range (not a single exact value), and the usual failures (both knobs moved at once, comma decimal, helper chunk not run, wrong distance read). Exact numbers are not required.
+
+---
+
 ## Git and deploy
 
 - Collaborators: branch → PR into `main`.
@@ -146,8 +211,11 @@ author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 ### Before finishing agent work
 
 - [ ] Edited the correct `weeks/week-XX/` paths
+- [ ] Notebook still answers the same question as the slides; `notebook.Rmd` and `notebook.R` match `notebook.qmd`
+- [ ] No new R tool beyond the one this week introduces; nothing from weeks 1–8 re-taught from scratch
+- [ ] Tasks change one thing at a time; the answer is not in the student file
 - [ ] No project-level `format:` introduced
 - [ ] Relative links/images checked conceptually
-- [ ] New `pics/` credited; new data documented
+- [ ] New `pics/` credited; new data documented (permission or *erfunden*)
 - [ ] New R plots: freeze committed or flagged for maintainer
 - [ ] Changes pushed or clearly left uncommitted with a note for the next machine
