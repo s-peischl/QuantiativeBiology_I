@@ -79,8 +79,8 @@ formel <- function(N0, r, s, U = 1e-5) 1 - exp(-2 * N0 * U * s / r)
 
 | Teil | Dauer | Was |
 |------|-------|-----|
-| Vorlesung | ~45 min | Elefanten ohne Stosszähne · eine neue Mutation · evolutionäre Rettung |
-| Notebook | ~45 min | Schicksal einer Kopie · Rettung simulieren · Bonus: Elefanten |
+| Vorlesung | ~50 min | Bakterien unter Antibiotikum · eine neue Mutation · Rettung · Elefanten · Tasmanische Teufel |
+| Notebook | ~40 min | Schicksal einer Kopie · Rettung simulieren · Bonus: Elefanten |
 
 ::: aside
 Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
@@ -90,80 +90,55 @@ Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 
 Nach heute können Sie …
 
-1. an einem Beispiel erklären, wie Selektion in einer **schrumpfenden** Population wirkt,
-2. stehende Variation und **neue** Mutation unterscheiden,
-3. sagen, warum eine neue vorteilhafte Mutation meist **verloren** geht (etwa $2s$),
-4. beschreiben, wovon **evolutionäre Rettung** abhängt: $N_0$, $U$, $s$, $r$.
+1. beschreiben, wie Bakterien unter Antibiotikum **gerettet** werden oder aussterben (U-Kurve),
+2. sagen, warum eine neue vorteilhafte Mutation meist **verloren** geht (etwa $2s$),
+3. erklären, wovon **evolutionäre Rettung** abhängt: $N_0$, $U$, $s$, $r$,
+4. stehende Variation und **neue** Mutation unterscheiden: Elefanten und Tasmanische Teufel.
 
-# Elefanten ohne Stosszähne
+# Bakterien unter Antibiotikum
 
-## Gorongosa, Mosambik
+## Eine Infektion wird behandelt
 
-- Bürgerkrieg in Mosambik, **1977 bis 1992**.
-- Bewaffnete Gruppen wildern im Gorongosa-Nationalpark Elefanten, für **Elfenbein**.
-- Vor dem Krieg: über **2500** Elefanten. Danach: etwa **200**. Über 90 % sind weg.
+Ein Antibiotikum tötet empfindliche Bakterien. Die Population **schrumpft**.
 
-Gejagt werden Tiere **mit** Stosszähnen.
+Zwei Ausgänge sind möglich:
 
-::: aside
-Campbell-Staton et al. (2021), *Science* 374: 483–487
-:::
+- Alle sterben: Die Infektion ist vorbei.
+- Eine **resistente** Mutante ist schon da oder entsteht, bevor alle tot sind. Sie wächst, und die Population erholt sich.
 
-## Weibchen ohne Stosszähne
+Für die Patientin ist das zweite schlecht. Für die Bakterien ist es **evolutionäre Rettung**.
+
+## Im Labor: *Pseudomonas* und Streptomycin
+
+Ramsayer et al. (2013) setzten Hunderte Populationen von *Pseudomonas fluorescens* dem Antibiotikum Streptomycin aus und zählten über die Zeit die Zellen.
+
+- Alle Populationen **schrumpften** zuerst.
+- Manche starben aus, zwischen Stunde 30 und 53.
+- Andere schrumpften 20 bis 30 Stunden lang und **wuchsen dann wieder**: eine **U-Kurve**.
+- Am Ende waren 96.8 % der geretteten Populationen **resistent**. Von den ausgestorbenen waren 96.4 % bis zuletzt empfindlich.
+
+## Grosse Populationen werden öfter gerettet
 
 ```{r}
-#| fig-height: 3.2
-#| fig-width: 7.5
-#| out-width: 75%
-ele <- data.frame(
-  wann = factor(c("vor dem Krieg\n(n = 52)", "nach dem Krieg\n(n = 108)", "Töchter, nach dem\nKrieg geboren"),
-                levels = c("vor dem Krieg\n(n = 52)", "nach dem Krieg\n(n = 108)", "Töchter, nach dem\nKrieg geboren")),
-  anteil = c(0.185, 0.509, 0.33))
-ggplot(ele, aes(wann, anteil)) +
-  geom_col(fill = "#a04000", width = 0.6) +
-  geom_text(aes(label = paste0(round(100 * anteil, 1), " %")), vjust = -0.4, size = 5) +
-  scale_y_continuous(limits = c(0, 0.62), labels = function(x) paste0(100 * x, " %")) +
-  labs(x = NULL, y = "Anteil ohne Stosszähne") +
+#| fig-height: 2.8
+#| fig-width: 6.5
+#| out-width: 60%
+pf <- data.frame(groesse = factor(c("klein (0.2 mL)", "gross (1.5 mL)"),
+                                  levels = c("klein (0.2 mL)", "gross (1.5 mL)")),
+                 gerettet = c(3, 25), total = c(47, 48))
+ggplot(pf, aes(groesse, gerettet / total)) +
+  geom_col(fill = "#2166ac", width = 0.55) +
+  geom_text(aes(label = paste(gerettet, "von", total)), vjust = -0.5, size = 5) +
+  scale_y_continuous(limits = c(0, 0.65), labels = function(x) paste0(100 * x, " %")) +
+  labs(x = "Populationsgrösse (Volumen)", y = "gerettet") +
   theme_slide()
 ```
 
-Ein kleiner Teil der Weibchen hatte schon immer keine Stosszähne. Nach dem Krieg ist es **die Hälfte**.
+Gleiches Antibiotikum, gleiche Bakterien. Der Unterschied ist die **Grösse**. Warum? Dafür brauchen wir ein Modell.
 
 ::: aside
-Weibchen im Gorongosa-Nationalpark. Campbell-Staton et al. (2021)
+Ramsayer, Kaltz & Hochberg (2013), Experiment 2, nach 86 Stunden
 :::
-
-## Zufall oder Selektion?
-
-Wer keine Stosszähne hat, ist für Wilderer uninteressant. Mit Modellen schätzen die Autoren: Stosszahnlose Weibchen hatten eine etwa **fünfmal** höhere Chance, den Krieg zu überleben.
-
-Probe mit der Rechnung aus Woche 6 ($p' = p\,w/\bar w$), hier für den Anteil $p$ stosszahnloser Weibchen. Überleben sie $w = 5$-mal eher:
-
-$$
-p' = \frac{w\,p}{w\,p + (1 - p)} = \frac{5 \cdot 0.185}{5 \cdot 0.185 + 0.815} \approx 0.53
-$$
-
-Beobachtet: 0.509. Ein einziger Selektionsschritt, **innerhalb einer** Elefantengeneration.
-
-## Ein Allel auf dem X-Chromosom
-
-- Im Park sind **keine** Männchen ohne Stosszähne bekannt.
-- Vermutung der Autoren: ein **dominantes** Allel auf dem **X-Chromosom**. Weibchen mit einer Kopie haben keine Stosszähne. Männchen mit dem Allel sterben vermutlich vor der Geburt.
-- Dazu passt: Die Nachkommen stosszahnloser Mütter sind zu **65.7 %** weiblich.
-- Kandidatengene: **AMELX** (auf dem X, Zahnschmelz) und **MEP1a**, beide an der Zahnbildung beteiligt.
-
-Der Vorteil hat also einen **Preis**.
-
-## Ist das Rettung?
-
-**Nicht ganz.** Die Elefanten erholten sich vor allem, weil der Krieg und die Wilderei endeten.
-
-Aber zwei Dinge sind wie bei Rettung:
-
-1. Selektion wirkt **während** die Population einbricht.
-2. Die rettende Variante muss **rechtzeitig da sein**.
-
-Bei den Elefanten war sie **schon da**: **stehende Variation**, viele Kopien. Was, wenn sie erst **neu entstehen** muss?
 
 ## Letzte Woche: viele Kopien
 
@@ -299,7 +274,7 @@ ggplot() +
   theme_slide()
 ```
 
-Zwischen 1000 und 100 000 Individuen kippt die Rettung von «fast nie» zu «fast immer».
+Zwischen 1000 und 100 000 Individuen kippt die Rettung von «fast nie» zu «fast immer». Das passt zu *Pseudomonas*: kleine Röhrchen 3 von 47, grosse 25 von 48.
 
 ## Im Labor: Hefe unter Salz
 
@@ -309,13 +284,120 @@ Bell & Gonzalez (2009) setzten viele Hefe-Populationen verschiedener Grösse ein
 - Manche erholten sich nach einem Einbruch: **U-Kurve**, wie im Modell.
 - **Grössere** Populationen wurden häufiger gerettet.
 
+# Wenn die Variante schon da ist
+
+## Gorongosa, Mosambik
+
+- Bürgerkrieg in Mosambik, **1977 bis 1992**.
+- Bewaffnete Gruppen wildern im Gorongosa-Nationalpark Elefanten, für **Elfenbein**.
+- Vor dem Krieg: über **2500** Elefanten. Danach: etwa **200**. Über 90 % sind weg.
+
+Gejagt werden Tiere **mit** Stosszähnen.
+
+::: aside
+Campbell-Staton et al. (2021), *Science* 374: 483–487
+:::
+
+## Weibchen ohne Stosszähne
+
+```{r}
+#| fig-height: 3.2
+#| fig-width: 7.5
+#| out-width: 75%
+ele <- data.frame(
+  wann = factor(c("vor dem Krieg\n(n = 52)", "nach dem Krieg\n(n = 108)", "Töchter, nach dem\nKrieg geboren"),
+                levels = c("vor dem Krieg\n(n = 52)", "nach dem Krieg\n(n = 108)", "Töchter, nach dem\nKrieg geboren")),
+  anteil = c(0.185, 0.509, 0.33))
+ggplot(ele, aes(wann, anteil)) +
+  geom_col(fill = "#a04000", width = 0.6) +
+  geom_text(aes(label = paste0(round(100 * anteil, 1), " %")), vjust = -0.4, size = 5) +
+  scale_y_continuous(limits = c(0, 0.62), labels = function(x) paste0(100 * x, " %")) +
+  labs(x = NULL, y = "Anteil ohne Stosszähne") +
+  theme_slide()
+```
+
+Ein kleiner Teil der Weibchen hatte schon immer keine Stosszähne. Nach dem Krieg ist es **die Hälfte**.
+
+::: aside
+Weibchen im Gorongosa-Nationalpark. Campbell-Staton et al. (2021)
+:::
+
+## Ein Mini-Modell: ein Selektionsschritt
+
+Wer keine Stosszähne hat, ist für Wilderer uninteressant. Mit Modellen schätzen die Autoren: Stosszahnlose Weibchen hatten eine etwa **fünfmal** höhere Chance, den Krieg zu überleben.
+
+Probe mit der Rechnung aus Woche 6 ($p' = p\,w/\bar w$), hier für den Anteil $p$ stosszahnloser Weibchen. Überleben sie $w = 5$-mal eher:
+
+$$
+p' = \frac{w\,p}{w\,p + (1 - p)} = \frac{5 \cdot 0.185}{5 \cdot 0.185 + 0.815} \approx 0.53
+$$
+
+Beobachtet: 0.509. Ein einziger Selektionsschritt, **innerhalb einer** Elefantengeneration.
+
+## Ein Allel auf dem X-Chromosom
+
+- Im Park sind **keine** Männchen ohne Stosszähne bekannt.
+- Vermutung der Autoren: ein **dominantes** Allel auf dem **X-Chromosom**. Weibchen mit einer Kopie haben keine Stosszähne. Männchen mit dem Allel sterben vermutlich vor der Geburt.
+- Dazu passt: Die Nachkommen stosszahnloser Mütter sind zu **65.7 %** weiblich.
+- Kandidatengene: **AMELX** (auf dem X, Zahnschmelz) und **MEP1a**, beide an der Zahnbildung beteiligt.
+
+Der Vorteil hat also einen **Preis**.
+
+## Neue Mutation oder stehende Variation?
+
+**Nicht ganz Rettung.** Die Elefanten erholten sich vor allem, weil der Krieg und die Wilderei endeten.
+
+Aber der Vergleich mit dem Modell zeigt etwas Wichtiges:
+
+- Eine **neue** Mutation startet mit einer Kopie und muss die Lotterie (etwa $2s$) gewinnen.
+- Die Stosszahnlosigkeit war **schon da**, bei 18.5 % der Weibchen: **stehende Variation**. Viele Kopien, kein Warten.
+
+Darum ging es so schnell: ein Schritt, nicht viele Generationen.
+
+# Tasmanische Teufel
+
+## Ein ansteckender Krebs
+
+- Der **Tasmanische Teufel** ist das grösste noch lebende Raubbeuteltier.
+- 1996 wird im Nordosten Tasmaniens ein **Gesichtstumor** entdeckt (DFTD). Die Krebszellen selbst werden übertragen, durch **Bisse** bei Kämpfen.
+- Die Krankheit endet fast immer tödlich.
+- In weniger als 20 Jahren: über **80 %** weniger Teufel, örtlich über 90 %. Modelle sagten das **Aussterben** voraus.
+
+Doch dort, wo die Krankheit am längsten ist, gibt es noch Teufel.
+
+::: aside
+Epstein et al. (2016), *Nature Communications* 7: 12684
+:::
+
+## Evolution in vier bis sechs Generationen
+
+Epstein et al. (2016) verglichen das Erbgut von 294 Teufeln aus drei Gebieten, **vor** und **nach** Ankunft der Krankheit.
+
+- In allen drei Gebieten veränderten sich dieselben **zwei** Regionen im Genom.
+- Dort liegen Gene, die beim Menschen mit dem **Immunsystem** oder mit dem **Krebsrisiko** zu tun haben.
+- Geschätzter Vorteil der zunehmenden Varianten: 16 bis 38 %, je nach Gebiet und Region, mit grosser Unsicherheit.
+- Das alles in etwa **4 bis 6** Generationen (eine Teufelgeneration: etwa 2 Jahre).
+
+## Ein Kandidat für Rettung
+
+Alle Zutaten aus dem Modell sind da:
+
+| Zutat | Teufel |
+|---|---|
+| Rückgang $r$ | Krebs tötet, die Population schrumpft stark |
+| Variation | Varianten in Immungenen, schon vorhanden |
+| Vorteil $s$ | geschätzt 0.16 bis 0.38, unsicher |
+| Startgrösse $N_0$ | klein, und sie wird kleiner |
+
+Ob es für Rettung reicht, ist **offen**. Die Autoren schreiben vorsichtig: Die Teufel entwickeln *möglicherweise* Resistenz.
+
 ## Was das bedeutet
 
 **Antibiotika und Pestizide:** Riesige Populationen von Bakterien oder Schädlingen werden fast immer gerettet. Resistenz ist zu erwarten.
 
 **Naturschutz:** Kleine, schrumpfende Populationen von bedrohten Arten werden selten gerettet. Für sie ist Evolution meist **zu langsam**.
 
-**Elefanten:** Schnell ging es nur, weil die Variante schon da war. Und sie hat einen Preis: Söhne mit dem Allel überleben vermutlich nicht.
+**Elefanten und Teufel:** Ist eine passende Variante **schon da**, kann Selektion in wenigen Generationen viel ändern. Ob das eine kleine Population rettet, ist offen.
 
 # Abschluss
 
@@ -324,9 +406,9 @@ Bell & Gonzalez (2009) setzten viele Hefe-Populationen verschiedener Grösse ein
 1. Eine neue vorteilhafte Mutation geht meist verloren. Sie etabliert sich nur mit Wahrscheinlichkeit **etwa $2s$**.
 2. Evolutionäre Rettung: Eine Mutante muss sich etablieren, **bevor** die Population ausstirbt.
 3. Grosses $N_0$, $U$, $s$ und langsamer Rückgang $r$ machen Rettung wahrscheinlich.
-4. Ist die Variante **schon da** (stehende Variation, wie bei den Elefanten), geht Anpassung viel schneller als mit einer neuen Mutation.
+4. Ist die Variante **schon da** (stehende Variation: Elefanten, Teufel), geht Anpassung viel schneller als mit einer neuen Mutation.
 
-## Notebook (~50 min)
+## Notebook (~40 min)
 
 **→ [Notebook Woche 10 öffnen](notebook.html)** · [Rmd](notebook.Rmd) · [R](notebook.R)
 
@@ -341,10 +423,12 @@ Sie verfolgen einzelne Mutationen, schätzen die Etablierung und simulieren Rett
 :::: {.lit}
 1. **Haldane, J. B. S. (1927).** A mathematical theory of natural and artificial selection, Part V. *Proc. Camb. Philos. Soc.* 23: 838–844.
 2. **Gomulkiewicz, R. & Holt, R. D. (1995).** When does evolution by natural selection prevent extinction? *Evolution* 49: 201–207. [doi:10.1111/j.1558-5646.1995.tb05971.x](https://doi.org/10.1111/j.1558-5646.1995.tb05971.x)
-3. **Bell, G. & Gonzalez, A. (2009).** Evolutionary rescue can prevent extinction following environmental change. *Ecology Letters* 12: 942–948. [doi:10.1111/j.1461-0248.2009.01350.x](https://doi.org/10.1111/j.1461-0248.2009.01350.x)
-4. **Campbell-Staton, S. C., Arnold, B. J., Gonçalves, D., Granli, P., Poole, J., Long, R. A. & Pringle, R. M. (2021).** Ivory poaching and the rapid evolution of tusklessness in African elephants. *Science* 374: 483–487. [doi:10.1126/science.abe7389](https://doi.org/10.1126/science.abe7389)
-5. **Orr, H. A. & Unckless, R. L. (2014).** The population genetics of evolutionary rescue. *PLoS Genet.* 10: e1004551. [doi:10.1371/journal.pgen.1004551](https://doi.org/10.1371/journal.pgen.1004551)
-6. **Peischl, S. & Kirkpatrick, M. (2012).** Establishment of new mutations in changing environments. *Genetics* 191: 895–906. [doi:10.1534/genetics.112.140756](https://doi.org/10.1534/genetics.112.140756)
+3. **Ramsayer, J., Kaltz, O. & Hochberg, M. E. (2013).** Evolutionary rescue in populations of *Pseudomonas fluorescens* across an antibiotic gradient. *Evolutionary Applications* 6: 608–616. [doi:10.1111/eva.12046](https://doi.org/10.1111/eva.12046)
+4. **Bell, G. & Gonzalez, A. (2009).** Evolutionary rescue can prevent extinction following environmental change. *Ecology Letters* 12: 942–948. [doi:10.1111/j.1461-0248.2009.01350.x](https://doi.org/10.1111/j.1461-0248.2009.01350.x)
+5. **Campbell-Staton, S. C., Arnold, B. J., Gonçalves, D., Granli, P., Poole, J., Long, R. A. & Pringle, R. M. (2021).** Ivory poaching and the rapid evolution of tusklessness in African elephants. *Science* 374: 483–487. [doi:10.1126/science.abe7389](https://doi.org/10.1126/science.abe7389)
+6. **Epstein, B., Jones, M., Hamede, R., Hendricks, S., McCallum, H., Murchison, E. P., Schönfeld, B., Wiench, C., Hohenlohe, P. & Storfer, A. (2016).** Rapid evolutionary response to a transmissible cancer in Tasmanian devils. *Nature Communications* 7: 12684. [doi:10.1038/ncomms12684](https://doi.org/10.1038/ncomms12684)
+7. **Orr, H. A. & Unckless, R. L. (2014).** The population genetics of evolutionary rescue. *PLoS Genet.* 10: e1004551. [doi:10.1371/journal.pgen.1004551](https://doi.org/10.1371/journal.pgen.1004551)
+8. **Peischl, S. & Kirkpatrick, M. (2012).** Establishment of new mutations in changing environments. *Genetics* 191: 895–906. [doi:10.1534/genetics.112.140756](https://doi.org/10.1534/genetics.112.140756)
 ::::
 
 ## Navigation

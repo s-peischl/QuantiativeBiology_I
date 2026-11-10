@@ -177,7 +177,7 @@ formel(N0 = 30000, r = 0.1, s = 0.1)             # gleich aendern
 #
 # b) Ab welchem N_0 wird etwa die Haelfte der Populationen gerettet?
 #
-# c) Was bedeutet das fuer Bakterien unter Antibiotika (Milliarden Zellen) und fuer eine bedrohte Art mit wenigen hundert Tieren?
+# c) Was bedeutet das fuer Bakterien unter Antibiotika (Milliarden Zellen) und fuer eine bedrohte Art mit wenigen hundert Tieren (z. B. Tasmanische Teufel)?
 
 # ===========================================================================
 # 5 · Bonus: Elefanten ohne Stosszaehne
