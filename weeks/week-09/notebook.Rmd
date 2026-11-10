@@ -11,23 +11,30 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE,
-                      fig.height = 4.2, fig.width = 7.5)
+                      fig.height = 4.6, fig.width = 7.5)
 ```
 
-Falls Quarto fehlt: dieses `.Rmd` in RStudio öffnen und **Knit** drücken. Noch einfacher: die reine R-Datei [`notebook.R`](notebook.R) (Source). Die Quarto-Fassung ist [`notebook.qmd`](notebook.qmd).
+<style>
+table { width: auto !important; margin: 1em auto; border-collapse: collapse; }
+th, td { padding: 0.4em 1.2em !important; border: 1px solid #ccc; }
+blockquote { font-size: 1em; border-left: 4px solid #2c7fb8; background: #f2f8fc; padding: 0.6em 1em; }
+</style>
 
-In der Vorlesung wandert die Frequenz in den Teichen, auch ohne dass wir schon wissen, wie viel davon Selektion ist. Zwei Dinge können eine gemessene Frequenz verschieben: die **Population** ist endlich, und die **Stichprobe** ist nur ein Teil davon.
+
+In der Vorlesung wandert die Frequenz in den Teichen, auch ohne dass wir schon wissen, wie viel davon Selektion ist. Ein Grund dafür: Die **Population** ist endlich. Jede Generation ist eine Ziehung aus der vorherigen.
 
 Dieses Notebook rechnet die Teiche nicht noch einmal. Sie kommen nur am Ende von Teil A kurz zurück. Zwei neue Fragen:
 
 1. Wie hängt diese Wanderung von der **Populationsgrösse** $N$ ab, wenn das Allel **neutral** ist?
-2. Was sieht man von den Kehlfarben der Echsen aus Woche 4, wenn der Fang selbst Zufall ist?
+2. Was passiert mit den drei Kehlfarben der Echsen aus Woche 4, wenn die Population **endlich** ist?
+
+Falls Quarto fehlt: dieses `.Rmd` in RStudio öffnen und **Knit** drücken. Noch einfacher: die reine R-Datei [`notebook.R`](notebook.R).
 
 > **Auftrag**
 >
 > 1. Eine Binomialverteilung anschauen und `set.seed` ausprobieren.
 > 2. Ein neutrales Allel viele Generationen lang verfolgen, einmal in einer grossen und einmal in einer kleinen Population. Dann mit den Teichen vergleichen.
-> 3. Drei Stichproben von Echsen ziehen und die Stichprobengrösse ändern. Der Fangbias am Schluss ist ein Bonus.
+> 3. Das Echsen-Spiel aus Woche 4 mit endlicher Population laufen lassen: Wann gehen Farben verloren?
 
 # 0 · Zufallszahlen
 
@@ -90,6 +97,8 @@ simulateWF <- function(p_0, N, generationen = 250) {
 ### Grosse Population
 
 ```{r}
+#| fig-height: 4
+#| fig-width: 7.5
 p_0 <- 0.5   # bitte ändern
 
 large_pop <- simulateWF(p_0, N = 1000)
@@ -111,6 +120,8 @@ abline(h = p_0, lwd = 1, lty = 2)
 > Was erwarten Sie für $N = 100$, bevor Sie den nächsten Block laufen lassen?
 
 ```{r}
+#| fig-height: 4
+#| fig-width: 7.5
 p_0 <- 0.5   # bitte ändern
 
 small_pop <- simulateWF(p_0, N = 100)
@@ -133,7 +144,9 @@ In der Vorlesung starten alle drei Teiche bei $p = 0.5$ und liegen nach drei bis
 
 Wir lassen `simulateWF` 100 Mal laufen, je 4 Generationen mit $N = 250$, und merken uns nur die Frequenz am Ende.
 
-```{r, fig.height = 4, fig.width = 7.5}
+```{r}
+#| fig-height: 4
+#| fig-width: 7.5
 N <- 250   # bitte ändern
 
 set.seed(2026)
@@ -158,134 +171,180 @@ sum(p_ende >= 0.62)   # wie viele Bahnen kommen so hoch wie die Teiche?
 > - Setzen Sie `N` auf 50 und dann auf 25. Wie klein müsste die Population sein, damit Zufall allein reicht?
 > - In jedem Teich leben Hunderte Stichlinge. Was muss also zum Zufall dazukommen?
 
-# B · Stichprobengrösse
+# B · Echsen mit endlicher Population
 
-In Woche 4 hatten die Männchen von *Uta stansburiana* eine Kehlfarbe, und die Anteile folgten aus dem Spiel. Hier sind die Anteile in der Population **gegeben**. Zufällig ist nur, wen Sie fangen.
+In Woche 4 hatten die Männchen von *Uta stansburiana* drei Kehlfarben: **orange** schlägt **blau**, **blau** schlägt **gelb**, **gelb** schlägt **orange**. Mit der Matrix
 
-Sie fangen jeden Sommer drei Stichproben mit je $n$ Echsen und notieren die Kehlfarbe. Wie gross muss $n$ sein, damit die Stichprobe die Population zeigt?
+$$
+A =
+\begin{pmatrix}
+1 & w & s \\
+s & 1 & w \\
+w & s & 1
+\end{pmatrix}
+$$
 
-`rmultinom(n, size, prob)` ist die Ziehung für **drei Farben auf einmal**. `size` ist die Zahl gefangener Echsen, `prob` der Anteil jeder Farbe in der Population. Zurück kommt, wie viele Echsen orange, blau und gelb waren. Die Farben im Balken sind von unten nach oben orange, blau, gelb.
+gab es drei Verläufe. Ist $s + w < 2$, laufen die Häufigkeiten auf einen **Punkt** in der Mitte zu. Ist $s + w > 2$, schaukeln sie sich auf: eine **Heterokline**. Jede Farbe wird abwechselnd fast alleinherrschend und dann fast null.
 
-### Jahr 1
+*Fast* null: Im Modell von Woche 4 ist die Population unendlich gross. Eine Farbe mit Häufigkeit 0.0001 ist dort noch da und kommt wieder. In echten Echsen-Populationen gibt es nur **ganze** Männchen.
+
+Wir machen dasselbe wie in der Vorlesung mit den Teichen: **erst Selektion, dann Ziehung**. Für drei Farben zieht `rmultinom` statt `rbinom`: Von $N$ Männchen der neuen Generation, wie viele sind orange, blau, gelb?
 
 ```{r}
-# Anteile in der Population: orange, blau, gelb
-lizard_pop_y1 <- c(0.5, 0.25, 0.25)
+echsen_matrix <- function(s, w) {
+  matrix(c(1, w, s,
+           s, 1, w,
+           w, s, 1), nrow = 3, byrow = TRUE)
+}
 
-sample_size <- 20   # bitte ändern: Echsen pro Stichprobe
+# Eine Generation: erst Selektion (wie Woche 4), dann N Männchen ziehen
+echsen_schritt <- function(p, A, N, r = 0.3) {
+  W <- 2 - as.numeric(A %*% p)            # Fitness jeder Farbe
+  W_mittel <- sum(p * W)
+  p_sel <- p * (1 + r * (W - W_mittel))   # 1. Selektion
+  p_sel <- p_sel / sum(p_sel)
+  if (is.infinite(N)) return(p_sel)       # N = Inf: kein Zufall
+  as.numeric(rmultinom(1, size = N, prob = p_sel)) / N   # 2. Ziehung
+}
 
-set.seed(2026)
-sample1 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_y1)
-sample2 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_y1)
-sample3 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_y1)
+# Viele Generationen hintereinander
+echsen_lauf <- function(s, w, N, generationen = 1000, p0 = c(0.4, 0.35, 0.25)) {
+  A <- echsen_matrix(s, w)
+  p <- matrix(NA, nrow = generationen + 1, ncol = 3)
+  p[1, ] <- p0
+  for (t in 1:generationen) p[t + 1, ] <- echsen_schritt(p[t, ], A, N)
+  p
+}
+```
 
-data_y1 <- data.frame(
-  Wirklichkeit = lizard_pop_y1,
-  Stichprobe_1 = as.numeric(sample1) / sample_size,
-  Stichprobe_2 = as.numeric(sample2) / sample_size,
-  Stichprobe_3 = as.numeric(sample3) / sample_size
-)
-data_y1$Mittel <- (data_y1$Stichprobe_1 + data_y1$Stichprobe_2 + data_y1$Stichprobe_3) / 3
+```{r}
+#| code-fold: true
+#| code-summary: "Abbildungen (nicht verändern)"
+farben3 <- c("#e67e22", "#2980b9", "#f1c40f")
 
-barplot(as.matrix(data_y1),
-        col = c("#e67e22", "#2980b9", "#f1c40f"),
-        ylim = c(0, 1.45),
-        legend.text = c("orange", "blau", "gelb"),
-        args.legend = list(bty = "n", x = "topright"),
-        main = paste("Stichprobengrösse", sample_size, ", Jahr 1"),
-        ylab = "Anteil")
+erster_verlust <- function(p) {
+  i <- which(apply(p, 1, min) == 0)
+  if (length(i)) i[1] - 1 else NA
+}
+
+zeige_echsen <- function(s, w, N, generationen = 1000) {
+  p <- echsen_lauf(s, w, N, generationen)
+  verlust <- erster_verlust(p)
+  par(mfrow = c(1, 2), mar = c(4, 4, 3, 1))
+  matplot(0:generationen, p, type = "l", lty = 1, lwd = 1.8, col = farben3, ylim = c(0, 1),
+          xlab = "Generation", ylab = "Haeufigkeit",
+          main = paste0("s = ", s, ", w = ", w, ", N = ", N))
+  if (!is.na(verlust)) {
+    abline(v = verlust, lty = 2, col = "grey40")
+    mtext(paste("erster Verlust: Generation", verlust), side = 3, line = 0.2, cex = 0.8)
+  } else {
+    mtext("alle drei Farben noch da", side = 3, line = 0.2, cex = 0.8)
+  }
+  legend("topright", c("orange", "blau", "gelb"), col = farben3, lwd = 2, bty = "n", cex = 0.8)
+  # Dreieck: jede Ecke eine Farbe, der Punkt ist die Mischung
+  ecke <- rbind(c(0.5, sqrt(3) / 2), c(0, 0), c(1, 0))
+  xy <- p %*% ecke
+  plot(NA, xlim = c(-0.05, 1.05), ylim = c(-0.08, 0.95), asp = 1, axes = FALSE,
+       xlab = "", ylab = "", main = "Dreieck: jede Ecke eine Farbe")
+  polygon(ecke, col = "#f4f6f7", border = "#2c3e50", lwd = 2)
+  zeit <- seq(0, 1, length.out = nrow(xy))
+  segments(xy[-nrow(xy), 1], xy[-nrow(xy), 2], xy[-1, 1], xy[-1, 2],
+           col = grey(0.8 - 0.65 * zeit[-1]), lwd = 1.3)
+  points(xy[1, 1], xy[1, 2], pch = 16, col = "#27ae60", cex = 1.4)
+  points(xy[nrow(xy), 1], xy[nrow(xy), 2], pch = 16, col = "#c0392b", cex = 1.4)
+  text(ecke[, 1] + c(0, -0.04, 0.04), ecke[, 2] + c(0.05, -0.05, -0.05),
+       c("orange", "blau", "gelb"), col = farben3, font = 2)
+  par(mfrow = c(1, 1))
+  invisible(p)
+}
+
+zeit_bis_verlust <- function(s, w, N, wiederholungen = 20, generationen = 3000) {
+  t <- replicate(wiederholungen, erster_verlust(echsen_lauf(s, w, N, generationen)))
+  c(verloren = sum(!is.na(t)), median_generation = median(t, na.rm = TRUE))
+}
+```
+
+**Die Abbildungen.** Links: Häufigkeit jeder Farbe über die Generationen. Rechts: das **Dreieck** aus Woche 4. Jede Ecke ist eine Farbe allein, die Mitte ist gleich viel von allen. Grün ist der Start, rot das Ende, die Linie wird mit der Zeit dunkler.
+
+## Ohne Zufall
+
+```{r}
+#| fig-height: 4.2
+#| fig-width: 10
+zeige_echsen(s = 1.3, w = 0.8, N = Inf)
 ```
 
 > **F7**
 >
-> - Stimmen die Stichproben mit der Population überein?
-> - Ändern Sie `sample_size`. Was beobachten Sie?
+> - $s + w = 2.1$: Was macht die Bahn im Dreieck?
+> - Geht eine Farbe je **ganz** verloren? Wie klein wird die seltenste Farbe? `p <- echsen_lauf(1.3, 0.8, N = Inf); min(p)`
 
-### Jahr 2
+## Mit Zufall
 
-Gelb ist jetzt selten.
+Dasselbe Spiel, aber jede Generation hat $N = 1000$ Männchen.
 
 ```{r}
-lizard_pop_y2 <- c(0.15, 0.8, 0.05)   # orange, blau, gelb
-
-sample_size <- 20   # bitte ändern
-
-set.seed(2026)
-sample1 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_y2)
-sample2 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_y2)
-sample3 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_y2)
-
-data_y2 <- data.frame(
-  Wirklichkeit = lizard_pop_y2,
-  Stichprobe_1 = as.numeric(sample1) / sample_size,
-  Stichprobe_2 = as.numeric(sample2) / sample_size,
-  Stichprobe_3 = as.numeric(sample3) / sample_size
-)
-data_y2$Mittel <- (data_y2$Stichprobe_1 + data_y2$Stichprobe_2 + data_y2$Stichprobe_3) / 3
-
-barplot(as.matrix(data_y2),
-        col = c("#e67e22", "#2980b9", "#f1c40f"),
-        ylim = c(0, 1.45),
-        legend.text = c("orange", "blau", "gelb"),
-        args.legend = list(bty = "n", x = "topright"),
-        main = paste("Stichprobengrösse", sample_size, ", Jahr 2"),
-        ylab = "Anteil")
+#| fig-height: 4.2
+#| fig-width: 10
+zeige_echsen(s = 1.3, w = 0.8, N = 1000)   # bitte mehrmals ausführen, dann N ändern
 ```
 
 > **F8**
 >
-> - Stimmen die Stichproben mit der Population überein? Warum ist das hier heikler als in Jahr 1?
-> - Ändern Sie `sample_size`. Was beobachten Sie?
-> - Sie haben nur begrenzt Zeit. Lieber viele kleine Stichproben oder eine grosse?
+> - Was passiert, wenn eine Farbe in die Nähe von null kommt?
+> - Und danach, mit nur noch zwei Farben? (Woche 4: Zwei Strategien schliessen sich aus.)
+> - Lassen Sie den Block mehrmals laufen. Gewinnt immer dieselbe Farbe?
 
-## Bonus · wen das Netz bevorzugt
+## Wie schnell?
 
-Das Verhalten ändert, wie leicht ein Männchen zu fangen ist. Gelbe Schleicher haben kein Revier und gehen seltener ins Netz. Aggressive orange Männchen gehen leichter ins Netz.
-
-Die Zahlen in `bias` sind **Gewichte**, keine Wahrscheinlichkeiten. `rmultinom` teilt sie durch ihre Summe. Orange wird dann relativ häufiger gefangen, als es in der Population ist.
+`zeit_bis_verlust` lässt 20 Populationen laufen und zählt, in wie vielen eine Farbe verloren geht und nach wie vielen Generationen (Median).
 
 ```{r}
-lizard_pop_b <- c(0.25, 0.5, 0.25)   # orange, blau, gelb; bitte ändern
-bias <- c(1, 0.75, 0.5)              # orange leicht, gelb schwer zu fangen
-
-sample_size <- 20
-
-set.seed(2026)
-sample1 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_b * bias)
-sample2 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_b * bias)
-sample3 <- rmultinom(n = 1, size = sample_size, prob = lizard_pop_b * bias)
-
-data_b <- data.frame(
-  Wirklichkeit = lizard_pop_b,
-  Stichprobe_1 = as.numeric(sample1) / sample_size,
-  Stichprobe_2 = as.numeric(sample2) / sample_size,
-  Stichprobe_3 = as.numeric(sample3) / sample_size
-)
-data_b$Mittel <- (data_b$Stichprobe_1 + data_b$Stichprobe_2 + data_b$Stichprobe_3) / 3
-
-barplot(as.matrix(data_b),
-        col = c("#e67e22", "#2980b9", "#f1c40f"),
-        ylim = c(0, 1.45),
-        legend.text = c("orange", "blau", "gelb"),
-        args.legend = list(bty = "n", x = "topright"),
-        main = paste("Mit Fangbias, n =", sample_size),
-        ylab = "Anteil")
+set.seed(1)
+zeit_bis_verlust(s = 1.3, w = 0.8, N = 1000)   # bitte N ändern
 ```
 
-> **Bonus**
+> **F9**
 >
-> Wann wird der Fangbias zum Problem? Hilft ein grösseres `sample_size` dagegen, oder bleibt die Abweichung?
+> | $N$ | verloren (von 20) | Generationen bis zum ersten Verlust |
+> |---|---|---|
+> | 100 |  |  |
+> | 1 000 |  |  |
+> | 10 000 |  |  |
+>
+> Hilft eine grössere Population gegen den Verlust? Verhindert sie ihn?
+
+## Ein stabiler Punkt
+
+Jetzt $s + w < 2$: Selektion zieht die Mischung zur **Mitte**.
+
+```{r}
+#| fig-height: 4.2
+#| fig-width: 10
+zeige_echsen(s = 1.1, w = 0.5, N = 1000)
+```
+
+```{r}
+set.seed(1)
+zeit_bis_verlust(s = 1.1, w = 0.5, N = 1000)   # bitte N ändern
+```
+
+> **F10**
+>
+> - Vergleichen Sie mit der Heterokline. Wo hält Selektion die Vielfalt, wo bringt sie die Farben in Gefahr?
+> - Probieren Sie $N = 100$. Was ändert sich?
+> - Bei *Uta* gibt es seit Jahren alle drei Farben. Was sagt das über $N$, oder über $s$ und $w$?
 
 ---
 
 # Fazit
 
-Teil A ändert die **Population** über die Generationen. Teil B ändert nur, **was im Netz liegt**. Die Population der Echsen ist in Teil B jedes Mal dieselbe.
+Teil A: Zufall allein lässt ein Allel wandern, und in kleinen Populationen geht es schnell verloren. Teil B: Zufall und Selektion zusammen. Wohin die Selektion die Population treibt, entscheidet, wie gefährlich der Zufall ist.
 
-> **F9**
+> **F11**
 >
 > Schreiben Sie die drei Sätze zu Ende.
 >
 > - In einer kleinen Population kann ein Allel zufälligerweise … . Diesen Prozess nennen wir **Drift**.
-> - Wenn wir Stichproben nehmen, können seltene Typen zufälligerweise … .
+> - Auf einer Heterokline wird jede Farbe immer wieder selten. In einer endlichen Population kann sie dann … . Die Vielfalt geht …, auch wenn die Selektion sie im Mittel erhalten würde.
 > - In Teich 7 wurden pro Jahr nur 7–36 Fische untersucht. Ein Teil des Unterschieds zu den anderen Teichen kann deshalb … sein.

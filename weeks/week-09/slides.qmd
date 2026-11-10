@@ -84,7 +84,7 @@ zeige_wolke <- function(w, titel, ohne_zufall = NULL) {
 | Teil | Dauer | Was |
 |------|-------|-----|
 | Vorlesung | ~50 min | ein Teichexperiment · Zufall in R · Drift · die neutrale Wolke |
-| Notebook | ~40 min | neutrales Allel und $N$ · Echsen fangen · Fangbias |
+| Notebook | ~40 min | neutrales Allel und $N$ · die Teiche · Echsen mit endlichem $N$ |
 
 ::: aside
 Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
@@ -578,11 +578,11 @@ Katie Peichel und Dolph Schluter schätzen mit einem diploiden Modell für Chr X
 
 **→ [Notebook Woche 9 öffnen](notebook.html)** · [Rmd](notebook.Rmd) · [R](notebook.R)
 
-Dieselben Ziehungen wie in der Vorlesung, an zwei neuen Fragen. Die Teiche bleiben in der Vorlesung.
+Dieselben Ziehungen wie in der Vorlesung: zuerst ohne Selektion, dann mit dem Echsen-Spiel aus Woche 4.
 
 1. `rbinom` und `set.seed`: eine Verteilung anschauen
 2. Neutrales Allel: grosse und kleine Population über viele Generationen, dann zurück zu den Teichen
-3. Echsen aus Woche 4: was eine Stichprobe zeigt, und was ein Fangbias daraus macht
+3. Echsen aus Woche 4 mit endlicher Population: Wann gehen Kehlfarben verloren?
 
 ## Abschlussfragen
 
