@@ -168,3 +168,11 @@ Lehrskizzen Woche 2: Parameter als Ereignisse (`comic_r_growth`, `comic_K_crowdi
 Lehrskizzen Wochen 5–7: Gametenpool und Hardy–Weinberg (`comic_hwe_gametes`), zwei Demen (`comic_selection_migration`), Kreis Allelfrequenz–Phänotyp–Fitness (`comic_corl_loop`). Alle Kursmaterial.
 
 Skripte zum Regenerieren der Lehrschemata: `scripts/make_week01_schematics.R`, `scripts/make_week01_schematics_core.R`, `scripts/make_genome_scan_schematic.R`, `scripts/make_simpson_penguins.R`.
+
+## Rottensand (`pics/rottensand/`)
+
+Lokal, gitignored, bis die Veröffentlichung des Bildes bestätigt ist.
+
+| Lokale Datei | Hinweis |
+|---|---|
+| `rottensand_overview.jpg` | Luftbild Rottensand mit Plotraster. Luftbild swisstopo; Raster: Feldpraktikum Conservation Biology, Universität Bern. Aus `examples/ConservationBio/Rhône_overview_with_plots_compressed.jpg`, auf 1800 px verkleinert. |

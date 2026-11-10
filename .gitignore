@@ -31,6 +31,8 @@ weeks/week-11/ta-merkblatt.pdf
 !_freeze/weeks/week-09/
 !_freeze/weeks/week-10/
 !_freeze/weeks/week-11/
+!_freeze/weeks/week-12/
+!_freeze/weeks/week-13/
 *_files/
 *.Rproj.user
 *.Rhistory
@@ -48,5 +50,6 @@ Questionaire/
 Member_List/
 2026_PondExperiment/
 pics/pond-experiment/
+pics/rottensand/
 Rplots.pdf
 __pycache__/

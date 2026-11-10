@@ -1,6 +1,6 @@
 ---
 title: "Modul 4 — Wochen 12–14"
-subtitle: "Mikrobiom und Reproduzierbarkeit · Checkpoint D"
+subtitle: "Gemeinschaften und Reproduzierbarkeit · Checkpoint D"
 format:
   html:
     toc: true
@@ -18,29 +18,31 @@ Der Block ist geplant; Folien und Notebooks erscheinen hier, sobald sie frei geg
 
 ## Was ist Modul 4?
 
-**Mikrobiom und Reproduzierbarkeit.** Rückkehr zur Ökologie, jetzt als
-Gemeinschaftstabelle: viele Taxa, viele Proben, eine Metadatendatei.
+**Gemeinschaften und Reproduzierbarkeit.** Rückkehr zur Ökologie, jetzt mit
+echten Felddaten: Heuschrecken im **Rottensand** (Pfynwald, Wallis). Im
+Feldpraktikum Conservation Biology der Universität Bern wurden 2019 und 2024
+dieselben 10 × 10 m Plots je viermal besucht. Dazu ist jeder Plot kartiert:
+Gras, Kraut, offener Boden, Kies, Stein, Bäume.
 
 Der Engpass ist nicht das Modell. Zwei Dateien, eine Frage, eine
 Abbildung — und jemand anderes soll dieselbe Abbildung **noch einmal
 erzeugen** können.
 
 Excel *kann* plotten. Es speichert den Klickpfad nicht. Ein R-Projekt
-(oder dasselbe in Python) speichert die Schritte. Notebooks bleiben
-base R.
+speichert die Schritte. Notebooks bleiben base R, ggplot2 gibt es als Bonus.
 
 | Woche | Datum | Thema | Fokus |
 |------:|------|--------|--------|
-| **12** | 3. Dez. | Tabelle · Schlüssel | Projekt · Join · Excel vs Skript |
-| **13** | 10. Dez. | Abbildung · Auswahl | Top-$k$ · Zusammensetzung · eine Aussage |
+| **12** | 3. Dez. | Tabelle · Schlüssel | zwei Jahre einlesen · eine Funktion für beide · prüfen · `merge` und `rbind` |
+| **13** | 10. Dez. | Farbe · Form | Werkstatt: Makeover · Karten · Fallstricke · eigene Frage |
 | **14** | 17. Dez. | Geschichte · Grenze | **Checkpoint D** · das Dokument, nicht der Screenshot |
 
 Details: [Glossar](glossary.qmd).
 
 ## Was Sie können sollen (am Ende von Woche 14)
 
-- Sagen, was Abundanz, Taxonomie und Metadaten je beitragen
-- Proben-IDs prüfen, bevor Sie plotten
+- Sagen, was **eine Zeile** einer Tabelle ist
+- Zwei Tabellen über einen **Schlüssel** kombinieren, und vorher prüfen
 - Eine Abbildung aus einem Dokument erzeugen, nicht aus Copy-Paste
 - Eine biologische Frage in **eine** Abbildung übersetzen — und sagen, was sie nicht zeigt (Checkpoint D)
 
@@ -58,7 +60,7 @@ Wer fehlt, kann diesen Checkpoint nicht ablegen (siehe [Kursinfo (PDF)](kursinfo
 **Format:** Teams **bis zu vier** · die Checkpoint-Frage mit dem **R-Notebook** beantworten · eine Hauptabbildung.  
 Keine separate Hausarbeit — die Notebook-Arbeit ist die Vorbereitung.
 
-Themen: Zusammensetzung nach Gruppe/Ort; Bibliotheksgrösse als QC-Geschichte; ein Taxon über Metadaten.
+Thema: eine Frage zu den Rottensand-Daten (eine Art, ein Lebensraum, 2019 und 2024), eine Hauptabbildung aus den Rohdaten.
 
 ## Materialien
 

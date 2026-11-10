@@ -54,7 +54,7 @@ Dynamik  →  Vektoren  →  Zufall  →  Reproduzierbarkeit
 | **Ökologie und Dynamik** | 2–4 | Populationen und Interaktionen | Deterministische Simulation (Funktion → Vektor → Schleife) | **A · Woche 4** |
 | **Vererbung und Vektoren** | 5–8 | Vererbung, Selektion, Raum (Farbmorphen → Stichling) | Rekursionsgleichungen; Datentabellen, `sapply()`, Filtern | **B · Woche 8** |
 | **Evolution und Zufall** | 9–11 | Teich-Inversion → Wolke → $2s$ → Rettung | Zufall in $p$; Etablierung seltener Typen; evolutionäre Rettung | **C · Woche 11** |
-| **Mikrobiom und Reproduzierbarkeit** | 12–14 | Gemeinschaftstabellen | Join, Abbildung, Projekt statt Excel-Klickpfad | **D · Woche 14** |
+| **Gemeinschaften und Reproduzierbarkeit** | 12–14 | Heuschrecken im Rottensand (Wallis), 2019 und 2024 | Zwei Dateien kombinieren, Abbildungen, Projekt statt Excel-Klickpfad | **D · Woche 14** |
 
 **Kernaussage des Semesters:** ökologische Dynamik → Vererbung in Vektoren → Evolution unter Zufall → Rückkehr zur Ökologie als **nachweisbare** Abbildung. Checkpoint D in Woche 14 trägt die kurze Synthese mit.
 
@@ -70,7 +70,7 @@ Anstelle einer einzigen grossen Abschlusspräsentation: **vier Checkpoints** (A�
 | **A** | Woche **4** · **8. Okt. 2026** | Ökologie / Spieltheorie | 3-Spieler-RPS; Punkt / Oszillation / Heteroklin | ~2–3 Min.: Matrix → Plot → Form → warum 3 Strategien |
 | **B** | Woche **8** · **5. Nov. 2026** | Vererbung und Vektoren | Eine Frage zu häufigkeitsabhängiger Fitness, Überdominanz oder Stichling und $F_{ST}$ | Gleiches Format; Schwerpunkt auf Rekursion / Gleichgewichten |
 | **C** | Woche **11** · **26. Nov. 2026** | Teich, Zufall, Rettung | Teiche gegen eine Wolke **oder** Rettung gegen $r$ / $N_0$ | Liegt das Muster im Zufall — oder muss $u$ vor $N=0$ greifen? |
-| **D** | Woche **14** · **17. Dez. 2026** | Mikrobiom und Reproduzierbarkeit | Eine Gemeinschaftstabelle einlesen, verknüpfen, eine Abbildung aus dem Dokument | Was das Diagramm zeigt — und was **nicht** |
+| **D** | Woche **14** · **17. Dez. 2026** | Gemeinschaften und Reproduzierbarkeit | Zwei Jahre Felddaten einlesen, kombinieren, eine Abbildung aus dem Dokument | Was das Diagramm zeigt — und was **nicht** |
 
 **Präsenz:** An Checkpoint-Terminen (**Wochen 4, 8, 11, 14**) müssen Studierende **anwesend sein** und in der Gruppe den Fortschritt zeigen. Modul 1: [Überblick Wochen 1–4](module-01-overview.qmd). Modul 2: [Überblick Wochen 5–8](module-02-overview.qmd). Modul 3: [Überblick Wochen 9–11](module-03-overview.qmd). Modul 4: [Überblick Wochen 12–14](module-04-overview.qmd). [Glossar](glossary.qmd).
 
@@ -88,7 +88,7 @@ Anstelle einer einzigen grossen Abschlusspräsentation: **vier Checkpoints** (A�
 | Funktion | Aktualisierungen zum nächsten Zustand |
 | Vektor | ökologische / genetische Zeitreihen |
 | Schleife | viele Schritte / Generationen |
-| Diagramm | Interpretation; mehrteilige Visualisierung des Mikrobioms |
+| Diagramm | Interpretation; Karten und viele kleine Bilder (Facetten) |
 | Matrix / Tabellen | Wiederholungen von Etablierungs-/Rettungssimulationen; Abundanztabellen |
 
 ### Navigation in den Folien
@@ -242,34 +242,37 @@ Dieselbe Programmierlogik wie zuvor; neues Untersuchungsobjekt = **Zufall in $p$
 
 ---
 
-## Mikrobiom und Reproduzierbarkeit (Wochen 12–14) → Checkpoint D
+## Gemeinschaften und Reproduzierbarkeit (Wochen 12–14) → Checkpoint D
 
-**[Modul 4](module-04-overview.qmd)** — Mikrobiom und Reproduzierbarkeit.
+**[Modul 4](module-04-overview.qmd)** — Gemeinschaften und Reproduzierbarkeit.
 
-Rückkehr zur **Ökologie** als Gemeinschaftstabelle. Der Engpass ist nicht das Modell: zwei Dateien, eine Frage, eine Abbildung, die jemand anderes **noch einmal erzeugen** kann.
+Rückkehr zur **Ökologie**, mit echten Felddaten: Heuschrecken im **Rottensand** (Pfynwald, Wallis), gezählt im Feldpraktikum Conservation Biology der Universität Bern, **2019 und 2024** auf denselben Plots. Der Engpass ist nicht das Modell: zwei Dateien, eine Frage, eine Abbildung, die jemand anderes **noch einmal erzeugen** kann.
 
-**Didaktischer Bogen:** Tabelle und Schlüssel → Abbildung und Auswahl → Geschichte und Grenze (Checkpoint D). Kurze Semestersynthese in derselben Sitzung.
+**Didaktischer Bogen:** Tabelle und Schlüssel → Farbe und Form (Werkstatt) → Geschichte und Grenze (Checkpoint D). Kurze Semestersynthese in derselben Sitzung.
 
 ### Woche 12 — Tabelle und Schlüssel
 **Wann:** Do., 3. Dez. 2026, 08:15–10:00 Uhr  
 **Materialien:** folgt
 
-- **Sitzung:** ~45 min Vorlesung + ~45 min Notebook (Spielraum)
-- Metagenomik liefert Zählungen (Proben × Taxa), nicht schon eine Geschichte
-- Drei Dateien: Abundanz, Taxonomie, Metadaten. Join über Proben-IDs
-- RStudio-Projekt: Ordner + `.Rproj` + `data/` + eine `.qmd` oder `.R`
+- **Sitzung:** ~45 min Vorlesung + ~45 min Notebook
+- Rottensand: Aue, Steppe, Wald; ein Raster aus 10 × 10 m Plots, vier Besuche pro Jahr
+- Was ist eine Zeile? Rohdatei (Viertel und ganze Plots) gegen kurze Tabelle
+- Eine Funktion `aufbereiten()` für beide Jahre statt Copy-Paste
+- Prüfen: eindeutiger Schlüssel, Deckungen = 100 %, gleiche Namen in beiden Jahren (echte Fehler)
+- Kombinieren: `merge` (nebeneinander, über die Plotnummer) und `rbind` (untereinander)
 - Excel vs Skript: Excel kann plotten, speichert den Klickpfad nicht
-- Plausibilität: Bibliotheksgrösse, doppelte IDs, Sparsität. Eine QC-Abbildung reicht
 
-### Woche 13 — Abbildung und Auswahl
+### Woche 13 — Farbe und Form
 **Wann:** Do., 10. Dez. 2026, 08:15–10:00 Uhr  
 **Materialien:** folgt
 
-- **Sitzung:** ~45 min Vorlesung + ~45 min Notebook (Spielraum)
-- Aggregieren: Top-$k$ + «Andere», oder Phylum
-- Typen: Zusammensetzung, Heatmap, Facetten nach Metadaten. Eine Aussage pro Abbildung
-- Fallstricke: ungleiche Bibliotheksgrössen, Komposition, Regenbogen
-- Reproduzierbar: `plot_*()`-Funktion, Abbildung aus dem Dokument, nicht aus Copy-Paste
+- **Sitzung:** ~40 min Vorlesung + ~50 min Werkstatt
+- Eine Frage, eine Abbildung: dieselben Daten, drei Fragen
+- Makeover: von der Standard-Abbildung zu Titel = Aussage, jeder Punkt sichtbar, Farbe mit Bedeutung
+- Karten aus Koordinaten, sechs kleine Karten, «gekommen, geblieben, verschwunden»
+- Fallstricke: Zählen ist eine Stichprobe, Teams und Orte vermischt, Uhrzeit als Text, Farben
+- Reproduzierbar: Abbildung als Funktion plus `png()`. Bonus: ggplot2
+- Eigene Frage: eine Abbildung, ein Satz, was sie **nicht** zeigt
 
 ### Woche 14 — Geschichte und Grenze + **Checkpoint D**
 **Wann:** Do., 17. Dez. 2026, 08:15–10:00 Uhr  
@@ -289,7 +292,7 @@ Rückkehr zur **Ökologie** als Gemeinschaftstabelle. Der Engpass ist nicht das 
 2–4         Ökologie und Dynamik             → Checkpoint A (8. Okt.)
 5–8         Vererbung und Vektoren           → Checkpoint B (5. Nov.)
 9–11        Evolution und Zufall             → Checkpoint C (26. Nov.)
-12–14       Mikrobiom und Reproduzierbarkeit → Checkpoint D (17. Dez.)
+12–14       Gemeinschaften und Reproduzierbarkeit → Checkpoint D (17. Dez.)
 ```
 
 ## Prioritäten für Mitwirkende
@@ -299,7 +302,7 @@ Rückkehr zur **Ökologie** als Gemeinschaftstabelle. Der Engpass ist nicht das 
 | Höchste | 2–4 | Einstiege in die Ökologie + Bewertungskriterien für praktische Arbeit/Präsentation von **Checkpoint A** |
 | Hoch | 5–8 | Arbeitsablauf zur Allelfrequenz + **Checkpoint B** |
 | Hoch | 9–11 | Teich → Wolke → **$2s$** → **evolutionäre Rettung** + **Checkpoint C** |
-| Danach | 12–14 | **Mikrobiom und Reproduzierbarkeit** + **Checkpoint D** |
+| Danach | 12–14 | **Gemeinschaften und Reproduzierbarkeit** + **Checkpoint D** |
 
 ## Materialübersicht
 

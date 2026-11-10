@@ -14,7 +14,7 @@ format:
 - **[Modul 1 · Wochen 1–4](docs/module-01-overview.qmd)** — Ökologie und Dynamik · **Checkpoint A**
 - **[Modul 2 · Wochen 5–8](docs/module-02-overview.qmd)** — Vererbung und Vektoren · **Checkpoint B** · folgt
 - **[Modul 3 · Wochen 9–11](docs/module-03-overview.qmd)** — Evolution und Zufall · **Checkpoint C** · folgt
-- **[Modul 4 · Wochen 12–14](docs/module-04-overview.qmd)** — Mikrobiom und Reproduzierbarkeit · **Checkpoint D** · folgt
+- **[Modul 4 · Wochen 12–14](docs/module-04-overview.qmd)** — Gemeinschaften und Reproduzierbarkeit · **Checkpoint D** · folgt
 - **[Glossar](docs/glossary.qmd)** — Fachbegriffe (Gymnasium → Uni)
 - **[KI-Richtlinie](docs/ai-policy.qmd)** — erlaubte Nutzung, Verbote und Offenlegung
 
@@ -82,14 +82,14 @@ Folien und Notebooks erscheinen hier, sobald der Block frei gegeben ist. Überbl
 
 ## Modul 4 · folgt
 
-**Mikrobiom und Reproduzierbarkeit** · Tabelle und Schlüssel → Abbildung → Geschichte · endet mit **Checkpoint D in Woche 14**.
+**Gemeinschaften und Reproduzierbarkeit** · Tabelle und Schlüssel → Farbe und Form → Geschichte · endet mit **Checkpoint D in Woche 14**.
 
 Folien und Notebooks erscheinen hier, sobald der Block frei gegeben ist. Überblick: [Modul 4](docs/module-04-overview.qmd).
 
 | Woche | Datum | Thema | Materialien |
 |------:|------|--------|-------------|
 | 12 | 3. Dez. | Tabelle · Schlüssel | folgt |
-| 13 | 10. Dez. | Abbildung · Auswahl | folgt |
+| 13 | 10. Dez. | Farbe · Form | folgt |
 | 14 | 17. Dez. | Geschichte · **Checkpoint D** | folgt |
 
 ## Bogen (ganzes Semester)

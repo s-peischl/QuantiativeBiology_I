@@ -247,3 +247,26 @@ Drei Wege zu einem rettenden Typ: die Mutation entsteht **jetzt** (de novo); das
 
 **Evolutionäre Rettung**  
 Eine Population schrumpft unter Stress. Sie wird gerettet, wenn ein angepasster Typ sich **etabliert, bevor** $N$ bei null ist. Gomulkiewicz & Holt (1995); Orr & Unckless (2014). Labor: Bell & Gonzalez (2009), Hefe unter Salz.
+
+## Gemeinschaften und Reproduzierbarkeit (Wochen 12–14)
+
+**Schlüssel**  
+Eine Spalte, die jede Zeile eindeutig benennt, zum Beispiel die Plotnummer im Rottensand. Über den Schlüssel findet man dieselbe Einheit in einer anderen Tabelle wieder. Er darf nicht doppelt vorkommen (Woche 12).
+
+**Nebeneinander kombinieren (`merge`)**  
+Zwei Tabellen über einen Schlüssel zusammenlegen: Eine Zeile hat dann die Spalten beider Tabellen. Zeilen, deren Schlüssel nur in einer Tabelle vorkommt, fallen weg (Woche 12).
+
+**Untereinander stapeln (`rbind`)**  
+Zwei Tabellen mit **denselben Spalten** aufeinanderlegen, meist mit einer Spalte, die sagt, woher die Zeile kommt (z. B. `jahr`) (Woche 12).
+
+**Rohdaten**  
+Die Dateien, wie sie aus dem Feld oder Labor kommen. Sie werden nie von Hand geändert. Jede Korrektur steht im Code, damit man sie sieht und wiederholen kann.
+
+**Plausibilitätsprüfung**  
+Fragen an eine Tabelle, bevor man plottet: Ist der Schlüssel eindeutig? Ergeben Anteile 100 %? Heissen Kategorien in allen Dateien gleich? Fehler finden ist normal; wichtig ist, sie vor dem Schluss zu finden.
+
+**Reproduzierbar**  
+Jemand anderes erzeugt aus denselben Rohdaten mit demselben Notebook dieselbe Tabelle und dieselbe Abbildung. Dafür stehen alle Schritte im Code, nicht in Klicks (Woche 12–14).
+
+**Facetten / viele kleine Bilder**  
+Dieselbe Abbildung mehrmals nebeneinander, je für eine Art, ein Jahr oder eine Gruppe, mit gleichen Achsen und Farben. So kann man direkt vergleichen (Woche 13).

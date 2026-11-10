@@ -1,12 +1,12 @@
 ---
-title: "Woche 13 — Abbildung und Auswahl"
-subtitle: "Abbildung und Auswahl"
+title: "Woche 13 — Abbildungs-Werkstatt"
+subtitle: "Farbe und Form"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:
     html-math-method: katex
     theme: simple
-    css: ../print.css
+    css: [slides.css, ../print.css]
     slide-number: true
     incremental: false
     embed-resources: true
@@ -20,7 +20,7 @@ format:
     menu:
       side: left
       use-text-content: true
-    footer: "[Start](../../index.html) · [Notebook](notebook.html)"
+    footer: "[Start](../../index.html) · [Notebook](notebook.html) · [Modul 4](../../docs/module-04-overview.html)"
 execute:
   echo: false
   warning: false
@@ -28,114 +28,321 @@ execute:
   freeze: auto
 ---
 
+```{r}
+#| include: false
+source("../slides-ggplot.R")
+source("../rottensand-prep.R")
+kursiv <- theme(plot.title = element_text(face = "italic"))
+```
+
 ## Übersicht
 
 **Woche 13** von 14 · **Do., 10. Dez. 2026, 08:15–10:00**
 
 | Teil | Dauer | Was |
 |------|-------|-----|
-| Vorlesung | ~45 min | Auswahl · Typen · eine Aussage |
-| Notebook | ~45 min | Draft: Zusammensetzung + eine zweite Abbildung |
+| Vorlesung | ~40 min | eine Frage, eine Abbildung · Makeover · Karten · Fallstricke |
+| Werkstatt | ~50 min | Abbildungen bauen · Ihre eigene Frage |
 
 ::: aside
-Pfeiltasten · **M** Menü · **Esc** Übersicht
+Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 :::
 
 ## Lernziele
 
 Nach heute können Sie …
 
-1. Taxa **aggregieren**, bevor Sie Farben vergeben,
-2. eine Abbildung wählen, die **eine** Aussage trägt,
-3. sagen, wo Komposition und Bibliotheksgrösse täuschen,
-4. die Abbildung aus dem **Dokument** erzeugen, nicht aus Copy-Paste.
+1. vor dem Plotten die **Frage** aufschreiben, die eine Abbildung beantwortet,
+2. eine Standard-Abbildung Schritt für Schritt **verbessern**,
+3. Daten als **Karte** und als viele kleine Bilder zeigen,
+4. eine Abbildung als **Funktion** schreiben und als Datei speichern,
+5. in einem Satz sagen, was eine Abbildung **nicht** zeigt.
 
-## Heute in dieser Reihenfolge
+## Rückblick: eine Tabelle aus zwei
 
-1. Woche 12: Join sitzt. Heute: sichtbar machen.
-2. Hunderte Taxa ≠ hunderte Farben.
-3. Drei Typen. Eine Regel.
-4. Die Funktion speichert die Wahl.
+Letzte Woche: Rottensand 2019 und 2024, je eine Datei.
 
-::: aside
-[Modul 4](../../docs/module-04-overview.html) · [Glossar](../../docs/glossary.html)
-:::
+- `aufbereiten()` macht aus jeder Datei eine kurze Tabelle: eine Zeile pro Plot.
+- `beide`: 2019 und 2024 **nebeneinander**, `r nrow(beide)` Plots.
+- `alle`: beide Jahre **untereinander**, `r nrow(alle)` Zeilen.
 
-# Teil 1 · Auswählen
+Heute arbeiten wir nur noch mit diesen Tabellen. Der Code von letzter Woche steht oben im Notebook und läuft in einer Sekunde.
 
-## Das Problem
+# Eine Frage, eine Abbildung
 
-Hunderte Taxa. Eine Legende mit 400 Einträgen ist keine Abbildung.
+## Dieselben Daten, drei Fragen
 
-Aggregieren oder auswählen:
+```{r}
+#| fig-height: 3.3
+#| fig-width: 11
+#| out-width: 100%
+d24 <- drei[drei$jahr == 2024, ]
+p1 <- ggplot(d24, aes(habitat, CalIta, fill = habitat)) +
+  geom_boxplot(outlier.shape = NA, alpha = 0.5) +
+  geom_jitter(aes(colour = habitat), width = 0.15, size = 1.2) +
+  scale_fill_manual(values = hab_farben, guide = "none") +
+  scale_colour_manual(values = hab_farben, guide = "none") +
+  labs(x = NULL, y = "Tiere pro Plot", title = "Wo lebt sie?") + theme_slide()
+p2 <- ggplot(d24, aes(x, y, size = CalIta, colour = habitat)) +
+  geom_point(alpha = 0.75) + coord_equal() +
+  scale_colour_manual(values = hab_farben, guide = "none") +
+  scale_size_area(max_size = 4, guide = "none") +
+  labs(title = "Wo im Gebiet?") + theme_void(base_size = 14)
+p3 <- ggplot(beide, aes(CalIta_2019, CalIta_2024)) +
+  geom_abline(linetype = "dashed", colour = "grey60") +
+  geom_point(colour = col_blue, alpha = 0.8) +
+  labs(x = "2019", y = "2024", title = "Wie 2019?") + theme_slide()
+p1 + p2 + p3 + plot_layout(widths = c(1, 1.6, 1))
+```
 
-- häufigste $k$ Taxa + «Andere»
-- auf Phylum- / Familienebene
-- eine biologisch begründete Liste
+Alle drei zeigen *Calliptamus italicus*. Jede beantwortet eine **andere** Frage. Die Frage kommt zuerst.
 
-## Eine Aussage pro Abbildung
+# Makeover
 
-Nicht: «hier sind die Daten.»
+## Vorher
 
-Sondern: «an Ort A ist Phylum X häufiger» — oder «die Bibliotheken
-sind ungleich, der Vergleich hinkt.»
+```{r}
+#| fig-height: 3.6
+#| fig-width: 6
+#| out-width: 60%
+par(mar = c(3, 3, 1, 1))
+boxplot(CalIta ~ habitat, data = drei)
+```
 
-Zwei Aussagen: zwei Abbildungen.
+Es funktioniert. Aber: Was wurde gezählt? Wie viele Plots? Welches Jahr?
 
-# Teil 2 · Typen
+## Nachher
 
-## Was Sie beherrschen sollen
+```{r}
+#| fig-height: 3.8
+#| fig-width: 8
+#| out-width: 80%
+ggplot(drei, aes(habitat, CalIta, fill = habitat)) +
+  geom_boxplot(outlier.shape = NA, alpha = 0.35, colour = "grey40") +
+  geom_jitter(aes(colour = habitat), width = 0.15, size = 1.6, alpha = 0.85) +
+  scale_fill_manual(values = hab_farben, guide = "none") +
+  scale_colour_manual(values = hab_farben, guide = "none") +
+  facet_wrap(~ jahr) +
+  labs(x = NULL, y = "Tiere pro Plot (max. von 4 Besuchen)",
+       title = "Calliptamus italicus lebt in der Steppe, 2019 wie 2024") +
+  theme_slide() + kursiv
+```
 
-1. Bibliotheksgrösse (QC, aus Woche 12)
-2. **Gestapelte Zusammensetzung** nach Probe oder Gruppe
-3. **Heatmap** (Proben × ausgewählte Taxa)
-4. **Facetten** nach Metadaten
+## Was sich geändert hat
 
-Optional: Artenreichtum — nur wenn es die Aussage trägt.
+1. **Titel = Aussage.** Nicht «Boxplot», sondern was man sehen soll.
+2. **Achsen beschriftet**, mit Einheit und Methode.
+3. **Jeder Plot ein Punkt.** Man sieht, wie viele es sind und wie sie streuen.
+4. **Farbe mit Bedeutung:** dieselben Farben für dieselben Lebensräume, in jeder Abbildung.
+5. **Zwei Jahre nebeneinander**, mit derselben y-Achse.
 
-## Fallstricke
+Im Notebook machen Sie das Schritt für Schritt in base R.
 
-- Rohzählwerte bei ungleichen Bibliotheken vergleichen
-- Komposition wie unabhängige Zählwerte lesen
-- Regenbogen-Heatmaps
-- Alle Taxa plotten, «weil wir es können»
+# Karten
 
-## Reproduzierbar
+## Die Plots haben Koordinaten
 
-`plot_composition(df, group)` — dieselbe Wahl, nächste Woche.
+```{r}
+#| fig-height: 3.8
+#| fig-width: 9
+#| out-width: 90%
+ggplot(d24, aes(x, y, size = CalIta, colour = habitat)) +
+  geom_point(alpha = 0.75) +
+  scale_colour_manual(values = hab_farben, name = NULL) +
+  scale_size_area(max_size = 7, name = "Tiere") +
+  coord_equal() +
+  labs(x = "Ost (m)", y = "Nord (m)", title = "Calliptamus italicus 2024") +
+  theme_slide() + kursiv + theme(legend.position = "right")
+```
 
-Feste Dateinamen. Achsen ohne Umlaute (`Abundanz`, `Probe`).
+Farbe = Lebensraum, Grösse = Anzahl. Die Steppe in der Mitte des Bandes ist voll.
 
-Die Abbildung kommt aus dem Notebook. Ein Screenshot in der Folie
-ohne Code ist kein Nachweis.
+## Sechs Arten, sechs Karten
 
-Python: dasselbe Prinzip (Skript + Daten + Dokument). Hier bleibt
-base R.
+```{r}
+#| fig-height: 4.2
+#| fig-width: 10
+#| out-width: 100%
+ggplot(lang[lang$jahr == 2024, ], aes(x, y, size = anzahl, colour = habitat)) +
+  geom_point(alpha = 0.75) +
+  scale_colour_manual(values = hab_farben, name = NULL) +
+  scale_size_area(max_size = 4, guide = "none") +
+  facet_wrap(~ art, ncol = 3) +
+  coord_equal() +
+  theme_void(base_size = 14) +
+  theme(strip.text = element_text(face = "italic"), legend.position = "top")
+```
 
-# Teil 3 · Ausblick
+Gleiche Achsen, gleiche Farben: Viele kleine Bilder kann man direkt vergleichen.
+
+## Gekommen und verschwunden
+
+```{r}
+#| fig-height: 3.8
+#| fig-width: 9
+#| out-width: 90%
+v <- beide$SphCae_2019 > 0; n <- beide$SphCae_2024 > 0
+beide$status <- factor(ifelse(v & n, "geblieben", ifelse(n, "neu", ifelse(v, "verschwunden", "nie"))),
+                       levels = c("neu", "geblieben", "verschwunden", "nie"))
+ggplot(beide, aes(x_2024, y_2024, fill = status)) +
+  geom_point(shape = 21, size = 3.2, colour = "grey40") +
+  scale_fill_manual(values = c(geblieben = "#2471a3", neu = "#28b463",
+                               verschwunden = "#cb4335", nie = "grey88"), name = NULL) +
+  coord_equal() +
+  labs(x = "Ost (m)", y = "Nord (m)", title = "Sphingonotus caerulans, 2019 → 2024") +
+  theme_slide() + kursiv + theme(legend.position = "right")
+```
+
+In `r sum(beide$status == "neu")` Plots neu, in `r sum(beide$status == "verschwunden")` verschwunden. Ausbreitung? Oder Zählglück?
+
+## Arten und Lebensräume als Farbfeld
+
+```{r}
+#| fig-height: 3.2
+#| fig-width: 8
+#| out-width: 80%
+mittel <- aggregate(anzahl ~ art + habitat, data = lang, FUN = mean)
+ggplot(mittel, aes(habitat, art, fill = anzahl)) +
+  geom_tile(colour = "white") +
+  geom_text(aes(label = round(anzahl, 1)), size = 4.5) +
+  scale_fill_gradient(low = "#fdfefe", high = "#e67e22", guide = "none") +
+  labs(x = NULL, y = NULL, title = "Mittlere Anzahl pro Plot, beide Jahre") +
+  theme_slide() + theme(axis.text.y = element_text(face = "italic"), panel.grid = element_blank())
+```
+
+Eine Zahl pro Feld, Farbe als Hilfe fürs Auge. Alle sechs Arten sind in der **Steppe** am häufigsten. *Sphingonotus* ist auch in der Aue häufig.
+
+# Fallstricke
+
+## Zählen ist eine Stichprobe
+
+Mittlere Zahl pro Plot, 2024, bei jedem der vier Besuche:
+
+```{r}
+bes <- sapply(c("OedCae", "CalIta"), function(a) {
+  t <- roh24[roh24$quarter == "tot" & !is.na(roh24$temp1), paste0(a, 1:4)]
+  round(colMeans(t, na.rm = TRUE), 1)
+})
+tab <- data.frame(Besuch = 1:4, bes)
+names(tab) <- c("Besuch", "O. caerulescens", "C. italicus")
+knitr::kable(tab, row.names = FALSE)
+```
+
+Gleiche Plots, wenige Tage auseinander, andere Zahlen. Darum nehmen wir das **Maximum** der vier Besuche. Und darum streut 2019 gegen 2024 so stark (Woche 9).
+
+## Wer zählt?
+
+```{r}
+#| fig-height: 3.4
+#| fig-width: 9
+#| out-width: 88%
+t24 <- roh24[roh24$quarter == "tot" & !is.na(roh24$temp1) & roh24$observ1 != "alle", ]
+t24$habitat <- factor(t24$habitat.type, levels = c("forest", "alluvial", "steppe"),
+                      labels = c("Wald", "Aue", "Steppe"))
+ggplot(t24[!is.na(t24$habitat), ], aes(observ1, CalIta1, colour = habitat)) +
+  geom_jitter(width = 0.15, height = 0, size = 2.2, alpha = 0.85) +
+  scale_colour_manual(values = hab_farben, name = NULL) +
+  labs(x = NULL, y = "Calliptamus, 1. Besuch") +
+  theme_slide() + theme(legend.position = "right")
+```
+
+Team L zählt wenig. Aber Team L war fast nur im **Wald**. Ein Unterschied zwischen Teams kann auch ein Unterschied zwischen **Orten** sein.
+
+## Zeit ist nicht gleich Text
+
+In den Daten steht die Uhrzeit als Text: `09h30`, `9h50`, `10h10`.
+
+```{r}
+#| echo: true
+"9h50" < "10h10"
+```
+
+Für R ist `"9h50"` **später** als `"10h10"`: Text wird Zeichen für Zeichen verglichen, und «9» kommt nach «1». Wer nach Uhrzeit sortiert, muss die Zeit zuerst in Zahlen umwandeln.
+
+## Farben
+
+- **Gleiche Bedeutung, gleiche Farbe**, in allen Abbildungen (hier: Wald grün, Aue blau, Steppe gelb).
+- **Kein Regenbogen** für Zahlen. Für «wenig bis viel» eine Farbe von hell nach dunkel.
+- Etwa jeder zwölfte Mann sieht Rot und Grün schlecht. Rot gegen Grün allein trägt keine Information.
+
+# Reproduzierbar
+
+## Eine Abbildung als Funktion
+
+```{r}
+#| echo: true
+#| eval: false
+karte <- function(art, jahr) {
+  d <- drei[drei$jahr == jahr, ]
+  plot(d$x, d$y, asp = 1, pch = 21,
+       bg = hab_farben[as.character(d$habitat)],
+       cex = 0.6 + sqrt(d[[art]]) / 1.5,
+       main = paste(namen[art], jahr))
+}
+
+karte("CalIta", 2019)
+karte("SphCae", 2024)
+
+png("karte_calliptamus_2019.png", width = 1600, height = 900, res = 200)
+karte("CalIta", 2019)
+dev.off()
+```
+
+Neue Daten nächstes Jahr? Eine Zeile ändern, nicht zwanzig Klicks.
+
+# Werkstatt
+
+## Notebook (~50 min)
+
+**→ [Notebook Woche 13 öffnen](notebook.html)** · [Rmd](notebook.Rmd) · [R](notebook.R)
+
+1. Makeover in vier Schritten
+2. Eine Karte, dann sechs Karten
+3. Gekommen, geblieben, verschwunden
+4. `karte()` und `png()`
+5. **Ihre Frage** (ca. 15 min): eine Abbildung, ein Satz
+6. Bonus: dasselbe mit ggplot2
+
+## Ihre Frage
+
+Eine Frage, **eine** Abbildung, **ein** Satz:
+
+> «Die Abbildung zeigt … . Sie zeigt nicht, … .»
+
+- Welche zwei Arten kommen oft **zusammen** vor?
+- Mögen die blauflügeligen Arten **offenen Boden**?
+- Zählt man bei **Hitze** mehr?
+- Zählen **Teams** verschieden, und liegt das an den Teams?
+- Wie viele **Arten** pro Plot, und wo?
 
 ## Take-home
 
-1. Erst auswählen, dann färben.
-2. Eine Abbildung, eine Aussage.
-3. Die Funktion ist der Nachweis der Wahl.
+1. Zuerst die **Frage**, dann die Abbildung.
+2. Titel = Aussage. Achsen mit Einheit. Jeder Datenpunkt sichtbar, wenn es geht.
+3. Gleiche Farbe für gleiche Bedeutung, in allen Abbildungen.
+4. Viele kleine Bilder mit gleichen Achsen sind oft besser als ein grosses.
+5. Eine Abbildung ist eine **Funktion** plus `png()`: Sie entsteht jedes Mal genau gleich.
 
-## Notebook (~45 min)
+## Ausblick · Woche 14
 
-**→ [Notebook Woche 13 öffnen](notebook.html)** · Entwurf
+**Checkpoint D**: eine Frage zu den Rottensand-Daten, **eine** Hauptabbildung, und was sie nicht zeigt.
 
-Top-$k$ → Zusammensetzung → Heatmap oder Facette.
+Was Sie mitbringen: das Notebook, das die Abbildung **aus den Rohdaten** erzeugt.
 
-## Abschlussfragen
+## Daten und Literatur
 
-1. Welche Aggregation — und warum?
-2. Eine visuelle Täuschung, die Sie vermeiden.
-3. Welche Abbildung wollen Sie in Woche 14 zeigen?
+:::: {.lit}
+- **Daten:** Feldpraktikum Conservation Biology, Universität Bern, Rottensand 2019 und 2024. Mit freundlicher Genehmigung. Die Kürzel der Beobachterinnen und Beobachter sind durch Teamcodes ersetzt.
+- Wickham, H. (2016). *ggplot2: Elegant Graphics for Data Analysis.* Springer. [ggplot2-book.org](https://ggplot2-book.org)
+- Wilke, C. O. (2019). *Fundamentals of Data Visualization.* O'Reilly. [clauswilke.com/dataviz](https://clauswilke.com/dataviz/)
+::::
 
 ## Navigation
 
 | | |
 |---|---|
-| Notebook | [Notebook Woche 13](notebook.html) |
+| Notebook | [Quarto](notebook.html) · [Rmd](notebook.Rmd) · [R](notebook.R) |
 | Zurück | [← Woche 12](../week-12/slides.html) |
 | Weiter | [Woche 14 →](../week-14/slides.html) |
+| Modul | [Modul 4](../../docs/module-04-overview.html) |
+| PDF | [slides.pdf](slides.pdf) · oder Taste **E**, dann Drucken |
