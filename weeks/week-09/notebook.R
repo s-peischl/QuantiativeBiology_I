@@ -106,16 +106,17 @@ abline(h = p_0, lwd = 1, lty = 2)
 #
 # In der Vorlesung starten alle drei Teiche bei p = 0.5 und liegen nach drei bis vier Jahren bei etwa 0.63 (Teich 2 und 14) und 0.84 (Teich 7). Kann ein neutrales Allel das allein durch Zufall schaffen?
 #
-# Wir lassen simulateWF 100 Mal laufen, je 4 Generationen mit N = 250, und merken uns nur die Frequenz am Ende.
+# Wir lassen simulateWF 100 Mal laufen, je 4 Generationen mit N = 250. Jede Bahn kommt als Zeile in die Tabelle bahnen: 100 Zeilen, 5 Spalten (Jahr 0 bis 4). Zuerst schauen wir nur auf das Ende.
 
 N <- 250   # bitte aendern
 
 set.seed(2026)
-p_ende <- numeric(100)
+bahnen <- matrix(NA, nrow = 100, ncol = 5)   # eine Zeile pro Bahn, eine Spalte pro Jahr
 for (i in 1:100) {
   bahn <- simulateWF(p_0 = 0.5, N = N, generationen = 4)
-  p_ende[i] <- bahn$p[5]
+  bahnen[i, ] <- bahn$p
 }
+p_ende <- bahnen[, 5]   # Frequenz nach 4 Jahren
 
 hist(p_ende, breaks = seq(0, 1, by = 0.025), xlim = c(0.2, 1),
      main = paste("100 neutrale Verlaeufe, N =", N),
@@ -125,6 +126,29 @@ abline(v = c(0.637, 0.625, 0.837), lwd = 2,
 
 sum(p_ende >= 0.62)   # so hoch wie Teich 2 und 14?
 sum(p_ende >= 0.84)   # so hoch wie Teich 7?
+
+# Die Huelle. Statt 100 Linien zeichnen wir fuer jedes Jahr nur den Bereich, in dem 95 von 100 Bahnen liegen: vom 2.5-%- bis zum 97.5-%-Perzentil. quantile kennen Sie aus Woche 7. Dazu kommen die gemessenen Teiche.
+
+unten <- numeric(5)
+oben  <- numeric(5)
+for (j in 1:5) {
+  unten[j] <- quantile(bahnen[, j], 0.025)
+  oben[j]  <- quantile(bahnen[, j], 0.975)
+}
+
+jahr <- 0:4
+plot(NA, xlim = c(0, 4), ylim = c(0.2, 1),
+     xlab = "Jahr", ylab = "Frequenz Suesswasser-Inversion",
+     main = paste("95-%-Huelle ohne Selektion, N =", N))
+polygon(c(jahr, rev(jahr)), c(unten, rev(oben)), col = "grey85", border = "grey50")
+abline(h = 0.5, lty = 2, col = "grey40")   # Erwartung ohne Selektion
+
+# die Teiche (Teich 7 hat kein Jahr 4)
+lines(0:4, c(0.500, 0.472, 0.606, 0.648, 0.638), type = "b", pch = 16, lwd = 2, col = "#e67e22")
+lines(0:3, c(0.500, 0.714, 0.821, 0.847),        type = "b", pch = 17, lwd = 2, col = "#2980b9")
+lines(0:4, c(0.500, 0.524, 0.708, 0.610, 0.629), type = "b", pch = 15, lwd = 2, col = "#1e8449")
+legend("topleft", c("Teich 2", "Teich 7", "Teich 14"), col = c("#e67e22", "#2980b9", "#1e8449"),
+       pch = c(16, 17, 15), lwd = 2, bty = "n")
 
 # F6
 # Die zwei Zeilen am Ende des Blocks zaehlen, wie viele der 100 neutralen Verlaeufe so hoch kommen wie die Teiche 2 und 14 (mindestens 0.62) und wie viele so hoch wie Teich 7 (mindestens 0.84).
@@ -136,6 +160,7 @@ sum(p_ende >= 0.84)   # so hoch wie Teich 7?
 # | 25 |  |  |
 #
 # - Fuellen Sie die Tabelle aus. Wie klein muesste die Population sein, damit Zufall allein reicht?
+# - Schauen Sie die Huelle an: Welcher Teich verlaesst sie, und in welchem Jahr? Wie veraendert sich die Huelle, wenn Sie N aendern? (Danach beide Bloecke neu laufen lassen.)
 # - In jedem Teich leben Hunderte Stichlinge. Was muss also zum Zufall dazukommen?
 
 # ===========================================================================
