@@ -49,6 +49,8 @@ private/
 Questionaire/
 Member_List/
 2026_PondExperiment/
-pics/pond-experiment/
+# Teichfotos: nur die in Woche 9 verwendeten sind freigegeben (Nov 2026)
+pics/pond-experiment/holding_tanks.jpg
+pics/pond-experiment/oyster_lagoon_fieldwork.jpg
 Rplots.pdf
 __pycache__/

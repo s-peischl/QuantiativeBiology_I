@@ -86,8 +86,10 @@ Mine, Agrostis, Inselfuchs, Kākāpō, Kimura, Québec): siehe `pics/popgen/CRED
 ## Teichexperiment (`pics/pond-experiment/`)
 
 Unveröffentlichte Kursfotos aus dem UBC-Teichexperiment (Peichel- und
-Schluter-Labore). **Nicht ohne Genehmigung** weiterverbreiten oder auf
-den öffentlichen Kurs-Hub legen.
+Schluter-Labore). Für den öffentlichen Kurs-Hub (Woche 9) freigegeben,
+Nov. 2026: nur die zehn in Woche 9 verwendeten Dateien sind im Repo.
+`oyster_lagoon_fieldwork.jpg` und `holding_tanks.jpg` bleiben lokal.
+Nicht anderweitig weiterverbreiten.
 
 | Lokale Datei | Hinweis |
 |---|---|

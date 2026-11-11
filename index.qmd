@@ -12,8 +12,8 @@ format:
 - **[Kursinfo (PDF)](docs/kursinfo.pdf)** — Termine, Bewertung, Checkpoints (auch auf ILIAS)
 - **[Kursplan (PDF)](docs/kursplan.pdf)** — Kalender und Wocheninhalte
 - **[Modul 1 · Wochen 1–4](docs/module-01-overview.qmd)** — Ökologie und Dynamik · **Checkpoint A**
-- **[Modul 2 · Wochen 5–8](docs/module-02-overview.qmd)** — Vererbung und Vektoren · **Checkpoint B** · folgt
-- **[Modul 3 · Wochen 9–11](docs/module-03-overview.qmd)** — Evolution und Zufall · **Checkpoint C** · folgt
+- **[Modul 2 · Wochen 5–8](docs/module-02-overview.qmd)** — Vererbung und Vektoren · **Checkpoint B** · online
+- **[Modul 3 · Wochen 9–11](docs/module-03-overview.qmd)** — Evolution und Zufall · **Checkpoint C** · ab Woche 9 online
 - **[Modul 4 · Wochen 12–14](docs/module-04-overview.qmd)** — Gemeinschaften und Reproduzierbarkeit · **Checkpoint D** · folgt
 - **[Glossar](docs/glossary.qmd)** — Fachbegriffe (Gymnasium → Uni)
 - **[KI-Richtlinie](docs/ai-policy.qmd)** — erlaubte Nutzung, Verbote und Offenlegung
@@ -55,7 +55,7 @@ Details: [Modul 1](docs/module-01-overview.qmd) · [Kursinfo (PDF)](docs/kursinf
 | 3 | 1. Okt | Stabilität / Food Web | [Folien](weeks/week-03/slides.qmd) · [PDF](weeks/week-03/slides.pdf) · [Notebook](weeks/week-03/notebook.qmd) |
 | 4 | 8. Okt | RPS · **Checkpoint A** | [Folien](weeks/week-04/slides.qmd) · [PDF](weeks/week-04/slides.pdf) · [**Notebook**](weeks/week-04/notebook.qmd) · [Rmd](weeks/week-04/notebook.Rmd) · [R](weeks/week-04/checkpoint.R) |
 
-## Modul 2 · Wochen 5–6 online
+## Modul 2 · Wochen 5–8 online
 
 **Vererbung und Vektoren** · Hardy–Weinberg → lokale Anpassung → Raum · endet mit **Checkpoint B in Woche 8**.
 
@@ -68,15 +68,15 @@ Details: [Modul 1](docs/module-01-overview.qmd) · [Kursinfo (PDF)](docs/kursinf
 | 7 | 29. Okt. | Anpassung im Raum · Stichling · $F_{ST}$ | [Folien](weeks/week-07/slides.qmd) · [PDF](weeks/week-07/slides.pdf) · [Notebook](weeks/week-07/notebook.qmd) · [Rmd](weeks/week-07/notebook.Rmd) · [R](weeks/week-07/notebook.R) |
 | 8 | 5. Nov. | Clines · Sommer und Winter · **Checkpoint B** | [Folien](weeks/week-08/slides.qmd) · [PDF](weeks/week-08/slides.pdf) · [Checkpoint](weeks/week-08/notebook.qmd) · [Rmd](weeks/week-08/notebook.Rmd) · [R](weeks/week-08/notebook.R) |
 
-## Modul 3 · folgt
+## Modul 3 · Woche 9 online
 
 **Evolution und Zufall** · Teich-Inversion → neutrale Wolke → $2s$ → Rettung · endet mit **Checkpoint C in Woche 11**.
 
-Folien und Notebooks erscheinen hier, sobald der Block frei gegeben ist. Überblick: [Modul 3](docs/module-03-overview.qmd).
+Die weiteren Wochen erscheinen hier, sobald sie frei gegeben sind. Überblick: [Modul 3](docs/module-03-overview.qmd).
 
 | Woche | Datum | Thema | Materialien |
 |------:|------|--------|-------------|
-| 9 | 12. Nov. | Stichlinge · Zufall | folgt |
+| 9 | 12. Nov. | Zufall · Notwendigkeit | [Folien](weeks/week-09/slides.qmd) · [PDF](weeks/week-09/slides.pdf) · [Notebook](weeks/week-09/notebook.qmd) · [Rmd](weeks/week-09/notebook.Rmd) · [R](weeks/week-09/notebook.R) |
 | 10 | 19. Nov. | Resistenz · Rettung | folgt |
 | 11 | 26. Nov. | Wolke · Fortbestand · **Checkpoint C** | folgt |
 

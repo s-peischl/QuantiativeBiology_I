@@ -11,9 +11,9 @@ format:
 **Eine Seite Überblick** · Quantitative Biologie I · HS 2026
 
 ::: {.callout-note}
-## Materialien folgen
+## Woche 9 ist online
 
-Der Block ist geplant; Folien und Notebooks erscheinen hier, sobald sie frei gegeben sind.
+Wochen 10 und 11 erscheinen hier, sobald sie frei gegeben sind.
 :::
 
 ## Was ist Modul 3?
@@ -22,10 +22,11 @@ Der Block ist geplant; Folien und Notebooks erscheinen hier, sobald sie frei geg
 Süsswasserteichen, eine Inversion auf Chromosom XI, drei Teiche, vier
 Jahre. Alle Bahnen steigen — und trennen sich trotzdem.
 
-Dann kommt Zufall ins Allelfrequenz-Modell. Eine **neutrale Wolke**
-sagt, wie weit $p$ ohne Selektion laufen darf. Die Teiche liegen
-ausserhalb. Eine Wolke mit $s>0$ kann sie tragen — konsistent, kein
-Beweis.
+Dann kommt Zufall ins Allelfrequenz-Modell: Das Modell aus Woche 6
+gibt die **Erwartung**, eine Binomial-Ziehung streut um sie herum. Eine
+**neutrale Wolke** zeigt, welche Werte $p$ ohne Selektion erreichen kann.
+Teich 7 liegt deutlich darüber, Teich 2 und 14 knapp. Eine Wolke mit
+$s>0$ passt zu allen — konsistent, kein Beweis.
 
 Woche 10: warum der Start bei $p=0.5$ (Heterozygote, viele Kopien)?
 Eine seltene vorteilhafte Variante stirbt oft. Das ist $u$, oft
@@ -38,7 +39,7 @@ Ableiten und Tests: andere Vorlesungen.
 
 | Woche | Datum | Thema | Fokus |
 |------:|------|--------|--------|
-| **9** | 12. Nov. | Stichlinge · Zufall | Teich · `rbinom` · neutrale Wolke · $s$ plus Rauschen |
+| **9** | 12. Nov. | Zufall · Notwendigkeit | Teich · Erwartung und Zufall · `rbinom` · neutrale Wolke · Echsen mit endlichem $N$ |
 | **10** | 19. Nov. | Resistenz · Rettung | $p=1/N$ · $\hat u\approx 2s$ · Orr–Unckless |
 | **11** | 26. Nov. | Wolke · Fortbestand | **Checkpoint C** |
 
@@ -71,10 +72,10 @@ Thema: Rettung unter Antibiotikum bei Wildtyp und Mutator. Erst den Wildtyp anpa
 
 ## Materialien
 
-| Woche | Folien | Notebook |
-|------:|--------|----------|
-| 9 | folgt | folgt |
-| 10 | folgt | folgt |
-| 11 | folgt | folgt |
+| Woche | Folien | PDF | Notebook |
+|------:|--------|-----|----------|
+| 9 | [Folien](../weeks/week-09/slides.qmd) | [PDF](../weeks/week-09/slides.pdf) | [Notebook](../weeks/week-09/notebook.qmd) · [Rmd](../weeks/week-09/notebook.Rmd) · [R](../weeks/week-09/notebook.R) |
+| 10 | folgt | folgt | folgt |
+| 11 | folgt | folgt | folgt |
 
 Zurück: [Start](../index.qmd) · [Modul 2](module-02-overview.qmd) · [Modul 4](module-04-overview.qmd) · [Kursinfo (PDF)](kursinfo.pdf)
