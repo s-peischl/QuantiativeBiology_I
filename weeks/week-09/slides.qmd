@@ -60,7 +60,7 @@ col_suess <- "#2980b9"
 col_erw <- "#c0392b"
 
 zeige_wolke <- function(w, titel, ohne_zufall = NULL) {
-  band <- aggregate(p ~ jahr, w, function(x) quantile(x, c(0.05, 0.95)))
+  band <- aggregate(p ~ jahr, w, function(x) quantile(x, c(0.025, 0.975)))
   band <- data.frame(jahr = band$jahr, lo = band$p[, 1], hi = band$p[, 2])
   g <- ggplot() +
     geom_ribbon(data = band, aes(jahr, ymin = lo, ymax = hi),
@@ -79,6 +79,20 @@ zeige_wolke <- function(w, titel, ohne_zufall = NULL) {
     labs(x = "Jahr", y = "Frequenz Süsswasser-Inversion", title = titel) +
     theme_slide()
 }
+
+# Hülle: in jedem Jahr das 2.5- und das 97.5-Perzentil aller Bahnen
+huelle <- function(s, N, n_bahnen = 1000, seed = 9) {
+  b <- aggregate(p ~ jahr, wolke(s, N, n_bahnen, seed),
+                 function(x) quantile(x, c(0.025, 0.975)))
+  data.frame(jahr = b$jahr, lo = b$p[, 1], hi = b$p[, 2])
+}
+
+teich_schichten <- list(
+  geom_line(data = teiche, aes(jahr, p, colour = teich), linewidth = 1.1),
+  geom_point(data = teiche, aes(jahr, p, colour = teich, shape = teich), size = 2.6),
+  scale_colour_manual(values = teich_farben),
+  scale_shape_manual(values = c(16, 17, 15))
+)
 
 # Kreis als Pfad (für Genpool-Skizzen)
 kreis <- function(r = 1, x0 = 0, y0 = 0, n = 200) {
@@ -596,7 +610,57 @@ Gleicher Start, gleiches Modell, $s = 0$, und jede Bahn ist anders.
 zeige_wolke(wolke(0, 250), "100 Bahnen ohne Selektion (s = 0, N = 250) und die Teiche")
 ```
 
-Grau: Hier liegen 90 von 100 Bahnen **ohne Selektion**. Nach vier Jahren liegen alle Teiche **darüber**, Teich 7 deutlich.
+Grau: Hier liegen in jedem Jahr 95 von 100 Bahnen **ohne Selektion**. Teich 7 liegt deutlich **darüber**, Teich 2 und 14 am Ende knapp.
+
+## Von der Wolke zur Hülle
+
+```{r}
+#| fig-height: 3.4
+#| fig-width: 9
+#| out-width: 96%
+w100 <- wolke(0, 250)
+h0 <- huelle(0, 250)
+links <- ggplot() +
+  geom_ribbon(data = h0, aes(jahr, ymin = lo, ymax = hi), fill = "#d5d8dc", alpha = 0.8) +
+  geom_line(data = w100, aes(jahr, p, group = id), colour = "#7f8c8d",
+            linewidth = 0.25, alpha = 0.5) +
+  coord_cartesian(ylim = c(0.3, 0.9)) +
+  labs(x = "Jahr", y = "Frequenz", title = "100 Bahnen") +
+  theme_slide()
+rechts <- ggplot() +
+  geom_ribbon(data = h0, aes(jahr, ymin = lo, ymax = hi), fill = "#d5d8dc") +
+  geom_line(data = h0, aes(jahr, lo), colour = "#7f8c8d") +
+  geom_line(data = h0, aes(jahr, hi), colour = "#7f8c8d") +
+  annotate("text", x = 3.3, y = 0.5, label = "95 %", size = 5, colour = "#5d6d7e") +
+  coord_cartesian(ylim = c(0.3, 0.9)) +
+  labs(x = "Jahr", y = NULL, title = "nur die Hülle (aus 1000 Bahnen)") +
+  theme_slide()
+links + rechts
+```
+
+Für jedes Jahr: Zwischen welchen Werten liegen 95 % der Bahnen? Diese **Hülle** reicht für den Vergleich mit den Daten.
+
+## Die Hülle hängt von $N$ ab
+
+```{r}
+#| fig-height: 3.5
+#| fig-width: 8.4
+#| out-width: 92%
+hN <- do.call(rbind, lapply(c(25, 250, 2500), function(N)
+  cbind(huelle(0, N), N = factor(paste("N =", N), levels = paste("N =", c(25, 250, 2500))))))
+ggplot() +
+  geom_ribbon(data = hN, aes(jahr, ymin = lo, ymax = hi, fill = N), alpha = 0.9) +
+  scale_fill_manual(values = c("#eaecee", "#bfc9ca", "#7f8c8d"), name = NULL) +
+  teich_schichten +
+  coord_cartesian(ylim = c(0.1, 0.95)) +
+  labs(x = "Jahr", y = "Frequenz Süsswasser-Inversion",
+       title = "95-%-Hüllen ohne Selektion und die Teiche") +
+  theme_slide() +
+  guides(fill = guide_legend(order = 1), colour = guide_legend(order = 2),
+         shape = guide_legend(order = 2))
+```
+
+Kleine Population, breite Hülle. Mit $N = 25$ reicht Zufall für fast alle Teichwerte. In jedem Teich leben aber **Hunderte** Fische.
 
 ## Wolke mit Selektion
 
@@ -610,6 +674,34 @@ zeige_wolke(wolke(0.2, 250, seed = 11),
 ```
 
 Die Wolke liegt um die **Erwartung**. Teich 2 und 14 liegen **in** der Wolke, Teich 7 darüber, bei nur 7–36 Fischen pro Jahr.
+
+## Zwei Hüllen, ein Bild
+
+```{r}
+#| fig-height: 3.5
+#| fig-width: 8.4
+#| out-width: 92%
+h2 <- rbind(cbind(huelle(0, 250), modell = "ohne Selektion (s = 0)"),
+            cbind(huelle(0.2, 250, seed = 11), modell = "mit Selektion (s = 0.2)"))
+erw <- rbind(cbind(simuliere_bahn(0, 250, zufall = FALSE), modell = "ohne Selektion (s = 0)"),
+             cbind(simuliere_bahn(0.2, 250, zufall = FALSE), modell = "mit Selektion (s = 0.2)"))
+ggplot() +
+  geom_ribbon(data = h2, aes(jahr, ymin = lo, ymax = hi, fill = modell), alpha = 0.35) +
+  geom_line(data = erw[erw$modell == "ohne Selektion (s = 0)", ], aes(jahr, p),
+            colour = "#5d6d7e", linewidth = 0.9, linetype = "dashed") +
+  geom_line(data = erw[erw$modell == "mit Selektion (s = 0.2)", ], aes(jahr, p),
+            colour = col_erw, linewidth = 0.9, linetype = "dashed") +
+  scale_fill_manual(values = c("ohne Selektion (s = 0)" = "#7f8c8d",
+                               "mit Selektion (s = 0.2)" = col_erw), name = NULL) +
+  teich_schichten +
+  coord_cartesian(ylim = c(0.3, 0.9)) +
+  labs(x = "Jahr", y = "Frequenz Süsswasser-Inversion",
+       title = "95-%-Hüllen, N = 250; gestrichelt: Erwartung") +
+  theme_slide() +
+  guides(fill = guide_legend(order = 1, nrow = 1), colour = "none", shape = "none")
+```
+
+Jede Hülle liegt um **ihre** Erwartung. Teich 2 und 14 passen besser zur roten Hülle, Teich 7 liegt über beiden.
 
 ## Ein zweiter Zufall: die Stichprobe
 
