@@ -177,29 +177,23 @@ Antimicrobial Resistance Collaborators (2022), *Lancet* · Epstein et al. (2016)
 
 ## Ein Experiment: dieselben Bakterien, zwei Ausgänge
 
-Ramsayer et al. (2013): Hunderte Populationen von *Pseudomonas fluorescens*, eine tödliche Dosis Streptomycin.
+:::: columns
+::: {.column width="60%"}
+![](../../pics/rescue/ramsayer2013_fig1_ausschnitt.jpg){fig-alt="Originalabbildung: Zellzahl (log) über 53 Stunden für viele Populationen unter Streptomycin 50 und 100; durchgezogene Linien steigen wieder an, gestrichelte fallen auf null" style="max-height:440px"}
+:::
+::: {.column width="40%"}
+*Pseudomonas* unter Streptomycin. Jede Linie: **eine** Population.
 
-```{r}
-#| fig-height: 2.6
-#| fig-width: 8.4
-#| out-width: 80%
-set.seed(8)
-bsp <- do.call(rbind, lapply(1:10, function(i) cbind(rettung_lauf(3e4, 0.1, 0.1, generationen = 90), id = i)))
-ende <- aggregate(N ~ id, bsp, function(x) tail(x, 1) > 0)
-bsp$ausgang <- ifelse(ende$N[bsp$id], "gerettet", "ausgestorben")
-ggplot(bsp, aes(generation, pmax(N, 1), group = id, colour = ausgang)) +
-  geom_line(linewidth = 0.9) +
-  scale_y_log10(breaks = 10^(0:6), labels = c("1", "10", "100", "1000", "10^4", "10^5", "10^6")) +
-  scale_colour_manual(values = c(gerettet = col_res, ausgestorben = "#bdbdbd")) +
-  coord_cartesian(ylim = c(1, 1e6)) +
-  labs(x = "Zeit", y = "Zellen (log)") +
-  theme_slide()
-```
+- Alle **schrumpfen**.
+- Gestrichelt: **ausgestorben**.
+- Durchgezogen: **U-Kurve**, gerettet.
 
-Alle schrumpfen. Manche sterben aus, andere wachsen **wieder**: eine **U-Kurve**. Die geretteten sind am Ende fast alle **resistent**.
+Die geretteten sind am Ende fast alle **resistent**.
+:::
+::::
 
 ::: aside
-Skizze nach Ramsayer, Kaltz & Hochberg (2013), keine Messdaten. Gemessen: Aussterben zwischen Stunde 30 und 53; resistent waren 96.8 % der geretteten, 3.6 % der ausgestorbenen
+Ramsayer, Kaltz & Hochberg (2013), Fig. 1, Ausschnitt (50 und 100 µg/mL), CC BY 3.0
 :::
 
 ## Was in der U-Kurve steckt
@@ -611,25 +605,22 @@ Bell & Gonzalez (2009), *Ecology Letters* · Foto: *Saccharomyces cerevisiae*. A
 
 ## 2 · Grösse: *Pseudomonas* in zwei Volumen
 
-```{r}
-#| fig-height: 2.9
-#| fig-width: 6.5
-#| out-width: 62%
-pf <- data.frame(groesse = factor(c("klein (0.2 mL)", "gross (1.5 mL)"),
-                                  levels = c("klein (0.2 mL)", "gross (1.5 mL)")),
-                 gerettet = c(3, 25), total = c(47, 48))
-ggplot(pf, aes(groesse, gerettet / total)) +
-  geom_col(fill = col_res, width = 0.55) +
-  geom_text(aes(label = paste(gerettet, "von", total)), vjust = -0.5, size = 5) +
-  scale_y_continuous(limits = c(0, 0.65), labels = function(x) paste0(100 * x, " %")) +
-  labs(x = "Populationsgrösse (Volumen)", y = "gerettet") +
-  theme_slide()
-```
+:::: columns
+::: {.column width="55%"}
+![](../../pics/rescue/ramsayer2013_fig3a.jpg){fig-alt="Originalabbildung: Anteil überlebender Populationen gegen Streptomycin-Konzentration; 1.5 mL um 0.5 bis 0.6, 0.2 mL unter 0.1"}
+:::
+::: {.column width="45%"}
+Gleiche Bakterien, gleiches Antibiotikum, nur das **Volumen** ist anders: 1.5 mL oder 0.2 mL, also 7.5-mal mehr Zellen.
 
-Gleiche Bakterien, gleiches Antibiotikum, 7,5-mal mehr Zellen: von 6 % auf 52 % Rettung. Die Theorie sagt: $\lambda$ wächst mit $N_0$.
+- gross: **25 von 48** gerettet
+- klein: **3 von 47** gerettet
+
+Bei jeder Dosis. Die Theorie sagt: $\lambda$ wächst mit $N_0$.
+:::
+::::
 
 ::: aside
-Ramsayer, Kaltz & Hochberg (2013), Experiment 2, nach 86 Stunden
+Ramsayer, Kaltz & Hochberg (2013), Fig. 3A, Experiment 2, nach 86 Stunden, CC BY 3.0. x-Achse: Streptomycin (µg/mL)
 :::
 
 ## 3 · Variation: klonal oder vielfältig
@@ -650,7 +641,7 @@ ggplot(pv, aes(typ, mitte)) +
   theme_slide()
 ```
 
-Gleiche Grösse, nur die genetische Vielfalt am Start ist anders. Mehr Varianten, mehr Rettung: Resistente können **schon da** sein.
+Gleiche Grösse, nur die genetische Vielfalt am Start ist anders (in der Originalabbildung vorne: links gegen rechts). Mehr Varianten, mehr Rettung: Resistente können **schon da** sein.
 
 ::: aside
 Ramsayer et al. (2013), Experiment 1, nach 53 Stunden, je 10 Populationen pro Dosis; der Bereich fasst die drei Dosen zusammen

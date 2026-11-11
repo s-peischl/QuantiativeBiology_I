@@ -191,3 +191,10 @@ Von Wikimedia Commons, auf höchstens 1400–1600 px verkleinert.
 | `teufel.jpg` | File:Sarcophilus harrisii taranna.jpg | JJ Harrison | CC BY-SA 3.0 |
 | `dftd_karte.jpg` | File:Spread of devil facial tumor disease as of 2015.jpg | Epstein et al. (2016), *Nat. Commun.* 7: 12684, Fig. 1 | CC BY 4.0 |
 | `dftd_tumor.jpg` | File:Tasmanian Devil Facial Tumour Disease.png (als JPEG gespeichert) | Menna Jones | CC BY 2.5 |
+
+Aus Originalartikeln (Open Access, über PMC heruntergeladen, zugeschnitten):
+
+| Datei | Quelle | Urheber | Lizenz |
+|---|---|---|---|
+| `ramsayer2013_fig1_ausschnitt.jpg` | Ramsayer, Kaltz & Hochberg (2013), *Evol. Appl.* 6: 608–616, Fig. 1 (PMC3684742, `eva0006-0608-f1.jpg`); Ausschnitt: Kopfzeile, Zeilen 50 und 100 µg/mL, Zeitachse | die Autoren | CC BY 3.0 |
+| `ramsayer2013_fig3a.jpg` | dieselbe Arbeit, Fig. 3, nur Feld A (`eva0006-0608-f3.jpg`) | die Autoren | CC BY 3.0 |
