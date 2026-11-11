@@ -43,3 +43,4 @@ Direkt als verkleinerte Slide-Kopien geladen (max. 900 px).
 | Local file | Quelle | Use |
 |---|---|---|
 | `slides/moskitos_stadt_land.jpg` | Zeichnung: **Emma Ochsner** (Kursteam QuBi I), verkleinert aus `QuBi-Moskitos_neu.jpg` | Woche 7: Stechmücken, Insektizid Stadt vs. Land, Migration |
+| `rps_drei_verlaeufe.png` | Kursteam, Kopie von `weeks/week-04/ta-figs/simplex_muster.png` | Woche 9: Erinnerung an die drei Verläufe des Echsen-Spiels (Punkt, Oszillation, Heterokline) |

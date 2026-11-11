@@ -37,7 +37,9 @@ hist(x, breaks = 0:21 - 0.5,
 # A · Populationsgroesse
 # ===========================================================================
 #
-# Wir verfolgen ein neutrales Allel. p ist seine Frequenz. Der Einfachheit halber ist die Populationsgroesse N fix, und jedes Individuum ist haploid: Es traegt das Allel, oder es traegt es nicht.
+# Wir verfolgen ein neutrales Allel. p ist seine Frequenz. Der Einfachheit halber ist die Populationsgroesse N fix, und jedes Individuum ist haploid: Es hat von jedem Gen nur eine Kopie (wie Bakterien). Es traegt das Allel also, oder es traegt es nicht.
+#
+# Stichlinge und Echsen sind diploid: zwei Kopien pro Individuum, also 2N Genkopien in der Population. Am Prinzip aendert das nichts. Man zieht dann 2N Kopien statt N.
 #
 # Jede Generation wird aus der vorherigen gezogen. Ist das Allel in Generation t haeufig, ist es in Generation t+1 wahrscheinlich auch haeufig - aber nicht genau gleich haeufig. Das ist derselbe Schritt wie in der Vorlesung, hier ohne Selektion.
 
@@ -121,11 +123,19 @@ hist(p_ende, breaks = seq(0, 1, by = 0.025), xlim = c(0.2, 1),
 abline(v = c(0.637, 0.625, 0.837), lwd = 2,
        col = c("#e67e22", "#1e8449", "#2980b9"))   # Teich 2, 14, 7
 
-sum(p_ende >= 0.62)   # wie viele Verlaeufe kommen so hoch wie die Teiche?
+sum(p_ende >= 0.62)   # so hoch wie Teich 2 und 14?
+sum(p_ende >= 0.84)   # so hoch wie Teich 7?
 
 # F6
-# - Wie viele der 100 neutralen Verlaeufe kommen so hoch wie die Teiche? Und wie viele so hoch wie Teich 7?
-# - Setzen Sie N auf 50 und dann auf 25. Wie klein muesste die Population sein, damit Zufall allein reicht?
+# Die zwei Zeilen am Ende des Blocks zaehlen, wie viele der 100 neutralen Verlaeufe so hoch kommen wie die Teiche 2 und 14 (mindestens 0.62) und wie viele so hoch wie Teich 7 (mindestens 0.84).
+#
+# | N | so hoch wie Teich 2 und 14 (von 100) | so hoch wie Teich 7 (von 100) |
+# |---|---|---|
+# | 250 |  |  |
+# | 50 |  |  |
+# | 25 |  |  |
+#
+# - Fuellen Sie die Tabelle aus. Wie klein muesste die Population sein, damit Zufall allein reicht?
 # - In jedem Teich leben Hunderte Stichlinge. Was muss also zum Zufall dazukommen?
 
 # ===========================================================================
@@ -143,7 +153,9 @@ sum(p_ende >= 0.62)   # wie viele Verlaeufe kommen so hoch wie die Teiche?
 # \end{pmatrix}
 # 
 #
-# gab es drei Verlaeufe. Ist s + w < 2, naehern sich die Haeufigkeiten einem Punkt in der Mitte. Ist s + w > 2, schaukeln sie sich auf: eine Heterokline. Jede Farbe wird abwechselnd fast alleinherrschend und dann fast null.
+# gab es drei Verlaeufe. Ist s + w < 2, naehern sich die Haeufigkeiten einem Punkt in der Mitte. Ist s + w = 2, kreisen sie immer auf derselben Bahn: eine Oszillation. Ist s + w > 2, schaukeln sie sich auf: eine Heterokline. Die Bahn wird immer groesser und kommt den Ecken immer naeher. Jede Farbe wird abwechselnd fast alleinherrschend und dann fast null.
+#
+# Abbildung (im HTML-Notebook): Die drei Verlaeufe aus Woche 4. Jede Ecke des Dreiecks ist eine Farbe allein (1 orange, 2 blau, 3 gelb), die Mitte ist gleich viel von allen. Links: Die Mischung naehert sich dem Punkt in der Mitte. Mitte: Sie kreist. Rechts: Die Heterokline fuehrt von Ecke zu Ecke, immer nahe am Rand.
 #
 # Fast null: Im Modell von Woche 4 ist die Population unendlich gross. Eine Farbe mit Haeufigkeit 0.0001 ist dort noch da und kommt wieder. In echten Echsen-Populationen gibt es nur ganze Maennchen.
 #
@@ -264,8 +276,13 @@ set.seed(1)
 zeit_bis_verlust(s = 1.1, w = 0.5, N = 1000)   # bitte N aendern
 
 # F10
-# - Vergleichen Sie mit der Heterokline. Wo haelt Selektion die Vielfalt, wo bringt sie die Farben in Gefahr?
-# - Probieren Sie N = 100. Was aendert sich?
+# | N | verloren (von 20) | Generationen bis zum ersten Verlust |
+# |---|---|---|
+# | 100 |  |  |
+# | 1 000 |  |  |
+# | 10 000 |  |  |
+#
+# - Vergleichen Sie mit Ihrer Tabelle aus F9 (Heterokline). Wo haelt Selektion die Vielfalt, wo bringt sie die Farben in Gefahr?
 # - Bei Uta gibt es seit Jahren alle drei Farben. Was sagt das ueber N, oder ueber s und w?
 
 # ===========================================================================

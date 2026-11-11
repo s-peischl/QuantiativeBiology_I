@@ -606,6 +606,14 @@ Katie Peichel und Dolph Schluter schätzen mit einem diploiden Modell für Chr X
 3. Daten **ausserhalb** der neutralen Wolke sprechen für Selektion.
 4. Auch die Stichprobe ist eine Ziehung, und auch sie lässt sich simulieren, mit oder ohne Fangbias.
 
+## Erinnerung: das Echsen-Spiel
+
+![](../../pics/popgen/rps_drei_verlaeufe.png){width=90% fig-alt="Drei Dreiecke: Punkt, Oszillation, Heterokline"}
+
+Jede Ecke ist eine Farbe allein. Auf der **Heterokline** wird jede Farbe abwechselnd häufig und dann fast null.
+
+Im Notebook: Was passiert, wenn «fast null» in einer endlichen Population **null** wird?
+
 ## Notebook (~40 min)
 
 **→ [Notebook Woche 9 öffnen](notebook.html)** · [Rmd](notebook.Rmd) · [R](notebook.R)

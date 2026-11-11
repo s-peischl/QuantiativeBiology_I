@@ -72,7 +72,7 @@ Only **published** weeks are built and linked. Currently: **weeks 1–8**. Later
 
 Course organisation and grading live on **ILIAS**, not as hub webpages. Student PDFs: `docs/kursinfo.pdf` (rules) and `docs/kursplan.pdf` (calendar + week content), built with `scripts/render_handouts_pdf.sh`. Source for the plan: `docs/course-outline.qmd` (not rendered as HTML).
 
-To release the next week: add it to `render:` and the Folien/Notebooks navbar in `_quarto.yml`, then replace «folgt» links on `index.qmd` and the module overview.
+To release the next week: add it to `render:`, its `notebook.Rmd` / `notebook.R` to `resources:` (otherwise the «Andere Formate» links are dead), and the Folien/Notebooks navbar in `_quarto.yml`, then replace «folgt» links on `index.qmd` and the module overview.
 
 ---
 
