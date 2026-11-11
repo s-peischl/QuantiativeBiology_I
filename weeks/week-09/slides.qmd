@@ -55,6 +55,10 @@ names(teiche)[1:2] <- c("teich", "jahr")
 teiche$teich <- factor(paste("Teich", teiche$teich), levels = c("Teich 2", "Teich 7", "Teich 14"))
 teich_farben <- c("Teich 2" = "#e67e22", "Teich 7" = "#2980b9", "Teich 14" = "#1e8449")
 
+# Farben für Genkopien: Süsswasser blau, Meer weiss; Erwartung rot
+col_suess <- "#2980b9"
+col_erw <- "#c0392b"
+
 zeige_wolke <- function(w, titel, ohne_zufall = NULL) {
   band <- aggregate(p ~ jahr, w, function(x) quantile(x, c(0.05, 0.95)))
   band <- data.frame(jahr = band$jahr, lo = band$p[, 1], hi = band$p[, 2])
@@ -65,7 +69,7 @@ zeige_wolke <- function(w, titel, ohne_zufall = NULL) {
               colour = "#95a5a6", linewidth = 0.25, alpha = 0.5)
   if (!is.null(ohne_zufall))
     g <- g + geom_line(data = ohne_zufall, aes(jahr, p),
-                       colour = "#c0392b", linewidth = 1.2)
+                       colour = col_erw, linewidth = 1.2, linetype = "dashed")
   g +
     geom_line(data = teiche, aes(jahr, p, colour = teich), linewidth = 1.1) +
     geom_point(data = teiche, aes(jahr, p, colour = teich, shape = teich), size = 2.6) +
@@ -75,6 +79,12 @@ zeige_wolke <- function(w, titel, ohne_zufall = NULL) {
     labs(x = "Jahr", y = "Frequenz Süsswasser-Inversion", title = titel) +
     theme_slide()
 }
+
+# Kreis als Pfad (für Genpool-Skizzen)
+kreis <- function(r = 1, x0 = 0, y0 = 0, n = 200) {
+  a <- seq(0, 2 * pi, length.out = n)
+  data.frame(x = x0 + r * cos(a), y = y0 + r * sin(a))
+}
 ```
 
 ## Übersicht
@@ -83,7 +93,7 @@ zeige_wolke <- function(w, titel, ohne_zufall = NULL) {
 
 | Teil | Dauer | Was |
 |------|-------|-----|
-| Vorlesung | ~50 min | ein Teichexperiment · Zufall in R · Drift · die neutrale Wolke |
+| Vorlesung | ~50 min | ein Teichexperiment · Erwartung und Zufall · Zufall in R · die neutrale Wolke |
 | Notebook | ~40 min | neutrales Allel und $N$ · die Teiche · Echsen mit endlichem $N$ |
 
 ::: aside
@@ -96,16 +106,15 @@ Wochen 5–8: Aus $p$ und $s$ folgte **genau ein** nächstes $p$.
 
 Echte Populationen sind **endlich**. Wer wie viele Nachkommen hat, ist auch **Glück**.
 
-Heute: Was ändert das — und wie erkennt man trotzdem Selektion?
-
 ## Lernziele
 
 Nach heute können Sie …
 
-1. den **Verlauf** von $p$ in drei Teichen lesen: alle steigen, und trotzdem verschieden,
-2. Zufallszahlen in R **ziehen** (`sample`, `set.seed`, `rbinom`),
-3. Zufall in das Modell für die Allelfrequenz **einbauen**,
-4. sagen, ob die Teiche zu vielen simulierten Bahnen **ohne** Selektion passen (der **neutralen Wolke**), und was eine Wolke mit $s > 0$ dazu sagt.
+1. den **Verlauf** von $p$ in drei Teichen lesen,
+2. das Modell aus Woche 6 als **Erwartung** lesen und Zufall **um** diese Erwartung herum einbauen,
+3. begründen, warum eine neue Generation eine **Binomial-Ziehung** ist,
+4. Zufall in R **ziehen** (`sample`, `set.seed`, `rbinom`),
+5. die Teiche mit vielen simulierten Bahnen **ohne** Selektion vergleichen (der **neutralen Wolke**).
 
 # Ein Teichexperiment
 
@@ -116,11 +125,9 @@ Nach heute können Sie …
 ![](../../pics/organisms/stickleback.jpg){fig-alt="Dreistachliger Stichling" width="100%"}
 :::
 ::: {.column width="50%"}
-Meer- und Süsswasser-Stichlinge unterscheiden sich an wenigen Stellen im Genom stark (Woche 7).
+Meer- und Süsswasser-Stichlinge unterscheiden sich an wenigen Stellen im Genom stark.
 
-Darunter sind **Inversionen**: ein Stück Chromosom liegt umgedreht. Eine davon sitzt auf **Chromosom XI**.
-
-Im Süsswasser ist meist die eine Orientierung häufig, im Meer die andere.
+Eine davon: eine **Inversion** auf **Chromosom XI**. Im Süsswasser ist meist die eine Orientierung häufig, im Meer die andere.
 :::
 :::::
 
@@ -143,11 +150,9 @@ Foto: Marius Roesti
 ![](../../pics/people/katie_peichel.jpg){fig-alt="Katie Peichel" width="100%"}
 :::
 ::: {.column width="65%"}
-**Katie Peichel** (Universität Bern) erforscht, wie sich Stichlinge genetisch an Süsswasser anpassen.
+**Katie Peichel** (Universität Bern) und **Dolph Schluter** (UBC, Vancouver) fragen:
 
-Zusammen mit **Dolph Schluter** (UBC, Vancouver) fragt sie:
-
-> Stehen die Süsswasser-Inversionen im Süsswasser unter **Selektion**?
+> Steht die Süsswasser-Orientierung im Süsswasser unter **Selektion**?
 
 Statt nur Genome zu vergleichen, machen sie ein **Experiment**.
 :::
@@ -164,12 +169,10 @@ Foto: Universität Bern
 ![](../../pics/pond-experiment/pond_facility_aerial.jpg){fig-alt="UBC-Teichanlage von oben" width="100%"}
 :::
 ::: {.column width="48%"}
-Versuchsteiche der UBC (Schluter-Labor):
-
-- 20 Süsswasserteiche, 25 m × 15 m
+- 20 Teiche, 25 m × 15 m
 - flache Zone und 6 m Tiefe
 - natürliches Futter
-- Wirbellose und Vögel, **keine Fischräuber**
+- **keine Fischräuber**
 :::
 :::::
 
@@ -188,7 +191,7 @@ Satellitenbild: Folien Katie Peichel / Google
 :::
 :::::
 
-2022 in der **Oyster Lagoon** (Meer): marine Stichlinge fangen.
+2022, **Oyster Lagoon** (Meer).
 
 ::: aside
 Fotos: Peichel- und Schluter-Labore
@@ -205,25 +208,32 @@ Fotos: Peichel- und Schluter-Labore
 :::
 :::::
 
-An der UBC: **1152 Fische in 12 Tagen** genotypisiert. Jeder Fisch wird gemessen und gewogen, aus einem kleinen Stück Flosse wird per **PCR** die Orientierung bestimmt. Links: jeder Fisch in einem eigenen Becher.
-
-Gesucht sind **Heterozygote**: Fische mit einer Meer- und einer Süsswasser-Orientierung. (Gesucht wurde für drei Inversionen; wir schauen nur Chromosom XI an.)
+**1152 Fische in 12 Tagen**, jeder in einem eigenen Becher. Ein Stück Flosse, eine **PCR**: Welche Orientierung trägt der Fisch?
 
 ::: aside
-Fotos: Peichel- und Schluter-Labore
+Fotos: Peichel- und Schluter-Labore. Gesucht wurde für drei Inversionen; wir schauen nur Chromosom XI an.
 :::
 
 ## Warum $p_0 = 0.5$?
 
-In die Teiche kommen nur die gefundenen **Heterozygoten**, etwa 25 pro Teich. Es sind die gefangenen Fische selbst, keine Nachzucht aus dem Labor.
+```{r}
+#| fig-height: 2.6
+#| fig-width: 8.4
+#| out-width: 88%
+fische <- expand.grid(fisch = 1:4, kopie = 1:2)
+fische$orient <- ifelse(fische$kopie == 1, "Süsswasser", "Meer")
+ggplot(fische, aes(fisch, -kopie * 0.35)) +
+  geom_tile(aes(fill = orient), width = 0.75, height = 0.22, colour = "grey30") +
+  scale_fill_manual(values = c("Süsswasser" = col_suess, "Meer" = "white")) +
+  annotate("text", x = 1:4, y = -1.05, label = paste("Fisch", 1:4), size = 4.5) +
+  annotate("text", x = 5.3, y = -0.52, size = 6, hjust = 0,
+           label = "4 von 8 Kopien\np0 = 0.5") +
+  coord_cartesian(xlim = c(0.5, 7), ylim = c(-1.2, 0)) +
+  theme_void(base_size = 14) +
+  theme(legend.position = "top", legend.title = element_blank())
+```
 
-Ein Heterozygoter trägt **eine** Kopie jeder Orientierung, also startet jeder Teich bei
-
-$$
-p_0 = 0.5.
-$$
-
-Beide Orientierungen starten also gleich häufig.
+In die Teiche kommen nur **Heterozygote**: eine Kopie jeder Orientierung. Etwa 25 pro Teich, die gefangenen Fische selbst.
 
 ## Schritt 3: ab in die Teiche
 
@@ -236,7 +246,7 @@ Beide Orientierungen starten also gleich häufig.
 :::
 :::::
 
-Je etwa 25 Heterozygote in **drei Teiche** (2, 7, 14). Rechts: das Schild an Teich 2.
+Drei Teiche: 2, 7 und 14. Rechts das Schild an Teich 2.
 
 ::: aside
 Fotos: Peichel- und Schluter-Labore
@@ -253,21 +263,34 @@ Fotos: Peichel- und Schluter-Labore
 :::
 :::::
 
-Die ausgesetzten Fische pflanzen sich im Teich fort. Jedes Frühjahr (2023 bis 2026) wird eine Stichprobe gefangen: die 1., 2., 3. und 4. Generation im Teich. Jeder Fisch wird per PCR genotypisiert, insgesamt rund 15 000 PCRs.
+Die Fische pflanzen sich im Teich fort. 2023 bis 2026 wird jedes Frühjahr eine Stichprobe genotypisiert: rund 15 000 PCRs.
 
 ::: aside
 Fotos: Peichel- und Schluter-Labore
 :::
 
-## Was gezählt wird
+## Das Experiment auf einen Blick
 
-Für jeden gefangenen Fisch: Welche Orientierung trägt er auf seinen **zwei** Chromosomen XI?
+```{r}
+#| fig-height: 2.3
+#| fig-width: 8
+#| out-width: 100%
+schritte <- data.frame(
+  x = c(1, 2.25, 3.5, 4.75),
+  label = c("2022\nFang im Meer",
+            "1152 Fische\nper PCR\ngenotypisiert",
+            "je ~25 Heterozygote\nin Teich 2, 7, 14\np0 = 0.5",
+            "2023 bis 2026\njedes Frühjahr\neine Stichprobe"))
+ggplot(schritte, aes(x, 0)) +
+  geom_segment(data = schritte[1:3, ], aes(x = x + 0.5, xend = x + 0.75, y = 0, yend = 0),
+               arrow = arrow(length = unit(0.25, "cm")), colour = "grey40", linewidth = 0.8) +
+  geom_label(aes(label = label), size = 4.6, label.padding = unit(0.45, "lines"),
+             fill = "#eaf2fb", colour = "#1a5276", lineheight = 0.95) +
+  coord_cartesian(xlim = c(0.45, 5.3), ylim = c(-0.6, 0.6)) +
+  theme_void()
+```
 
-Daraus: $p$ = Anteil der **Süsswasser-Orientierung** unter allen untersuchten Kopien.
-
-Untersuchte Fische pro Jahr: in Teich 2 und 14 zwischen 35 und 232, in Teich 7 nur 7 bis 36. Teich 7 hat kein Jahr 4.
-
-Stichlinge sind diploid. Unser Modell bleibt **haploid** wie in Woche 6: $p$ ist dieselbe Frequenz, aber der Schritt von einer Generation zur nächsten ist vereinfacht.
+Gemessen wird $p$ = Anteil der **Süsswasser-Orientierung** unter allen untersuchten Kopien. Teich 2 und 14: 35–232 Fische pro Jahr, Teich 7 nur 7–36.
 
 ## Drei Teiche
 
@@ -286,53 +309,32 @@ ggplot(teiche, aes(jahr, p, colour = teich, shape = teich)) +
   theme_slide()
 ```
 
-Gleicher Start bei 0.5, vier Jahre später: drei verschiedene **Verläufe** von $p$. Einen solchen Verlauf nennen wir ab jetzt eine **Bahn**.
+Gleicher Start, drei verschiedene **Verläufe** von $p$. Einen Verlauf nennen wir ab jetzt eine **Bahn**.
 
-## Beobachtung 1: alle steigen
+## Was fällt auf?
 
-In **jedem** Teich liegt $p$ am Ende über 0.5.
-
-Die Süsswasser-Orientierung wird häufiger, in allen drei Teichen in **dieselbe Richtung**.
-
-Das erwartet man bei **positiver Selektion**.
-
-## Beobachtung 2: trotzdem verschieden
-
-Trotz gleichem Start:
-
-- Teich 7 steigt steil.
-- Teiche 2 und 14 steigen langsamer, mit einem kleinen Rückgang zwischendurch.
-
-Gleiche Anfangsbedingungen, **drei Bahnen**. Mit den Modellen aus Woche 5–8 wäre das unmöglich: gleicher Start, gleiches $s$, gleiche Bahn.
-
-## Beobachtung 3: warum verschieden?
-
-Noch ohne Formel. Kandidaten:
-
-- **Zufall** in einer endlichen Population (wer überlebt, wer Junge hat),
-- **kleine Stichproben**: In Teich 7 wurden pro Jahr nur 7–36 Fische untersucht,
-- echte Unterschiede zwischen den Teichen.
+1. **Alle steigen.** Das erwartet man bei positiver Selektion.
+2. **Trotzdem verschieden.** Mit den Modellen aus Woche 5–8 unmöglich: gleicher Start, gleiches $s$, gleiche Bahn.
+3. **Warum?** Zufall in einer endlichen Population? Kleine Stichproben? Echte Unterschiede zwischen den Teichen?
 
 ## Die Frage
 
-> Steigt die Süsswasser-Inversion, weil sie im Teich **im Vorteil** ist?
+> Steigt die Süsswasser-Orientierung, weil sie im Teich **im Vorteil** ist?
 > Oder kann das auch **Zufall** sein?
 
-Dafür müssen wir wissen, wie stark sich $p$ in vier Jahren **allein durch Zufall** verändern kann, also **ohne** Selektion.
+Dafür müssen wir wissen: Wie stark kann sich $p$ in vier Jahren **allein durch Zufall** verändern?
 
-# Zufall
+# Erwartung und Zufall
 
 ## Woher kommt der Zufall?
 
-Ohne Selektion spielt die Inversion keine Rolle. Trotzdem trägt nicht jeder Fisch gleich viel zur nächsten Generation bei:
+| Wo | Was ist Zufall? |
+|---|---|
+| **Überleben** | Ein Reiher erwischt zufällig mehr Fische einer Orientierung. |
+| **Fortpflanzung** | Ein Fisch hat 50 Junge, ein anderer keines. |
+| **Vererbung** | Welche Kopie ein Heterozygoter weitergibt: ein Münzwurf (Mendel). |
 
-| Wo | Was ist Zufall? | Wie ändert das $p$? |
-|---|---|---|
-| **Überleben** | wer gefressen wird oder krank wird | Ein Reiher erwischt zufällig mehr Fische mit der Süsswasser-Orientierung. |
-| **Fortpflanzung** | wer wie viele Junge hat | Ein Fisch hat 50 Junge, ein anderer keines. Seine Kopien sind dann häufiger. |
-| **Vererbung** | welche Kopie ein Heterozygoter weitergibt | Bei jedem Jungen ein Münzwurf (Mendel). |
-
-Keiner hat eine **Richtung**: Im Mittel bleibt $p$ gleich. Aber $p$ **schwankt**, umso stärker, je kleiner die Population ist. Erreicht $p$ dabei 0 oder 1, bleibt es dort.
+Keiner davon hat eine **Richtung**. Im Mittel bleibt $p$ gleich, aber es **schwankt**, umso stärker, je kleiner die Population.
 
 ## Zufall in einer kleinen Population
 
@@ -349,7 +351,7 @@ kugeln <- do.call(rbind, lapply(1:5, function(t)
 anteil <- aggregate(allel ~ generation, kugeln, mean)
 ggplot(kugeln, aes(platz, -generation)) +
   geom_point(aes(fill = factor(allel)), shape = 21, size = 8, colour = "grey30") +
-  scale_fill_manual(values = c("0" = "white", "1" = "#2980b9"), guide = "none") +
+  scale_fill_manual(values = c("0" = "white", "1" = col_suess), guide = "none") +
   geom_text(data = anteil, aes(x = 11.5, y = -generation,
                                label = paste0("p = ", allel)), size = 5, hjust = 0) +
   scale_y_continuous(breaks = -(0:4), labels = paste("Generation", 0:4)) +
@@ -358,11 +360,91 @@ ggplot(kugeln, aes(platz, -generation)) +
   theme(axis.text.y = element_text(hjust = 1))
 ```
 
-10 Genkopien, **keine Selektion**. Im Modell wird jede Generation einfach aus der vorherigen **zufällig gezogen**. $p$ ändert sich trotzdem, zufällig, von Generation zu Generation: **genetische Drift**.
+10 Genkopien, **keine Selektion**. Jede Generation wird zufällig aus der vorherigen gezogen. $p$ ändert sich trotzdem: **genetische Drift**.
 
-## Zufall im Computer: eine Münze
+## Die Idee: Modell = Erwartung
 
-`sample` zieht zufällig aus einer Liste. Zehn Münzwürfe:
+```{r}
+#| fig-height: 3.4
+#| fig-width: 9
+#| out-width: 96%
+set.seed(12)
+p_alt <- 0.5; p_erw <- 0.6; N_bsp <- 50
+z <- as.data.frame(table(rbinom(3000, N_bsp, p_erw) / N_bsp))
+z$p <- as.numeric(as.character(z$Var1))
+z$breite <- z$Freq / max(z$Freq) * 0.55
+
+skizze <- function(mit_zufall, titel) {
+  g <- ggplot() +
+    annotate("segment", x = 0, xend = 0.97, y = p_alt, yend = p_erw, colour = col_erw,
+             linewidth = 1.1, arrow = arrow(length = unit(0.28, "cm")))
+  if (mit_zufall)
+    g <- g + geom_rect(data = z, aes(xmin = 1.03, xmax = 1.03 + breite,
+                                     ymin = p - 0.008, ymax = p + 0.008), fill = "#95a5a6") +
+      annotate("text", x = 1.35, y = 0.84, label = "mögliche neue p", size = 4.3, colour = "#5d6d7e")
+  g +
+    annotate("point", x = 0, y = p_alt, size = 4, colour = "#2c3e50") +
+    annotate("point", x = 1, y = p_erw, size = 4, colour = col_erw) +
+    annotate("text", x = 0, y = p_alt - 0.06, label = "p = 0.5", size = 4.5) +
+    annotate("text", x = 0.95, y = p_erw + 0.06, label = "Erwartung p'", size = 4.5,
+             colour = col_erw, hjust = 1) +
+    scale_x_continuous(breaks = c(0, 1), labels = c("Generation t", "t + 1")) +
+    coord_cartesian(xlim = c(-0.2, 1.7), ylim = c(0.3, 0.9)) +
+    labs(x = NULL, y = "Frequenz", title = titel) +
+    theme_slide()
+}
+skizze(FALSE, "Woche 6: genau ein nächstes p") +
+  skizze(TRUE, "Heute: Zufall um die Erwartung")
+```
+
+Selektion bestimmt, **wohin** $p$ im Mittel geht. Der Zufall **streut** um diesen Wert.
+
+## Eine Generation ist eine Ziehung
+
+```{r}
+#| fig-height: 2.9
+#| fig-width: 8
+#| out-width: 100%
+gitter <- expand.grid(x = seq(-0.9, 0.9, by = 0.3), y = seq(-0.9, 0.9, by = 0.3))
+gitter <- gitter[gitter$x^2 + gitter$y^2 < 0.85, ]
+set.seed(3)
+gitter$suess <- seq_len(nrow(gitter)) %in% sample(nrow(gitter), round(0.6 * nrow(gitter)))
+neu <- data.frame(x = 3.5 + rep(0:4, 2) * 0.32, y = rep(c(0.2, -0.2), each = 5),
+                  suess = c(TRUE, TRUE, FALSE, TRUE, TRUE, FALSE, TRUE, TRUE, FALSE, TRUE))
+ggplot() +
+  geom_path(data = kreis(1.1), aes(x, y), colour = "#2c3e50", linewidth = 0.8) +
+  geom_point(data = gitter, aes(x, y, fill = suess), shape = 21, size = 5, colour = "grey30") +
+  geom_point(data = neu, aes(x, y, fill = suess), shape = 21, size = 7, colour = "grey30") +
+  scale_fill_manual(values = c("TRUE" = col_suess, "FALSE" = "white"), guide = "none") +
+  annotate("segment", x = 1.35, xend = 3.1, y = 0, yend = 0, colour = "grey40",
+           linewidth = 0.9, arrow = arrow(length = unit(0.3, "cm"))) +
+  annotate("text", x = 2.22, y = 0.32, label = "N = 10 Mal ziehen", size = 5.5) +
+  annotate("text", x = 0, y = -1.45, label = "Genpool nach Selektion: p' = 0.6", size = 5.5) +
+  annotate("text", x = 4.14, y = -0.75, label = "neu: X = 7 von 10", size = 5.5) +
+  coord_equal(xlim = c(-1.3, 5.3), ylim = c(-1.6, 1.15)) +
+  theme_void()
+```
+
+- Jede neue Kopie stammt von einer **zufällig gezogenen** Kopie aus dem Genpool.
+- Jede Ziehung ist **unabhängig** und ist mit Wahrscheinlichkeit $p'$ eine Süsswasser-Kopie.
+
+## Warum binomial?
+
+$N$ unabhängige Versuche, jeder mit derselben Wahrscheinlichkeit $p'$. Wir zählen die Treffer $X$.
+
+Genau das beschreibt die **Binomialverteilung**:
+
+$$
+X \sim \mathrm{Binomial}(N,\ p')
+$$
+
+Annahmen: $N$ ist fix, die Generationen überlappen nicht, Kopien werden unabhängig gezogen.
+
+Das ist das **Wright–Fisher-Modell**, das Standardmodell für Drift.
+
+## Zufall im Computer
+
+`sample` zieht zufällig aus einer Liste:
 
 ```{r}
 #| echo: true
@@ -374,33 +456,29 @@ Zweimal derselbe Befehl, zweimal ein anderes Ergebnis.
 
 ## Pseudo-Zufall und `set.seed`
 
-Ein Computer würfelt nicht. R **berechnet** Zahlen, die zufällig aussehen. Der Startwert der Rechnung heisst **Seed**.
+Ein Computer würfelt nicht: Er **berechnet** Zahlen, die zufällig aussehen. `set.seed` legt den Startwert fest:
 
 ```{r}
 #| echo: true
-set.seed(1)
-sample(c("Kopf", "Zahl"), size = 10, replace = TRUE)
-set.seed(1)
-sample(c("Kopf", "Zahl"), size = 10, replace = TRUE)
+set.seed(1); sample(c("Kopf", "Zahl"), size = 10, replace = TRUE)
+set.seed(1); sample(c("Kopf", "Zahl"), size = 10, replace = TRUE)
 ```
 
-Gleicher Seed, gleiche Zahlen: So kann jemand anders das Ergebnis **genau wiederholen**.
+Gleicher Seed, gleiche Zahlen. So lässt sich ein Ergebnis **genau wiederholen**.
 
-## Von Münzen zu Genkopien
+## Von Münzen zu Genkopien: `rbinom`
 
-Eine neue Generation mit $N = 250$ Genkopien. Jede ist mit Wahrscheinlichkeit $p = 0.5$ eine Süsswasser-Kopie: 250 Münzwürfe.
-
-Uns interessiert nur, **wie viele** es sind. Das würfelt `rbinom` direkt:
+250 Münzwürfe mit Wahrscheinlichkeit 0.6, und wir zählen nur die Treffer. Das macht `rbinom` in einem Schritt:
 
 ```{r}
 #| echo: true
 set.seed(2)
-rbinom(10, size = 250, prob = 0.5)
+rbinom(10, size = 250, prob = 0.6)
 ```
 
-Zehn mögliche neue Generationen. Im Mittel 125, aber selten genau 125.
+Zehn mögliche neue Generationen. Im Mittel $250 \times 0.6 = 150$, aber selten genau 150.
 
-## Wie stark schwankt $p$?
+## Erwartung und Streuung
 
 ```{r}
 #| fig-height: 3.2
@@ -408,19 +486,51 @@ Zehn mögliche neue Generationen. Im Mittel 125, aber selten genau 125.
 #| out-width: 92%
 set.seed(5)
 schwank <- do.call(rbind, lapply(c(25, 250, 2500), function(N)
-  data.frame(N = paste("N =", N), p = rbinom(1000, N, 0.5) / N)))
+  data.frame(N = paste("N =", N), p = rbinom(1000, N, 0.6) / N)))
 schwank$N <- factor(schwank$N, levels = paste("N =", c(25, 250, 2500)))
 ggplot(schwank, aes(p)) +
   geom_histogram(binwidth = 0.02, boundary = 0, fill = "#95a5a6", colour = "white") +
-  geom_vline(xintercept = 0.5, colour = "#c0392b", linewidth = 1) +
+  geom_vline(xintercept = 0.6, colour = col_erw, linewidth = 1.1) +
   facet_wrap(~ N) +
-  coord_cartesian(xlim = c(0.2, 0.8)) +
-  labs(x = "Frequenz p in der neuen Generation", y = "Anzahl",
-       title = "Je 1000 neue Generationen aus p = 0.5") +
+  coord_cartesian(xlim = c(0.3, 0.9)) +
+  labs(x = "p in der neuen Generation", y = "Anzahl",
+       title = "Je 1000 Ziehungen; rot: Erwartung p' = 0.6") +
   theme_slide()
 ```
 
-Im Mittel bleibt $p = 0.5$: Zufall hat **keine Richtung**. Die Schwankung ist etwa $\sqrt{p(1-p)/N}$: zehnmal mehr Kopien, rund dreimal weniger Schwankung.
+Der **Mittelwert** ist $p'$: das Modell. Die **Streuung** ist etwa $\sqrt{p'(1-p')/N}$. Zehnmal mehr Kopien, rund dreimal weniger Streuung.
+
+## Ein Schritt in R
+
+::::: columns
+::: {.column width="45%"}
+$$
+p' = \frac{p\,(1+s)}{1+p\,s}
+$$
+
+$$
+X \sim \mathrm{Binomial}(N,\ p')
+$$
+
+$$
+p_{t+1} = X / N
+$$
+:::
+::: {.column width="55%"}
+```r
+# 1. Erwartung: Selektion (Woche 6)
+p_strich <- selektion(p, s)
+
+# 2. Zufall: N Kopien ziehen
+X <- rbinom(1, N, p_strich)
+
+# 3. neue Frequenz
+p_neu <- X / N
+```
+:::
+:::::
+
+Selektion gibt die **Richtung**, die Ziehung das **Rauschen**. Viermal wiederholt: **eine** mögliche Bahn.
 
 ## Drift über viele Generationen
 
@@ -436,57 +546,27 @@ drift <- do.call(rbind, lapply(1:8, function(i) {
 }))
 ggplot(drift, aes(generation, p, group = id)) +
   geom_line(colour = "#7f8c8d", linewidth = 0.8) +
+  geom_hline(yintercept = 0.5, colour = col_erw, linewidth = 1.1, linetype = "dashed") +
+  annotate("label", x = 52, y = 0.5, label = "Erwartung: 0.5", colour = col_erw, size = 4.2) +
   labs(x = "Generation", y = "Frequenz", title = "8 Bahnen ohne Selektion, N = 25") +
   theme_slide()
 ```
 
-Jede Generation wird aus der **vorherigen** gezogen. Die kleinen zufälligen Änderungen summieren sich. Erreicht $p$ den Wert 0 oder 1, bleibt es dort: Die Variante ist **verloren** oder **fixiert**.
+Die Erwartung bleibt bei 0.5, die Bahnen nicht. Bei 0 oder 1 ist Schluss: Die Variante ist **verloren** oder **fixiert**.
 
-## Zufall im Modell
+## Woher das Modell kommt
 
-Wie Woche 6: Selektion macht aus $p$ den Anteil $p'$.
+| | |
+|---|---|
+| [Fisher (1922)](https://doi.org/10.1017/S0370164600023993) | erste Rechnung zum Zufall beim Vererben in endlichen Populationen |
+| [Wright (1931)](https://doi.org/10.1093/genetics/16.2.97) | dieselbe Ziehung; wie stark Drift von $N$ abhängt |
+| [Kimura (1955)](https://doi.org/10.1073/pnas.41.3.144) | eine Formel für die ganze Wolke (Diffusion) |
+| [Moran (1958)](https://doi.org/10.1017/S0305004100033193) | Variante mit überlappenden Generationen |
+| [Ewens (2004)](https://doi.org/10.1007/978-0-387-21822-9) | Lehrbuch zur Mathematik |
 
-Neu: Die nächste Generation hat $N$ Genkopien. Jede ist mit Wahrscheinlichkeit $p'$ eine Süsswasser-Kopie.
+Heute nur die Idee, die Mathematik folgt später im Studium. Lesetipp zur Geschichte: [Charlesworth (2022)](https://doi.org/10.1093/genetics/iyac006).
 
-In R zieht das **eine** Zeile:
-
-```r
-p_strich <- selektion(p, s)               # 1. Selektion, ohne Zufall
-p_neu    <- rbinom(1, N, p_strich) / N    # 2. Zufall: N Kopien ziehen
-```
-
-Selektion gibt die **Richtung**, Zufall das **Rauschen**. Für vier Jahre wiederholen wir das viermal und erhalten **eine** mögliche Bahn von $p$.
-
-## Ein Schritt als Formel
-
-$$
-p' = \frac{p\,(1+s)}{1+p\,s}, \qquad
-X \sim \mathrm{Binomial}(N,\ p'), \qquad
-p_{t+1} = \frac{X}{N}
-$$
-
-- $p'$: erwarteter Anteil nach der Selektion (Woche 6),
-- $X$: wie viele der $N$ neuen Kopien Süsswasser-Kopien sind, eine **Zufallszahl**,
-- $p_{t+1}$: die neue Frequenz, **eine** mögliche Zukunft, kein Mittelwert.
-
-$s = 0$: keine Selektion. $s = 0.2$: 20 % mehr Nachkommen im Mittel. Kurswert $N = 250$.
-
-## Ohne Ziehung bleibt $p = 0.5$
-
-```{r}
-#| fig-height: 3.2
-#| fig-width: 8.4
-#| out-width: 92%
-ggplot(simuliere_bahn(0, 250, zufall = FALSE), aes(jahr, p)) +
-  geom_hline(yintercept = 0.5, colour = "#bdc3c7", linetype = "dashed") +
-  geom_line(colour = "#2166ac", linewidth = 1.2) +
-  geom_point(colour = "#2166ac", size = 2.4) +
-  coord_cartesian(ylim = c(0.3, 0.9)) +
-  labs(x = "Jahr", y = "Frequenz", title = "s = 0, ohne Zufall: p bleibt 0.5") +
-  theme_slide()
-```
-
-Das ist Woche 6: Ohne Selektion ändert sich $p$ nicht. Damit sich $p$ zufällig ändert, braucht es die **Ziehung**.
+# Die Teiche und der Zufall
 
 ## Eine Bahn sagt wenig
 
@@ -497,7 +577,7 @@ Das ist Woche 6: Ohne Selektion ändert sich $p$ nicht. Damit sich $p$ zufällig
 set.seed(3)
 bahnen <- do.call(rbind, lapply(1:3, function(i) cbind(simuliere_bahn(0, 250), id = factor(i))))
 ggplot(bahnen, aes(jahr, p, group = id)) +
-  geom_hline(yintercept = 0.5, colour = "#bdc3c7", linetype = "dashed") +
+  geom_hline(yintercept = 0.5, colour = col_erw, linetype = "dashed") +
   geom_line(colour = "#7f8c8d", linewidth = 1) +
   geom_point(colour = "#7f8c8d", size = 2) +
   coord_cartesian(ylim = c(0.3, 0.9)) +
@@ -505,18 +585,7 @@ ggplot(bahnen, aes(jahr, p, group = id)) +
   theme_slide()
 ```
 
-Gleicher Start, gleiches Modell, $s = 0$ — und jede Bahn ist anders.
-
-## Reicht Zufall für den Anstieg?
-
-Wenn alles **neutral** ist ($s = 0$): Welche Werte kann $p$ nach vier Jahren allein durch Zufall erreichen?
-
-Wir simulieren dafür 100 Bahnen ohne Selektion. Zusammen bilden sie eine **Wolke**.
-
-- Liegen die Teiche **in** dieser Wolke: Zufall reicht als Erklärung.
-- Liegen sie **ausserhalb**: Neutralität erklärt das Muster nicht.
-
-Einen formellen Test mit $p$-Wert gibt es in der Statistikvorlesung. Heute reicht das Bild.
+Gleicher Start, gleiches Modell, $s = 0$, und jede Bahn ist anders.
 
 ## Viele Bahnen: die neutrale Wolke
 
@@ -527,7 +596,7 @@ Einen formellen Test mit $p$-Wert gibt es in der Statistikvorlesung. Heute reich
 zeige_wolke(wolke(0, 250), "100 Bahnen ohne Selektion (s = 0, N = 250) und die Teiche")
 ```
 
-Grau: der Bereich, in dem 90 von 100 Bahnen **ohne Selektion** liegen. Nach vier Jahren liegen alle Teiche **darüber**, Teich 7 deutlich.
+Grau: Hier liegen 90 von 100 Bahnen **ohne Selektion**. Nach vier Jahren liegen alle Teiche **darüber**, Teich 7 deutlich.
 
 ## Wolke mit Selektion
 
@@ -536,109 +605,71 @@ Grau: der Bereich, in dem 90 von 100 Bahnen **ohne Selektion** liegen. Nach vier
 #| fig-width: 8.4
 #| out-width: 92%
 zeige_wolke(wolke(0.2, 250, seed = 11),
-            "100 Bahnen mit s = 0.2; rot: dasselbe ohne Zufall",
+            "100 Bahnen mit s = 0.2; rot: Erwartung (Modell ohne Zufall)",
             ohne_zufall = simuliere_bahn(0.2, 250, zufall = FALSE))
 ```
 
-Mit $s = 0.2$ liegen Teich 2 und 14 **in** der Wolke. Teich 7 liegt noch darüber, hat aber nur 7–36 untersuchte Fische pro Jahr.
+Die Wolke liegt um die **Erwartung**. Teich 2 und 14 liegen **in** der Wolke, Teich 7 darüber, bei nur 7–36 Fischen pro Jahr.
 
 ## Ein zweiter Zufall: die Stichprobe
 
-Die Teich-Frequenzen sind **gemessen**. Untersucht wird nur ein Teil der Fische, auch das ist eine Ziehung:
+Auch die Messung ist eine Ziehung. Wahre Frequenz 0.6:
 
 ```{r}
 #| echo: true
 set.seed(3)
-rbinom(8, size = 20, prob = 0.6) / 20    # 10 Fische = 20 Kopien, wahre Frequenz 0.6
+rbinom(8, size = 20, prob = 0.6) / 20    # 10 Fische = 20 Kopien
 rbinom(8, size = 200, prob = 0.6) / 200  # 100 Fische = 200 Kopien
 ```
 
-Mit 10 Fischen (Teich 7 hatte im ersten Jahr nur 7) misst man leicht 0.5 oder 0.75, obwohl die wahre Frequenz 0.6 ist.
+Mit 10 Fischen misst man leicht 0.5 oder 0.75. So lässt sich eine **beobachtete** Häufigkeit einordnen.
 
-So lässt sich eine **beobachtete** Häufigkeit einordnen: Wie weit kann sie allein durch die Stichprobe danebenliegen?
-
-## Und wenn nicht alle gleich leicht ins Netz gehen?
-
-Gelbe *Uta*-Männchen sind Schleicher (Woche 5). Gehen sie seltener ins Netz, lässt sich auch das simulieren:
-
-:::: columns
-::: {.column width="45%"}
-![](../../pics/Emma/Grafik_samples.jpg){fig-alt="Echsen-Population 1 : 1 : 1; im Netz nur blaue und orange Männchen"}
-:::
-::: {.column width="55%"}
-```{r}
-#| echo: true
-set.seed(4)
-anteil  <- c(orange = 1, blau = 1, gelb = 1) / 3
-fangbar <- c(1, 1, 0.3)   # Annahme
-rmultinom(5, 9, anteil * fangbar)
-```
-:::
-::::
-
-Fünf Netze mit je 9 Echsen: Gelb fehlt oft. So prüft man, ob ein **Fangbias** eine Beobachtung erklären könnte.
-
-::: aside
-Illustration: Emma Ochsner
-:::
-
-## Was das Bild sagt — und was nicht
+## Was das Bild sagt, und was nicht
 
 - Zufall **allein** erklärt die Teiche schlecht.
-- Selektion **plus** Zufall passt — und erklärt auch, warum die Teiche verschieden sind.
-- Kleine Stichproben (Teich 7) sind selbst ein Zufall: Die gemessene Frequenz weicht von der wahren ab.
-- Das ist **kein Beweis** und kein statistischer Test. Das Bild zeigt, was zu den Daten **passt**.
+- Selektion **plus** Zufall passt, auch dazu, dass die Teiche verschieden sind.
+- Das ist **kein Beweis** und kein statistischer Test.
 
-## Konsistent, nicht bewiesen
-
-Positive Selektion **kann** die drei Verläufe erklären.
-
-Andere Werte für $s$ und $N$ oder mehr Biologie (diploid, schwankende Populationsgrösse) würden die Wolke verschieben.
-
-Katie Peichel und Dolph Schluter schätzen mit einem diploiden Modell für Chr XI eine starke Selektion. Unser einfaches Modell kommt zum gleichen Schluss: Die Süsswasser-Orientierung ist im Teich **im Vorteil**.
+Peichel und Schluter schätzen mit einem diploiden Modell eine starke Selektion. Unser einfaches Modell passt dazu: Die Süsswasser-Orientierung ist im Teich **im Vorteil**.
 
 # Abschluss
 
 ## Take-home
 
-1. In endlichen Populationen ändert sich $p$ auch **ohne** Selektion: **Drift**.
-2. Eine simulierte Bahn sagt wenig. Viele Bahnen ergeben eine **Wolke**.
-3. Daten **ausserhalb** der neutralen Wolke sprechen für Selektion.
-4. Auch die Stichprobe ist eine Ziehung, und auch sie lässt sich simulieren, mit oder ohne Fangbias.
+1. Das Modell aus Woche 6 gibt die **Erwartung**. Der Zufall streut um sie herum.
+2. Eine neue Generation = $N$ unabhängige Ziehungen: **Binomial**$(N, p')$, in R `rbinom`.
+3. Kleine $N$: starke Schwankung, **Drift**. Bei 0 oder 1 ist Schluss.
+4. Viele Bahnen ergeben eine **Wolke**. Daten **ausserhalb** der neutralen Wolke sprechen für Selektion.
+5. Auch die Stichprobe ist eine Ziehung.
 
 ## Erinnerung: das Echsen-Spiel
 
 ![](../../pics/popgen/rps_drei_verlaeufe.png){width=90% fig-alt="Drei Dreiecke: Punkt, Oszillation, Heterokline"}
 
-Jede Ecke ist eine Farbe allein. Auf der **Heterokline** wird jede Farbe abwechselnd häufig und dann fast null.
-
-Im Notebook: Was passiert, wenn «fast null» in einer endlichen Population **null** wird?
+Auf der **Heterokline** wird jede Farbe abwechselnd häufig und dann fast null. Im Notebook: Was passiert, wenn «fast null» **null** wird?
 
 ## Notebook (~40 min)
 
 **→ [Notebook Woche 9 öffnen](notebook.html)** · [Rmd](notebook.Rmd) · [R](notebook.R)
 
-Dieselben Ziehungen wie in der Vorlesung: zuerst ohne Selektion, dann mit dem Echsen-Spiel aus Woche 4.
-
 1. `rbinom` und `set.seed`: eine Verteilung anschauen
-2. Neutrales Allel: grosse und kleine Population über viele Generationen, dann zurück zu den Teichen
+2. Neutrales Allel: grosse und kleine Population, dann zurück zu den Teichen
 3. Echsen aus Woche 4 mit endlicher Population: Wann gehen Kehlfarben verloren?
 
 ## Abschlussfragen
 
 1. Warum startet das Experiment bei $p = 0.5$?
 2. Was ändert `set.seed` an einer Abbildung, und was nicht?
-3. Wo sitzt der Zufall im Generationsschritt, und wo sitzt $s$?
-4. Warum reicht **eine** neutrale Bahn nicht, um die Teiche zu beurteilen?
-5. Warum schwankt Teich 7 stärker als Teich 2?
-6. Was unterscheidet «liegt ausserhalb der Wolke» von einem statistischen Test?
-7. Wie würden Sie prüfen, ob ein Fangbias Emmas Netz mit 0 gelben Echsen erklären kann?
+3. Warum ist die Zahl der Süsswasser-Kopien binomialverteilt? Welche Annahmen stecken darin?
+4. Wo sitzt die Erwartung im Generationsschritt, und wo der Zufall?
+5. Warum reicht **eine** neutrale Bahn nicht, um die Teiche zu beurteilen?
+6. Warum schwankt Teich 7 stärker als Teich 2?
 
 ## Ausblick · Woche 10
 
 Heute startete die Inversion bei $p = 0.5$: viele Kopien.
 
-Eine **neue** Mutation beginnt mit **einer** Kopie. Dann entscheidet der Zufall, ob sie überhaupt überlebt — auch wenn sie vorteilhaft ist.
+Eine **neue** Mutation beginnt mit **einer** Kopie. Dann entscheidet der Zufall, ob sie überhaupt überlebt, auch wenn sie vorteilhaft ist.
 
 ## Literatur
 
@@ -647,6 +678,12 @@ Eine **neue** Mutation beginnt mit **einer** Kopie. Dann entscheidet der Zufall,
 1. **Jones, F. C., et al. (2012).** The genomic basis of adaptive evolution in threespine sticklebacks. *Nature* 484: 55–61. [doi:10.1038/nature10944](https://doi.org/10.1038/nature10944)
 1. **Peichel, C. L., & Marques, D. A. (2017).** The genetic and molecular architecture of phenotypic diversity in sticklebacks. *Phil. Trans. R. Soc. B* 372: 20150486. [doi:10.1098/rstb.2015.0486](https://doi.org/10.1098/rstb.2015.0486)
 1. **Barrett, R. D. H., Rogers, S. M., & Schluter, D. (2008).** Natural selection on a major armor gene in threespine stickleback. *Science* 322: 255–257. [doi:10.1126/science.1159978](https://doi.org/10.1126/science.1159978)
+1. **Fisher, R. A. (1922).** On the dominance ratio. *Proc. R. Soc. Edinburgh* 42: 321–341. [doi:10.1017/S0370164600023993](https://doi.org/10.1017/S0370164600023993)
+1. **Wright, S. (1931).** Evolution in Mendelian populations. *Genetics* 16: 97–159. [doi:10.1093/genetics/16.2.97](https://doi.org/10.1093/genetics/16.2.97)
+1. **Kimura, M. (1955).** Solution of a process of random genetic drift with a continuous model. *PNAS* 41: 144–150. [doi:10.1073/pnas.41.3.144](https://doi.org/10.1073/pnas.41.3.144)
+1. **Moran, P. A. P. (1958).** Random processes in genetics. *Math. Proc. Camb. Phil. Soc.* 54: 60–71. [doi:10.1017/S0305004100033193](https://doi.org/10.1017/S0305004100033193)
+1. **Ewens, W. J. (2004).** *Mathematical Population Genetics I.* 2. Aufl. Springer. [doi:10.1007/978-0-387-21822-9](https://doi.org/10.1007/978-0-387-21822-9)
+1. **Charlesworth, B. (2022).** Fisher's historic 1922 paper *On the dominance ratio*. *Genetics* 220: iyac006. [doi:10.1093/genetics/iyac006](https://doi.org/10.1093/genetics/iyac006)
 
 Teichdaten Chr XI: Katie Peichel (Bern) und Dolph Schluter (UBC), unveröffentlicht, mit freundlicher Genehmigung. Fotos: Marius Roesti; Peichel- und Schluter-Labore; Universität Bern (Porträt).
 ::::
