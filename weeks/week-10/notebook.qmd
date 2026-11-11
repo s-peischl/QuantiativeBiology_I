@@ -29,14 +29,15 @@ Eine neue Mutation beginnt mit **einer Kopie**. Auch wenn sie vorteilhaft ist, g
 **Die Abbildungen.**
 
 - Teil 1: **x-Achse** Generation, **y-Achse** Anzahl Kopien einer Mutation. Blau: überlebt, orange: verloren.
-- Teil 3: **x-Achse** Generation, **y-Achse** Populationsgrösse auf einer **log-Skala** (1, 10, 100, …). Blau: gerettet, grau: ausgestorben.
+- Teil 3: **x-Achse** Generation, **y-Achse** Anzahl Individuen auf einer **log-Skala** (1, 10, 100, …). Orange: Wildtyp, blau: Mutanten, schwarz: alle zusammen.
+- Teil 4: **x-Achse** Generation, **y-Achse** Populationsgrösse (log). Blau: gerettet, grau: ausgestorben.
 
 ::: {.callout-important}
 ## Auftrag
 
 1. Verfolgen Sie einzelne neue Mutationen und schätzen Sie, wie oft sie sich etablieren.
-2. Simulieren Sie eine schrumpfende Population und schätzen Sie, wie oft sie gerettet wird.
-3. Finden Sie heraus, wie Rettung von der Startgrösse $N_0$ und vom Rückgang $r$ abhängt.
+2. Lesen und starten Sie ein **kleines Programm**, das eine schrumpfende Population simuliert.
+3. Schätzen Sie mit vielen Läufen, wie oft sie gerettet wird, und wie das von $N_0$ und $r$ abhängt.
 4. Bonus: Wie viel eher mussten Elefanten ohne Stosszähne den Krieg überleben?
 5. Bonus: Hilft Migration aus einer Zuflucht der Rettung?
 :::
@@ -172,7 +173,81 @@ Füllen Sie die Tabelle aus:
 Wann passt die Faustregel gut, wann weniger?
 :::
 
-# 3 · Evolutionäre Rettung
+# 3 · Ein Programm für Rettung
+
+Jetzt schreiben wir das Modell selbst aus. Das ganze Programm hat drei Teile:
+
+1. **Zustand:** Wie viele Wildtypen (`wt`) und wie viele Mutanten (`mut`) gibt es?
+2. **Eine Generation:** neue Mutanten ziehen, dann Nachkommen ziehen.
+3. **Schleife:** die Generation viele Male wiederholen.
+
+Neu ist `rpois(1, mittel)`: eine zufällige ganze Zahl mit Mittelwert `mittel`. Wir brauchen sie für die Zahl der Nachkommen einer ganzen Gruppe. Bei 1000 Wildtypen und $r = 0.1$ ist `rpois(1, 900)` etwa 900, aber nicht genau. `rbinom` kennen Sie aus Woche 9: Von `wt` Nachkommen ist jeder mit Wahrscheinlichkeit $U$ ein Mutant.
+
+```{r}
+#| fig-height: 4.4
+#| fig-width: 7.5
+N0 <- 30000   # Startgrösse
+r  <- 0.1     # Rückgang des Wildtyps pro Generation
+s  <- 0.1     # Vorteil der Mutante
+U  <- 1e-5    # Mutationsrate
+generationen <- 150
+
+# 1. Zustand: ein Platz pro Generation
+wt  <- numeric(generationen + 1)
+mut <- numeric(generationen + 1)
+wt[1]  <- N0
+mut[1] <- 0
+
+# 2. und 3.: eine Generation, viele Male
+for (t in 1:generationen) {
+  neu        <- rbinom(1, wt[t], U)                # neue Mutanten unter den Wildtypen
+  wt[t + 1]  <- rpois(1, wt[t] * (1 - r))          # Wildtyp: im Mittel 1 - r Nachkommen
+  mut[t + 1] <- rpois(1, mut[t] * (1 + s)) + neu   # Mutanten: im Mittel 1 + s Nachkommen
+}
+
+plot(0:generationen, pmax(wt + mut, 1), type = "l", lwd = 3, log = "y",
+     xlab = "Generation", ylab = "Individuen (log)", ylim = c(1, 1e7))
+lines(0:generationen, pmax(wt, 1),  col = "#e67e22", lwd = 2)
+lines(0:generationen, pmax(mut, 1), col = "#2166ac", lwd = 2)
+legend("topright", c("alle", "Wildtyp", "Mutanten"), col = c("black", "#e67e22", "#2166ac"),
+       lwd = 2, bty = "n")
+
+which(mut > 0)[1] - 1   # in welcher Generation gibt es zum ersten Mal Mutanten?
+```
+
+::: {.callout-tip}
+## Aufgabe C
+
+1. Führen Sie den Block mehrmals aus. Wann entsteht die erste Mutante? Wird die Population jedes Mal gerettet?
+2. Suchen Sie in einer geretteten Population die U-Kurve. Wer schrumpft, wer wächst?
+3. Setzen Sie `U <- 0`. Was passiert, und warum?
+4. Manchmal entsteht eine Mutante und verschwindet wieder. Woran sieht man das in der Abbildung?
+:::
+
+## Von einem Lauf zur Wahrscheinlichkeit
+
+Ein Lauf sagt nur: gerettet oder nicht. Um eine **Wahrscheinlichkeit** zu schätzen, packen wir das Programm in eine Funktion und lassen sie viele Male laufen. Die Schleife läuft jetzt so lange, bis die Population ausgestorben ist oder 1000 Mutanten hat (`while`: «solange»).
+
+```{r}
+ein_lauf <- function(N0, r, s, U = 1e-5) {
+  wt <- N0
+  mut <- 0
+  while (wt + mut > 0 && mut < 1000) {   # solange nicht ausgestorben und nicht gerettet
+    neu <- rbinom(1, wt, U)
+    wt  <- rpois(1, wt * (1 - r))
+    mut <- rpois(1, mut * (1 + s)) + neu
+  }
+  as.numeric(mut >= 1000)   # 1 = gerettet, 0 = ausgestorben
+}
+
+ergebnisse <- replicate(200, ein_lauf(N0 = 30000, r = 0.1, s = 0.1))
+sum(ergebnisse)    # wie viele von 200 gerettet?
+mean(ergebnisse)   # Anteil: Schätzung der Wahrscheinlichkeit
+```
+
+Das ist das ganze Rezept jeder solchen Simulation: **Zustand, eine Generation, Schleife, Abbruch, viele Wiederholungen.**
+
+# 4 · Viele Läufe ansehen
 
 Eine Population mit $N_0 = 30\,000$ Individuen gerät in Stress und schrumpft jede Generation um $r = 10\,\%$. Resistente Mutanten haben den Vorteil $s = 0.1$. Die Abbildung zeigt 10 Wiederholungen.
 
@@ -183,16 +258,16 @@ zeige_rettung(N0 = 30000, r = 0.1, s = 0.1)   # hier N0 oder r ändern
 ```
 
 ::: {.callout-tip}
-## Aufgabe C
+## Aufgabe D
 
 1. Beschreiben Sie eine blaue Kurve: Was passiert zuerst, was danach?
 2. Probieren Sie $N_0 = 3000$ und $N_0 = 300\,000$. Was ändert sich?
 3. Probieren Sie $r = 0.3$ (mit $N_0 = 30\,000$). Was ändert sich?
 :::
 
-# 4 · Wie wahrscheinlich ist Rettung?
+# 5 · Wie wahrscheinlich ist Rettung?
 
-`schaetze_rettung` simuliert 300 Populationen und gibt den Anteil der geretteten zurück. `formel` ist die Näherung aus der Vorlesung.
+`schaetze_rettung` macht dasselbe wie `mean(replicate(...))` oben, mit 300 Populationen. `formel` ist die Näherung aus der Vorlesung.
 
 ```{r}
 schaetze_rettung(N0 = 30000, r = 0.1, s = 0.1)   # hier ändern
@@ -200,7 +275,7 @@ formel(N0 = 30000, r = 0.1, s = 0.1)             # gleich ändern
 ```
 
 ::: {.callout-tip}
-## Aufgabe D
+## Aufgabe E
 
 **a)** Startgrösse ($r = 0.1$, $s = 0.1$):
 
@@ -215,7 +290,7 @@ formel(N0 = 30000, r = 0.1, s = 0.1)             # gleich ändern
 **c)** Was bedeutet das für Bakterien unter Antibiotika (Milliarden Zellen) und für eine bedrohte Art mit wenigen hundert Tieren (z. B. Tasmanische Teufel)?
 :::
 
-# 5 · Bonus: Elefanten ohne Stosszähne
+# 6 · Bonus: Elefanten ohne Stosszähne
 
 Im Gorongosa-Nationalpark (Mosambik) wurden im Bürgerkrieg 1977–1992 über 90 % der Elefanten gewildert, für Elfenbein. Vor dem Krieg hatten **18.5 %** der Weibchen keine Stosszähne (n = 52), nach dem Krieg **50.9 %** (n = 108) (Campbell-Staton et al. 2021).
 
@@ -234,14 +309,14 @@ p_nachher           # beobachtet nach dem Krieg: 0.509
 ```
 
 ::: {.callout-tip}
-## Aufgabe E (Bonus)
+## Aufgabe F (Bonus)
 
 1. Finden Sie den Wert von `w`, bei dem `p_nachher` etwa 0.509 ist. Die Autoren schätzen mit eigenen Modellen etwa 5.
 2. Warum ist das **stehende Variation** und keine neue Mutation? Was hätte eine neue Mutation mit einer Kopie in dieser Zeit erreicht?
 3. Bei den Töchtern, die nach dem Krieg geboren wurden, sind es 33 %, weniger als bei ihren Müttern. Tipp: Eine stosszahnlose Mutter trägt das Allel nur **einmal**.
 :::
 
-# 6 · Bonus: Rettung mit zwei Orten
+# 7 · Bonus: Rettung mit zwei Orten
 
 Tomasini & Peischl (2020): Zwei Orte tauschen Individuen aus. **Ort 1** wird sofort schlecht, **Ort 2** ist zuerst eine **Zuflucht** und wird erst nach $\theta = 100$ Generationen schlecht.
 
@@ -249,6 +324,8 @@ Tomasini & Peischl (2020): Zwei Orte tauschen Individuen aus. **Ort 1** wird sof
 - Mutante im schlechten Ort: $1 + z$. In der Zuflucht hat sie **Kosten**: $1 - s$.
 - Jede Generation wechselt ein Anteil $m/2$ jedes Ortes zum anderen Ort.
 - **Gerettet**, sobald es irgendwo 500 Mutanten gibt.
+
+Das Programm ist dasselbe Rezept wie in Teil 3, nur sind `wt` und `mut` jetzt Vektoren mit **zwei** Einträgen (Ort 1, Ort 2), und nach den Nachkommen kommt ein dritter Schritt: **Migration**.
 
 ```{r}
 zwei_orte <- function(m, s, z, r, K = 5000, theta = 100, U = 2e-5, grenze = 500) {
@@ -302,7 +379,7 @@ zeige_migration(s = 0.5, z = 0.2, r = 0.2)    # teure Mutante: bitte s ändern
 ```
 
 ::: {.callout-tip}
-## Aufgabe F (Bonus)
+## Aufgabe G (Bonus)
 
 1. Billige Mutante ($s = 0.02$): Hilft Migration? Wie viel mehr Populationen werden gerettet als ohne Migration ($m = 0$)?
 2. Teure Mutante ($s = 0.5$): Bei welcher Migrationsrate ist Rettung am wahrscheinlichsten? Was passiert bei sehr viel Migration?
