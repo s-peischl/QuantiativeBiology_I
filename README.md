@@ -307,15 +307,15 @@ Bereits ignoriert / sollte lokal bleiben:
 CI führt derzeit Folgendes aus:
 
 ```bash
-quarto render --no-execute
+quarto render --execute
 ```
 
-Somit werden **R-Chunks auf dem Server nicht erneut ausgeführt**.
+Somit werden **R-Chunks auf dem Server neu ausgeführt** (mit `knitr`, `rmarkdown`, `ggplot2`, `patchwork`).
 
 Das bedeutet:
 
 1. **Statische Bilder** (`![](...jpg)`) werden immer angezeigt.
-2. **Grafiken aus `{r}`-Chunks** erscheinen online nur, wenn eingefrorene Ergebnisse committet sind oder CI durch eine betreuende Person zur Codeausführung geändert wird.
+2. **Grafiken aus `{r}`-Chunks** entstehen in CI neu. Lokal nicht mit `--no-execute` rendern: Dann fehlen die R-Grafiken in den Folien.
 
 Für Woche 2 befinden sich eingefrorene Abbildungen unter `_freeze/weeks/week-02/` und werden bewusst versioniert.
 

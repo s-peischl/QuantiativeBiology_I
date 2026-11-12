@@ -190,10 +190,11 @@ python3 scripts/export_slide_pdfs.py
 
 ## R figures and Pages
 
-CI uses `quarto render --no-execute`; **R is not re-run on the server**.
+CI uses `quarto render --execute`; **R is re-run on the server** (with `knitr`, `rmarkdown`, `ggplot2`, `patchwork`).
 
 - Static images always show.  
-- Plots from `{r}` chunks need committed freeze output under `_freeze/weeks/week-XX/`, or a maintainer must enable execute in CI.
+- Plots from `{r}` chunks are rebuilt in CI. Do not render locally with `--no-execute`: that drops the plots from embedded slide decks.
+- Committing the freeze output under `_freeze/weeks/week-XX/` is still useful as a record.
 
 After adding plots locally:
 

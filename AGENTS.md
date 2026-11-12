@@ -89,18 +89,20 @@ quarto render   # full site → _site/
 CI (`.github/workflows/deploy-pages.yml`) runs:
 
 ```bash
-quarto render --no-execute
+quarto render --execute
+python3 scripts/fix_reveal_lazy_images.py
 python3 scripts/export_slide_pdfs.py
 ```
 
-So `{r}` plots appear online only if frozen results are committed (or CI execute is intentionally enabled). Project default: `execute: freeze: auto`.
+CI **re-runs all R** (`--execute`): `--no-execute` drops `{r}` plots from embedded decks, even with a committed freeze. So every released slide deck and notebook must run on the server with base R plus `knitr`, `rmarkdown`, `ggplot2`, `patchwork`. Project default stays `execute: freeze: auto`; committing `_freeze/` is still useful as a record and for local renders.
 
 Slide **PDF** downloads are generated in CI from the rendered HTML (not committed). Student pages link to `weeks/week-XX/slides.pdf`. Locally:
 
 ```bash
 python3 -m pip install -r scripts/requirements-pdf.txt
-python3 -m playwright install chromium
-quarto render --no-execute
+python3 -m playwright install chromium   # or use an installed Chrome: chromium.launch(channel="chrome")
+quarto render --execute                  # not --no-execute: that drops the R plots
+python3 scripts/fix_reveal_lazy_images.py
 python3 scripts/export_slide_pdfs.py
 ```
 
