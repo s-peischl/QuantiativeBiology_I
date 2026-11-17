@@ -14,12 +14,11 @@
 # Die Abbildungen.
 #
 # - Teil 1: x-Achse Generation, y-Achse Anzahl Kopien einer Mutation. Blau: ueberlebt, orange: verloren.
-# - Teil 2: x-Achse Generation, y-Achse Wahrscheinlichkeit, dass die Linie bis dahin ausgestorben ist.
 # - Teil 3: x-Achse Generation, y-Achse Anzahl Individuen auf einer log-Skala (1, 10, 100, ...). Orange: Wildtyp, blau: Mutanten, schwarz: alle zusammen.
 # - Teil 4: x-Achse Generation, y-Achse Populationsgroesse (log). Blau: gerettet, grau: ausgestorben.
 
 # Auftrag
-# 1. Verfolgen Sie einzelne neue Mutationen und schaetzen Sie, wie oft sie sich etablieren, und rechnen Sie es aus.
+# 1. Verfolgen Sie einzelne neue Mutationen und schaetzen Sie, wie oft sie sich etablieren.
 # 2. Lesen und starten Sie ein kleines Programm, das eine schrumpfende Population simuliert.
 # 3. Schaetzen Sie mit vielen Laeufen, wie oft sie gerettet wird, und wie das von N_0 und r abhaengt.
 # 4. Bonus: Hilft Migration aus einer Zuflucht der Rettung?
@@ -126,48 +125,23 @@ zeige_linien(s = 0.1)   # hier s aendern
 # 2 · Wie oft etabliert sie sich?
 # ===========================================================================
 #
-# schaetze_etablierung(s) simuliert 2000 neue Mutationen und gibt den Anteil zurueck, der sich etabliert (100 Kopien erreicht). Die Faustregel sagt: etwa 2s.
+# schaetze_etablierung(s) simuliert 2000 neue Mutationen und gibt den Anteil zurueck, der sich etabliert (100 Kopien erreicht). Der Verzweigungsprozess aus der Vorlesung gibt im Spielzeugmodell 2s/(1+s), die Faustregel etwa 2s.
 
 schaetze_etablierung(s = 0.1)   # hier s aendern
 2 * 0.1                         # Faustregel
+2 * 0.1 / (1 + 0.1)             # Verzweigungsprozess, Spielzeugmodell
 
 # Aufgabe B
 # Fuellen Sie die Tabelle aus:
 #
-# | s | Simulation | Faustregel 2s |
-# |---|---|---|
-# | 0.02 |  |  |
-# | 0.05 |  |  |
-# | 0.1 |  |  |
-# | 0.2 |  |  |
+# | s | Simulation | 2s/(1+s) | Faustregel 2s |
+# |---|---|---|---|
+# | 0.02 |  |  |  |
+# | 0.05 |  |  |  |
+# | 0.1 |  |  |  |
+# | 0.2 |  |  |  |
 #
-# Wann passt die Faustregel gut, wann weniger?
-
-# --- Rechnen statt simulieren ---
-#
-# In der Vorlesung kam die Etablierung aus einem Verzweigungsprozess: Jede Tochter-Linie spielt dasselbe Spiel wie die Mutter-Linie. Im Spielzeugmodell hat jede Kopie 0 Nachkommen (Wahrscheinlichkeit a) oder 2 (Wahrscheinlichkeit 1 - a). Die Wahrscheinlichkeit q[t], dass die Linie bis Generation t ausgestorben ist, folgt dann einer Rekursion wie in Woche 2:
-#
-#   q[t+1] = a + (1 - a) * q[t]^2,  q[0] = 0
-
-s <- 0.1                # Vorteil der Mutante
-a <- (1 - s) / 2        # Chance auf 0 Nachkommen (Spielzeugmodell: 0 oder 2)
-q <- numeric(101)       # q[t + 1]: Linie bis Generation t ausgestorben
-q[1] <- 0               # am Anfang lebt sie
-for (t in 1:100) {
-  q[t + 1] <- a + (1 - a) * q[t]^2
-}
-
-plot(0:100, q, type = "b", pch = 16, col = "#2166ac", ylim = c(0, 1),
-     xlab = "Generation", ylab = "bis dahin ausgestorben")
-abline(h = (1 - s) / (1 + s), lty = 2)   # Loesung der Gleichung
-
-1 - q[101]         # Etablierung nach der Rechnung
-2 * s / (1 + s)    # Formel aus der Vorlesung
-
-# Aufgabe C
-# 1. Wo bleibt q stehen? Was bedeutet 1 - q?
-# 2. Setzen Sie s <- 0. Wohin geht q jetzt? Was heisst das fuer eine neutrale neue Mutation?
-# 3. Ersetzen Sie die Zeile in der Schleife durch die Version mit Poisson-Nachkommen, wie in der Simulation: q[t + 1] <- exp(-(1 + s) * (1 - q[t])). Vergleichen Sie 1 - q mit Ihrer Simulation aus Aufgabe B.
+# Wann passt die Faustregel gut, wann weniger? Warum liegt die Simulation naeher bei 2s/(1+s)?
 
 # ===========================================================================
 # 3 · Ein Programm fuer Rettung
@@ -209,7 +183,7 @@ legend("topright", c("alle", "Wildtyp", "Mutanten"), col = c("black", "#e67e22",
 
 which(mut > 0)[1] - 1   # in welcher Generation gibt es zum ersten Mal Mutanten?
 
-# Aufgabe D
+# Aufgabe C
 # 1. Fuehren Sie den Block mehrmals aus. Wann entsteht die erste Mutante? Wird die Population jedes Mal gerettet?
 # 2. Suchen Sie in einer geretteten Population die U-Kurve. Wer schrumpft, wer waechst?
 # 3. Setzen Sie U <- 0. Was passiert, und warum?
@@ -244,7 +218,7 @@ mean(ergebnisse)   # Anteil: Schaetzung der Wahrscheinlichkeit
 
 zeige_rettung(N0 = 30000, r = 0.1, s = 0.1)   # hier N0 oder r aendern
 
-# Aufgabe E
+# Aufgabe D
 # 1. Beschreiben Sie eine blaue Kurve: Was passiert zuerst, was danach?
 # 2. Probieren Sie N_0 = 3000 und N_0 = 300\,000. Was aendert sich?
 # 3. Probieren Sie r = 0.3 (mit N_0 = 30\,000). Was aendert sich?
@@ -258,7 +232,7 @@ zeige_rettung(N0 = 30000, r = 0.1, s = 0.1)   # hier N0 oder r aendern
 schaetze_rettung(N0 = 30000, r = 0.1, s = 0.1)   # hier aendern
 formel(N0 = 30000, r = 0.1, s = 0.1)             # gleich aendern
 
-# Aufgabe F
+# Aufgabe E
 # a) Startgroesse (r = 0.1, s = 0.1):
 #
 # | N_0 | Simulation | Formel |
@@ -321,7 +295,7 @@ zeige_migration(s = 0.02, z = 0.1, r = 0.1)   # billige Mutante
 set.seed(1)
 zeige_migration(s = 0.5, z = 0.2, r = 0.2)    # teure Mutante: bitte s aendern
 
-# Aufgabe G (Bonus)
+# Aufgabe F (Bonus)
 # 1. Billige Mutante (s = 0.02): Hilft Migration? Wie viel mehr Populationen werden gerettet als ohne Migration (m = 0)?
 # 2. Teure Mutante (s = 0.5): Bei welcher Migrationsrate ist Rettung am wahrscheinlichsten? Was passiert bei sehr viel Migration?
 # 3. Erklaeren Sie den Unterschied mit dem Wort gene swamping: Wo landen die Mutanten bei viel Migration, und was passiert dort mit ihnen?

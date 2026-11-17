@@ -166,3 +166,12 @@
   color: #5d6d7e;
   line-height: 1.25;
 }
+
+/* Woche 10: kompakte Übersichtstabelle */
+.reveal .ueberblick table {
+  font-size: 0.62em;
+}
+.reveal .ueberblick td,
+.reveal .ueberblick th {
+  padding: 0.22em 0.45em;
+}
