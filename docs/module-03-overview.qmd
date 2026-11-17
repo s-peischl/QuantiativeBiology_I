@@ -32,7 +32,7 @@ Woche 10: Eine **neue** Mutation startet mit einer Kopie und geht oft
 verloren; sie etabliert sich nur mit etwa $2s$. Schrumpft eine
 Population unter Stress, muss sich eine resistente Mutante **etablieren,
 bevor** $N=0$ ist — **evolutionäre Rettung**. Die Etablierung kommt
-aus einem **Verzweigungsprozess**, die Rettung in vier Schritten, dazu
+aus einem **Verzweigungsprozess**, die Rettung aus einem einfachen Modell, dazu
 ein kleines Programm, Vorhersagen und ihre Tests im Labor (Bakterien,
 Hefe) und zwei Orte mit Migration.
 

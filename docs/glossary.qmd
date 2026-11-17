@@ -251,7 +251,7 @@ Jede Kopie hat zufällig viele Nachkommen, und jede Tochter startet dasselbe Spi
 Drei Wege zu einem rettenden Typ: die Mutation entsteht **jetzt** (de novo); das Allel war schon selten da (stehende Variation); es kommt von aussen (horizontaler Gentransfer). Im Kurs zuerst de novo.
 
 **Evolutionäre Rettung**  
-Eine Population schrumpft unter Stress. Sie wird gerettet, wenn ein angepasster Typ sich **etabliert, bevor** $N$ bei null ist. Im Kurs in vier Schritten: $N_0/r$ Individuen bis zum Ende, mal $U$ Mutanten, mal $2s$ Etablierung, mindestens eine: $P \approx 1 - e^{-2N_0Us/r}$. Gomulkiewicz & Holt (1995); Orr & Unckless (2014). Labor: Bell & Gonzalez (2009), Hefe unter Salz; Ramsayer et al. (2013), *Pseudomonas* unter Antibiotikum (Woche 10).
+Eine Population schrumpft unter Stress. Sie wird gerettet, wenn ein angepasster Typ sich **etabliert, bevor** $N$ bei null ist. Im Kurs: Die Population schrumpft, also entstehen pro Generation immer weniger Mutanten; jede etabliert sich mit etwa $2s$; über alle Generationen zusammengezählt $\lambda = 2N_0Us/r$ erfolgreiche Mutanten, und $P \approx 1 - e^{-\lambda}$. Gomulkiewicz & Holt (1995); Orr & Unckless (2014). Labor: Bell & Gonzalez (2009), Hefe unter Salz; Ramsayer et al. (2013), *Pseudomonas* unter Antibiotikum (Woche 10).
 
 **U-Kurve**  
 Verlauf einer geretteten Population: Sie schrumpft zuerst, dann wächst sie wieder. Die Kurve ist eine Summe: Empfindliche sterben, Resistente wachsen (Woche 10).

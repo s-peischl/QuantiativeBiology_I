@@ -34,13 +34,14 @@ Eine neue Mutation beginnt mit **einer Kopie**. Auch wenn sie vorteilhaft ist, g
 - Teil 1: **x-Achse** Generation, **y-Achse** Anzahl Kopien einer Mutation. Blau: überlebt, orange: verloren.
 - Teil 3: **x-Achse** Generation, **y-Achse** Anzahl Individuen auf einer **log-Skala** (1, 10, 100, …). Orange: Wildtyp, blau: Mutanten, schwarz: alle zusammen.
 - Teil 4: **x-Achse** Generation, **y-Achse** Populationsgrösse (log). Blau: gerettet, grau: ausgestorben.
+- Teil 5: **x-Achse** Startgrösse $N_0$ (log), **y-Achse** Anteil geretteter Populationen. Blaue Punkte: Simulation, orange Linie: Formel.
 
 > **Auftrag**
 >
 > 1. Verfolgen Sie einzelne neue Mutationen und schätzen Sie, wie oft sie sich etablieren.
 > 2. Lesen und starten Sie ein **kleines Programm**, das eine schrumpfende Population simuliert.
-> 3. Schätzen Sie mit vielen Läufen, wie oft sie gerettet wird, und wie das von $N_0$ und $r$ abhängt.
-> 4. Bonus: Hilft Migration aus einer Zuflucht der Rettung?
+> 3. Schätzen Sie mit vielen Läufen, wie oft sie gerettet wird, vergleichen Sie mit der Formel und sagen Sie voraus, wie das von $N_0$ und $r$ abhängt.
+> 4. Bonus: Hilft mehr Migration aus einer Zuflucht immer? Erst raten, dann simulieren.
 
 Falls Quarto fehlt: dieses `.Rmd` in RStudio öffnen und **Knit** drücken. Noch einfacher: die reine R-Datei [`notebook.R`](notebook.R).
 
@@ -129,6 +130,20 @@ schaetze_rettung <- function(N0, r, s, wiederholungen = 300) {
 
 # Näherung (Orr & Unckless 2014)
 formel <- function(N0, r, s, U = 1e-5) round(1 - exp(-2 * N0 * U * s / r), 2)
+# Simulation (Punkte) und Formel (Linie) für viele Startgrössen
+vergleiche_rettung <- function(r, s, N0_werte = c(1e3, 3e3, 1e4, 3e4, 1e5, 3e5),
+                               wiederholungen = 200, U = 1e-5) {
+  sim <- sapply(N0_werte, function(N0) schaetze_rettung(N0, r, s, wiederholungen))
+  N0_fein <- 10^seq(log10(min(N0_werte)), log10(max(N0_werte)), length.out = 100)
+  plot(N0_fein, 1 - exp(-2 * N0_fein * U * s / r), type = "l", lwd = 2, lty = 2,
+       col = "#d95f02", log = "x", ylim = c(0, 1), xlab = "Startgroesse N0 (log)",
+       ylab = "Anteil gerettet", main = paste0("r = ", r, ", s = ", s), xaxt = "n")
+  axis(1, at = c(1e3, 1e4, 1e5), labels = c("1 000", "10 000", "100 000"))
+  points(N0_werte, sim, pch = 16, cex = 1.4, col = "#2166ac")
+  legend("topleft", c("Simulation", "Formel"), col = c("#2166ac", "#d95f02"),
+         pch = c(16, NA), lty = c(NA, 2), lwd = 2, bty = "n")
+  invisible(data.frame(N0 = N0_werte, simulation = sim))
+}
 ```
 
 # 1 · Eine neue Mutation
@@ -258,30 +273,24 @@ zeige_rettung(N0 = 30000, r = 0.1, s = 0.1)   # hier N0 oder r ändern
 > 2. Probieren Sie $N_0 = 3000$ und $N_0 = 300\,000$. Was ändert sich?
 > 3. Probieren Sie $r = 0.3$ (mit $N_0 = 30\,000$). Was ändert sich?
 
-# 5 · Wie wahrscheinlich ist Rettung?
+# 5 · Simulation und Formel
 
-`schaetze_rettung` macht dasselbe wie `mean(replicate(...))` oben, mit 300 Populationen. `formel` ist die Näherung aus der Vorlesung.
+Jetzt vergleichen wir die Simulation mit der Formel aus der Vorlesung, $P \approx 1 - e^{-2N_0Us/r}$. `vergleiche_rettung` simuliert für sechs Startgrössen je 200 Populationen (Punkte) und zeichnet die Formel dazu (Linie). Das dauert ein paar Sekunden.
 
-```{r}
-schaetze_rettung(N0 = 30000, r = 0.1, s = 0.1)   # hier ändern
-formel(N0 = 30000, r = 0.1, s = 0.1)             # gleich ändern
+```{r, fig.height=4.4, fig.width=7.5}
+set.seed(1)
+vergleiche_rettung(r = 0.1, s = 0.1)   # hier r oder s ändern
 ```
 
 > **Aufgabe E**
 >
-> **a)** Startgrösse ($r = 0.1$, $s = 0.1$):
->
-> | $N_0$ | Simulation | Formel |
-> |---|---|---|
-> | 1 000 |  |  |
-> | 10 000 |  |  |
-> | 100 000 |  |  |
->
-> **b)** Ab welchem $N_0$ wird etwa die **Hälfte** der Populationen gerettet?
->
-> **c)** Was bedeutet das für Bakterien unter Antibiotika (Milliarden Zellen) und für eine bedrohte Art mit wenigen hundert Tieren (z. B. Tasmanische Teufel)?
+> 1. Wo trifft die Formel die Simulation gut, wo weniger?
+> 2. **Erst raten, dann rechnen:** Was passiert mit der Kurve, wenn die Population doppelt so schnell schrumpft ($r = 0.2$)? Notieren Sie Ihre Vermutung, dann lassen Sie den Block laufen.
+> 3. Und wenn die Mutante nur halb so viel Vorteil hat ($s = 0.05$, $r = 0.1$)? Vergleichen Sie mit Ihrer Antwort auf 2.
+> 4. Ab welchem $N_0$ wird etwa die **Hälfte** gerettet? Lesen Sie es ab.
+> 5. Was bedeutet das für Bakterien unter Antibiotika (Milliarden Zellen) und für eine bedrohte Art mit wenigen hundert Tieren?
 
-# 6 · Bonus: Rettung mit zwei Orten
+# 6 · Bonus: Überraschung mit zwei Orten
 
 Tomasini & Peischl (2020): Zwei Orte tauschen Individuen aus. **Ort 1** wird sofort schlecht, **Ort 2** ist zuerst eine **Zuflucht** und wird erst nach $\theta = 100$ Generationen schlecht.
 
@@ -289,6 +298,8 @@ Tomasini & Peischl (2020): Zwei Orte tauschen Individuen aus. **Ort 1** wird sof
 - Mutante im schlechten Ort: $1 + z$. In der Zuflucht hat sie **Kosten**: $1 - s$.
 - Jede Generation wechselt ein Anteil $m/2$ jedes Ortes zum anderen Ort.
 - **Gerettet**, sobald es irgendwo 500 Mutanten gibt.
+
+**Erst raten:** Hilft mehr Migration aus einer Zuflucht immer? Notieren Sie Ihre Vermutung, bevor Sie die Blöcke laufen lassen.
 
 Das Programm ist dasselbe Rezept wie in Teil 3, nur sind `wt` und `mut` jetzt Vektoren mit **zwei** Einträgen (Ort 1, Ort 2), und nach den Nachkommen kommt ein dritter Schritt: **Migration**.
 

@@ -83,7 +83,7 @@ col_theo <- "#d95f02"   # Theorie
 
 | Teil | Dauer | Was |
 |------|-------|-----|
-| Vorlesung | ~55 min | Verzweigungsprozess · Rettung in vier Schritten · ein Programm · Tests · zwei Orte |
+| Vorlesung | ~55 min | Verzweigungsprozess · ein Modell für Rettung · ein Programm · Tests · zwei Orte |
 | Notebook | ~35 min | eine Kopie · Programm · viele Läufe · Bonus: zwei Orte |
 
 ::: aside
@@ -96,7 +96,7 @@ Nach heute können Sie …
 
 1. erklären, was **evolutionäre Rettung** ist (U-Kurve),
 2. mit einem **Verzweigungsprozess** herleiten, warum sich eine neue Mutation nur mit etwa $2s$ etabliert,
-3. die Chance auf Rettung in **vier Schritten** herleiten,
+3. die Chance auf Rettung aus **Rückgang, Mutation und Etablierung** herleiten,
 4. Rettung als **kleines Programm** simulieren,
 5. **Vorhersagen** der Theorie mit Experimenten vergleichen,
 6. stehende Variation und **Migration** einordnen.
@@ -534,143 +534,78 @@ Setzt sich eine neue Mutation durch? Die Frage beschäftigt die Populationsgenet
 [Peischl & Kirkpatrick 2012](https://doi.org/10.1534/genetics.112.140756) · [Tomasini & Peischl 2018](https://doi.org/10.1534/genetics.118.301104) · [Tomasini & Peischl 2020](https://doi.org/10.1111/evo.14038)
 :::
 
-# Rettung in vier Schritten
+# Ein einfaches Modell für Rettung
 
-## Das Modell
+## Die Idee in einem Bild
 
-| Symbol | Bedeutung | Beispiel |
-|---|---|---|
-| $N_0$ | Grösse, wenn die Umwelt schlecht wird | 50 000 |
-| $r$ | Anteil, um den die Population pro Generation schrumpft | 0.1 |
-| $U$ | Chance, dass ein Nachkomme eine **resistente** Mutation trägt | 0.00001 |
-| $s$ | Wachstumsvorteil der Resistenten | 0.1 |
-
-Gerettet ist die Population, wenn sich **mindestens eine** resistente Mutation etabliert, **bevor** alle Empfindlichen weg sind.
-
-## Annahmen
-
-- Eine **einzige** Mutation reicht für Resistenz.
-- Empfindliche schrumpfen **jede** Generation um denselben Anteil $r$.
-- Resistente wachsen mit $1 + s$, unabhängig davon, wie viele es schon gibt.
-- Keine Paarung, keine Rekombination: Jede Zelle gibt ihre Gene allein weiter, wie bei Bakterien.
-- Nachkommen werden **zufällig** gezogen: Hier sitzt der Zufall aus Woche 9.
-
-Jede Annahme lässt sich ändern. Die Grundidee bleibt.
-
-## Schritt 1: Wie viele Individuen gibt es noch?
-
+::::: columns
+::: {.column width="55%"}
 ```{r}
-#| fig-height: 3
-#| fig-width: 8.4
-#| out-width: 88%
-N0 <- 5e4; r <- 0.1
-abn <- data.frame(t = 0:60, N = N0 * (1 - r)^(0:60))
-ggplot(abn, aes(t, N)) +
-  geom_col(fill = col_empf, alpha = 0.75, width = 0.85) +
-  annotate("label", x = 30, y = 32000, size = 5, colour = "grey20",
-           label = "alle Balken zusammen:\nN0 / r = 500 000") +
-  scale_y_continuous(labels = function(x) format(x, big.mark = " ", scientific = FALSE)) +
-  labs(x = "Generation", y = "Individuen", title = "N0 = 50 000, jede Generation 10 % weniger") +
+#| fig-height: 3.6
+#| fig-width: 5
+#| out-width: 100%
+#| out-extra: 'style="max-height:400px"'
+gen <- 0:40
+idee <- data.frame(t = gen, N = 5e4 * 0.9^gen)
+idee$erfolg <- idee$N * 1e-5 * 0.2
+ggplot(idee, aes(t, erfolg)) +
+  geom_col(fill = col_res, width = 0.85) +
+  annotate("label", x = 26, y = 0.07, size = 4.4, colour = "grey20",
+           label = "Summe aller Balken:\nlambda = 1") +
+  labs(x = "Generation", y = "erfolgreiche Mutanten (Mittel)",
+       title = "N0 = 50 000, r = 0.1, U = 0.00001, s = 0.1") +
   theme_slide()
 ```
+:::
+::: {.column width="45%"}
+1. Die Population **schrumpft**: $N_t = N_0 (1-r)^t$.
+2. Pro Generation $N_t\, U$ neue Mutanten: **immer weniger**.
+3. Jede etabliert sich mit etwa $2s$.
+4. Alles **zusammenzählen**:
 
 $$
-N_0 + N_0(1-r) + N_0(1-r)^2 + \dots = \frac{N_0}{r}
+\lambda = \sum_t N_t\, U\, 2s = \frac{2\,N_0\,U\,s}{r}
 $$
+:::
+:::::
 
-Bis zum Aussterben leben insgesamt etwa $N_0 / r$ Individuen. Jedes ist eine **Chance** für eine Mutation.
+::: aside
+$\lambda$: mittlere Zahl erfolgreicher Mutanten
+:::
 
-## Schritt 2 und 3: Mutanten und Lotterie
+## Von $\lambda$ zur Wahrscheinlichkeit
 
+::::: columns
+::: {.column width="55%"}
 ```{r}
-#| fig-height: 3
-#| fig-width: 9
-#| out-width: 98%
-trichter <- data.frame(
-  x = 1:4,
-  breite = c(1, 0.6, 0.3, 0.15),
-  oben = c("Individuen\nbis zum Ende", "resistente\nMutanten", "etablieren\nsich", ""),
-  zahl = c("N0 / r\n= 500 000", "x U\n= 5", "x 2s\n= 1", ""),
-  fill = c(col_empf, col_res, col_res, NA))
-tr <- trichter[1:3, ]
-ggplot(tr) +
-  geom_rect(aes(xmin = x - 0.38, xmax = x + 0.38, ymin = -breite, ymax = breite, fill = fill),
-            alpha = 0.85) +
-  scale_fill_identity() +
-  geom_text(aes(x, 1.25, label = oben), size = 5, lineheight = 0.9) +
-  geom_text(aes(x, 0, label = zahl), size = 5.5, colour = "white", fontface = "bold", lineheight = 0.9) +
-  annotate("segment", x = c(1.42, 2.42), xend = c(1.58, 2.58), y = 0, yend = 0,
-           arrow = arrow(length = unit(0.25, "cm")), colour = "grey40", linewidth = 0.9) +
-  coord_cartesian(xlim = c(0.5, 3.5), ylim = c(-1.05, 1.6)) +
-  theme_void()
-```
-
-Im Mittel etabliert sich
-
-$$
-\lambda = \frac{N_0}{r} \cdot U \cdot 2s = \frac{2\,N_0\,U\,s}{r}
-$$
-
-resistente Linien. Im Beispiel: $\lambda = 1$.
-
-## Die Rettung entsteht früh
-
-```{r}
-#| fig-height: 3
-#| fig-width: 8.4
-#| out-width: 88%
-fr <- data.frame(t = 0:40)
-fr$beitrag <- 5e4 * 0.9^fr$t * 1e-5 * 0.2
-fr$phase <- ifelse(fr$t < 7, "erste 7 Generationen", "danach")
-ggplot(fr, aes(t, beitrag, fill = phase)) +
-  geom_col(width = 0.85) +
-  scale_fill_manual(values = c("erste 7 Generationen" = col_res, danach = "#aab7b8"), name = NULL) +
-  labs(x = "Generation, in der die Mutation entsteht", y = "Beitrag zu lambda") +
-  theme_slide()
-```
-
-Die Hälfte aller Rettungschancen liegt in den **ersten 7 Generationen**, solange die Population noch gross ist. Wer spät mutiert, kommt meist zu spät.
-
-## Schritt 4: mindestens eine
-
-```{r}
-#| fig-height: 2.5
-#| fig-width: 8.4
-#| out-width: 80%
+#| fig-height: 3.6
+#| fig-width: 5
+#| out-width: 100%
 lam <- seq(0, 5, length.out = 200)
 ggplot(data.frame(lam = lam, p = 1 - exp(-lam)), aes(lam, p)) +
   geom_line(colour = col_theo, linewidth = 1.3) +
   annotate("point", x = 1, y = 1 - exp(-1), size = 3.5, colour = col_res) +
-  annotate("text", x = 1.15, y = 0.58, label = "lambda = 1: 63 %", hjust = 0, size = 4.8, colour = col_res) +
+  annotate("text", x = 1.2, y = 0.58, label = "lambda = 1: 63 %", hjust = 0, size = 4.6, colour = col_res) +
   coord_cartesian(ylim = c(0, 1)) +
-  labs(x = "erwartete Zahl etablierter Linien (lambda)", y = "P(Rettung)") +
+  labs(x = "lambda", y = "P(Rettung)") +
   theme_slide()
 ```
+:::
+::: {.column width="45%"}
+Gerettet ist die Population, wenn **mindestens eine** Mutante es schafft.
 
-Viele seltene Chancen: Bei $\lambda = 1$ etablieren sich keine (37 %), eine (37 %) oder zwei (18 %) Linien. **Keine** mit Wahrscheinlichkeit $e^{-\lambda}$, also
+Die Chance, dass es **keine** schafft, ist $e^{-\lambda}$. Also
 
 $$
 P(\text{Rettung}) \approx 1 - e^{-2 N_0 U s / r}
 $$
 
+Mehr Individuen, mehr Mutation, grösserer Vorteil, langsamerer Rückgang: mehr Rettung.
+:::
+:::::
+
 ::: aside
 Orr & Unckless (2008, 2014); Martin et al. (2013)
-:::
-
-## Und wenn die Variante schon da ist?
-
-Sind am Start schon ein Anteil $f$ resistente Individuen da, sind das $N_0 f$ Kopien, jede mit der Chance $2s$:
-
-$$
-\lambda_{\text{stehend}} = 2\,N_0\,f\,s
-\qquad\text{neben}\qquad
-\lambda_{\text{neu}} = \frac{2\,N_0\,U\,s}{r}
-$$
-
-Stehende Variation zählt mehr, sobald $f > U/r$. Im Beispiel: $f > 0.0001$, also schon **eine** resistente unter 10 000.
-
-::: aside
-Orr & Unckless (2008); vereinfacht: Resistente haben vor dem Stress keine Kosten
 :::
 
 # Wie man so ein Modell simuliert
@@ -794,6 +729,23 @@ ggplot() +
 ```
 
 Die Formel trifft die Simulation. Rettung kippt in einem engen Bereich von «fast nie» zu «fast immer».
+
+## Was das Modell weglässt
+
+| Erweiterung | Was ändert sich? |
+|---|---|
+| Die Variante ist **schon da** (Anteil $f$) | zusätzlich $2 N_0 f s$ Chancen, ohne Warten |
+| Resistenz **kostet** vor dem Stress | die Variante ist seltener da |
+| Die Umwelt wird **langsam** schlechter | am Anfang kleines $r$: mehr Chancen |
+| **Mehrere** Mutationen nötig | Rettung viel unwahrscheinlicher |
+| **Mehrere Orte** mit Migration | hilft oder schadet, gleich mehr dazu |
+| Paarung, Dichte, schwankende Umwelt | die Zahlen ändern sich, die Idee bleibt |
+
+Stehende Variation zählt mehr als neue Mutationen, sobald $f > U/r$. Im Beispiel: schon eine Resistente unter 10 000.
+
+::: aside
+Orr & Unckless (2008); Martin et al. (2013); Uecker, Otto & Hermisson (2014)
+:::
 
 # Fünf Vorhersagen, fünf Tests
 
@@ -1113,7 +1065,7 @@ Modelle: Haldane (1927); Gomulkiewicz & Holt (1995); Orr & Unckless (2008, 2014)
 
 1. Verzweigungsprozess: Eine neue Mutation etabliert sich nur mit $u = 2s/(1+s) \approx 2s$.
 2. Rettung ist ein **Wettlauf** gegen das Aussterben.
-3. $N_0/r$ Chancen, mal $U$, mal $2s$, mindestens eine: $P \approx 1 - e^{-2N_0Us/r}$.
+3. Immer weniger Mutanten pro Generation, jede mit $2s$, alles zusammengezählt: $P \approx 1 - e^{-2N_0Us/r}$.
 4. Simulieren: Zustand, eine Generation, Schleife, Abbruch, viele Wiederholungen.
 5. Die Vorhersagen sind im Labor **bestätigt**. Migration hilft, solange sie nicht zu stark ist.
 6. Stehende Variation geht viel **schneller** als eine neue Mutation.
