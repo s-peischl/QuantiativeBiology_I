@@ -83,7 +83,7 @@ col_theo <- "#d95f02"   # Theorie
 
 | Teil | Dauer | Was |
 |------|-------|-----|
-| Vorlesung | ~55 min | Teil 1: Etablierung (Verzweigungsprozess, Wellenfront) · Teil 2: evolutionäre Rettung |
+| Vorlesung | ~55 min | Verzweigungsprozess · ein Modell für Rettung · ein Programm · Tests · zwei Orte |
 | Notebook | ~35 min | eine Kopie · Programm · viele Läufe · Bonus: zwei Orte |
 
 ::: aside
@@ -94,13 +94,148 @@ Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 
 Nach heute können Sie …
 
-1. mit einem **Verzweigungsprozess** erklären, warum sich eine neue Mutation nur mit etwa $2s$ etabliert,
-2. erklären, warum sich an der **Front** einer Ausbreitung schädliche Mutationen anhäufen,
-3. **evolutionäre Rettung** als Wettlauf beschreiben (U-Kurve),
-4. die Chance auf Rettung herleiten und **simulieren**,
-5. **Vorhersagen** der Theorie mit Experimenten vergleichen.
+1. erklären, was **evolutionäre Rettung** ist (U-Kurve),
+2. mit einem **Verzweigungsprozess** herleiten, warum sich eine neue Mutation nur mit etwa $2s$ etabliert,
+3. die Chance auf Rettung aus **Rückgang, Mutation und Etablierung** herleiten,
+4. Rettung als **kleines Programm** simulieren,
+5. **Vorhersagen** der Theorie mit Experimenten vergleichen,
+6. stehende Variation und **Migration** einordnen.
 
-# Teil 1 · Etablierung: Glück oder Pech?
+# Gerettet oder ausgestorben?
+
+## Die Umwelt ändert sich
+
+| Was ändert sich? | Wie schnell? | Wer ist betroffen? |
+|---|---|---|
+| Antibiotikum im Körper | Stunden | Bakterien einer Infektion |
+| Pestizid auf dem Feld | Wochen | Insekten, Unkräuter |
+| neue Krankheit | Jahre | Tasmanische Teufel, Amphibien |
+| Erwärmung, Trockenheit | Jahrzehnte | viele Arten |
+
+Für viele Populationen heisst das zuerst: Sie **schrumpfen**. Jede Generation hat weniger Nachkommen als die vorherige.
+
+## Was kann eine schrumpfende Population tun?
+
+```{r}
+#| fig-height: 3.2
+#| fig-width: 8
+#| out-width: 92%
+wege <- data.frame(y = c(3, 2, 1, 0),
+                   titel = c("ausweichen", "sich umstellen", "sich genetisch anpassen", "aussterben"),
+                   was = c("an einen besseren Ort wandern", "Verhalten oder Körper ändern, ohne neue Gene (Plastizität)",
+                           "Varianten, die besser zurechtkommen, werden häufiger", ""),
+                   farbe = c("#7f8c8d", "#7f8c8d", col_res, "#c0392b"))
+ggplot(wege) +
+  annotate("point", x = 0, y = 1.5, size = 9, colour = col_empf) +
+  annotate("text", x = 0, y = 0.85, label = "Population\nschrumpft", size = 4.6, lineheight = 0.9) +
+  geom_segment(aes(x = 0.15, y = 1.5, xend = 1.1, yend = y), colour = "grey50",
+               arrow = arrow(length = unit(0.22, "cm"))) +
+  geom_text(aes(x = 1.2, y = y + 0.12, label = titel, colour = farbe), hjust = 0, size = 6.2, fontface = "bold") +
+  geom_text(aes(x = 1.2, y = y - 0.25, label = was), hjust = 0, size = 4.8, colour = "grey30") +
+  scale_colour_identity() +
+  coord_cartesian(xlim = c(-0.3, 4.6), ylim = c(-0.4, 3.4)) +
+  theme_void()
+```
+
+Heute geht es um den blauen Weg: **Evolution**, bevor die Population verschwindet.
+
+## Ist Evolution schnell genug?
+
+Darwin dachte an langsame Veränderung über sehr viele Generationen. Aber Evolution zählt in **Generationen**, die Umwelt in **Jahren**.
+
+| Wer | eine Generation |
+|---|---|
+| Bakterien im Labor | weniger als eine Stunde |
+| Hefe | wenige Stunden |
+| Tasmanischer Teufel | etwa 2 Jahre |
+| Elefant | Jahrzehnte |
+
+Die Frage ist also ein **Wettlauf**: Wird die Population angepasst, bevor sie ausstirbt? Gelingt das, spricht man von **evolutionärer Rettung** (Gomulkiewicz & Holt 1995).
+
+## Dieselbe Frage, entgegengesetzte Wünsche
+
+:::: columns
+::: {.column width="50%"}
+![](../../pics/rescue/pseudomonas_uv.jpg){fig-alt="Pseudomonas fluorescens leuchtet unter UV-Licht auf einer Agarplatte" height="185px"}
+
+**Bakterien unter Antibiotikum.** 2019 starben weltweit rund **1.27 Millionen** Menschen direkt an Infektionen mit resistenten Bakterien.
+
+Wir wollen: **keine** Rettung.
+:::
+::: {.column width="50%"}
+![](../../pics/rescue/teufel.jpg){fig-alt="Tasmanischer Teufel im Gras" height="185px"}
+
+**Tasmanische Teufel** unter einem ansteckenden Krebs: über 80 % weniger Tiere in 20 Jahren.
+
+Wir wollen: **Rettung**.
+:::
+::::
+
+::: aside
+Antimicrobial Resistance Collaborators (2022), *Lancet* · Epstein et al. (2016) · Fotos: Ninjatacoshell, CC BY-SA 3.0; JJ Harrison, CC BY-SA 3.0
+:::
+
+## Ein Experiment: dieselben Bakterien, zwei Ausgänge
+
+:::: columns
+::: {.column width="60%"}
+![](../../pics/rescue/ramsayer2013_fig1_ausschnitt.jpg){fig-alt="Originalabbildung: Zellzahl (log) über 53 Stunden für viele Populationen unter Streptomycin 50 und 100; durchgezogene Linien steigen wieder an, gestrichelte fallen auf null" style="max-height:440px"}
+:::
+::: {.column width="40%"}
+*Pseudomonas* unter Streptomycin. Jede Linie: **eine** Population.
+
+- Alle **schrumpfen**.
+- Gestrichelt: **ausgestorben**.
+- Durchgezogen: **U-Kurve**, gerettet.
+
+Die geretteten sind am Ende fast alle **resistent**.
+:::
+::::
+
+::: aside
+Ramsayer, Kaltz & Hochberg (2013), Fig. 1, Ausschnitt (50 und 100 µg/mL), CC BY 3.0
+:::
+
+## Was in der U-Kurve steckt
+
+```{r}
+#| fig-height: 3.3
+#| fig-width: 8.4
+#| out-width: 90%
+t <- 0:60
+emp <- 1e6 * 0.85^t                                   # Empfindliche sterben
+res <- ifelse(t >= 8, 1.25^(t - 8), NA)               # eine Resistente ab Stunde 8
+ges <- emp + ifelse(is.na(res), 0, res)
+u <- rbind(data.frame(t = t, N = emp, wer = "empfindlich"),
+           data.frame(t = t, N = res, wer = "resistent"),
+           data.frame(t = t, N = ges, wer = "alle zusammen"))
+u$wer <- factor(u$wer, levels = c("alle zusammen", "empfindlich", "resistent"))
+ggplot(u[!is.na(u$N) & u$N >= 1, ], aes(t, N, colour = wer, linewidth = wer)) +
+  geom_line() +
+  scale_y_log10(breaks = 10^(0:6), labels = c("1", "10", "100", "1000", "10^4", "10^5", "10^6")) +
+  coord_cartesian(ylim = c(0.4, 2e6)) +
+  scale_colour_manual(values = c("alle zusammen" = "grey15", empfindlich = col_empf, resistent = col_res), name = NULL) +
+  scale_linewidth_manual(values = c("alle zusammen" = 2.2, empfindlich = 1, resistent = 1), guide = "none") +
+  annotate("point", x = 8, y = 1, colour = col_res, size = 3) +
+  annotate("text", x = 10, y = 1, label = "eine Mutante entsteht", hjust = 0, vjust = 1.2, size = 4.2, colour = col_res) +
+  labs(x = "Zeit", y = "Zellen (log)") +
+  theme_slide()
+```
+
+Die U-Kurve ist eine **Summe**: Empfindliche sterben, eine Resistente wächst. Ein **Wettlauf** zwischen Aussterben und Anpassung.
+
+::: aside
+Skizze. Die U-Kurve als Zeichen von Rettung: Gomulkiewicz & Holt (1995)
+:::
+
+## Die Frage
+
+> Wovon hängt ab, ob eine schrumpfende Population **gerettet** wird?
+> Und kann man das **vorhersagen**?
+
+Heute: eine einfache Theorie, fünf Vorhersagen, und Experimente, die sie prüfen.
+
+# Eine Kopie: Glück oder Pech?
 
 ## Zuerst: eine einzige Kopie
 
@@ -361,17 +496,6 @@ Wie die Nachkommen verteilt sind, ändert wenig: Für kleines $s$ ist $u \approx
 Haldane (1927). Allgemein: $u \approx 2s/\sigma^2$, mit $\sigma^2$ der Varianz der Nachkommenzahl (hier etwa 1)
 :::
 
-## Zufällige Nachkommen: `rpois`
-
-```{r}
-#| echo: true
-set.seed(1)
-rpois(8, 900)   # 1000 Wildtypen, r = 0.1: im Mittel 900 Nachkommen
-rpois(8, 1.1)   # eine Mutante, s = 0.1: im Mittel 1.1 Nachkommen
-```
-
-So ziehen wir Poisson-Nachkommen in R. Wie `rbinom` aus Woche 9, aber ohne festes $N$. Bei 900 kaum Unterschied, bei 1.1 oft **0**: Hier geht die neue Mutation verloren.
-
 ## Theorie und Simulation
 
 ```{r}
@@ -392,108 +516,6 @@ ggplot() +
 ```
 
 Die Simulation aus «Eine Kopie, zwanzig Mal» trifft die Rechnung. Bei $s = 0.1$ gehen rund **80 %** der neuen Mutationen verloren.
-
-# Anwendung: Mutationen auf der Welle
-
-## Wenn sich eine Art ausbreitet
-
-```{r}
-#| fig-height: 2.6
-#| fig-width: 9.5
-#| out-width: 100%
-orte <- data.frame(x = 1:12, typ = c(rep("Kern", 6), "Front", rep("leer", 5)))
-ggplot(orte) +
-  geom_point(aes(x, 0, fill = typ, size = typ), shape = 21, colour = "grey30") +
-  scale_fill_manual(values = c(Kern = col_res, Front = col_empf, leer = "white"), name = NULL) +
-  scale_size_manual(values = c(Kern = 12, Front = 7, leer = 9), guide = "none") +
-  annotate("segment", x = 7.35, xend = 7.75, y = 0, yend = 0, colour = col_empf,
-           arrow = arrow(length = unit(0.2, "cm")), linewidth = 1) +
-  annotate("text", x = 7.55, y = 0.45, label = "wenige Gründer", colour = col_empf, size = 4.5) +
-  annotate("segment", x = 1, xend = 11.5, y = -0.6, yend = -0.6, colour = "grey50",
-           arrow = arrow(length = unit(0.25, "cm"))) +
-  annotate("text", x = 6, y = -0.85, label = "Ausbreitung", colour = "grey35", size = 4.5) +
-  coord_cartesian(ylim = c(-1, 0.8)) +
-  theme_void(base_size = 14) + theme(legend.position = "top")
-```
-
-Menschen aus Afrika, Arten nach der Eiszeit, eine Bakterienkolonie auf Agar: Neue Orte werden von **wenigen** Individuen von der **Front** besiedelt.
-
-An der Front ist die Population immer wieder **klein**: Drift wie in Woche 9, mit sehr kleinem $N$.
-
-## An der Front: Glück schlägt Selektion
-
-```{r}
-#| fig-height: 3.3
-#| fig-width: 8.4
-#| out-width: 90%
-set.seed(2)
-surf <- do.call(rbind, lapply(1:25, function(i) {
-  p <- numeric(51); p[1] <- 0.1
-  for (k in 1:50) {
-    ps <- p[k] * 0.99 / (1 - 0.01 * p[k])        # schwach schädlich, s = -0.01
-    p[k + 1] <- rbinom(1, 10, ps) / 10           # 10 Gründer pro neuem Ort
-  }
-  data.frame(ort = 0:50, p = p, id = i, surft = p[51] == 1)
-}))
-ggplot(surf, aes(ort, p, group = id, colour = surft)) +
-  geom_line(data = subset(surf, !surft), linewidth = 0.6, alpha = 0.6) +
-  geom_line(data = subset(surf, surft), linewidth = 1.2) +
-  scale_colour_manual(values = c("FALSE" = "grey60", "TRUE" = col_empf), guide = "none") +
-  labs(x = "neu besiedelter Ort (Schritt der Ausbreitung)", y = "Häufigkeit an der Front",
-       title = "Eine schädliche Mutation (s = -0.01), 25 Wiederholungen") +
-  theme_slide()
-```
-
-Die meisten Kopien gehen verloren. Aber manche **surfen** auf der Welle bis auf 100 %, obwohl sie **schaden**. Mit 10 Gründern ist der Zufall viel stärker als $s = 0.01$.
-
-## Expansionslast
-
-```{r}
-#| fig-height: 2.8
-#| fig-width: 8.4
-#| out-width: 86%
-xx <- seq(0, 1, length.out = 100)
-ggplot(data.frame(x = xx, w = 1 - 0.25 * pmax(0, xx - 0.3)^1.2), aes(x, w)) +
-  geom_line(colour = col_empf, linewidth = 1.5) +
-  annotate("text", x = 0.12, y = 1.012, label = "Kern", size = 4.6, colour = "grey30") +
-  annotate("text", x = 0.92, y = 0.835, label = "Rand", size = 4.6, colour = "grey30") +
-  scale_x_continuous(breaks = NULL) +
-  coord_cartesian(ylim = c(0.78, 1.03)) +
-  labs(x = "Ort: vom alten Kern zum neu besiedelten Rand", y = "mittlere Fitness") +
-  theme_slide()
-```
-
-Peischl et al. (2013): An der Front häufen sich schädliche Mutationen an, eine **Expansionslast** (*expansion load*). Sie betrifft grosse Teile des neuen Gebiets und kann **Tausende** Generationen bleiben. Muster im menschlichen Erbgut passen dazu.
-
-::: aside
-Skizze, nicht massstäblich. Peischl, Dupanloup, Kirkpatrick & Excoffier (2013), *Mol. Ecol.* 22: 5972–5982
-:::
-
-## Der Test: Bakterien auf Agar
-
-```{r}
-#| fig-height: 2.5
-#| fig-width: 8.5
-#| out-width: 100%
-bt <- data.frame(x = 1:3,
-                 kopf = c("viele Mutationen\nauf Agar (Ausbreitung)", "wenige Mutationen\nauf Agar (Ausbreitung)",
-                          "viele Mutationen\ngut durchmischt"),
-                 ergebnis = c("Wachstum sinkt", "Fitness gleich", "Fitness steigt"),
-                 farbe = c("#f5b7b1", "#eaecee", "#d5f5e3"))
-ggplot(bt) +
-  geom_tile(aes(x, 0, fill = farbe), width = 0.9, height = 1.6, colour = "grey40") +
-  scale_fill_identity() +
-  geom_text(aes(x, 0.35, label = kopf), size = 5.4, lineheight = 0.9) +
-  geom_text(aes(x, -0.4, label = ergebnis), size = 6.2, fontface = "bold", lineheight = 0.9) +
-  coord_cartesian(xlim = c(0.5, 3.5), ylim = c(-0.85, 0.85)) +
-  theme_void()
-```
-
-Bosshard et al. (2017): *E. coli* mit hoher und mit niedriger Mutationsrate breiten sich **1650 Generationen** auf Agarplatten aus. Wie vorhergesagt sinkt das Wachstum dort, wo viele Mutationen auf eine Ausbreitung treffen. In gut durchmischter Kultur wirkt Selektion, und die Fitness steigt.
-
-::: aside
-Bosshard, Dupanloup, Tenaillon, Bruggmann, Ackermann, Peischl & Excoffier (2017), *Genetics* 207: 669–684
-:::
 
 ## Ein aktives Forschungsfeld
 
@@ -517,121 +539,7 @@ Setzt sich eine neue Mutation durch? Die Frage beschäftigt die Populationsgenet
 - als **Inversion** entlang eines Umweltgradienten, wie bei den Stichlingen aus Woche 9 ([Peischl & Strütt 2026, Preprint](https://doi.org/10.64898/2026.10.25.761641))?
 :::
 
-# Teil 2 · Evolutionäre Rettung
-
-## Was kann eine schrumpfende Population tun?
-
-```{r}
-#| fig-height: 3.2
-#| fig-width: 8
-#| out-width: 92%
-wege <- data.frame(y = c(3, 2, 1, 0),
-                   titel = c("ausweichen", "sich umstellen", "sich genetisch anpassen", "aussterben"),
-                   was = c("an einen besseren Ort wandern", "Verhalten oder Körper ändern, ohne neue Gene (Plastizität)",
-                           "Varianten, die besser zurechtkommen, werden häufiger", ""),
-                   farbe = c("#7f8c8d", "#7f8c8d", col_res, "#c0392b"))
-ggplot(wege) +
-  annotate("point", x = 0, y = 1.5, size = 9, colour = col_empf) +
-  annotate("text", x = 0, y = 0.85, label = "Population\nschrumpft", size = 4.6, lineheight = 0.9) +
-  geom_segment(aes(x = 0.15, y = 1.5, xend = 1.1, yend = y), colour = "grey50",
-               arrow = arrow(length = unit(0.22, "cm"))) +
-  geom_text(aes(x = 1.2, y = y + 0.12, label = titel, colour = farbe), hjust = 0, size = 6.2, fontface = "bold") +
-  geom_text(aes(x = 1.2, y = y - 0.25, label = was), hjust = 0, size = 4.8, colour = "grey30") +
-  scale_colour_identity() +
-  coord_cartesian(xlim = c(-0.3, 4.6), ylim = c(-0.4, 3.4)) +
-  theme_void()
-```
-
-Antibiotikum, Pestizid, Hitze, neue Krankheit: Die Population **schrumpft**. Heute der blaue Weg: **Evolution**, bevor sie verschwindet. Evolution zählt in Generationen: Bakterien brauchen weniger als eine Stunde, Teufel etwa zwei Jahre.
-
-## Wo Rettung vorkommt
-
-```{r}
-#| fig-height: 3.6
-#| fig-width: 8.5
-#| out-width: 100%
-an <- data.frame(x = c(1, 2, 1, 2), y = c(2, 2, 1, 1),
-                 titel = c("Bakterien unter Antibiotikum", "Insekten, Unkraut unter Pestiziden",
-                           "Tumorzellen unter Therapie", "bedrohte Arten: Klima, Krankheit"),
-                 text = c("Resistenz: 1.27 Mio. Tote (2019)", "Resistenz auf dem Feld",
-                          "Rückfall durch resistente Zellen", "z. B. Tasmanische Teufel"),
-                 wunsch = c("keine Rettung", "keine Rettung", "keine Rettung", "Rettung"))
-ggplot(an) +
-  geom_tile(aes(x, y, fill = wunsch), width = 0.95, height = 0.9, colour = "white", alpha = 0.85) +
-  scale_fill_manual(values = c("keine Rettung" = "#f5b7b1", "Rettung" = "#d5f5e3"), name = "Wir wollen:") +
-  geom_text(aes(x, y + 0.15, label = titel), size = 5.8, fontface = "bold") +
-  geom_text(aes(x, y - 0.15, label = text), size = 5, colour = "grey25") +
-  coord_cartesian(xlim = c(0.5, 2.5), ylim = c(0.5, 2.5)) +
-  theme_void(base_size = 14) + theme(legend.position = "top")
-```
-
-Dieselbe Frage, entgegengesetzte Wünsche. Und überall dieselbe Theorie.
-
-::: aside
-Antimicrobial Resistance Collaborators (2022), *Lancet*; Epstein et al. (2016)
-:::
-
-## Ein Experiment: dieselben Bakterien, zwei Ausgänge
-
-:::: columns
-::: {.column width="60%"}
-![](../../pics/rescue/ramsayer2013_fig1_ausschnitt.jpg){fig-alt="Originalabbildung: Zellzahl (log) über 53 Stunden für viele Populationen unter Streptomycin 50 und 100; durchgezogene Linien steigen wieder an, gestrichelte fallen auf null" style="max-height:440px"}
-:::
-::: {.column width="40%"}
-*Pseudomonas* unter Streptomycin. Jede Linie: **eine** Population.
-
-- Alle **schrumpfen**.
-- Gestrichelt: **ausgestorben**.
-- Durchgezogen: **U-Kurve**, gerettet.
-
-Die geretteten sind am Ende fast alle **resistent**.
-:::
-::::
-
-::: aside
-Ramsayer, Kaltz & Hochberg (2013), Fig. 1, Ausschnitt (50 und 100 µg/mL), CC BY 3.0
-:::
-
-## Was in der U-Kurve steckt
-
-```{r}
-#| fig-height: 3.3
-#| fig-width: 8.4
-#| out-width: 90%
-t <- 0:60
-emp <- 1e6 * 0.85^t                                   # Empfindliche sterben
-res <- ifelse(t >= 8, 1.25^(t - 8), NA)               # eine Resistente ab Stunde 8
-ges <- emp + ifelse(is.na(res), 0, res)
-u <- rbind(data.frame(t = t, N = emp, wer = "empfindlich"),
-           data.frame(t = t, N = res, wer = "resistent"),
-           data.frame(t = t, N = ges, wer = "alle zusammen"))
-u$wer <- factor(u$wer, levels = c("alle zusammen", "empfindlich", "resistent"))
-ggplot(u[!is.na(u$N) & u$N >= 1, ], aes(t, N, colour = wer, linewidth = wer)) +
-  geom_line() +
-  scale_y_log10(breaks = 10^(0:6), labels = c("1", "10", "100", "1000", "10^4", "10^5", "10^6")) +
-  coord_cartesian(ylim = c(0.4, 2e6)) +
-  scale_colour_manual(values = c("alle zusammen" = "grey15", empfindlich = col_empf, resistent = col_res), name = NULL) +
-  scale_linewidth_manual(values = c("alle zusammen" = 2.2, empfindlich = 1, resistent = 1), guide = "none") +
-  annotate("point", x = 8, y = 1, colour = col_res, size = 3) +
-  annotate("text", x = 10, y = 1, label = "eine Mutante entsteht", hjust = 0, vjust = 1.2, size = 4.2, colour = col_res) +
-  labs(x = "Zeit", y = "Zellen (log)") +
-  theme_slide()
-```
-
-Die U-Kurve ist eine **Summe**: Empfindliche sterben, eine Resistente wächst. Ein **Wettlauf** zwischen Aussterben und Anpassung.
-
-::: aside
-Skizze. Die U-Kurve als Zeichen von Rettung: Gomulkiewicz & Holt (1995)
-:::
-
-## Die Frage
-
-> Wovon hängt ab, ob eine schrumpfende Population **gerettet** wird?
-> Und kann man das **vorhersagen**?
-
-Heute: eine einfache Theorie, fünf Vorhersagen, und Experimente, die sie prüfen.
-
-# Ein einfaches Modell
+# Ein einfaches Modell für Rettung
 
 ## Die Idee in einem Bild
 
@@ -705,7 +613,7 @@ Mehr Individuen, mehr Mutation, grösserer Vorteil, langsamerer Rückgang: mehr 
 Orr & Unckless (2008, 2014); Martin et al. (2013)
 :::
 
-# Simulieren
+# Wie man so ein Modell simuliert
 
 ## Das Rezept
 
@@ -728,6 +636,17 @@ ggplot(rz) +
 ```
 
 So funktioniert fast jede Simulation in der Populationsgenetik. Der Zufall steckt nur in Schritt 2.
+
+## Zufällige Nachkommen: `rpois`
+
+```{r}
+#| echo: true
+set.seed(1)
+rpois(8, 900)   # 1000 Wildtypen, r = 0.1: im Mittel 900 Nachkommen
+rpois(8, 1.1)   # eine Mutante, s = 0.1: im Mittel 1.1 Nachkommen
+```
+
+Wie `rbinom` aus Woche 9, aber ohne festes $N$: Wie viele Nachkommen hat eine Gruppe? Bei 900 kaum Unterschied, bei 1.1 oft **0**: Hier geht die neue Mutation verloren.
 
 ## Das Programm
 
@@ -773,6 +692,26 @@ ggplot(subset(lauf, N > 0), aes(t, N, colour = wer, linewidth = wer)) +
 
 Dasselbe Bild wie die U-Kurve der Bakterien, jetzt aus dem Programm.
 
+## Viele Läufe, eine Wahrscheinlichkeit
+
+```{r}
+#| echo: true
+ein_lauf <- function(N0, r, s, U = 1e-5) {
+  wt <- N0; mut <- 0
+  while (wt + mut > 0 && mut < 1000) {        # 4. Abbruch
+    neu <- rbinom(1, wt, U)
+    wt  <- rpois(1, wt * (1 - r))
+    mut <- rpois(1, mut * (1 + s)) + neu
+  }
+  as.numeric(mut >= 1000)                     # 1 = gerettet
+}
+set.seed(1)
+mean(replicate(200, ein_lauf(30000, 0.1, 0.1)))   # 5. wiederholen
+1 - exp(-2 * 30000 * 1e-5 * 0.1 / 0.1)            # Formel
+```
+
+200 Läufe, 91 gerettet: 45.5 %. Die Formel sagt 45.1 %.
+
 ## Formel und Simulation
 
 ```{r}
@@ -794,7 +733,7 @@ ggplot() +
   theme_slide()
 ```
 
-Die Formel trifft die Simulation (bei $N_0 = 30\,000$: 45.5 % simuliert, 45.1 % Formel). Rettung kippt in einem engen Bereich von «fast nie» zu «fast immer».
+Die Formel trifft die Simulation. Rettung kippt in einem engen Bereich von «fast nie» zu «fast immer».
 
 ## Was das Modell weglässt
 
@@ -813,7 +752,19 @@ Stehende Variation zählt mehr als neue Mutationen, sobald $f > U/r$. Im Beispie
 Orr & Unckless (2008); Martin et al. (2013); Uecker, Otto & Hermisson (2014)
 :::
 
-# Vorhersagen und Tests
+# Fünf Vorhersagen, fünf Tests
+
+## Was die Theorie sagt
+
+| | Vorhersage | Geprüft mit |
+|---|---|---|
+| 1 | Rettung zeigt sich als **U-Kurve**, und es gibt eine **Schwelle** in $N_0$ | Hefe unter Salz |
+| 2 | **Grössere** Populationen werden öfter gerettet | *Pseudomonas*, kleine und grosse Röhrchen |
+| 3 | Mehr **Variation** am Start, mehr Rettung | *Pseudomonas*, klonal oder vielfältig |
+| 4 | **Langsamer** Wandel rettet öfter als plötzlicher | *E. coli*, steigende Dosis |
+| 5 | **Genfluss** aus einer Zuflucht hilft, aber nicht zu viel | Hefe-Metapopulationen · Zwei-Orte-Modell |
+
+: {tbl-colwidths="[6,56,38]"}
 
 ## 1 · U-Kurve und Schwelle: Hefe unter Salz
 
@@ -879,6 +830,17 @@ Gleiche Grösse, nur die genetische Vielfalt am Start ist anders (in der Origina
 Ramsayer et al. (2013), Experiment 1, nach 53 Stunden, je 10 Populationen pro Dosis; der Bereich fasst die drei Dosen zusammen
 :::
 
+## Neue Mutation oder stehende Variation?
+
+| | neue Mutation | stehende Variation |
+|---|---|---|
+| Start | **eine** Kopie | viele Kopien |
+| Hürde | Lotterie, etwa $2s$ | kaum |
+| Warten | bis sie entsteht | keines |
+| Tempo | langsam | **schnell** |
+
+Darum hilft Vielfalt am Start: Resistente müssen nicht erst entstehen und die Lotterie gewinnen.
+
 ## 4 · Tempo: *E. coli* unter steigender Dosis
 
 ```{r}
@@ -909,6 +871,14 @@ Skizze der drei Behandlungen. Lindsey, Gallie, Taylor & Kerr (2013), *Nature* 49
 
 # Zwei Orte: hilft Migration?
 
+## Die Umwelt wird nicht überall gleichzeitig schlecht
+
+- Ein Antibiotikum erreicht nicht jedes Gewebe gleich gut.
+- Ein Pestizid wird nicht auf jedem Feld gespritzt.
+- Erwärmung trifft zuerst die tiefen, dann die hohen Lagen.
+
+Oft gibt es eine **Zuflucht**: einen Ort, der erst später schlecht wird. Zwischen den Orten wandern Individuen. Hilft das der Rettung, oder schadet es?
+
 ## Ein Modell mit zwei Orten
 
 ```{r}
@@ -928,11 +898,39 @@ ggplot() +
   coord_equal() + theme_void()
 ```
 
-Die Umwelt wird selten überall gleichzeitig schlecht. Ort 1 wird sofort schlecht, die **Zuflucht** erst nach $\theta$ Generationen. Ein Anteil $m$ wandert hin und her. Die Mutante hat in der Zuflucht **Kosten** $s$.
+Ort 1 wird sofort schlecht, die Zuflucht erst nach $\theta$ Generationen. Dazwischen wandern Individuen hin und her.
 
 ::: aside
 Tomasini & Peischl (2020), *Evolution* 74: 1640–1653
 :::
+
+## Die Parameter
+
+| Symbol | Bedeutung | Wert unten |
+|---|---|---|
+| $r$ | Rückgang des Wildtyps am schlechten Ort | 0.1 bzw. 0.2 |
+| $z$ | Vorteil der Mutante am schlechten Ort | 0.1 bzw. 0.2 |
+| $s$ | **Kosten** der Mutante in der Zuflucht | 0.02 oder 0.5 |
+| $\theta$ | Generationen, bis auch die Zuflucht schlecht wird | 100 |
+| $m$ | Anteil, der pro Generation den Ort wechselt | 0 bis 1 |
+
+Die Zuflucht hat Platz für $K = 5000$ Individuen. Gerettet, sobald es irgendwo 500 Mutanten gibt.
+
+## Eine Generation an zwei Orten
+
+Dasselbe Rezept, nur sind `wt` und `mut` jetzt **Vektoren** mit zwei Einträgen. Dazu kommt Schritt 3: Migration.
+
+```r
+wt  <- rpois(2, wt * ifelse(schlecht, 1 - r, 1))         # 1. Wildtyp
+neu <- rbinom(2, wt, U)                                   # 2. Mutation
+mut <- rpois(2, mut * ifelse(schlecht, 1 + z, 1 - s)) + neu
+weg_wt  <- rbinom(2, wt,  m / 2)                          # 3. Migration:
+weg_mut <- rbinom(2, mut, m / 2)                          #    wer geht?
+wt  <- wt  - weg_wt  + rev(weg_wt)                        #    und kommt
+mut <- mut - weg_mut + rev(weg_mut)                       #    am anderen Ort an
+```
+
+`rev` dreht den Vektor um: Wer Ort 1 verlässt, kommt in Ort 2 an, und umgekehrt.
 
 ## Was die Simulation zeigt
 
@@ -972,10 +970,25 @@ ggplot(mig, aes(pos, p, colour = fall)) +
   theme_slide()
 ```
 
-Billige Mutante: **mehr Migration, mehr Rettung**. Teure Mutante: am besten bei **mittlerer** Migration; zu viel spült sie in die Zuflucht, wo sie Kosten haben (*gene swamping*).
+Billige Mutante: **mehr Migration, mehr Rettung**. Teure Mutante: am besten bei **mittlerer** Migration, bei viel Migration bricht die Rettung ein.
 
 ::: aside
 Je 200 Läufe pro Punkt. Dasselbe Programm ist im Notebook (Bonus F)
+:::
+
+## Zwei Kräfte
+
+| | Migration **hilft** | Migration **schadet** |
+|---|---|---|
+| Was passiert | Die volle Zuflucht schickt laufend Individuen in den schlechten Ort. Dort entstehen mehr Mutanten. | Mutanten werden in die Zuflucht gespült und zahlen dort Kosten (*gene swamping*). |
+| stark, wenn | Zuflucht lange da ($\theta$ gross), Stress hart ($r$ gross) | Kosten $s$ gross im Vergleich zum Vorteil $z$ |
+
+: {tbl-colwidths="[16,42,42]"}
+
+Genfluss hilft, wenn $\dfrac{s}{z} < r\,\theta$: Die Kosten sind klein im Vergleich dazu, wie hart und wie lange der Stress ist.
+
+::: aside
+Tomasini & Peischl (2020) · mehrere Orte allgemein: Uecker, Otto & Hermisson (2014)
 :::
 
 ## 5 · Der Test: Hefe in Metapopulationen
@@ -1055,11 +1068,12 @@ Modelle: Haldane (1927); Gomulkiewicz & Holt (1995); Orr & Unckless (2008, 2014)
 
 ## Take-home
 
-1. Eine neue Mutation etabliert sich nur mit $u \approx 2s$: Verzweigungsprozess, Fixpunkt von $f$.
-2. Wo der Zufall stark ist, an der **Front** einer Ausbreitung, surfen auch schädliche Mutationen: **Expansionslast**, im Labor bestätigt.
-3. Rettung ist ein **Wettlauf**: immer weniger Mutanten pro Generation, jede mit $2s$, zusammengezählt: $P \approx 1 - e^{-2N_0Us/r}$.
+1. Verzweigungsprozess: Eine neue Mutation etabliert sich nur mit $u = 2s/(1+s) \approx 2s$.
+2. Rettung ist ein **Wettlauf** gegen das Aussterben.
+3. Immer weniger Mutanten pro Generation, jede mit $2s$, alles zusammengezählt: $P \approx 1 - e^{-2N_0Us/r}$.
 4. Simulieren: Zustand, eine Generation, Schleife, Abbruch, viele Wiederholungen.
 5. Die Vorhersagen sind im Labor **bestätigt**. Migration hilft, solange sie nicht zu stark ist.
+6. Stehende Variation geht viel **schneller** als eine neue Mutation.
 
 ## Notebook (~35 min)
 
@@ -1081,7 +1095,6 @@ Modelle: Haldane (1927); Gomulkiewicz & Holt (1995); Orr & Unckless (2008, 2014)
 1. **Bell, G. (2013).** Evolutionary rescue and the limits of adaptation. *Phil. Trans. R. Soc. B* 368: 20120080. [doi:10.1098/rstb.2012.0080](https://doi.org/10.1098/rstb.2012.0080)
 1. **Bell, G. & Gonzalez, A. (2009).** Evolutionary rescue can prevent extinction following environmental change. *Ecology Letters* 12: 942–948. [doi:10.1111/j.1461-0248.2009.01350.x](https://doi.org/10.1111/j.1461-0248.2009.01350.x)
 1. **Bell, G. & Gonzalez, A. (2011).** Adaptation and evolutionary rescue in metapopulations experiencing environmental deterioration. *Science* 332: 1327–1330. [doi:10.1126/science.1203105](https://doi.org/10.1126/science.1203105)
-1. **Bosshard, L., Dupanloup, I., Tenaillon, O., Bruggmann, R., Ackermann, M., Peischl, S. & Excoffier, L. (2017).** Accumulation of deleterious mutations during bacterial range expansions. *Genetics* 207: 669–684. [doi:10.1534/genetics.117.300144](https://doi.org/10.1534/genetics.117.300144)
 1. **Epstein, B., et al. (2016).** Rapid evolutionary response to a transmissible cancer in Tasmanian devils. *Nature Communications* 7: 12684. [doi:10.1038/ncomms12684](https://doi.org/10.1038/ncomms12684)
 1. **Gomulkiewicz, R. & Holt, R. D. (1995).** When does evolution by natural selection prevent extinction? *Evolution* 49: 201–207. [doi:10.1111/j.1558-5646.1995.tb05971.x](https://doi.org/10.1111/j.1558-5646.1995.tb05971.x)
 1. **Haldane, J. B. S. (1927).** A mathematical theory of natural and artificial selection, Part V. *Proc. Camb. Philos. Soc.* 23: 838–844.

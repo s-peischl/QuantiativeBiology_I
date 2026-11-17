@@ -28,12 +28,11 @@ gibt die **Erwartung**, eine Binomial-Ziehung streut um sie herum. Eine
 Teich 7 liegt deutlich darüber, Teich 2 und 14 knapp. Eine Wolke mit
 $s>0$ passt zu allen — konsistent, kein Beweis.
 
-Woche 10, Teil 1: Eine **neue** Mutation startet mit einer Kopie und geht oft
-verloren; sie etabliert sich nur mit etwa $2s$. An der Front einer
-Ausbreitung ist der Zufall stärker als die Selektion: Schädliche
-Mutationen surfen (Expansionslast). Teil 2: Schrumpft eine
+Woche 10: Eine **neue** Mutation startet mit einer Kopie und geht oft
+verloren; sie etabliert sich nur mit etwa $2s$. Schrumpft eine
 Population unter Stress, muss sich eine resistente Mutante **etablieren,
-bevor** $N=0$ ist — **evolutionäre Rettung**: ein einfaches Modell,
+bevor** $N=0$ ist — **evolutionäre Rettung**. Die Etablierung kommt
+aus einem **Verzweigungsprozess**, die Rettung aus einem einfachen Modell, dazu
 ein kleines Programm, Vorhersagen und ihre Tests im Labor (Bakterien,
 Hefe) und zwei Orte mit Migration.
 
@@ -44,7 +43,7 @@ Ableiten und Tests: andere Vorlesungen.
 | Woche | Datum | Thema | Fokus |
 |------:|------|--------|--------|
 | **9** | 12. Nov. | Zufall · Notwendigkeit | Teich · Erwartung und Zufall · `rbinom` · neutrale Wolke · Echsen mit endlichem $N$ |
-| **10** | 19. Nov. | Mutation · Rettung | Verzweigungsprozess · $u\approx 2s$ · Expansionslast · $P \approx 1 - e^{-2N_0Us/r}$ · Simulation · zwei Orte |
+| **10** | 19. Nov. | Mutation · Rettung | Verzweigungsprozess · $u\approx 2s$ · $P \approx 1 - e^{-2N_0Us/r}$ · Simulation · zwei Orte |
 | **11** | 26. Nov. | Wolke · Fortbestand | **Checkpoint C** |
 
 Details: [Glossar](glossary.qmd).
