@@ -333,7 +333,7 @@ $$
 
 Eine Gleichung, in der $q$ auf beiden Seiten steht. Der Trick: Die Tochter-Linien sind **gleich** wie die Mutter-Linie.
 
-## Ein Bild der Gleichung
+## Die rechte Seite als Funktion
 
 ::::: columns
 ::: {.column width="55%"}
@@ -343,8 +343,43 @@ Eine Gleichung, in der $q$ auf beiden Seiten steht. Der Trick: Die Tochter-Linie
 #| out-width: 100%
 #| out-extra: 'style="max-height:450px"'
 qq <- seq(0, 1, length.out = 200)
+f01 <- function(q) 0.45 + 0.55 * q^2
+punkte <- data.frame(q = c(0, 0.5, 1), f = f01(c(0, 0.5, 1)))
+ggplot(data.frame(q = qq, f = f01(qq)), aes(q, f)) +
+  geom_line(colour = col_res, linewidth = 1.3) +
+  geom_point(data = punkte, size = 3.5, colour = col_res) +
+  geom_text(data = punkte, aes(label = sprintf("%.2f", f)), hjust = 1.3, vjust = -0.4, size = 4.3) +
+  coord_equal(xlim = c(0, 1), ylim = c(0, 1.05)) +
+  labs(x = "q (Tochter-Linie stirbt aus)", y = "f(q) (Mutter-Linie stirbt aus)",
+       title = "s = 0.1, also a = 0.45") +
+  theme_slide()
+```
+:::
+::: {.column width="45%"}
+Die rechte Seite nennen wir $f(q) = a + (1-a)\,q^2$.
+
+$f$ beantwortet: Sterben die Töchter mit Chance $q$ aus, wie oft stirbt dann die **Mutter**-Linie?
+
+- $q = 0$: nur ohne Nachkommen, $f = a = 0.45$
+- $q = 1$: sicher, $f = 1$
+:::
+:::::
+
+::: aside
+$f$ heisst **erzeugende Funktion** der Nachkommenzahl (PGF).
+:::
+
+## Gesucht: ein $q$, das zu sich selbst passt
+
+::::: columns
+::: {.column width="55%"}
+```{r}
+#| fig-height: 4.2
+#| fig-width: 4.6
+#| out-width: 100%
+#| out-extra: 'style="max-height:450px"'
 pgf <- rbind(data.frame(q = qq, f = 0.5 + 0.5 * qq^2, s = "s = 0"),
-             data.frame(q = qq, f = 0.45 + 0.55 * qq^2, s = "s = 0.1"))
+             data.frame(q = qq, f = f01(qq), s = "s = 0.1"))
 ggplot(pgf, aes(q, f, colour = s)) +
   geom_abline(slope = 1, intercept = 0, linetype = "dashed", colour = "grey40") +
   geom_line(linewidth = 1.3) +
@@ -358,23 +393,19 @@ ggplot(pgf, aes(q, f, colour = s)) +
            size = 3.9, lineheight = 0.9) +
   scale_colour_manual(values = c("s = 0" = "grey55", "s = 0.1" = col_res), name = NULL) +
   coord_equal(xlim = c(0, 1), ylim = c(0, 1)) +
-  labs(x = "q (Tochter-Linie stirbt aus)", y = "f(q) (Linie stirbt aus)") +
+  labs(x = "q (Tochter-Linie stirbt aus)", y = "f(q) (Mutter-Linie stirbt aus)") +
   theme_slide()
 ```
 :::
 ::: {.column width="45%"}
-Stirbt jede Tochter-Linie mit $q$ aus, stirbt die Mutter-Linie mit $f(q)$ aus.
+Mutter und Töchter spielen **dasselbe** Spiel, also muss $f(q) = q$ sein.
 
-Gesucht: ein $q$, das **zu sich selbst passt**, $f(q) = q$. Dort trifft die Kurve die Diagonale: ein **Fixpunkt**.
+Auf der **Diagonale** ist Ausgabe gleich Eingabe. Wo die Kurve sie trifft: ein **Fixpunkt**.
 
-- $s = 0$: nur bei 1.
-- $s = 0.1$: auch bei 0.82, also $u = 0.18$.
+- $s = 0$: nur bei 1
+- $s = 0.1$: auch bei 0.82, also $u = 0.18$
 :::
 :::::
-
-::: aside
-$f$ heisst **erzeugende Funktion** der Nachkommenzahl (PGF).
-:::
 
 ## Die Gleichung lösen
 
