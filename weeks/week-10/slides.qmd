@@ -72,6 +72,41 @@ rettung <- function(N0, r, s, U = 1e-5, grenze = 1000) {
 
 formel <- function(N0, r, s, U = 1e-5) 1 - exp(-2 * N0 * U * s / r)
 
+# Spielzeugmodell: jede Kopie hat 0 oder 2 Nachkommen
+eine_linie <- function(s) {
+  a <- (1 - s) / 2
+  n <- 1
+  while (n > 0 && n < 100) n <- 2 * rbinom(1, n, 1 - a)
+  as.numeric(n >= 100)
+}
+
+# Ein Stammbaum im Spielzeugmodell, mit Koordinaten zum Zeichnen
+baum <- function(s, gen_max = 8) {
+  a <- (1 - s) / 2
+  kn <- data.frame(id = 1, gen = 0, eltern = NA)
+  aktiv <- 1; letzte <- 1
+  for (g in seq_len(gen_max)) {
+    kinder <- c()
+    for (k in aktiv) if (runif(1) > a) {
+      ids <- letzte + 1:2; letzte <- letzte + 2
+      kn <- rbind(kn, data.frame(id = ids, gen = g, eltern = k))
+      kinder <- c(kinder, ids)
+    }
+    aktiv <- kinder
+    if (length(aktiv) == 0) break
+  }
+  x <- rep(NA, nrow(kn)); blatt <- 0
+  setze <- function(i) {
+    k <- kn$id[!is.na(kn$eltern) & kn$eltern == i]
+    if (length(k) == 0) { blatt <<- blatt + 1; x[i] <<- blatt }
+    else { for (j in k) setze(j); x[i] <<- mean(x[k]) }
+  }
+  setze(1)
+  kn$x <- (x - 1) / max(1, blatt - 1)
+  kn$lebt <- length(aktiv) > 0
+  kn
+}
+
 col_empf <- "#e67e22"   # empfindlich / Wildtyp
 col_res <- "#2166ac"    # resistent / Mutante
 col_theo <- "#d95f02"   # Theorie
@@ -84,7 +119,7 @@ col_theo <- "#d95f02"   # Theorie
 | Teil | Dauer | Was |
 |------|-------|-----|
 | Vorlesung | ~55 min | Verzweigungsprozess · ein Modell für Rettung · ein Programm · Tests · zwei Orte |
-| Notebook | ~35 min | eine Kopie · Programm · viele Läufe · Bonus: zwei Orte |
+| Notebook | ~35 min | Verzweigungsprozess Schritt für Schritt · Programm für Rettung · viele Läufe · Bonus: zwei Orte |
 
 ::: aside
 Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
@@ -95,7 +130,7 @@ Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 Nach heute können Sie …
 
 1. erklären, was **evolutionäre Rettung** ist (U-Kurve),
-2. mit einem **Verzweigungsprozess** herleiten, warum sich eine neue Mutation nur mit etwa $2s$ etabliert,
+2. einen **Verzweigungsprozess** simulieren und erklären, warum sich eine neue Mutation nur mit etwa $2s$ etabliert,
 3. die Chance auf Rettung aus **Rückgang, Mutation und Etablierung** herleiten,
 4. Rettung als **kleines Programm** simulieren,
 5. **Vorhersagen** der Theorie mit Experimenten vergleichen,
@@ -141,16 +176,34 @@ Heute geht es um den blauen Weg: **Evolution**, bevor die Population verschwinde
 
 ## Ist Evolution schnell genug?
 
-Darwin dachte an langsame Veränderung über sehr viele Generationen. Aber Evolution zählt in **Generationen**, die Umwelt in **Jahren**.
+```{r}
+#| fig-height: 2.9
+#| fig-width: 9.5
+#| out-width: 92%
+h <- 1; tag <- 24; jahr <- 365 * 24
+uhr <- data.frame(
+  zeile = c(rep("Die Umwelt ändert sich in …", 4), rep("Eine Generation dauert …", 4)),
+  zeit = c(6 * h, 3 * 7 * tag, 3 * jahr, 30 * jahr, 0.5 * h, 3 * h, 2 * jahr, 25 * jahr),
+  was = c("Antibiotikum", "Pestizid", "neue Krankheit", "Erwärmung",
+          "Bakterien", "Hefe", "Tasm. Teufel", "Elefant"))
+uhr$zeile <- factor(uhr$zeile, levels = c("Eine Generation dauert …", "Die Umwelt ändert sich in …"))
+ggplot(uhr, aes(zeit, zeile, colour = zeile)) +
+  geom_vline(xintercept = c(h, tag, 7 * tag, jahr, 10 * jahr), colour = "grey88") +
+  geom_point(size = 6) +
+  geom_text(aes(label = was, vjust = ifelse(was == "Erwärmung", 2.3, -1.3)), size = 4.6, colour = "grey15") +
+  scale_x_log10(breaks = c(h, tag, 7 * tag, jahr, 10 * jahr),
+                labels = c("1 Stunde", "1 Tag", "1 Woche", "1 Jahr", "10 Jahre")) +
+  scale_colour_manual(values = c(col_res, "#c0392b"), guide = "none") +
+  coord_cartesian(xlim = c(0.25, 80 * jahr)) +
+  labs(x = NULL, y = NULL) +
+  theme_slide() + theme(panel.grid = element_blank(), axis.text.y = element_text(size = 14, face = "bold"))
+```
 
-| Wer | eine Generation |
-|---|---|
-| Bakterien im Labor | weniger als eine Stunde |
-| Hefe | wenige Stunden |
-| Tasmanischer Teufel | etwa 2 Jahre |
-| Elefant | Jahrzehnte |
+Evolution zählt in **Generationen**: Bakterien haben viele, Elefanten fast keine. Ein **Wettlauf** gegen das Aussterben. Gewinnt die Anpassung: **evolutionäre Rettung** (Gomulkiewicz & Holt 1995).
 
-Die Frage ist also ein **Wettlauf**: Wird die Population angepasst, bevor sie ausstirbt? Gelingt das, spricht man von **evolutionärer Rettung** (Gomulkiewicz & Holt 1995).
+::: aside
+Grössenordnungen, Skizze
+:::
 
 ## Dieselbe Frage, entgegengesetzte Wünsche
 
@@ -318,7 +371,98 @@ $$
 
 Bei $s = 0.1$: 45 % der Kopien haben **gar keine** Nachkommen, obwohl die Mutation im Vorteil ist.
 
-## Die Idee: dasselbe Spiel noch einmal
+## Im Computer: eine Münze pro Kopie
+
+Jede Kopie wirft eine Münze: mit Chance $1 - a$ zwei Nachkommen, sonst keine. Wie viele von $n$ Kopien gewinnen? Das ist `rbinom` aus Woche 9.
+
+```{r}
+#| echo: true
+s <- 0.1
+a <- (1 - s) / 2               # Chance auf keine Nachkommen: 0.45
+set.seed(3)
+n <- 10                        # 10 Kopien
+2 * rbinom(1, n, 1 - a)        # Gewinner mal 2 = Kopien in der nächsten Generation
+```
+
+Eine Zeile ist **eine Generation**. Jetzt wiederholen wir sie.
+
+## Eine Linie, Generation für Generation
+
+```{r}
+#| echo: true
+set.seed(10)
+n <- 1                                  # eine neue Mutation
+verlauf <- n
+while (n > 0 && n < 100) {              # bis verloren oder etabliert
+  n <- 2 * rbinom(1, n, 1 - a)
+  verlauf <- c(verlauf, n)
+}
+verlauf
+```
+
+Lange nur **2** Kopien: Ein Pech, und sie wäre weg. Dann geschafft. `while` heisst «solange». Ab 100 Kopien: **etabliert**, bei 0: **verloren**.
+
+## Zwölf Stammbäume
+
+```{r}
+#| fig-height: 4
+#| fig-width: 9.5
+#| out-width: 100%
+set.seed(112)
+baeume <- do.call(rbind, lapply(1:12, function(i) cbind(baum(0.1), nr = i)))
+kanten <- merge(baeume, baeume[, c("id", "nr", "gen", "x")],
+                by.x = c("eltern", "nr"), by.y = c("id", "nr"), suffixes = c("", "_e"))
+ausgang <- tapply(baeume$lebt, baeume$nr, `[`, 1)
+kanten$lebt <- ausgang[kanten$nr]
+ggplot() +
+  geom_segment(data = kanten, aes(x = x_e, y = -gen_e, xend = x, yend = -gen,
+                                  colour = lebt), linewidth = 0.6) +
+  geom_point(data = subset(baeume, gen == 0), aes(x, -gen, colour = lebt), size = 2.5) +
+  scale_colour_manual(values = c("TRUE" = col_res, "FALSE" = col_empf),
+                      labels = c("TRUE" = "nach 8 Generationen noch da", "FALSE" = "ausgestorben"),
+                      name = NULL) +
+  facet_wrap(~ nr, nrow = 2) +
+  coord_cartesian(ylim = c(-8.3, 0.3)) +
+  theme_void(base_size = 15) +
+  theme(strip.text = element_blank(), legend.position = "bottom",
+        panel.background = element_rect(fill = "grey97", colour = NA))
+```
+
+Jeder Baum startet mit **einer** Kopie, $s = 0.1$. Die meisten Bäume sind nach wenigen Generationen **tot**. Wer überlebt, explodiert.
+
+::: aside
+Simuliert mit dem Spielzeugmodell, von oben (Generation 0) nach unten (Generation 8)
+:::
+
+## Viele Linien: das $2s$ taucht auf
+
+```{r}
+#| fig-height: 3.6
+#| fig-width: 8.4
+#| out-width: 90%
+set.seed(5)
+lauf_s <- c(0.05, 0.1, 0.2)
+laeufe <- do.call(rbind, lapply(lauf_s, function(s) {
+  e <- replicate(4000, eine_linie(s))
+  data.frame(lauf = seq_along(e), anteil = cumsum(e) / seq_along(e), s = paste("s =", s))
+}))
+farben_s <- c("s = 0.05" = "#7fb3d5", "s = 0.1" = col_res, "s = 0.2" = "#0b2e59")
+ggplot(laeufe, aes(lauf, anteil, colour = s)) +
+  geom_hline(aes(yintercept = 2 * as.numeric(sub("s = ", "", s)), colour = s),
+             linetype = "dashed", linewidth = 0.9) +
+  geom_line(linewidth = 1.1) +
+  annotate("label", x = 4350, y = 2 * lauf_s, label = paste("2s =", 2 * lauf_s),
+           size = 4.5, colour = farben_s, label.size = 0, fill = "white") +
+  scale_colour_manual(values = farben_s, name = NULL) +
+  scale_x_continuous(breaks = c(0, 1000, 2000, 3000, 4000)) +
+  coord_cartesian(xlim = c(0, 4700), ylim = c(0, 0.5)) +
+  labs(x = "Anzahl simulierter Mutationen", y = "Anteil etabliert, bisher") +
+  theme_slide()
+```
+
+Nach ein paar hundert Läufen beruhigt sich der Anteil bei etwa $2s$ (bei grossem $s$ etwas darunter). Woher kommt diese einfache Zahl?
+
+## Warum gerade $2s$? Dasselbe Spiel noch einmal
 
 Sei $q$ die Wahrscheinlichkeit, dass die Linie einer Kopie **irgendwann ausstirbt**.
 
@@ -398,47 +542,18 @@ ggplot(pgf, aes(q, f, colour = s)) +
 ```
 :::
 ::: {.column width="45%"}
-Mutter und Töchter spielen **dasselbe** Spiel, also muss $f(q) = q$ sein.
+Mutter und Töchter spielen **dasselbe** Spiel. Gesucht: $f(q) = q$, wo die Kurve die **Diagonale** trifft.
 
-Auf der **Diagonale** ist Ausgabe gleich Eingabe. Wo die Kurve sie trifft: ein **Fixpunkt**.
+- $s = 0$: nur bei 1, sicher verloren.
+- $s = 0.1$: auch bei **0.82**.
 
-- $s = 0$: nur bei 1
-- $s = 0.1$: auch bei 0.82, also $u = 0.18$
+Also $u = 1 - 0.82 = 0.18$, fast $2s$.
 :::
 :::::
 
-## Die Gleichung lösen
-
-$$
-(1 - a)\, q^2 - q + a = 0
-$$
-
-$q = 1$ ist immer eine Lösung (einsetzen: $1 - a - 1 + a = 0$). Die zweite Lösung:
-
-$$
-q = \frac{a}{1 - a} = \frac{1 - s}{1 + s}
-\qquad\Rightarrow\qquad
-u = 1 - q = \frac{2s}{1 + s} \approx 2s
-$$
-
-Bei $s = 0.1$: $u = 0.182$, fast $2s = 0.2$.
-
-Welche Lösung gilt? Ist $s \le 0$, ist die zweite grösser als 1, also keine Wahrscheinlichkeit: Eine **neutrale** neue Mutation geht sicher verloren. Ist $s > 0$, gilt die kleinere.
-
-## Dieselbe Idee mit beliebig vielen Nachkommen
-
-Hat eine Kopie $k$ Nachkommen, stirbt ihre Linie aus, wenn **alle** $k$ Tochter-Linien aussterben: $q^k$. Gemittelt über alle $k$:
-
-$$
-q = P(0) + P(1)\, q + P(2)\, q^2 + P(3)\, q^3 + \dots
-$$
-
-- **Spielzeugmodell:** nur $P(0) = a$ und $P(2) = 1 - a$. Das war unsere Gleichung.
-- **Poisson** mit Mittelwert $1 + s$, wie `rpois` in der Simulation: Die Summe ergibt
-
-$$
-q = e^{-(1+s)(1-q)}
-$$
+::: aside
+Genau: $u = 2s/(1+s)$
+:::
 
 ## Zwei Kurven, fast derselbe Fixpunkt
 
@@ -464,37 +579,13 @@ ggplot(pgf2, aes(q, f, colour = wer)) +
 ```
 :::
 ::: {.column width="45%"}
-Andere Nachkommen, andere Kurve. Aber beide Kurven
+Was, wenn eine Kopie 0, 1, 2, 3, … Nachkommen haben kann, wie mit `rpois`?
 
-- starten **über** der Diagonale (eine Linie kann sofort sterben),
-- enden bei $(1, 1)$,
-- haben dort fast dieselbe **Steigung**: den Mittelwert $1 + s$.
+Dieselbe Idee, eine andere Kurve $f$. Aber sie schneidet die Diagonale **fast am selben Ort**: $u = 0.176$ statt $0.182$.
 
-Darum schneiden sie die Diagonale fast am selben Ort: $u = 0.182$ gegen $0.176$.
+Wie die Nachkommen genau verteilt sind, ändert wenig. Es bleibt $u \approx 2s$.
 :::
 :::::
-
-## Für kleines $s$: wieder $2s$
-
-Mit $u = 1 - q$ heisst die Gleichung $1 - u = e^{-(1+s)\,u}$. Für kleine $x$ ist $e^{-x} \approx 1 - x + x^2/2$:
-
-$$
-1 - u \approx 1 - (1+s)\,u + \frac{(1+s)^2 u^2}{2}
-\quad\Rightarrow\quad
-u \approx \frac{2s}{(1+s)^2} \approx 2s
-$$
-
-| $s$ | 0.01 | 0.05 | 0.1 | 0.2 |
-|---|---|---|---|---|
-| Poisson, genau (numerisch) | 0.020 | 0.094 | 0.176 | 0.314 |
-| Spielzeug $2s/(1+s)$ | 0.020 | 0.095 | 0.182 | 0.333 |
-| Faustregel $2s$ | 0.02 | 0.10 | 0.20 | 0.40 |
-
-Wie die Nachkommen verteilt sind, ändert wenig: Für kleines $s$ ist $u \approx 2s$.
-
-::: aside
-Haldane (1927). Allgemein: $u \approx 2s/\sigma^2$, mit $\sigma^2$ der Varianz der Nachkommenzahl (hier etwa 1)
-:::
 
 ## Theorie und Simulation
 
@@ -515,7 +606,11 @@ ggplot() +
   theme_slide()
 ```
 
-Die Simulation aus «Eine Kopie, zwanzig Mal» trifft die Rechnung. Bei $s = 0.1$ gehen rund **80 %** der neuen Mutationen verloren.
+Auch mit `rpois`-Nachkommen trifft die Simulation die Faustregel. Bei $s = 0.1$ gehen rund **80 %** der neuen Mutationen verloren.
+
+::: aside
+Haldane (1927): $u \approx 2s$
+:::
 
 ## Wenn der Zufall gewinnt: Expansionslast
 
@@ -763,7 +858,7 @@ Die Formel trifft die Simulation. Rettung kippt in einem engen Bereich von «fas
 | **Mehrere Orte** mit Migration | hilft oder schadet, gleich mehr dazu |
 | Paarung, Dichte, schwankende Umwelt | die Zahlen ändern sich, die Idee bleibt |
 
-Stehende Variation zählt mehr als neue Mutationen, sobald $f > U/r$. Im Beispiel: schon eine Resistente unter 10 000.
+Im Beispiel zählt schon **eine** Resistente unter 10 000 am Start mehr als alle neuen Mutationen zusammen.
 
 ::: aside
 Orr & Unckless (2008); Martin et al. (2013); Uecker, Otto & Hermisson (2014)
@@ -1085,7 +1180,7 @@ Modelle: Haldane (1927); Gomulkiewicz & Holt (1995); Orr & Unckless (2008, 2014)
 
 ## Take-home
 
-1. Verzweigungsprozess: Eine neue Mutation etabliert sich nur mit $u = 2s/(1+s) \approx 2s$.
+1. Eine neue Mutation etabliert sich nur mit etwa $2s$: Simulation und Fixpunkt zeigen dasselbe.
 2. Rettung ist ein **Wettlauf** gegen das Aussterben.
 3. Immer weniger Mutanten pro Generation, jede mit $2s$, alles zusammengezählt: $P \approx 1 - e^{-2N_0Us/r}$.
 4. Simulieren: Zustand, eine Generation, Schleife, Abbruch, viele Wiederholungen.
@@ -1096,7 +1191,7 @@ Modelle: Haldane (1927); Gomulkiewicz & Holt (1995); Orr & Unckless (2008, 2014)
 
 **→ [Notebook Woche 10 öffnen](notebook.html)** · [Rmd](notebook.Rmd) · [R](notebook.R)
 
-1. Einzelne Mutationen verfolgen und die Etablierung schätzen
+1. **Einen Verzweigungsprozess** Schritt für Schritt programmieren und $2s$ auftauchen sehen
 2. **Das Programm** für Rettung selbst laufen lassen, Zeile für Zeile
 3. Viele Läufe: Rettung für verschiedene $N_0$ und $r$, Vergleich mit der Formel
 4. Bonus: Rettung mit zwei Orten

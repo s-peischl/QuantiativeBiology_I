@@ -29,6 +29,7 @@ Eine neue Mutation beginnt mit **einer Kopie**. Auch wenn sie vorteilhaft ist, g
 **Die Abbildungen.**
 
 - Teil 1: **x-Achse** Generation, **y-Achse** Anzahl Kopien einer Mutation. Blau: überlebt, orange: verloren.
+- Teil 2: **x-Achse** Anzahl simulierter Mutationen, **y-Achse** Anteil etabliert bisher. Blau: Simulation, orange gestrichelt: $2s$.
 - Teil 3: **x-Achse** Generation, **y-Achse** Anzahl Individuen auf einer **log-Skala** (1, 10, 100, …). Orange: Wildtyp, blau: Mutanten, schwarz: alle zusammen.
 - Teil 4: **x-Achse** Generation, **y-Achse** Populationsgrösse (log). Blau: gerettet, grau: ausgestorben.
 - Teil 5: **x-Achse** Startgrösse $N_0$ (log), **y-Achse** Anteil geretteter Populationen. Blaue Punkte: Simulation, orange Linie: Formel.
@@ -36,7 +37,7 @@ Eine neue Mutation beginnt mit **einer Kopie**. Auch wenn sie vorteilhaft ist, g
 ::: {.callout-important}
 ## Auftrag
 
-1. Verfolgen Sie einzelne neue Mutationen und schätzen Sie, wie oft sie sich etablieren.
+1. Verfolgen Sie einzelne neue Mutationen. Bauen Sie Schritt für Schritt einen **Verzweigungsprozess** und sehen Sie, wie $2s$ auftaucht.
 2. Lesen und starten Sie ein **kleines Programm**, das eine schrumpfende Population simuliert.
 3. Schätzen Sie mit vielen Läufen, wie oft sie gerettet wird, vergleichen Sie mit der Formel und sagen Sie voraus, wie das von $N_0$ und $r$ abhängt.
 4. Bonus: Hilft mehr Migration aus einer Zuflucht immer? Erst raten, dann simulieren.
@@ -72,15 +73,15 @@ zeige_linien <- function(s, anzahl = 20) {
   mtext(paste(verloren, "von", anzahl, "verloren"), side = 3, line = 0.2)
 }
 
-# 1 = etabliert (100 Kopien erreicht), 0 = verloren
-schicksal <- function(s, grenze = 100) {
-  n <- 1
-  while (n > 0 && n < grenze) n <- rpois(1, n * (1 + s))
-  as.numeric(n >= grenze)
-}
-
-schaetze_etablierung <- function(s, wiederholungen = 2000) {
-  mean(replicate(wiederholungen, schicksal(s)))
+# Anteil etabliert nach 1, 2, 3, ... Läufen, dazu die Faustregel 2s
+zeige_anteil <- function(ergebnisse, s) {
+  laeufe <- seq_along(ergebnisse)
+  plot(laeufe, cumsum(ergebnisse) / laeufe, type = "l", lwd = 2, col = "#2166ac",
+       ylim = c(0, min(1, 4 * s)), xlab = "Anzahl simulierter Mutationen",
+       ylab = "Anteil etabliert, bisher", main = paste("s =", s))
+  abline(h = 2 * s, lty = 2, lwd = 2, col = "#d95f02")
+  legend("topright", c("Simulation", "Faustregel 2s"), col = c("#2166ac", "#d95f02"),
+         lty = c(1, 2), lwd = 2, bty = "n")
 }
 
 # Eine schrumpfende Population: Wildtyp (1 - r), Mutanten (1 + s)
@@ -163,29 +164,73 @@ zeige_linien(s = 0.1)   # hier s ändern
 3. Warum geht eine **vorteilhafte** Mutation überhaupt verloren?
 :::
 
-# 2 · Wie oft etabliert sie sich?
+# 2 · Ein Verzweigungsprozess, Schritt für Schritt
 
-`schaetze_etablierung(s)` simuliert 2000 neue Mutationen und gibt den **Anteil** zurück, der sich etabliert (100 Kopien erreicht). Der Verzweigungsprozess aus der Vorlesung gibt im Spielzeugmodell $2s/(1+s)$, die Faustregel etwa $2s$.
+Jetzt bauen Sie den Verzweigungsprozess aus der Vorlesung selbst, mit dem **Spielzeugmodell**: Jede Kopie hat entweder **keine** oder **zwei** Nachkommen. Keine mit Wahrscheinlichkeit $a = (1 - s)/2$, sonst zwei. Im Mittel sind das $1 + s$.
+
+**Schritt 1: eine Generation.** Jede Kopie wirft eine Münze. `rbinom(1, n, 1 - a)` zählt, wie viele von `n` Kopien zwei Nachkommen haben (wie in Woche 9). Mal 2 gibt die Kopien der nächsten Generation.
 
 ```{r}
-schaetze_etablierung(s = 0.1)   # hier s ändern
-2 * 0.1                         # Faustregel
-2 * 0.1 / (1 + 0.1)             # Verzweigungsprozess, Spielzeugmodell
+s <- 0.1
+a <- (1 - s) / 2          # Chance auf keine Nachkommen
+n <- 1                    # eine Kopie
+2 * rbinom(1, n, 1 - a)   # Kopien in der nächsten Generation: 0 oder 2
+```
+
+**Schritt 2: Generation für Generation.** Dieselbe Zeile, solange (`while`) die Mutation weder verloren (0 Kopien) noch etabliert (100 Kopien) ist. `verlauf` merkt sich alle Zahlen.
+
+```{r}
+n <- 1                          # eine neue Mutation
+verlauf <- n
+while (n > 0 && n < 100) {      # solange nicht verloren und nicht etabliert
+  n <- 2 * rbinom(1, n, 1 - a)
+  verlauf <- c(verlauf, n)
+}
+verlauf
+length(verlauf) - 1             # wie viele Generationen?
+```
+
+**Schritt 3: als Funktion, viele Male.** Wir packen Schritt 2 in eine Funktion. Sie gibt 1 zurück, wenn die Mutation sich etabliert, sonst 0. `replicate` startet viele neue Mutationen.
+
+```{r}
+eine_linie <- function(s) {
+  a <- (1 - s) / 2
+  n <- 1
+  while (n > 0 && n < 100) {
+    n <- 2 * rbinom(1, n, 1 - a)
+  }
+  as.numeric(n >= 100)   # 1 = etabliert, 0 = verloren
+}
+
+s <- 0.1                                  # hier s ändern
+ergebnisse <- replicate(3000, eine_linie(s))
+mean(ergebnisse)   # Anteil etabliert
+2 * s              # Faustregel 2s
+```
+
+**Schritt 4: zuschauen, wie $2s$ auftaucht.** `zeige_anteil` zeichnet den Anteil etablierter Mutationen nach 1, 2, 3, … Läufen. Die gestrichelte Linie ist $2s$.
+
+```{r}
+#| fig-height: 4.2
+#| fig-width: 7.5
+zeige_anteil(ergebnisse, s)
 ```
 
 ::: {.callout-tip}
 ## Aufgabe B
 
-Füllen Sie die Tabelle aus:
+1. Führen Sie Schritt 1 zehnmal aus. Wie oft gibt es **keine** Nachkommen? Passt das zu $a = 0.45$?
+2. Führen Sie Schritt 2 mehrmals aus. Wie oft schafft es die Mutation? Wie viele Generationen dauert es, wenn sie verloren geht, und wenn sie es schafft?
+3. Ändern Sie in Schritt 3 nur `s` und füllen Sie die Tabelle aus:
 
-| $s$ | Simulation | $2s/(1+s)$ | Faustregel $2s$ |
-|---|---|---|---|
-| 0.02 |  |  |  |
-| 0.05 |  |  |  |
-| 0.1 |  |  |  |
-| 0.2 |  |  |  |
+   | $s$ | Simulation | Faustregel $2s$ |
+   |---|---|---|
+   | 0.02 |  |  |
+   | 0.05 |  |  |
+   | 0.1 |  |  |
+   | 0.2 |  |  |
 
-Wann passt die Faustregel gut, wann weniger? Warum liegt die Simulation näher bei $2s/(1+s)$?
+4. Schauen Sie sich Schritt 4 für $s = 0.02$ und $s = 0.2$ an. Wann passt $2s$ gut, wann liegt die Simulation darunter? Nach wie vielen Läufen beruhigt sich die Kurve?
 :::
 
 # 3 · Ein Programm für Rettung

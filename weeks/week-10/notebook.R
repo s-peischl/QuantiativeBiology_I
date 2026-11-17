@@ -1,5 +1,5 @@
 # Woche 10 - Notebook (nur R, base R)
-# Mutation und Rettung: neue Mutationen, evolutionaere Rettung, Elefanten, zwei Orte
+# Mutation und Rettung: neue Mutationen, Verzweigungsprozess, evolutionaere Rettung, zwei Orte
 # In RStudio: Working Directory = weeks/week-10, dann Zeile fuer Zeile ausfuehren.
 # Quarto: notebook.qmd. Knit ohne Quarto: notebook.Rmd.
 
@@ -14,12 +14,13 @@
 # Die Abbildungen.
 #
 # - Teil 1: x-Achse Generation, y-Achse Anzahl Kopien einer Mutation. Blau: ueberlebt, orange: verloren.
+# - Teil 2: x-Achse Anzahl simulierter Mutationen, y-Achse Anteil etabliert bisher. Blau: Simulation, orange gestrichelt: 2s.
 # - Teil 3: x-Achse Generation, y-Achse Anzahl Individuen auf einer log-Skala (1, 10, 100, ...). Orange: Wildtyp, blau: Mutanten, schwarz: alle zusammen.
 # - Teil 4: x-Achse Generation, y-Achse Populationsgroesse (log). Blau: gerettet, grau: ausgestorben.
 # - Teil 5: x-Achse Startgroesse N0 (log), y-Achse Anteil geretteter Populationen. Blaue Punkte: Simulation, orange Linie: Formel.
 
 # Auftrag
-# 1. Verfolgen Sie einzelne neue Mutationen und schaetzen Sie, wie oft sie sich etablieren.
+# 1. Verfolgen Sie einzelne neue Mutationen. Bauen Sie Schritt fuer Schritt einen Verzweigungsprozess und sehen Sie, wie 2s auftaucht.
 # 2. Lesen und starten Sie ein kleines Programm, das eine schrumpfende Population simuliert.
 # 3. Schaetzen Sie mit vielen Laeufen, wie oft sie gerettet wird, vergleichen Sie mit der Formel und sagen Sie voraus, wie das von N_0 und r abhaengt.
 # 4. Bonus: Hilft mehr Migration aus einer Zuflucht immer? Erst raten, dann simulieren.
@@ -51,15 +52,15 @@ zeige_linien <- function(s, anzahl = 20) {
   mtext(paste(verloren, "von", anzahl, "verloren"), side = 3, line = 0.2)
 }
 
-# 1 = etabliert (100 Kopien erreicht), 0 = verloren
-schicksal <- function(s, grenze = 100) {
-  n <- 1
-  while (n > 0 && n < grenze) n <- rpois(1, n * (1 + s))
-  as.numeric(n >= grenze)
-}
-
-schaetze_etablierung <- function(s, wiederholungen = 2000) {
-  mean(replicate(wiederholungen, schicksal(s)))
+# Anteil etabliert nach 1, 2, 3, ... Laeufen, dazu die Faustregel 2s
+zeige_anteil <- function(ergebnisse, s) {
+  laeufe <- seq_along(ergebnisse)
+  plot(laeufe, cumsum(ergebnisse) / laeufe, type = "l", lwd = 2, col = "#2166ac",
+       ylim = c(0, min(1, 4 * s)), xlab = "Anzahl simulierter Mutationen",
+       ylab = "Anteil etabliert, bisher", main = paste("s =", s))
+  abline(h = 2 * s, lty = 2, lwd = 2, col = "#d95f02")
+  legend("topright", c("Simulation", "Faustregel 2s"), col = c("#2166ac", "#d95f02"),
+         lty = c(1, 2), lwd = 2, bty = "n")
 }
 
 # Eine schrumpfende Population: Wildtyp (1 - r), Mutanten (1 + s)
@@ -137,26 +138,61 @@ zeige_linien(s = 0.1)   # hier s aendern
 # 3. Warum geht eine vorteilhafte Mutation ueberhaupt verloren?
 
 # ===========================================================================
-# 2 · Wie oft etabliert sie sich?
+# 2 · Ein Verzweigungsprozess, Schritt fuer Schritt
 # ===========================================================================
 #
-# schaetze_etablierung(s) simuliert 2000 neue Mutationen und gibt den Anteil zurueck, der sich etabliert (100 Kopien erreicht). Der Verzweigungsprozess aus der Vorlesung gibt im Spielzeugmodell 2s/(1+s), die Faustregel etwa 2s.
+# Jetzt bauen Sie den Verzweigungsprozess aus der Vorlesung selbst, mit dem Spielzeugmodell: Jede Kopie hat entweder keine oder zwei Nachkommen. Keine mit Wahrscheinlichkeit a = (1 - s)/2, sonst zwei. Im Mittel sind das 1 + s.
 
-schaetze_etablierung(s = 0.1)   # hier s aendern
-2 * 0.1                         # Faustregel
-2 * 0.1 / (1 + 0.1)             # Verzweigungsprozess, Spielzeugmodell
+# Schritt 1: eine Generation. Jede Kopie wirft eine Muenze. rbinom(1, n, 1 - a) zaehlt, wie viele von n Kopien zwei Nachkommen haben (wie in Woche 9). Mal 2 gibt die Kopien der naechsten Generation.
+
+s <- 0.1
+a <- (1 - s) / 2          # Chance auf keine Nachkommen
+n <- 1                    # eine Kopie
+2 * rbinom(1, n, 1 - a)   # Kopien in der naechsten Generation: 0 oder 2
+
+# Schritt 2: Generation fuer Generation. Dieselbe Zeile, solange (while) die Mutation weder verloren (0 Kopien) noch etabliert (100 Kopien) ist. verlauf merkt sich alle Zahlen.
+
+n <- 1                          # eine neue Mutation
+verlauf <- n
+while (n > 0 && n < 100) {      # solange nicht verloren und nicht etabliert
+  n <- 2 * rbinom(1, n, 1 - a)
+  verlauf <- c(verlauf, n)
+}
+verlauf
+length(verlauf) - 1             # wie viele Generationen?
+
+# Schritt 3: als Funktion, viele Male. Wir packen Schritt 2 in eine Funktion. Sie gibt 1 zurueck, wenn die Mutation sich etabliert, sonst 0. replicate startet viele neue Mutationen.
+
+eine_linie <- function(s) {
+  a <- (1 - s) / 2
+  n <- 1
+  while (n > 0 && n < 100) {
+    n <- 2 * rbinom(1, n, 1 - a)
+  }
+  as.numeric(n >= 100)   # 1 = etabliert, 0 = verloren
+}
+
+s <- 0.1                                  # hier s aendern
+ergebnisse <- replicate(3000, eine_linie(s))
+mean(ergebnisse)   # Anteil etabliert
+2 * s              # Faustregel 2s
+
+# Schritt 4: zuschauen, wie 2s auftaucht. zeige_anteil zeichnet den Anteil etablierter Mutationen nach 1, 2, 3, ... Laeufen. Die gestrichelte Linie ist 2s.
+
+zeige_anteil(ergebnisse, s)
 
 # Aufgabe B
-# Fuellen Sie die Tabelle aus:
+# 1. Fuehren Sie Schritt 1 zehnmal aus. Wie oft gibt es keine Nachkommen? Passt das zu a = 0.45?
+# 2. Fuehren Sie Schritt 2 mehrmals aus. Wie oft schafft es die Mutation? Wie viele Generationen dauert es, wenn sie verloren geht, und wenn sie es schafft?
+# 3. Aendern Sie in Schritt 3 nur s und fuellen Sie die Tabelle aus:
 #
-# | s | Simulation | 2s/(1+s) | Faustregel 2s |
-# |---|---|---|---|
-# | 0.02 |  |  |  |
-# | 0.05 |  |  |  |
-# | 0.1 |  |  |  |
-# | 0.2 |  |  |  |
-#
-# Wann passt die Faustregel gut, wann weniger? Warum liegt die Simulation naeher bei 2s/(1+s)?
+# | s | Simulation | Faustregel 2s |
+# |---|---|---|
+# | 0.02 |  |  |
+# | 0.05 |  |  |
+# | 0.1 |  |  |
+# | 0.2 |  |  |
+# 4. Schauen Sie sich Schritt 4 fuer s = 0.02 und s = 0.2 an. Wann passt 2s gut, wann liegt die Simulation darunter? Nach wie vielen Laeufen beruhigt sich die Kurve?
 
 # ===========================================================================
 # 3 · Ein Programm fuer Rettung
