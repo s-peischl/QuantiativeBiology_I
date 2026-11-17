@@ -214,7 +214,7 @@ Fasst zusammen, wie weit Allelfrequenzen **zwischen** Gruppen auseinanderliegen.
 Scans suchen ungewöhnlich grosse Abstände (Woche 1 Tibet; Woche 7 Modell). Die **Zahl schätzen und testen**: Statistikvorlesung.
 
 **Gene swamping**
-Zu viel Genfluss überschwemmt lokale Anpassung: oft geht das lokal günstige Allel verloren (besonders bei asymmetrie). Auch bei symmetrischer Mischung können $p_1$ und $p_2$ zusammenfallen — dann ist die Differenzierung weg, ohne dass Überdominanz im Spiel sein muss (Woche 7).
+Zu viel Genfluss überschwemmt lokale Anpassung: oft geht das lokal günstige Allel verloren (besonders bei asymmetrie). Auch bei symmetrischer Mischung können $p_1$ und $p_2$ zusammenfallen — dann ist die Differenzierung weg, ohne dass Überdominanz im Spiel sein muss (Woche 7). Bei der Rettung (Woche 10): Migranten tragen Mutanten in die Zuflucht, wo sie Kosten haben.
 
 ### Werkzeuge im Code (Wochen 5–8)
 
@@ -233,6 +233,8 @@ Ein Funktionsargument mit Vorgabewert: `function(p0, w, gen = 200)`. Der Aufruf 
 **Logisches Indizieren / `quantile()`**  
 Zeilen einer Tabelle über eine Bedingung auswählen: `d[d$fst > schwelle, ]`. Die Schwelle kommt oft aus der Verteilung selbst, z. B. `quantile(d$fst, 0.99)` — so entsteht aus einem Scan eine Liste auffälliger Loci (Woche 7).
 
+## Evolution und Zufall (Wochen 9–11)
+
 **Wright–Fisher-Modell**  
 Einfaches populationsgenetisches Modell für Allelfrequenzen über Generationen bei endlicher $N$. Haploid im Kurs: erst Selektion $p'$, dann $X\sim\mathrm{Binomial}(N,p')$, $p\leftarrow X/N$. Viele Replikate ergeben eine **Wolke**. Ab Woche 9 (Teich-Inversion).
 
@@ -246,7 +248,19 @@ $u$: Wahrscheinlichkeit, dass eine vorteilhafte Mutante, die mit **einer** Kopie
 Drei Wege zu einem rettenden Typ: die Mutation entsteht **jetzt** (de novo); das Allel war schon selten da (stehende Variation); es kommt von aussen (horizontaler Gentransfer). Im Kurs zuerst de novo.
 
 **Evolutionäre Rettung**  
-Eine Population schrumpft unter Stress. Sie wird gerettet, wenn ein angepasster Typ sich **etabliert, bevor** $N$ bei null ist. Gomulkiewicz & Holt (1995); Orr & Unckless (2014). Labor: Bell & Gonzalez (2009), Hefe unter Salz.
+Eine Population schrumpft unter Stress. Sie wird gerettet, wenn ein angepasster Typ sich **etabliert, bevor** $N$ bei null ist. Im Kurs in vier Schritten: $N_0/r$ Individuen bis zum Ende, mal $U$ Mutanten, mal $2s$ Etablierung, mindestens eine: $P \approx 1 - e^{-2N_0Us/r}$. Gomulkiewicz & Holt (1995); Orr & Unckless (2014). Labor: Bell & Gonzalez (2009), Hefe unter Salz; Ramsayer et al. (2013), *Pseudomonas* unter Antibiotikum (Woche 10).
+
+**U-Kurve**  
+Verlauf einer geretteten Population: Sie schrumpft zuerst, dann wächst sie wieder. Die Kurve ist eine Summe: Empfindliche sterben, Resistente wachsen (Woche 10).
+
+**Zuflucht (Refugium)**  
+Ein Ort, der erst später schlecht wird. Genfluss aus der Zuflucht kann Rettung erleichtern (mehr Individuen, mehr Mutationen), zu viel Genfluss schadet (*gene swamping*). Zwei-Orte-Modell: Tomasini & Peischl (2020), Woche 10.
+
+**`rpois` / Poisson-Zahl**  
+`rpois(1, mittel)` zieht eine zufällige ganze Zahl mit Mittelwert `mittel`, z. B. die Zahl der Nachkommen einer Gruppe. Bei kleinem Mittelwert ist oft 0 dabei: So geht eine neue Mutation verloren (Woche 10).
+
+**Simulation in fünf Schritten**  
+Zustand festlegen, eine Generation mit Zufallszahlen rechnen, Schleife über Generationen, Abbruch (ausgestorben oder gerettet), viele Wiederholungen (`replicate`) und den Anteil zählen. So schätzt man eine Wahrscheinlichkeit (Woche 10).
 
 ## Gemeinschaften und Reproduzierbarkeit (Wochen 12–14)
 

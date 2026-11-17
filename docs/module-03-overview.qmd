@@ -11,9 +11,9 @@ format:
 **Eine Seite Überblick** · Quantitative Biologie I · HS 2026
 
 ::: {.callout-note}
-## Woche 9 ist online
+## Wochen 9 und 10 sind online
 
-Wochen 10 und 11 erscheinen hier, sobald sie frei gegeben sind.
+Woche 11 erscheint hier, sobald sie frei gegeben ist.
 :::
 
 ## Was ist Modul 3?
@@ -28,10 +28,12 @@ gibt die **Erwartung**, eine Binomial-Ziehung streut um sie herum. Eine
 Teich 7 liegt deutlich darüber, Teich 2 und 14 knapp. Eine Wolke mit
 $s>0$ passt zu allen — konsistent, kein Beweis.
 
-Woche 10: warum der Start bei $p=0.5$ (Heterozygote, viele Kopien)?
-Eine seltene vorteilhafte Variante stirbt oft. Das ist $u$, oft
-$u\approx 2s$. Schrumpft danach $N$, muss sich die Variante
-**etablieren, bevor** $N=0$ ist — **evolutionäre Rettung**.
+Woche 10: Eine **neue** Mutation startet mit einer Kopie und geht oft
+verloren; sie etabliert sich nur mit etwa $2s$. Schrumpft eine
+Population unter Stress, muss sich eine resistente Mutante **etablieren,
+bevor** $N=0$ ist — **evolutionäre Rettung**. Die Theorie in vier
+Schritten, ein kleines Programm, fünf Vorhersagen und ihre Tests im
+Labor (Bakterien, Hefe), dazu zwei Orte mit Migration.
 
 Das **Beispiel** kommt zuerst. Mathematik erklärt, *warum* dieselben
 Parameter verschiedene Bahnen oder Aussterben *oder* Überleben bedeuten.
@@ -40,7 +42,7 @@ Ableiten und Tests: andere Vorlesungen.
 | Woche | Datum | Thema | Fokus |
 |------:|------|--------|--------|
 | **9** | 12. Nov. | Zufall · Notwendigkeit | Teich · Erwartung und Zufall · `rbinom` · neutrale Wolke · Echsen mit endlichem $N$ |
-| **10** | 19. Nov. | Resistenz · Rettung | $p=1/N$ · $\hat u\approx 2s$ · Orr–Unckless |
+| **10** | 19. Nov. | Mutation · Rettung | eine Kopie · $u\approx 2s$ · $P \approx 1 - e^{-2N_0Us/r}$ · Simulation · zwei Orte |
 | **11** | 26. Nov. | Wolke · Fortbestand | **Checkpoint C** |
 
 Details: [Glossar](glossary.qmd).
@@ -52,6 +54,7 @@ Details: [Glossar](glossary.qmd).
 - Sagen, ob Daten in eine neutrale Wolke passen
 - Die Etablierungswahrscheinlichkeit $\hat u$ aus Replikaten schätzen
 - Rettung als Etablierung **vor** $N=0$ erkennen
+- Rettung als kleines Programm simulieren und mit der Formel vergleichen
 - Eine biologische Frage in **eine** Abbildung übersetzen (Checkpoint C)
 
 ## Checkpoint C (Woche 11) — Präsenzpflicht
@@ -75,7 +78,7 @@ Thema: Rettung unter Antibiotikum bei Wildtyp und Mutator. Erst den Wildtyp anpa
 | Woche | Folien | PDF | Notebook |
 |------:|--------|-----|----------|
 | 9 | [Folien](../weeks/week-09/slides.qmd) | [PDF](../weeks/week-09/slides.pdf) | [Notebook](../weeks/week-09/notebook.qmd) · [Rmd](../weeks/week-09/notebook.Rmd) · [R](../weeks/week-09/notebook.R) |
-| 10 | folgt | folgt | folgt |
+| 10 | [Folien](../weeks/week-10/slides.qmd) | [PDF](../weeks/week-10/slides.pdf) | [Notebook](../weeks/week-10/notebook.qmd) · [Rmd](../weeks/week-10/notebook.Rmd) · [R](../weeks/week-10/notebook.R) |
 | 11 | folgt | folgt | folgt |
 
 Zurück: [Start](../index.qmd) · [Modul 2](module-02-overview.qmd) · [Modul 4](module-04-overview.qmd) · [Kursinfo (PDF)](kursinfo.pdf)

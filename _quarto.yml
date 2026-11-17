@@ -20,6 +20,8 @@ project:
     - weeks/week-08/notebook.R
     - weeks/week-09/notebook.Rmd
     - weeks/week-09/notebook.R
+    - weeks/week-10/notebook.Rmd
+    - weeks/week-10/notebook.R
   render:
     - index.qmd
     - docs/module-01-overview.qmd
@@ -47,6 +49,8 @@ project:
     - weeks/week-08/notebook.qmd
     - weeks/week-09/slides.qmd
     - weeks/week-09/notebook.qmd
+    - weeks/week-10/slides.qmd
+    - weeks/week-10/notebook.qmd
 
 lang: de
 
@@ -80,6 +84,8 @@ website:
             text: "Woche 8"
           - href: weeks/week-09/slides.qmd
             text: "Woche 9"
+          - href: weeks/week-10/slides.qmd
+            text: "Woche 10"
       - text: Notebooks
         menu:
           - href: weeks/week-02/notebook.qmd
@@ -98,6 +104,8 @@ website:
             text: "Woche 8 · Checkpoint B"
           - href: weeks/week-09/notebook.qmd
             text: "Woche 9"
+          - href: weeks/week-10/notebook.qmd
+            text: "Woche 10"
 
 # Do NOT set project-level format: html here.
 # That overrides slide decks. HTML pages declare format in their own YAML;
