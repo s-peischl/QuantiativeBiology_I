@@ -200,3 +200,5 @@ Aus Originalartikeln (Open Access, über PMC heruntergeladen, zugeschnitten):
 |---|---|---|---|
 | `ramsayer2013_fig1_ausschnitt.jpg` | Ramsayer, Kaltz & Hochberg (2013), *Evol. Appl.* 6: 608–616, Fig. 1 (PMC3684742, `eva0006-0608-f1.jpg`); Ausschnitt: Kopfzeile, Zeilen 50 und 100 µg/mL, Zeitachse | die Autoren | CC BY 3.0 |
 | `ramsayer2013_fig3a.jpg` | dieselbe Arbeit, Fig. 3, nur Feld A (`eva0006-0608-f3.jpg`) | die Autoren | CC BY 3.0 |
+| `bosshard2017_fig1bc.jpg` | Bosshard et al. (2017), *Genetics* 207: 669–684, Fig. 1, nur Teile B und C (PMC5629331, `669fig1.jpg`) | die Autoren (S. Peischl Mitautor) | frei online (author-supported open access), keine CC-Lizenz angegeben |
+| `bosshard2017_fig3.jpg` | dieselbe Arbeit, Fig. 3 (`669fig3.jpg`) | die Autoren (S. Peischl Mitautor) | frei online (author-supported open access), keine CC-Lizenz angegeben |

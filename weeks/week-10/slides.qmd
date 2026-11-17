@@ -517,6 +517,23 @@ ggplot() +
 
 Die Simulation aus «Eine Kopie, zwanzig Mal» trifft die Rechnung. Bei $s = 0.1$ gehen rund **80 %** der neuen Mutationen verloren.
 
+## Wenn der Zufall gewinnt: Expansionslast
+
+:::: columns
+::: {.column width="42%"}
+![](../../pics/rescue/bosshard2017_fig1bc.jpg){fig-alt="Versuchsaufbau: Kolonie wächst 72 Stunden auf Agar, Zellen von der Front werden auf eine neue Platte gesetzt; aneinandergereiht ergibt das eine lange Ausbreitung" style="max-height:330px"}
+:::
+::: {.column width="58%"}
+![](../../pics/rescue/bosshard2017_fig3.jpg){fig-alt="Koloniegrösse über 39 Tage: blaue Linien mit hoher Mutationsrate fallen, orange Linien mit niedriger Mutationsrate bleiben gleich" style="max-height:330px"}
+:::
+::::
+
+An der Front gründen **wenige** Zellen den nächsten Rand: Der Zufall ist stark, auch **schädliche** Mutationen setzen sich durch. *E. coli*, 1650 Generationen: viele Mutationen (blau), Kolonien werden **kleiner**; wenige (orange), kaum.
+
+::: aside
+Bosshard et al. (2017), *Genetics* 207: 669–684, Fig. 1 B–C und Fig. 3 · Theorie: Peischl et al. (2013), *Mol. Ecol.*
+:::
+
 ## Ein aktives Forschungsfeld
 
 Setzt sich eine neue Mutation durch? Die Frage beschäftigt die Populationsgenetik seit rund 100 Jahren.
@@ -1095,6 +1112,7 @@ Modelle: Haldane (1927); Gomulkiewicz & Holt (1995); Orr & Unckless (2008, 2014)
 1. **Bell, G. (2013).** Evolutionary rescue and the limits of adaptation. *Phil. Trans. R. Soc. B* 368: 20120080. [doi:10.1098/rstb.2012.0080](https://doi.org/10.1098/rstb.2012.0080)
 1. **Bell, G. & Gonzalez, A. (2009).** Evolutionary rescue can prevent extinction following environmental change. *Ecology Letters* 12: 942–948. [doi:10.1111/j.1461-0248.2009.01350.x](https://doi.org/10.1111/j.1461-0248.2009.01350.x)
 1. **Bell, G. & Gonzalez, A. (2011).** Adaptation and evolutionary rescue in metapopulations experiencing environmental deterioration. *Science* 332: 1327–1330. [doi:10.1126/science.1203105](https://doi.org/10.1126/science.1203105)
+1. **Bosshard, L., Dupanloup, I., Tenaillon, O., Bruggmann, R., Ackermann, M., Peischl, S. & Excoffier, L. (2017).** Accumulation of deleterious mutations during bacterial range expansions. *Genetics* 207: 669–684. [doi:10.1534/genetics.117.300144](https://doi.org/10.1534/genetics.117.300144)
 1. **Epstein, B., et al. (2016).** Rapid evolutionary response to a transmissible cancer in Tasmanian devils. *Nature Communications* 7: 12684. [doi:10.1038/ncomms12684](https://doi.org/10.1038/ncomms12684)
 1. **Gomulkiewicz, R. & Holt, R. D. (1995).** When does evolution by natural selection prevent extinction? *Evolution* 49: 201–207. [doi:10.1111/j.1558-5646.1995.tb05971.x](https://doi.org/10.1111/j.1558-5646.1995.tb05971.x)
 1. **Haldane, J. B. S. (1927).** A mathematical theory of natural and artificial selection, Part V. *Proc. Camb. Philos. Soc.* 23: 838–844.
