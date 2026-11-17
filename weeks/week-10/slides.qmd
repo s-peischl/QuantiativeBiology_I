@@ -83,8 +83,8 @@ col_theo <- "#d95f02"   # Theorie
 
 | Teil | Dauer | Was |
 |------|-------|-----|
-| Vorlesung | ~55 min | gerettet oder ausgestorben? · die Theorie in vier Schritten · ein Programm · fünf Vorhersagen und ihre Tests · zwei Orte · ein offener Fall |
-| Notebook | ~35 min | Schicksal einer Kopie · ein Programm für Rettung · viele Läufe · Bonus: Elefanten, zwei Orte |
+| Vorlesung | ~55 min | Verzweigungsprozess · Rettung in vier Schritten · ein Programm · Tests · zwei Orte |
+| Notebook | ~35 min | eine Kopie · rechnen statt simulieren · Programm · Bonus: zwei Orte |
 
 ::: aside
 Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
@@ -95,11 +95,11 @@ Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 Nach heute können Sie …
 
 1. erklären, was **evolutionäre Rettung** ist (U-Kurve),
-2. sagen, warum eine neue Mutation meist **verloren** geht (etwa $2s$),
+2. mit einem **Verzweigungsprozess** herleiten, warum sich eine neue Mutation nur mit etwa $2s$ etabliert,
 3. die Chance auf Rettung in **vier Schritten** herleiten,
 4. Rettung als **kleines Programm** simulieren,
 5. **Vorhersagen** der Theorie mit Experimenten vergleichen,
-6. stehende Variation, neue Mutation und **Migration** einordnen.
+6. stehende Variation und **Migration** einordnen.
 
 # Gerettet oder ausgestorben?
 
@@ -235,7 +235,7 @@ Skizze. Die U-Kurve als Zeichen von Rettung: Gomulkiewicz & Holt (1995)
 
 Heute: eine einfache Theorie, fünf Vorhersagen, und Experimente, die sie prüfen.
 
-# Die Theorie in vier Schritten
+# Eine Kopie: Glück oder Pech?
 
 ## Zuerst: eine einzige Kopie
 
@@ -268,7 +268,153 @@ ggplot(linien, aes(generation, n, group = id, colour = ausgang)) +
 
 Im Mittel 1.1 Nachkommen pro Kopie, und trotzdem sind die meisten bald **weg**. Selektion wirkt im Mittel, bei einer Kopie zählt **Glück**.
 
-## Die Lotterie: etwa $2s$
+## Ein Stammbaum aus Zufall
+
+```{r}
+#| fig-height: 3.3
+#| fig-width: 9
+#| out-width: 94%
+kn <- data.frame(id = c("o", "a", "b", "b1", "b2", "c1", "c2", "d1", "d2"),
+                 g = c(0, 1, 1, 2, 2, 3, 3, 4, 4),
+                 x = c(0, -2, 2, 1, 3, 0.4, 1.6, 1.1, 2.1),
+                 lebt = c(TRUE, FALSE, TRUE, TRUE, FALSE, FALSE, TRUE, TRUE, TRUE))
+ka <- data.frame(von = c("o", "o", "b", "b", "b1", "b1", "c2", "c2"),
+                 zu  = c("a", "b", "b1", "b2", "c1", "c2", "d1", "d2"))
+ka$x <- kn$x[match(ka$von, kn$id)]; ka$y <- -kn$g[match(ka$von, kn$id)]
+ka$xend <- kn$x[match(ka$zu, kn$id)]; ka$yend <- -kn$g[match(ka$zu, kn$id)]
+ende <- kn[!kn$lebt, ]
+ggplot() +
+  geom_segment(data = ka, aes(x, y, xend = xend, yend = yend), colour = "grey45", linewidth = 0.9) +
+  geom_point(data = kn, aes(x, -g, fill = lebt), shape = 21, size = 7, colour = "grey30") +
+  geom_text(data = ende, aes(x, -g - 0.42), label = "keine Nachkommen", size = 3.8, colour = col_empf) +
+  scale_fill_manual(values = c("TRUE" = col_res, "FALSE" = "white"), guide = "none") +
+  scale_y_continuous(breaks = -(0:4), labels = paste("Generation", 0:4)) +
+  coord_cartesian(xlim = c(-3, 4), ylim = c(-4.6, 0.3)) +
+  theme_void(base_size = 14) + theme(axis.text.y = element_text(hjust = 1))
+```
+
+Jede Kopie hat zufällig 0, 1, 2, … Nachkommen. Jede Tochter beginnt ihren **eigenen** Stammbaum: dasselbe Spiel, eine Generation später. Das heisst **Verzweigungsprozess**.
+
+::: aside
+Skizze. Galton & Watson (1875) fragten so, warum Familiennamen aussterben.
+:::
+
+## Ein Spielzeugmodell
+
+Jede Kopie hat entweder **keine** oder **zwei** Nachkommen:
+
+| Nachkommen | Wahrscheinlichkeit | bei $s = 0.1$ |
+|---|---|---|
+| 0 | $a$ | 0.45 |
+| 2 | $1 - a$ | 0.55 |
+
+Im Mittel $2(1 - a)$ Nachkommen. Das soll $1 + s$ sein, also
+
+$$
+a = \frac{1 - s}{2}.
+$$
+
+Bei $s = 0.1$: 45 % der Kopien haben **gar keine** Nachkommen, obwohl die Mutation im Vorteil ist.
+
+## Die Idee: dasselbe Spiel noch einmal
+
+Sei $q$ die Wahrscheinlichkeit, dass die Linie einer Kopie **irgendwann ausstirbt**.
+
+Schauen wir nur auf die **erste** Generation:
+
+- Mit Wahrscheinlichkeit $a$: keine Nachkommen. Die Linie ist sofort weg.
+- Mit Wahrscheinlichkeit $1 - a$: zwei Töchter. Jede startet dasselbe Spiel, stirbt also mit Wahrscheinlichkeit $q$ aus. **Beide** sterben aus: $q \cdot q$.
+
+$$
+q = a + (1 - a)\, q^2
+$$
+
+Eine Gleichung, in der $q$ auf beiden Seiten steht. Der Trick: Die Tochter-Linien sind **gleich** wie die Mutter-Linie.
+
+## Die Gleichung lösen
+
+$$
+(1 - a)\, q^2 - q + a = 0
+$$
+
+$q = 1$ ist immer eine Lösung (einsetzen: $1 - a - 1 + a = 0$). Die zweite Lösung:
+
+$$
+q = \frac{a}{1 - a} = \frac{1 - s}{1 + s}
+\qquad\Rightarrow\qquad
+u = 1 - q = \frac{2s}{1 + s} \approx 2s
+$$
+
+| $s$ | 0.01 | 0.1 | 0.2 |
+|---|---|---|---|
+| $u = 2s/(1+s)$ | 0.0198 | 0.182 | 0.333 |
+| Faustregel $2s$ | 0.02 | 0.2 | 0.4 |
+
+Aber welche Lösung gilt, $q = 1$ oder $q = (1-s)/(1+s)$?
+
+## Welche Lösung? Iterieren wie in Woche 2
+
+$q_t$ = Wahrscheinlichkeit, dass die Linie **bis Generation $t$** ausgestorben ist. Am Anfang lebt sie: $q_0 = 0$.
+
+::::: columns
+::: {.column width="48%"}
+```{r}
+#| echo: true
+#| eval: false
+s <- 0.1
+a <- (1 - s) / 2
+q <- 0
+for (t in 1:100) {
+  q <- a + (1 - a) * q^2
+}
+1 - q   # 0.182
+```
+:::
+::: {.column width="52%"}
+```{r}
+#| fig-height: 3.6
+#| fig-width: 5
+#| out-width: 100%
+it <- do.call(rbind, lapply(c(0, 0.1, 0.2), function(s) {
+  a <- (1 - s) / 2; q <- numeric(61)
+  for (t in 1:60) q[t + 1] <- a + (1 - a) * q[t]^2
+  data.frame(t = 0:60, q = q, s = paste("s =", s))
+}))
+ggplot(it, aes(t, q, colour = s)) +
+  geom_line(linewidth = 1.2) +
+  scale_colour_manual(values = c("grey40", col_res, col_empf), name = NULL) +
+  coord_cartesian(ylim = c(0, 1)) +
+  labs(x = "Generation t", y = "bis dahin ausgestorben") +
+  theme_slide()
+```
+:::
+:::::
+
+Mit $s > 0$ bleibt $q_t$ **unter 1** stehen: Der Rest etabliert sich. Mit $s = 0$ geht $q_t$ langsam gegen 1: Eine **neutrale** neue Mutation geht am Ende immer verloren.
+
+## Mit echten Nachkommenzahlen
+
+In der Simulation ist die Zahl der Nachkommen **Poisson**-verteilt (`rpois`), nicht 0 oder 2. Dieselbe Idee, nur eine andere Gleichung:
+
+$$
+q = e^{-(1+s)(1-q)}
+$$
+
+Sie lässt sich nicht von Hand lösen, aber genauso **iterieren**.
+
+| $s$ | 0.01 | 0.05 | 0.1 | 0.2 |
+|---|---|---|---|---|
+| Poisson (iteriert) | 0.020 | 0.094 | 0.176 | 0.314 |
+| Spielzeug $2s/(1+s)$ | 0.020 | 0.095 | 0.182 | 0.333 |
+| Faustregel $2s$ | 0.02 | 0.10 | 0.20 | 0.40 |
+
+Die Details der Nachkommen ändern wenig: Für kleines $s$ ist $u \approx 2s$.
+
+::: aside
+Haldane (1927). Allgemein: $u \approx 2s/\sigma^2$, mit $\sigma^2$ der Varianz der Nachkommenzahl (hier etwa 1)
+:::
+
+## Theorie und Simulation
 
 ```{r}
 #| fig-height: 3.4
@@ -287,28 +433,9 @@ ggplot() +
   theme_slide()
 ```
 
-Eine neue vorteilhafte Mutation **etabliert** sich mit Wahrscheinlichkeit **etwa $2s$** (Haldane 1927). Bei $s = 0.1$ gehen rund 80 % verloren.
+Die Simulation aus «Eine Kopie, zwanzig Mal» trifft die Rechnung. Bei $s = 0.1$ gehen rund **80 %** der neuen Mutationen verloren.
 
-## Woher kommt $2s$?
-
-Eine Linie geht verloren, wenn **alle** ihre Nachkommen-Linien verloren gehen. Daraus folgt eine Gleichung für die Chance $u$, dass sie sich etabliert:
-
-$$
-u = 1 - e^{-(1+s)\,u}
-$$
-
-| $s$ | genau (Gleichung) | Faustregel $2s$ |
-|---|---|---|
-| 0.01 | 0.020 | 0.02 |
-| 0.05 | 0.094 | 0.10 |
-| 0.1 | 0.176 | 0.20 |
-| 0.2 | 0.314 | 0.40 |
-
-Für kleines $s$ ist $u \approx 2s$. Für grosses $s$ ist $2s$ etwas zu optimistisch.
-
-::: aside
-Gilt, wenn die Zahl der Nachkommen Poisson-verteilt ist (wie in unserer Simulation). Haldane (1927)
-:::
+# Rettung in vier Schritten
 
 ## Das Modell
 
@@ -577,7 +704,7 @@ Die Formel trifft die Simulation. Rettung kippt in einem engen Bereich von «fas
 |---|---|---|
 | 1 | Rettung zeigt sich als **U-Kurve**, und es gibt eine **Schwelle** in $N_0$ | Hefe unter Salz |
 | 2 | **Grössere** Populationen werden öfter gerettet | *Pseudomonas*, kleine und grosse Röhrchen |
-| 3 | Mehr **Variation** am Start, mehr Rettung | *Pseudomonas*, klonal oder vielfältig · Elefanten |
+| 3 | Mehr **Variation** am Start, mehr Rettung | *Pseudomonas*, klonal oder vielfältig |
 | 4 | **Langsamer** Wandel rettet öfter als plötzlicher | *E. coli*, steigende Dosis |
 | 5 | **Genfluss** aus einer Zuflucht hilft, aber nicht zu viel | Hefe-Metapopulationen · Zwei-Orte-Modell |
 
@@ -656,98 +783,7 @@ Ramsayer et al. (2013), Experiment 1, nach 53 Stunden, je 10 Populationen pro Do
 | Warten | bis sie entsteht | keines |
 | Tempo | langsam | **schnell** |
 
-Ein Beispiel aus der Natur: Elefanten in Mosambik.
-
-## Gorongosa, Mosambik
-
-:::: columns
-::: {.column width="56%"}
-- Bürgerkrieg **1977 bis 1992**.
-- Wilderei für **Elfenbein**: von über **2500** Elefanten bleiben etwa **200**.
-- Gejagt werden Tiere **mit** Stosszähnen.
-:::
-::: {.column width="44%"}
-![](../../pics/rescue/elefant_gorongosa_usaid.jpg){fig-alt="Elefant mit kurzen Stosszähnen in Gorongosa" height="165px"}
-
-![](../../pics/rescue/elefant_gorongosa_flickr.jpg){fig-alt="Elefant in Gorongosa, keine Stosszähne zu sehen" height="165px"}
-:::
-::::
-
-::: aside
-Campbell-Staton et al. (2021), *Science* 374: 483–487 · Fotos aus Gorongosa: oben mit Stosszähnen (USAID, gemeinfrei), unten keine zu sehen (Judy Gallagher, Flickr, CC BY 2.0)
-:::
-
-## Weibchen ohne Stosszähne
-
-```{r}
-#| fig-height: 3.2
-#| fig-width: 7.5
-#| out-width: 75%
-ele <- data.frame(
-  wann = factor(c("vor dem Krieg\n(n = 52)", "nach dem Krieg\n(n = 108)", "Töchter, nach dem\nKrieg geboren"),
-                levels = c("vor dem Krieg\n(n = 52)", "nach dem Krieg\n(n = 108)", "Töchter, nach dem\nKrieg geboren")),
-  anteil = c(0.185, 0.509, 0.33))
-ggplot(ele, aes(wann, anteil)) +
-  geom_col(fill = "#a04000", width = 0.6) +
-  geom_text(aes(label = paste0(round(100 * anteil, 1), " %")), vjust = -0.4, size = 5) +
-  scale_y_continuous(limits = c(0, 0.62), labels = function(x) paste0(100 * x, " %")) +
-  labs(x = NULL, y = "Anteil ohne Stosszähne") +
-  theme_slide()
-```
-
-Die Variante war **schon da**: 18.5 % der Weibchen. Nach dem Krieg ist es **die Hälfte**.
-
-::: aside
-Weibchen im Gorongosa-Nationalpark. Campbell-Staton et al. (2021)
-:::
-
-## Wilderei als Filter
-
-```{r}
-#| fig-height: 3.4
-#| fig-width: 9
-#| out-width: 92%
-set.seed(5)
-vorher <- data.frame(id = 1:100, x = (0:99) %% 10, y = (0:99) %/% 10,
-                     typ = c(rep("ohne Stosszähne", 18), rep("mit Stosszähnen", 82)))
-vorher$typ <- sample(vorher$typ)
-ueberlebt <- c(sample(which(vorher$typ == "ohne Stosszähne"), 9),
-               sample(which(vorher$typ == "mit Stosszähnen"), 8))
-vorher$zeit <- "vor dem Krieg: 100 Weibchen"
-nachher <- vorher; nachher$zeit <- "nach dem Krieg: 17 überleben"
-nachher$typ[-ueberlebt] <- "getötet"
-el <- rbind(vorher, nachher)
-el$zeit <- factor(el$zeit, levels = unique(el$zeit))
-ggplot(el, aes(x, -y, colour = typ, shape = typ)) +
-  geom_point(size = 4.2, stroke = 1.2) +
-  scale_colour_manual(values = c("ohne Stosszähne" = "#a04000", "mit Stosszähnen" = "#95a5a6", "getötet" = "#d5d8dc"), name = NULL) +
-  scale_shape_manual(values = c("ohne Stosszähne" = 16, "mit Stosszähnen" = 16, "getötet" = 4), name = NULL) +
-  facet_wrap(~ zeit) + coord_equal() +
-  theme_void(base_size = 15) + theme(legend.position = "bottom")
-```
-
-Wilderer töten Tiere **mit** Stosszähnen viel öfter. Von 17 Überlebenden haben 9 keine.
-
-::: aside
-Skizze mit gerundeten Zahlen: Überleben 50 % ohne, 10 % mit Stosszähnen (fünfmal so oft)
-:::
-
-## Ein Selektionsschritt reicht
-
-Die Autoren schätzen: Weibchen ohne Stosszähne überlebten etwa **fünfmal** so oft. Mit Woche 6 ($p' = p\,w/\bar w$):
-
-$$
-p' = \frac{5 \cdot 0.185}{5 \cdot 0.185 + 0.815} \approx 0.53
-$$
-
-Beobachtet: 0.509. **Ein** Schritt, innerhalb **einer** Elefantengeneration.
-
-- Keine Rettung im engen Sinn: Die Elefanten erholten sich vor allem, weil die Wilderei endete.
-- Die Variante hat einen **Preis**: vermutlich ein dominantes Allel auf dem X-Chromosom. Männchen mit dem Allel sterben wohl vor der Geburt; Nachkommen stosszahnloser Mütter sind zu 65.7 % weiblich.
-
-::: aside
-Campbell-Staton et al. (2021). Kandidatengene: AMELX und MEP1a
-:::
+Darum hilft Vielfalt am Start: Resistente müssen nicht erst entstehen und die Lotterie gewinnen.
 
 ## 4 · Tempo: *E. coli* unter steigender Dosis
 
@@ -951,57 +987,6 @@ Skizze des Versuchsplans, Werte erfunden. Bell & Gonzalez (2011), *Science* 332:
 - **Quantitativ:** Martin et al. (2013) passen die Formel an Hefe- und *Pseudomonas*-Daten an und schätzen daraus, wie viele Rettungen pro Zelle entstehen.
 - **Offen:** Wie gut sagt die Theorie Rettung in der **Natur** voraus, bei kleinen, langlebigen Arten?
 
-# Ein offener Fall: Tasmanische Teufel
-
-## Ein ansteckender Krebs
-
-:::: columns
-::: {.column width="45%"}
-![](../../pics/rescue/dftd_tumor.jpg){fig-alt="Tasmanischer Teufel mit Gesichtstumor"}
-:::
-::: {.column width="55%"}
-- 1996 wird ein **Gesichtstumor** entdeckt (DFTD). Die Krebszellen selbst werden durch **Bisse** übertragen.
-- Fast immer tödlich.
-- In weniger als 20 Jahren über **80 %** weniger Teufel. Modelle sagten das **Aussterben** voraus.
-
-Doch wo die Krankheit am längsten ist, gibt es noch Teufel.
-:::
-::::
-
-::: aside
-Epstein et al. (2016), *Nature Communications* 7: 12684 · Foto: Menna Jones, Wikimedia Commons, CC BY 2.5
-:::
-
-## Evolution in vier bis sechs Generationen
-
-:::: columns
-::: {.column width="60%"}
-Erbgut von 294 Teufeln aus drei Gebieten, **vor** und **nach** Ankunft der Krankheit:
-
-- Überall ändern sich dieselben **zwei** Regionen im Genom, mit Genen für **Immunsystem** und **Krebsrisiko**.
-- Geschätzter Vorteil: 16 bis 38 %, sehr unsicher.
-- In **4 bis 6** Generationen (je etwa 2 Jahre).
-:::
-::: {.column width="40%"}
-![](../../pics/rescue/dftd_karte.jpg){fig-alt="Karte Tasmaniens mit der Ausbreitungsfront der Krankheit und den drei Probengebieten"}
-:::
-::::
-
-::: aside
-Epstein et al. (2016). Karte: Ausbreitung ab 1996, Probengebiete mit Jahr der Ankunft (Fig. 1, CC BY 4.0)
-:::
-
-## Was sagt die Theorie?
-
-| Zutat | Teufel | für Rettung |
-|---|---|---|
-| Rückgang $r$ | stark | schlecht |
-| Startgrösse $N_0$ | klein, und sie wird kleiner | schlecht |
-| Variation | Varianten in Immungenen, **schon vorhanden** | gut |
-| Vorteil $s$ | geschätzt 0.16 bis 0.38 | gut |
-
-Ob es reicht, ist **offen**. Die Autoren schreiben vorsichtig: Die Teufel entwickeln *möglicherweise* Resistenz.
-
 # Abschluss
 
 ## Was das bedeutet
@@ -1010,9 +995,11 @@ Ob es reicht, ist **offen**. Die Autoren schreiben vorsichtig: Die Teufel entwic
 
 **Naturschutz:** kleines $N_0$, langsame Generationen. Evolution ist meist **zu langsam**. Die Theorie sagt: Was den Rückgang bremst oder Genfluss bringt, gibt ihr mehr Zeit.
 
+**Tasmanische Teufel:** Varianten in Immungenen sind da und werden häufiger, aber die Population ist klein und schrumpft. Ob es reicht, ist **offen** (Epstein et al. 2016).
+
 ## Take-home
 
-1. Eine neue Mutation etabliert sich nur mit etwa $2s$.
+1. Verzweigungsprozess: Eine neue Mutation etabliert sich nur mit $u = 2s/(1+s) \approx 2s$.
 2. Rettung ist ein **Wettlauf** gegen das Aussterben.
 3. $N_0/r$ Chancen, mal $U$, mal $2s$, mindestens eine: $P \approx 1 - e^{-2N_0Us/r}$.
 4. Simulieren: Zustand, eine Generation, Schleife, Abbruch, viele Wiederholungen.
@@ -1023,10 +1010,10 @@ Ob es reicht, ist **offen**. Die Autoren schreiben vorsichtig: Die Teufel entwic
 
 **→ [Notebook Woche 10 öffnen](notebook.html)** · [Rmd](notebook.Rmd) · [R](notebook.R)
 
-1. Einzelne Mutationen verfolgen und die Etablierung schätzen
+1. Einzelne Mutationen verfolgen, die Etablierung schätzen und **ausrechnen**
 2. **Das Programm** für Rettung selbst laufen lassen, Zeile für Zeile
 3. Viele Läufe: Rettung für verschiedene $N_0$ und $r$, Vergleich mit der Formel
-4. Bonus: Elefanten; Rettung mit zwei Orten
+4. Bonus: Rettung mit zwei Orten
 
 ## Ausblick · Woche 11
 
@@ -1039,7 +1026,6 @@ Ob es reicht, ist **offen**. Die Autoren schreiben vorsichtig: Die Teufel entwic
 1. **Bell, G. (2013).** Evolutionary rescue and the limits of adaptation. *Phil. Trans. R. Soc. B* 368: 20120080. [doi:10.1098/rstb.2012.0080](https://doi.org/10.1098/rstb.2012.0080)
 1. **Bell, G. & Gonzalez, A. (2009).** Evolutionary rescue can prevent extinction following environmental change. *Ecology Letters* 12: 942–948. [doi:10.1111/j.1461-0248.2009.01350.x](https://doi.org/10.1111/j.1461-0248.2009.01350.x)
 1. **Bell, G. & Gonzalez, A. (2011).** Adaptation and evolutionary rescue in metapopulations experiencing environmental deterioration. *Science* 332: 1327–1330. [doi:10.1126/science.1203105](https://doi.org/10.1126/science.1203105)
-1. **Campbell-Staton, S. C., et al. (2021).** Ivory poaching and the rapid evolution of tusklessness in African elephants. *Science* 374: 483–487. [doi:10.1126/science.abe7389](https://doi.org/10.1126/science.abe7389)
 1. **Epstein, B., et al. (2016).** Rapid evolutionary response to a transmissible cancer in Tasmanian devils. *Nature Communications* 7: 12684. [doi:10.1038/ncomms12684](https://doi.org/10.1038/ncomms12684)
 1. **Gomulkiewicz, R. & Holt, R. D. (1995).** When does evolution by natural selection prevent extinction? *Evolution* 49: 201–207. [doi:10.1111/j.1558-5646.1995.tb05971.x](https://doi.org/10.1111/j.1558-5646.1995.tb05971.x)
 1. **Haldane, J. B. S. (1927).** A mathematical theory of natural and artificial selection, Part V. *Proc. Camb. Philos. Soc.* 23: 838–844.
@@ -1050,6 +1036,7 @@ Ob es reicht, ist **offen**. Die Autoren schreiben vorsichtig: Die Teufel entwic
 1. **Ramsayer, J., Kaltz, O. & Hochberg, M. E. (2013).** Evolutionary rescue in populations of *Pseudomonas fluorescens* across an antibiotic gradient. *Evolutionary Applications* 6: 608–616. [doi:10.1111/eva.12046](https://doi.org/10.1111/eva.12046)
 1. **Tomasini, M. & Peischl, S. (2020).** When does gene flow facilitate evolutionary rescue? *Evolution* 74: 1640–1653. [doi:10.1111/evo.14038](https://doi.org/10.1111/evo.14038)
 1. **Uecker, H., Otto, S. P. & Hermisson, J. (2014).** Evolutionary rescue in structured populations. *American Naturalist* 183: E17–E35. [doi:10.1086/673914](https://doi.org/10.1086/673914)
+1. **Watson, H. W. & Galton, F. (1875).** On the probability of the extinction of families. *J. Anthropol. Inst.* 4: 138–144. [doi:10.2307/2841222](https://doi.org/10.2307/2841222)
 ::::
 
 ## Navigation

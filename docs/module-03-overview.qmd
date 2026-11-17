@@ -31,9 +31,10 @@ $s>0$ passt zu allen — konsistent, kein Beweis.
 Woche 10: Eine **neue** Mutation startet mit einer Kopie und geht oft
 verloren; sie etabliert sich nur mit etwa $2s$. Schrumpft eine
 Population unter Stress, muss sich eine resistente Mutante **etablieren,
-bevor** $N=0$ ist — **evolutionäre Rettung**. Die Theorie in vier
-Schritten, ein kleines Programm, fünf Vorhersagen und ihre Tests im
-Labor (Bakterien, Hefe), dazu zwei Orte mit Migration.
+bevor** $N=0$ ist — **evolutionäre Rettung**. Die Etablierung kommt
+aus einem **Verzweigungsprozess**, die Rettung in vier Schritten, dazu
+ein kleines Programm, Vorhersagen und ihre Tests im Labor (Bakterien,
+Hefe) und zwei Orte mit Migration.
 
 Das **Beispiel** kommt zuerst. Mathematik erklärt, *warum* dieselben
 Parameter verschiedene Bahnen oder Aussterben *oder* Überleben bedeuten.
@@ -42,7 +43,7 @@ Ableiten und Tests: andere Vorlesungen.
 | Woche | Datum | Thema | Fokus |
 |------:|------|--------|--------|
 | **9** | 12. Nov. | Zufall · Notwendigkeit | Teich · Erwartung und Zufall · `rbinom` · neutrale Wolke · Echsen mit endlichem $N$ |
-| **10** | 19. Nov. | Mutation · Rettung | eine Kopie · $u\approx 2s$ · $P \approx 1 - e^{-2N_0Us/r}$ · Simulation · zwei Orte |
+| **10** | 19. Nov. | Mutation · Rettung | Verzweigungsprozess · $u\approx 2s$ · $P \approx 1 - e^{-2N_0Us/r}$ · Simulation · zwei Orte |
 | **11** | 26. Nov. | Wolke · Fortbestand | **Checkpoint C** |
 
 Details: [Glossar](glossary.qmd).

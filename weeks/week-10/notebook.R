@@ -14,15 +14,15 @@
 # Die Abbildungen.
 #
 # - Teil 1: x-Achse Generation, y-Achse Anzahl Kopien einer Mutation. Blau: ueberlebt, orange: verloren.
+# - Teil 2: x-Achse Generation, y-Achse Wahrscheinlichkeit, dass die Linie bis dahin ausgestorben ist.
 # - Teil 3: x-Achse Generation, y-Achse Anzahl Individuen auf einer log-Skala (1, 10, 100, ...). Orange: Wildtyp, blau: Mutanten, schwarz: alle zusammen.
 # - Teil 4: x-Achse Generation, y-Achse Populationsgroesse (log). Blau: gerettet, grau: ausgestorben.
 
 # Auftrag
-# 1. Verfolgen Sie einzelne neue Mutationen und schaetzen Sie, wie oft sie sich etablieren.
+# 1. Verfolgen Sie einzelne neue Mutationen und schaetzen Sie, wie oft sie sich etablieren, und rechnen Sie es aus.
 # 2. Lesen und starten Sie ein kleines Programm, das eine schrumpfende Population simuliert.
 # 3. Schaetzen Sie mit vielen Laeufen, wie oft sie gerettet wird, und wie das von N_0 und r abhaengt.
-# 4. Bonus: Wie viel eher mussten Elefanten ohne Stosszaehne den Krieg ueberleben?
-# 5. Bonus: Hilft Migration aus einer Zuflucht der Rettung?
+# 4. Bonus: Hilft Migration aus einer Zuflucht der Rettung?
 
 # ===========================================================================
 # 0 · Funktionen
@@ -143,6 +143,32 @@ schaetze_etablierung(s = 0.1)   # hier s aendern
 #
 # Wann passt die Faustregel gut, wann weniger?
 
+# --- Rechnen statt simulieren ---
+#
+# In der Vorlesung kam die Etablierung aus einem Verzweigungsprozess: Jede Tochter-Linie spielt dasselbe Spiel wie die Mutter-Linie. Im Spielzeugmodell hat jede Kopie 0 Nachkommen (Wahrscheinlichkeit a) oder 2 (Wahrscheinlichkeit 1 - a). Die Wahrscheinlichkeit q[t], dass die Linie bis Generation t ausgestorben ist, folgt dann einer Rekursion wie in Woche 2:
+#
+#   q[t+1] = a + (1 - a) * q[t]^2,  q[0] = 0
+
+s <- 0.1                # Vorteil der Mutante
+a <- (1 - s) / 2        # Chance auf 0 Nachkommen (Spielzeugmodell: 0 oder 2)
+q <- numeric(101)       # q[t + 1]: Linie bis Generation t ausgestorben
+q[1] <- 0               # am Anfang lebt sie
+for (t in 1:100) {
+  q[t + 1] <- a + (1 - a) * q[t]^2
+}
+
+plot(0:100, q, type = "b", pch = 16, col = "#2166ac", ylim = c(0, 1),
+     xlab = "Generation", ylab = "bis dahin ausgestorben")
+abline(h = (1 - s) / (1 + s), lty = 2)   # Loesung der Gleichung
+
+1 - q[101]         # Etablierung nach der Rechnung
+2 * s / (1 + s)    # Formel aus der Vorlesung
+
+# Aufgabe C
+# 1. Wo bleibt q stehen? Was bedeutet 1 - q?
+# 2. Setzen Sie s <- 0. Wohin geht q jetzt? Was heisst das fuer eine neutrale neue Mutation?
+# 3. Ersetzen Sie die Zeile in der Schleife durch die Version mit Poisson-Nachkommen, wie in der Simulation: q[t + 1] <- exp(-(1 + s) * (1 - q[t])). Vergleichen Sie 1 - q mit Ihrer Simulation aus Aufgabe B.
+
 # ===========================================================================
 # 3 · Ein Programm fuer Rettung
 # ===========================================================================
@@ -183,7 +209,7 @@ legend("topright", c("alle", "Wildtyp", "Mutanten"), col = c("black", "#e67e22",
 
 which(mut > 0)[1] - 1   # in welcher Generation gibt es zum ersten Mal Mutanten?
 
-# Aufgabe C
+# Aufgabe D
 # 1. Fuehren Sie den Block mehrmals aus. Wann entsteht die erste Mutante? Wird die Population jedes Mal gerettet?
 # 2. Suchen Sie in einer geretteten Population die U-Kurve. Wer schrumpft, wer waechst?
 # 3. Setzen Sie U <- 0. Was passiert, und warum?
@@ -218,7 +244,7 @@ mean(ergebnisse)   # Anteil: Schaetzung der Wahrscheinlichkeit
 
 zeige_rettung(N0 = 30000, r = 0.1, s = 0.1)   # hier N0 oder r aendern
 
-# Aufgabe D
+# Aufgabe E
 # 1. Beschreiben Sie eine blaue Kurve: Was passiert zuerst, was danach?
 # 2. Probieren Sie N_0 = 3000 und N_0 = 300\,000. Was aendert sich?
 # 3. Probieren Sie r = 0.3 (mit N_0 = 30\,000). Was aendert sich?
@@ -232,7 +258,7 @@ zeige_rettung(N0 = 30000, r = 0.1, s = 0.1)   # hier N0 oder r aendern
 schaetze_rettung(N0 = 30000, r = 0.1, s = 0.1)   # hier aendern
 formel(N0 = 30000, r = 0.1, s = 0.1)             # gleich aendern
 
-# Aufgabe E
+# Aufgabe F
 # a) Startgroesse (r = 0.1, s = 0.1):
 #
 # | N_0 | Simulation | Formel |
@@ -246,30 +272,7 @@ formel(N0 = 30000, r = 0.1, s = 0.1)             # gleich aendern
 # c) Was bedeutet das fuer Bakterien unter Antibiotika (Milliarden Zellen) und fuer eine bedrohte Art mit wenigen hundert Tieren (z. B. Tasmanische Teufel)?
 
 # ===========================================================================
-# 6 · Bonus: Elefanten ohne Stosszaehne
-# ===========================================================================
-#
-# Im Gorongosa-Nationalpark (Mosambik) wurden im Buergerkrieg 1977-1992 ueber 90 % der Elefanten gewildert, fuer Elfenbein. Vor dem Krieg hatten 18.5 % der Weibchen keine Stosszaehne (n = 52), nach dem Krieg 50.9 % (n = 108) (Campbell-Staton et al. 2021).
-#
-# Elefanten leben lange: Der Krieg dauerte weniger als eine Elefantengeneration. Wir brauchen also keine Simulation ueber viele Generationen, sondern einen Selektionsschritt wie in Woche 6. Ueberlebt ein stosszahnloses Weibchen w-mal eher als eines mit Stosszaehnen, dann ist der neue Anteil
-#
-# 
-# p' = \frac{w\,p}{w\,p + (1 - p)}.
-# 
-
-p_vorher <- 0.185   # Anteil stosszahnloser Weibchen vor dem Krieg
-w <- 1              # wie viel eher ueberleben stosszahnlose Weibchen? bitte aendern
-
-p_nachher <- w * p_vorher / (w * p_vorher + (1 - p_vorher))
-p_nachher           # beobachtet nach dem Krieg: 0.509
-
-# Aufgabe F (Bonus)
-# 1. Finden Sie den Wert von w, bei dem p_nachher etwa 0.509 ist. Die Autoren schaetzen mit eigenen Modellen etwa 5.
-# 2. Warum ist das stehende Variation und keine neue Mutation? Was haette eine neue Mutation mit einer Kopie in dieser Zeit erreicht?
-# 3. Bei den Toechtern, die nach dem Krieg geboren wurden, sind es 33 %, weniger als bei ihren Muettern. Tipp: Eine stosszahnlose Mutter traegt das Allel nur einmal.
-
-# ===========================================================================
-# 7 · Bonus: Rettung mit zwei Orten
+# 6 · Bonus: Rettung mit zwei Orten
 # ===========================================================================
 #
 # Tomasini & Peischl (2020): Zwei Orte tauschen Individuen aus. Ort 1 wird sofort schlecht, Ort 2 ist zuerst eine Zuflucht und wird erst nach \theta = 100 Generationen schlecht.
