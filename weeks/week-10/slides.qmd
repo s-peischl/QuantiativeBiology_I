@@ -205,6 +205,16 @@ Evolution zählt in **Generationen**: Bakterien haben viele, Elefanten fast kein
 Grössenordnungen, Skizze
 :::
 
+## Theater und Stück
+
+> Hutchinson famously referred to ‘the ecological theater and the evolutionary play’ to emphasize that natural selection occurs in an environmental context. But, the metaphor works equally well if ‘ecological’ and ‘evolutionary’ are transposed: evolution provides the phenotypic setting that determines how the demographic processes of survival and extinction unfold.
+
+Sonst ist die Ökologie die **Bühne** und die Evolution das **Stück**. Bei der Rettung ist es umgekehrt: Die Evolution baut die Bühne, auf der sich **Überleben oder Aussterben** abspielt.
+
+::: aside
+Kirkpatrick & Peischl (2013), *Phil. Trans. R. Soc. B* 368: 20120082 · Hutchinson (1965)
+:::
+
 ## Dieselbe Frage, entgegengesetzte Wünsche
 
 :::: columns
@@ -1211,7 +1221,9 @@ Modelle: Haldane (1927); Gomulkiewicz & Holt (1995); Orr & Unckless (2008, 2014)
 1. **Epstein, B., et al. (2016).** Rapid evolutionary response to a transmissible cancer in Tasmanian devils. *Nature Communications* 7: 12684. [doi:10.1038/ncomms12684](https://doi.org/10.1038/ncomms12684)
 1. **Gomulkiewicz, R. & Holt, R. D. (1995).** When does evolution by natural selection prevent extinction? *Evolution* 49: 201–207. [doi:10.1111/j.1558-5646.1995.tb05971.x](https://doi.org/10.1111/j.1558-5646.1995.tb05971.x)
 1. **Haldane, J. B. S. (1927).** A mathematical theory of natural and artificial selection, Part V. *Proc. Camb. Philos. Soc.* 23: 838–844.
+1. **Hutchinson, G. E. (1965).** *The Ecological Theater and the Evolutionary Play.* Yale University Press, New Haven.
 1. **Kimura, M. (1962).** On the probability of fixation of mutant genes in a population. *Genetics* 47: 713–719. [doi:10.1093/genetics/47.6.713](https://doi.org/10.1093/genetics/47.6.713)
+1. **Kirkpatrick, M. & Peischl, S. (2013).** Evolutionary rescue by beneficial mutations in environments that change in space and time. *Phil. Trans. R. Soc. B* 368: 20120082. [doi:10.1098/rstb.2012.0082](https://doi.org/10.1098/rstb.2012.0082)
 1. **Lindsey, H. A., Gallie, J., Taylor, S. & Kerr, B. (2013).** Evolutionary rescue from extinction is contingent on a lower rate of environmental change. *Nature* 494: 463–467. [doi:10.1038/nature11879](https://doi.org/10.1038/nature11879)
 ::::
 
