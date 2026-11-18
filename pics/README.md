@@ -190,6 +190,7 @@ Von Wikimedia Commons, auf höchstens 1400–1600 px verkleinert.
 | `hefe_kolonien.jpg` | File:Saccharomyces cerevisiae SAB colonies 33.jpg | A doubt | CC BY-SA 4.0 |
 | `elefant_gorongosa_usaid.jpg` | File:Gorongosa-elephant 8692522812 o.jpg | USAID | gemeinfrei |
 | `elefant_gorongosa_flickr.jpg` | File:African Elephant - Loxodonta africana, Gorongosa National Park, Mozambique (32440062318).jpg | Judy Gallagher (Flickr) | CC BY 2.0 |
+| `eisbaer_gras.jpg` | File:Polar Bear in the Grass (6308761039).jpg (Ausschnitt) | Martin Lopatka (Flickr) | CC BY-SA 2.0 |
 | `teufel.jpg` | File:Sarcophilus harrisii taranna.jpg | JJ Harrison | CC BY-SA 3.0 |
 | `dftd_karte.jpg` | File:Spread of devil facial tumor disease as of 2015.jpg | Epstein et al. (2016), *Nat. Commun.* 7: 12684, Fig. 1 | CC BY 4.0 |
 | `dftd_tumor.jpg` | File:Tasmanian Devil Facial Tumour Disease.png (als JPEG gespeichert) | Menna Jones | CC BY 2.5 |

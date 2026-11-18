@@ -189,12 +189,19 @@ Nach heute können Sie …
 
 ## Das Klima ändert sich, die Arten reagieren
 
-- Über **1700 Arten**: Verbreitungsgebiete verschieben sich im Mittel um **6 km pro Jahrzehnt** Richtung Pole, Frühlingsereignisse kommen **2.3 Tage pro Jahrzehnt** früher (Parmesan & Yohe 2003).
-- Neuere Daten: **17 km pro Jahrzehnt** Richtung Pole, **11 m pro Jahrzehnt** bergauf (Median; Chen et al. 2011).
-- Am stärksten schrumpfen **polare Arten und Bergarten**: Sie haben kaum noch Platz zum Ausweichen. Bei ihnen gibt es die ersten Arten, die wegen des Klimawandels ausgestorben sind (Parmesan 2006).
+:::: columns
+::: {.column width="40%"}
+![](../../pics/rescue/eisbaer_gras.jpg){fig-alt="Eisbär liegt an Land im Gras, im Hintergrund eine Bucht" style="max-height:330px"}
+:::
+::: {.column width="60%"}
+- **1700 Arten**: Verbreitung im Mittel **6 km pro Jahrzehnt** Richtung Pole, Frühling **2.3 Tage pro Jahrzehnt** früher.
+- Neuere Daten: **17 km pro Jahrzehnt** Richtung Pole, **11 m** bergauf.
+- Am stärksten schrumpfen **polare Arten und Bergarten**: kaum Platz zum Ausweichen. Hier gibt es die ersten Arten, die wegen des Klimawandels ausgestorben sind.
+:::
+::::
 
 ::: aside
-Parmesan & Yohe (2003), *Nature* 421: 37–42 · Chen et al. (2011), *Science* 333: 1024–1026 · Parmesan (2006), *Annu. Rev. Ecol. Evol. Syst.* 37: 637–669
+Parmesan & Yohe (2003), *Nature* 421: 37–42 · Chen et al. (2011), *Science* 333: 1024–1026 · Parmesan (2006), *Annu. Rev. Ecol. Evol. Syst.* 37: 637–669 · Foto: Eisbär an Land, Martin Lopatka, CC BY-SA 2.0
 :::
 
 ## Was kann eine schrumpfende Population tun?
