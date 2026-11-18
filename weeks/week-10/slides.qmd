@@ -178,8 +178,7 @@ Nach heute können Sie …
 1. Gerettet oder ausgestorben? Die U-Kurve
 2. Eine neue Mutation: Wie oft setzt sie sich durch?
 3. Ein Modell für Rettung, als Formel und als Simulation
-4. Vorhersagen, im Labor geprüft
-5. Zwei Orte: Hilft Migration?
+4. Fünf Vorhersagen, im Labor geprüft, die letzte mit einem Modell für zwei Orte
 
 ::: aside
 [Modul 3](../../docs/module-03-overview.html) · [Glossar](../../docs/glossary.html)
@@ -351,7 +350,7 @@ Skizze. Die U-Kurve als Zeichen von Rettung: Gomulkiewicz & Holt (1995)
 > Wovon hängt ab, ob eine schrumpfende Population **gerettet** wird?
 > Und kann man das **vorhersagen**?
 
-Heute: eine einfache Theorie, ihre Vorhersagen, und Experimente, die sie prüfen.
+Heute: eine einfache Theorie, fünf Vorhersagen, und Experimente, die sie prüfen.
 
 # Eine neue Mutation: Wie oft setzt sie sich durch?
 
@@ -667,6 +666,50 @@ Gestrichelt: Vorteil $s$ im Raum. Kurven: Etablierungswahrscheinlichkeit je nach
 Kirkpatrick & Peischl (2013), *Phil. Trans. R. Soc. B* 368: 20120082, Fig. 4 · grösster Vorteil $s = 0.1$
 :::
 
+## Was am Rand passiert
+
+```{r}
+#| fig-height: 3.5
+#| fig-width: 10
+#| out-width: 100%
+# Ort i, Zeit z: Anzahl Mutanten unter 6 Individuen (NA = noch leer)
+mut <- rbind(c(0, 0, 1, NA, NA), c(0, 0, 1, 3, NA), c(0, 0, 1, 3, 6))
+orte <- expand.grid(ort = 1:5, zeit = 1:3)
+orte$m <- mut[cbind(orte$zeit, orte$ort)]
+orte$x <- 2.2 * orte$ort; orte$y <- -1.6 * orte$zeit
+ind <- do.call(rbind, lapply(which(!is.na(orte$m)), function(r) {
+  o <- orte[r, ]
+  data.frame(x = o$x + rep(c(-0.45, 0, 0.45), 2), y = o$y + rep(c(0.22, -0.22), each = 3),
+             typ = c(rep("Mutante", o$m), rep("Wildtyp", 6 - o$m)))
+}))
+pfeile <- data.frame(x = c(3, 4) * 2.2 + 0.85, xend = c(4, 5) * 2.2 - 0.85, y = c(-3.2, -4.8))
+ggplot() +
+  geom_tile(data = subset(orte, !is.na(m)), aes(x, y), width = 1.6, height = 1.05,
+            fill = "#fbfbfb", colour = "grey45") +
+  geom_tile(data = subset(orte, is.na(m)), aes(x, y), width = 1.6, height = 1.05,
+            fill = NA, colour = "grey75", linetype = "dashed") +
+  geom_point(data = ind, aes(x, y, fill = typ), shape = 21, size = 4.6, colour = "grey25") +
+  geom_segment(data = pfeile, aes(x = x, xend = xend, y = y, yend = y), colour = "#1a5276",
+               linewidth = 1, arrow = arrow(length = unit(0.22, "cm"))) +
+  annotate("text", x = pfeile$x + 0.85, y = pfeile$y + 0.8, label = "2 Gründer", size = 4, colour = "#1a5276") +
+  annotate("text", x = 1.2, y = -1.6 * (1:3), label = paste("Zeit", 1:3), hjust = 1, size = 4.4) +
+  annotate("text", x = 6.6, y = -0.85, label = "Mutation entsteht am Rand", size = 4.2, colour = "#c0392b") +
+  annotate("text", x = 12.3, y = -4.8, label = "Mutation\nsurft mit", hjust = 0, size = 4.4,
+           colour = "#c0392b", lineheight = 0.9) +
+  annotate("segment", x = 2, xend = 11.5, y = -5.75, yend = -5.75, colour = "grey40",
+           arrow = arrow(length = unit(0.25, "cm"))) +
+  annotate("text", x = 6.75, y = -6.05, label = "Ausbreitung", size = 4.2, colour = "grey30") +
+  scale_fill_manual(values = c(Mutante = "#c0392b", Wildtyp = "grey80"), name = NULL) +
+  coord_equal(xlim = c(0, 14), ylim = c(-6.2, -0.6)) +
+  theme_void(base_size = 14) + theme(legend.position = "right")
+```
+
+Jeder **neue** Ort wird von **wenigen** Gründern vom Rand besiedelt. Ist zufällig eine Mutante dabei, ist sie dort gleich **häufig**. So kann sie mit der Front **mitsurfen**, ob sie nützt oder schadet.
+
+::: aside
+Skizze nach Peischl et al. (2013), *Mol. Ecol.* 22: 5972–5982
+:::
+
 ## Am Rand einer Ausbreitung
 
 ::::: columns
@@ -931,7 +974,17 @@ Im Beispiel zählt schon **eine** Resistente unter 10 000 am Start mehr als alle
 Orr & Unckless (2008); Martin et al. (2013); Uecker, Otto & Hermisson (2014)
 :::
 
-# Vorhersagen im Labor
+# Fünf Vorhersagen, fünf Tests
+
+## Was die Theorie vorhersagt
+
+1. Rettung zeigt sich als **U-Kurve**, mit einer **Schwelle** in $N_0$.
+2. **Grössere** Populationen werden öfter gerettet.
+3. Mehr **Variation** am Start, mehr Rettung.
+4. **Langsamer** Wandel rettet öfter als plötzlicher.
+5. **Austausch** zwischen Orten kann helfen, aber nicht beliebig viel.
+
+Jede Vorhersage hat einen Test im Labor.
 
 ## 1 · U-Kurve und Schwelle: Hefe unter Salz
 
@@ -1021,9 +1074,7 @@ Lindsey et al. (2013): 1255 Populationen *E. coli*, Rifampicin. Am Ende überall
 Skizze der drei Behandlungen. Lindsey, Gallie, Taylor & Kerr (2013), *Nature* 494: 463–467
 :::
 
-# Zwei Orte: hilft Migration?
-
-## Ein Experiment: Hefe in Metapopulationen
+## 5 · Austausch: Hefe in Metapopulationen
 
 ```{r}
 #| fig-height: 2.1
@@ -1069,7 +1120,7 @@ Bell & Gonzalez (2011): über 2000 Hefe-Populationen, betreut von einem Roboter.
 Skizze des Versuchsplans, Werte erfunden. Bell & Gonzalez (2011), *Science* 332: 1327–1330
 :::
 
-## Ein Modell mit zwei Orten
+## Ein Modell für Vorhersage 5: zwei Orte
 
 ::::: columns
 ::: {.column width="50%"}
