@@ -202,8 +202,6 @@ Aus Originalartikeln (Open Access, über PMC heruntergeladen, zugeschnitten):
 | `ramsayer2013_fig1_ausschnitt.jpg` | Ramsayer, Kaltz & Hochberg (2013), *Evol. Appl.* 6: 608–616, Fig. 1 (PMC3684742, `eva0006-0608-f1.jpg`); Ausschnitt: Kopfzeile, Zeilen 50 und 100 µg/mL, Zeitachse | die Autoren | CC BY 3.0 |
 | `ramsayer2013_fig2a.jpg` | dieselbe Arbeit, Fig. 2, nur Feld A (`eva0006-0608-f2.jpg`) | die Autoren | CC BY 3.0 |
 | `ramsayer2013_fig3a.jpg` | dieselbe Arbeit, Fig. 3, nur Feld A (`eva0006-0608-f3.jpg`) | die Autoren | CC BY 3.0 |
-| `bosshard2017_fig1bc.jpg` | Bosshard et al. (2017), *Genetics* 207: 669–684, Fig. 1, nur Teile B und C (PMC5629331, `669fig1.jpg`) | die Autoren (S. Peischl Mitautor) | frei online (author-supported open access), keine CC-Lizenz angegeben |
-| `bosshard2017_fig3.jpg` | dieselbe Arbeit, Fig. 3 (`669fig3.jpg`) | die Autoren (S. Peischl Mitautor) | frei online (author-supported open access), keine CC-Lizenz angegeben |
 
 Aus Originalartikeln (PDF, zugeschnitten), Zitat zur Lehre mit Quellenangabe auf der Folie; keine offene Lizenz, ausser wo angegeben:
 
@@ -211,5 +209,4 @@ Aus Originalartikeln (PDF, zugeschnitten), Zitat zur Lehre mit Quellenangabe auf
 |---|---|---|---|
 | `kirkpatrick_peischl2013_fig1.png` | Kirkpatrick & Peischl (2013), *Phil. Trans. R. Soc. B* 368: 20120082, Fig. 1 | die Autoren (S. Peischl) | © Royal Society, Zitat |
 | `kirkpatrick_peischl2013_fig4.png` | dieselbe Arbeit, Fig. 4 | die Autoren (S. Peischl) | © Royal Society, Zitat |
-| `hallatschek2007_fig1a.jpg` | Hallatschek et al. (2007), *PNAS* 104: 19926–19930, Fig. 1, nur Feld A (PMC2148399, `zpq0490786250001.jpg`) | die Autoren | © PNAS, Zitat |
 | `waclaw2015_fig3a.png` | Waclaw et al. (2015), *Nature* 525: 261–264, Fig. 3a (Autorenmanuskript, PMC) | die Autoren | © Nature, Zitat |

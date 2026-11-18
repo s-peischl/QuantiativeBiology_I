@@ -668,101 +668,6 @@ Gestrichelt: Vorteil $s$ im Raum. Kurven: Etablierungswahrscheinlichkeit je nach
 Kirkpatrick & Peischl (2013), *Phil. Trans. R. Soc. B* 368: 20120082, Fig. 4 · grösster Vorteil $s = 0.1$
 :::
 
-## Quiz: Bakterien auf Wanderschaft
-
-:::: columns
-::: {.column width="45%"}
-![](../../pics/rescue/bosshard2017_fig1bc.jpg){fig-alt="Versuchsaufbau: Kolonie wächst 72 Stunden auf Agar, Zellen von der Front werden auf eine neue Platte gesetzt; aneinandergereiht ergibt das eine lange Ausbreitung" style="max-height:380px"}
-:::
-::: {.column width="55%"}
-*E. coli* mit **hoher Mutationsrate** wächst auf Agar. Alle 3 Tage kommen Zellen **vom Rand** der Kolonie auf eine neue Platte. 39 Tage, rund 1650 Generationen: eine lange Ausbreitung.
-
-**Was passiert mit der Wachstumsgeschwindigkeit der Kolonien?**
-
-A. Sie wachsen **schneller**: Anpassung an das Leben auf Agar.  
-B. Sie bleiben **gleich**.  
-C. Sie wachsen **langsamer**.
-:::
-::::
-
-::: aside
-Bosshard et al. (2017), *Genetics* 207: 669–684, Fig. 1 B–C
-:::
-
-## Was am Rand passiert
-
-```{r}
-#| fig-height: 3.5
-#| fig-width: 10
-#| out-width: 100%
-# Ort i, Zeit z: Anzahl Mutanten unter 6 Individuen (NA = noch leer)
-mut <- rbind(c(0, 0, 1, NA, NA), c(0, 0, 1, 3, NA), c(0, 0, 1, 3, 6))
-orte <- expand.grid(ort = 1:5, zeit = 1:3)
-orte$m <- mut[cbind(orte$zeit, orte$ort)]
-orte$x <- 2.2 * orte$ort; orte$y <- -1.6 * orte$zeit
-ind <- do.call(rbind, lapply(which(!is.na(orte$m)), function(r) {
-  o <- orte[r, ]
-  data.frame(x = o$x + rep(c(-0.45, 0, 0.45), 2), y = o$y + rep(c(0.22, -0.22), each = 3),
-             typ = c(rep("Mutante", o$m), rep("Wildtyp", 6 - o$m)))
-}))
-pfeile <- data.frame(x = c(3, 4) * 2.2 + 0.85, xend = c(4, 5) * 2.2 - 0.85, y = c(-3.2, -4.8))
-ggplot() +
-  geom_tile(data = subset(orte, !is.na(m)), aes(x, y), width = 1.6, height = 1.05,
-            fill = "#fbfbfb", colour = "grey45") +
-  geom_tile(data = subset(orte, is.na(m)), aes(x, y), width = 1.6, height = 1.05,
-            fill = NA, colour = "grey75", linetype = "dashed") +
-  geom_point(data = ind, aes(x, y, fill = typ), shape = 21, size = 4.6, colour = "grey25") +
-  geom_segment(data = pfeile, aes(x = x, xend = xend, y = y, yend = y), colour = "#1a5276",
-               linewidth = 1, arrow = arrow(length = unit(0.22, "cm"))) +
-  annotate("text", x = pfeile$x + 0.85, y = pfeile$y + 0.8, label = "2 Gründer", size = 4, colour = "#1a5276") +
-  annotate("text", x = 1.2, y = -1.6 * (1:3), label = paste("Zeit", 1:3), hjust = 1, size = 4.4) +
-  annotate("text", x = 6.6, y = -0.85, label = "Mutation entsteht am Rand", size = 4.2, colour = "#c0392b") +
-  annotate("text", x = 12.3, y = -4.8, label = "Mutation\nsurft mit", hjust = 0, size = 4.4,
-           colour = "#c0392b", lineheight = 0.9) +
-  annotate("segment", x = 2, xend = 11.5, y = -5.75, yend = -5.75, colour = "grey40",
-           arrow = arrow(length = unit(0.25, "cm"))) +
-  annotate("text", x = 6.75, y = -6.05, label = "Ausbreitung", size = 4.2, colour = "grey30") +
-  scale_fill_manual(values = c(Mutante = "#c0392b", Wildtyp = "grey80"), name = NULL) +
-  coord_equal(xlim = c(0, 14), ylim = c(-6.2, -0.6)) +
-  theme_void(base_size = 14) + theme(legend.position = "right")
-```
-
-Jeder **neue** Ort wird von **wenigen** Gründern vom Rand besiedelt. Ist zufällig eine Mutante dabei, ist sie dort gleich **häufig**. So kann sie mit der Front **mitsurfen**, ob sie nützt oder schadet.
-
-::: aside
-Skizze nach Peischl et al. (2013), *Mol. Ecol.* 22: 5972–5982
-:::
-
-## Am Rand im Experiment
-
-![](../../pics/rescue/hallatschek2007_fig1a.jpg){fig-alt="Originalabbildung: Kolonie von E. coli aus einer Mischung zweier Farbmarker, nach 0 bis 84 Stunden; am Rand entstehen wenige grosse Sektoren einer Farbe" style="max-height:330px"}
-
-Eine Kolonie aus zwei Sorten *E. coli*, gleich bis auf die Farbe (Mischung 50:50). Nach wenigen Tagen besteht der Rand aus **Sektoren** einer einzigen Farbe: Wenige Zellen stellen bald den ganzen Rand. Das ist **Drift** am Rand, ganz ohne Selektion.
-
-::: aside
-Hallatschek, Hersen, Ramanathan & Nelson (2007), *PNAS* 104: 19926–19930, Fig. 1A · Mikrobielle Gemeinschaften auch hier: [David Johnson](https://www.mca-johnson.com), Eawag und [Institut für Ökologie und Evolution, Uni Bern](https://www.iee.unibe.ch/about_us/persons/dr_johnson_david_r/index_eng.html)
-:::
-
-## Auflösung: Expansionslast
-
-::::: columns
-::: {.column width="58%"}
-![](../../pics/rescue/bosshard2017_fig3.jpg){fig-alt="Koloniegrösse über 39 Tage: blaue Linien mit hoher Mutationsrate fallen, orange Linien mit niedriger Mutationsrate bleiben gleich" style="max-height:430px"}
-:::
-::: {.column width="42%"}
-**C**: Die Kolonien wachsen **langsamer**.
-
-- Hohe Mutationsrate (blau): Die Kolonien werden immer **kleiner**.
-- Niedrige Rate (orange): kaum Veränderung.
-
-Am Rand surfen auch **schädliche** Mutationen mit und sammeln sich an: **Expansionslast**.
-:::
-:::::
-
-::: aside
-Bosshard et al. (2017), *Genetics* 207: 669–684, Fig. 3 · Theorie: Peischl et al. (2013), *Mol. Ecol.* 22: 5972–5982
-:::
-
 ## Was beeinflusst die Etablierung?
 
 ::: {.ueberblick}
@@ -1188,7 +1093,6 @@ Nächste Woche ist **Checkpoint C**. Bitte daran denken: Die Checkpoints sind **
 1. **Epstein, B., et al. (2016).** Rapid evolutionary response to a transmissible cancer in Tasmanian devils. *Nature Communications* 7: 12684. [doi:10.1038/ncomms12684](https://doi.org/10.1038/ncomms12684)
 1. **Gerrish, P. J. & Lenski, R. E. (1998).** The fate of competing beneficial mutations in an asexual population. *Genetica* 102–103: 127–144. [doi:10.1023/A:1017067816551](https://doi.org/10.1023/A:1017067816551)
 1. **Gomulkiewicz, R. & Holt, R. D. (1995).** When does evolution by natural selection prevent extinction? *Evolution* 49: 201–207. [doi:10.1111/j.1558-5646.1995.tb05971.x](https://doi.org/10.1111/j.1558-5646.1995.tb05971.x)
-1. **Hallatschek, O., Hersen, P., Ramanathan, S. & Nelson, D. R. (2007).** Genetic drift at expanding frontiers promotes gene segregation. *PNAS* 104: 19926–19930. [doi:10.1073/pnas.0710150104](https://doi.org/10.1073/pnas.0710150104)
 1. **Haldane, J. B. S. (1927).** A mathematical theory of natural and artificial selection, Part V. *Proc. Camb. Philos. Soc.* 23: 838–844.
 1. **Hutchinson, G. E. (1965).** *The Ecological Theater and the Evolutionary Play.* Yale University Press, New Haven.
 1. **Kimura, M. (1962).** On the probability of fixation of mutant genes in a population. *Genetics* 47: 713–719. [doi:10.1093/genetics/47.6.713](https://doi.org/10.1093/genetics/47.6.713)
