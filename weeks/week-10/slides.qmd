@@ -125,6 +125,12 @@ col_theo <- "#d95f02"   # Theorie
 Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 :::
 
+## Bis jetzt: viele Kopien
+
+Woche 9: Die Inversion startete bei $p = 0.5$, also mit **vielen** Kopien. Der Zufall streute um die Erwartung.
+
+Heute: Eine **neue** Mutation beginnt mit **einer** Kopie, und die Population **schrumpft**.
+
 ## Lernziele
 
 Nach heute können Sie …
@@ -136,18 +142,34 @@ Nach heute können Sie …
 5. **Vorhersagen** der Theorie mit Experimenten vergleichen,
 6. stehende Variation und **Migration** einordnen.
 
+## Heute
+
+```{r}
+#| fig-height: 2.2
+#| fig-width: 10
+#| out-width: 100%
+heute <- data.frame(x = 1:5,
+  kopf = c("Gerettet?", "Eine Kopie", "Ein Modell", "Im Labor", "Zwei Orte"),
+  text = c("die U-Kurve", "Glück und 2s", "Rettung zählen
+und simulieren", "fünf Tests", "hilft Migration?"),
+  fill = c("#fdebd0", "#eaf2fb", "#eaf2fb", "#e9f7ef", "#eaf2fb"))
+ggplot(heute) +
+  geom_segment(data = heute[1:4, ], aes(x = x + 0.42, xend = x + 0.58, y = 0, yend = 0),
+               arrow = arrow(length = unit(0.2, "cm")), colour = "grey40") +
+  geom_tile(aes(x, 0, fill = fill), width = 0.8, height = 1.3, colour = "#1a5276") +
+  geom_text(aes(x, 0.3, label = kopf), size = 5, fontface = "bold", colour = "#1a5276") +
+  geom_text(aes(x, -0.2, label = text), size = 4.2, lineheight = 0.9) +
+  scale_fill_identity() +
+  coord_cartesian(xlim = c(0.55, 5.45), ylim = c(-0.7, 0.7)) + theme_void()
+```
+
+Biologie, dann Modell, dann Programm, dann zurück zu den Daten.
+
+::: aside
+[Modul 3](../../docs/module-03-overview.html) · [Glossar](../../docs/glossary.html)
+:::
+
 # Gerettet oder ausgestorben?
-
-## Die Umwelt ändert sich
-
-| Was ändert sich? | Wie schnell? | Wer ist betroffen? |
-|---|---|---|
-| Antibiotikum im Körper | Stunden | Bakterien einer Infektion |
-| Pestizid auf dem Feld | Wochen | Insekten, Unkräuter |
-| neue Krankheit | Jahre | Tasmanische Teufel, Amphibien |
-| Erwärmung, Trockenheit | Jahrzehnte | viele Arten |
-
-Für viele Populationen heisst das zuerst: Sie **schrumpfen**. Jede Generation hat weniger Nachkommen als die vorherige.
 
 ## Was kann eine schrumpfende Population tun?
 
@@ -300,14 +322,6 @@ Heute: eine einfache Theorie, fünf Vorhersagen, und Experimente, die sie prüfe
 
 # Eine Kopie: Glück oder Pech?
 
-## Zuerst: eine einzige Kopie
-
-Letzte Woche startete die Inversion bei $p = 0.5$: viele Kopien.
-
-Eine **neue Mutation** beginnt mit **einer** Kopie. Hat ihr Träger zufällig keine Nachkommen, ist sie weg.
-
-Wie in Woche 9 entscheidet der Zufall, wer wie viele Nachkommen hat. Bei **einer** Kopie ist er übermächtig.
-
 ## Eine Kopie, zwanzig Mal
 
 ```{r}
@@ -331,38 +345,7 @@ ggplot(linien, aes(generation, n, group = id, colour = ausgang)) +
   theme_slide()
 ```
 
-Im Mittel 1.1 Nachkommen pro Kopie, und trotzdem sind die meisten bald **weg**. Selektion wirkt im Mittel, bei einer Kopie zählt **Glück**.
-
-## Ein Stammbaum aus Zufall
-
-```{r}
-#| fig-height: 3.3
-#| fig-width: 9
-#| out-width: 94%
-kn <- data.frame(id = c("o", "a", "b", "b1", "b2", "c1", "c2", "d1", "d2"),
-                 g = c(0, 1, 1, 2, 2, 3, 3, 4, 4),
-                 x = c(0, -2, 2, 1, 3, 0.4, 1.6, 1.1, 2.1),
-                 lebt = c(TRUE, FALSE, TRUE, TRUE, FALSE, FALSE, TRUE, TRUE, TRUE))
-ka <- data.frame(von = c("o", "o", "b", "b", "b1", "b1", "c2", "c2"),
-                 zu  = c("a", "b", "b1", "b2", "c1", "c2", "d1", "d2"))
-ka$x <- kn$x[match(ka$von, kn$id)]; ka$y <- -kn$g[match(ka$von, kn$id)]
-ka$xend <- kn$x[match(ka$zu, kn$id)]; ka$yend <- -kn$g[match(ka$zu, kn$id)]
-ende <- kn[!kn$lebt, ]
-ggplot() +
-  geom_segment(data = ka, aes(x, y, xend = xend, yend = yend), colour = "grey45", linewidth = 0.9) +
-  geom_point(data = kn, aes(x, -g, fill = lebt), shape = 21, size = 7, colour = "grey30") +
-  geom_text(data = ende, aes(x, -g - 0.42), label = "keine Nachkommen", size = 3.8, colour = col_empf) +
-  scale_fill_manual(values = c("TRUE" = col_res, "FALSE" = "white"), guide = "none") +
-  scale_y_continuous(breaks = -(0:4), labels = paste("Generation", 0:4)) +
-  coord_cartesian(xlim = c(-3, 4), ylim = c(-4.6, 0.3)) +
-  theme_void(base_size = 14) + theme(axis.text.y = element_text(hjust = 1))
-```
-
-Jede Kopie hat zufällig 0, 1, 2, … Nachkommen. Jede Tochter beginnt ihren **eigenen** Stammbaum: dasselbe Spiel, eine Generation später. Das heisst **Verzweigungsprozess**.
-
-::: aside
-Skizze. Galton & Watson (1875) fragten so, warum Familiennamen aussterben.
-:::
+Jede startet mit **einer** Kopie, im Mittel 1.1 Nachkommen. Trotzdem sind die meisten bald **weg**: Selektion wirkt im Mittel, bei einer Kopie zählt **Glück**.
 
 ## Ein Spielzeugmodell
 
@@ -415,7 +398,7 @@ Lange nur **2** Kopien: Ein Pech, und sie wäre weg. Dann geschafft. `while` hei
 ## Zwölf Stammbäume
 
 ```{r}
-#| fig-height: 4
+#| fig-height: 3.6
 #| fig-width: 9.5
 #| out-width: 100%
 set.seed(112)
@@ -438,10 +421,10 @@ ggplot() +
         panel.background = element_rect(fill = "grey97", colour = NA))
 ```
 
-Jeder Baum startet mit **einer** Kopie, $s = 0.1$. Die meisten Bäume sind nach wenigen Generationen **tot**. Wer überlebt, explodiert.
+Jede Tochter startet ihren **eigenen** Baum: ein **Verzweigungsprozess**. Die meisten sind bald **tot**, wer überlebt, explodiert.
 
 ::: aside
-Simuliert mit dem Spielzeugmodell, von oben (Generation 0) nach unten (Generation 8)
+Spielzeugmodell, $s = 0.1$, Generation 0 bis 8 · Galton & Watson (1875): Warum sterben Familiennamen aus?
 :::
 
 ## Viele Linien: das $2s$ taucht auf
@@ -562,76 +545,8 @@ Also $u = 1 - 0.82 = 0.18$, fast $2s$.
 :::::
 
 ::: aside
-Genau: $u = 2s/(1+s)$
+Genau: $u = 2s/(1+s)$. Mit `rpois`-Nachkommen eine andere Kurve, fast derselbe Fixpunkt ($u = 0.176$). Haldane (1927): $u \approx 2s$
 :::
-
-## Zwei Kurven, fast derselbe Fixpunkt
-
-::::: columns
-::: {.column width="55%"}
-```{r}
-#| fig-height: 4.2
-#| fig-width: 4.6
-#| out-width: 100%
-#| out-extra: 'style="max-height:450px"'
-q_pois <- 1 - 0.1761341
-pgf2 <- rbind(data.frame(q = qq, f = 0.45 + 0.55 * qq^2, wer = "0 oder 2 Nachkommen"),
-              data.frame(q = qq, f = exp(-1.1 * (1 - qq)), wer = "Poisson (rpois)"))
-ggplot(pgf2, aes(q, f, colour = wer)) +
-  geom_abline(slope = 1, intercept = 0, linetype = "dashed", colour = "grey40") +
-  geom_line(linewidth = 1.3) +
-  annotate("point", x = c(9 / 11, q_pois), y = c(9 / 11, q_pois), size = 3,
-           colour = c(col_res, col_empf)) +
-  scale_colour_manual(values = c("0 oder 2 Nachkommen" = col_res, "Poisson (rpois)" = col_empf), name = NULL) +
-  coord_equal(xlim = c(0, 1), ylim = c(0, 1)) +
-  labs(x = "q", y = "f(q)", title = "s = 0.1") +
-  theme_slide() + theme(legend.position = "bottom", legend.direction = "vertical")
-```
-:::
-::: {.column width="45%"}
-Was, wenn eine Kopie 0, 1, 2, 3, … Nachkommen haben kann, wie mit `rpois`?
-
-Dieselbe Idee, eine andere Kurve $f$. Aber sie schneidet die Diagonale **fast am selben Ort**: $u = 0.176$ statt $0.182$.
-
-Wie die Nachkommen genau verteilt sind, ändert wenig. Es bleibt $u \approx 2s$.
-:::
-:::::
-
-## Theorie und Simulation
-
-```{r}
-#| fig-height: 3.4
-#| fig-width: 8.4
-#| out-width: 88%
-set.seed(2)
-s_werte <- c(0.01, 0.02, 0.05, 0.1, 0.15, 0.2)
-u_hat <- sapply(s_werte, function(s) mean(replicate(3000, schicksal(s))))
-ggplot() +
-  geom_abline(slope = 2, intercept = 0, colour = col_theo, linetype = "dashed", linewidth = 1) +
-  geom_point(data = data.frame(s = s_werte, u = u_hat), aes(s, u), colour = col_res, size = 3) +
-  annotate("text", x = 0.15, y = 0.36, label = "2s", colour = col_theo, size = 5) +
-  coord_cartesian(xlim = c(0, 0.21), ylim = c(0, 0.42)) +
-  labs(x = "Selektionsvorteil s", y = "Anteil etabliert",
-       title = "Simulation (Punkte) und Faustregel 2s (Linie)") +
-  theme_slide()
-```
-
-Auch mit `rpois`-Nachkommen trifft die Simulation die Faustregel. Bei $s = 0.1$ gehen rund **80 %** der neuen Mutationen verloren.
-
-::: aside
-Haldane (1927): $u \approx 2s$
-:::
-
-## Ein aktives Forschungsfeld
-
-Setzt sich eine neue Mutation durch? Die Frage beschäftigt die Populationsgenetik seit rund 100 Jahren.
-
-| | |
-|---|---|
-| Haldane (1927) | Verzweigungsprozess: $u \approx 2s$ |
-| Kimura (1962) | Fixierung in **endlichen** Populationen, mit Drift wie in Woche 9 |
-| Patwa & Wahl (2008) | Übersicht: Was ändert sich, wenn $N$ schwankt oder Generationen überlappen? |
-| Uecker & Hermisson (2011) | Etablierung, wenn die Umwelt schwankt |
 
 ## Forschung in Bern
 
@@ -645,6 +560,10 @@ Setzt sich eine neue Mutation durch? Die Frage beschäftigt die Populationsgenet
 - als **Inversion** entlang eines Umweltgradienten ([Peischl & Strütt 2026, Preprint](https://doi.org/10.64898/2026.10.25.761641))?
 
 Die Werkzeuge sind dieselben wie heute: Verzweigungsprozess und Simulation.
+:::
+
+::: aside
+Klassiker: Haldane (1927), Kimura (1962) · Übersicht: Patwa & Wahl (2008) · schwankende Umwelt: Uecker & Hermisson (2011)
 :::
 
 ## Die Umwelt ändert sich: Was zählt?
@@ -839,17 +758,6 @@ ggplot(rz) +
 
 So funktioniert fast jede Simulation in der Populationsgenetik. Der Zufall steckt nur in Schritt 2.
 
-## Zufällige Nachkommen: `rpois`
-
-```{r}
-#| echo: true
-set.seed(1)
-rpois(8, 900)   # 1000 Wildtypen, r = 0.1: im Mittel 900 Nachkommen
-rpois(8, 1.1)   # eine Mutante, s = 0.1: im Mittel 1.1 Nachkommen
-```
-
-Wie `rbinom` aus Woche 9, aber ohne festes $N$: Wie viele Nachkommen hat eine Gruppe? Bei 900 kaum Unterschied, bei 1.1 oft **0**: Hier geht die neue Mutation verloren.
-
 ## Das Programm
 
 ```r
@@ -864,7 +772,7 @@ for (t in 1:150) {                          # 3. Schleife
 }
 ```
 
-Drei Zeilen pro Generation: **Mutation, Wildtyp, Mutanten**. Das schreiben Sie heute im Notebook.
+Drei Zeilen pro Generation: **Mutation, Wildtyp, Mutanten**. Neu ist `rpois(1, m)`: eine zufällige Zahl mit Mittel `m`, die Nachkommen einer ganzen Gruppe. Bei 900 kaum Streuung, bei 1.1 oft **0**.
 
 ## Ein Lauf
 
@@ -956,18 +864,6 @@ Orr & Unckless (2008); Martin et al. (2013); Uecker, Otto & Hermisson (2014)
 
 # Fünf Vorhersagen, fünf Tests
 
-## Was die Theorie sagt
-
-| | Vorhersage | Geprüft mit |
-|---|---|---|
-| 1 | Rettung zeigt sich als **U-Kurve**, und es gibt eine **Schwelle** in $N_0$ | Hefe unter Salz |
-| 2 | **Grössere** Populationen werden öfter gerettet | *Pseudomonas*, kleine und grosse Röhrchen |
-| 3 | Mehr **Variation** am Start, mehr Rettung | *Pseudomonas*, klonal oder vielfältig |
-| 4 | **Langsamer** Wandel rettet öfter als plötzlicher | *E. coli*, steigende Dosis |
-| 5 | **Genfluss** aus einer Zuflucht hilft, aber nicht zu viel | Hefe-Metapopulationen · Zwei-Orte-Modell |
-
-: {tbl-colwidths="[6,56,38]"}
-
 ## 1 · U-Kurve und Schwelle: Hefe unter Salz
 
 :::: columns
@@ -1032,17 +928,6 @@ Gleiche Grösse, nur die genetische Vielfalt am Start ist anders (in der Origina
 Ramsayer et al. (2013), Experiment 1, nach 53 Stunden, je 10 Populationen pro Dosis; der Bereich fasst die drei Dosen zusammen
 :::
 
-## Neue Mutation oder stehende Variation?
-
-| | neue Mutation | stehende Variation |
-|---|---|---|
-| Start | **eine** Kopie | viele Kopien |
-| Hürde | Lotterie, etwa $2s$ | kaum |
-| Warten | bis sie entsteht | keines |
-| Tempo | langsam | **schnell** |
-
-Darum hilft Vielfalt am Start: Resistente müssen nicht erst entstehen und die Lotterie gewinnen.
-
 ## 4 · Tempo: *E. coli* unter steigender Dosis
 
 ```{r}
@@ -1073,14 +958,6 @@ Skizze der drei Behandlungen. Lindsey, Gallie, Taylor & Kerr (2013), *Nature* 49
 
 # Zwei Orte: hilft Migration?
 
-## Die Umwelt wird nicht überall gleichzeitig schlecht
-
-- Ein Antibiotikum erreicht nicht jedes Gewebe gleich gut.
-- Ein Pestizid wird nicht auf jedem Feld gespritzt.
-- Erwärmung trifft zuerst die tiefen, dann die hohen Lagen.
-
-Oft gibt es eine **Zuflucht**: einen Ort, der erst später schlecht wird. Zwischen den Orten wandern Individuen. Hilft das der Rettung, oder schadet es?
-
 ## Ein Modell mit zwei Orten
 
 ```{r}
@@ -1100,7 +977,7 @@ ggplot() +
   coord_equal() + theme_void()
 ```
 
-Ort 1 wird sofort schlecht, die Zuflucht erst nach $\theta$ Generationen. Dazwischen wandern Individuen hin und her.
+Ein Antibiotikum erreicht nicht jedes Gewebe, Erwärmung trifft zuerst tiefe Lagen. Oft gibt es eine **Zuflucht**, die erst nach $\theta$ Generationen schlecht wird. Hilft Migration der Rettung, oder schadet sie?
 
 ::: aside
 Tomasini & Peischl (2020), *Evolution* 74: 1640–1653
@@ -1293,9 +1170,72 @@ Modelle: Haldane (1927); Gomulkiewicz & Holt (1995); Orr & Unckless (2008, 2014)
 
 # Abschluss
 
+## Rettung, die wir nicht wollen: Tumore
+
+```{r}
+#| fig-height: 5.2
+#| fig-width: 9.5
+#| out-width: 78%
+tumor <- function(L = 71, N_start = 1500, mu = 0.003, tod = 0.3, schritte_th = 45, zeiten = c(0, 12, 45)) {
+  g <- matrix(0L, L, L); m <- (L + 1) / 2; g[m, m] <- 1L
+  nb <- rbind(c(1, 0), c(-1, 0), c(0, 1), c(0, -1))
+  schritt <- function(g, therapie) {
+    z <- which(g > 0, arr.ind = TRUE); z <- z[sample(nrow(z)), , drop = FALSE]
+    for (k in seq_len(nrow(z))) {
+      i <- z[k, 1]; j <- z[k, 2]; typ <- g[i, j]
+      if (typ == 0L) next
+      if (therapie && typ == 1L) { if (runif(1) < tod) g[i, j] <- 0L; next }
+      if (runif(1) > 0.5) next
+      d <- nb[sample(4, 1), ]; ii <- i + d[1]; jj <- j + d[2]
+      if (ii < 1 || jj < 1 || ii > L || jj > L || g[ii, jj] != 0L) next
+      g[ii, jj] <- if (typ == 1L && runif(1) < mu) 2L else typ
+    }
+    g
+  }
+  t <- 0; verlauf <- data.frame()
+  while (sum(g > 0) < N_start) { g <- schritt(g, FALSE); t <- t + 1
+    verlauf <- rbind(verlauf, data.frame(t = t, alle = sum(g > 0), res = sum(g == 2))) }
+  t0 <- t; bilder <- list()
+  for (k in 0:schritte_th) {
+    if (k > 0) { g <- schritt(g, TRUE); t <- t + 1
+      verlauf <- rbind(verlauf, data.frame(t = t, alle = sum(g > 0), res = sum(g == 2))) }
+    if (k %in% zeiten) { w <- which(g > 0, arr.ind = TRUE)
+      if (nrow(w) > 0) bilder[[length(bilder) + 1]] <- data.frame(x = w[, 1], y = w[, 2], typ = g[w], k = k) }
+  }
+  verlauf$t <- verlauf$t - t0
+  list(bilder = do.call(rbind, bilder), verlauf = verlauf)
+}
+set.seed(14); eins <- tumor(mu = 4e-4)
+b <- eins$bilder
+b$k <- factor(b$k, labels = c("Therapie beginnt", "12 Schritte später", "45 Schritte später"))
+b$typ <- factor(b$typ, levels = 1:2, labels = c("empfindlich", "resistent"))
+p_bild <- ggplot(b, aes(x, y, fill = typ)) + geom_tile() +
+  facet_wrap(~ k) + coord_equal(xlim = c(1, 71), ylim = c(1, 71)) +
+  scale_fill_manual(values = c(empfindlich = "grey65", resistent = "#c0392b"), name = NULL) +
+  theme_void(base_size = 15) + theme(strip.text = element_text(face = "bold"),
+    panel.background = element_rect(fill = "#fdf2e9", colour = NA), legend.position = "right")
+viele <- do.call(rbind, lapply(1:12, function(sd) { set.seed(sd); v <- tumor(mu = 4e-4)$verlauf
+  v$lauf <- sd; v$ausgang <- ifelse(tail(v$alle, 1) > 0, "wächst wieder", "verschwindet"); v }))
+p_kurven <- ggplot(subset(viele, alle > 0), aes(t, alle, group = lauf, colour = ausgang)) +
+  annotate("rect", xmin = 0, xmax = 45, ymin = 0.7, ymax = 3000, fill = "#fdedec") +
+  geom_line(linewidth = 0.9) +
+  annotate("text", x = 22, y = 2500, label = "Therapie", size = 4.4) +
+  scale_y_log10(breaks = c(1, 10, 100, 1000)) +
+  scale_colour_manual(values = c("wächst wieder" = "#c0392b", verschwindet = "grey55"), name = NULL) +
+  labs(x = "Zeit (Schritte)", y = "Tumorzellen (log)") +
+  theme_slide() + theme(legend.position = "right")
+p_bild / p_kurven + plot_layout(heights = c(1.15, 1))
+```
+
+Resistente Zellen entstehen schon **vor** der Therapie. Viele Tumore verschwinden, die mit Resistenten wachsen **wieder**: die U-Kurve.
+
+::: aside
+Eigene Simulation auf einem Gitter, Idee nach Waclaw et al. (2015), *Nature* 525: 261–264, Fig. 4
+:::
+
 ## Was das bedeutet
 
-**Antibiotika und Pestizide:** riesiges $N_0$, oft stehende Variation. Rettung, also Resistenz, ist zu **erwarten**. Die Theorie sagt: Sie wird unwahrscheinlicher, wenn die Population klein ist und schnell schrumpft.
+**Antibiotika, Pestizide, Krebstherapie:** riesiges $N_0$, oft stehende Variation. Rettung, also Resistenz, ist zu **erwarten**. Die Theorie sagt: Sie wird unwahrscheinlicher, wenn die Population klein ist und schnell schrumpft.
 
 **Naturschutz:** kleines $N_0$, langsame Generationen. Evolution ist meist **zu langsam**. Die Theorie sagt: Was den Rückgang bremst oder Genfluss bringt, gibt ihr mehr Zeit.
 
@@ -1318,6 +1258,15 @@ Modelle: Haldane (1927); Gomulkiewicz & Holt (1995); Orr & Unckless (2008, 2014)
 2. **Das Programm** für Rettung selbst laufen lassen, Zeile für Zeile
 3. Viele Läufe: Rettung für verschiedene $N_0$ und $r$, Vergleich mit der Formel
 4. Bonus: Rettung mit zwei Orten
+
+## Abschlussfragen
+
+1. Warum geht eine **vorteilhafte** neue Mutation meistens verloren?
+2. Was macht eine einzige Zeile `2 * rbinom(1, n, 1 - a)`, und warum genügt sie für eine Generation?
+3. Warum steht bei der Rettung $N_0$ **oben** und $r$ **unten** in $\lambda = 2N_0Us/r$?
+4. Warum hilft stehende Variation mehr als neue Mutationen?
+5. Wann hilft Migration aus einer Zuflucht, wann schadet sie?
+6. Bei Bakterien wollen wir keine Rettung, bei Teufeln schon. Was würden Sie jeweils tun?
 
 ## Ausblick · Woche 11
 
@@ -1356,6 +1305,7 @@ Modelle: Haldane (1927); Gomulkiewicz & Holt (1995); Orr & Unckless (2008, 2014)
 1. **Tomasini, M. & Peischl, S. (2022).** The role of spatial structure in multi-deme models of evolutionary rescue. *J. Evol. Biol.* 35: 986–1001. [doi:10.1111/jeb.14018](https://doi.org/10.1111/jeb.14018)
 1. **Uecker, H. & Hermisson, J. (2011).** On the fixation process of a beneficial mutation in a variable environment. *Genetics* 188: 915–930. [doi:10.1534/genetics.110.124297](https://doi.org/10.1534/genetics.110.124297)
 1. **Uecker, H., Otto, S. P. & Hermisson, J. (2014).** Evolutionary rescue in structured populations. *American Naturalist* 183: E17–E35. [doi:10.1086/673914](https://doi.org/10.1086/673914)
+1. **Waclaw, B., Bozic, I., Pittman, M. E., Hruban, R. H., Vogelstein, B. & Nowak, M. A. (2015).** A spatial model predicts that dispersal and cell turnover limit intratumour heterogeneity. *Nature* 525: 261–264. [doi:10.1038/nature14971](https://doi.org/10.1038/nature14971)
 1. **Watson, H. W. & Galton, F. (1875).** On the probability of the extinction of families. *J. Anthropol. Inst.* 4: 138–144. [doi:10.2307/2841222](https://doi.org/10.2307/2841222)
 ::::
 
