@@ -591,7 +591,7 @@ Genau: $u = 2s/(1+s)$. Mit `rpois`-Nachkommen eine andere Kurve, fast derselbe F
 - in Populationen, die durch **Genfluss** verbunden sind ([Tomasini & Peischl 2018](https://doi.org/10.1534/genetics.118.301104), [2020](https://doi.org/10.1111/evo.14038), [2022](https://doi.org/10.1111/jeb.14018)),
 - bei **Inversionen** entlang eines Umweltgradienten ([Peischl & Strütt 2026, Preprint](https://doi.org/10.64898/2026.10.25.761641)).
 
-Die Methoden sind dieselben wie heute: Verzweigungsprozesse und Simulationen.
+Die Methoden sind dieselben wie heute: Verzweigungsprozesse und Simulationen. Mehr: [peischllab.github.io](https://peischllab.github.io)
 :::
 
 ::: aside
@@ -779,17 +779,17 @@ Bosshard et al. (2017), *Genetics* 207: 669–684, Fig. 1 B–C und Fig. 3 · Th
 ## Was beeinflusst die Etablierung?
 
 ::: {.ueberblick}
-| Einfluss | Wirkung | Quelle |
+| Einfluss | Kernaussage | Quelle |
 |---|---|---|
-| Vorteil $s$ | $u \approx 2s$: bei kleinem $s$ nur wenige Prozent | Haldane 1927 |
-| Streuung der Nachkommenzahl | mehr Streuung, mehr Verluste | Patwa & Wahl 2008 |
-| Umwelt ändert sich mit der Zeit | die **ersten Generationen** zählen | Peischl & Kirkpatrick 2012 |
-| Lebensraum verschiebt sich | zu schnell: **keine** Etablierung | Kirkpatrick & Peischl 2013 |
-| Genfluss zwischen Orten | oft ist **mittlere** Migration am besten | Tomasini & Peischl 2018 |
-| Ausbreitung, Drift am Rand | auch **schädliche** Mutationen setzen sich durch | Peischl et al. 2013; Bosshard et al. 2017 |
-:::
+| Selektionsvorteil $s$ | $u \approx 2s$: auch vorteilhafte Mutationen gehen meist verloren | Haldane 1927 |
+| Fortpflanzung | mehr Streuung der Nachkommenzahl $\sigma^2$, mehr Verluste: $u \approx 2s/\sigma^2$ | Übersicht: Patwa & Wahl 2008 |
+| Populationsgrösse | konstant: kaum Einfluss, solange $Ns \gg 1$; wachsend: höher; schrumpfend: tiefer | Kimura 1962; Otto & Whitlock 1997 |
+| Genetische Architektur | diploid zählt der Vorteil im Heterozygoten ($u \approx 2hs$); ohne Rekombination konkurrieren Mutationen | Haldane 1927; Gerrish & Lenski 1998 |
+| Zeit | wechselnde Umwelt: die **ersten** Generationen zählen | Uecker & Hermisson 2011; Peischl & Kirkpatrick 2012 |
+| Raum | Genfluss, wandernde Lebensräume und Ausbreitung können helfen oder schaden | Kirkpatrick & Peischl 2013; Tomasini & Peischl 2018; Peischl et al. 2013 |
 
-Die Methode bleibt dieselbe: ein **Verzweigungsprozess**, gelöst oder simuliert.
+: {tbl-colwidths="[18,54,28]"}
+:::
 
 # Ein einfaches Modell für Rettung
 
@@ -1308,6 +1308,7 @@ Waclaw et al. (2015), *Nature* 525: 261–264, Fig. 3a (Autorenmanuskript, PMC)
 1. **Bosshard, L., Dupanloup, I., Tenaillon, O., Bruggmann, R., Ackermann, M., Peischl, S. & Excoffier, L. (2017).** Accumulation of deleterious mutations during bacterial range expansions. *Genetics* 207: 669–684. [doi:10.1534/genetics.117.300144](https://doi.org/10.1534/genetics.117.300144)
 1. **Chen, I.-C., Hill, J. K., Ohlemüller, R., Roy, D. B. & Thomas, C. D. (2011).** Rapid range shifts of species associated with high levels of climate warming. *Science* 333: 1024–1026. [doi:10.1126/science.1206432](https://doi.org/10.1126/science.1206432)
 1. **Epstein, B., et al. (2016).** Rapid evolutionary response to a transmissible cancer in Tasmanian devils. *Nature Communications* 7: 12684. [doi:10.1038/ncomms12684](https://doi.org/10.1038/ncomms12684)
+1. **Gerrish, P. J. & Lenski, R. E. (1998).** The fate of competing beneficial mutations in an asexual population. *Genetica* 102–103: 127–144. [doi:10.1023/A:1017067816551](https://doi.org/10.1023/A:1017067816551)
 1. **Gomulkiewicz, R. & Holt, R. D. (1995).** When does evolution by natural selection prevent extinction? *Evolution* 49: 201–207. [doi:10.1111/j.1558-5646.1995.tb05971.x](https://doi.org/10.1111/j.1558-5646.1995.tb05971.x)
 1. **Haldane, J. B. S. (1927).** A mathematical theory of natural and artificial selection, Part V. *Proc. Camb. Philos. Soc.* 23: 838–844.
 1. **Hutchinson, G. E. (1965).** *The Ecological Theater and the Evolutionary Play.* Yale University Press, New Haven.
@@ -1322,6 +1323,7 @@ Waclaw et al. (2015), *Nature* 525: 261–264, Fig. 3a (Autorenmanuskript, PMC)
 1. **Martin, G., Aguilée, R., Ramsayer, J., Kaltz, O. & Ronce, O. (2013).** The probability of evolutionary rescue: towards a quantitative comparison between theory and evolution experiments. *Phil. Trans. R. Soc. B* 368: 20120088. [doi:10.1098/rstb.2012.0088](https://doi.org/10.1098/rstb.2012.0088)
 1. **Orr, H. A. & Unckless, R. L. (2008).** Population extinction and the genetics of adaptation. *American Naturalist* 172: 160–169. [doi:10.1086/589460](https://doi.org/10.1086/589460)
 1. **Orr, H. A. & Unckless, R. L. (2014).** The population genetics of evolutionary rescue. *PLoS Genet.* 10: e1004551. [doi:10.1371/journal.pgen.1004551](https://doi.org/10.1371/journal.pgen.1004551)
+1. **Otto, S. P. & Whitlock, M. C. (1997).** The probability of fixation in populations of changing size. *Genetics* 146: 723–733. [doi:10.1093/genetics/146.2.723](https://doi.org/10.1093/genetics/146.2.723)
 1. **Patwa, Z. & Wahl, L. M. (2008).** The fixation probability of beneficial mutations. *J. R. Soc. Interface* 5: 1279–1289. [doi:10.1098/rsif.2008.0248](https://doi.org/10.1098/rsif.2008.0248)
 1. **Parmesan, C. (2006).** Ecological and evolutionary responses to recent climate change. *Annu. Rev. Ecol. Evol. Syst.* 37: 637–669. [doi:10.1146/annurev.ecolsys.37.091305.110100](https://doi.org/10.1146/annurev.ecolsys.37.091305.110100)
 1. **Parmesan, C. & Yohe, G. (2003).** A globally coherent fingerprint of climate change impacts across natural systems. *Nature* 421: 37–42. [doi:10.1038/nature01286](https://doi.org/10.1038/nature01286)
