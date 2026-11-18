@@ -740,7 +740,7 @@ Skizze nach Peischl et al. (2013), *Mol. Ecol.* 22: 5972–5982
 Eine Kolonie aus zwei Sorten *E. coli*, gleich bis auf die Farbe (Mischung 50:50). Nach wenigen Tagen besteht der Rand aus **Sektoren** einer einzigen Farbe: Wenige Zellen stellen bald den ganzen Rand. Das ist **Drift** am Rand, ganz ohne Selektion.
 
 ::: aside
-Hallatschek, Hersen, Ramanathan & Nelson (2007), *PNAS* 104: 19926–19930, Fig. 1A
+Hallatschek, Hersen, Ramanathan & Nelson (2007), *PNAS* 104: 19926–19930, Fig. 1A · Mikrobielle Gemeinschaften auch hier: [David Johnson](https://www.mca-johnson.com), Eawag und [Institut für Ökologie und Evolution, Uni Bern](https://www.iee.unibe.ch/about_us/persons/dr_johnson_david_r/index_eng.html)
 :::
 
 ## Auflösung: Expansionslast
