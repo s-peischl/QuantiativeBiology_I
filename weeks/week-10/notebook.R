@@ -346,5 +346,5 @@ zeige_migration(s = 0.5, z = 0.2, r = 0.2)    # teure Mutante: bitte s aendern
 # 1. Billige Mutante (s = 0.02): Hilft Migration? Wie viel mehr Populationen werden gerettet als ohne Migration (m = 0)?
 # 2. Teure Mutante (s = 0.5): Bei welcher Migrationsrate ist Rettung am wahrscheinlichsten? Was passiert bei sehr viel Migration?
 # 3. Erklaeren Sie den Unterschied mit dem Wort gene swamping: Wo landen die Mutanten bei viel Migration, und was passiert dort mit ihnen?
-# 4. Pruefen Sie die Bedingung aus der Vorlesung, s/z < r\,\theta, fuer beide Faelle (\theta = 100). Was sagt sie, was sagt sie nicht?
+# 4. Tomasini & Peischl (2020) leiten her: Genfluss hilft, wenn s/z < r theta. Pruefen Sie die Bedingung, fuer beide Faelle (\theta = 100). Was sagt sie, was sagt sie nicht?
 

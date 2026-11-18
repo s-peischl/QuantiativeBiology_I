@@ -118,7 +118,7 @@ col_theo <- "#d95f02"   # Theorie
 
 | Teil | Dauer | Was |
 |------|-------|-----|
-| Vorlesung | ~55 min | Verzweigungsprozess · ein Modell für Rettung · ein Programm · Tests · zwei Orte |
+| Vorlesung | ~55 min | Verzweigungsprozess · Forschung · ein Modell für Rettung · ein Programm · fünf Tests |
 | Notebook | ~35 min | Verzweigungsprozess Schritt für Schritt · Programm für Rettung · viele Läufe · Bonus: zwei Orte |
 
 ::: aside
@@ -178,7 +178,7 @@ Nach heute können Sie …
 1. Gerettet oder ausgestorben? Die U-Kurve
 2. Eine neue Mutation: Wie oft setzt sie sich durch?
 3. Ein Modell für Rettung, als Formel und als Simulation
-4. Fünf Vorhersagen, im Labor geprüft, die letzte mit einem Modell für zwei Orte
+4. Fünf Vorhersagen, im Labor geprüft
 
 ::: aside
 [Modul 3](../../docs/module-03-overview.html) · [Glossar](../../docs/glossary.html)
@@ -668,6 +668,27 @@ Gestrichelt: Vorteil $s$ im Raum. Kurven: Etablierungswahrscheinlichkeit je nach
 Kirkpatrick & Peischl (2013), *Phil. Trans. R. Soc. B* 368: 20120082, Fig. 4 · grösster Vorteil $s = 0.1$
 :::
 
+## Quiz: Bakterien auf Wanderschaft
+
+:::: columns
+::: {.column width="45%"}
+![](../../pics/rescue/bosshard2017_fig1bc.jpg){fig-alt="Versuchsaufbau: Kolonie wächst 72 Stunden auf Agar, Zellen von der Front werden auf eine neue Platte gesetzt; aneinandergereiht ergibt das eine lange Ausbreitung" style="max-height:380px"}
+:::
+::: {.column width="55%"}
+*E. coli* mit **hoher Mutationsrate** wächst auf Agar. Alle 3 Tage kommen Zellen **vom Rand** der Kolonie auf eine neue Platte. 39 Tage, rund 1650 Generationen: eine lange Ausbreitung.
+
+**Was passiert mit der Wachstumsgeschwindigkeit der Kolonien?**
+
+A. Sie wachsen **schneller**: Anpassung an das Leben auf Agar.  
+B. Sie bleiben **gleich**.  
+C. Sie wachsen **langsamer**.
+:::
+::::
+
+::: aside
+Bosshard et al. (2017), *Genetics* 207: 669–684, Fig. 1 B–C
+:::
+
 ## Was am Rand passiert
 
 ```{r}
@@ -712,70 +733,34 @@ Jeder **neue** Ort wird von **wenigen** Gründern vom Rand besiedelt. Ist zufäl
 Skizze nach Peischl et al. (2013), *Mol. Ecol.* 22: 5972–5982
 :::
 
-## Am Rand einer Ausbreitung
+## Am Rand im Experiment
+
+![](../../pics/rescue/hallatschek2007_fig1a.jpg){fig-alt="Originalabbildung: Kolonie von E. coli aus einer Mischung zweier Farbmarker, nach 0 bis 84 Stunden; am Rand entstehen wenige grosse Sektoren einer Farbe" style="max-height:330px"}
+
+Eine Kolonie aus zwei Sorten *E. coli*, gleich bis auf die Farbe (Mischung 50:50). Nach wenigen Tagen besteht der Rand aus **Sektoren** einer einzigen Farbe: Wenige Zellen stellen bald den ganzen Rand. Das ist **Drift** am Rand, ganz ohne Selektion.
+
+::: aside
+Hallatschek, Hersen, Ramanathan & Nelson (2007), *PNAS* 104: 19926–19930, Fig. 1A
+:::
+
+## Auflösung: Expansionslast
 
 ::::: columns
-::: {.column width="52%"}
-```{r}
-#| fig-height: 4.4
-#| fig-width: 5.2
-#| out-width: 100%
-#| out-extra: 'style="max-height:430px"'
-front_sim <- function(B = 90, H = 70, schritte = 400) {
-  g <- matrix(0L, H, B); g[1, ] <- seq_len(B)
-  for (k in seq_len(schritte)) {
-    voll <- which(g > 0, arr.ind = TRUE)
-    voll <- voll[sample(nrow(voll)), , drop = FALSE]
-    richt <- sample(1:4, nrow(voll), replace = TRUE)
-    di <- c(1, -1, 0, 0)[richt]; dj <- c(0, 0, 1, -1)[richt]
-    ii <- voll[, 1] + di; jj <- (voll[, 2] + dj - 1) %% B + 1
-    ok <- ii >= 1 & ii <= H
-    for (n in which(ok)) if (g[ii[n], jj[n]] == 0L) g[ii[n], jj[n]] <- g[voll[n, 1], voll[n, 2]]
-    if (all(g[H, ] > 0)) break
-  }
-  w <- which(g > 0, arr.ind = TRUE)
-  data.frame(x = w[, 2], y = w[, 1], linie = g[w])
-}
-set.seed(2)
-fr <- front_sim(B = 120, H = 95)
-set.seed(7)
-ggplot(fr, aes(x, y, fill = factor(linie))) +
-  geom_raster() +
-  scale_fill_manual(values = sample(hcl.colors(120, "Dark 3")), guide = "none") +
-  annotate("segment", x = -6, xend = -6, y = 5, yend = 90, colour = "grey30",
-           arrow = arrow(length = unit(0.25, "cm"))) +
-  annotate("text", x = -10, y = 48, label = "Ausbreitung", angle = 90, size = 4.4) +
-  coord_equal(xlim = c(-13, 121), expand = FALSE) + theme_void()
-```
+::: {.column width="58%"}
+![](../../pics/rescue/bosshard2017_fig3.jpg){fig-alt="Koloniegrösse über 39 Tage: blaue Linien mit hoher Mutationsrate fallen, orange Linien mit niedriger Mutationsrate bleiben gleich" style="max-height:430px"}
 :::
-::: {.column width="48%"}
-Eine Kolonie wächst nach oben. Jede Farbe: die Nachkommen **einer** Zelle in der untersten Reihe.
+::: {.column width="42%"}
+**C**: Die Kolonien wachsen **langsamer**.
 
-Nur Zellen **am Rand** haben Platz für Nachwuchs. Darum stammt der Rand bald von **wenigen** Zellen ab: starke **Drift**, obwohl die Kolonie riesig ist.
+- Hohe Mutationsrate (blau): Die Kolonien werden immer **kleiner**.
+- Niedrige Rate (orange): kaum Veränderung.
 
-Eine Mutation am Rand kann so «mitsurfen», auch eine **schädliche**.
+Am Rand surfen auch **schädliche** Mutationen mit und sammeln sich an: **Expansionslast**.
 :::
 :::::
 
 ::: aside
-Eigene Simulation auf einem Gitter · Theorie: Peischl et al. (2013), *Mol. Ecol.* 22: 5972–5982
-:::
-
-## Expansionslast im Experiment
-
-:::: columns
-::: {.column width="42%"}
-![](../../pics/rescue/bosshard2017_fig1bc.jpg){fig-alt="Versuchsaufbau: Kolonie wächst 72 Stunden auf Agar, Zellen von der Front werden auf eine neue Platte gesetzt; aneinandergereiht ergibt das eine lange Ausbreitung" style="max-height:330px"}
-:::
-::: {.column width="58%"}
-![](../../pics/rescue/bosshard2017_fig3.jpg){fig-alt="Koloniegrösse über 39 Tage: blaue Linien mit hoher Mutationsrate fallen, orange Linien mit niedriger Mutationsrate bleiben gleich" style="max-height:330px"}
-:::
-::::
-
-Links: Alle 3 Tage kommen Zellen **vom Rand** auf eine neue Platte, 39 Tage lang: eine lange Ausbreitung. Rechts: Linien mit hoher Mutationsrate (blau) bilden immer **kleinere** Kolonien, Linien mit niedriger Rate (orange) kaum. Am Rand sammeln sich **schädliche** Mutationen an: **Expansionslast**.
-
-::: aside
-Bosshard et al. (2017), *Genetics* 207: 669–684, Fig. 1 B–C und Fig. 3 · Theorie: Peischl et al. (2013), *Mol. Ecol.*
+Bosshard et al. (2017), *Genetics* 207: 669–684, Fig. 3 · Theorie: Peischl et al. (2013), *Mol. Ecol.* 22: 5972–5982
 :::
 
 ## Was beeinflusst die Etablierung?
@@ -992,17 +977,18 @@ Jede Vorhersage hat einen Test im Labor.
 
 :::: columns
 ::: {.column width="62%"}
-Bell & Gonzalez (2009): Hunderte Hefe-Populationen verschiedener Grösse, eine sonst tödliche Salzkonzentration.
+**Vorhersage:** U-Kurve, und eine Schwelle in $N_0$ (Rettungsmodell von heute).
 
-- **U-Kurve**: Einbruch, dann Erholung, oft in 25 Generationen.
-- Klare **Schwelle**: Nur genügend grosse Populationen werden gerettet.
+**Experiment:** Hunderte Hefe-Populationen verschiedener Grösse, eine sonst tödliche Salzkonzentration (Bell & Gonzalez 2009).
+
+**Ergebnis:** U-Kurven, oft Erholung in 25 Generationen. Nur genügend grosse Populationen werden gerettet.
 :::
 ::: {.column width="38%"}
 ![](../../pics/rescue/hefe_kolonien.jpg){fig-alt="Kolonien von Bäckerhefe auf einer Agarplatte"}
 :::
 ::::
 
-Die Schwelle lag dort, wo die Ausgangspopulation etwa **ein bis zwei** resistente Zellen enthielt (Bell 2013).
+Die Schwelle lag bei etwa **ein bis zwei** resistenten Zellen am Start (Bell 2013).
 
 ::: aside
 Bell & Gonzalez (2009), *Ecology Letters* · Foto: *Saccharomyces cerevisiae*. A doubt, Wikimedia Commons, CC BY-SA 4.0
@@ -1015,12 +1001,11 @@ Bell & Gonzalez (2009), *Ecology Letters* · Foto: *Saccharomyces cerevisiae*. A
 ![](../../pics/rescue/ramsayer2013_fig3a.jpg){fig-alt="Originalabbildung: Anteil überlebender Populationen gegen Streptomycin-Konzentration; 1.5 mL um 0.5 bis 0.6, 0.2 mL unter 0.1"}
 :::
 ::: {.column width="45%"}
-Gleiche Bakterien, gleiches Antibiotikum, nur das **Volumen** ist anders: 1.5 mL oder 0.2 mL, also 7.5-mal mehr Zellen.
+**Vorhersage:** $\lambda = 2N_0Us/r$ wächst mit $N_0$: grosse Populationen öfter gerettet.
 
-- gross: **25 von 48** gerettet
-- klein: **3 von 47** gerettet
+**Experiment:** *Pseudomonas* unter Streptomycin, 1.5 mL oder 0.2 mL, also 7.5-mal mehr Zellen.
 
-Bei jeder Dosis. Die Theorie sagt: $\lambda$ wächst mit $N_0$.
+**Ergebnis:** gross **25 von 48**, klein **3 von 47** gerettet.
 :::
 ::::
 
@@ -1035,12 +1020,11 @@ Ramsayer, Kaltz & Hochberg (2013), Fig. 3A, Experiment 2, nach 86 Stunden, CC BY
 ![](../../pics/rescue/ramsayer2013_fig2a.jpg){fig-alt="Originalabbildung: Anteil überlebender Populationen gegen Streptomycin; diversifiziert (gefüllt) 0.6 bis 0.8, klonal (offen) 0.4" style="max-height:420px"}
 :::
 ::: {.column width="48%"}
-Gleiche Bakterien, gleiche Grösse. Nur die **Vielfalt** am Start ist anders:
+**Vorhersage:** Stehende Variation hilft: Resistente können **schon da** sein (Orr & Unckless 2008).
 
-- **klonal** (ein Genotyp, offen): 40 % überleben
-- **diversifiziert** (gefüllt): 60 bis 80 %
+**Experiment:** gleiche Bakterien, gleiche Grösse, nur die **Vielfalt** am Start ist anders.
 
-Mehr Varianten, mehr Rettung: Resistente können **schon da** sein.
+**Ergebnis:** klonal (offen) 40 %, diversifiziert (gefüllt) 60 bis 80 % gerettet.
 :::
 ::::
 
@@ -1067,10 +1051,11 @@ ggplot(rampe, aes(t, c, colour = weg)) +
   theme_slide() + theme(legend.position = "right")
 ```
 
-Lindsey et al. (2013): 1255 Populationen *E. coli*, Rifampicin. Am Ende überall **dieselbe** Dosis, nur der Weg ist verschieden.
+**Vorhersage:** Langsamer Wandel heisst zuerst kleines $r$: mehr Generationen, mehr Chancen.
 
-- **Langsamer** Wandel: mehr Populationen überleben. Theorie: kleineres $r$, mehr Chancen.
-- Neu: Manche Kombinationen von Mutationen gibt es **nur** auf dem langsamen Weg.
+**Experiment:** 1255 Populationen *E. coli*, Rifampicin. Am Ende überall **dieselbe** Dosis, nur der Weg ist verschieden (Lindsey et al. 2013).
+
+**Ergebnis:** Langsamer Wandel: mehr Populationen überleben. Manche Kombinationen von Mutationen gibt es **nur** auf dem langsamen Weg.
 
 ::: aside
 Skizze der drei Behandlungen. Lindsey, Gallie, Taylor & Kerr (2013), *Nature* 494: 463–467
@@ -1113,121 +1098,14 @@ p_netz <- ggplot() +
 p_salz + p_netz + plot_layout(widths = c(1.1, 1))
 ```
 
-Bell & Gonzalez (2011): über 2000 Hefe-Populationen, betreut von einem Roboter. **3 Raten × 3 Arten von Austausch**, dann ein plötzlicher Salzschock.
+**Vorhersage:** Genfluss aus einer Zuflucht hilft, zu viel kann schaden (Uecker et al. 2014; Tomasini & Peischl 2020).
 
-- Am häufigsten gerettet: **langsamer** Wandel und Austausch mit **Nachbarn**.
-- Austausch zwischen Orten kann also **helfen**. Wann, und warum? Dafür brauchen wir ein Modell.
+**Experiment:** über 2000 Hefe-Populationen, **3 Raten × 3 Arten von Austausch**, dann ein Salzschock (Bell & Gonzalez 2011).
+
+**Ergebnis:** Am häufigsten gerettet: **langsamer** Wandel und Austausch mit **Nachbarn**.
 
 ::: aside
 Skizze des Versuchsplans, Werte erfunden. Bell & Gonzalez (2011), *Science* 332: 1327–1330
-:::
-
-## Ein Modell für Vorhersage 5: zwei Orte
-
-::::: columns
-::: {.column width="50%"}
-![](../../pics/rescue/tomasini_peischl2020_fig1.png){fig-alt="Originalabbildung: Populationsgrösse an Ort 1 und Ort 2 über die Zeit; Ort 1 wird bei 0 schlecht und zeigt eine U-Kurve, Ort 2 wird erst bei theta schlecht; rot Mutanten, blau Wildtyp, schwarz alle" style="max-height:440px"}
-:::
-::: {.column width="50%"}
-Das einfachste Modell für das Hefe-Experiment: **zwei** Orte, die nacheinander schlecht werden.
-
-- **Ort 1** (oben) wird bei $0$ schlecht.
-- **Ort 2** (unten) ist eine **Zuflucht** bis $\theta$.
-- Dazwischen **Migration** $m$.
-
-Rot: Mutanten, schwarz: alle. Oben die **U-Kurve**. Hilft Migration, oder schadet sie?
-:::
-:::::
-
-::: aside
-Tomasini & Peischl (2020), *Evolution* 74: 1640–1653, Fig. 1 (Preprint-Version, bioRxiv 622142, CC BY-NC 4.0)
-:::
-
-## Die Parameter
-
-| Symbol | Bedeutung | Wert unten |
-|---|---|---|
-| $r$ | Rückgang des Wildtyps am schlechten Ort | 0.1 bzw. 0.2 |
-| $z$ | Vorteil der Mutante am schlechten Ort | 0.1 bzw. 0.2 |
-| $s$ | **Kosten** der Mutante in der Zuflucht | 0.02 oder 0.5 |
-| $\theta$ | Generationen, bis auch die Zuflucht schlecht wird | 100 |
-| $m$ | Anteil, der pro Generation den Ort wechselt | 0 bis 1 |
-
-Die Zuflucht hat Platz für $K = 5000$ Individuen. Gerettet, sobald es irgendwo 500 Mutanten gibt.
-
-## Eine Generation an zwei Orten
-
-Dasselbe Rezept, nur sind `wt` und `mut` jetzt **Vektoren** mit zwei Einträgen. Dazu kommt Schritt 3: Migration.
-
-```r
-wt  <- rpois(2, wt * ifelse(schlecht, 1 - r, 1))         # 1. Wildtyp
-neu <- rbinom(2, wt, U)                                   # 2. Mutation
-mut <- rpois(2, mut * ifelse(schlecht, 1 + z, 1 - s)) + neu
-weg_wt  <- rbinom(2, wt,  m / 2)                          # 3. Migration:
-weg_mut <- rbinom(2, mut, m / 2)                          #    wer geht?
-wt  <- wt  - weg_wt  + rev(weg_wt)                        #    und kommt
-mut <- mut - weg_mut + rev(weg_mut)                       #    am anderen Ort an
-```
-
-`rev` dreht den Vektor um: Wer Ort 1 verlässt, kommt in Ort 2 an, und umgekehrt.
-
-## Was die Simulation zeigt
-
-```{r}
-#| fig-height: 3.3
-#| fig-width: 8.4
-#| out-width: 90%
-zwei_orte <- function(m, s, z, r, K = 5000, theta = 100, U = 2e-5, grenze = 500) {
-  wt <- c(K, K); mut <- c(0, 0)
-  for (t in 1:1000) {
-    schlecht <- c(TRUE, t > theta)
-    wt <- rpois(2, wt * ifelse(schlecht, 1 - r, 1))
-    if (!schlecht[2]) wt[2] <- K
-    neu <- rbinom(2, wt, U)
-    mut <- rpois(2, mut * ifelse(schlecht, 1 + z, 1 - s)) + neu
-    weg_wt <- rbinom(2, wt, m / 2); weg_mut <- rbinom(2, mut, m / 2)
-    wt <- wt - weg_wt + rev(weg_wt); mut <- mut - weg_mut + rev(weg_mut)
-    if (sum(mut) >= grenze) return(1)
-    if (sum(wt) + sum(mut) == 0) return(0)
-  }
-  0
-}
-set.seed(1)
-m_werte <- c(0, 0.01, 0.05, 0.1, 0.2, 0.4, 0.7, 1)
-mig <- rbind(
-  data.frame(m = m_werte, fall = "billige Mutante (s = 0.02)",
-             p = sapply(m_werte, function(m) mean(replicate(200, zwei_orte(m, 0.02, 0.1, 0.1))))),
-  data.frame(m = m_werte, fall = "teure Mutante (s = 0.5)",
-             p = sapply(m_werte, function(m) mean(replicate(200, zwei_orte(m, 0.5, 0.2, 0.2))))))
-mig$pos <- match(mig$m, m_werte)
-ggplot(mig, aes(pos, p, colour = fall)) +
-  geom_line(linewidth = 1.2) + geom_point(size = 2.8) +
-  scale_x_continuous(breaks = seq_along(m_werte), labels = m_werte) +
-  scale_colour_manual(values = c(col_res, col_empf), name = NULL) +
-  coord_cartesian(ylim = c(0, 1)) +
-  labs(x = "Migrationsrate m", y = "Anteil gerettet") +
-  theme_slide()
-```
-
-Billige Mutante: **mehr Migration, mehr Rettung**. Teure Mutante: am besten bei **mittlerer** Migration, bei viel Migration bricht die Rettung ein.
-
-::: aside
-Je 200 Läufe pro Punkt. Dasselbe Programm ist im Notebook (Bonus F)
-:::
-
-## Zwei Kräfte
-
-| | Migration **hilft** | Migration **schadet** |
-|---|---|---|
-| Was passiert | Die volle Zuflucht schickt laufend Individuen in den schlechten Ort. Dort entstehen mehr Mutanten. | Mutanten werden in die Zuflucht gespült und zahlen dort Kosten (*gene swamping*). |
-| stark, wenn | Zuflucht lange da ($\theta$ gross), Stress hart ($r$ gross) | Kosten $s$ gross im Vergleich zum Vorteil $z$ |
-
-: {tbl-colwidths="[16,42,42]"}
-
-Genfluss hilft, wenn $\dfrac{s}{z} < r\,\theta$: Die Kosten sind klein im Vergleich dazu, wie hart und wie lange der Stress ist.
-
-::: aside
-Tomasini & Peischl (2020) · Etablierung mit Genfluss: Tomasini & Peischl (2018) · räumliche Anordnung: Tomasini & Peischl (2022) · mehrere Orte allgemein: Uecker, Otto & Hermisson (2014)
 :::
 
 ## Überblick: Modelle, Vorhersagen, Experimente
@@ -1298,7 +1176,7 @@ Waclaw et al. (2015), *Nature* 525: 261–264, Fig. 3a (Autorenmanuskript, PMC)
 
 ## Ausblick · Woche 11
 
-**Checkpoint C:** Ein Szenario zur Rettung, ein paar Simulationen, **eine Frage**, wie in Checkpoint B.
+Nächste Woche ist **Checkpoint C**. Bitte daran denken: Die Checkpoints sind **Anwesenheitspflicht**.
 
 ## Literatur
 
@@ -1312,6 +1190,7 @@ Waclaw et al. (2015), *Nature* 525: 261–264, Fig. 3a (Autorenmanuskript, PMC)
 1. **Epstein, B., et al. (2016).** Rapid evolutionary response to a transmissible cancer in Tasmanian devils. *Nature Communications* 7: 12684. [doi:10.1038/ncomms12684](https://doi.org/10.1038/ncomms12684)
 1. **Gerrish, P. J. & Lenski, R. E. (1998).** The fate of competing beneficial mutations in an asexual population. *Genetica* 102–103: 127–144. [doi:10.1023/A:1017067816551](https://doi.org/10.1023/A:1017067816551)
 1. **Gomulkiewicz, R. & Holt, R. D. (1995).** When does evolution by natural selection prevent extinction? *Evolution* 49: 201–207. [doi:10.1111/j.1558-5646.1995.tb05971.x](https://doi.org/10.1111/j.1558-5646.1995.tb05971.x)
+1. **Hallatschek, O., Hersen, P., Ramanathan, S. & Nelson, D. R. (2007).** Genetic drift at expanding frontiers promotes gene segregation. *PNAS* 104: 19926–19930. [doi:10.1073/pnas.0710150104](https://doi.org/10.1073/pnas.0710150104)
 1. **Haldane, J. B. S. (1927).** A mathematical theory of natural and artificial selection, Part V. *Proc. Camb. Philos. Soc.* 23: 838–844.
 1. **Hutchinson, G. E. (1965).** *The Ecological Theater and the Evolutionary Play.* Yale University Press, New Haven.
 1. **Kimura, M. (1962).** On the probability of fixation of mutant genes in a population. *Genetics* 47: 713–719. [doi:10.1093/genetics/47.6.713](https://doi.org/10.1093/genetics/47.6.713)
