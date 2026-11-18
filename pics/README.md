@@ -211,5 +211,4 @@ Aus Originalartikeln (PDF, zugeschnitten), Zitat zur Lehre mit Quellenangabe auf
 | `kirkpatrick_peischl2013_fig1.png` | Kirkpatrick & Peischl (2013), *Phil. Trans. R. Soc. B* 368: 20120082, Fig. 1 | die Autoren (S. Peischl) | © Royal Society, Zitat |
 | `kirkpatrick_peischl2013_fig4.png` | dieselbe Arbeit, Fig. 4 | die Autoren (S. Peischl) | © Royal Society, Zitat |
 | `tomasini_peischl2020_fig1.png` | Tomasini & Peischl, Preprint bioRxiv 622142 (2020), Fig. 1; erschienen in *Evolution* 74: 1640–1653 | die Autoren (S. Peischl) | CC BY-NC 4.0 (Preprint) |
-| `tomasini_peischl2022_fig1.png` | Tomasini & Peischl (2022), *J. Evol. Biol.* 35: 986–1001, Fig. 1 | die Autoren (S. Peischl) | Zitat; Lizenz der Verlagsversion nicht geprüft |
 | `waclaw2015_fig3a.png` | Waclaw et al. (2015), *Nature* 525: 261–264, Fig. 3a (Autorenmanuskript, PMC) | die Autoren | © Nature, Zitat |

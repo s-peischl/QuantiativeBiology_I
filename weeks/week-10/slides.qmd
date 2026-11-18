@@ -178,7 +178,7 @@ Nach heute können Sie …
 1. Gerettet oder ausgestorben? Die U-Kurve
 2. Eine neue Mutation: Wie oft setzt sie sich durch?
 3. Ein Modell für Rettung, als Formel und als Simulation
-4. Fünf Vorhersagen, im Labor geprüft
+4. Vorhersagen, im Labor geprüft
 5. Zwei Orte: Hilft Migration?
 
 ::: aside
@@ -186,6 +186,16 @@ Nach heute können Sie …
 :::
 
 # Gerettet oder ausgestorben?
+
+## Das Klima ändert sich, die Arten reagieren
+
+- Über **1700 Arten**: Verbreitungsgebiete verschieben sich im Mittel um **6 km pro Jahrzehnt** Richtung Pole, Frühlingsereignisse kommen **2.3 Tage pro Jahrzehnt** früher (Parmesan & Yohe 2003).
+- Neuere Daten: **17 km pro Jahrzehnt** Richtung Pole, **11 m pro Jahrzehnt** bergauf (Median; Chen et al. 2011).
+- Am stärksten schrumpfen **polare Arten und Bergarten**: Sie haben kaum noch Platz zum Ausweichen. Bei ihnen gibt es die ersten Arten, die wegen des Klimawandels ausgestorben sind (Parmesan 2006).
+
+::: aside
+Parmesan & Yohe (2003), *Nature* 421: 37–42 · Chen et al. (2011), *Science* 333: 1024–1026 · Parmesan (2006), *Annu. Rev. Ecol. Evol. Syst.* 37: 637–669
+:::
 
 ## Was kann eine schrumpfende Population tun?
 
@@ -210,7 +220,7 @@ ggplot(wege) +
   theme_void()
 ```
 
-Heute geht es um den blauen Weg: **Evolution**, bevor die Population verschwindet.
+Ausweichen sehen wir überall, wo Platz ist. Heute geht es um den blauen Weg: **Evolution**, bevor die Population verschwindet.
 
 ## Ist Evolution schnell genug?
 
@@ -237,17 +247,17 @@ ggplot(uhr, aes(zeit, zeile, colour = zeile)) +
   theme_slide() + theme(panel.grid = element_blank(), axis.text.y = element_text(size = 14, face = "bold"))
 ```
 
-Evolution zählt in **Generationen**: Bakterien haben viele, Elefanten fast keine. Ein **Wettlauf** gegen das Aussterben. Gewinnt die Anpassung: **evolutionäre Rettung** (Gomulkiewicz & Holt 1995).
+Oben: Wie schnell ändert sich die Umwelt? Unten: Wie lange dauert eine Generation? Bakterien haben während einer Behandlung viele Generationen, Elefanten während Jahrzehnten Erwärmung kaum eine. Gewinnt die Anpassung: **evolutionäre Rettung**.
 
 ::: aside
-Grössenordnungen, Skizze
+Grössenordnungen, Skizze · Begriff: Gomulkiewicz & Holt (1995) · Genetische Anpassung an Wärme ist beobachtet, aber es gibt bisher wenig Hinweise, dass sie ganze Arten schützt (Parmesan 2006)
 :::
 
 ## Theater und Stück
 
 > Hutchinson famously referred to ‘the ecological theater and the evolutionary play’ to emphasize that natural selection occurs in an environmental context. But, the metaphor works equally well if ‘ecological’ and ‘evolutionary’ are transposed: evolution provides the phenotypic setting that determines how the demographic processes of survival and extinction unfold.
 
-Sonst ist die Ökologie die **Bühne** und die Evolution das **Stück**. Bei der Rettung ist es umgekehrt: Die Evolution baut die Bühne, auf der sich **Überleben oder Aussterben** abspielt.
+Oft trennen wir: Ökologie in **Jahren** (wer überlebt, wie gross ist die Population), Evolution in **vielen Generationen**. Bei der Rettung laufen beide auf **derselben Zeitskala**: Während die Population schrumpft, ändern sich die Genhäufigkeiten. Dann können wir sie nicht mehr getrennt betrachten.
 
 ::: aside
 Kirkpatrick & Peischl (2013), *Phil. Trans. R. Soc. B* 368: 20120082 · Hutchinson (1965)
@@ -334,7 +344,7 @@ Skizze. Die U-Kurve als Zeichen von Rettung: Gomulkiewicz & Holt (1995)
 > Wovon hängt ab, ob eine schrumpfende Population **gerettet** wird?
 > Und kann man das **vorhersagen**?
 
-Heute: eine einfache Theorie, fünf Vorhersagen, und Experimente, die sie prüfen.
+Heute: eine einfache Theorie, ihre Vorhersagen, und Experimente, die sie prüfen.
 
 # Eine neue Mutation: Wie oft setzt sie sich durch?
 
@@ -486,7 +496,7 @@ $$
 
 Eine Gleichung, in der $q$ auf beiden Seiten steht. Der Trick: Die Tochter-Linien sind **gleich** wie die Mutter-Linie.
 
-## Die rechte Seite als Funktion
+## Von den Töchtern zur Mutter
 
 ::::: columns
 ::: {.column width="55%"}
@@ -503,23 +513,23 @@ ggplot(data.frame(q = qq, f = f01(qq)), aes(q, f)) +
   geom_point(data = punkte, size = 3.5, colour = col_res) +
   geom_text(data = punkte, aes(label = sprintf("%.2f", f)), hjust = 1.3, vjust = -0.4, size = 4.3) +
   coord_equal(xlim = c(0, 1), ylim = c(0, 1.05)) +
-  labs(x = "q (Tochter-Linie stirbt aus)", y = "f(q) (Mutter-Linie stirbt aus)",
-       title = "s = 0.1, also a = 0.45") +
+  labs(x = "Chance: Tochter-Linie stirbt aus", y = "Chance: Mutter-Linie stirbt aus",
+       title = "s = 0.1") +
   theme_slide()
 ```
 :::
 ::: {.column width="45%"}
-Die rechte Seite nennen wir $f(q) = a + (1-a)\,q^2$.
+Angenommen, jede Tochter-Linie stirbt mit Chance $q$ aus. Die Mutter-Linie stirbt aus, wenn
 
-$f$ beantwortet: Sterben die Töchter mit Chance $q$ aus, wie oft stirbt dann die **Mutter**-Linie?
+- sie **keine** Töchter hat (45 %), oder
+- sie **zwei** hat und **beide** aussterben: $q \cdot q$.
 
-- $q = 0$: nur ohne Nachkommen, $f = a = 0.45$
-- $q = 1$: sicher, $f = 1$
+Zusammen: $f(q) = 0.45 + 0.55\,q^2$. Die Punkte: $q = 0$ gibt 0.45, $q = 1$ gibt 1.
 :::
 :::::
 
 ::: aside
-$f$ heisst **erzeugende Funktion** der Nachkommenzahl (PGF).
+Fachbegriff: **erzeugende Funktion** (PGF). Den Namen brauchen wir nicht.
 :::
 
 ## Gesucht: ein $q$, das zu sich selbst passt
@@ -546,7 +556,7 @@ ggplot(pgf, aes(q, f, colour = s)) +
            size = 3.9, lineheight = 0.9) +
   scale_colour_manual(values = c("s = 0" = "grey55", "s = 0.1" = col_res), name = NULL) +
   coord_equal(xlim = c(0, 1), ylim = c(0, 1)) +
-  labs(x = "q (Tochter-Linie stirbt aus)", y = "f(q) (Mutter-Linie stirbt aus)") +
+  labs(x = "Chance: Tochter-Linie stirbt aus", y = "Chance: Mutter-Linie stirbt aus") +
   theme_slide()
 ```
 :::
@@ -567,34 +577,34 @@ Genau: $u = 2s/(1+s)$. Mit `rpois`-Nachkommen eine andere Kurve, fast derselbe F
 ## Forschung in Bern
 
 ::: {.unibe}
-**Populationsgenetik in Bern.** Haldanes $2s$ gilt für eine Umwelt, die sich **nicht** ändert. Wir fragen: Wann setzt sich eine neue Mutation durch,
+**Populationsgenetik in Bern.** Haldanes $2s$ gilt in einer **konstanten** Umwelt. Wir untersuchen, wie sich neue Mutationen etablieren:
 
-- wenn die Umwelt sich **in der Zeit** ändert ([Peischl & Kirkpatrick 2012](https://doi.org/10.1534/genetics.112.140756)),
-- wenn der gute Ort **wandert** ([Kirkpatrick & Peischl 2013](https://doi.org/10.1098/rstb.2012.0082)),
-- an der **Front** einer Ausbreitung ([Peischl et al. 2013](https://doi.org/10.1111/mec.12524); [Bosshard et al. 2017](https://doi.org/10.1534/genetics.117.300144)),
-- wenn Orte durch **Genfluss** verbunden sind ([Tomasini & Peischl 2018](https://doi.org/10.1534/genetics.118.301104), [2020](https://doi.org/10.1111/evo.14038), [2022](https://doi.org/10.1111/jeb.14018)),
-- als **Inversion** entlang eines Umweltgradienten ([Peischl & Strütt 2026, Preprint](https://doi.org/10.64898/2026.10.25.761641))?
+- in einer Umwelt, die sich **mit der Zeit** ändert ([Peischl & Kirkpatrick 2012](https://doi.org/10.1534/genetics.112.140756)),
+- wenn sich der **Lebensraum verschiebt** ([Kirkpatrick & Peischl 2013](https://doi.org/10.1098/rstb.2012.0082)),
+- am **Rand** einer Population, die sich ausbreitet ([Peischl et al. 2013](https://doi.org/10.1111/mec.12524); [Bosshard et al. 2017](https://doi.org/10.1534/genetics.117.300144)),
+- in Populationen, die durch **Genfluss** verbunden sind ([Tomasini & Peischl 2018](https://doi.org/10.1534/genetics.118.301104), [2020](https://doi.org/10.1111/evo.14038), [2022](https://doi.org/10.1111/jeb.14018)),
+- bei **Inversionen** entlang eines Umweltgradienten ([Peischl & Strütt 2026, Preprint](https://doi.org/10.64898/2026.10.25.761641)).
 
-Die Werkzeuge sind dieselben wie heute: Verzweigungsprozess und Simulation.
+Die Methoden sind dieselben wie heute: Verzweigungsprozesse und Simulationen.
 :::
 
 ::: aside
 Klassiker: Haldane (1927), Kimura (1962) · Übersicht: Patwa & Wahl (2008) · schwankende Umwelt: Uecker & Hermisson (2011)
 :::
 
-## Die Umwelt ändert sich: Was zählt?
+## Wenn sich die Umwelt mit der Zeit ändert
 
 ::::: columns
 ::: {.column width="56%"}
 ![](../../pics/rescue/kirkpatrick_peischl2013_fig1.png){fig-alt="Originalabbildung: Etablierungswahrscheinlichkeit p gegen die Zahl der Generationen T (log), in denen der Vorteil von 0.1 auf 0.05 fällt; die Kurve steigt von 0.1 auf 0.2" style="max-height:420px"}
 :::
 ::: {.column width="44%"}
-Der Vorteil fällt in $T$ Generationen von $s = 0.1$ auf $0.05$. Gestrichelt: $2s$ für beide.
+Der Vorteil sinkt in $T$ Generationen von $s = 0.1$ auf $0.05$. Gestrichelt: $2s$ für beide.
 
-- **Schneller** Wandel: Es zählt das spätere $s$.
-- **Langsamer** Wandel: Es zählt das erste $s$.
+- **Schneller** Wandel: wie das spätere $s$.
+- **Langsamer** Wandel: wie das anfängliche $s$.
 
-Es zählen die **ersten Generationen**.
+Entscheidend sind die **ersten Generationen**.
 :::
 :::::
 
@@ -602,19 +612,47 @@ Es zählen die **ersten Generationen**.
 Kirkpatrick & Peischl (2013), *Phil. Trans. R. Soc. B* 368: 20120082, Fig. 1 · Theorie: Peischl & Kirkpatrick (2012)
 :::
 
-## Der gute Ort wandert
+## Wenn sich der Lebensraum verschiebt
+
+```{r}
+#| fig-height: 2.7
+#| fig-width: 9.5
+#| out-width: 94%
+hx <- seq(400, 2600, length.out = 400)
+zonen <- do.call(rbind, lapply(0:2, function(k)
+  data.frame(x = hx, s = 0.1 * exp(-(hx - 1100 - 500 * k)^2 / (2 * 220^2)), k = k)))
+zonen$zeit <- factor(zonen$k, labels = c("heute", "später", "noch später"))
+ggplot(zonen, aes(x, s, colour = zeit)) +
+  geom_hline(yintercept = 0, colour = "grey60") +
+  geom_line(linewidth = 1.4) +
+  annotate("point", x = 1100, y = 0.1, size = 4, colour = col_empf) +
+  annotate("text", x = 1050, y = 0.112, label = "Mutation entsteht", hjust = 1, size = 4.2, colour = col_empf) +
+  annotate("segment", x = 1350, xend = 2050, y = 0.112, yend = 0.112, colour = "grey30",
+           arrow = arrow(length = unit(0.25, "cm"))) +
+  annotate("text", x = 1700, y = 0.124, label = "Erwärmung: Zone wandert bergauf", size = 4.2) +
+  scale_colour_manual(values = c("#9ecae1", "#4292c6", "#08306b"), name = NULL) +
+  scale_y_continuous(breaks = c(0, 0.1), limits = c(-0.005, 0.13)) +
+  labs(x = "Höhe (m)", y = "Vorteil s") +
+  theme_slide() + theme(legend.position = "right")
+```
+
+**Beispiel (gedacht):** Eine Mutation lässt eine Bergpflanze Wärme besser ertragen. Das nützt nur in einer bestimmten **Höhenzone**. Mit der Erwärmung verschiebt sich diese Zone bergauf; Arten wandern im Mittel **11 m pro Jahrzehnt** nach oben (Chen et al. 2011). Bleiben die Nachkommen der Mutation zurück, verlieren sie ihren Vorteil.
+
+::: aside
+Skizze
+:::
+
+## Wie schnell darf sich der Lebensraum verschieben?
 
 ::::: columns
 ::: {.column width="56%"}
 ![](../../pics/rescue/kirkpatrick_peischl2013_fig4.png){fig-alt="Originalabbildung: gestrichelt der Vorteil s entlang des Raums x, durchgezogen die Etablierungswahrscheinlichkeit je Ursprungsort für Wandertempo c = 0.01 bis 0.05; je schneller, desto tiefer" style="max-height:420px"}
 :::
 ::: {.column width="44%"}
-Die Mutation hilft nur in einem **Fenster** (gestrichelt), und das Fenster wandert mit Tempo $c$, etwa mit der Erwärmung.
+Gestrichelt: Vorteil $s$ im Raum. Kurven: Etablierungswahrscheinlichkeit je nach **Ursprungsort**, für das Tempo $c$.
 
-Kurven: Chance auf Etablierung, je nachdem **wo** die Mutation entsteht.
-
-- Je schneller das Fenster, desto **kleiner** die Chance.
-- **Tempolimit**: Darüber etabliert sich die Mutation **nie**.
+- Schnellere Verschiebung: **kleinere** Chance.
+- Ab einer **kritischen Geschwindigkeit**: keine Etablierung mehr.
 :::
 :::::
 
@@ -622,7 +660,56 @@ Kurven: Chance auf Etablierung, je nachdem **wo** die Mutation entsteht.
 Kirkpatrick & Peischl (2013), *Phil. Trans. R. Soc. B* 368: 20120082, Fig. 4 · grösster Vorteil $s = 0.1$
 :::
 
-## Wenn der Zufall gewinnt: Expansionslast
+## Am Rand einer Ausbreitung
+
+::::: columns
+::: {.column width="52%"}
+```{r}
+#| fig-height: 4.4
+#| fig-width: 5.2
+#| out-width: 100%
+#| out-extra: 'style="max-height:430px"'
+front_sim <- function(B = 90, H = 70, schritte = 400) {
+  g <- matrix(0L, H, B); g[1, ] <- seq_len(B)
+  for (k in seq_len(schritte)) {
+    voll <- which(g > 0, arr.ind = TRUE)
+    voll <- voll[sample(nrow(voll)), , drop = FALSE]
+    richt <- sample(1:4, nrow(voll), replace = TRUE)
+    di <- c(1, -1, 0, 0)[richt]; dj <- c(0, 0, 1, -1)[richt]
+    ii <- voll[, 1] + di; jj <- (voll[, 2] + dj - 1) %% B + 1
+    ok <- ii >= 1 & ii <= H
+    for (n in which(ok)) if (g[ii[n], jj[n]] == 0L) g[ii[n], jj[n]] <- g[voll[n, 1], voll[n, 2]]
+    if (all(g[H, ] > 0)) break
+  }
+  w <- which(g > 0, arr.ind = TRUE)
+  data.frame(x = w[, 2], y = w[, 1], linie = g[w])
+}
+set.seed(2)
+fr <- front_sim(B = 120, H = 95)
+set.seed(7)
+ggplot(fr, aes(x, y, fill = factor(linie))) +
+  geom_raster() +
+  scale_fill_manual(values = sample(hcl.colors(120, "Dark 3")), guide = "none") +
+  annotate("segment", x = -6, xend = -6, y = 5, yend = 90, colour = "grey30",
+           arrow = arrow(length = unit(0.25, "cm"))) +
+  annotate("text", x = -10, y = 48, label = "Ausbreitung", angle = 90, size = 4.4) +
+  coord_equal(xlim = c(-13, 121), expand = FALSE) + theme_void()
+```
+:::
+::: {.column width="48%"}
+Eine Kolonie wächst nach oben. Jede Farbe: die Nachkommen **einer** Zelle in der untersten Reihe.
+
+Nur Zellen **am Rand** haben Platz für Nachwuchs. Darum stammt der Rand bald von **wenigen** Zellen ab: starke **Drift**, obwohl die Kolonie riesig ist.
+
+Eine Mutation am Rand kann so «mitsurfen», auch eine **schädliche**.
+:::
+:::::
+
+::: aside
+Eigene Simulation auf einem Gitter · Theorie: Peischl et al. (2013), *Mol. Ecol.* 22: 5972–5982
+:::
+
+## Expansionslast im Experiment
 
 :::: columns
 ::: {.column width="42%"}
@@ -633,11 +720,26 @@ Kirkpatrick & Peischl (2013), *Phil. Trans. R. Soc. B* 368: 20120082, Fig. 4 · 
 :::
 ::::
 
-An der Front gründen **wenige** Zellen den nächsten Rand: Der Zufall ist stark, auch **schädliche** Mutationen setzen sich durch. *E. coli*, 1650 Generationen: viele Mutationen (blau), Kolonien werden **kleiner**; wenige (orange), kaum.
+Links: Alle 3 Tage kommen Zellen **vom Rand** auf eine neue Platte, 39 Tage lang: eine lange Ausbreitung. Rechts: Linien mit hoher Mutationsrate (blau) bilden immer **kleinere** Kolonien, Linien mit niedriger Rate (orange) kaum. Am Rand sammeln sich **schädliche** Mutationen an: **Expansionslast**.
 
 ::: aside
 Bosshard et al. (2017), *Genetics* 207: 669–684, Fig. 1 B–C und Fig. 3 · Theorie: Peischl et al. (2013), *Mol. Ecol.*
 :::
+
+## Was beeinflusst die Etablierung?
+
+::: {.ueberblick}
+| Einfluss | Wirkung | Quelle |
+|---|---|---|
+| Vorteil $s$ | $u \approx 2s$: bei kleinem $s$ nur wenige Prozent | Haldane 1927 |
+| Streuung der Nachkommenzahl | mehr Streuung, mehr Verluste | Patwa & Wahl 2008 |
+| Umwelt ändert sich mit der Zeit | die **ersten Generationen** zählen | Peischl & Kirkpatrick 2012 |
+| Lebensraum verschiebt sich | zu schnell: **keine** Etablierung | Kirkpatrick & Peischl 2013 |
+| Genfluss zwischen Orten | oft ist **mittlere** Migration am besten | Tomasini & Peischl 2018 |
+| Ausbreitung, Drift am Rand | auch **schädliche** Mutationen setzen sich durch | Peischl et al. 2013; Bosshard et al. 2017 |
+:::
+
+Die Methode bleibt dieselbe: ein **Verzweigungsprozess**, gelöst oder simuliert.
 
 # Ein einfaches Modell für Rettung
 
@@ -680,34 +782,23 @@ $\lambda$: mittlere Zahl erfolgreicher Mutanten
 
 ## Von $\lambda$ zur Wahrscheinlichkeit
 
-::::: columns
-::: {.column width="55%"}
 ```{r}
-#| fig-height: 3.6
-#| fig-width: 5
-#| out-width: 100%
-lam <- seq(0, 5, length.out = 200)
-ggplot(data.frame(lam = lam, p = 1 - exp(-lam)), aes(lam, p)) +
-  geom_line(colour = col_theo, linewidth = 1.3) +
-  annotate("point", x = 1, y = 1 - exp(-1), size = 3.5, colour = col_res) +
-  annotate("text", x = 1.2, y = 0.58, label = "lambda = 1: 63 %", hjust = 0, size = 4.6, colour = col_res) +
-  coord_cartesian(ylim = c(0, 1)) +
-  labs(x = "lambda", y = "P(Rettung)") +
-  theme_slide()
+#| fig-height: 2.8
+#| fig-width: 9.5
+#| out-width: 94%
+pz <- do.call(rbind, lapply(c(0.5, 1, 3), function(l)
+  data.frame(k = 0:7, p = dpois(0:7, l), lam = paste0("λ = ", l, ":  ", round(100 * (1 - exp(-l))), " % gerettet"))))
+pz$wer <- ifelse(pz$k == 0, "keine: ausgestorben", "mindestens eine: gerettet")
+ggplot(pz, aes(k, p, fill = wer)) +
+  geom_col(width = 0.75) +
+  facet_wrap(~ lam) +
+  scale_fill_manual(values = c("keine: ausgestorben" = col_empf, "mindestens eine: gerettet" = col_res), name = NULL) +
+  scale_x_continuous(breaks = 0:7) +
+  labs(x = "Zahl erfolgreicher Mutanten in einem Lauf", y = "Anteil der Läufe") +
+  theme_slide() + theme(legend.position = "bottom", strip.text = element_text(face = "bold"))
 ```
-:::
-::: {.column width="45%"}
-Gerettet ist die Population, wenn **mindestens eine** Mutante es schafft.
 
-Die Chance, dass es **keine** schafft, ist $e^{-\lambda}$. Also
-
-$$
-P(\text{Rettung}) \approx 1 - e^{-2 N_0 U s / r}
-$$
-
-Mehr Individuen, mehr Mutation, grösserer Vorteil, langsamerer Rückgang: mehr Rettung.
-:::
-:::::
+$\lambda$ ist der **Mittelwert**. In einem einzelnen Lauf schaffen es zufällig 0, 1, 2, … Mutanten, verteilt wie bei `rpois`. Gerettet ist die Population, wenn es **mindestens eine** ist. Nur der orange Balken zählt: $e^{-\lambda}$. Also $P(\text{Rettung}) \approx 1 - e^{-\lambda}$.
 
 ::: aside
 Orr & Unckless (2008, 2014); Martin et al. (2013)
@@ -717,23 +808,15 @@ Orr & Unckless (2008, 2014); Martin et al. (2013)
 
 ## Das Rezept
 
-```{r}
-#| fig-height: 2.3
-#| fig-width: 9.5
-#| out-width: 100%
-rz <- data.frame(x = 1:5,
-                 kopf = c("1 Zustand", "2 Generation", "3 Schleife", "4 Abbruch", "5 Wiederholen"),
-                 text = c("wie viele\nWildtypen, Mutanten?", "Mutanten und\nNachkommen ziehen", "Generation\nfür Generation",
-                          "ausgestorben oder\ngerettet?", "viele Läufe,\nAnteil gerettet"))
-ggplot(rz) +
-  geom_segment(data = rz[1:4, ], aes(x = x + 0.42, xend = x + 0.58, y = 0, yend = 0),
-               arrow = arrow(length = unit(0.2, "cm")), colour = "grey40") +
-  geom_tile(aes(x, 0), width = 0.8, height = 1.3, fill = "#eaf2fb", colour = "#1a5276") +
-  geom_text(aes(x, 0.35, label = kopf), size = 4.4, fontface = "bold", colour = "#1a5276") +
-  geom_text(aes(x, -0.15, label = text), size = 3.8, lineheight = 0.9) +
-  coord_cartesian(xlim = c(0.55, 5.45), ylim = c(-0.7, 0.7)) +
-  theme_void()
-```
+| | Schritt | in R |
+|---|---|---|
+| 1 | **Zustand** festlegen: wie viele Wildtypen, wie viele Mutanten? | `wt <- N0; mut <- 0` |
+| 2 | **Eine Generation**: neue Mutanten und Nachkommen zufällig ziehen | `rbinom()`, `rpois()` |
+| 3 | **Wiederholen**, Generation für Generation | `for` oder `while` |
+| 4 | **Abbruch**: ausgestorben oder gerettet? | `wt + mut == 0`, `mut >= 1000` |
+| 5 | **Viele Läufe**, Anteil gerettet | `replicate()`, `mean()` |
+
+: {tbl-colwidths="[5,60,35]"}
 
 So funktioniert fast jede Simulation in der Populationsgenetik. Der Zufall steckt nur in Schritt 2.
 
@@ -841,7 +924,7 @@ Im Beispiel zählt schon **eine** Resistente unter 10 000 am Start mehr als alle
 Orr & Unckless (2008); Martin et al. (2013); Uecker, Otto & Hermisson (2014)
 :::
 
-# Fünf Vorhersagen, fünf Tests
+# Vorhersagen im Labor
 
 ## 1 · U-Kurve und Schwelle: Hefe unter Salz
 
@@ -933,6 +1016,52 @@ Skizze der drei Behandlungen. Lindsey, Gallie, Taylor & Kerr (2013), *Nature* 49
 
 # Zwei Orte: hilft Migration?
 
+## Ein Experiment: Hefe in Metapopulationen
+
+```{r}
+#| fig-height: 2.1
+#| fig-width: 9.5
+#| out-width: 92%
+tt <- seq(0, 10, by = 0.05)
+salz <- rbind(data.frame(t = tt, c = pmin(1, tt / 2), weg = "schnell"),
+              data.frame(t = tt, c = pmin(1, tt / 5), weg = "mittel"),
+              data.frame(t = tt, c = pmin(1, tt / 8), weg = "langsam"))
+salz$c[salz$t >= 8.5] <- 1.8
+salz$weg <- factor(salz$weg, levels = c("schnell", "mittel", "langsam"))
+p_salz <- ggplot(salz, aes(t, c, colour = weg)) +
+  geom_line(linewidth = 1.3) +
+  annotate("text", x = 9.3, y = 1.95, label = "Schock", size = 4.2) +
+  scale_colour_manual(values = c(schnell = "#c0392b", mittel = "#e67e22", langsam = "#27ae60"), name = NULL) +
+  scale_x_continuous(breaks = NULL) + scale_y_continuous(breaks = NULL) +
+  labs(x = "Zeit", y = "Salz", title = "1. Salz steigt, 2. plötzlicher Schock") +
+  theme_slide() + theme(legend.position = "bottom")
+gitter <- expand.grid(x = 1:4, y = 1:3)
+pf <- rbind(
+  data.frame(art = "getrennt", x = NA, y = NA, xend = NA, yend = NA),
+  data.frame(art = "Nachbarn", x = c(1, 2, 3, 2, 3), y = c(2, 2, 2, 1, 3), xend = c(2, 3, 4, 2, 3), yend = c(2, 2, 2, 2, 2)),
+  data.frame(art = "zufällig", x = c(1, 4, 2, 3), y = c(1, 3, 3, 1), xend = c(4, 2, 4, 1), yend = c(3, 1, 1, 2)))
+pf$art <- factor(pf$art, levels = c("getrennt", "Nachbarn", "zufällig"))
+pk <- do.call(rbind, lapply(levels(pf$art), function(a) cbind(gitter, art = a)))
+pk$art <- factor(pk$art, levels = levels(pf$art))
+p_netz <- ggplot() +
+  geom_point(data = pk, aes(x, y), shape = 21, size = 4.5, fill = "#fdebd0", colour = "grey40") +
+  geom_segment(data = na.omit(pf), aes(x, y, xend = xend, yend = yend),
+               arrow = arrow(length = unit(0.1, "cm")), colour = col_res, linewidth = 0.6) +
+  facet_wrap(~ art) + coord_equal(xlim = c(0.5, 4.5), ylim = c(0.5, 3.5)) +
+  labs(title = "3 Arten von Austausch") +
+  theme_void(base_size = 13) + theme(strip.text = element_text(face = "bold"))
+p_salz + p_netz + plot_layout(widths = c(1.1, 1))
+```
+
+Bell & Gonzalez (2011): über 2000 Hefe-Populationen, betreut von einem Roboter. **3 Raten × 3 Arten von Austausch**, dann ein plötzlicher Salzschock.
+
+- Am häufigsten gerettet: **langsamer** Wandel und Austausch mit **Nachbarn**.
+- Austausch zwischen Orten kann also **helfen**. Wann, und warum? Dafür brauchen wir ein Modell.
+
+::: aside
+Skizze des Versuchsplans, Werte erfunden. Bell & Gonzalez (2011), *Science* 332: 1327–1330
+:::
+
 ## Ein Modell mit zwei Orten
 
 ::::: columns
@@ -940,7 +1069,7 @@ Skizze der drei Behandlungen. Lindsey, Gallie, Taylor & Kerr (2013), *Nature* 49
 ![](../../pics/rescue/tomasini_peischl2020_fig1.png){fig-alt="Originalabbildung: Populationsgrösse an Ort 1 und Ort 2 über die Zeit; Ort 1 wird bei 0 schlecht und zeigt eine U-Kurve, Ort 2 wird erst bei theta schlecht; rot Mutanten, blau Wildtyp, schwarz alle" style="max-height:440px"}
 :::
 ::: {.column width="50%"}
-Ein Antibiotikum erreicht nicht jedes Gewebe, Erwärmung trifft zuerst tiefe Lagen.
+Das einfachste Modell für das Hefe-Experiment: **zwei** Orte, die nacheinander schlecht werden.
 
 - **Ort 1** (oben) wird bei $0$ schlecht.
 - **Ort 2** (unten) ist eine **Zuflucht** bis $\theta$.
@@ -1038,69 +1167,7 @@ Je 200 Läufe pro Punkt. Dasselbe Programm ist im Notebook (Bonus F)
 Genfluss hilft, wenn $\dfrac{s}{z} < r\,\theta$: Die Kosten sind klein im Vergleich dazu, wie hart und wie lange der Stress ist.
 
 ::: aside
-Tomasini & Peischl (2020) · mehrere Orte allgemein: Uecker, Otto & Hermisson (2014)
-:::
-
-## Forschung in Bern: Genfluss und Rettung
-
-![](../../pics/rescue/tomasini_peischl2022_fig1.png){fig-alt="Originalabbildung: vier Orte, die nacheinander schlecht werden (grau); links tauschen alle mit allen aus (Inselmodell), rechts nur Nachbarn (Trittsteine)" style="max-height:190px"}
-
-| | Frage | Ergebnis |
-|---|---|---|
-| 2018 | Entsteht die Mutation am **falschen** Ort: Hilft Migration? | Eine **mittlere** Migration ist am besten |
-| 2020 | Wann hilft Genfluss der Rettung? | eine **einfache Bedingung**: das Zwei-Orte-Modell von heute |
-| 2022 | Spielt es eine Rolle, wie die Orte verbunden sind? | ja, aber oft genügt ein Inselmodell mit einer **effektiven** Migrationsrate |
-
-: {tbl-colwidths="[10,48,42]"}
-
-::: aside
-Tomasini & Peischl (2018), *Genetics*; (2020), *Evolution*; (2022), *J. Evol. Biol.* 35: 986–1001, Fig. 1: links alle mit allen (Inseln), rechts nur Nachbarn (Trittsteine); grau: schon schlecht
-:::
-
-## 5 · Der Test: Hefe in Metapopulationen
-
-```{r}
-#| fig-height: 2.1
-#| fig-width: 9.5
-#| out-width: 92%
-tt <- seq(0, 10, by = 0.05)
-salz <- rbind(data.frame(t = tt, c = pmin(1, tt / 2), weg = "schnell"),
-              data.frame(t = tt, c = pmin(1, tt / 5), weg = "mittel"),
-              data.frame(t = tt, c = pmin(1, tt / 8), weg = "langsam"))
-salz$c[salz$t >= 8.5] <- 1.8
-salz$weg <- factor(salz$weg, levels = c("schnell", "mittel", "langsam"))
-p_salz <- ggplot(salz, aes(t, c, colour = weg)) +
-  geom_line(linewidth = 1.3) +
-  annotate("text", x = 9.3, y = 1.95, label = "Schock", size = 4.2) +
-  scale_colour_manual(values = c(schnell = "#c0392b", mittel = "#e67e22", langsam = "#27ae60"), name = NULL) +
-  scale_x_continuous(breaks = NULL) + scale_y_continuous(breaks = NULL) +
-  labs(x = "Zeit", y = "Salz", title = "1. Salz steigt, 2. plötzlicher Schock") +
-  theme_slide() + theme(legend.position = "bottom")
-gitter <- expand.grid(x = 1:4, y = 1:3)
-pf <- rbind(
-  data.frame(art = "getrennt", x = NA, y = NA, xend = NA, yend = NA),
-  data.frame(art = "Nachbarn", x = c(1, 2, 3, 2, 3), y = c(2, 2, 2, 1, 3), xend = c(2, 3, 4, 2, 3), yend = c(2, 2, 2, 2, 2)),
-  data.frame(art = "zufällig", x = c(1, 4, 2, 3), y = c(1, 3, 3, 1), xend = c(4, 2, 4, 1), yend = c(3, 1, 1, 2)))
-pf$art <- factor(pf$art, levels = c("getrennt", "Nachbarn", "zufällig"))
-pk <- do.call(rbind, lapply(levels(pf$art), function(a) cbind(gitter, art = a)))
-pk$art <- factor(pk$art, levels = levels(pf$art))
-p_netz <- ggplot() +
-  geom_point(data = pk, aes(x, y), shape = 21, size = 4.5, fill = "#fdebd0", colour = "grey40") +
-  geom_segment(data = na.omit(pf), aes(x, y, xend = xend, yend = yend),
-               arrow = arrow(length = unit(0.1, "cm")), colour = col_res, linewidth = 0.6) +
-  facet_wrap(~ art) + coord_equal(xlim = c(0.5, 4.5), ylim = c(0.5, 3.5)) +
-  labs(title = "3 Arten von Austausch") +
-  theme_void(base_size = 13) + theme(strip.text = element_text(face = "bold"))
-p_salz + p_netz + plot_layout(widths = c(1.1, 1))
-```
-
-Bell & Gonzalez (2011): über 2000 Hefe-Populationen, betreut von einem Roboter. **3 Raten × 3 Arten von Austausch**, dann ein plötzlicher Salzschock.
-
-- Am besten: **langsam** und Austausch mit **Nachbarn**.
-- Ob der Schock überlebt wird, hängt von **beidem** ab.
-
-::: aside
-Skizze des Versuchsplans, Werte erfunden. Bell & Gonzalez (2011), *Science* 332: 1327–1330
+Tomasini & Peischl (2020) · Etablierung mit Genfluss: Tomasini & Peischl (2018) · räumliche Anordnung: Tomasini & Peischl (2022) · mehrere Orte allgemein: Uecker, Otto & Hermisson (2014)
 :::
 
 ## Überblick: Modelle, Vorhersagen, Experimente
@@ -1181,6 +1248,7 @@ Waclaw et al. (2015), *Nature* 525: 261–264, Fig. 3a (Autorenmanuskript, PMC)
 1. **Bell, G. & Gonzalez, A. (2009).** Evolutionary rescue can prevent extinction following environmental change. *Ecology Letters* 12: 942–948. [doi:10.1111/j.1461-0248.2009.01350.x](https://doi.org/10.1111/j.1461-0248.2009.01350.x)
 1. **Bell, G. & Gonzalez, A. (2011).** Adaptation and evolutionary rescue in metapopulations experiencing environmental deterioration. *Science* 332: 1327–1330. [doi:10.1126/science.1203105](https://doi.org/10.1126/science.1203105)
 1. **Bosshard, L., Dupanloup, I., Tenaillon, O., Bruggmann, R., Ackermann, M., Peischl, S. & Excoffier, L. (2017).** Accumulation of deleterious mutations during bacterial range expansions. *Genetics* 207: 669–684. [doi:10.1534/genetics.117.300144](https://doi.org/10.1534/genetics.117.300144)
+1. **Chen, I.-C., Hill, J. K., Ohlemüller, R., Roy, D. B. & Thomas, C. D. (2011).** Rapid range shifts of species associated with high levels of climate warming. *Science* 333: 1024–1026. [doi:10.1126/science.1206432](https://doi.org/10.1126/science.1206432)
 1. **Epstein, B., et al. (2016).** Rapid evolutionary response to a transmissible cancer in Tasmanian devils. *Nature Communications* 7: 12684. [doi:10.1038/ncomms12684](https://doi.org/10.1038/ncomms12684)
 1. **Gomulkiewicz, R. & Holt, R. D. (1995).** When does evolution by natural selection prevent extinction? *Evolution* 49: 201–207. [doi:10.1111/j.1558-5646.1995.tb05971.x](https://doi.org/10.1111/j.1558-5646.1995.tb05971.x)
 1. **Haldane, J. B. S. (1927).** A mathematical theory of natural and artificial selection, Part V. *Proc. Camb. Philos. Soc.* 23: 838–844.
@@ -1197,6 +1265,8 @@ Waclaw et al. (2015), *Nature* 525: 261–264, Fig. 3a (Autorenmanuskript, PMC)
 1. **Orr, H. A. & Unckless, R. L. (2008).** Population extinction and the genetics of adaptation. *American Naturalist* 172: 160–169. [doi:10.1086/589460](https://doi.org/10.1086/589460)
 1. **Orr, H. A. & Unckless, R. L. (2014).** The population genetics of evolutionary rescue. *PLoS Genet.* 10: e1004551. [doi:10.1371/journal.pgen.1004551](https://doi.org/10.1371/journal.pgen.1004551)
 1. **Patwa, Z. & Wahl, L. M. (2008).** The fixation probability of beneficial mutations. *J. R. Soc. Interface* 5: 1279–1289. [doi:10.1098/rsif.2008.0248](https://doi.org/10.1098/rsif.2008.0248)
+1. **Parmesan, C. (2006).** Ecological and evolutionary responses to recent climate change. *Annu. Rev. Ecol. Evol. Syst.* 37: 637–669. [doi:10.1146/annurev.ecolsys.37.091305.110100](https://doi.org/10.1146/annurev.ecolsys.37.091305.110100)
+1. **Parmesan, C. & Yohe, G. (2003).** A globally coherent fingerprint of climate change impacts across natural systems. *Nature* 421: 37–42. [doi:10.1038/nature01286](https://doi.org/10.1038/nature01286)
 1. **Peischl, S. & Kirkpatrick, M. (2012).** Establishment of new mutations in changing environments. *Genetics* 191: 895–906. [doi:10.1534/genetics.112.140756](https://doi.org/10.1534/genetics.112.140756)
 1. **Peischl, S., Dupanloup, I., Kirkpatrick, M. & Excoffier, L. (2013).** On the accumulation of deleterious mutations during range expansions. *Molecular Ecology* 22: 5972–5982. [doi:10.1111/mec.12524](https://doi.org/10.1111/mec.12524)
 1. **Peischl, S. & Strütt, S. (2026).** Environmental gradients and the establishment of chromosomal inversions. *bioRxiv*, Preprint. [doi:10.64898/2026.10.25.761641](https://doi.org/10.64898/2026.10.25.761641)
