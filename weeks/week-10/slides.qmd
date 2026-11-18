@@ -125,11 +125,42 @@ col_theo <- "#d95f02"   # Theorie
 Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 :::
 
-## Bis jetzt: viele Kopien
+## Bis jetzt: von vielen Kopien zu einer
 
-Woche 9: Die Inversion startete bei $p = 0.5$, also mit **vielen** Kopien. Der Zufall streute um die Erwartung.
+```{r}
+#| fig-height: 3.4
+#| fig-width: 10
+#| out-width: 100%
+wf_bahn <- function(p0, s = 0.1, N = 200, gen = 80, zufall = TRUE) {
+  p <- numeric(gen + 1); p[1] <- p0
+  for (t in seq_len(gen)) {
+    p_sel <- p[t] * (1 + s) / (1 + p[t] * s)           # Erwartung (Woche 6)
+    p[t + 1] <- if (zufall) rbinom(1, N, p_sel) / N else p_sel   # Zufall (Woche 9)
+  }
+  p
+}
+set.seed(4)
+fall <- c("Wochen 5–8: unendlich viele Individuen", "Woche 9: N = 200, Start bei p = 0.5", "Heute: N = 200, eine einzige Kopie")
+bahnen <- rbind(
+  data.frame(gen = 0:80, p = wf_bahn(0.5, zufall = FALSE), id = 1, fall = fall[1]),
+  do.call(rbind, lapply(1:20, function(i) data.frame(gen = 0:80, p = wf_bahn(0.5), id = i, fall = fall[2]))),
+  do.call(rbind, lapply(1:20, function(i) data.frame(gen = 0:80, p = wf_bahn(1 / 200), id = i, fall = fall[3]))))
+bahnen$fall <- factor(bahnen$fall, levels = fall)
+weg <- sum(bahnen$p[bahnen$fall == fall[3] & bahnen$gen == 80] == 0)
+bahnen$ende <- ave(bahnen$p, bahnen$fall, bahnen$id, FUN = function(x) x[length(x)] > 0)
+ggplot(bahnen, aes(gen, p, group = id, colour = factor(ende))) +
+  geom_line(linewidth = 0.8, alpha = 0.85) +
+  geom_text(data = data.frame(fall = factor(fall[3], levels = fall), gen = 18, p = 0.8,
+                              lab = paste(weg, "von 20\nverloren")),
+            aes(gen, p, label = lab), inherit.aes = FALSE, size = 4.6, colour = col_empf, lineheight = 0.9) +
+  facet_wrap(~ fall) +
+  scale_colour_manual(values = c("1" = col_res, "0" = col_empf), guide = "none") +
+  coord_cartesian(ylim = c(0, 1)) +
+  labs(x = "Generation", y = "Häufigkeit p") +
+  theme_slide() + theme(strip.text = element_text(size = 11.5, face = "bold"))
+```
 
-Heute: Eine **neue** Mutation beginnt mit **einer** Kopie, und die Population **schrumpft**.
+Dasselbe Modell, Selektion $s = 0.1$. Ohne Zufall **eine** Bahn. Mit Zufall eine **Wolke** um die Erwartung. Mit **einer** Kopie entscheidet der Zufall, ob es überhaupt losgeht.
 
 ## Lernziele
 
@@ -144,26 +175,11 @@ Nach heute können Sie …
 
 ## Heute
 
-```{r}
-#| fig-height: 2.2
-#| fig-width: 10
-#| out-width: 100%
-heute <- data.frame(x = 1:5,
-  kopf = c("Gerettet?", "Eine Kopie", "Ein Modell", "Im Labor", "Zwei Orte"),
-  text = c("die U-Kurve", "Glück und 2s", "Rettung zählen
-und simulieren", "fünf Tests", "hilft Migration?"),
-  fill = c("#fdebd0", "#eaf2fb", "#eaf2fb", "#e9f7ef", "#eaf2fb"))
-ggplot(heute) +
-  geom_segment(data = heute[1:4, ], aes(x = x + 0.42, xend = x + 0.58, y = 0, yend = 0),
-               arrow = arrow(length = unit(0.2, "cm")), colour = "grey40") +
-  geom_tile(aes(x, 0, fill = fill), width = 0.8, height = 1.3, colour = "#1a5276") +
-  geom_text(aes(x, 0.3, label = kopf), size = 5, fontface = "bold", colour = "#1a5276") +
-  geom_text(aes(x, -0.2, label = text), size = 4.2, lineheight = 0.9) +
-  scale_fill_identity() +
-  coord_cartesian(xlim = c(0.55, 5.45), ylim = c(-0.7, 0.7)) + theme_void()
-```
-
-Biologie, dann Modell, dann Programm, dann zurück zu den Daten.
+1. Gerettet oder ausgestorben? Die U-Kurve
+2. Eine neue Mutation: Wie oft setzt sie sich durch?
+3. Ein Modell für Rettung, als Formel und als Simulation
+4. Fünf Vorhersagen, im Labor geprüft
+5. Zwei Orte: Hilft Migration?
 
 ::: aside
 [Modul 3](../../docs/module-03-overview.html) · [Glossar](../../docs/glossary.html)
@@ -320,7 +336,7 @@ Skizze. Die U-Kurve als Zeichen von Rettung: Gomulkiewicz & Holt (1995)
 
 Heute: eine einfache Theorie, fünf Vorhersagen, und Experimente, die sie prüfen.
 
-# Eine Kopie: Glück oder Pech?
+# Eine neue Mutation: Wie oft setzt sie sich durch?
 
 ## Eine Kopie, zwanzig Mal
 
@@ -345,7 +361,7 @@ ggplot(linien, aes(generation, n, group = id, colour = ausgang)) +
   theme_slide()
 ```
 
-Jede startet mit **einer** Kopie, im Mittel 1.1 Nachkommen. Trotzdem sind die meisten bald **weg**: Selektion wirkt im Mittel, bei einer Kopie zählt **Glück**.
+Jede startet mit **einer** Kopie, im Mittel 1.1 Nachkommen. Trotzdem sind die meisten bald **weg**: Selektion wirkt im Mittel, bei einer Kopie entscheidet der **Zufall**.
 
 ## Ein Spielzeugmodell
 
@@ -393,7 +409,7 @@ while (n > 0 && n < 100) {              # bis verloren oder etabliert
 verlauf
 ```
 
-Lange nur **2** Kopien: Ein Pech, und sie wäre weg. Dann geschafft. `while` heisst «solange». Ab 100 Kopien: **etabliert**, bei 0: **verloren**.
+Lange nur **2** Kopien: Haben beide keine Nachkommen, ist die Mutation weg. Hier hat sie es geschafft. `while` heisst «solange». Ab 100 Kopien: **etabliert**, bei 0: **verloren**.
 
 ## Zwölf Stammbäume
 
@@ -421,13 +437,13 @@ ggplot() +
         panel.background = element_rect(fill = "grey97", colour = NA))
 ```
 
-Jede Tochter startet ihren **eigenen** Baum: ein **Verzweigungsprozess**. Die meisten sind bald **tot**, wer überlebt, explodiert.
+Jede Tochter startet einen **eigenen** Baum: ein **Verzweigungsprozess**. Die meisten sterben bald aus, die anderen wachsen schnell.
 
 ::: aside
 Spielzeugmodell, $s = 0.1$, Generation 0 bis 8 · Galton & Watson (1875): Warum sterben Familiennamen aus?
 :::
 
-## Viele Linien: das $2s$ taucht auf
+## Viele Linien: der Anteil nähert sich $2s$
 
 ```{r}
 #| fig-height: 3.6
@@ -1139,7 +1155,7 @@ Waclaw et al. (2015), *Nature* 525: 261–264, Fig. 3a (Autorenmanuskript, PMC)
 
 **→ [Notebook Woche 10 öffnen](notebook.html)** · [Rmd](notebook.Rmd) · [R](notebook.R)
 
-1. **Einen Verzweigungsprozess** Schritt für Schritt programmieren und $2s$ auftauchen sehen
+1. **Einen Verzweigungsprozess** Schritt für Schritt programmieren und mit $2s$ vergleichen
 2. **Das Programm** für Rettung selbst laufen lassen, Zeile für Zeile
 3. Viele Läufe: Rettung für verschiedene $N_0$ und $r$, Vergleich mit der Formel
 4. Bonus: Rettung mit zwei Orten

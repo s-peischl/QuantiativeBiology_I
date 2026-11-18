@@ -20,7 +20,7 @@
 # - Teil 5: x-Achse Startgroesse N0 (log), y-Achse Anteil geretteter Populationen. Blaue Punkte: Simulation, orange Linie: Formel.
 
 # Auftrag
-# 1. Verfolgen Sie einzelne neue Mutationen. Bauen Sie Schritt fuer Schritt einen Verzweigungsprozess und sehen Sie, wie 2s auftaucht.
+# 1. Verfolgen Sie einzelne neue Mutationen. Bauen Sie Schritt fuer Schritt einen Verzweigungsprozess und sehen Sie, wie sich der Anteil 2s naehert.
 # 2. Lesen und starten Sie ein kleines Programm, das eine schrumpfende Population simuliert.
 # 3. Schaetzen Sie mit vielen Laeufen, wie oft sie gerettet wird, vergleichen Sie mit der Formel und sagen Sie voraus, wie das von N_0 und r abhaengt.
 # 4. Bonus: Hilft mehr Migration aus einer Zuflucht immer? Erst raten, dann simulieren.
@@ -177,7 +177,7 @@ ergebnisse <- replicate(3000, eine_linie(s))
 mean(ergebnisse)   # Anteil etabliert
 2 * s              # Faustregel 2s
 
-# Schritt 4: zuschauen, wie 2s auftaucht. zeige_anteil zeichnet den Anteil etablierter Mutationen nach 1, 2, 3, ... Laeufen. Die gestrichelte Linie ist 2s.
+# Schritt 4: Wie naehert sich der Anteil 2s? zeige_anteil zeichnet den Anteil etablierter Mutationen nach 1, 2, 3, ... Laeufen. Die gestrichelte Linie ist 2s.
 
 zeige_anteil(ergebnisse, s)
 

@@ -39,7 +39,7 @@ Eine neue Mutation beginnt mit **einer Kopie**. Auch wenn sie vorteilhaft ist, g
 
 > **Auftrag**
 >
-> 1. Verfolgen Sie einzelne neue Mutationen. Bauen Sie Schritt für Schritt einen **Verzweigungsprozess** und sehen Sie, wie $2s$ auftaucht.
+> 1. Verfolgen Sie einzelne neue Mutationen. Bauen Sie Schritt für Schritt einen **Verzweigungsprozess** und sehen Sie, wie sich der Anteil $2s$ nähert.
 > 2. Lesen und starten Sie ein **kleines Programm**, das eine schrumpfende Population simuliert.
 > 3. Schätzen Sie mit vielen Läufen, wie oft sie gerettet wird, vergleichen Sie mit der Formel und sagen Sie voraus, wie das von $N_0$ und $r$ abhängt.
 > 4. Bonus: Hilft mehr Migration aus einer Zuflucht immer? Erst raten, dann simulieren.
@@ -207,7 +207,7 @@ mean(ergebnisse)   # Anteil etabliert
 2 * s              # Faustregel 2s
 ```
 
-**Schritt 4: zuschauen, wie $2s$ auftaucht.** `zeige_anteil` zeichnet den Anteil etablierter Mutationen nach 1, 2, 3, … Läufen. Die gestrichelte Linie ist $2s$.
+**Schritt 4: Wie nähert sich der Anteil $2s$?** `zeige_anteil` zeichnet den Anteil etablierter Mutationen nach 1, 2, 3, … Läufen. Die gestrichelte Linie ist $2s$.
 
 ```{r, fig.height=4.2, fig.width=7.5}
 zeige_anteil(ergebnisse, s)
