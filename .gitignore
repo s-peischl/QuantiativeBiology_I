@@ -54,3 +54,6 @@ pics/pond-experiment/holding_tanks.jpg
 pics/pond-experiment/oyster_lagoon_fieldwork.jpg
 Rplots.pdf
 __pycache__/
+
+# Uploaded papers (licensed PDFs), local only
+literature/

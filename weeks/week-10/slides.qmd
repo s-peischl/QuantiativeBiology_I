@@ -622,6 +622,108 @@ Auch mit `rpois`-Nachkommen trifft die Simulation die Faustregel. Bei $s = 0.1$ 
 Haldane (1927): $u \approx 2s$
 :::
 
+## Ein aktives Forschungsfeld
+
+Setzt sich eine neue Mutation durch? Die Frage beschäftigt die Populationsgenetik seit rund 100 Jahren.
+
+| | |
+|---|---|
+| Haldane (1927) | Verzweigungsprozess: $u \approx 2s$ |
+| Kimura (1962) | Fixierung in **endlichen** Populationen, mit Drift wie in Woche 9 |
+| Patwa & Wahl (2008) | Übersicht: Was ändert sich, wenn $N$ schwankt oder Generationen überlappen? |
+| Uecker & Hermisson (2011) | Etablierung, wenn die Umwelt schwankt |
+
+## Forschung in Bern
+
+::: {.unibe}
+**Populationsgenetik in Bern.** Haldanes $2s$ gilt für eine Umwelt, die sich **nicht** ändert. Wir fragen: Wann setzt sich eine neue Mutation durch,
+
+- wenn die Umwelt sich **in der Zeit** ändert ([Peischl & Kirkpatrick 2012](https://doi.org/10.1534/genetics.112.140756)),
+- wenn der gute Ort **wandert** ([Kirkpatrick & Peischl 2013](https://doi.org/10.1098/rstb.2012.0082)),
+- an der **Front** einer Ausbreitung ([Peischl et al. 2013](https://doi.org/10.1111/mec.12524); [Bosshard et al. 2017](https://doi.org/10.1534/genetics.117.300144)),
+- wenn Orte durch **Genfluss** verbunden sind ([Tomasini & Peischl 2018](https://doi.org/10.1534/genetics.118.301104), [2020](https://doi.org/10.1111/evo.14038), [2022](https://doi.org/10.1111/jeb.14018)),
+- als **Inversion** entlang eines Umweltgradienten ([Peischl & Strütt 2026, Preprint](https://doi.org/10.64898/2026.10.25.761641))?
+
+Die Werkzeuge sind dieselben wie heute: Verzweigungsprozess und Simulation.
+:::
+
+## Die Umwelt ändert sich: Was zählt?
+
+::::: columns
+::: {.column width="58%"}
+```{r}
+#| fig-height: 4
+#| fig-width: 5.4
+#| out-width: 100%
+#| out-extra: 'style="max-height:430px"'
+linie_t <- function(s0, s1, T, grenze = 100) {
+  n <- 1; t <- 0
+  while (n > 0 && n < grenze) {
+    s <- s1 + (s0 - s1) * max(0, 1 - t / T)
+    n <- 2 * rbinom(1, n, (1 + s) / 2)
+    t <- t + 1
+  }
+  as.numeric(n >= grenze)
+}
+set.seed(3)
+T_werte <- c(1, 3, 10, 30, 100, 300, 1000)
+zt <- data.frame(T = T_werte, u = sapply(T_werte, function(T) mean(replicate(4000, linie_t(0.1, 0.05, T)))))
+ggplot(zt, aes(T, u)) +
+  geom_hline(yintercept = c(2 * 0.1 / 1.1, 2 * 0.05 / 1.05), linetype = "dashed", colour = c(col_res, col_empf)) +
+  annotate("text", x = 1, y = c(0.192, 0.085), hjust = 0, size = 4.2, colour = c(col_res, col_empf),
+           label = c("immer s = 0.1", "immer s = 0.05")) +
+  geom_line(colour = "grey30") + geom_point(size = 3.2, colour = "grey15") +
+  scale_x_log10(breaks = T_werte) +
+  coord_cartesian(ylim = c(0.07, 0.2)) +
+  labs(x = "Generationen, bis s von 0.1 auf 0.05 gefallen ist (log)", y = "Anteil etabliert") +
+  theme_slide()
+```
+:::
+::: {.column width="42%"}
+Zuerst $s = 0.1$, später nur $0.05$.
+
+- **Schneller** Wandel: Es zählt das spätere $s$.
+- **Langsamer** Wandel: Es zählt das erste $s$.
+
+Es zählen vor allem die **ersten Generationen** nach dem Entstehen.
+:::
+:::::
+
+::: aside
+Eigene Simulation mit dem Spielzeugmodell von heute, Idee nach Kirkpatrick & Peischl (2013), Fig. 1 · Theorie: Peischl & Kirkpatrick (2012)
+:::
+
+## Der gute Ort wandert
+
+```{r}
+#| fig-height: 2.1
+#| fig-width: 9
+#| out-width: 84%
+xx <- seq(-4, 8, length.out = 300)
+fl <- do.call(rbind, lapply(0:2, function(k)
+  data.frame(x = xx, s = 0.1 * exp(-(xx - 2.2 * k)^2 / 2), zeit = paste0("später (", k, ")"))))
+fl$zeit <- factor(fl$zeit, labels = c("heute", "später", "noch später"))
+ggplot(fl, aes(x, s, colour = zeit)) +
+  geom_hline(yintercept = 0, colour = "grey60") +
+  geom_line(linewidth = 1.3) +
+  annotate("segment", x = 0.3, xend = 4.2, y = 0.112, yend = 0.112, colour = "grey30",
+           arrow = arrow(length = unit(0.25, "cm"))) +
+  annotate("text", x = 2.25, y = 0.123, label = "Tempo c", size = 4.6) +
+  scale_colour_manual(values = c("#9ecae1", "#4292c6", "#08306b"), name = NULL) +
+  scale_y_continuous(breaks = c(0, 0.1), limits = c(-0.005, 0.13)) +
+  labs(x = "Ort, z. B. Höhe oder Breitengrad", y = "Vorteil s") +
+  theme_slide() + theme(legend.position = "right")
+```
+
+Die Mutation hilft nur in einem **Fenster**, und das wandert, etwa mit der Erwärmung.
+
+- Mehr **Ausbreitung** schadet meist: Nachkommen landen ausserhalb.
+- **Tempolimit**: Wandert das Fenster zu schnell, etabliert sich die Mutation **nie**. Das Limit wächst mit dem grössten $s$.
+
+::: aside
+Skizze. Kirkpatrick & Peischl (2013), *Phil. Trans. R. Soc. B* 368: 20120082
+:::
+
 ## Wenn der Zufall gewinnt: Expansionslast
 
 :::: columns
@@ -637,28 +739,6 @@ An der Front gründen **wenige** Zellen den nächsten Rand: Der Zufall ist stark
 
 ::: aside
 Bosshard et al. (2017), *Genetics* 207: 669–684, Fig. 1 B–C und Fig. 3 · Theorie: Peischl et al. (2013), *Mol. Ecol.*
-:::
-
-## Ein aktives Forschungsfeld
-
-Setzt sich eine neue Mutation durch? Die Frage beschäftigt die Populationsgenetik seit rund 100 Jahren.
-
-| | |
-|---|---|
-| Haldane (1927) | Verzweigungsprozess: $u \approx 2s$ |
-| Kimura (1962) | Fixierung in **endlichen** Populationen, mit Drift wie in Woche 9 |
-| Patwa & Wahl (2008) | Übersicht: Was ändert sich, wenn $N$ schwankt oder Generationen überlappen? |
-| Uecker & Hermisson (2011) | Etablierung, wenn die Umwelt schwankt |
-
-## Forschung in Bern
-
-::: {.unibe}
-**Populationsgenetik in Bern.** Wann setzt sich eine Mutation durch,
-
-- wenn sich die Umwelt **verändert** ([Peischl & Kirkpatrick 2012](https://doi.org/10.1534/genetics.112.140756)),
-- an der **Front** einer Ausbreitung, wo sich auch schädliche Mutationen anhäufen ([Peischl et al. 2013](https://doi.org/10.1111/mec.12524)),
-- wenn sie nur **lokal** im Vorteil ist, und mit **Genfluss** ([Tomasini & Peischl 2018](https://doi.org/10.1534/genetics.118.301104), [2020](https://doi.org/10.1111/evo.14038)),
-- als **Inversion** entlang eines Umweltgradienten, wie bei den Stichlingen aus Woche 9 ([Peischl & Strütt 2026, Preprint](https://doi.org/10.64898/2026.10.25.761641))?
 :::
 
 # Ein einfaches Modell für Rettung
@@ -1113,6 +1193,39 @@ Genfluss hilft, wenn $\dfrac{s}{z} < r\,\theta$: Die Kosten sind klein im Vergle
 Tomasini & Peischl (2020) · mehrere Orte allgemein: Uecker, Otto & Hermisson (2014)
 :::
 
+## Forschung in Bern: Genfluss und Rettung
+
+```{r}
+#| fig-height: 1.9
+#| fig-width: 9
+#| out-width: 86%
+kette <- data.frame(x = 1:6, y = 0)
+insel <- data.frame(x = 9 + cos(seq(0, 2 * pi, length.out = 7)[-7]) * 1.3,
+                    y = sin(seq(0, 2 * pi, length.out = 7)[-7]) * 0.75)
+paare <- t(combn(6, 2))
+ggplot() +
+  geom_segment(aes(x = 1:5 + 0.18, xend = 2:6 - 0.18, y = 0, yend = 0), colour = col_res, linewidth = 1) +
+  geom_segment(aes(x = insel$x[paare[, 1]], y = insel$y[paare[, 1]],
+                   xend = insel$x[paare[, 2]], yend = insel$y[paare[, 2]]), colour = col_res, alpha = 0.5) +
+  geom_point(data = kette, aes(x, y), shape = 21, size = 8, fill = c("#f5b7b1", "#f5b7b1", rep("#d5f5e3", 4))) +
+  geom_point(data = insel, aes(x, y), shape = 21, size = 8, fill = c("#f5b7b1", "#f5b7b1", rep("#d5f5e3", 4))) +
+  annotate("text", x = c(3.5, 9), y = 1.05, label = c("Trittsteine: nur Nachbarn", "Inseln: alle mit allen"),
+           size = 4.6, fontface = "bold") +
+  coord_equal(xlim = c(0.5, 10.6), ylim = c(-0.9, 1.25)) + theme_void()
+```
+
+| | Frage | Ergebnis |
+|---|---|---|
+| 2018 | Entsteht die Mutation am **falschen** Ort: Hilft Migration? | Eine **mittlere** Migration ist am besten |
+| 2020 | Wann hilft Genfluss der Rettung? | eine **einfache Bedingung**: das Zwei-Orte-Modell von heute |
+| 2022 | Spielt es eine Rolle, wie die Orte verbunden sind? | ja, aber oft genügt ein Inselmodell mit einer **effektiven** Migrationsrate |
+
+: {tbl-colwidths="[10,48,42]"}
+
+::: aside
+Tomasini & Peischl (2018), *Genetics*; (2020), *Evolution*; (2022), *J. Evol. Biol.* · Rot: Orte, die schon schlecht sind
+:::
+
 ## 5 · Der Test: Hefe in Metapopulationen
 
 ```{r}
@@ -1240,6 +1353,7 @@ Modelle: Haldane (1927); Gomulkiewicz & Holt (1995); Orr & Unckless (2008, 2014)
 1. **Ramsayer, J., Kaltz, O. & Hochberg, M. E. (2013).** Evolutionary rescue in populations of *Pseudomonas fluorescens* across an antibiotic gradient. *Evolutionary Applications* 6: 608–616. [doi:10.1111/eva.12046](https://doi.org/10.1111/eva.12046)
 1. **Tomasini, M. & Peischl, S. (2018).** Establishment of locally adapted mutations under divergent selection. *Genetics* 209: 885–895. [doi:10.1534/genetics.118.301104](https://doi.org/10.1534/genetics.118.301104)
 1. **Tomasini, M. & Peischl, S. (2020).** When does gene flow facilitate evolutionary rescue? *Evolution* 74: 1640–1653. [doi:10.1111/evo.14038](https://doi.org/10.1111/evo.14038)
+1. **Tomasini, M. & Peischl, S. (2022).** The role of spatial structure in multi-deme models of evolutionary rescue. *J. Evol. Biol.* 35: 986–1001. [doi:10.1111/jeb.14018](https://doi.org/10.1111/jeb.14018)
 1. **Uecker, H. & Hermisson, J. (2011).** On the fixation process of a beneficial mutation in a variable environment. *Genetics* 188: 915–930. [doi:10.1534/genetics.110.124297](https://doi.org/10.1534/genetics.110.124297)
 1. **Uecker, H., Otto, S. P. & Hermisson, J. (2014).** Evolutionary rescue in structured populations. *American Naturalist* 183: E17–E35. [doi:10.1086/673914](https://doi.org/10.1086/673914)
 1. **Watson, H. W. & Galton, F. (1875).** On the probability of the extinction of families. *J. Anthropol. Inst.* 4: 138–144. [doi:10.2307/2841222](https://doi.org/10.2307/2841222)
