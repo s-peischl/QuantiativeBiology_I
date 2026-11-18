@@ -1,5 +1,5 @@
 # Woche 10 - Notebook (nur R, base R)
-# Mutation und Rettung: neue Mutationen, Verzweigungsprozess, evolutionaere Rettung, zwei Orte
+# Werden und Vergehen: neue Mutationen, Verzweigungsprozess, evolutionaere Rettung, zwei Orte
 # In RStudio: Working Directory = weeks/week-10, dann Zeile fuer Zeile ausfuehren.
 # Quarto: notebook.qmd. Knit ohne Quarto: notebook.Rmd.
 

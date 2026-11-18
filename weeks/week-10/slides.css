@@ -175,3 +175,12 @@
 .reveal .ueberblick th {
   padding: 0.22em 0.45em;
 }
+
+/* Zitat unter dem Untertitel (wie Woche 9) */
+.reveal #title-slide .subtitle .epigraph {
+  display: block;
+  margin-top: 0.8em;
+  font-size: 0.75em;
+  font-style: italic;
+  color: #5d6d7e;
+}

@@ -77,7 +77,7 @@ Die weiteren Wochen erscheinen hier, sobald sie frei gegeben sind. Überblick: [
 | Woche | Datum | Thema | Materialien |
 |------:|------|--------|-------------|
 | 9 | 12. Nov. | Zufall · Notwendigkeit | [Folien](weeks/week-09/slides.qmd) · [PDF](weeks/week-09/slides.pdf) · [Notebook](weeks/week-09/notebook.qmd) · [Rmd](weeks/week-09/notebook.Rmd) · [R](weeks/week-09/notebook.R) |
-| 10 | 19. Nov. | Mutation · Rettung | [Folien](weeks/week-10/slides.qmd) · [PDF](weeks/week-10/slides.pdf) · [Notebook](weeks/week-10/notebook.qmd) · [Rmd](weeks/week-10/notebook.Rmd) · [R](weeks/week-10/notebook.R) |
+| 10 | 19. Nov. | Wettlauf gegen das Aussterben | [Folien](weeks/week-10/slides.qmd) · [PDF](weeks/week-10/slides.pdf) · [Notebook](weeks/week-10/notebook.qmd) · [Rmd](weeks/week-10/notebook.Rmd) · [R](weeks/week-10/notebook.R) |
 | 11 | 26. Nov. | Wolke · Fortbestand · **Checkpoint C** | folgt |
 
 ## Modul 4 · folgt

@@ -1,6 +1,6 @@
 ---
 title: "Woche 10 — Notebook"
-subtitle: "Mutation und Rettung"
+subtitle: "Werden und Vergehen"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 lang: de
 format:

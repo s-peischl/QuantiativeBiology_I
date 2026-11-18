@@ -43,7 +43,7 @@ Ableiten und Tests: andere Vorlesungen.
 | Woche | Datum | Thema | Fokus |
 |------:|------|--------|--------|
 | **9** | 12. Nov. | Zufall · Notwendigkeit | Teich · Erwartung und Zufall · `rbinom` · neutrale Wolke · Echsen mit endlichem $N$ |
-| **10** | 19. Nov. | Mutation · Rettung | Verzweigungsprozess · $u\approx 2s$ · $P \approx 1 - e^{-2N_0Us/r}$ · Simulation · zwei Orte |
+| **10** | 19. Nov. | Wettlauf gegen das Aussterben | Verzweigungsprozess · $u\approx 2s$ · Forschung in Bern · $P \approx 1 - e^{-2N_0Us/r}$ · Simulation · fünf Tests |
 | **11** | 26. Nov. | Wolke · Fortbestand | **Checkpoint C** |
 
 Details: [Glossar](glossary.qmd).

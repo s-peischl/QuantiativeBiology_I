@@ -221,7 +221,7 @@ Dieselbe Programmierlogik wie zuvor; neues Untersuchungsobjekt = **Zufall in $p$
 - Neutrale Wolke; Daten darüber (ausserhalb). Formeller Test: Statistikvorlesung
 - Dieselbe Ziehung mit $s>0$: konsistent, kein Beweis
 
-### Woche 10 — Resistenz und Rettung
+### Woche 10 — Wettlauf gegen das Aussterben
 **Wann:** Do., 19. Nov. 2026, 08:15–10:00 Uhr  
 **Materialien:** folgt
 

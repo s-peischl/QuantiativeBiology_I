@@ -1,6 +1,6 @@
 ---
-title: "Woche 10 — Resistenz und Rettung"
-subtitle: "Mutation und Rettung"
+title: "Woche 10 — Wettlauf gegen das Aussterben"
+subtitle: "Werden und Vergehen <span class='epigraph'>«Und so lang du das nicht hast, / Dieses: Stirb und werde! / Bist du nur ein trüber Gast / Auf der dunklen Erde.» — Goethe, Selige Sehnsucht</span>"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:
@@ -1120,8 +1120,6 @@ Skizze des Versuchsplans, Werte erfunden. Bell & Gonzalez (2011), *Science* 332:
 | Tempo | langsam hilft | *E. coli*, Rifampicin | mehr Überlebende |
 | Zwei Orte | Genfluss hilft, zu viel schadet | Hefe-Metapopulationen | langsam und mit Nachbarn am besten |
 :::
-
-Die Richtungen stimmen. Quantitativ passen Martin et al. (2013) die Formel an Hefe- und *Pseudomonas*-Daten an. Offen bleibt die **Natur**: kleine, langlebige Arten.
 
 ::: aside
 Modelle: Haldane (1927); Gomulkiewicz & Holt (1995); Orr & Unckless (2008, 2014); Uecker et al. (2014); Tomasini & Peischl (2020). Experimente: Bell & Gonzalez (2009, 2011); Ramsayer et al. (2013); Lindsey et al. (2013)
