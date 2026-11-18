@@ -547,37 +547,39 @@ Fachbegriff: **erzeugende Funktion** (PGF). Den Namen brauchen wir nicht.
 #| fig-width: 4.6
 #| out-width: 100%
 #| out-extra: 'style="max-height:450px"'
-pgf <- rbind(data.frame(q = qq, f = 0.5 + 0.5 * qq^2, s = "s = 0"),
-             data.frame(q = qq, f = f01(qq), s = "s = 0.1"))
+s_kurven <- c(0, 0.1, 0.5)
+pgf <- do.call(rbind, lapply(s_kurven, function(s)
+  data.frame(q = qq, f = (1 - s) / 2 + (1 + s) / 2 * qq^2, s = paste("s =", s))))
+fix <- data.frame(q = (1 - s_kurven) / (1 + s_kurven), s = paste("s =", s_kurven))
+farben_fp <- c("s = 0" = "grey55", "s = 0.1" = col_res, "s = 0.5" = "#0b2e59")
 ggplot(pgf, aes(q, f, colour = s)) +
   geom_abline(slope = 1, intercept = 0, linetype = "dashed", colour = "grey40") +
   geom_line(linewidth = 1.3) +
-  annotate("point", x = c(1, 9 / 11), y = c(1, 9 / 11), size = 3.5,
-           colour = c("grey30", col_res)) +
-  annotate("text", x = 0.6, y = 0.9, label = "Fixpunkt\nq = 0.82", colour = col_res,
-           size = 4.3, hjust = 1, lineheight = 0.9) +
-  annotate("segment", x = 0.61, xend = 0.8, y = 0.88, yend = 0.83, colour = col_res,
-           arrow = arrow(length = unit(0.18, "cm"))) +
+  geom_point(data = fix, aes(q, q), size = 3.5) +
+  geom_text(data = fix[-1, ], aes(q, q, label = sprintf("%.2f", q)), hjust = -0.35, vjust = 1.3, size = 4.3, show.legend = FALSE) +
   annotate("text", x = 0.93, y = 0.45, label = "Diagonale:\nf(q) = q", colour = "grey35",
            size = 3.9, lineheight = 0.9) +
-  scale_colour_manual(values = c("s = 0" = "grey55", "s = 0.1" = col_res), name = NULL) +
+  scale_colour_manual(values = farben_fp, name = NULL) +
   coord_equal(xlim = c(0, 1), ylim = c(0, 1)) +
   labs(x = "q: eine Tochter-Linie stirbt aus", y = "f(q): Mutter-Linie stirbt aus") +
-  theme_slide()
+  theme_slide() + theme(legend.position = c(0.2, 0.85))
 ```
 :::
 ::: {.column width="45%"}
 Mutter und Töchter spielen **dasselbe** Spiel. Gesucht: $f(q) = q$, wo die Kurve die **Diagonale** trifft.
 
-- $s = 0$: nur bei 1, sicher verloren.
-- $s = 0.1$: auch bei **0.82**.
+| $s$ | $q$ | $u = 1 - q$ | $2s$ |
+|---|---|---|---|
+| 0 | 1 | 0 | 0 |
+| 0.1 | 0.82 | **0.18** | 0.2 |
+| 0.5 | 0.33 | **0.67** | 1 |
 
-Also $u = 1 - 0.82 = 0.18$, fast $2s$.
+Kleines $s$: $u \approx 2s$. Grosses $s$: deutlich **weniger** als $2s$.
 :::
 :::::
 
 ::: aside
-Genau: $u = 2s/(1+s)$. Mit `rpois`-Nachkommen eine andere Kurve, fast derselbe Fixpunkt ($u = 0.176$). Haldane (1927): $u \approx 2s$
+Genau: $u = 2s/(1+s)$ · Haldane (1927): $u \approx 2s$ für kleines $s$
 :::
 
 ## Forschung in Bern
