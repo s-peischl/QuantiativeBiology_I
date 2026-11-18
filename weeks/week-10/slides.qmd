@@ -569,78 +569,41 @@ Klassiker: Haldane (1927), Kimura (1962) · Übersicht: Patwa & Wahl (2008) · s
 ## Die Umwelt ändert sich: Was zählt?
 
 ::::: columns
-::: {.column width="58%"}
-```{r}
-#| fig-height: 4
-#| fig-width: 5.4
-#| out-width: 100%
-#| out-extra: 'style="max-height:430px"'
-linie_t <- function(s0, s1, T, grenze = 100) {
-  n <- 1; t <- 0
-  while (n > 0 && n < grenze) {
-    s <- s1 + (s0 - s1) * max(0, 1 - t / T)
-    n <- 2 * rbinom(1, n, (1 + s) / 2)
-    t <- t + 1
-  }
-  as.numeric(n >= grenze)
-}
-set.seed(3)
-T_werte <- c(1, 3, 10, 30, 100, 300, 1000)
-zt <- data.frame(T = T_werte, u = sapply(T_werte, function(T) mean(replicate(4000, linie_t(0.1, 0.05, T)))))
-ggplot(zt, aes(T, u)) +
-  geom_hline(yintercept = c(2 * 0.1 / 1.1, 2 * 0.05 / 1.05), linetype = "dashed", colour = c(col_res, col_empf)) +
-  annotate("text", x = 1, y = c(0.192, 0.085), hjust = 0, size = 4.2, colour = c(col_res, col_empf),
-           label = c("immer s = 0.1", "immer s = 0.05")) +
-  geom_line(colour = "grey30") + geom_point(size = 3.2, colour = "grey15") +
-  scale_x_log10(breaks = T_werte) +
-  coord_cartesian(ylim = c(0.07, 0.2)) +
-  labs(x = "Generationen, bis s von 0.1 auf 0.05 gefallen ist (log)", y = "Anteil etabliert") +
-  theme_slide()
-```
+::: {.column width="56%"}
+![](../../pics/rescue/kirkpatrick_peischl2013_fig1.png){fig-alt="Originalabbildung: Etablierungswahrscheinlichkeit p gegen die Zahl der Generationen T (log), in denen der Vorteil von 0.1 auf 0.05 fällt; die Kurve steigt von 0.1 auf 0.2" style="max-height:420px"}
 :::
-::: {.column width="42%"}
-Zuerst $s = 0.1$, später nur $0.05$.
+::: {.column width="44%"}
+Der Vorteil fällt in $T$ Generationen von $s = 0.1$ auf $0.05$. Gestrichelt: $2s$ für beide.
 
 - **Schneller** Wandel: Es zählt das spätere $s$.
 - **Langsamer** Wandel: Es zählt das erste $s$.
 
-Es zählen vor allem die **ersten Generationen** nach dem Entstehen.
+Es zählen die **ersten Generationen**.
 :::
 :::::
 
 ::: aside
-Eigene Simulation mit dem Spielzeugmodell von heute, Idee nach Kirkpatrick & Peischl (2013), Fig. 1 · Theorie: Peischl & Kirkpatrick (2012)
+Kirkpatrick & Peischl (2013), *Phil. Trans. R. Soc. B* 368: 20120082, Fig. 1 · Theorie: Peischl & Kirkpatrick (2012)
 :::
 
 ## Der gute Ort wandert
 
-```{r}
-#| fig-height: 2.1
-#| fig-width: 9
-#| out-width: 84%
-xx <- seq(-4, 8, length.out = 300)
-fl <- do.call(rbind, lapply(0:2, function(k)
-  data.frame(x = xx, s = 0.1 * exp(-(xx - 2.2 * k)^2 / 2), zeit = paste0("später (", k, ")"))))
-fl$zeit <- factor(fl$zeit, labels = c("heute", "später", "noch später"))
-ggplot(fl, aes(x, s, colour = zeit)) +
-  geom_hline(yintercept = 0, colour = "grey60") +
-  geom_line(linewidth = 1.3) +
-  annotate("segment", x = 0.3, xend = 4.2, y = 0.112, yend = 0.112, colour = "grey30",
-           arrow = arrow(length = unit(0.25, "cm"))) +
-  annotate("text", x = 2.25, y = 0.123, label = "Tempo c", size = 4.6) +
-  scale_colour_manual(values = c("#9ecae1", "#4292c6", "#08306b"), name = NULL) +
-  scale_y_continuous(breaks = c(0, 0.1), limits = c(-0.005, 0.13)) +
-  labs(x = "Ort, z. B. Höhe oder Breitengrad", y = "Vorteil s") +
-  theme_slide() + theme(legend.position = "right")
-```
+::::: columns
+::: {.column width="56%"}
+![](../../pics/rescue/kirkpatrick_peischl2013_fig4.png){fig-alt="Originalabbildung: gestrichelt der Vorteil s entlang des Raums x, durchgezogen die Etablierungswahrscheinlichkeit je Ursprungsort für Wandertempo c = 0.01 bis 0.05; je schneller, desto tiefer" style="max-height:420px"}
+:::
+::: {.column width="44%"}
+Die Mutation hilft nur in einem **Fenster** (gestrichelt), und das Fenster wandert mit Tempo $c$, etwa mit der Erwärmung.
 
-Die Mutation hilft nur in einem **Fenster**, und das wandert, etwa mit der Erwärmung.
+Kurven: Chance auf Etablierung, je nachdem **wo** die Mutation entsteht.
 
-- Mehr **Ausbreitung** schadet meist: Nachkommen landen ausserhalb.
-- **Tempolimit**: Wandert das Fenster zu schnell, etabliert sich die Mutation **nie**. Das Limit wächst mit dem grössten $s$.
+- Je schneller das Fenster, desto **kleiner** die Chance.
+- **Tempolimit**: Darüber etabliert sich die Mutation **nie**.
+:::
+:::::
 
 ::: aside
-Skizze. Kirkpatrick & Peischl (2013), *Phil. Trans. R. Soc. B* 368: 20120082
+Kirkpatrick & Peischl (2013), *Phil. Trans. R. Soc. B* 368: 20120082, Fig. 4 · grösster Vorteil $s = 0.1$
 :::
 
 ## Wenn der Zufall gewinnt: Expansionslast
@@ -960,27 +923,23 @@ Skizze der drei Behandlungen. Lindsey, Gallie, Taylor & Kerr (2013), *Nature* 49
 
 ## Ein Modell mit zwei Orten
 
-```{r}
-#| fig-height: 2.3
-#| fig-width: 9
-#| out-width: 88%
-ggplot() +
-  annotate("rect", xmin = 0, xmax = 3, ymin = 0, ymax = 2, fill = "#f5b7b1", colour = "grey30") +
-  annotate("rect", xmin = 5, xmax = 8, ymin = 0, ymax = 2, fill = "#d5f5e3", colour = "grey30") +
-  annotate("text", x = 1.5, y = 1.45, label = "Ort 1: schlecht ab t = 0", size = 5, fontface = "bold") +
-  annotate("text", x = 1.5, y = 0.7, label = "Wildtyp schrumpft (r)\nMutante wächst (z)", size = 4.3) +
-  annotate("text", x = 6.5, y = 1.45, label = "Ort 2: schlecht erst ab θ", size = 5, fontface = "bold") +
-  annotate("text", x = 6.5, y = 0.7, label = "bis dahin: Zuflucht\nMutante hat Kosten (s)", size = 4.3) +
-  annotate("segment", x = 3.15, xend = 4.85, y = 1.25, yend = 1.25, arrow = arrow(length = unit(0.25, "cm")), linewidth = 1, colour = col_res) +
-  annotate("segment", x = 4.85, xend = 3.15, y = 0.75, yend = 0.75, arrow = arrow(length = unit(0.25, "cm")), linewidth = 1, colour = col_res) +
-  annotate("text", x = 4, y = 1.6, label = "Migration m", colour = col_res, size = 4.5) +
-  coord_equal() + theme_void()
-```
+::::: columns
+::: {.column width="50%"}
+![](../../pics/rescue/tomasini_peischl2020_fig1.png){fig-alt="Originalabbildung: Populationsgrösse an Ort 1 und Ort 2 über die Zeit; Ort 1 wird bei 0 schlecht und zeigt eine U-Kurve, Ort 2 wird erst bei theta schlecht; rot Mutanten, blau Wildtyp, schwarz alle" style="max-height:440px"}
+:::
+::: {.column width="50%"}
+Ein Antibiotikum erreicht nicht jedes Gewebe, Erwärmung trifft zuerst tiefe Lagen.
 
-Ein Antibiotikum erreicht nicht jedes Gewebe, Erwärmung trifft zuerst tiefe Lagen. Oft gibt es eine **Zuflucht**, die erst nach $\theta$ Generationen schlecht wird. Hilft Migration der Rettung, oder schadet sie?
+- **Ort 1** (oben) wird bei $0$ schlecht.
+- **Ort 2** (unten) ist eine **Zuflucht** bis $\theta$.
+- Dazwischen **Migration** $m$.
+
+Rot: Mutanten, schwarz: alle. Oben die **U-Kurve**. Hilft Migration, oder schadet sie?
+:::
+:::::
 
 ::: aside
-Tomasini & Peischl (2020), *Evolution* 74: 1640–1653
+Tomasini & Peischl (2020), *Evolution* 74: 1640–1653, Fig. 1 (Preprint-Version, bioRxiv 622142, CC BY-NC 4.0)
 :::
 
 ## Die Parameter
@@ -1072,24 +1031,7 @@ Tomasini & Peischl (2020) · mehrere Orte allgemein: Uecker, Otto & Hermisson (2
 
 ## Forschung in Bern: Genfluss und Rettung
 
-```{r}
-#| fig-height: 1.9
-#| fig-width: 9
-#| out-width: 86%
-kette <- data.frame(x = 1:6, y = 0)
-insel <- data.frame(x = 9 + cos(seq(0, 2 * pi, length.out = 7)[-7]) * 1.3,
-                    y = sin(seq(0, 2 * pi, length.out = 7)[-7]) * 0.75)
-paare <- t(combn(6, 2))
-ggplot() +
-  geom_segment(aes(x = 1:5 + 0.18, xend = 2:6 - 0.18, y = 0, yend = 0), colour = col_res, linewidth = 1) +
-  geom_segment(aes(x = insel$x[paare[, 1]], y = insel$y[paare[, 1]],
-                   xend = insel$x[paare[, 2]], yend = insel$y[paare[, 2]]), colour = col_res, alpha = 0.5) +
-  geom_point(data = kette, aes(x, y), shape = 21, size = 8, fill = c("#f5b7b1", "#f5b7b1", rep("#d5f5e3", 4))) +
-  geom_point(data = insel, aes(x, y), shape = 21, size = 8, fill = c("#f5b7b1", "#f5b7b1", rep("#d5f5e3", 4))) +
-  annotate("text", x = c(3.5, 9), y = 1.05, label = c("Trittsteine: nur Nachbarn", "Inseln: alle mit allen"),
-           size = 4.6, fontface = "bold") +
-  coord_equal(xlim = c(0.5, 10.6), ylim = c(-0.9, 1.25)) + theme_void()
-```
+![](../../pics/rescue/tomasini_peischl2022_fig1.png){fig-alt="Originalabbildung: vier Orte, die nacheinander schlecht werden (grau); links tauschen alle mit allen aus (Inselmodell), rechts nur Nachbarn (Trittsteine)" style="max-height:190px"}
 
 | | Frage | Ergebnis |
 |---|---|---|
@@ -1100,7 +1042,7 @@ ggplot() +
 : {tbl-colwidths="[10,48,42]"}
 
 ::: aside
-Tomasini & Peischl (2018), *Genetics*; (2020), *Evolution*; (2022), *J. Evol. Biol.* · Rot: Orte, die schon schlecht sind
+Tomasini & Peischl (2018), *Genetics*; (2020), *Evolution*; (2022), *J. Evol. Biol.* 35: 986–1001, Fig. 1: links alle mit allen (Inseln), rechts nur Nachbarn (Trittsteine); grau: schon schlecht
 :::
 
 ## 5 · Der Test: Hefe in Metapopulationen
@@ -1172,65 +1114,12 @@ Modelle: Haldane (1927); Gomulkiewicz & Holt (1995); Orr & Unckless (2008, 2014)
 
 ## Rettung, die wir nicht wollen: Tumore
 
-```{r}
-#| fig-height: 5.2
-#| fig-width: 9.5
-#| out-width: 78%
-tumor <- function(L = 71, N_start = 1500, mu = 0.003, tod = 0.3, schritte_th = 45, zeiten = c(0, 12, 45)) {
-  g <- matrix(0L, L, L); m <- (L + 1) / 2; g[m, m] <- 1L
-  nb <- rbind(c(1, 0), c(-1, 0), c(0, 1), c(0, -1))
-  schritt <- function(g, therapie) {
-    z <- which(g > 0, arr.ind = TRUE); z <- z[sample(nrow(z)), , drop = FALSE]
-    for (k in seq_len(nrow(z))) {
-      i <- z[k, 1]; j <- z[k, 2]; typ <- g[i, j]
-      if (typ == 0L) next
-      if (therapie && typ == 1L) { if (runif(1) < tod) g[i, j] <- 0L; next }
-      if (runif(1) > 0.5) next
-      d <- nb[sample(4, 1), ]; ii <- i + d[1]; jj <- j + d[2]
-      if (ii < 1 || jj < 1 || ii > L || jj > L || g[ii, jj] != 0L) next
-      g[ii, jj] <- if (typ == 1L && runif(1) < mu) 2L else typ
-    }
-    g
-  }
-  t <- 0; verlauf <- data.frame()
-  while (sum(g > 0) < N_start) { g <- schritt(g, FALSE); t <- t + 1
-    verlauf <- rbind(verlauf, data.frame(t = t, alle = sum(g > 0), res = sum(g == 2))) }
-  t0 <- t; bilder <- list()
-  for (k in 0:schritte_th) {
-    if (k > 0) { g <- schritt(g, TRUE); t <- t + 1
-      verlauf <- rbind(verlauf, data.frame(t = t, alle = sum(g > 0), res = sum(g == 2))) }
-    if (k %in% zeiten) { w <- which(g > 0, arr.ind = TRUE)
-      if (nrow(w) > 0) bilder[[length(bilder) + 1]] <- data.frame(x = w[, 1], y = w[, 2], typ = g[w], k = k) }
-  }
-  verlauf$t <- verlauf$t - t0
-  list(bilder = do.call(rbind, bilder), verlauf = verlauf)
-}
-set.seed(14); eins <- tumor(mu = 4e-4)
-b <- eins$bilder
-b$k <- factor(b$k, labels = c("Therapie beginnt", "12 Schritte später", "45 Schritte später"))
-b$typ <- factor(b$typ, levels = 1:2, labels = c("empfindlich", "resistent"))
-p_bild <- ggplot(b, aes(x, y, fill = typ)) + geom_tile() +
-  facet_wrap(~ k) + coord_equal(xlim = c(1, 71), ylim = c(1, 71)) +
-  scale_fill_manual(values = c(empfindlich = "grey65", resistent = "#c0392b"), name = NULL) +
-  theme_void(base_size = 15) + theme(strip.text = element_text(face = "bold"),
-    panel.background = element_rect(fill = "#fdf2e9", colour = NA), legend.position = "right")
-viele <- do.call(rbind, lapply(1:12, function(sd) { set.seed(sd); v <- tumor(mu = 4e-4)$verlauf
-  v$lauf <- sd; v$ausgang <- ifelse(tail(v$alle, 1) > 0, "wächst wieder", "verschwindet"); v }))
-p_kurven <- ggplot(subset(viele, alle > 0), aes(t, alle, group = lauf, colour = ausgang)) +
-  annotate("rect", xmin = 0, xmax = 45, ymin = 0.7, ymax = 3000, fill = "#fdedec") +
-  geom_line(linewidth = 0.9) +
-  annotate("text", x = 22, y = 2500, label = "Therapie", size = 4.4) +
-  scale_y_log10(breaks = c(1, 10, 100, 1000)) +
-  scale_colour_manual(values = c("wächst wieder" = "#c0392b", verschwindet = "grey55"), name = NULL) +
-  labs(x = "Zeit (Schritte)", y = "Tumorzellen (log)") +
-  theme_slide() + theme(legend.position = "right")
-p_bild / p_kurven + plot_layout(heights = c(1.15, 1))
-```
+![](../../pics/rescue/waclaw2015_fig3a.png){fig-alt="Originalabbildung: simulierter Tumor von 6 Monaten vor bis 6 Monate nach Therapiebeginn; nach einem Monat bleiben wenige Zellen, darunter resistente Klone, die nach 6 Monaten wieder einen grossen Tumor bilden" style="max-height:300px"}
 
-Resistente Zellen entstehen schon **vor** der Therapie. Viele Tumore verschwinden, die mit Resistenten wachsen **wieder**: die U-Kurve.
+Ein Tumor in 3D, Zelle für Zelle simuliert. Therapie bei $T = 0$: Fast alles stirbt. Wenige **resistente Klone**, entstanden vor oder während der Therapie, wachsen wieder: die U-Kurve. Je grösser der Tumor bei Therapiebeginn, desto wahrscheinlicher.
 
 ::: aside
-Eigene Simulation auf einem Gitter, Idee nach Waclaw et al. (2015), *Nature* 525: 261–264, Fig. 4
+Waclaw et al. (2015), *Nature* 525: 261–264, Fig. 3a (Autorenmanuskript, PMC)
 :::
 
 ## Was das bedeutet
