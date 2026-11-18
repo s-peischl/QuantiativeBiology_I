@@ -517,20 +517,20 @@ punkte <- data.frame(q = c(0, 0.5, 1), f = f01(c(0, 0.5, 1)))
 ggplot(data.frame(q = qq, f = f01(qq)), aes(q, f)) +
   geom_line(colour = col_res, linewidth = 1.3) +
   geom_point(data = punkte, size = 3.5, colour = col_res) +
-  geom_text(data = punkte, aes(label = sprintf("%.2f", f)), hjust = 1.3, vjust = -0.4, size = 4.3) +
+  geom_text(data = punkte, aes(label = sprintf("%.2f", f)), hjust = ifelse(punkte$q == 0, -0.3, 1.3), vjust = -0.4, size = 4.3) +
   coord_equal(xlim = c(0, 1), ylim = c(0, 1.05)) +
-  labs(x = "Chance: Tochter-Linie stirbt aus", y = "Chance: Mutter-Linie stirbt aus",
+  labs(x = "q: eine Tochter-Linie stirbt aus", y = "f(q): Mutter-Linie stirbt aus",
        title = "s = 0.1") +
   theme_slide()
 ```
 :::
 ::: {.column width="45%"}
-Angenommen, jede Tochter-Linie stirbt mit Chance $q$ aus. Die Mutter-Linie stirbt aus, wenn
+Eine Tochter-Linie stirbt mit Chance $q$ aus. Die Mutter-Linie stirbt aus, wenn **alle** Tochter-Linien aussterben:
 
-- sie **keine** Töchter hat (45 %), oder
-- sie **zwei** hat und **beide** aussterben: $q \cdot q$.
+- **keine** Töchter (45 %), oder
+- **zwei**, und beide sterben aus: $q \cdot q$.
 
-Zusammen: $f(q) = 0.45 + 0.55\,q^2$. Die Punkte: $q = 0$ gibt 0.45, $q = 1$ gibt 1.
+Zusammen: $f(q) = 0.45 + 0.55\,q^2$.
 :::
 :::::
 
@@ -562,7 +562,7 @@ ggplot(pgf, aes(q, f, colour = s)) +
            size = 3.9, lineheight = 0.9) +
   scale_colour_manual(values = c("s = 0" = "grey55", "s = 0.1" = col_res), name = NULL) +
   coord_equal(xlim = c(0, 1), ylim = c(0, 1)) +
-  labs(x = "Chance: Tochter-Linie stirbt aus", y = "Chance: Mutter-Linie stirbt aus") +
+  labs(x = "q: eine Tochter-Linie stirbt aus", y = "f(q): Mutter-Linie stirbt aus") +
   theme_slide()
 ```
 :::
