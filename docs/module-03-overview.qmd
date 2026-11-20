@@ -60,7 +60,7 @@ Details: [Glossar](glossary.qmd).
 
 ## Checkpoint C (Woche 11) — Präsenzpflicht
 
-In **Woche 11** beantwortet das Notebook **eine Frage**: Welches $s$ zählt für eine neue Mutation, wenn sie dominant, kodominant, rezessiv oder unterdominant ist? Die Teaching Assistants gehen durch die Gruppen; Sie zeigen den Fortschritt — nicht an der Tafel.
+In **Woche 11** beantwortet das Notebook **eine Frage**: Welches $s$ zählt für eine neue Mutation, wenn sie dominant, kodominant oder rezessiv ist? Die Teaching Assistants gehen durch die Gruppen; Sie zeigen den Fortschritt — nicht an der Tafel.
 
 ::: {.callout-important}
 ## Anwesenheit erforderlich

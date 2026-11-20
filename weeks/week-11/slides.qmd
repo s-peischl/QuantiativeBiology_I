@@ -41,8 +41,8 @@ col_empf <- "#d95f02"
 
 | Teil | Dauer | Was |
 |------|-------|-----|
-| Intro | ~15 min | eine Kopie, zwei Kopien pro Individuum · Dominanz · die Frage |
-| Checkpoint | ~45 min | simulieren, nur $h$ ändern, Tabelle ausfüllen |
+| Intro | ~15 min | eine Kopie · zwei Kopien pro Individuum · Dominanz · die Frage |
+| Checkpoint | ~45 min | simulieren, nur $h$ ändern, Faustregel finden |
 | Gruppen | ~30 min | Assistenz kommt vorbei · 1–2 Min. erklären |
 
 ::: aside
@@ -86,8 +86,8 @@ Bei $s = 0.1$ geht sie also in rund **80 %** der Fälle verloren. In Woche 10 ha
 #| fig-width: 9.5
 #| out-width: 96%
 s <- 0.1
-faelle <- data.frame(fall = c("dominant\nh = 1", "kodominant\nh = 0.5", "rezessiv\nh = 0", "unterdominant\nh = -0.5"),
-                     h = c(1, 0.5, 0, -0.5))
+faelle <- data.frame(fall = c("dominant\nh = 1", "kodominant\nh = 0.5", "rezessiv\nh = 0"),
+                     h = c(1, 0.5, 0))
 fit <- do.call(rbind, lapply(seq_len(nrow(faelle)), function(i)
   data.frame(fall = faelle$fall[i], genotyp = c("AA", "Aa", "aa"),
              w = c(1, 1 + faelle$h[i] * s, 1 + s))))
@@ -99,8 +99,8 @@ ggplot(fit, aes(genotyp, w, group = 1)) +
   geom_point(aes(colour = genotyp == "Aa"), size = 4.5) +
   scale_colour_manual(values = c("TRUE" = col_empf, "FALSE" = col_res), guide = "none") +
   facet_wrap(~ fall, nrow = 1) +
-  scale_y_continuous(breaks = c(0.95, 1, 1.05, 1.1)) +
-  coord_cartesian(ylim = c(0.94, 1.12)) +
+  scale_y_continuous(breaks = c(1, 1.05, 1.1)) +
+  coord_cartesian(ylim = c(0.98, 1.12)) +
   labs(x = NULL, y = "Fitness") +
   theme_slide() + theme(strip.text = element_text(face = "bold"))
 ```
@@ -122,8 +122,10 @@ Auf jeden Homozygoten aa kommen rund **2000 Heterozygote**. Und bei einer einzig
 ## Die Frage
 
 > Eine neue Mutation hat im Homozygoten den Vorteil $s = 0.1$.
-> Wie oft setzt sie sich durch, wenn sie **dominant**, **kodominant**, **rezessiv** oder **unterdominant** ist?
-> **Welches $s$ zählt?**
+>
+> Wie gross ist ihre Etablierungswahrscheinlichkeit, wenn sie **dominant**, **kodominant** oder **rezessiv** ist?
+>
+> Woche 10: $u \approx 2s$. **Jetzt: $u \approx 2 \cdot\, ?$**
 
 # Auftrag
 
@@ -131,19 +133,19 @@ Auf jeden Homozygoten aa kommen rund **2000 Heterozygote**. Und bei einer einzig
 
 **→ [Checkpoint C öffnen](notebook.html)** · [Rmd](notebook.Rmd) · [R](notebook.R)
 
-Dieselbe Simulation wie in Woche 10, mit einem neuen Argument: `eine_linie(s, h)`.
+`etablierung(s, h)` simuliert 2000 neue Mutationen und gibt **eine Zahl** zurück.
 
-1. **Dominant** ($h = 1$): simulieren und mit $2s$ vergleichen.
-2. **Nur $h$ ändern:** 0.5, dann 0, dann −0.5. Anteil etabliert notieren.
-3. **Alle $h$ in einer Abbildung:** `zeige_h()`. Welche Faustregel passt?
+1. **Dominant:** `etablierung(s = 0.1, h = 1)`, mit $2s$ vergleichen.
+2. **Nur $h$ ändern:** 0.5, dann 0. Zahlen notieren.
+3. **Alle drei in einer Abbildung:** `zeige_h()`. Faustregel ergänzen: $u \approx 2 \cdot\, ?$
 
 ## Erklären in 1–2 Minuten
 
 Zeigen Sie der Assistenz **eine** Abbildung und beantworten Sie die Frage:
 
-> **Welches $s$ zählt für eine neue Mutation?**
+> **Wie gross ist die Etablierungswahrscheinlichkeit: $u \approx 2 \cdot\, ?$**
 
-Ihre Werte für die vier Fälle, welche Faustregel passt, und warum das biologisch Sinn ergibt.
+Ihre drei Werte, Ihre Faustregel, und warum das biologisch Sinn ergibt.
 
 # Abschluss
 
@@ -151,7 +153,7 @@ Ihre Werte für die vier Fälle, welche Faustregel passt, und warum das biologis
 
 1. Eine neue Mutation steckt fast nur in **Heterozygoten**.
 2. Darum zählt der Vorteil des Heterozygoten: $u \approx 2hs$.
-3. Rezessive Mutationen setzen sich selten durch, auch wenn sie im Homozygoten sehr nützlich wären (*Haldanes Sieb*). Unterdominante praktisch nie.
+3. Rezessive Mutationen setzen sich selten durch, auch wenn sie im Homozygoten sehr nützlich wären (*Haldanes Sieb*).
 
 ## Ausblick · Wochen 12–14
 

@@ -237,7 +237,7 @@ Dieselbe Programmierlogik wie zuvor; neues Untersuchungsobjekt = **Zufall in $p$
 **Materialien:** folgt
 
 - Eine neue Mutation steckt fast nur in Heterozygoten: Welches $s$ zählt?
-- **Checkpoint C:** Etablierung simulieren, nur die Dominanz $h$ ändern (dominant, kodominant, rezessiv, unterdominant); eine Abbildung, 1–2 Minuten erklären
+- **Checkpoint C:** Etablierung simulieren, nur die Dominanz $h$ ändern (dominant, kodominant, rezessiv); eine Abbildung, 1–2 Minuten erklären
 - **Präsenzpflicht** — siehe [Modul 3](module-03-overview.qmd)
 
 ---
