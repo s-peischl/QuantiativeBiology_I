@@ -69,7 +69,7 @@ Anstelle einer einzigen grossen Abschlusspräsentation: **vier Checkpoints** (A�
 |---|---|---|---|---|
 | **A** | Woche **4** · **8. Okt. 2026** | Ökologie / Spieltheorie | 3-Spieler-RPS; Punkt / Oszillation / Heteroklin | ~2–3 Min.: Matrix → Plot → Form → warum 3 Strategien |
 | **B** | Woche **8** · **5. Nov. 2026** | Vererbung und Vektoren | Eine Frage zu häufigkeitsabhängiger Fitness, Überdominanz oder Stichling und $F_{ST}$ | Gleiches Format; Schwerpunkt auf Rekursion / Gleichgewichten |
-| **C** | Woche **11** · **26. Nov. 2026** | Teich, Zufall, Rettung | Teiche gegen eine Wolke **oder** Rettung gegen $r$ / $N_0$ | Liegt das Muster im Zufall — oder muss $u$ vor $N=0$ greifen? |
+| **C** | Woche **11** · **26. Nov. 2026** | Dominanz und Etablierung | Etablierung einer neuen Mutation simulieren, nur die Dominanz $h$ ändern | Welches $s$ zählt: das des Homozygoten oder des Heterozygoten? |
 | **D** | Woche **14** · **17. Dez. 2026** | Gemeinschaften und Reproduzierbarkeit | Zwei Jahre Felddaten einlesen, kombinieren, eine Abbildung aus dem Dokument | Was das Diagramm zeigt — und was **nicht** |
 
 **Präsenz:** An Checkpoint-Terminen (**Wochen 4, 8, 11, 14**) müssen Studierende **anwesend sein** und in der Gruppe den Fortschritt zeigen. Modul 1: [Überblick Wochen 1–4](module-01-overview.qmd). Modul 2: [Überblick Wochen 5–8](module-02-overview.qmd). Modul 3: [Überblick Wochen 9–11](module-03-overview.qmd). Modul 4: [Überblick Wochen 12–14](module-04-overview.qmd). [Glossar](glossary.qmd).
@@ -232,12 +232,12 @@ Dieselbe Programmierlogik wie zuvor; neues Untersuchungsobjekt = **Zufall in $p$
 - Gomulkiewicz & Holt (1995); Orr & Unckless (2014): $\Pr(R)\approx 1-\exp(-2 N_0 U s/r)$ neben die Simulation
 - Literaturkreis: Peischl & Kirkpatrick; Uecker; Osmond; Holt & Gomulkiewicz; Bell & Gonzalez
 
-### Woche 11 — Wolke und Fortbestand · **Checkpoint C**
+### Woche 11 — Dominanz und Etablierung · **Checkpoint C**
 **Wann:** Do., 26. Nov. 2026, 08:15–10:00 Uhr  
 **Materialien:** folgt
 
-- Landkarte: Teich → neutrale Wolke → $s$ → $2s$ → Rettung
-- **Checkpoint C:** eine biologische Frage (Wolke, $s$-Wolke, oder Rettung gegen $r$ / $N_0$); eine Abbildung + 3–5-Min-Vortrag
+- Eine neue Mutation steckt fast nur in Heterozygoten: Welches $s$ zählt?
+- **Checkpoint C:** Etablierung simulieren, nur die Dominanz $h$ ändern (dominant, kodominant, rezessiv, unterdominant); eine Abbildung, 1–2 Minuten erklären
 - **Präsenzpflicht** — siehe [Modul 3](module-03-overview.qmd)
 
 ---

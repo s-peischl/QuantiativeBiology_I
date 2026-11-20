@@ -1,6 +1,6 @@
 ---
-title: "Woche 11 — Resistenz & Checkpoint C"
-subtitle: "Wildtyp und Mutator"
+title: "Woche 11 — Dominanz & Checkpoint C"
+subtitle: "Heterozygote und Homozygote"
 author: "Stephan Peischl, Loraine Hablützel und Emma Ochsner"
 format:
   revealjs:
@@ -31,18 +31,8 @@ execute:
 ```{r}
 #| include: false
 source("../slides-ggplot.R")
-
-N0 <- 10^seq(4, 9, by = 0.5)
-k_wildtyp <- c(0, 0, 0, 0, 0, 1, 3, 6, 16, 23, 24)
-k_mutator <- c(0, 1, 3, 7, 14, 23, 24, 24, 24, 24, 24)
-daten <- rbind(
-  data.frame(N0 = N0, k = k_wildtyp, stamm = "Wildtyp"),
-  data.frame(N0 = N0, k = k_mutator, stamm = "Mutator")
-)
-daten$stamm <- factor(daten$stamm, levels = c("Wildtyp", "Mutator"))
-stamm_farben <- c(Wildtyp = "#d95f02", Mutator = "#2166ac")
-n_achse <- scale_x_log10(breaks = 10^(4:9),
-  labels = c("10 000", "100 000", "1 Mio.", "10 Mio.", "100 Mio.", "1 Mrd."))
+col_res <- "#2166ac"
+col_empf <- "#d95f02"
 ```
 
 ## Übersicht
@@ -51,8 +41,8 @@ n_achse <- scale_x_log10(breaks = 10^(4:9),
 
 | Teil | Dauer | Was |
 |------|-------|-----|
-| Intro | ~15 min | Rettung im Röhrchen · Wildtyp und Mutator · die Frage |
-| Checkpoint | ~45 min | Parameter finden, Tabelle ausfüllen |
+| Intro | ~15 min | eine Kopie, zwei Kopien pro Individuum · Dominanz · die Frage |
+| Checkpoint | ~45 min | simulieren, nur $h$ ändern, Tabelle ausfüllen |
 | Gruppen | ~30 min | Assistenz kommt vorbei · 1–2 Min. erklären |
 
 ::: aside
@@ -69,85 +59,71 @@ Pfeiltasten · **M** Menü · **E** PDF · **Esc** Übersicht
 Heute ist **Checkpoint C**.
 Sie müssen **anwesend sein** und in der Gruppe Ihre Antwort erklären (nicht an der Tafel).
 
-**Kein Programmieren:** Sie führen nur Funktionen aus, die im Checkpoint bereitstehen.
+**Kein Programmieren:** Sie führen nur Funktionen aus und ändern eine Zahl.
 
 [Modul 3](../../docs/module-03-overview.html) · Kursinfo auf ILIAS
 :::
 :::::
 
-# Rettung im Röhrchen
+# Welches s zählt?
 
-## Rückblick: Woche 10
+## Rückblick: eine Kopie
 
-Eine Population schrumpft, weil die Umwelt schlecht wird. Sie überlebt nur, wenn eine **resistente Mutante** entsteht und sich etabliert.
+Eine **neue** Mutation beginnt mit **einer** Kopie. Ihr Schicksal ist ein **Verzweigungsprozess**: Jede Kopie hat zufällig 0, 1, 2, … Nachkommen.
+
+Hat jede Kopie im Mittel $1 + s$ Nachkommen, etabliert sich die Mutation nur mit
 
 $$
-P(\text{Rettung}) = 1 - \exp\!\left(-\frac{2\, N_0\, U\, s}{r}\right)
+u \approx 2s .
 $$
 
-| | | Rettung wird … |
-|---|---|---|
-| $N_0$ | Startgrösse | wahrscheinlicher, je grösser |
-| $U$ | Mutationsrate zur Resistenz | wahrscheinlicher, je grösser |
-| $s$ | Wachstum der Resistenten | wahrscheinlicher, je grösser |
-| $r$ | wie schnell Empfindliche sterben | **un**wahrscheinlicher, je grösser |
+Bei $s = 0.1$ geht sie also in rund **80 %** der Fälle verloren. In Woche 10 hatte dafür jedes Individuum **eine** Kopie des Gens.
 
-## Das Experiment
+## Zwei Kopien pro Individuum
 
 ```{r}
-#| fig-height: 2.5
+#| fig-height: 3.2
 #| fig-width: 9.5
-auswahl <- c(1e6, 1e7, 1e8)
-roehr <- do.call(rbind, lapply(seq_len(nrow(daten)), function(i) {
-  d <- daten[i, ]
-  if (!any(abs(log10(d$N0) - log10(auswahl)) < 1e-9)) return(NULL)
-  data.frame(N0 = d$N0, stamm = d$stamm, nr = 1:24,
-             trueb = seq_len(24) <= d$k)
-}))
-roehr$spalte <- (roehr$nr - 1) %% 12
-roehr$zeile <- (roehr$nr - 1) %/% 12
-roehr$gruppe <- factor(paste(format(roehr$N0, big.mark = " ", scientific = FALSE), "Zellen"),
-                       levels = paste(format(auswahl, big.mark = " ", scientific = FALSE), "Zellen"))
-ggplot(roehr, aes(spalte, -zeile)) +
-  geom_point(aes(fill = ifelse(trueb, as.character(stamm), "klar")),
-             shape = 21, size = 4.2, colour = "grey40") +
-  scale_fill_manual(values = c(Wildtyp = "#d95f02", Mutator = "#2166ac", klar = "white"),
-                    guide = "none") +
-  facet_grid(stamm ~ gruppe, switch = "y") +
-  scale_y_continuous(limits = c(-1.5, 0.5), expand = c(0, 0)) +
-  theme_void(base_size = 16) +
-  theme(strip.text.x = element_text(margin = margin(2, 2, 6, 2)),
-        strip.text.y.left = element_text(angle = 0, hjust = 1, face = "bold",
-                                         margin = margin(0, 10, 0, 0)),
-        panel.spacing.x = unit(1.5, "lines"),
-        panel.spacing.y = unit(0.8, "lines"))
+#| out-width: 96%
+s <- 0.1
+faelle <- data.frame(fall = c("dominant\nh = 1", "kodominant\nh = 0.5", "rezessiv\nh = 0", "unterdominant\nh = -0.5"),
+                     h = c(1, 0.5, 0, -0.5))
+fit <- do.call(rbind, lapply(seq_len(nrow(faelle)), function(i)
+  data.frame(fall = faelle$fall[i], genotyp = c("AA", "Aa", "aa"),
+             w = c(1, 1 + faelle$h[i] * s, 1 + s))))
+fit$fall <- factor(fit$fall, levels = faelle$fall)
+fit$genotyp <- factor(fit$genotyp, levels = c("AA", "Aa", "aa"))
+ggplot(fit, aes(genotyp, w, group = 1)) +
+  geom_hline(yintercept = 1, colour = "grey80") +
+  geom_line(colour = "grey60", linewidth = 0.9) +
+  geom_point(aes(colour = genotyp == "Aa"), size = 4.5) +
+  scale_colour_manual(values = c("TRUE" = col_empf, "FALSE" = col_res), guide = "none") +
+  facet_wrap(~ fall, nrow = 1) +
+  scale_y_continuous(breaks = c(0.95, 1, 1.05, 1.1)) +
+  coord_cartesian(ylim = c(0.94, 1.12)) +
+  labs(x = NULL, y = "Fitness") +
+  theme_slide() + theme(strip.text = element_text(face = "bold"))
 ```
 
-Je 24 Röhrchen mit Antibiotikum. **Farbig = trüb** (gerettet), **weiss = klar** (ausgestorben). Der **Mutator** hat ein defektes Gen für die DNA-Reparatur.
+Wir sind **diploid** (Wochen 5–6). Der Homozygot aa hat immer den Vorteil $s = 0.1$. Wie gut der **Heterozygot** Aa (orange) ist, sagt die **Dominanz** $h$: Fitness $1 + h\,s$.
 
-## Wildtyp und Mutator
+## Wo steckt eine neue Mutation?
 
-```{r}
-#| fig-height: 3.5
-#| fig-width: 8.4
-#| out-width: 92%
-ggplot(daten, aes(N0, k / 24, colour = stamm, shape = stamm)) +
-  geom_hline(yintercept = 0.5, linetype = "dotted", colour = "grey60") +
-  geom_point(size = 3) +
-  scale_colour_manual(values = stamm_farben, name = NULL) +
-  scale_shape_manual(values = c(Wildtyp = 16, Mutator = 17), name = NULL) +
-  n_achse +
-  labs(x = "Startgrösse N0 (Zellen, log-Skala)", y = "Anteil gerettet") +
-  theme_slide() +
-  theme(legend.position = "right")
-```
+Eine Population mit **einer Million** Individuen, die Mutation hat die Häufigkeit $p = 0.001$. Nach Hardy-Weinberg (Woche 5):
 
-Beide Stämme: kleine Kulturen sterben aus, grosse werden gerettet. Der Mutator schon bei **viel kleineren** Kulturen.
+| Genotyp | Anteil | Individuen |
+|---|---|---|
+| AA | $(1-p)^2$ | 998 001 |
+| **Aa** | $2p(1-p)$ | **1 998** |
+| aa | $p^2$ | **1** |
+
+Auf jeden Homozygoten aa kommen rund **2000 Heterozygote**. Und bei einer einzigen Kopie gibt es gar keinen.
 
 ## Die Frage
 
-> Der Mutator wird viel öfter gerettet.
-> **Welcher** Parameter im Modell erklärt das: $s$, $r$ oder $U$?
+> Eine neue Mutation hat im Homozygoten den Vorteil $s = 0.1$.
+> Wie oft setzt sie sich durch, wenn sie **dominant**, **kodominant**, **rezessiv** oder **unterdominant** ist?
+> **Welches $s$ zählt?**
 
 # Auftrag
 
@@ -155,27 +131,27 @@ Beide Stämme: kleine Kulturen sterben aus, grosse werden gerettet. Der Mutator 
 
 **→ [Checkpoint C öffnen](notebook.html)** · [Rmd](notebook.Rmd) · [R](notebook.R)
 
-Mit `zeige_modell(s = …, r = …, U = …)` legen Sie das Modell über die Daten.
+Dieselbe Simulation wie in Woche 10, mit einem neuen Argument: `eine_linie(s, h)`.
 
-1. **Wildtyp anpassen:** $s$ oder $r$ ändern, bis das Modell passt ($U$ ist gemessen).
-2. **Mutator anpassen:** von der Wildtyp-Lösung aus nur eine Zahl ändern. Welche, in welche Richtung, um welchen Faktor?
-3. **Biologisch schliessen:** Was unterscheidet den Mutator?
+1. **Dominant** ($h = 1$): simulieren und mit $2s$ vergleichen.
+2. **Nur $h$ ändern:** 0.5, dann 0, dann −0.5. Anteil etabliert notieren.
+3. **Alle $h$ in einer Abbildung:** `zeige_h()`. Welche Faustregel passt?
 
 ## Erklären in 1–2 Minuten
 
 Zeigen Sie der Assistenz **eine** Abbildung und beantworten Sie die Frage:
 
-> **Was unterscheidet den Mutator?**
+> **Welches $s$ zählt für eine neue Mutation?**
 
-Ihre Werte für Wildtyp und Mutator, welche Änderung um welchen Faktor, und was das biologisch bedeutet.
+Ihre Werte für die vier Fälle, welche Faustregel passt, und warum das biologisch Sinn ergibt.
 
 # Abschluss
 
 ## Take-home
 
-1. Rettung hängt von $N_0 \cdot U \cdot s / r$ ab: Mehr Zellen oder mehr Mutationen wirken gleich.
-2. Wie in Checkpoint B können die Daten allein die Parameter nicht trennen.
-3. Erst ein biologisches Argument (ein Kontrollversuch) sagt, **welcher** Parameter es war.
+1. Eine neue Mutation steckt fast nur in **Heterozygoten**.
+2. Darum zählt der Vorteil des Heterozygoten: $u \approx 2hs$.
+3. Rezessive Mutationen setzen sich selten durch, auch wenn sie im Homozygoten sehr nützlich wären (*Haldanes Sieb*). Unterdominante praktisch nie.
 
 ## Ausblick · Wochen 12–14
 
@@ -189,11 +165,10 @@ Checkpoint D in Woche 14.
 ## Literatur
 
 :::: {.lit}
-1. **Orr, H. A., & Unckless, R. L. (2014).** The population genetics of evolutionary rescue. *PLoS Genetics* 10: e1004551. [doi:10.1371/journal.pgen.1004551](https://doi.org/10.1371/journal.pgen.1004551)
-2. **Oliver, A., Cantón, R., Campo, P., Baquero, F., & Blázquez, J. (2000).** High frequency of hypermutable *Pseudomonas aeruginosa* in cystic fibrosis lung infection. *Science* 288: 1251–1254. [doi:10.1126/science.288.5469.1251](https://doi.org/10.1126/science.288.5469.1251)
-3. **Bell, G., & Gonzalez, A. (2009).** Evolutionary rescue can prevent extinction following environmental change. *Ecology Letters* 12: 942–948. [doi:10.1111/j.1461-0248.2009.01350.x](https://doi.org/10.1111/j.1461-0248.2009.01350.x)
+1. **Haldane, J. B. S. (1927).** A mathematical theory of natural and artificial selection, Part V. *Proc. Camb. Philos. Soc.* 23: 838–844.
+2. **Orr, H. A. & Betancourt, A. J. (2001).** Haldane's sieve and adaptation from the standing genetic variation. *Genetics* 157: 875–884. [doi:10.1093/genetics/157.2.875](https://doi.org/10.1093/genetics/157.2.875)
 
-Kursdaten Wildtyp/Mutator: für den Kurs erfunden.
+Simulationen: wie in Woche 10, Spielzeugmodell mit 0 oder 2 Nachkommen pro Kopie.
 ::::
 
 ## Navigation

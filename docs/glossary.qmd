@@ -244,6 +244,9 @@ Der Computer würfelt nicht. `rbinom` zieht aus einer Folge, die sich wie Zufall
 **Etablierungswahrscheinlichkeit**  
 $u$: Wahrscheinlichkeit, dass eine vorteilhafte Mutante, die mit **einer** Kopie startet, nicht sofort bei $p=0$ verloren geht. Schätzung $\hat u$: Anteil der Replikate, die nicht aussterben. Kleines $s$, grosses $N$: oft $u\approx 2s$ (Haldane 1927).
 
+**Haldanes Sieb**  
+Eine neue Mutation steckt anfangs fast nur in Heterozygoten Aa. Für ihre Etablierung zählt darum der Vorteil des Heterozygoten: $u \approx 2hs$ mit der Dominanz $h$. Rezessive vorteilhafte Mutationen ($h = 0$) setzen sich darum selten durch, dominante oft (Haldane 1927; Woche 11).
+
 **Verzweigungsprozess (Galton–Watson)**  
 Jede Kopie hat zufällig viele Nachkommen, und jede Tochter startet dasselbe Spiel neu. Daraus folgt eine Gleichung für die Wahrscheinlichkeit $q$, dass eine Linie ausstirbt, z. B. $q = a + (1-a)q^2$, wenn jede Kopie 0 oder 2 Nachkommen hat. Lösung: $u = 1 - q = 2s/(1+s) \approx 2s$. Mit Poisson-Nachkommen: $q = e^{-(1+s)(1-q)}$, für kleines $s$ wieder $u \approx 2s$. Die rechte Seite $f(q)$ heisst **erzeugende Funktion** (PGF) der Nachkommenzahl; $q$ ist ihr **Fixpunkt**, $f(q) = q$, wo die Kurve die Diagonale schneidet (Woche 10). Watson & Galton (1875).
 

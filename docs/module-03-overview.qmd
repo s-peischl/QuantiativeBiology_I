@@ -44,7 +44,7 @@ Ableiten und Tests: andere Vorlesungen.
 |------:|------|--------|--------|
 | **9** | 12. Nov. | Zufall · Notwendigkeit | Teich · Erwartung und Zufall · `rbinom` · neutrale Wolke · Echsen mit endlichem $N$ |
 | **10** | 19. Nov. | Wettlauf gegen das Aussterben | Verzweigungsprozess · $u\approx 2s$ · Forschung in Bern · $P \approx 1 - e^{-2N_0Us/r}$ · Simulation · fünf Tests |
-| **11** | 26. Nov. | Wolke · Fortbestand | **Checkpoint C** |
+| **11** | 26. Nov. | Dominanz · Etablierung | **Checkpoint C** |
 
 Details: [Glossar](glossary.qmd).
 
@@ -60,7 +60,7 @@ Details: [Glossar](glossary.qmd).
 
 ## Checkpoint C (Woche 11) — Präsenzpflicht
 
-In **Woche 11** beantwortet das Notebook **eine Frage**. Die Teaching Assistants gehen durch die Gruppen; Sie zeigen den Fortschritt — nicht an der Tafel.
+In **Woche 11** beantwortet das Notebook **eine Frage**: Welches $s$ zählt für eine neue Mutation, wenn sie dominant, kodominant, rezessiv oder unterdominant ist? Die Teaching Assistants gehen durch die Gruppen; Sie zeigen den Fortschritt — nicht an der Tafel.
 
 ::: {.callout-important}
 ## Anwesenheit erforderlich

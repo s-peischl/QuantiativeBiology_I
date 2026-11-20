@@ -1,76 +1,68 @@
 ---
 title: "Checkpoint C — Merkblatt Assistenz"
-subtitle: "Woche 11 · Wildtyp und Mutator"
+subtitle: "Woche 11 · Heterozygote und Homozygote"
 format:
   pdf:
     geometry: "margin=2cm"
     fig-pos: "H"
 ---
 
-**Nicht für Studierende.** Ablauf: Wildtyp anpassen → Mutator anpassen → eine Frage (a–c). Teams bis 4 · Notebook (Quarto / Rmd / `notebook.R`) · Gespräch 1–2 Minuten pro Gruppe
+**Nicht für Studierende.** Ablauf: dominant simulieren → nur $h$ ändern → alle $h$ in einer Abbildung → eine Frage (a–c). Teams bis 4 · Notebook (Quarto / Rmd / `notebook.R`) · Gespräch 1–2 Minuten pro Gruppe
 
-**Kurz:** Der Mutator wird schon bei etwa **100-mal kleineren** Kulturen gerettet. Im Modell zählt nur $N_0 \cdot U \cdot s / r$: Mit $U$ fest heisst das, beim Wildtyp passt jedes Paar mit $s/r \approx 0.5$. Für den Mutator passt jede Änderung, die $U s / r$ **100-mal grösser** macht: $s \times 100$, $r / 100$ oder $U \times 100$. Die Daten können das nicht entscheiden. Biologisch gilt: Beide Stämme sterben gleich schnell ($r$ gleich) und tragen dieselbe Resistenzmutation ($s$ gleich). Also ist die **Mutationsrate** $U$ etwa 100-mal höher: genau das, was ein defektes Reparatur-Gen tut.
+**Kurz:** Eine neue Mutation steckt anfangs fast nur in Heterozygoten Aa. Für ihre Etablierung zählt darum der Vorteil des **Heterozygoten**, $h\,s$, nicht der des Homozygoten: $u \approx 2hs$. Dominant ($h = 1$) gibt etwa $2s$ wie in Woche 10, kodominant ($h = 0.5$) etwa die Hälfte. Rezessiv ($h = 0$) etabliert sich nur selten und nur durch Zufall, unterdominant ($h < 0$) praktisch nie, obwohl aa in allen Fällen 10 % im Vorteil ist.
 
 ## 1 · Check (Bestanden?)
 
-- [ ] **Eine Abbildung** gezeigt (Daten oder ein Modellplot)
-- [ ] **a, b:** Wildtyp angepasst, dann Mutator; erkannt: jede der drei Zahlen kann es erklären, wenn $s$ oder $U$ etwa 100-mal grösser bzw. $r$ 100-mal kleiner wird
-- [ ] **c:** $r$ und $s$ sind laut Kontrollversuch gleich, also ist es $U$, etwa 100-mal höher. Folge: Mutator-Infektionen werden viel öfter resistent, auch bei kleiner Bakterienzahl.
+- [ ] **Eine Abbildung** gezeigt (Teil 1/2 oder `zeige_h`)
+- [ ] **a:** Tabelle mit den vier Fällen ausgefüllt (ungefähre Werte reichen)
+- [ ] **b:** erkannt, dass $2s$ nur für dominant passt und $2hs$ für alle Fälle
+- [ ] **c:** begründet: Eine neue Mutation ist fast nur in Heterozygoten; aa gibt es am Anfang praktisch nicht. Folge: Rezessive Vorteile «sieht» die Selektion zu Beginn nicht.
 
-Bestanden, wenn die Gruppe **welcher Parameter**, **in welche Richtung** und **warum** in eigenen Worten sagen kann. Exakte Zahlen sind nicht nötig; ein Faktor zwischen etwa 50 und 200 ist in Ordnung.
+Bestanden, wenn die Gruppe **welches $s$ zählt** und **warum** in eigenen Worten sagen kann. Exakte Zahlen sind nicht nötig.
 
 ## 2 · Erwartete Antworten
 
-**Die Daten (Teil 1).** Die Hälfte der Röhrchen wird gerettet bei etwa **70 Mio.** Zellen (Wildtyp) und bei etwa **0.7 Mio.** Zellen (Mutator): zwei Zehnerschritte, Faktor 100.
+**Teile 1 und 2** ($s = 0.1$, je 2000 Mutationen; Werte schwanken um etwa $\pm 0.01$):
 
-![](ta-figs/abb1_daten.png){width=58%}
-
-**Schritt 1 — Wildtyp.** Das Modell startet mit $s = 0.1$, $r = 0.05$, $U = 10^{-8}$ ($s/r = 2$, Abstand zum Wildtyp 0.369: rettet viel zu oft). Passend ist z. B. $s = 0.025$ (nur $s$ geändert) oder $r = 0.2$ (nur $r$ geändert), beide $s/r = 0.5$. Werte von $s/r$ zwischen etwa 0.4 und 0.6 liegen unter 0.03.
-
-**Schritt 2 — Mutator, a und b.** Von der Wildtyp-Lösung aus **eine** Zahl ändern (Abstand unter 0.03 = passt):
-
-| | $s$ | $r$ | $U$ | Abstand |
+| $h$ | Fall | Anteil etabliert (typisch) | $2s$ | $2hs$ |
 |---|---|---|---|---|
-| Start | 0.1 | 0.05 | 1e-8 | Wildtyp 0.369 |
-| **Wildtyp-Lösung A** (nur $s$) | 0.025 | 0.05 | 1e-8 | Wildtyp 0.003 |
-| Mutator von A, nur $s$ | **2.5** | 0.05 | 1e-8 | Mutator 0.004 |
-| Mutator von A, nur $r$ | 0.025 | **0.0005** | 1e-8 | Mutator 0.004 |
-| Mutator von A, nur $U$ | 0.025 | 0.05 | **1e-6** | Mutator 0.004 |
-| **Wildtyp-Lösung B** (nur $r$) | 0.1 | 0.2 | 1e-8 | Wildtyp 0.003 |
-| Mutator von B, nur $s$ | **10** | 0.2 | 1e-8 | Mutator 0.004 |
-| Mutator von B, nur $r$ | 0.1 | **0.002** | 1e-8 | Mutator 0.004 |
-| Mutator von B, nur $U$ | 0.1 | 0.2 | **1e-6** | Mutator 0.004 |
+| 1 | dominant | 0.18–0.20 | 0.2 | 0.2 |
+| 0.5 | kodominant | 0.09–0.10 | 0.2 | 0.1 |
+| 0 | rezessiv | um 0.01 | 0.2 | 0 |
+| −0.5 | unterdominant | 0 | 0.2 | −0.1, also 0 |
 
-- Jede Lösung ändert eine Zahl um den **Faktor 100**. Gemeinsam: $U \cdot s / r$ ist 100-mal grösser.
-- **Kernaussage:** Wie in Checkpoint B (dort $m/s$) zählt nur eine Kombination der Parameter. Die drei Modellkurven liegen **exakt** übereinander:
+- Die Simulation liegt etwas unter $2hs$, weil das Spielzeugmodell genau $2hs/(1+hs)$ gibt (Woche 10). Für die Antwort egal.
+- **Rezessiv:** Im Modell hat jede Kopie dann im Mittel genau 1 Nachkommen (neutral). Etwa 1 von 100 Mutationen erreicht 100 Kopien rein durch Zufall. Dass es nicht exakt 0 ist, ist richtig und ein gutes Gesprächsthema (Woche 9: Drift).
+- **Unterdominant:** Jede Kopie hat im Mittel weniger als 1 Nachkommen. Die Linie stirbt fast immer in wenigen Generationen aus.
 
-![](ta-figs/mutator_modelle.png){width=58%}
+**Teil 3** (`zeige_h`): Mit der Linie $2s$ passt nur der Punkt bei $h = 1$. Mit $2hs$ liegen alle Punkte auf der Linie (unter null: Linie bei 0).
 
-![](ta-figs/abstand_sr.png){width=58%}
+![](ta-figs/h_2s.png){width=55%}
+
+![](ta-figs/h_2hs.png){width=55%}
 
 **c — Biologisch.**
 
-1. Kontrollversuch: Empfindliche Zellen beider Stämme sterben **gleich schnell**, also ist $r$ gleich. «$r$ 100-mal kleiner» hiesse ausserdem, das Antibiotikum wirkt fast nicht ($r = 0.0005$).
-2. **Dieselbe** Resistenzmutation, also ist $s$ gleich. «$s = 2.5$» oder gar 10 hiesse, eine resistente Zelle hat im Antibiotikum 3.5 bzw. 11 Nachkommen pro Generation: unrealistisch.
-3. Bleibt $U$: Der Mutator hat ein defektes Reparatur-Gen, macht also mehr Fehler beim Kopieren der DNA. Eine 100-fach höhere Mutationsrate ist für solche Stämme (z. B. *mutS*-Defekt bei *E. coli*) typisch.
-4. Folge: Eine Mutator-Population ist so «rettbar» wie eine 100-mal grössere Wildtyp-Population. In chronischen Infektionen (z. B. *Pseudomonas aeruginosa* in der Lunge von Menschen mit Cystischer Fibrose) sind Mutatoren häufig, und Resistenz entsteht dort besonders leicht (Oliver et al. 2000).
+1. Bei einer Häufigkeit $p$ gibt es etwa $2p$ Heterozygote, aber nur $p^2$ Homozygote (Hardy-Weinberg, Woche 5). Bei $p = 0.001$: rund 2000 Aa auf ein aa. Bei einer einzigen Kopie gibt es gar kein aa.
+2. Darum entscheidet am Anfang allein die Fitness von Aa: $1 + hs$. Ist $hs \le 0$, wächst die Linie im Mittel nicht, egal wie gut aa wäre.
+3. Folge: Neue vorteilhafte Mutationen, die sich durchsetzen, sind eher dominant als rezessiv (*Haldanes Sieb*, Haldane 1927). Aus **stehender** Variation, wo es schon viele Kopien gibt, ist der Sieb schwächer (Orr & Betancourt 2001).
+4. Unterdominanz (Woche 6): Dort war das innere Gleichgewicht instabil. Hier sieht man die Folge für eine neue Mutation: Sie kommt gar nicht erst an.
 
 ## 3 · Häufige Probleme
 
-- **`1e-8` falsch geändert.** `1e-6` ist **grösser** als `1e-8` (100-mal). Manche schreiben `1e-10` und wundern sich. Rat: `1e-7` ist zehnmal grösser.
-- **Komma statt Punkt** (`0,025`) gibt eine Fehlermeldung. Richtig ist `0.025`.
-- **Planlos mehrere Zahlen geändert.** Rat: immer von der Wildtyp-Lösung aus, nur eine Zahl.
-- **«Abstand» falsch gelesen.** Kleiner heisst besser. Für die Wildtyp-Lösung zählt der Abstand zum **Wildtyp**, für die Mutator-Lösungen der zum **Mutator**. Unter etwa 0.03 gilt als «passt».
-- **log-Achse:** Jeder Strich ist zehnmal mehr. «Zwei Striche weiter links» heisst Faktor 100.
-- **Keine Abbildung in `notebook.R`:** Code Zeile für Zeile ausführen; die Abbildungen erscheinen im *Plots*-Fenster.
+- **Komma statt Punkt** (`0,5`) gibt eine Fehlermeldung. Richtig ist `0.5`.
+- **Minuszeichen:** `h <- -0.5` (mit Leerzeichen nach `<-`). `h <--0.5` funktioniert auch, sieht aber verwirrend aus.
+- **Mehr als eine Zahl geändert** (z. B. auch `s`). Rat: $s$ bleibt 0.1, nur $h$ ändern.
+- **`"2hs"` ohne Anführungszeichen** gibt `object '2hs' not found`. Richtig: `regel = "2hs"`.
+- **Rezessiv gibt nicht genau 0** und die Gruppe ist verunsichert: Das ist Zufall (siehe oben), kein Fehler.
 - **Hilfsfunktionen-Block nicht ausgeführt** führt zu `could not find function`. Abschnitt 0 komplett ausführen.
+- **Keine Abbildung in `notebook.R`:** Code Zeile für Zeile ausführen; die Abbildungen erscheinen im *Plots*-Fenster.
 
 ## 4 · Nachfragen für schnelle Gruppen
 
-- **Wie viel grösser müsste eine Wildtyp-Kultur sein, um so oft gerettet zu werden wie der Mutator?** Etwa 100-mal: $N_0$ und $U$ stehen als Produkt in der Formel.
-- **Warum sind 24 Röhrchen pro Startgrösse nötig?** Jedes Röhrchen ist ein Zufallsexperiment (Woche 9 und 10). Der Anteil gerettet schwankt; mit 24 Röhrchen ist er etwa auf $\pm 0.1$ genau.
-- **Was fehlt im Modell?** Resistente Zellen, die schon **vor** dem Antibiotikum da waren (stehende Variation). Bei einer Milliarde Zellen ist das realistisch. Im Modell entstehen Mutanten nur während des Schrumpfens.
-- **Wie misst man $U$ direkt?** Fluktuationstest (Luria & Delbrück 1943): viele kleine Kulturen auf Antibiotika-Platten, Resistente zählen.
-- **Ist ein Mutator immer im Vorteil?** Nein: Die meisten Mutationen schaden. Ohne Antibiotikum verlieren Mutatoren oft gegen den Wildtyp.
+- **Überdominanz** ($h > 1$, z. B. $h = 2$): Was passiert? Die Mutation etabliert sich noch öfter, etwa $2hs$. Verbindung zu Woche 6 (Sichelzellen: der Heterozygot ist am besten).
+- **Warum gilt das nur am Anfang?** Wird die Mutation häufig, gibt es aa-Individuen, und dann zählt auch $s$. Das Modell hier beschreibt nur die ersten Generationen.
+- **Wie oft wäre eine rezessive Mutation erfolgreich, wenn sie schon häufig da wäre?** Viel öfter: Dann gibt es Homozygote (stehende Variation, Orr & Betancourt 2001).
+- **Haploide Organismen** (Bakterien): Dort gibt es keine Dominanz, jede Kopie zeigt ihren vollen Vorteil, also $2s$ wie in Woche 10.
 
-Die Daten sind **für den Kurs erfunden** (11 Startgrössen, je 24 Röhrchen), erzeugt mit $s/r = 0.5$, $U = 10^{-8}$ (Wildtyp) und $U = 10^{-6}$ (Mutator).
+Die Simulation ist das Spielzeugmodell aus Woche 10 (0 oder 2 Nachkommen pro Kopie), mit $1 + hs$ statt $1 + s$; Abbruch bei 100 Kopien.
