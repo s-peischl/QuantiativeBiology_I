@@ -107,6 +107,30 @@ ggplot(fit, aes(genotyp, w, group = 1)) +
 
 Wir sind **diploid** (Wochen 5–6). Der Homozygot aa hat immer den Vorteil $s = 0.1$. Wie gut der **Heterozygot** Aa (orange) ist, sagt die **Dominanz** $h$: Fitness $1 + h\,s$.
 
+## Wie eine neue Mutation startet
+
+```{r}
+#| fig-height: 2.9
+#| fig-width: 9.5
+#| out-width: 96%
+reihe <- function(y, aa_pos = NULL, label) {
+  d <- data.frame(x = 1:10, y = y, g = "AA")
+  if (!is.null(aa_pos)) d$g[aa_pos] <- "Aa"
+  cbind(d, zeile = label)
+}
+start <- rbind(reihe(2, NULL, "vorher"), reihe(1, 6, "eine Mutation"), reihe(0, c(3, 8), "nächste Generation"))
+ggplot(start, aes(x, y)) +
+  geom_point(aes(fill = g), shape = 21, size = 12, colour = "grey40") +
+  geom_text(aes(label = g), size = 4.2) +
+  annotate("text", x = 0.2, y = c(2, 1, 0), label = c("vorher: alle AA", "Mutation: eine Kopie a", "Nachkommen: Aa oder AA"),
+           hjust = 1, size = 4.6) +
+  scale_fill_manual(values = c(AA = "white", Aa = col_empf), guide = "none") +
+  coord_cartesian(xlim = c(-2.6, 10.6), ylim = c(-0.5, 2.5)) +
+  theme_void()
+```
+
+Am Anfang sind **alle** AA. Eine Mutation macht aus **einer** Kopie A ein a: ein einziges Individuum ist **Aa**. Es paart sich mit einem AA; seine Nachkommen mit a sind wieder **Aa**.
+
 ## Wo steckt eine neue Mutation?
 
 Eine Population mit **einer Million** Individuen, die Mutation hat die Häufigkeit $p = 0.001$. Nach Hardy-Weinberg (Woche 5):

@@ -32,7 +32,7 @@ Eine neue Mutation beginnt mit **einer** Kopie. In Woche 10 hat sie sich etwa mi
 - $h$: **Dominanz**. Sie sagt, wie viel vom Vorteil schon der Heterozygot Aa hat:
   $h = 1$ **dominant** (Aa so gut wie aa), $h = 0.5$ **kodominant** (Aa in der Mitte), $h = 0$ **rezessiv** (Aa so gut wie AA).
 
-Solange die Mutation selten ist, paart sich jeder Träger mit einem AA. Die Simulation folgt jeder neuen Mutation wie in Woche 10, bis sie verloren oder etabliert ist.
+**Der Start.** Am Anfang sind **alle** Individuen AA. Dann entsteht durch Mutation **eine einzige Kopie** von a, in einem einzigen Individuum: Es ist **Aa**. Dieses Individuum paart sich mit einem AA, und seine Nachkommen mit der Kopie a sind wieder Aa. Solange die Mutation selten ist, sitzt also **jede** Kopie von a in einem Heterozygoten. Die Simulation folgt jeder neuen Mutation wie in Woche 10, bis sie verloren oder etabliert ist.
 
 **Die Abbildung.** **x-Achse** Dominanz $h$, **y-Achse** Anteil etablierter Mutationen. Blaue Punkte: Simulation, orange gestrichelt: die Faustregel $2s$ aus Woche 10.
 
