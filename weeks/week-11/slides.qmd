@@ -173,12 +173,6 @@ Ihre drei Werte, Ihre Faustregel, und warum das biologisch Sinn ergibt.
 
 # Abschluss
 
-## Take-home
-
-1. Eine neue Mutation steckt fast nur in **Heterozygoten**.
-2. Darum zählt der Vorteil des Heterozygoten: $u \approx 2hs$.
-3. Rezessive Mutationen setzen sich selten durch, auch wenn sie im Homozygoten sehr nützlich wären (*Haldanes Sieb*).
-
 ## Ausblick · Wochen 12–14
 
 Bis jetzt haben wir Modelle gebaut. In den letzten Wochen geht es um **echte Datensätze**:
