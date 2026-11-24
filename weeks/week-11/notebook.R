@@ -5,7 +5,7 @@
 
 # Eine neue Mutation beginnt mit einer Kopie. In Woche 10 hat sie sich etwa mit Wahrscheinlichkeit 2s etabliert. Dort hatte jedes Individuum aber nur eine Kopie des Gens. Wir sind diploid: Jedes Individuum hat zwei Kopien, wie in den Wochen 5 und 6.
 #
-# Das Modell. Drei Genotypen, jeder mit seiner Fitness (mittlere Zahl Nachkommen):
+# Das Modell. Drei Genotypen, jeder mit seiner Fitness. Die Fitness ist hier die mittlere Zahl Nachkommen eines Individuums mit diesem Genotyp:
 #
 # | Genotyp | AA | Aa | aa |
 # |---|---|---|---|
@@ -112,5 +112,18 @@ zeige_h(s = 0.1)
 #
 # b) In Woche 10 galt u ~ 2s. Ergaenzen Sie die Faustregel so, dass sie zu allen drei Punkten passt: u ~ 2 * ?
 #
-# c) Biologisch: Warum zaehlt fuer eine neue Mutation der Vorteil im Heterozygoten? Tipp: Wie viele aa-Individuen gibt es, solange es nur eine oder wenige Kopien gibt?
+# c) Biologisch: Wieso ist der Vorteil im Heterozygoten entscheidend? Tipp: Wie viele aa-Individuen gibt es, solange es nur eine oder wenige Kopien gibt?
+#
+# ===========================================================================
+# 5 · Bonus
+# ===========================================================================
+#
+# Bonus: zwei Faelle aus Woche 6
+#
+# Aendern Sie in Teil 2 wieder nur h:
+#
+# 1. h = -0.5: unterdominant, der Heterozygot ist schlechter als AA und aa.
+# 2. h = 2: ueberdominant, der Heterozygot ist am besten (wie bei der Sichelzell-Anaemie).
+#
+# Passt Ihre Faustregel auch hier? Was heisst das fuer eine unterdominante Mutation, obwohl aa am besten waere?
 #

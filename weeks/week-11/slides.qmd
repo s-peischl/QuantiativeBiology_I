@@ -105,7 +105,7 @@ ggplot(fit, aes(genotyp, w, group = 1)) +
   theme_slide() + theme(strip.text = element_text(face = "bold"))
 ```
 
-Wir sind **diploid** (Wochen 5–6). Der Homozygot aa hat immer den Vorteil $s = 0.1$. Wie gut der **Heterozygot** Aa (orange) ist, sagt die **Dominanz** $h$: Fitness $1 + h\,s$.
+Wir sind **diploid** (Wochen 5–6). Der Homozygot aa hat immer den Vorteil $s = 0.1$. Wie gut der **Heterozygot** Aa (orange) ist, sagt die **Dominanz** $h$: Fitness $= 1 + h\,s$.
 
 ## Wie eine neue Mutation startet
 
@@ -141,7 +141,7 @@ Eine Population mit **einer Million** Individuen, die Mutation hat die Häufigke
 | **Aa** | $2p(1-p)$ | **1 998** |
 | aa | $p^2$ | **1** |
 
-Auf jeden Homozygoten aa kommen rund **2000 Heterozygote**. Und bei einer einzigen Kopie gibt es gar keinen.
+Auf jeden Homozygoten aa kommen rund **2000 Heterozygote**. Direkt nach der Mutation, mit einer einzigen Kopie, gibt es gar keinen.
 
 ## Die Frage
 

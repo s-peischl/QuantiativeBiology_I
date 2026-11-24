@@ -54,8 +54,9 @@ Bestanden, wenn die Gruppe die Faustregel und **warum** in eigenen Worten sagen 
 
 ## 4 · Nachfragen für schnelle Gruppen
 
-- **Unterdominant** (`h = -0.5`): Der Heterozygot ist schlechter als beide Homozygoten (Woche 6). Ergebnis: praktisch 0. Die Mutation kommt gar nicht erst an, obwohl aa am besten wäre.
-- **Überdominant** (`h = 2`): Der Heterozygot ist am besten (Woche 6, Sichelzellen). Ergebnis: noch öfter, etwa $2hs$.
+- **Bonus im Notebook** (Teil 5, gut für Vierergruppen: jede Person übernimmt einen Fall):
+  - **Unterdominant** (`h = -0.5`): Der Heterozygot ist schlechter als beide Homozygoten (Woche 6). Ergebnis: praktisch 0. Die Mutation kommt gar nicht erst an, obwohl aa am besten wäre. Die Faustregel $2hs$ wäre negativ, also 0.
+  - **Überdominant** (`h = 2`): Der Heterozygot ist am besten (Woche 6, Sichelzellen). Ergebnis: etwa 0.3 (Spielzeugmodell $2hs/(1+hs) = 0.33$), noch öfter als dominant.
 - **Warum gilt das nur am Anfang?** Wird die Mutation häufig, gibt es aa-Individuen, und dann zählt auch $s$.
 - **Haploide Organismen** (Bakterien): Dort gibt es keine Dominanz, jede Kopie zeigt ihren vollen Vorteil, also $2s$ wie in Woche 10.
 
