@@ -18,11 +18,18 @@ execute:
   freeze: false
 ---
 
-Im **Rottensand** (Pfynwald, Wallis) haben Studierende der Universität Bern im Juli **2019** und im Juli **2024** Heuschrecken gezählt. Dieselben 10 × 10 m Flächen, je **vier Besuche**, dazu eine Karte des Lebensraums: wie viel Gras, Kraut, offener Boden, Kies und Stein.
+# Ziel
 
-Zwei Jahre, zwei Dateien. Zuerst machen Sie daraus **eine** Tabelle. Dann kommt der spannende Teil: Mit dieser Tabelle und **ggplot2** bauen Sie in wenigen Zeilen Abbildungen, für die man in Excel einen Nachmittag klicken würde.
+- den Umgang mit einem echten Datensatz lernen
+- verschiedene Darstellungsmöglichkeiten mit **ggplot** kennenlernen 
 
-**Die Arten** (Kürzel in den Daten):
+---
+
+Im Rahmen des Naturschutzbiologie Research Practicals haben Studierende der Universität Bern im Juli **2024** in **Rottensand** (Pfynwald, Wallis) Heuschrecken gezählt. Dafür haben sie 10 × 10 m Flächen **vier Mal** im Verlauf eines Tages besucht und neben den Heuschreckenzahlen auch Beobachtungen zu den Flächen erhoben. Zum Beispiel haben sie festgehalten, wie die Bodenbedeckung, oder wie das Wetter zum Zeitpunkt der Beobachtung war.
+
+Wir bereiten nun den gegebenen Datensatz so vor, damit wir mithilfe **ggplot2** wenigen Zeilen Abbildungen gestalten können, für die man in Excel einen Nachmittag klicken würde.
+
+**Die Heuschreckenarten** (Kürzel in den Daten):
 
 | Kürzel | Art | |
 |---|---|---|
@@ -31,21 +38,13 @@ Zwei Jahre, zwei Dateien. Zuerst machen Sie daraus **eine** Tabelle. Dann kommt 
 | `OedGer` | *Oedipoda germanica* | Rotflügelige Ödlandschrecke |
 | `SphCae` | *Sphingonotus caerulans* | Blauflügelige Sandschrecke |
 | `PlaAlb` | *Platycleis albopunctata* | Westliche Beissschrecke |
-| `ManRel` | *Mantis religiosa* | Gottesanbeterin |
 
-::: {.callout-important}
-## Auftrag
 
-1. Beide Jahre einlesen und **eine** Tabelle daraus machen (ca. 15 min).
-2. Die Tabelle in die **lange Form** bringen: eine Zeile pro Plot, Jahr und Art.
-3. **ggplot-Spielplatz** (ca. 30 min): Abbildungen bauen, verändern, ausprobieren. Das ist der Hauptteil.
-:::
+---
 
-Andere Formate: [R Markdown](notebook.Rmd) · [nur R](notebook.R)
+# 0 · Vorbereitung
 
-# 0 · Das Projekt
-
-Ein Projekt ist ein **Ordner**. Darin liegt dieses Notebook, und daneben ein Ordner `data/` mit den Rohdaten. Die Rohdaten werden **nie von Hand** geändert. Jede Änderung steht im Code.
+Sind die Daten am richtigen Ort? Wichtig: die Rohdaten werden **nie von Hand** geändert. Jede Änderung steht im Code und jede neue Version wird neu abgespeichert.
 
 ```{r}
 list.files("data")
@@ -53,286 +52,361 @@ list.files("data")
 
 Falls hier `character(0)` steht: In RStudio *Session → Set Working Directory → To Source File Location*.
 
-Heute brauchen wir das Paket **ggplot2**. Falls der nächste Block einen Fehler gibt, einmal `install.packages("ggplot2")` ausführen.
+Heute brauchen wir die Pakete **ggplot2** und **tidyr**. Falls der nächste Block einen Fehler gibt, einmal `install.packages("ggplot2")` und `install.packages("tidyr")` ausführen.
 
 ```{r}
-library(ggplot2)
+
+library(ggplot2) # für die Plots
+library(tidyr) # für die Manupulation der Daten
+
 ```
 
-# 1 · Einlesen
+# 1 · Daten einlesen und anschauen
 
 ```{r}
+# Daten einlesen
 roh24 <- read.csv("data/rottensand_2024.csv")
-roh19 <- read.csv("data/rottensand_2019.csv")
 
-dim(roh24)
-dim(roh19)
+# Die Rohdaten separat anschauen
+#View(roh24) # wenn Sie diese Zeile auskommentieren, können Sie sich die Daten direkt anschauen
+str(roh24) # str zeigt Ihnen die Struktur des Datensatzes
+
 ```
+540 Beobachtungen (Zeilen) von 136 Variabeln (Spalten). Jeder `plot` (Fläche) ist fünf Mal vertreten. Das ist, weil jede Fläche in vier Quadranten aufgeteilt wurde (A, B, C, D) und wir zudem einen totalen Wert haben (`quarter == "tot"). Ausserdem wurdeen überall die Beobachtungen von den Heuschrecken und verschiedenen Umweltvariabeln wie Temperatur und Wolkenbedeckung vier Mal wiederholt.
 
-Über 130 Spalten. Für jede Art gibt es vier Spalten, eine pro Besuch: `OedCae1` bis `OedCae4`.
-
-```{r}
-head(roh24[roh24$quarter == "tot", c("plot", "quarter", "habitat.type", "OedCae1", "OedCae2", "OedCae3", "OedCae4")])
-```
+| Kürzel | Erklärung | Messung oder vorgegeben? | mögliche Werte |
+|---|---|---|---|
+| `plot` | Flächennummer| vorgegeben | 0-107 |
+| `quarterX` | Name des Quadranten | vorgegeben | A, B, C, D, tot |
+| `quarter` | Aurichtung des Quadranten | vorgegeben | SW, NW, NE, SE, tot |
+| `Xcoo` | X-Koordinaten | vorgegeben | 611900-614400 |
+| `Ycoo` | Y-Koordinaten | vorgegeben | 128200-129300 |
+| `temp` | Temperatur bei Beobachtung | Messung | ? |
+| `time` | Zeitpunkt der Beobachtung | Messung | 24h59 |
+| `wind` | Schätzung der Windstärke | Messung | 0-6 |
+| `schade` | Schätzung der Beschattung | Messung | 0-100 % |
+| `cloud` | Schätzung der Wolkendeckung | Messung | 0-100 % |
+| `observ` | Wer die Beobachtung gemacht hat | Messung | variabel |
+| `OedGer`, `CalIta`, `OedCae`, `SphCae`, `PlaAlb` | Anzahl Heuschrecken pro Art | Messung | 0-? |
+| `Liz`, `ManRel`, `ArgBru` | Anzahl bekannter Heuschreckenräuber (Echsen, Gottesanbeterinnen, Wespenspinnen) | Messung | 0-? |
+| `bush`, `grass`, `forb`, `moss`, `deadwood`, `litter`, `gravel`, `soil`, `sand`, `stone`, `rock`, `water.flow`, `water.stag`, `other` | Mögliche Bodendeckungselemente | Messung | 0-100 % |
+| `cover.sum` | Gesamte Bodendeckung | Messung | 100 % |
+| `canopy` | Höhe der Baumkrone | Messung | 0-? m |
+| `grass.height` | Höhe der Gräser | Messung | 0-? cm |
+| `forb.height` | Höhe der Kräuter | Messung | 0-? cm |
+| `path`, `grazing`, `flooded` | An-/Abwesenheit von Pfad, Beweidung und Überflutung | Messung | 0/1 (nein/ja) |
+| `heterogeneity` | Heterogenität der Fläche | Messung |0-3 |
+| `Alnus.i`-`Unid.bush` | Vorkommen bestimmter Sträucher | Messung | 0-100 % |
+| `bush.cover.sum` | Gesamte Strauchbestand | Messung | 0/100 % |
+| `Alnus.i.c`-`Unid.tree.c` | Vorkommen bestimmter Bäume | Messung | 0-100 % |
+| `tree.cover.sum` | Gesamter Baumbestand | Messung | 0/100 % |
+| `habitat.type` | Lebensraum | Messung | alluvial, forest, rhone, riverbed, steppe |
 
 ::: {.callout-tip}
 ## F1
-
-- Jeder Plot kommt **fünfmal** vor (`quarter` = SW, NW, NE, SE, tot). Was könnte das bedeuten? Schauen Sie sich Plot 3 an: `roh24[roh24$plot == 3, 1:8]`.
-- Warum haben einige Zeilen überall `NA`?
+Schauen Sie sich die rohen Daten an. Was fällt Ihnen auf? Was bedeuten die `NA` Einträge?
 :::
 
-# 2 · Eine Funktion für beide Jahre
-
-Wir behalten nur die ganzen, besuchten Plots. Für jede Art nehmen wir die **höchste Zahl** aus den vier Besuchen. Alles steckt in **einer Funktion**: So machen wir für 2019 genau dasselbe wie für 2024, ohne Copy-Paste.
-
-```{r}
-arten <- c("OedCae", "CalIta", "OedGer", "SphCae", "PlaAlb", "ManRel")
-
-# Höchste Zählung über die vier Besuche, für jede Zeile
-max_besuch <- function(d, art) {
-  zaehlung <- d[, paste0(art, 1:4)]
-  apply(zaehlung, 1, function(x) if (all(is.na(x))) NA else max(x, na.rm = TRUE))
-}
-
-aufbereiten <- function(roh, jahr) {
-  d <- roh[roh$quarter == "tot" & !is.na(roh$temp1), ]   # ganze, besuchte Plots
-  kurz <- data.frame(
-    plot    = d$plot,
-    jahr    = jahr,
-    x       = d$Xcoo,             # Koordinaten (Schweizer Landeskoordinaten, m)
-    y       = d$Ycoo,
-    habitat = d$habitat.type,
-    temp    = d$temp1,            # Temperatur beim ersten Besuch
-    boden   = d$soil,             # Deckung in Prozent
-    gras    = d$grass,
-    kies    = d$gravel,
-    baum    = d$canopy,
-    deckung = d$cover.sum,        # Summe aller Deckungen, sollte 100 sein
-    team    = d$observ1           # wer beim ersten Besuch gezählt hat
-  )
-  for (a in arten) {
-    kurz[[a]] <- max_besuch(d, a)
-  }
-  kurz
-}
-
-k24 <- aufbereiten(roh24, 2024)
-k19 <- aufbereiten(roh19, 2019)
-head(k24)
-```
-
-# 3 · Prüfen und kombinieren
-
-Drei schnelle Fragen an jede Tabelle:
+# 2 · Daten aufbereiten
+## 2.1) Reduzieren der Beobachtungen - jede Fläche ein Mal
+Wir schauen uns hier nur die totalen Beobachtungen an (`roh24$quarter == "tot"`) und schliessen die Flächen aus, die nicht besucht worden sind 
 
 ```{r}
-sum(duplicated(k19$plot)); sum(duplicated(k24$plot))   # Schlüssel doppelt?
-table(k19$deckung)                                      # Deckung = 100?
-table(k19$habitat); table(k24$habitat)                  # gleiche Namen?
+
+# Wir wählen alle Zeilen im Datenset aus, die totale Werten enthalten und bei denen kein NA in der observ1 Spalte steht
+tot_noNA24 <- roh24[roh24$quarter == "tot" & !is.na(roh24$observ1), ] 
+
+# Übersicht der Daten mit ausgewählten Spalten als Beispiel
+head(tot_noNA24[, c("plot", "quarter", "habitat.type", "OedCae1", "OedCae2", "OedCae3", "OedCae4")])
 ```
 
-Die zwei Jahre **untereinander** stapeln. Das geht, weil `aufbereiten` beiden Tabellen dieselben Spalten gibt:
+
+## 2.2) Prüfen der Daten
+Beim Datenerfassen können sich manchmal Fehler einschleichen, deshalb ist es immer eine gute Idee, zu prüfen ob die eingegebenen Werte sinnvoll sind.
+
+### 2.2.1) Bedeckung
+Gewisse Beobachtungen (`cover.sum`, `bush.cover.sum`, `tree.cover.sum`) sollten jeweils 0 oder 100 sein. Wir prüfen, ob das auch so ist.
 
 ```{r}
-alle <- rbind(k19, k24)
+# Bodenbedeckung
+table(tot_noNA24$cover.sum)  
 
-# Entscheidung, im Code festgehalten: nur die drei grossen Lebensräume,
-# mit deutschen Namen. Die 4 Plots mit neuen Namen 2024 fallen weg.
-alle <- alle[alle$habitat %in% c("forest", "alluvial", "steppe"), ]
-alle$habitat <- factor(alle$habitat, levels = c("forest", "alluvial", "steppe"),
-                       labels = c("Wald", "Aue", "Steppe"))
-table(alle$jahr, alle$habitat)
+# Strauchbestand
+table(tot_noNA24$bush.cover.sum)  
+
+# Baumbestand
+table(tot_noNA24$tree.cover.sum)
+
 ```
-
 ::: {.callout-tip}
 ## F2
-
-- Welche Plots haben 2019 keine 100 % Deckung? `k19[k19$deckung != 100, ]`
-- Welche Lebensraum-Namen gibt es nur 2024? Was haben wir mit diesen Plots gemacht, und wo steht das?
+- Was zeigt uns `table`?
+- Sind alle Einträge im Datenset sinnvoll? Wieso?
+- Wie würden sie mit Einträgen umgehen, die nicht sinnvoll sind?
 :::
 
-# 4 · Die lange Tabelle
-
-`alle` hat für jede Art eine **eigene Spalte**. Für Abbildungen ist eine andere Form praktischer: **eine Zeile pro Plot, Jahr und Art**, und die Art steht in einer Spalte. Dann kann jede Spalte zu einer Achse, einer Farbe oder einem eigenen Bild werden.
+Hier schliessen wir die Strauch- und Bauminformationen aus, die nicht 0 oder 100 % sind, da wir nicht eindeutigen sagen können was der Fehler ist. Wurde eine Art nicht erfasst? Wurde der Auftrag der Deckungsschätzung missverstanden? Bei Zweifel ist es besser Daten auszuschliessen anstatt sie falsch zu "korrigieren".
 
 ```{r}
-namen <- c(OedCae = "Oedipoda caerulescens", CalIta = "Calliptamus italicus",
-           OedGer = "Oedipoda germanica", SphCae = "Sphingonotus caerulans",
-           PlaAlb = "Platycleis albopunctata", ManRel = "Mantis religiosa")
+# Strauchbestand korrigieren
+tot_cleancover24 <- tot_noNA24
 
-lang <- NULL
-for (a in arten) {
-  stueck <- alle[, c("plot", "jahr", "x", "y", "habitat", "temp", "boden", "gras", "team")]
-  stueck$art <- namen[a]
-  stueck$anzahl <- alle[[a]]
-  lang <- rbind(lang, stueck)
-}
+tot_cleancover24[tot_cleancover24$bush.cover.sum == 50, # Zeilen mit unpassender cover Angabe
+           c("Alnus.i", "Amelanchier.o", "Arctostaphylos.u", "Berberis.v", "Betula.p", "Cornus.s", "Corylus.a", "Cotoneaster.sp", "Crataegus.m", "Hippophae.r", "Juniperus.c", "Ligustrum.v", "Lonicera.x", "Pinus.s", "Populus.a", "Populus.n", "Populus.t", "Prunus.m", "Quercus.p", "Rosa.sp", "Rubus.sp", "Salix.sp", "Sorbus.a", "Viburnum.l", "Unid.bush", "bush.cover.sum")] <- NA # Entfernen der unpassenden Angaben
 
-dim(lang)
-head(lang)
+# Baumbestand korrigieren
+tot_cleancover24[tot_cleancover24$tree.cover.sum == 50, # Zeilen mit unpassender cover Angabe
+           c("Alnus.i.c", "Amelanchier.o.c", "Arctostaphylos.u.c", "Berberis.v.c", "Betula.p.c", "Cornus.s.c", "Corylus.a.c", "Cotoneaster.sp.c", "Crataegus.m.c", "Hippophae.r.c", "Juniperus.c.1", "Ligustrum.v.c", "Lonicera.x.c", "Pinus.s.c", "Populus.a.c", "Populus.n.c", "Populus.t.c", "Prunus.m.c", "Quercus.p.c", "Rosa.sp.c", "Rubus.sp.c", "Salix.sp.c", "Sorbus.a.c", "Viburnum.l.c", "Unid.tree.c", "tree.cover.sum")] <- NA # Entfernen der unpassenden Angaben
+
 ```
 
+# 3 · Tabelle transformieren
+Bevor wir weitermachen, wäre es praktisch unseren Datensatz ein wenig umzugestalten. Zum Beispiel haben wir momentan Messungen von vier verschiedenen Zeitpunkten. Hier wäre es praktische für jeden Zeitpunkt eine separate Zeile zu haben, anstatt die Infromation in verschiedenen Spalten zu speichern. Separate Zeilen helfen uns besser zu filtern und einfacher zu plotten. Dafür transformieren wir unseren Datensatz in ein "langes" Format.
+
+```{r}
+
+long24 <- tot_cleancover24 %>% 
+  tidyr::pivot_longer(
+    cols = `temp1`:`ArgBru4`, # die Spalten die wir nach Zeitpunkt aufteilen wollen
+    names_to = c(".value", "Zeitpunkt"), # wir kreieren eine neue Spalte namens "Zeitpunkt" und pro Variable halten wir die Werte fest die vorher in Spalten `temp1`:`ArgBru4` waren
+    names_pattern = "(.*?)(\\d+)$" # wir isolieren den Zeitpunk (1, 2, 3, 4) aus den Spaltennamen 
+)
+
+```
+
+Nun können wir auch die Zeitpunkte aus dem Datensatz streichen, an denen die plots nicht besucht wurden und zwischen Vormittags- und Nachmittagsbeobachtungen unterscheiden
+```{r}
+# Ausschliessen von Zeilen in denen die Beobachtungsspalte nicht ausgefüllt wurde
+clean_long24 <- long24[!is.na(long24$observ),]
+
+# Kodieren der Zeitpunkte als Morgen und Nachmittag
+clean_long24[clean_long24$Zeitpunkt %in% c("1","3"), "Tageszeit"] <- "Morgen"
+clean_long24[clean_long24$Zeitpunkt %in% c("2","4"), "Tageszeit"] <- "Nachmittag"
+
+head(clean_long24[, c("plot", "quarter", "habitat.type", "Zeitpunkt", "Tageszeit", "OedGer", "CalIta", "OedCae", "SphCae", "PlaAlb")])
+
+```
+
+Um besser vergleichen zu können, wie die gemessenen Umweltbedingungen das Vorkommen der verschiedenen Heuschreckenarten beeinflussen, transformieren wir die Heuschreckenbeobachtungen ebenfalls in ein "langes" Format. So hat jede Heuschreckenart eine Zeile pro Fläche und Beobachtungspunkt.
+```{r}
+extralong24 <- clean_long24 %>% 
+  tidyr::pivot_longer(
+    cols = `OedGer`:`PlaAlb`, # die Heuschreckenarten, die wir in eine einzelne Spalte packen wollen
+    names_to = "Heuschrecken_Art", # wir kreieren eine neue Spalte namens "Heuschrecken_Art"
+    values_to = "Anz_Beobachtungen" # wir kreieren eine neue Spalte namens "Anz_Beobachtungen" und halten dort die Werte fest, die vorher in Spalten `OedGer`:`PlaAlb` enthalten waren
+)
+
+head(extralong24[, c("plot", "quarter", "habitat.type", "Zeitpunkt", "Tageszeit", "Heuschrecken_Art", "Anz_Beobachtungen")])
+dim(extralong24)
+
+```
 ::: {.callout-tip}
 ## F3
+Vergleichen Sie die Struktur von `extralong24` mit `roh24`. Was fällt Ihnen auf bezüglich:
 
-- Wie viele Zeilen haben `alle` und `lang`? (`nrow`) Warum hat `lang` genau 6-mal so viele?
-- Was ist jetzt **eine Zeile**?
+- Format 
+- Anz. Zeilen und Spalten
 :::
 
-# 5 · ggplot-Spielplatz
+
+# 4 · Plots, plots, plots
+Nun können wir die Daten erkunden und mit verschiedenen Graphen rumspielen. Hier sind ein paar Möglichkeiten, um den Datensatz zu untersuchen.
 
 Jede ggplot-Abbildung hat drei Teile:
 
-1. **Daten:** `ggplot(lang, ...)`
-2. **Zuordnung** (`aes`): welche Spalte auf die x-Achse, die y-Achse, die Farbe, die Grösse kommt
-3. **Geometrie** (`geom_...`): Punkte, Boxen, Linien, Balken
+1. **Daten:** `ggplot(extralong24, ...)`
+2. **Zuordnung** (`aes`): welche Spalten die Daten für die x-Achse und die y-Achse enthalten
+3. **Geometrie** (`geom_...`): Punkte, Boxen, Linien, Balken,..
 
-Die Teile werden mit `+` verbunden. Wir bauen eine Abbildung in fünf Schritten.
+Die Teile werden mit `+` verbunden. 
 
-## Schritt 1: Boxen
+## 4.1) Wo wurde welche Heuschreckenart gefunden?
+Wie kann diese Frage am besten beantwortet werden?
 
+Zuerst bereit wir ein paar Hilfestellungen vor. 
+
+Wenn gewisse Elemente mehrmals verwendet werden, ist es einfacher sie als Objekte zu definieren
 ```{r}
-#| fig-height: 3.5
-#| fig-width: 7
-ggplot(lang, aes(x = habitat, y = anzahl)) +
-  geom_boxplot()
+Heuschrecken_Farben <- c("#E3170A", "#900358", "#7272AB", "#7899D4", "#95990A")
+Heuschrecken_Namen <- c("Oedipoda germanica", "Calliptamus italicus", "Oedipoda caerulescens", "Sphingonotus caerulans", "Platycleis albopunctata")
+Heuschrecken_Kürzel <- c("OedGer", "CalIta", "OedCae", "SphCae", "PlaAlb")
+
 ```
 
-## Schritt 2: jeder Plot ein Punkt
-
+Wir machen den `habitat.type` zu einem Faktor und brauchen die deutschen Namen der Habitattypen
 ```{r}
-#| fig-height: 3.5
-#| fig-width: 7
-ggplot(lang, aes(x = habitat, y = anzahl, colour = habitat)) +
-  geom_boxplot(outlier.shape = NA) +
-  geom_jitter(width = 0.2, alpha = 0.5)
+extralong24$habitat.type <- factor(extralong24$habitat.type, 
+                                   levels = c("alluvial", "steppe", "forest", "rhone", "riverbed"),
+                                   labels = c("Aue", "Steppe", "Wald", "Rhone", "Flussbett"))
 ```
 
-## Schritt 3: ein Bild pro Art
-
-Ein Befehl mehr, und jede Art bekommt ihr eigenes Bild. Das ist die Stärke der langen Tabelle.
-
+### 4.1.1) Heuschrecken und ihr Vorkkommen pro Habitattyp
+Erster Darstellungsvorschlag
 ```{r}
-#| fig-height: 5.5
-#| fig-width: 9
-ggplot(lang, aes(x = habitat, y = anzahl, colour = habitat)) +
-  geom_boxplot(outlier.shape = NA) +
-  geom_jitter(width = 0.2, alpha = 0.5) +
-  facet_wrap(~ art, scales = "free_y")
-```
+ggplot(extralong24, # Daten
+       aes(x = habitat.type, # x-Achse
+           y = Anz_Beobachtungen, # y-Achse
+           )) +
+  geom_jitter(aes(col = Heuschrecken_Art)) + # nicht-überlappende Punkte (jitter) eingefärbt nach Heuschreckenart
+  scale_color_manual(name = "Heuschreckenart", # Name der Farbenlegende
+                     values = Heuschrecken_Farben, # Farben
+                     breaks = Heuschrecken_Kürzel, # Reihenfolge der Arten
+                     labels = Heuschrecken_Namen # die vollen Namen der Arten
+                     ) +
+  labs(title = "Vorkommen von Heuschrecken in verschiedenen Habitattypen", # Titel des Graphen
+       x = "Habitattyp", # Titel der x-Achse
+       y = "Anzahl beobachtete Heuschrecken" # Titel der y-Achse
+       )
 
-## Schritt 4: schön machen
-
-```{r}
-#| fig-height: 5.5
-#| fig-width: 9
-farben <- c(Wald = "#1e8449", Aue = "#5dade2", Steppe = "#e5a50a")
-
-ggplot(lang, aes(x = habitat, y = anzahl, colour = habitat)) +
-  geom_boxplot(outlier.shape = NA) +
-  geom_jitter(width = 0.2, alpha = 0.5) +
-  facet_wrap(~ art, scales = "free_y") +
-  scale_colour_manual(values = farben, guide = "none") +
-  labs(x = NULL, y = "Tiere pro Plot (max. von 4 Besuchen)",
-       title = "Alle sechs Arten sind in der Steppe am häufigsten") +
-  theme_minimal(base_size = 13) +
-  theme(strip.text = element_text(face = "italic"))
-```
-
-## Schritt 5: dieselben Daten als Karte
-
-Nur die Zuordnung ändert sich: x und y sind jetzt die Koordinaten, die Grösse ist die Anzahl.
-
-```{r}
-#| fig-height: 3.6
-#| fig-width: 12
-ggplot(lang, aes(x = x, y = y, size = anzahl, colour = habitat)) +
-  geom_point(alpha = 0.6) +
-  facet_grid(jahr ~ art) +
-  scale_colour_manual(values = farben) +
-  scale_size_area(max_size = 3) +
-  coord_equal() +
-  theme_void() +
-  theme(strip.text.x = element_text(face = "italic", size = 8), legend.position = "bottom")
-```
-
-Zwölf Karten, sechs Arten mal zwei Jahre, in acht Zeilen. In Excel wären das zwölf einzelne Diagramme, und bei neuen Daten müsste man alle zwölf neu klicken.
-
-::: {.callout-tip}
-## F4 · Verändern Sie je **eine** Sache
-
-Nehmen Sie den Code aus Schritt 4 und probieren Sie:
-
-1. `y = anzahl` ändern zu `y = log1p(anzahl)`. Was wird besser sichtbar?
-2. `facet_wrap(~ art)` ändern zu `facet_grid(art ~ jahr)`.
-3. `colour = habitat` ändern zu `colour = factor(jahr)` (und die Zeile `scale_colour_manual` löschen).
-4. `geom_boxplot` ersetzen durch `geom_violin`.
-5. `theme_minimal()` ersetzen durch `theme_dark()` oder `theme_classic()`.
-:::
-
-## Eigene Abbildungen
-
-Ein paar Ideen zum Ausprobieren. Starten Sie mit einer Vorlage und verändern Sie sie.
-
-**Mögen die Heuschrecken offenen Boden?**
-
-```{r}
-#| fig-height: 5.5
-#| fig-width: 9
-ggplot(lang, aes(x = boden, y = anzahl, colour = habitat)) +
-  geom_point(alpha = 0.6) +
-  geom_smooth(aes(group = 1), method = "loess", colour = "black", se = FALSE) +
-  facet_wrap(~ art, scales = "free_y") +
-  scale_colour_manual(values = farben) +
-  labs(x = "Offener Boden (%)", y = "Tiere pro Plot") +
-  theme_minimal()
-```
-
-**Zählt man bei Hitze mehr?**
-
-```{r}
-#| fig-height: 5.5
-#| fig-width: 9
-ggplot(lang, aes(x = temp, y = anzahl)) +
-  geom_point(alpha = 0.5) +
-  facet_wrap(~ art, scales = "free_y") +
-  labs(x = "Temperatur beim ersten Besuch (Grad C)", y = "Tiere pro Plot") +
-  theme_minimal()
-```
-
-**Gleicher Plot, zwei Jahre.** Dafür brauchen wir die Jahre **nebeneinander**, mit `merge` über den Schlüssel `plot`:
-
-```{r}
-#| fig-height: 5.5
-#| fig-width: 9
-l19 <- lang[lang$jahr == 2019, c("plot", "art", "anzahl")]
-l24 <- lang[lang$jahr == 2024, c("plot", "art", "anzahl", "habitat")]
-beide <- merge(l19, l24, by = c("plot", "art"), suffixes = c("_2019", "_2024"))
-
-ggplot(beide, aes(x = anzahl_2019, y = anzahl_2024, colour = habitat)) +
-  geom_abline(linetype = "dashed", colour = "grey50") +
-  geom_jitter(width = 0.2, height = 0.2, alpha = 0.7) +
-  facet_wrap(~ art, scales = "free") +
-  scale_colour_manual(values = farben) +
-  labs(x = "Anzahl 2019", y = "Anzahl 2024") +
-  theme_minimal()
 ```
 
 ::: {.callout-tip}
-## F5 · Ihre Abbildung
-
-1. Wählen Sie eine Frage (Ideen oben, oder eine eigene) und bauen Sie **eine** Abbildung dazu.
-2. Geben Sie ihr einen Titel, der die **Aussage** sagt, nicht nur das Thema.
-3. Speichern Sie sie als Datei: `ggsave("meine_abbildung.png", width = 8, height = 5)` direkt nach dem Plot.
-4. Was zeigt die Abbildung **nicht**? Ein Satz.
+## F4
+- Was zeigt diese Abbildung? Welche Schlüsse können wir daraus ziehen?
+- Wie könnte man dieselben Daten auf eine andere Art darstellen?
 :::
+
+Zweiter Darstellungsvorschlag
+```{r}
+ggplot(extralong24, # Daten
+       aes(x = habitat.type, # x-Achse
+           y = Anz_Beobachtungen, # y-Achse
+           )) +
+  geom_boxplot(aes(fill = Heuschrecken_Art)) + # Boxplots (Verteilung der Daten) für jede Art
+  scale_fill_manual(name = "Heuschreckenart", # Name der Farbenlegende
+                     values = Heuschrecken_Farben, # Farben
+                     breaks = Heuschrecken_Kürzel, # Reihenfolge der Arten
+                     labels = Heuschrecken_Namen # die vollen Namen der Arten
+                     ) +
+  labs(title = "Vorkommen von Heuschrecken in verschiedenen Habitattypen", # Titel des Graphen
+       x = "Habitattyp", # Titel der x-Achse
+       y = "Anzahl beobachtete Heuschrecken" # Titel der y-Achse
+       ) +
+  theme_classic() # Thema mit weissem Hintergrund ohne Raster
+
+```
+
+Dritter Darstellungsvorschlag
+```{r}
+ggplot(extralong24, # Daten
+       aes(x = habitat.type, # x-Achse
+           y = Anz_Beobachtungen, # y-Achse
+           )) +
+  geom_jitter(aes(col = Heuschrecken_Art), # nicht-überlappende Punkte (jitter) eingefärbt nach Heuschreckenart
+              alpha = 0.3 # leicht transparente Punkte
+              ) + 
+    geom_violin(fill = "transparent") +
+  stat_summary(fun = mean, # ggplot berechnet den Mittelwert pro Art pro Habitat
+               geom = "crossbar", # der Mittelwert wird als Linie dargestellt
+               linewidth = 0.4) +
+  scale_color_manual(name = "Heuschreckenart", # Name der Farbenlegende
+                     values = Heuschrecken_Farben, # Farben
+                     breaks = Heuschrecken_Kürzel, # Reihenfolge der Arten
+                     labels = Heuschrecken_Namen # die vollen Namen der Arten
+                     ) +
+  facet_wrap(~Heuschrecken_Art, # jede Art bekommt eine separate Facette
+             nrow = 1, # die Facetten werden in einer Reihe dargestellt
+             labeller = labeller(Heuschrecken_Art = c("OedGer" = "Oedipoda germanica", 
+                                                      "CalIta" = "Calliptamus italicus", 
+                                                      "OedCae" = "Oedipoda caerulescens", 
+                                                      "SphCae" = "Sphingonotus caerulans", 
+                                                      "PlaAlb" = "Platycleis albopunctata"))) +
+  labs(title = "Vorkommen von Heuschrecken in verschiedenen Habitattypen", # Titel des Graphen
+       x = "Habitattyp", # Titel der x-Achse
+       y = "Anzahl beobachtete Heuschrecken" # Titel der y-Achse
+       ) +
+  theme_bw() + # Thema mit weissem Hintergrund und grauem Achsenmuster
+  theme(legend.position = "none", # Legende für Farben ist nicht mehr nötig, weil wir die Facettennamen haben
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) # rotieren der Habitattypnamen
+
+```
+::: {.callout-tip}
+## F5
+Vergleichen Sie die verschiedenen Darstellungsvorschläge. 
+
+- Wie unterscheiden Sie sich?
+- Können Sie sich Vor- un Nachteile der verschiedenen Plots vorstellen?
+- In welcher Darstellung ist die Verteilung der erhobenen Daten am besten erkennbar?
+:::
+
+## 4.2) Zusätzliche Graphen
+Unser Datensatz enthält viele Informationen. Es gibt also viele andere Aspekte, die erkundet werden können. Hier ein paar weitere Beispiele. 
+
+### 4.2.1) Habitattypen und ihre Häufigkeit 
+
+```{r}
+Habitat_Farben <- c(Aue = "#C7D66D", Steppe = "#e5a50a", Wald = "#1e8449", Rhone = "#5dade2", Flussbett = "#BCC1BA")
+
+ggplot(extralong24[, c("Heuschrecken_Art", "habitat.type", "Anz_Beobachtungen")], # nur die relevantne Spalten ausgewählt
+       aes(x = Heuschrecken_Art,
+           y = Anz_Beobachtungen)) +
+  geom_col(aes(fill = habitat.type,
+               col = habitat.type),
+           position = "fill") +
+  scale_fill_manual(name = "Habitattyp", # Name der Farbenlegende
+                     values = Habitat_Farben, # Farben
+                     ) +
+  scale_color_manual(name = "Habitattyp", # Name der Farbenlegende
+                     values = Habitat_Farben, # Farben
+                     ) +
+  scale_x_discrete(
+    breaks = Heuschrecken_Kürzel,
+    labels = Heuschrecken_Namen # Artnamen ausgeschrieben
+  ) +
+  labs(title = "Habitathäufigkeit", # Titel des Graphen
+       x = "Heuschreckenart", # Titel der x-Achse
+       y = "Häufigkeit" # Titel der y-Achse
+       ) +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) # rotieren der Artnamen
+
+
+```
+
+### 4.2.2) Beziehung zwischen der Bodenbedeckung und dem Vorkommen von Heuschrecken
+```{r}
+
+ggplot(extralong24, # Daten
+       aes(x = Xcoo, # x-Achse
+           y = Ycoo) # y-Achse
+       ) +
+  geom_point(aes(col = habitat.type), # Punkte nach Habitattyp eingefärbt
+             size = 5 # Punktgrösse
+             ) +
+  scale_color_manual(name = "Habitattyp", # Name der Farbenlegende
+                     values = Habitat_Farben, # Farben
+                     ) +
+  labs(title = "Verteilung der Habitattypen", # Titel des Graphen
+       ) +
+  theme_void() # Thema ohne Achsen oder Raster
+```
+
+## 4.3) Nun sind Sie dran
+
+::: {.callout-tip}
+## F6 · Erstellen Sie Ihre eigene Abbildung
+
+Nehmen Sie den Code aus Schritt 4 und probieren Sie Ihre eigene Darstellung zu machen:
+
+1. Wählen Sie Ihre y-Achse (z.B. `Anz_Beobachtungen`)
+2. Wählen Sie Ihre x-Achse (z.B. `Tageszeit`, `forb.height` (Staudenhöhe), `grass` (Grasbedeckung der Fläche), `Liz` (Echsen))
+3. Spielen Sie mit dem Plottyp herum (Punkte, Boxplots, Violinen,...)
+4. Fügen Sie einen Titel hinzu; Bonuspunkte wenn der Titel etwas über das beobachtete Muster aussagt 
+5. Experimentieren Sie mit `facet_wrap`, Legenden, Themen, etc.
+
+Kopieren Sie dafür Code von oben und kombinieren Sie Elemente, die Ihnen gefallen haben.
+
+:::
+
+```{r}
+
+```
+
+---
 
 ::: {.callout-note}
 ## Warum nicht Excel?
-
-- Neue Daten 2025? Eine Zeile `read.csv` mehr, und **alle** Abbildungen entstehen neu.
-- Jeder Schritt steht im Code: Wer Ihr Notebook laufen lässt, bekommt **dieselbe** Abbildung.
+- Jeder Schritt steht im Code: Wer Ihr Notebook laufen lässt, bekommt **dieselbe** Abbildung. Das macht Ihre Arbeit **reproduzierbar**
 - Ein Wort ändern (`facet_wrap`, `colour`, `geom_violin`) statt jedes Diagramm neu zu klicken.
 :::
 
